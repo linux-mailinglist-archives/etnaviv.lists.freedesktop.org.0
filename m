@@ -1,36 +1,36 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4331B12C07
-	for <lists+etnaviv@lfdr.de>; Fri,  3 May 2019 13:10:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D134A1309E
+	for <lists+etnaviv@lfdr.de>; Fri,  3 May 2019 16:42:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F3D9088DF6;
-	Fri,  3 May 2019 11:10:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5466D6E7D4;
+	Fri,  3 May 2019 14:42:22 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from honk.sigxcpu.org (honk.sigxcpu.org [24.134.29.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5796F88DF6;
- Fri,  3 May 2019 11:10:29 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by honk.sigxcpu.org (Postfix) with ESMTP id CDA9EFB03;
- Fri,  3 May 2019 13:10:27 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at honk.sigxcpu.org
-Received: from honk.sigxcpu.org ([127.0.0.1])
- by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id BQxzPPcJD1BK; Fri,  3 May 2019 13:10:26 +0200 (CEST)
-Received: by bogon.sigxcpu.org (Postfix, from userid 1000)
- id 2C29E47CC6; Fri,  3 May 2019 13:10:26 +0200 (CEST)
-Date: Fri, 3 May 2019 13:10:26 +0200
-From: Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>
-To: Lucas Stach <l.stach@pengutronix.de>
-Subject: Re: [PATCH v2 0/8] per-process address spaces for MMUv2
-Message-ID: <20190503111026.GA6943@bogon.m.sigxcpu.org>
-References: <20190417135023.26977-1-l.stach@pengutronix.de>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190417135023.26977-1-l.stach@pengutronix.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B2FCF6E7D4
+ for <etnaviv@lists.freedesktop.org>; Fri,  3 May 2019 14:42:20 +0000 (UTC)
+Received: from kresse.hi.pengutronix.de ([2001:67c:670:100:1d::2a])
+ by metis.ext.pengutronix.de with esmtp (Exim 4.89)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1hMZOF-0003MX-6s; Fri, 03 May 2019 16:42:19 +0200
+Message-ID: <1556894539.2590.23.camel@pengutronix.de>
+Subject: Re: [PATCH] etnaviv: fill missing offset in etna_resource_get_handle
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Philipp Zabel <p.zabel@pengutronix.de>, mesa-dev@lists.freedesktop.org
+Date: Fri, 03 May 2019 16:42:19 +0200
+In-Reply-To: <20190503100524.23232-1-p.zabel@pengutronix.de>
+References: <20190503100524.23232-1-p.zabel@pengutronix.de>
+X-Mailer: Evolution 3.22.6-1+deb9u1 
+Mime-Version: 1.0
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::2a
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -42,39 +42,28 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- patchwork-lst@pengutronix.de, Christian Gmeiner <christian.gmeiner@gmail.com>,
- kernel@pengutronix.de, Russell King <linux+etnaviv@armlinux.org.uk>
+Cc: graphics@pengutronix.de, etnaviv@lists.freedesktop.org
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-SGkgTHVjYXMsCk9uIFdlZCwgQXByIDE3LCAyMDE5IGF0IDAzOjUwOjE1UE0gKzAyMDAsIEx1Y2Fz
-IFN0YWNoIHdyb3RlOgo+IAo+IEhpIGFsbCwKPiAKPiB2MSBjb3ZlciBsZXR0ZXI6Cj4gCj4gdGhl
-IGZvbGxvd2luZyBwYXRjaGVzIGZpbmFsbHkgaW1wbGVtZW50IG9uZSBvZiB0aGUgbG9uZ3N0YW5k
-aW5nIFRPRE8KPiBpdGVtcyBpbiB0aGUgZXRuYXZpdiBkcml2ZXI6IHBlci1wcm9jZXNzIGFkZHJl
-c3Mgc3BhY2VzLiBUaGV5IGFyZSBvbmx5Cj4gZW5hYmxlZCBmb3IgTU1VdjIsIGFzIHN3aXRjaGlu
-ZyB0aGUgTU1VIGNvbnRleHQgb24gTU1VdjEgd291bGQgcmVxdWlyZQo+IGEgZnVsbCBzdG9wIG9m
-IHRoZSBGRSwgd2hpY2ggSSBkZWVtZWQgdG9vIGV4cGVuc2l2ZSB0byBkbyBvbiBwb3RlbnRpYWxs
-eQo+IGV2ZXJ5IHN1Ym1pdHRlZCBjb21tYW5kc3RyZWFtLgo+IAo+IEZvciBub3cgdGhpcyBvbmx5
-IHByb3ZpZGVzIGJldHRlciBpc29sYXRpb24gYmV0d2VlbiBHUFUgY2xpZW50cywgYnV0IGl0Cj4g
-aXMgYWxzbyBhIGJpZyBzdGVwIGluIHRoZSBkaXJlY3Rpb24gb2Ygc3VwcG9ydGluZyBzb2Z0cGlu
-LiBTb2Z0cGluIHdpbGwKPiBsYXRlciBiZSB1c2VkIGJ5IEdDNzAwMCB1c2Vyc3BhY2UgZHJpdmVy
-cyB0byBkZWFsIHdpdGggdGV4dHVyZSBkZXNjcmlwdG9ycwo+IHdpdGhvdXQgdGhlIG5lZWQgdG8g
-YWRkIGV2ZW4gbW9yZSByZWxvY2F0aW9uIGludGVyZmFjZXMgdG8gdGhlIGV0bmF2aXYKPiBVQVBJ
-Lgo+IAo+IFRoZSBjaGFuZ2VzIGFyZSBiaWcgYW5kIHByZXR0eSBkaXNydXB0aXZlLCBzbyBJIGFj
-a25vd2xlZGdlIHRoYXQgdGhleQo+IGFyZW4ndCBwcmltZSB0YXJnZXRzIGZvciBhIHF1aWNrIHJl
-dmlldywgYnV0IEkgd291bGQgYXBwcmVjaWF0ZSBhCj4gc2Vjb25kIHBhaXJzIG9mIGV5ZXMgb24g
-dGhlbS4KPiAKPiBDaGFuZ2VzIHNpbmNlIHYxOgo+IC0gZml4ZWQgYW4gaXNzdWUgd2hlcmUgYSBk
-ZWJ1Z3NmcyByZWFkIGNvdWxkIHJ1biBpbnRvIGEga2VybmVsIE5VTEwKPiAgIHB0ciBkZXJlZmVy
-ZW5jZSBkdWUgdG8gbm8gY3VycmVudCBNTVUgY29udGV4dAo+IC0gZml4ZWQgYW4gaXNzdWUgd2hl
-cmUgdGhlIGN1cnJlbnQgTU1VIGNvbnRleHQgY291bGQgYmUgZGVzdHJveWVkCj4gICBkdWUgdG8g
-dGhlIERSTSBjbGllbnQgZ29pbmcgYXdheSwgd2hpbGUgaXQgaXMgc3RpbGwgaW4gdXNlIGJ5Cj4g
-ICBhbiBhY3RpdmUgR1BVIGpvYgo+IC0gbW9yZSBleHRlbnNpdmUgdGVzdGluZyBvbiBHQzg4MCwg
-R0MyMDAwLCBHQzMwMDAgYW5kIEdDNzAwMAoKSSBnYXZlIHRoaXMgc2VyaWVzIGEgdGVzdCBvbiBH
-QzcwMDAgYW5kIGl0IGxvb2tzIGdvb2QuIEknbGwgZG8gc29tZSBtb3JlCnRlc3Rpbmcgb3ZlciB0
-aGUgbmV4dCB3ZWVrLgpDaGVlcnMsCiAtLSBHdWlkbwpfX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fXwpldG5hdml2IG1haWxpbmcgbGlzdApldG5hdml2QGxpc3Rz
-LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
-c3RpbmZvL2V0bmF2aXY=
+QW0gRnJlaXRhZywgZGVuIDAzLjA1LjIwMTksIDEyOjA1ICswMjAwIHNjaHJpZWIgUGhpbGlwcCBa
+YWJlbDoKPiBXaXRob3V0IHRoaXMgZ2JtX2JvX2dldF9vZmZzZXQoKSBjYW4gcmV0dXJuIDAgd2hl
+cmUgaXQgc2hvdWxkbid0LgoKUmV2aWV3ZWQtYnk6IEx1Y2FzIFN0YWNoIDxsLnN0YWNoQHBlbmd1
+dHJvbml4LmRlPgoKPiAtLS0KPiDCoHNyYy9nYWxsaXVtL2RyaXZlcnMvZXRuYXZpdi9ldG5hdml2
+X3Jlc291cmNlLmMgfCAxICsKPiDCoDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKQo+IAo+
+IGRpZmYgLS1naXQgYS9zcmMvZ2FsbGl1bS9kcml2ZXJzL2V0bmF2aXYvZXRuYXZpdl9yZXNvdXJj
+ZS5jIGIvc3JjL2dhbGxpdW0vZHJpdmVycy9ldG5hdml2L2V0bmF2aXZfcmVzb3VyY2UuYwo+IGlu
+ZGV4IDgzMTc5ZDNjZDA4OC4uYWI3N2E4MGM3MmIzIDEwMDY0NAo+IC0tLSBhL3NyYy9nYWxsaXVt
+L2RyaXZlcnMvZXRuYXZpdi9ldG5hdml2X3Jlc291cmNlLmMKPiArKysgYi9zcmMvZ2FsbGl1bS9k
+cml2ZXJzL2V0bmF2aXYvZXRuYXZpdl9yZXNvdXJjZS5jCj4gQEAgLTYyMiw2ICs2MjIsNyBAQCBl
+dG5hX3Jlc291cmNlX2dldF9oYW5kbGUoc3RydWN0IHBpcGVfc2NyZWVuICpwc2NyZWVuLAo+IMKg
+wqDCoMKgwqDCoMKgcnNjID0gZXRuYV9yZXNvdXJjZShyc2MtPmV4dGVybmFsKTsKPiDCoAo+IMKg
+wqDCoMKgaGFuZGxlLT5zdHJpZGUgPSByc2MtPmxldmVsc1swXS5zdHJpZGU7Cj4gK8KgwqDCoGhh
+bmRsZS0+b2Zmc2V0ID0gcnNjLT5sZXZlbHNbMF0ub2Zmc2V0Owo+IMKgwqDCoMKgaGFuZGxlLT5t
+b2RpZmllciA9IGxheW91dF90b19tb2RpZmllcihyc2MtPmxheW91dCk7Cj4gwqAKPiDCoMKgwqDC
+oGlmIChoYW5kbGUtPnR5cGUgPT0gV0lOU1lTX0hBTkRMRV9UWVBFX1NIQVJFRCkgewpfX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpldG5hdml2IG1haWxpbmcg
+bGlzdApldG5hdml2QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNr
+dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2V0bmF2aXY=
