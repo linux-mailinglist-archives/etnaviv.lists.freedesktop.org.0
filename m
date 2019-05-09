@@ -2,57 +2,58 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E21DC18D3C
-	for <lists+etnaviv@lfdr.de>; Thu,  9 May 2019 17:44:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D595B19358
+	for <lists+etnaviv@lfdr.de>; Thu,  9 May 2019 22:24:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 578A589DDD;
-	Thu,  9 May 2019 15:44:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A180889C61;
+	Thu,  9 May 2019 20:24:31 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-vs1-xe2b.google.com (mail-vs1-xe2b.google.com
- [IPv6:2607:f8b0:4864:20::e2b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2BE9A89DDD;
- Thu,  9 May 2019 15:44:06 +0000 (UTC)
-Received: by mail-vs1-xe2b.google.com with SMTP id o10so1686502vsp.12;
- Thu, 09 May 2019 08:44:06 -0700 (PDT)
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 94EE789C60;
+ Thu,  9 May 2019 20:24:29 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id b203so4817698wmb.4;
+ Thu, 09 May 2019 13:24:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=LfRZbgRPvkJWoFmh3/HoelgBx1WN/+Dn9OcsHK9UJYE=;
- b=p54bIVqjfQT/1kjw/naPpiqJbLiG9b0/ueNabg/IMz+micmcKynW6vE68KrAEy91KM
- bRKC8tgblCRQRDL+RLiClrgV9Ypidxzqbq4ADEfD2ATCupSyxCX++gvzmtgL5iXYBcrb
- VD87dqOSdbr91+4Eqc8hkOwfCdupaegJUbys/iWbrXeHCuKQOz9i5oeX009CWOvjXrcf
- J8XXfUepWE0065Vj3mr+rTH1NKWdxUqpKP3tZq/KgbslaFIj1xIDzNQU1deDjLjBTTEC
- IsnXTX7YzGYq80WJzJN/OiTNh1sga4mQimoV3C/3CeFObDOmHCUCnrnUc8xV8Fdxa8ev
- LW7A==
-X-Gm-Message-State: APjAAAVypRqNkq0PvpHF70F+mBLuQtzMKNm2EmBNV5Uk3rkGJT1+0ekw
- cM0dZicw2/QDQMTtBmQf4TO036i01N0hNcXldrQ=
-X-Google-Smtp-Source: APXvYqzzp4JmdcW+YTuFaL2u1EJDrEsTF5qOX2szNyLWLq7sb3DZGDwXtYClfyY328SR7lezy8/zMOQxbTiamWwmm1o=
-X-Received: by 2002:a67:e408:: with SMTP id d8mr2531450vsf.85.1557416645325;
- Thu, 09 May 2019 08:44:05 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Ep0gLQ03A/CuzhyRURUBtktl4+rus7OWNnPLTlbuiEM=;
+ b=jf28EoB12UwupVmakaWoC1KehRzvDwGqdX2dut9vF43RESF44oOMEi5vmkhoOofUOI
+ HagpfnX/Zahz0DRQWnSkU2dZLJjk1Cbh6lm7jskPiaX+k8Mq5f2k84KBv7h6UVjrrTto
+ X2rf/eto9zBfh0VoU994jeTJK2aXdOkV2oonYCnV6CPx/nRcQ252zTdm16UoYE0b4//p
+ De/eGi8ChzMKhrKOLvxe4FiX8+bcj70mBVZedLqn5v83AuU+Cl6tMbP6KIGNpzsC/P+f
+ IRRnvUy8865rDCialvMU2RAs3+6Hn6dqlLaiXXfQgI1TOgEwAgF4/ZQjdwAr0zwxGCCf
+ cfug==
+X-Gm-Message-State: APjAAAXeXUlwIXhHwSK5sWCLQipdkFXVBfnt1p4gqnkuxZ54WUoFttMZ
+ wyF6RI0XyZxs14Sm34zwCXyf8UdzcoE=
+X-Google-Smtp-Source: APXvYqyD8i0miIgdaXekH3A4A2gsiG/V3SWWR3KryxugyzKnds5SJmBIccCX3LIqfcrszIusf9L2wQ==
+X-Received: by 2002:a1c:7dd6:: with SMTP id y205mr1113659wmc.90.1557433468004; 
+ Thu, 09 May 2019 13:24:28 -0700 (PDT)
+Received: from localhost.localdomain (80-110-110-254.cgn.dynamic.surfer.at.
+ [80.110.110.254])
+ by smtp.gmail.com with ESMTPSA id b2sm3409372wrt.20.2019.05.09.13.24.26
+ (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+ Thu, 09 May 2019 13:24:27 -0700 (PDT)
+From: Christian Gmeiner <christian.gmeiner@gmail.com>
+To: mesa-dev@lists.freedesktop.org
+Subject: [PATCH] etnaviv: use the correct uniform dirty bits
+Date: Thu,  9 May 2019 22:24:22 +0200
+Message-Id: <20190509202422.10165-1-christian.gmeiner@gmail.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-References: <20190503100524.23232-1-p.zabel@pengutronix.de>
- <CAH9NwWc4Dg8Q=rr-1ExhZ25bEJdGtTRExRsUhp9t_GdT08VNLQ@mail.gmail.com>
-In-Reply-To: <CAH9NwWc4Dg8Q=rr-1ExhZ25bEJdGtTRExRsUhp9t_GdT08VNLQ@mail.gmail.com>
-From: Emil Velikov <emil.l.velikov@gmail.com>
-Date: Thu, 9 May 2019 16:43:01 +0100
-Message-ID: <CACvgo50MEcfukP+YYAx4ep3XuoitKCusDVoKNWHr3xG3RsbK-A@mail.gmail.com>
-Subject: Re: [Mesa-dev] [PATCH] etnaviv: fill missing offset in
- etna_resource_get_handle
-To: Christian Gmeiner <christian.gmeiner@gmail.com>, 
- ML mesa-stable <mesa-stable@lists.freedesktop.org>
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc;
- bh=LfRZbgRPvkJWoFmh3/HoelgBx1WN/+Dn9OcsHK9UJYE=;
- b=EaaIl+e+4nfpTe1Vc09U+8WUQzsM25f+EHC27yIp6IlEAGLGZdxyY3hxVrc2LBskGt
- hcyURGuApv3zes8m08J42YP/uoFOGSIj0JbueAYNLoLZeKjc1hEoTzwpwtfvcVfzAVEb
- z7bBs/b4qb+T+xevrIozZ90Fdy6EEUPlI627f0HojtCOh2FmMufoeCzt3x8ypNiadFob
- 3kRuoDY8P5UsgkGQ9C6Wj0lPQGv/wF7mpOv6wR1fgmwsAhQAG2ulq0kpn0Qi5fkfNuTW
- pBEwUfZv0937FUAy4d/HxiV2Y7RJsDhygduFB5WFFmIe89wJjszqhotAyQ9fYh2g3jyQ
- QYDQ==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Ep0gLQ03A/CuzhyRURUBtktl4+rus7OWNnPLTlbuiEM=;
+ b=GbxJ2Zl5SN00QXX7PvegrbdBCVoQ6bzA0xn+2U5sEQ7zW9Zh0zl4svz/QQs9t/DSwv
+ M47SkBJR6SOSn9NYn3AkhVVIav5bjez+EEaegStJBXwVeqOozHVVPjvhdIxKYOKDdtPA
+ CEpRcqHO6Q3iDjW6a6JmDe/MPD0C1/iEc0tSFmHlMsEW2ZK6uDpvnBJdIP4U0KPVPprj
+ PKtAuAu8iylScB/AVqyZt09quNoSofOvOe0J3Swpx+lEui9vRcA1/lczECfTVYyWOlSC
+ 4jPaUPE/REP7DoL8mlr/qjTjhrSn3IOhhdKP5SdVudHtt6b358KA12lZaq5vTeDXCGVP
+ arQQ==
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,23 +65,36 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: ML mesa-dev <mesa-dev@lists.freedesktop.org>, graphics@pengutronix.de,
- The etnaviv authors <etnaviv@lists.freedesktop.org>,
- Philipp Zabel <p.zabel@pengutronix.de>
+Cc: Christian Gmeiner <christian.gmeiner@gmail.com>,
+ mesa-stable@lists.freedesktop.org, etnaviv@lists.freedesktop.org
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-T24gVGh1LCA5IE1heSAyMDE5IGF0IDE0OjUzLCBDaHJpc3RpYW4gR21laW5lcgo8Y2hyaXN0aWFu
-LmdtZWluZXJAZ21haWwuY29tPiB3cm90ZToKPgo+IEFtIEZyLiwgMy4gTWFpIDIwMTkgdW0gMTI6
-MDUgVWhyIHNjaHJpZWIgUGhpbGlwcCBaYWJlbCA8cC56YWJlbEBwZW5ndXRyb25peC5kZT46Cj4g
-Pgo+ID4gV2l0aG91dCB0aGlzIGdibV9ib19nZXRfb2Zmc2V0KCkgY2FuIHJldHVybiAwIHdoZXJl
-IGl0IHNob3VsZG4ndC4KPgo+IFJldmlld2VkLWJ5OiBDaHJpc3RpYW4gR21laW5lciA8Y2hyaXN0
-aWFuLmdtZWluZXJAZ21haWwuY29tPgo+Ck5pY2UgY2F0Y2guIFBsZWFzZSBpbmNsdWRlIHRoZSBz
-dGFibGUgdGFnIHNvIHdlIGdldCB0aGlzIGluIHRoZSAxOS4wCmFuZCAxOS4xIHNlcmllcy4KClJl
-dmlld2VkLWJ5OiBFbWlsIFZlbGlrb3YgPGVtaWwudmVsaWtvdkBjb2xsYWJvcmEuY29tPgpDYzog
-PG1lc2Etc3RhYmxlQGxpc3RzLmZyZWVkZXNrdG9wLm9yZz4KCi1FbWlsCl9fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmV0bmF2aXYgbWFpbGluZyBsaXN0CmV0
-bmF2aXZAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-L21haWxtYW4vbGlzdGluZm8vZXRuYXZpdg==
+Rm91bmQgZHVyaW5nIGNvZGUgaW5zcGVjdGlvbi4KCkNjOiBtZXNhLXN0YWJsZUBsaXN0cy5mcmVl
+ZGVza3RvcC5vcmcKU2lnbmVkLW9mZi1ieTogQ2hyaXN0aWFuIEdtZWluZXIgPGNocmlzdGlhbi5n
+bWVpbmVyQGdtYWlsLmNvbT4KLS0tCiBzcmMvZ2FsbGl1bS9kcml2ZXJzL2V0bmF2aXYvZXRuYXZp
+dl9lbWl0LmMgfCA0ICsrLS0KIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDIgZGVs
+ZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvc3JjL2dhbGxpdW0vZHJpdmVycy9ldG5hdml2L2V0bmF2
+aXZfZW1pdC5jIGIvc3JjL2dhbGxpdW0vZHJpdmVycy9ldG5hdml2L2V0bmF2aXZfZW1pdC5jCmlu
+ZGV4IGVkN2I3ZWUzY2I4Li5lZTU0ZGFhYmYzZSAxMDA2NDQKLS0tIGEvc3JjL2dhbGxpdW0vZHJp
+dmVycy9ldG5hdml2L2V0bmF2aXZfZW1pdC5jCisrKyBiL3NyYy9nYWxsaXVtL2RyaXZlcnMvZXRu
+YXZpdi9ldG5hdml2X2VtaXQuYwpAQCAtNTc3LDEyICs1NzcsMTIgQEAgZXRuYV9lbWl0X3N0YXRl
+KHN0cnVjdCBldG5hX2NvbnRleHQgKmN0eCkKICAgIHN0YXRpYyBjb25zdCB1aW50MzJfdCB1bmlm
+b3JtX2RpcnR5X2JpdHMgPQogICAgICAgRVROQV9ESVJUWV9TSEFERVIgfCBFVE5BX0RJUlRZX0NP
+TlNUQlVGOwogCi0gICBpZiAoZGlydHkgJiAodW5pZm9ybV9kaXJ0eV9iaXRzIHwgY3R4LT5zaGFk
+ZXIuZnMtPnVuaWZvcm1zX2RpcnR5X2JpdHMpKQorICAgaWYgKGRpcnR5ICYgKHVuaWZvcm1fZGly
+dHlfYml0cyB8IGN0eC0+c2hhZGVyLnZzLT51bmlmb3Jtc19kaXJ0eV9iaXRzKSkKICAgICAgIGV0
+bmFfdW5pZm9ybXNfd3JpdGUoCiAgICAgICAgICBjdHgsIGN0eC0+c2hhZGVyLnZzLCAmY3R4LT5j
+b25zdGFudF9idWZmZXJbUElQRV9TSEFERVJfVkVSVEVYXSwKICAgICAgICAgIGN0eC0+c2hhZGVy
+X3N0YXRlLlZTX1VOSUZPUk1TLCAmY3R4LT5zaGFkZXJfc3RhdGUudnNfdW5pZm9ybXNfc2l6ZSk7
+CiAKLSAgIGlmIChkaXJ0eSAmICh1bmlmb3JtX2RpcnR5X2JpdHMgfCBjdHgtPnNoYWRlci52cy0+
+dW5pZm9ybXNfZGlydHlfYml0cykpCisgICBpZiAoZGlydHkgJiAodW5pZm9ybV9kaXJ0eV9iaXRz
+IHwgY3R4LT5zaGFkZXIuZnMtPnVuaWZvcm1zX2RpcnR5X2JpdHMpKQogICAgICAgZXRuYV91bmlm
+b3Jtc193cml0ZSgKICAgICAgICAgIGN0eCwgY3R4LT5zaGFkZXIuZnMsICZjdHgtPmNvbnN0YW50
+X2J1ZmZlcltQSVBFX1NIQURFUl9GUkFHTUVOVF0sCiAgICAgICAgICBjdHgtPnNoYWRlcl9zdGF0
+ZS5QU19VTklGT1JNUywgJmN0eC0+c2hhZGVyX3N0YXRlLnBzX3VuaWZvcm1zX3NpemUpOwotLSAK
+Mi4yMS4wCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpl
+dG5hdml2IG1haWxpbmcgbGlzdApldG5hdml2QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczov
+L2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2V0bmF2aXY=
