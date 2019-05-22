@@ -1,41 +1,55 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0EBC26152
-	for <lists+etnaviv@lfdr.de>; Wed, 22 May 2019 12:04:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FA2E2617C
+	for <lists+etnaviv@lfdr.de>; Wed, 22 May 2019 12:12:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 536B4898CE;
-	Wed, 22 May 2019 10:04:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 29C51898E4;
+	Wed, 22 May 2019 10:12:51 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C8E8898B7
- for <etnaviv@lists.freedesktop.org>; Wed, 22 May 2019 10:04:31 +0000 (UTC)
-Received: from kresse.hi.pengutronix.de ([2001:67c:670:100:1d::2a])
- by metis.ext.pengutronix.de with esmtp (Exim 4.89)
- (envelope-from <l.stach@pengutronix.de>)
- id 1hTO6m-0002xL-8W; Wed, 22 May 2019 12:04:28 +0200
-Message-ID: <1558519467.2624.38.camel@pengutronix.de>
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk
+ [IPv6:2001:4d48:ad52:3201:214:fdff:fe10:1be6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E71F6898E4
+ for <etnaviv@lists.freedesktop.org>; Wed, 22 May 2019 10:12:49 +0000 (UTC)
+Received: from shell.armlinux.org.uk
+ ([2002:4e20:1eda:1:5054:ff:fe00:4ec]:38230)
+ by pandora.armlinux.org.uk with esmtpsa
+ (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256) (Exim 4.90_1)
+ (envelope-from <linux@armlinux.org.uk>)
+ id 1hTOEl-0006xu-Ni; Wed, 22 May 2019 11:12:43 +0100
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.89)
+ (envelope-from <linux@shell.armlinux.org.uk>)
+ id 1hTOEj-0006b2-G1; Wed, 22 May 2019 11:12:41 +0100
+Date: Wed, 22 May 2019 11:12:41 +0100
+From: Russell King - ARM Linux admin <linux@armlinux.org.uk>
+To: Lucas Stach <l.stach@pengutronix.de>
 Subject: Re: [PATCH] drm: etnaviv: avoid DMA API warning when importing buffers
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Russell King - ARM Linux admin <linux@armlinux.org.uk>, Fabio Estevam
- <festevam@gmail.com>
-Date: Wed, 22 May 2019 12:04:27 +0200
-In-Reply-To: <20190518213748.msdvolgiu5ykmaep@shell.armlinux.org.uk>
+Message-ID: <20190522101241.ozi4jia535yjaswg@shell.armlinux.org.uk>
 References: <E1gyDr8-0001cW-8d@rmk-PC.armlinux.org.uk>
  <20190225105423.jouccln33vj5xtyb@shell.armlinux.org.uk>
  <20190518175133.tpj255jzi7idhwxq@shell.armlinux.org.uk>
  <CAOMZO5C_nAMQM=ODU+_v3XMhcEDg_U+wY8c0-yR-cq_BWN_tVw@mail.gmail.com>
  <20190518213748.msdvolgiu5ykmaep@shell.armlinux.org.uk>
-X-Mailer: Evolution 3.22.6-1+deb9u1 
-Mime-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::2a
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
+ <1558519467.2624.38.camel@pengutronix.de>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <1558519467.2624.38.camel@pengutronix.de>
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt;
+ c=relaxed/relaxed; 
+ d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+ MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+ Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+ List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=cNGPwHrHQ6d8ojqanBh6p5daBihz8UArtANc1g3TaDg=; b=dmpKicDze7M5Qpy2GvhqBRl/U
+ LtfmYVkQNxCfF+r3WVfZGjmQnk0vy935Oj1IpL0WRL35pzqd4ZZr7GHvyorp2DtJuhmKTclhT47pU
+ v7YWaBn32dbLzPWQNr6POxX4LZX8jKoRSdtPiddo8sElN+1O9pILNoMZmhmwDAO4KLAlunLCJufm5
+ idvPSuCy0kWyNJ+hh9daZb2l5mkZJmm+9eFMhhYNLyL8eBLPLVn7Vi5JYn7wHl7A7crZvkfD/laLL
+ 0kJ/kZma4gzYumrrVRFC/x09Y6bk8y3M/XtSLAKo0qaRyAaFNH67xkoJLJI5vXsO1e5+q7PZv/3QI
+ U6pEhXx7w==;
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -47,7 +61,8 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Christoph Hellwig <hch@lst.de>,
+Cc: David Airlie <airlied@linux.ie>, Fabio Estevam <festevam@gmail.com>,
+ Christoph Hellwig <hch@lst.de>,
  DRI mailing list <dri-devel@lists.freedesktop.org>,
  The etnaviv authors <etnaviv@lists.freedesktop.org>
 Content-Type: text/plain; charset="utf-8"
@@ -55,19 +70,31 @@ Content-Transfer-Encoding: base64
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-SGkgUnVzc2VsbCwKCkFtIFNhbXN0YWcsIGRlbiAxOC4wNS4yMDE5LCAyMjozNyArMDEwMCBzY2hy
-aWViIFJ1c3NlbGwgS2luZyAtIEFSTQpMaW51eCBhZG1pbjoKPiBPbiBTYXQsIE1heSAxOCwgMjAx
-OSBhdCAwNjowNDo0MlBNIC0wMzAwLCBGYWJpbyBFc3RldmFtIHdyb3RlOgo+ID4gSGkgUnVzc2Vs
-bCwKPiA+IAo+ID4gT24gU2F0LCBNYXkgMTgsIDIwMTkgYXQgMjo1MSBQTSBSdXNzZWxsIEtpbmcg
-LSBBUk0gTGludXggYWRtaW4KPiA+IDxsaW51eEBhcm1saW51eC5vcmcudWs+IHdyb3RlOgo+ID4g
-PiAKPiA+ID4gUGluZy4KPiA+IAo+ID4gVGhpcyBwYXRjaCBpcyBwcmVzZW50IGluIEx1Y2FzJyBw
-dWxsIHJlcXVlc3Q6Cj4gPiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9hcmNoaXZlcy9l
-dG5hdml2LzIwMTktTWF5LzAwMjQ5MC5odG1sCj4gCj4gSSdtIHdvbmRlcmluZyB3aHkgaXQgZGlk
-bid0IG1ha2UgNS4xIHNpbmNlIGl0J3MgYSByZWdyZXNzaW9uLgoKSSBkaWRuJ3Qgc2VlIHRoZSBp
-bXBvcnRhbmNlIHRvIHB1dCB0aGlzIGludG8gZml4ZXMsIGFzIGl0J3MgZ2V0dGluZyByaWQKb2Yg
-YSB3YXJuaW5nIHdoaWNoIHdpbGwgb25seSBiZSBwcmVzZW50IHdoZW4gYSBkZWJ1ZyBvcHRpb24g
-aXMgZW5hYmxlZC4KU28gaXQgc2hvdWxkIGJlIGludmlzaWJsZSB0byBtb3N0IHVzZXJzIGFuZCBp
-dCBkb2Vzbid0IHJlZ3Jlc3MKZnVuY3Rpb25hbGl0eS4KClJlZ2FyZHMsCkx1Y2FzCl9fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmV0bmF2aXYgbWFpbGluZyBs
-aXN0CmV0bmF2aXZAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0
-b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZXRuYXZpdg==
+T24gV2VkLCBNYXkgMjIsIDIwMTkgYXQgMTI6MDQ6MjdQTSArMDIwMCwgTHVjYXMgU3RhY2ggd3Jv
+dGU6Cj4gSGkgUnVzc2VsbCwKPiAKPiBBbSBTYW1zdGFnLCBkZW4gMTguMDUuMjAxOSwgMjI6Mzcg
+KzAxMDAgc2NocmllYiBSdXNzZWxsIEtpbmcgLSBBUk0KPiBMaW51eCBhZG1pbjoKPiA+IE9uIFNh
+dCwgTWF5IDE4LCAyMDE5IGF0IDA2OjA0OjQyUE0gLTAzMDAsIEZhYmlvIEVzdGV2YW0gd3JvdGU6
+Cj4gPiA+IEhpIFJ1c3NlbGwsCj4gPiA+IAo+ID4gPiBPbiBTYXQsIE1heSAxOCwgMjAxOSBhdCAy
+OjUxIFBNIFJ1c3NlbGwgS2luZyAtIEFSTSBMaW51eCBhZG1pbgo+ID4gPiA8bGludXhAYXJtbGlu
+dXgub3JnLnVrPiB3cm90ZToKPiA+ID4gPiAKPiA+ID4gPiBQaW5nLgo+ID4gPiAKPiA+ID4gVGhp
+cyBwYXRjaCBpcyBwcmVzZW50IGluIEx1Y2FzJyBwdWxsIHJlcXVlc3Q6Cj4gPiA+IGh0dHBzOi8v
+bGlzdHMuZnJlZWRlc2t0b3Aub3JnL2FyY2hpdmVzL2V0bmF2aXYvMjAxOS1NYXkvMDAyNDkwLmh0
+bWwKPiA+IAo+ID4gSSdtIHdvbmRlcmluZyB3aHkgaXQgZGlkbid0IG1ha2UgNS4xIHNpbmNlIGl0
+J3MgYSByZWdyZXNzaW9uLgo+IAo+IEkgZGlkbid0IHNlZSB0aGUgaW1wb3J0YW5jZSB0byBwdXQg
+dGhpcyBpbnRvIGZpeGVzLCBhcyBpdCdzIGdldHRpbmcgcmlkCj4gb2YgYSB3YXJuaW5nIHdoaWNo
+IHdpbGwgb25seSBiZSBwcmVzZW50IHdoZW4gYSBkZWJ1ZyBvcHRpb24gaXMgZW5hYmxlZC4KPiBT
+byBpdCBzaG91bGQgYmUgaW52aXNpYmxlIHRvIG1vc3QgdXNlcnMgYW5kIGl0IGRvZXNuJ3QgcmVn
+cmVzcwo+IGZ1bmN0aW9uYWxpdHkuCgpUaGF0IGRlcGVuZHMgb24geW91ciBwb2ludCBvZiB2aWV3
+LCBob3cgeW91IHVzZSB0aGUga2VybmVsLCBhbmQgd2hhdAp5b3UncmUgdXNpbmcgdGhlIGtlcm5l
+bCBmb3IuICBJZiB5b3UncmUgdHJ5aW5nIHRvIHVzZSBkbWEgZGVidWdnaW5nCih3aGljaCBzaG91
+bGQgYWx3YXlzIGJlIGVuYWJsZWQgd2hlbiBkb2luZyBkcml2ZXIgZGV2ZWxvcG1lbnQpIGFuZAp5
+b3UgaGF2ZSBhIHN1YnN5c3RlbSB0aGF0IGtlZXBzIHRyaWdnZXJpbmcgaXQsIHRoZW4gaXQgaXMg
+YSBzZXJpb3VzCnByb2JsZW0uCgpHaXZlbiB0aGF0IHdlIHdhbnQgZGV2ZWxvcGVycyB0byBoYXZl
+IHN1Y2ggb3B0aW9ucyBvbiwgaGF2aW5nIGZhbHNlCmNvbXBsYWludHMgaXMgY291bnRlci1wcm9k
+dWN0aXZlLgoKLS0gClJNSydzIFBhdGNoIHN5c3RlbTogaHR0cHM6Ly93d3cuYXJtbGludXgub3Jn
+LnVrL2RldmVsb3Blci9wYXRjaGVzLwpGVFRDIGJyb2FkYmFuZCBmb3IgMC44bWlsZSBsaW5lIGlu
+IHN1YnVyYmlhOiBzeW5jIGF0IDEyLjFNYnBzIGRvd24gNjIya2JwcyB1cApBY2NvcmRpbmcgdG8g
+c3BlZWR0ZXN0Lm5ldDogMTEuOU1icHMgZG93biA1MDBrYnBzIHVwCl9fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmV0bmF2aXYgbWFpbGluZyBsaXN0CmV0bmF2
+aXZAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21h
+aWxtYW4vbGlzdGluZm8vZXRuYXZpdg==
