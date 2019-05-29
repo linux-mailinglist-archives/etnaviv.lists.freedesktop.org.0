@@ -1,37 +1,39 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDE922DAF2
-	for <lists+etnaviv@lfdr.de>; Wed, 29 May 2019 12:38:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D681A2DB4A
+	for <lists+etnaviv@lfdr.de>; Wed, 29 May 2019 13:00:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B1576E04B;
-	Wed, 29 May 2019 10:38:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8FC836E2BE;
+	Wed, 29 May 2019 11:00:20 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 835636E04B
- for <etnaviv@lists.freedesktop.org>; Wed, 29 May 2019 10:38:41 +0000 (UTC)
-Received: from lupine.hi.pengutronix.de
- ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D30456E04B
+ for <etnaviv@lists.freedesktop.org>; Wed, 29 May 2019 10:43:26 +0000 (UTC)
+Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28]
+ helo=dude02.pengutronix.de.)
  by metis.ext.pengutronix.de with esmtp (Exim 4.89)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1hVvyi-0000fh-27; Wed, 29 May 2019 12:38:40 +0200
-Message-ID: <1559126320.3651.2.camel@pengutronix.de>
-Subject: Re: [PATCH libdrm] etnaviv: drop etna_bo_from_handle symbol
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Lucas Stach <l.stach@pengutronix.de>, etnaviv@lists.freedesktop.org
-Date: Wed, 29 May 2019 12:38:40 +0200
-In-Reply-To: <20190529100834.32278-1-l.stach@pengutronix.de>
-References: <20190529100834.32278-1-l.stach@pengutronix.de>
-X-Mailer: Evolution 3.22.6-1+deb9u1 
-Mime-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1hVw3A-00016K-AI; Wed, 29 May 2019 12:43:16 +0200
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Andrew Morton <akpm@linux-foundation.org>, Yue Hu <huyue2@yulong.com>,
+ =?UTF-8?q?Micha=C5=82=20Nazarewicz?= <mina86@mina86.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Dmitry Vyukov <dvyukov@google.com>
+Subject: [PATCH 1/2] mm: cma: export functions to get CMA base and size
+Date: Wed, 29 May 2019 12:43:11 +0200
+Message-Id: <20190529104312.27835-1-l.stach@pengutronix.de>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
  SAEximRunCond expanded to false
 X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
+X-Mailman-Approved-At: Wed, 29 May 2019 11:00:19 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -43,18 +45,25 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: mesa-dev@lists.freedesktop.org
+Cc: kernel@pengutronix.de, linux-mm@kvack.org, etnaviv@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, patchwork-lst@pengutronix.de
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-T24gV2VkLCAyMDE5LTA1LTI5IGF0IDEyOjA4ICswMjAwLCBMdWNhcyBTdGFjaCB3cm90ZToKPiBU
-aGVyZSBpcyBubyBpbXBsZW1lbnRhdGlvbiBhbmQgYWxzbyBubyB1c2Vycywgc28gdGhlcmUgaXMg
-bm8gcG9pbnQKPiBpbiBrZWVwaW5nIGl0IGluIHRoZSBBUEkuCj4gCj4gU2lnbmVkLW9mZi1ieTog
-THVjYXMgU3RhY2ggPGwuc3RhY2hAcGVuZ3V0cm9uaXguZGU+CgpSZXZpZXdlZC1ieTogUGhpbGlw
-cCBaYWJlbCA8cC56YWJlbEBwZW5ndXRyb25peC5kZT4KClRoaXMgbWFrZXMgaHR0cHM6Ly9wYXRj
-aHdvcmsua2VybmVsLm9yZy9wYXRjaC85OTEyMDg5LyBvYnNvbGV0ZS4KCnJlZ2FyZHMKUGhpbGlw
-cApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpldG5hdml2
-IG1haWxpbmcgbGlzdApldG5hdml2QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3Rz
-LmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2V0bmF2aXY=
+TWFrZSB0aGVtIHVzYWJsZSBpbiBtb2R1bGVzLiBTb21lIGRyaXZlcnMgd2FudCB0byBrbm93IHdo
+ZXJlIHRoZWlyCmRldmljZSBDTUEgYXJlYSBpcyBsb2NhdGVkIHRvIG1ha2UgYmV0dGVyIGRlY2lz
+aW9ucyBhYm91dCB0aGUgRE1BCnByb2dyYW1taW5nLgoKU2lnbmVkLW9mZi1ieTogTHVjYXMgU3Rh
+Y2ggPGwuc3RhY2hAcGVuZ3V0cm9uaXguZGU+Ci0tLQogbW0vY21hLmMgfCAyICsrCiAxIGZpbGUg
+Y2hhbmdlZCwgMiBpbnNlcnRpb25zKCspCgpkaWZmIC0tZ2l0IGEvbW0vY21hLmMgYi9tbS9jbWEu
+YwppbmRleCAzMzQwZWYzNGMxNTQuLjE5MWM4OWJmMDM4ZCAxMDA2NDQKLS0tIGEvbW0vY21hLmMK
+KysrIGIvbW0vY21hLmMKQEAgLTQ0LDExICs0NCwxMyBAQCBwaHlzX2FkZHJfdCBjbWFfZ2V0X2Jh
+c2UoY29uc3Qgc3RydWN0IGNtYSAqY21hKQogewogCXJldHVybiBQRk5fUEhZUyhjbWEtPmJhc2Vf
+cGZuKTsKIH0KK0VYUE9SVF9TWU1CT0xfR1BMKGNtYV9nZXRfYmFzZSk7CiAKIHVuc2lnbmVkIGxv
+bmcgY21hX2dldF9zaXplKGNvbnN0IHN0cnVjdCBjbWEgKmNtYSkKIHsKIAlyZXR1cm4gY21hLT5j
+b3VudCA8PCBQQUdFX1NISUZUOwogfQorRVhQT1JUX1NZTUJPTF9HUEwoY21hX2dldF9zaXplKTsK
+IAogY29uc3QgY2hhciAqY21hX2dldF9uYW1lKGNvbnN0IHN0cnVjdCBjbWEgKmNtYSkKIHsKLS0g
+CjIuMjAuMQoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18K
+ZXRuYXZpdiBtYWlsaW5nIGxpc3QKZXRuYXZpdkBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6
+Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9ldG5hdml2
