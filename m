@@ -1,51 +1,57 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1D11347AC
-	for <lists+etnaviv@lfdr.de>; Tue,  4 Jun 2019 15:09:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D05435EAD
+	for <lists+etnaviv@lfdr.de>; Wed,  5 Jun 2019 16:07:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 78C76897E3;
-	Tue,  4 Jun 2019 13:09:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E19689AEA;
+	Wed,  5 Jun 2019 14:07:35 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-ua1-x934.google.com (mail-ua1-x934.google.com
- [IPv6:2607:f8b0:4864:20::934])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C4F8A897FD
- for <etnaviv@lists.freedesktop.org>; Tue,  4 Jun 2019 13:09:19 +0000 (UTC)
-Received: by mail-ua1-x934.google.com with SMTP id 7so7773611uah.1
- for <etnaviv@lists.freedesktop.org>; Tue, 04 Jun 2019 06:09:19 -0700 (PDT)
+Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com
+ [IPv6:2a00:1450:4864:20::141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B887989A5E;
+ Wed,  5 Jun 2019 14:07:33 +0000 (UTC)
+Received: by mail-lf1-x141.google.com with SMTP id a25so19208085lfg.2;
+ Wed, 05 Jun 2019 07:07:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=MFgjKdKCUkOPnUMNd2UjPbdf4teurKxNvEqioulpBgU=;
- b=paLAH+y0mGJfS7O/ZfvOUgH/OsHm6dHcFeAahQN3p9h6gaLW1Qj15drcwZMZlcnH7Z
- 7J6GSW8xAuib5GRsCDJUZigVjhOfwks2FqEm4PtMeN/lDIPJea5p4nQVKaI2rrVuciPU
- LkT+S7S3AKNY0rnMuVENiQB3M/jqRfn2CUcF0TashnBEdLtLLcdc99vLgMzyENt//ETS
- FZrD+sCoonMUXBJWOGpLd3OXMLFa+TS+7RUvyFDXrza9Q9fCvguVMymcUM3RI016eg14
- 2kljYVT7i5wEP/Uy+y+bOIhPvwnurI3WH01g5v6RAYoDDC75R88zsNKpOdMz7q4LOyr6
- 09ig==
-X-Gm-Message-State: APjAAAXyws0dIntaibh+MpaQVW6b8ZCxmDHpNfiYxrpfK07IkpZqYNNc
- 8m8TdHMV/JiLB+hf9/NfJ+iIVdIAg3s0kIdnwF9PVL0u
-X-Google-Smtp-Source: APXvYqzifOD5JpJXghQP8gSdQVyzrtjSE047ZuXJzjF3/KtPv9wnmfFtxrQbapC9Ac5GUzmq2CMpkwksY7AC4ynsFNk=
-X-Received: by 2002:ab0:5ad0:: with SMTP id x16mr15294459uae.124.1559653758540; 
- Tue, 04 Jun 2019 06:09:18 -0700 (PDT)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=HZNLeEeWXELZlwmN5K1nlFiQp6OF7jLq/i7HnGbUTGY=;
+ b=lFDzvdrNpjI/NcApyXl5So3+ZlOOexUhQpJabyVYZGZSEVTsxrMSTqiwpUl81i3ukp
+ 4KFLu+V3OG4YZpom+H0ILpZG/1fQwZIBcj36QLeIa2+cF45l5CD+FP+rD0S8GQ2HLgvE
+ k5XPtTgtv4L3uJkaRuZE/gU/VGT1zEE6Wihm6BFFfBZbzBX4kChBHzaMFq1XEOYwMK/i
+ 7UJ/z2AUweWoIAPgStT0oSFPl/8Q6RMZOaMrNtMo/4sOmpoGmBEne7S1dtGjoydVb4bA
+ A6Eyt8+BxoUAkdpIwljuYV2Iva/iM1YFLvCqG6V9MRDkRwuKECAjqS6qFypFg20J8bID
+ gd0w==
+X-Gm-Message-State: APjAAAUXumrXr1sOBax7XkwAp0vVY6CKfTVv6qhxHEekQ1RBlQvrMFd1
+ 6QFV91AlvrBR8dtUSsEvO+ANWtXhy8jYG0xM09o=
+X-Google-Smtp-Source: APXvYqxK0jGc74KzTfgUR61rtFTclSzqxMlAaM7jnBtBbDPIi68l1EA6fMWPl6Wrbw5ICZLr4e1ol3KpihO8wjsp/NA=
+X-Received: by 2002:a19:5046:: with SMTP id z6mr20717982lfj.185.1559743652150; 
+ Wed, 05 Jun 2019 07:07:32 -0700 (PDT)
 MIME-Version: 1.0
-From: Christian Gmeiner <christian.gmeiner@gmail.com>
-Date: Tue, 4 Jun 2019 15:09:07 +0200
-Message-ID: <CAH9NwWd29gJwr-fF5=3MmWMFv=d26rmKgkgXkf+xrmw5Z_+MuA@mail.gmail.com>
-Subject: [MR] etnaviv: seamless cube map
-To: The etnaviv authors <etnaviv@lists.freedesktop.org>
+References: <CAOuPNLgUBDJ3qhD5mzQ6kYbpO7RHa7EhkfR668wtL6rkhY_s2g@mail.gmail.com>
+ <CAOuPNLjeCkb+685oSOR2FoJMw9-L=Lky0PhVpkgMiV+n+ztdsA@mail.gmail.com>
+ <CAOuPNLiBddMKfjK1bLbymnBb6NfTW3jh7kBQtZLt06gBk_CTJw@mail.gmail.com>
+In-Reply-To: <CAOuPNLiBddMKfjK1bLbymnBb6NfTW3jh7kBQtZLt06gBk_CTJw@mail.gmail.com>
+From: Fabio Estevam <festevam@gmail.com>
+Date: Wed, 5 Jun 2019 11:07:22 -0300
+Message-ID: <CAOMZO5CaRADMnLcb432iDqfXYCa1rueV-jxFQYDiZ2HHusP0Xg@mail.gmail.com>
+Subject: Re: dpms mode change with wayland on iMX.6
+To: Pintu Agarwal <pintu.ping@gmail.com>
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to;
- bh=MFgjKdKCUkOPnUMNd2UjPbdf4teurKxNvEqioulpBgU=;
- b=Zmm+ghdqBjNUrMXRD+0yXQe1nfUdcUFCvFJebNk3SCg9CIrg7Lc8D0JcZt7+8x1+e9
- irdbdSV/8wmoGtPGZZsIF3ht2i+Or/L7gp9q+L5eUwBPtTSXGJ0ShIs6rHDhd1+vM4+C
- cf65xb3xKDdwE1SLJNMSUHZh3/iGQ5S+BnKpT7j7fqh0a3oBLsYRWncSGdnyyDNBA7H1
- cB4cEpMOEXJL2A0xmwBiosiB3c58IvDJXeQdRV/S3w70ftfVgl1v4+0BxbrQA+8kVenC
- +zonU313veytTsXF62CnGUOA0Ql7/r2zDeQa4cd+Y4IbspxDePngkvgloffDnRUtf2k8
- i7fg==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc;
+ bh=HZNLeEeWXELZlwmN5K1nlFiQp6OF7jLq/i7HnGbUTGY=;
+ b=Cqu/KFsVJs4b8SOxwkLY0ZTzwgh3L61UixRAs3iW0SkL1WH8Vvky10cGMexqm2fY4Z
+ sDELQdanDw4K5p9JwHaqSuYF6PA2EhPJhmg/JYALjKWmVTEEalNsz/KUtaEmLwlIuZGk
+ sOlQMTsYRVRTQ8Hb+qnEdyTVEaZC6Z8ZpKFvceNLZR1Lx71C6RnKBoayctFMj0+9HbU7
+ uA+oiHyzKGTxAcFsYHRlqHTe83HH3JX93gyvbLOVHXwevsUyRasRaiaA61/R4fsdNdId
+ 4gZWoiknmfCM5+IKQZTGaHERs+L2ICWzHZ3SM/0RH457AIU4qo7KfdS9on4jDS5B/+KZ
+ q+vQ==
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,16 +63,20 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
+Cc: paulo.r.zanoni@intel.com,
+ DRI mailing list <dri-devel@lists.freedesktop.org>,
+ The etnaviv authors <etnaviv@lists.freedesktop.org>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-SGkgYWxsLAoKdGhpcyBNUiBhZGRzIHN1cHBvcnQgZm9yIEdMX0FSQl9zZWFtbGVzc19jdWJlbWFw
-X3Blcl90ZXh0dXJlIGFuZApzaG91bGQgYnJpbmcgdXMgaW50byBodHRwczovL21lc2FtYXRyaXgu
-bmV0CgpodHRwczovL2dpdGxhYi5mcmVlZGVza3RvcC5vcmcvbWVzYS9tZXNhL21lcmdlX3JlcXVl
-c3RzLzk5NwoKLS0gCmdyZWV0cwotLQpDaHJpc3RpYW4gR21laW5lciwgTVNjCgpodHRwczovL2No
-cmlzdGlhbi1nbWVpbmVyLmluZm8KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX18KZXRuYXZpdiBtYWlsaW5nIGxpc3QKZXRuYXZpdkBsaXN0cy5mcmVlZGVza3Rv
-cC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9ldG5h
-dml2
+T24gTW9uLCBNYXkgMjcsIDIwMTkgYXQgMTA6NTMgQU0gUGludHUgQWdhcndhbCA8cGludHUucGlu
+Z0BnbWFpbC5jb20+IHdyb3RlOgoKPiBPbmUgbW9yZSBwb2ludDoKPiBBbHRob3VnaCBpdCBpcyBo
+YXZpbmcgS2VybmVsIDMuMTAsIGJ1dCB0aGUgRFJNIG1vZHVsZXMgd2VyZSB1cGdyYWRlZAo+IHRv
+IEtlcm5lbCA0LjkueHggZnJvbSBtYWlubGluZS4KPiBTbywgbGF0ZXN0IERSTSBjaGFuZ2VzIGFy
+ZSBhbHJlYWR5IGFwcGxpZWQuCgpQbGVhc2UgZG9uJ3QgZG8gdGhpczoganVzdCB1c2UgYSByZWNl
+bnQgbWFpbmxpbmUga2VybmVsIGluc3RlYWQgb2YKbWl4aW5nIDMuMTAga2VybmVsICsgRFJNIHBh
+cnQgZnJvbSA0LjkuCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fCmV0bmF2aXYgbWFpbGluZyBsaXN0CmV0bmF2aXZAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0
+dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZXRuYXZpdg==
