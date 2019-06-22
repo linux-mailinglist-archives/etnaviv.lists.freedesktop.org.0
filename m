@@ -1,30 +1,49 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F7CC4D297
-	for <lists+etnaviv@lfdr.de>; Thu, 20 Jun 2019 17:57:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 100A54F6CB
+	for <lists+etnaviv@lfdr.de>; Sat, 22 Jun 2019 18:16:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F0546E5C7;
-	Thu, 20 Jun 2019 15:57:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C5F186E3FE;
+	Sat, 22 Jun 2019 16:16:34 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 847006E5AB;
- Thu, 20 Jun 2019 15:55:50 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: mfilion) with ESMTPSA id 10224266AD9
-Message-ID: <abeeef499b369e84d83d5ac846d66aa5f55d9ac8.camel@collabora.com>
-Subject: XDC 2019: Less than three weeks to go to submit your talks,
- workshops or demos!
-From: Mark Filion <mark.filion@collabora.com>
-To: events@lists.x.org
-Date: Thu, 20 Jun 2019 11:55:39 -0400
-Organization: Collabora Ltd.
-User-Agent: Evolution 3.32.2 (3.32.2-1.fc30) 
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk
+ [IPv6:2001:4d48:ad52:3201:214:fdff:fe10:1be6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 828E76E3FE
+ for <etnaviv@lists.freedesktop.org>; Sat, 22 Jun 2019 16:16:33 +0000 (UTC)
+Received: from shell.armlinux.org.uk
+ ([2002:4e20:1eda:1:5054:ff:fe00:4ec]:58982)
+ by pandora.armlinux.org.uk with esmtpsa
+ (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256) (Exim 4.90_1)
+ (envelope-from <linux@armlinux.org.uk>)
+ id 1heigk-0004cE-CV; Sat, 22 Jun 2019 17:16:26 +0100
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.89)
+ (envelope-from <linux@shell.armlinux.org.uk>)
+ id 1heigh-0004Ia-JX; Sat, 22 Jun 2019 17:16:23 +0100
+Date: Sat, 22 Jun 2019 17:16:23 +0100
+From: Russell King - ARM Linux admin <linux@armlinux.org.uk>
+To: Fabio Estevam <festevam@gmail.com>, l.stach@pengutronix.de,
+ christian.gmeiner@gmail.com
+Subject: [REGRESSION] drm/etnaviv: command buffer outside valid memory window
+Message-ID: <20190622161623.eiameq5dmcysbqor@shell.armlinux.org.uk>
 MIME-Version: 1.0
-X-Mailman-Approved-At: Thu, 20 Jun 2019 15:57:31 +0000
+Content-Disposition: inline
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt;
+ c=relaxed/relaxed; 
+ d=armlinux.org.uk; s=pandora-2019; h=Sender:Content-Type:MIME-Version:
+ Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+ List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=/ya/gKAE8QE5wWxSDWBTaqF3JvyoF5itHFXrMVxk6xo=; b=DimnR8VPdOI0GU9nebJBFYkAX
+ jvszuMtjcXF8yK8QgRmysAzexWMlyOmSYR/32v8tzojcD4HOWXrbDBvMD5h3Fq32bnuTYFXk9qh63
+ KmET5u9Xv298SYMena4zMR7bxLq2mTMU4Y/s1AJ18xkBURFLP4ytUPxQu/nIXpGvyCj5kbAG4Z/+V
+ ZozZdkz0evKKRsv+ez9IlaGQyQtFsx8D9LVyZPo5Rw243BBpfbBFEG2HfxEAQbW+BuDoEPK+UX/xX
+ +dZJN/pvqXe8iQVy+ak7TlxVBSUCwfnX0a68XT0QCY6fJGFsnGZ6degWwbsDl/FuhDOhy12xzkfzV
+ LDgZh9SSw==;
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -36,30 +55,37 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
+Cc: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-SGVsbG8hCgpMZXNzIHRoYW4gdGhyZWUgd2Vla3MgdG8gZ28gdG8gc3VibWl0IHlvdXIgdGFsa3Ms
-IHdvcmtzaG9wcyBvciBkZW1vcwpmb3IgdGhpcyB5ZWFyJ3MgWC5PcmcgRGV2ZWxvcGVyIENvbmZl
-cmVuY2UsIHdoaWNoIHdpbGwgYmUgdGFraW5nIHBsYWNlCmluIE1vbnRyw6lhbCwgQ2FuYWRhIG9u
-IE9jdG9iZXIgMi00LCAyMDE5IQoKVGhlIDIwMTkgWC5PcmcgRGV2ZWxvcGVycyBDb25mZXJlbmNl
-IGlzIHRoZSBhbm51YWwgdGVjaG5pY2FsIG1lZXRpbmcKZm9yIFggV2luZG93IFN5c3RlbSBhbmQg
-RnJlZSBEZXNrdG9wIGRldmVsb3BlcnMuIEF0dGVuZGVlcyB3aWxsIGdhdGhlcgp0byBkaXNjdXNz
-IG91dHN0YW5kaW5nIHRlY2huaWNhbCBpc3N1ZXMgcmVsYXRlZCB0byB0aGUgT3BlbiBTb3VyY2UK
-R3JhcGhpY3Mgc3RhY2sgKExpbnV4IGtlcm5lbCwgTWVzYSwgRFJNLCBXYXlsYW5kLCBYMTEsIGV0
-Yy4pIGFuZCBpdHMKc29mdHdhcmUgZWNvc3lzdGVtLgoKV2hpbGUgYW55IHNlcmlvdXMgcHJvcG9z
-YWwgd2lsbCBiZSBncmF0ZWZ1bGx5IGNvbnNpZGVyZWQsIHRvcGljcyBvZgppbnRlcmVzdAp0byBY
-Lk9yZyBhbmQgZnJlZWRlc2t0b3Aub3JnIGRldmVsb3BlcnMgYXJlIGVuY291cmFnZWQuIFRoZSBw
-cm9ncmFtCmZvY3VzIGlzIG9uIG5ldyBkZXZlbG9wbWVudCwgb25nb2luZyBjaGFsbGVuZ2VzIGFu
-ZCBhbnl0aGluZyBlbHNlIHRoYXQKd2lsbCBzcGFyayBkaXNjdXNzaW9ucyBhbW9uZyBhdHRlbmRl
-ZXMgaW4gdGhlIGhhbGx3YXkgdHJhY2suCgpXZSBhcmUgb3BlbiB0byB0YWxrcyBhY3Jvc3MgYWxs
-IGxheWVycyBvZiB0aGUgZ3JhcGhpY3Mgc3RhY2ssIGZyb20gdGhlCmtlcm5lbAp0byBkZXNrdG9w
-IGVudmlyb25tZW50cyAvIGdyYXBoaWNhbCBhcHBsaWNhdGlvbnMgYW5kIGFib3V0IGhvdyB0byBt
-YWtlCnRoaW5ncyBiZXR0ZXIgZm9yIHRoZSBkZXZlbG9wZXJzIHdobyBidWlsZCB0aGVtLiAKCkhl
-YWQgdG8gdGhlIFhEQyB3ZWJzaXRlIHRvIGxlYXJuIG1vcmU6IAoKICAgIGh0dHBzOi8veGRjMjAx
-OS54Lm9yZy8KClRoZSBkZWFkbGluZSBmb3Igc3VibWlzc2lvbnMgU3VuZGF5LCA3IEp1bHkgMjAx
-OS4KCkJlc3QsCgpNYXJrCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fXwpldG5hdml2IG1haWxpbmcgbGlzdApldG5hdml2QGxpc3RzLmZyZWVkZXNrdG9wLm9y
-ZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2V0bmF2aXY=
+V2hpbGUgdXBkYXRpbmcgbXkgdmFyaW91cyBzeXN0ZW1zIGZvciB0aGUgVENQIFNBQ0sgaXNzdWUs
+IEkgbm90aWNlCnRoYXQgd2hpbGUgbW9zdCBwbGF0Zm9ybXMgYXJlIGhhcHB5LCB0aGUgQ3Vib3gt
+aTQgaXMgbm90LiAgRHVyaW5nCmJvb3QsIHdlIGdldDoKClsgICAgMC4wMDAwMDBdIGNtYTogUmVz
+ZXJ2ZWQgMjU2IE1pQiBhdCAweDMwMDAwMDAwCi4uLgpbICAgIDAuMDAwMDAwXSBLZXJuZWwgY29t
+bWFuZCBsaW5lOiBjb25zb2xlPXR0eW14YzAsMTE1MjAwbjggY29uc29sZT10dHkxIHZpZGVvPW14
+Y2ZiMDpkZXY9aGRtaSByb290PS9kZXYvbmZzIHJ3IGNtYT0yNTZNIGFoY2lfaW14LmhvdHBsdWc9
+MSBzcGxhc2ggcmVzdW1lPS9kZXYvc2RhMQpbICAgIDAuMDAwMDAwXSBEZW50cnkgY2FjaGUgaGFz
+aCB0YWJsZSBlbnRyaWVzOiAxMzEwNzIgKG9yZGVyOiA3LCA1MjQyODggYnl0ZXMpClsgICAgMC4w
+MDAwMDBdIElub2RlLWNhY2hlIGhhc2ggdGFibGUgZW50cmllczogNjU1MzYgKG9yZGVyOiA2LCAy
+NjIxNDQgYnl0ZXMpClsgICAgMC4wMDAwMDBdIE1lbW9yeTogMTc5MDk3MksvMjA5NzE1MksgYXZh
+aWxhYmxlICg4NDcxSyBrZXJuZWwgY29kZSwgNjkzSyByd2RhdGEsIDI4NDRLIHJvZGF0YSwgNTAw
+SyBpbml0LCA4MDYySyBic3MsIDQ0MDM2SyByZXNlcnZlZCwgMjYyMTQ0SyBjbWEtcmVzZXJ2ZWQs
+IDEzMTA3MjBLIGhpZ2htZW0pCi4uLgpbICAgMTMuMTAxMDk4XSBldG5hdml2LWdwdSAxMzAwMDAu
+Z3B1OiBjb21tYW5kIGJ1ZmZlciBvdXRzaWRlIHZhbGlkIG1lbW9yeSB3aW5kb3cKWyAgIDEzLjE3
+MTk2M10gZXRuYXZpdi1ncHUgMTM0MDAwLmdwdTogY29tbWFuZCBidWZmZXIgb3V0c2lkZSB2YWxp
+ZCBtZW1vcnkgd2luZG93CgphbmQgc2hvcnRseSBhZnRlciB0aGUgbG9naW4gcHJvbXB0IGFwcGVh
+cnMsIHRoZSBlbnRpcmUgU29DIGFwcGVhcnMgdG8KbG9jayB1cCAtIGl0IGJlY29tZXMgdW5yZXNw
+b25zaXZlIG9uIHRoZSBuZXR3b3JrLCBvciB2aWEgc2VyaWFsIGNvbnNvbGUKdG8gc3lzcnEgcmVx
+dWVzdHMuCgpJIHN1c3BlY3QgdGhlIEdQVSBlbmRzIHVwIHNjcmliYmxpbmcgb3ZlciB0aGUgQ1BV
+J3MgdmVjdG9yIHBhZ2Uva2VybmVsCmFzIGEgcmVzdWx0IG9mIHRoZSBhYm92ZSB0d28gZXRuYXZp
+diBlcnJvcnMgd2hlbiBYb3JnIGF0dGVtcHRzIHRvIHN0YXJ0CnVzaW5nIHRoZSBHUFUuCgpUaGlz
+IHVzZWQgdG8gd29yaywgc28gaXRzIGEgcmVncmVzc2lvbi4KCi0tIApSTUsncyBQYXRjaCBzeXN0
+ZW06IGh0dHBzOi8vd3d3LmFybWxpbnV4Lm9yZy51ay9kZXZlbG9wZXIvcGF0Y2hlcy8KRlRUQyBi
+cm9hZGJhbmQgZm9yIDAuOG1pbGUgbGluZSBpbiBzdWJ1cmJpYTogc3luYyBhdCAxMi4xTWJwcyBk
+b3duIDYyMmticHMgdXAKQWNjb3JkaW5nIHRvIHNwZWVkdGVzdC5uZXQ6IDExLjlNYnBzIGRvd24g
+NTAwa2JwcyB1cApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+XwpldG5hdml2IG1haWxpbmcgbGlzdApldG5hdml2QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRw
+czovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2V0bmF2aXY=
