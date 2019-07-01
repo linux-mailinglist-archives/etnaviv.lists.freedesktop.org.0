@@ -2,36 +2,27 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D40B607E8
-	for <lists+etnaviv@lfdr.de>; Fri,  5 Jul 2019 16:31:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D91856148E
+	for <lists+etnaviv@lfdr.de>; Sun,  7 Jul 2019 11:22:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D5986E4D2;
-	Fri,  5 Jul 2019 14:31:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9736C89C29;
+	Sun,  7 Jul 2019 09:22:47 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D87E6E4CE;
- Fri,  5 Jul 2019 14:31:10 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id F25BB2005E;
- Fri,  5 Jul 2019 16:31:06 +0200 (CEST)
-Date: Fri, 5 Jul 2019 16:31:05 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Lucas Stach <l.stach@pengutronix.de>
-Subject: Re: [PATCH] drm/etnaviv: clean up includes
-Message-ID: <20190705143105.GA30944@ravnborg.org>
-References: <20190704104337.6446-1-l.stach@pengutronix.de>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE52489C0D;
+ Mon,  1 Jul 2019 17:03:42 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: mfilion) with ESMTPSA id 92A8D260956
+Message-ID: <d2f081b93560c632083cd782dc8ccd7b2a189d0a.camel@collabora.com>
+Subject: XDC 2019: Final week to submit your talks!
+From: Mark Filion <mark.filion@collabora.com>
+To: events@lists.x.org
+Date: Mon, 01 Jul 2019 13:03:37 -0400
+Organization: Collabora Ltd.
+User-Agent: Evolution 3.32.3 (3.32.3-1.fc30) 
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190704104337.6446-1-l.stach@pengutronix.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=dqr19Wo4 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8
- a=5Z8A1K5qJAlLIXMI3roA:9 a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22
+X-Mailman-Approved-At: Sun, 07 Jul 2019 09:22:45 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -43,22 +34,16 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org,
- Russell King <linux+etnaviv@armlinux.org.uk>, etnaviv@lists.freedesktop.org,
- kernel@pengutronix.de, patchwork-lst@pengutronix.de
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-SGkgTHVjYXMuCgoKT24gVGh1LCBKdWwgMDQsIDIwMTkgYXQgMTI6NDM6MzdQTSArMDIwMCwgTHVj
-YXMgU3RhY2ggd3JvdGU6Cj4gRHJvcCB1bnVzZWQgaW5jbHVkZXMsIG1vdmUgbW9yZSBpbmNsdWRl
-cyBmcm9tIHRoZSBnZW5lcmljIGV0bmF2aXZfZHJ2LmggdG8KPiB0aGUgdW5pdHMgd2hlcmUgdGhl
-eSBhcmUgYWN0dWFsbHkgdXNlZCwgc29ydCBpbmNsdWRlcy4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBM
-dWNhcyBTdGFjaCA8bC5zdGFjaEBwZW5ndXRyb25peC5kZT4KClRlZGlvdXMgd29yay4uLi4gQnV0
-IGxvb2tzIGdvb2QuCkFja2VkLWJ5OiBTYW0gUmF2bmJvcmcgPHNhbUByYXZuYm9yZy5vcmc+CgpJ
-ZiB5b3UgZGlkIG5vdCBidWlsZCB0aGlzIGZvciBhbHBoYSB0aGVuIGNvbnNpZGVyIHRvIGRvIHNv
-LgpBbHBoYSBvZnRlbiByZXF1aXJlcyBhIGZldyBleHRyYSBpbmNsdWRlIGZpbGVzLi4KCglTYW0K
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZXRuYXZpdiBt
-YWlsaW5nIGxpc3QKZXRuYXZpdkBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5m
-cmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9ldG5hdml2
+SGkhCgpJdCdzIHRoZSBmaW5hbCB3ZWVrIHRvIHN1Ym1pdCB5b3VyIHRhbGtzLCB3b3Jrc2hvcHMg
+b3IgZGVtb3MgZm9yCiNYREMyMDE5ISEgCgpDZlAgZW5kcyB0aGlzIGNvbWluZyBTdW5kYXksIEp1
+bHkgNyEgCgpIYXZlIHNvbWUgbmV3IGRldmVsb3BtZW50cyB0byBzaGFyZT8gRmFjaW5nIHNvbWUg
+Y2hhbGxlbmdlcyB3aXRoIHlvdQpwcm9qZWN0cz8gSWYgaXQncyByZWxhdGVkIHRvIG9wZW4gc291
+cmNlICBncmFwaGljcywgcGxlYXNlIHNlbmQgaXQgaW4hIAoKaHR0cDovL3hkYzIwMTkueC5vcmcg
+CgpCZXN0LAoKTWFyawoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX18KZXRuYXZpdiBtYWlsaW5nIGxpc3QKZXRuYXZpdkBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
+aHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9ldG5hdml2
