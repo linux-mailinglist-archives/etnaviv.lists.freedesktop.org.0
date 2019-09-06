@@ -2,55 +2,37 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E01C0AB60B
-	for <lists+etnaviv@lfdr.de>; Fri,  6 Sep 2019 12:35:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91ACAAB62A
+	for <lists+etnaviv@lfdr.de>; Fri,  6 Sep 2019 12:40:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 82B776E239;
-	Fri,  6 Sep 2019 10:35:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 53E656E245;
+	Fri,  6 Sep 2019 10:40:39 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-vs1-xe43.google.com (mail-vs1-xe43.google.com
- [IPv6:2607:f8b0:4864:20::e43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C5A9C6E235;
- Fri,  6 Sep 2019 10:35:06 +0000 (UTC)
-Received: by mail-vs1-xe43.google.com with SMTP id b123so3724190vsb.5;
- Fri, 06 Sep 2019 03:35:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=iBMDiFL15VF5qGp+naaSR1DFAv6H6kz31gfhZio50+8=;
- b=CgJJwqRBn2l/k7P+M1hV0JlkmlmUNqMNkhK7W9bNhthJMCAxXltc3gUKd0/rLaqyjZ
- FVjfRL0f0At5xc27F4ldGn9aKwCt1ERAVBC08CPk8QmXq9AHJIZi7f2HpqBQdZY8eW+/
- IBwlDjten95Dp2O/DcQx6yTcQO+ZonGyGk1ibBWpN8b0JkkrHYE+yBpTKqy9CyyaLv9H
- JViGF64N0C4jENE7JvzT9ZlMswaLG3HRnGANq76fR2i52BQj4YVWq7C8dzkcRoHJlUXM
- ttdfb9Q77Dt6KLQBetoOA3mNb/fdBrnTZwJ7h8H/lruvC9jmWhRGqvlG2szyNCkczxlI
- 1Hbw==
-X-Gm-Message-State: APjAAAXCqd1Bmdmub3KcFRuEenzu2OUbpDty/ox8g0+kxI4qF7Y/wlgq
- o+OSExBOu8R2NwuiAxA9zmouwiuGMZveb3qrWS4/OqtS
-X-Google-Smtp-Source: APXvYqwfkSYT+EZSiCrLHo4dDN2egeB6NSGHWqIkoWmWgOuqC8cZXHOemKMWh0b3943QcIPLFqDzgoH0vXH81DnA8KA=
-X-Received: by 2002:a67:eb42:: with SMTP id x2mr2143773vso.88.1567766105596;
- Fri, 06 Sep 2019 03:35:05 -0700 (PDT)
-MIME-Version: 1.0
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 489576E23D
+ for <etnaviv@lists.freedesktop.org>; Fri,  6 Sep 2019 10:40:38 +0000 (UTC)
+Received: from kresse.hi.pengutronix.de ([2001:67c:670:100:1d::2a])
+ by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1i6BfQ-000494-ET; Fri, 06 Sep 2019 12:40:36 +0200
+Message-ID: <ca19b57631d8e8b97f1f81b6383954c1cbf9f7c1.camel@pengutronix.de>
+Subject: Re: [PATCH 1/2] drm/etnaviv: update hardware headers from rnndb
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Christian Gmeiner <christian.gmeiner@gmail.com>
+Date: Fri, 06 Sep 2019 12:40:36 +0200
+In-Reply-To: <CAH9NwWc1BmQabXfJQ1HFS7xOew2TtDBDDRzWcP_UUSuZ7OqDDQ@mail.gmail.com>
 References: <20190906100308.15341-1-christian.gmeiner@gmail.com>
  <ed249ddd9a37878214047fad227b7bf460da3298.camel@pengutronix.de>
-In-Reply-To: <ed249ddd9a37878214047fad227b7bf460da3298.camel@pengutronix.de>
-From: Christian Gmeiner <christian.gmeiner@gmail.com>
-Date: Fri, 6 Sep 2019 12:35:50 +0200
-Message-ID: <CAH9NwWc1BmQabXfJQ1HFS7xOew2TtDBDDRzWcP_UUSuZ7OqDDQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] drm/etnaviv: update hardware headers from rnndb
-To: Lucas Stach <l.stach@pengutronix.de>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc;
- bh=iBMDiFL15VF5qGp+naaSR1DFAv6H6kz31gfhZio50+8=;
- b=tpuZA/QvlS8h+imOANt68oZe+6hKidzq5q1KwaVMNovjjIHXOau0KjUNagkYlHnLnH
- rGnMnzYVrfEB/RMR+S4X/CjA0PU+5vHweQr1n8opGAly9xUWt4r1aNI6dtL21pxvuvaK
- 67DPlO/ZhvCDn3Tj4tPOx2fFIx3tZc9DOeoq4GppNioofAV5l3m4yST6/U8EoQBxc8qX
- vVwntUkkmXElKWeBffmGGm2pkItIRhrsQN9xDh/o3CBgN6W/3tlzOWMSwt+yda2/++4M
- hb1c64llWLS9dEMwSYtmXsKxqYh3bBwJDkTXWSGp4H3k7zPbi714QgMnql0tcFS1CDEa
- zGkg==
+ <CAH9NwWc1BmQabXfJQ1HFS7xOew2TtDBDDRzWcP_UUSuZ7OqDDQ@mail.gmail.com>
+User-Agent: Evolution 3.30.5-1.1 
+MIME-Version: 1.0
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::2a
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,21 +51,27 @@ Content-Transfer-Encoding: base64
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-QW0gRnIuLCA2LiBTZXB0LiAyMDE5IHVtIDEyOjExIFVociBzY2hyaWViIEx1Y2FzIFN0YWNoIDxs
-LnN0YWNoQHBlbmd1dHJvbml4LmRlPjoKPgo+IE9uIEZyLCAyMDE5LTA5LTA2IGF0IDEyOjAzICsw
-MjAwLCBDaHJpc3RpYW4gR21laW5lciB3cm90ZToKPiA+IFVwZGF0ZSB0aGUgc3RhdGUgSEkgYW5k
-IGNvbW1vbiBoZWFkZXIgZnJvbSBybm5kYiBjb21taXQKPiA+IGEwNDI4MzU5MWE4YSAocm5uZGI6
-IHVwZGF0ZSBNTVUgZXhjZXB0aW9uIGNhdXNlcykuCj4gPgo+ID4gU2lnbmVkLW9mZi1ieTogQ2hy
-aXN0aWFuIEdtZWluZXIgPGNocmlzdGlhbi5nbWVpbmVyQGdtYWlsLmNvbT4KPiA+IC0tLQo+ID4g
-IGRyaXZlcnMvZ3B1L2RybS9ldG5hdml2L3N0YXRlLnhtbC5oICAgICB8ICAgMzcgKy0KPiA+ICBk
-cml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9zdGF0ZV8zZC54bWwuaCAgfCAxODQ5ICsrKysrKysrKysr
-KysrKysrKysrKystCj4KPiBJJ20gbm90IGEgZmFuIG9mIHB1bGxpbmcgaW4gdGhlIGNvbXBsZXRl
-IHN0YXRlXzNkIGhlYWRlci4gT25seSBhIHZlcnkKPiBsaW1pdGVkIHN1YnNldCBvZiB0aG9zZSBz
-dGF0ZXMgYXJlIHVzZWQgaW4gdGhlIGtlcm5lbCBhbmQgdGhlIHJlc3Qgb2YKPiB0aGlzIG1hc3Np
-dmUgc3RhdGUgc2V0IGlzIHB1cmUgbm9pc2UgZnJvbSBhIGtlcm5lbCBQb1YuCj4KCldoYXQgaWYg
-SSBqdXN0IHVwZGF0ZSBzdGF0ZV9oaS54bWwuaCBhbmQgbGVhdmUgdGhlIG90aGVycyB1bnRvdWNo
-ZWQ/CldvdWxkIHRoYXQgd29yayBmb3IgeW91PwoKLS0gCmdyZWV0cwotLQpDaHJpc3RpYW4gR21l
-aW5lciwgTVNjCgpodHRwczovL2NocmlzdGlhbi1nbWVpbmVyLmluZm8vcHJpdmFjeXBvbGljeQpf
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpldG5hdml2IG1h
-aWxpbmcgbGlzdApldG5hdml2QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZy
-ZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2V0bmF2aXY=
+T24gRnIsIDIwMTktMDktMDYgYXQgMTI6MzUgKzAyMDAsIENocmlzdGlhbiBHbWVpbmVyIHdyb3Rl
+Ogo+IEFtIEZyLiwgNi4gU2VwdC4gMjAxOSB1bSAxMjoxMSBVaHIgc2NocmllYiBMdWNhcyBTdGFj
+aCA8bC5zdGFjaEBwZW5ndXRyb25peC5kZT46Cj4gPiBPbiBGciwgMjAxOS0wOS0wNiBhdCAxMjow
+MyArMDIwMCwgQ2hyaXN0aWFuIEdtZWluZXIgd3JvdGU6Cj4gPiA+IFVwZGF0ZSB0aGUgc3RhdGUg
+SEkgYW5kIGNvbW1vbiBoZWFkZXIgZnJvbSBybm5kYiBjb21taXQKPiA+ID4gYTA0MjgzNTkxYThh
+IChybm5kYjogdXBkYXRlIE1NVSBleGNlcHRpb24gY2F1c2VzKS4KPiA+ID4gCj4gPiA+IFNpZ25l
+ZC1vZmYtYnk6IENocmlzdGlhbiBHbWVpbmVyIDxjaHJpc3RpYW4uZ21laW5lckBnbWFpbC5jb20+
+Cj4gPiA+IC0tLQo+ID4gPiAgZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYvc3RhdGUueG1sLmggICAg
+IHwgICAzNyArLQo+ID4gPiAgZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYvc3RhdGVfM2QueG1sLmgg
+IHwgMTg0OSArKysrKysrKysrKysrKysrKysrKysrLQo+ID4gCj4gPiBJJ20gbm90IGEgZmFuIG9m
+IHB1bGxpbmcgaW4gdGhlIGNvbXBsZXRlIHN0YXRlXzNkIGhlYWRlci4gT25seSBhIHZlcnkKPiA+
+IGxpbWl0ZWQgc3Vic2V0IG9mIHRob3NlIHN0YXRlcyBhcmUgdXNlZCBpbiB0aGUga2VybmVsIGFu
+ZCB0aGUgcmVzdCBvZgo+ID4gdGhpcyBtYXNzaXZlIHN0YXRlIHNldCBpcyBwdXJlIG5vaXNlIGZy
+b20gYSBrZXJuZWwgUG9WLgo+ID4gCj4gCj4gV2hhdCBpZiBJIGp1c3QgdXBkYXRlIHN0YXRlX2hp
+LnhtbC5oIGFuZCBsZWF2ZSB0aGUgb3RoZXJzIHVudG91Y2hlZD8KPiBXb3VsZCB0aGF0IHdvcmsg
+Zm9yIHlvdT8KCkkgZG9uJ3QgcmVhbGx5IGNhcmUgYWJvdXQgdGhlIG90aGVyIEhXIGhlYWRlcnMs
+IGFzIHRoZSBzaWduYWwvbm9pc2UKcmF0aW8gaXMgZ2VuZXJhbGx5IG11Y2ggYmV0dGVyIHRoYW4g
+dGhlIDNEIHN0YXRlcy4KClNvIGJvdGggdXBkYXRpbmcgYWxsIGhlYWRlciBleGNlcHQgdGhlIHN0
+YXRlXzNkIG9yIGp1c3QgdXBkYXRpbmcKc3RhdGVfaGkgd29ya3MgZm9yIG1lLiBUaGF0J3MgdXAg
+dG8geW91ciBwcmVmZXJlbmNlLiA6KSBJIGp1c3Qgd2FudCB0bwphdm9pZCBwdWxsaW5nIGluIGFs
+bCB0aGUgc3RhdGVfM2Qgbm9pc2UuCgpSZWdhcmRzLApMdWNhcwoKX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZXRuYXZpdiBtYWlsaW5nIGxpc3QKZXRuYXZp
+dkBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFp
+bG1hbi9saXN0aW5mby9ldG5hdml2
