@@ -1,49 +1,46 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3646DB4933
-	for <lists+etnaviv@lfdr.de>; Tue, 17 Sep 2019 10:21:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5490FB6A95
+	for <lists+etnaviv@lfdr.de>; Wed, 18 Sep 2019 20:37:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC50D6EB58;
-	Tue, 17 Sep 2019 08:21:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F21756F74D;
+	Wed, 18 Sep 2019 18:37:05 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB0056E99C
- for <etnaviv@lists.freedesktop.org>; Mon, 16 Sep 2019 14:33:47 +0000 (UTC)
-Received: from kresse.hi.pengutronix.de ([2001:67c:670:100:1d::2a])
- by metis.ext.pengutronix.de with esmtp (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1i9s4P-00044Z-Rf; Mon, 16 Sep 2019 16:33:37 +0200
-Message-ID: <60da82b157be87d7a1050da47ace80adf2b638f3.camel@pengutronix.de>
-Subject: Re: [PATCH v2 1/2] dts: arm64: imx8mq: Enable gpu passive throttling
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Guido =?ISO-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>, Russell King
- <linux+etnaviv@armlinux.org.uk>, Christian Gmeiner
- <christian.gmeiner@gmail.com>,  David Airlie <airlied@linux.ie>, Daniel
- Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, Mark Rutland
- <mark.rutland@arm.com>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer
- <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
- Abel Vesa <abel.vesa@nxp.com>, Anson Huang <Anson.Huang@nxp.com>, Carlo
- Caione <ccaione@baylibre.com>, Andrey Smirnov <andrew.smirnov@gmail.com>,
- "Angus Ainslie (Purism)" <angus@akkea.ca>,  etnaviv@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org,  devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org,  linux-arm-kernel@lists.infradead.org
-Date: Mon, 16 Sep 2019 16:33:37 +0200
-In-Reply-To: <0ab2ee7de9c2e24f6de860ffcbcdfc25b72c2c61.1568255903.git.agx@sigxcpu.org>
-References: <cover.1568255903.git.agx@sigxcpu.org>
- <0ab2ee7de9c2e24f6de860ffcbcdfc25b72c2c61.1568255903.git.agx@sigxcpu.org>
-User-Agent: Evolution 3.30.5-1.1 
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id DF52E6F72F
+ for <etnaviv@lists.freedesktop.org>; Wed, 18 Sep 2019 18:37:04 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id DC24172167; Wed, 18 Sep 2019 18:37:04 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: etnaviv@lists.freedesktop.org
+Subject: [Bug 108967] DRM : eglCreatePbufferSurface failed with error
+ EGL_BAD_MATCH
+Date: Wed, 18 Sep 2019 18:37:04 +0000
+X-Bugzilla-Reason: QAcontact AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/etnaviv
+X-Bugzilla-Version: 18.3
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: major
+X-Bugzilla-Who: gitlab-migration@fdo.invalid
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: MOVED
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: etnaviv@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: resolution bug_status
+Message-ID: <bug-108967-59638-wNROSVRzLZ@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-108967-59638@http.bugs.freedesktop.org/>
+References: <bug-108967-59638@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::2a
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
-X-Mailman-Approved-At: Tue, 17 Sep 2019 08:21:25 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,37 +52,146 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1368070712=="
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-T24gTWksIDIwMTktMDktMTEgYXQgMTk6NDAgLTA3MDAsIEd1aWRvIEfDvG50aGVyIHdyb3RlOgo+
-IFRlbXBlcmF0dXJlIGFuZCBoeXN0ZXJlc2lzIHdlcmUgcGlja2VkIGFmdGVyIHRoZSBDUFUuCj4g
-Cj4gU2lnbmVkLW9mZi1ieTogR3VpZG8gR8O8bnRoZXIgPGFneEBzaWd4Y3B1Lm9yZz4KClJldmll
-d2VkLWJ5OiBMdWNhcyBTdGFjaCA8bC5zdGFjaEBwZW5ndXRyb25peC5kZT4KCj4gLS0tCj4gIGFy
-Y2gvYXJtNjQvYm9vdC9kdHMvZnJlZXNjYWxlL2lteDhtcS5kdHNpIHwgMTUgKysrKysrKysrKysr
-KysrCj4gIDEgZmlsZSBjaGFuZ2VkLCAxNSBpbnNlcnRpb25zKCspCj4gCj4gZGlmZiAtLWdpdCBh
-L2FyY2gvYXJtNjQvYm9vdC9kdHMvZnJlZXNjYWxlL2lteDhtcS5kdHNpIGIvYXJjaC9hcm02NC9i
-b290L2R0cy9mcmVlc2NhbGUvaW14OG1xLmR0c2kKPiBpbmRleCA0ZmRkNjBmMmM1MWUuLjUwMjNh
-MGU1MDY4ZCAxMDA2NDQKPiAtLS0gYS9hcmNoL2FybTY0L2Jvb3QvZHRzL2ZyZWVzY2FsZS9pbXg4
-bXEuZHRzaQo+ICsrKyBiL2FyY2gvYXJtNjQvYm9vdC9kdHMvZnJlZXNjYWxlL2lteDhtcS5kdHNp
-Cj4gQEAgLTIzNSwxMiArMjM1LDI2IEBACj4gIAkJCXRoZXJtYWwtc2Vuc29ycyA9IDwmdG11IDE+
-Owo+ICAKPiAgCQkJdHJpcHMgewo+ICsJCQkJZ3B1X2FsZXJ0OiBncHUtYWxlcnQgewo+ICsJCQkJ
-CXRlbXBlcmF0dXJlID0gPDgwMDAwPjsKPiArCQkJCQloeXN0ZXJlc2lzID0gPDIwMDA+Owo+ICsJ
-CQkJCXR5cGUgPSAicGFzc2l2ZSI7Cj4gKwkJCQl9Owo+ICsKPiAgCQkJCWdwdS1jcml0IHsKPiAg
-CQkJCQl0ZW1wZXJhdHVyZSA9IDw5MDAwMD47Cj4gIAkJCQkJaHlzdGVyZXNpcyA9IDwyMDAwPjsK
-PiAgCQkJCQl0eXBlID0gImNyaXRpY2FsIjsKPiAgCQkJCX07Cj4gIAkJCX07Cj4gKwo+ICsJCQlj
-b29saW5nLW1hcHMgewo+ICsJCQkJbWFwMCB7Cj4gKwkJCQkJdHJpcCA9IDwmZ3B1X2FsZXJ0PjsK
-PiArCQkJCQljb29saW5nLWRldmljZSA9Cj4gKwkJCQkJCTwmZ3B1IFRIRVJNQUxfTk9fTElNSVQg
-VEhFUk1BTF9OT19MSU1JVD47Cj4gKwkJCQl9Owo+ICsJCQl9Owo+ICAJCX07Cj4gIAo+ICAJCXZw
-dS10aGVybWFsIHsKPiBAQCAtOTEyLDYgKzkyNiw3IEBACj4gIAkJCSAgICAgICAgIDwmY2xrIElN
-WDhNUV9DTEtfR1BVX0FYST4sCj4gIAkJCSAgICAgICAgIDwmY2xrIElNWDhNUV9DTEtfR1BVX0FI
-Qj47Cj4gIAkJCWNsb2NrLW5hbWVzID0gImNvcmUiLCAic2hhZGVyIiwgImJ1cyIsICJyZWciOwo+
-ICsJCQkjY29vbGluZy1jZWxscyA9IDwyPjsKPiAgCQkJYXNzaWduZWQtY2xvY2tzID0gPCZjbGsg
-SU1YOE1RX0NMS19HUFVfQ09SRV9TUkM+LAo+ICAJCQkgICAgICAgICAgICAgICAgICA8JmNsayBJ
-TVg4TVFfQ0xLX0dQVV9TSEFERVJfU1JDPiwKPiAgCQkJICAgICAgICAgICAgICAgICAgPCZjbGsg
-SU1YOE1RX0NMS19HUFVfQVhJPiwKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fCmV0bmF2aXYgbWFpbGluZyBsaXN0CmV0bmF2aXZAbGlzdHMuZnJlZWRlc2t0
-b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZXRu
-YXZpdg==
+
+--===============1368070712==
+Content-Type: multipart/alternative; boundary="15688318242.d8eF.8035"
+Content-Transfer-Encoding: 7bit
+
+
+--15688318242.d8eF.8035
+Date: Wed, 18 Sep 2019 18:37:04 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D108967
+
+GitLab Migration User <gitlab-migration@fdo.invalid> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+         Resolution|---                         |MOVED
+             Status|NEW                         |RESOLVED
+
+--- Comment #24 from GitLab Migration User <gitlab-migration@fdo.invalid> -=
+--
+-- GitLab Migration Automatic Message --
+
+This bug has been migrated to freedesktop.org's GitLab instance and has been
+closed from further activity.
+
+You can subscribe and participate further through the new bug through this =
+link
+to our GitLab instance: https://gitlab.freedesktop.org/mesa/mesa/issues/262.
+
+--=20
+You are receiving this mail because:
+You are the QA Contact for the bug.
+You are the assignee for the bug.=
+
+--15688318242.d8eF.8035
+Date: Wed, 18 Sep 2019 18:37:04 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:gitlab-mi=
+gration&#64;fdo.invalid" title=3D"GitLab Migration User &lt;gitlab-migratio=
+n&#64;fdo.invalid&gt;"> <span class=3D"fn">GitLab Migration User</span></a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED MOVED - DRM : eglCreatePbufferSurface failed with erro=
+r EGL_BAD_MATCH"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D108967">bug 10896=
+7</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Resolution</td>
+           <td>---
+           </td>
+           <td>MOVED
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Status</td>
+           <td>NEW
+           </td>
+           <td>RESOLVED
+           </td>
+         </tr></table>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED MOVED - DRM : eglCreatePbufferSurface failed with erro=
+r EGL_BAD_MATCH"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D108967#c24">Comme=
+nt # 24</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED MOVED - DRM : eglCreatePbufferSurface failed with erro=
+r EGL_BAD_MATCH"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D108967">bug 10896=
+7</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+gitlab-migration&#64;fdo.invalid" title=3D"GitLab Migration User &lt;gitlab=
+-migration&#64;fdo.invalid&gt;"> <span class=3D"fn">GitLab Migration User</=
+span></a>
+</span></b>
+        <pre>-- GitLab Migration Automatic Message --
+
+This bug has been migrated to freedesktop.org's GitLab instance and has been
+closed from further activity.
+
+You can subscribe and participate further through the new bug through this =
+link
+to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/mesa/mesa=
+/issues/262">https://gitlab.freedesktop.org/mesa/mesa/issues/262</a>.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the QA Contact for the bug.</li>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15688318242.d8eF.8035--
+
+--===============1368070712==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZXRuYXZpdiBt
+YWlsaW5nIGxpc3QKZXRuYXZpdkBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5m
+cmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9ldG5hdml2
+
+--===============1368070712==--
