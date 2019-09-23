@@ -1,54 +1,53 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88CC4BDB25
-	for <lists+etnaviv@lfdr.de>; Wed, 25 Sep 2019 11:38:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A274BBDB30
+	for <lists+etnaviv@lfdr.de>; Wed, 25 Sep 2019 11:38:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AAE236E820;
-	Wed, 25 Sep 2019 09:38:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4BD506EB66;
+	Wed, 25 Sep 2019 09:38:20 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-oi1-f196.google.com (mail-oi1-f196.google.com
- [209.85.167.196])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B6DA6F382;
- Wed, 18 Sep 2019 13:33:36 +0000 (UTC)
-Received: by mail-oi1-f196.google.com with SMTP id k20so5981298oih.3;
- Wed, 18 Sep 2019 06:33:36 -0700 (PDT)
+Received: from mail-io1-xd2e.google.com (mail-io1-xd2e.google.com
+ [IPv6:2607:f8b0:4864:20::d2e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EBD0189C1B;
+ Mon, 23 Sep 2019 22:49:51 +0000 (UTC)
+Received: by mail-io1-xd2e.google.com with SMTP id z19so15462730ior.0;
+ Mon, 23 Sep 2019 15:49:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=IC0q0Es9HxTLSb0PNX9pAw25DkwUzoXEjlENlSs4w9s=;
- b=bsRyFNeAdesqQP5aYfSbU6ilcWptZOxLJI9owtfuSqmTMjDr0Gj6z17hXqXe9tmtd1
- UisR4lt6YNcTGitLuBLt0XHthko7cjh9HGKBjWCqzoZh4IOwgtATweeajMsyxAICkn/A
- nI4ArtPk6V54CakSEcZUaSEkz0smriQr8KCbBNw2oDzr5RnNudCOJ/TiY99WyyjY87wo
- bfpJPDijLIB6nWH/q9HLdVuHiXVQsp3J6e+UgyRyPvDZ1ngoz3rtfkb0UjmSwDx/plCk
- /5CFJ34VdMxv7QdsRLvTjPBqa6EyQNd7C53J4x1cKdmCuJwECOEo2PgEkY+U5pIoDF4O
- CwNQ==
-X-Gm-Message-State: APjAAAXVRigDULPIwm8HOGjA2+ZgoNfvOWyd1ji2KueC5PBalFkBo080
- R4HzjxoqQ5HblTdyTe0Bvg==
-X-Google-Smtp-Source: APXvYqzFKo2zD3kzQfStRe6u5Z04KLvlPbxnoLNER1RO58XbbuUaDka1izzgYXa3YK3Q2YrDvoHnFg==
-X-Received: by 2002:aca:f50b:: with SMTP id t11mr2237475oih.1.1568813615350;
- Wed, 18 Sep 2019 06:33:35 -0700 (PDT)
-Received: from localhost (24-155-109-49.dyn.grandenetworks.net.
- [24.155.109.49])
- by smtp.gmail.com with ESMTPSA id n9sm632424otn.4.2019.09.18.06.33.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Sep 2019 06:33:34 -0700 (PDT)
-Date: Wed, 18 Sep 2019 08:33:33 -0500
-From: Rob Herring <robh@kernel.org>
-To: Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>
-Subject: Re: [PATCH v2 2/2] dt-bindings: etnaviv: Add #cooling-cells
-Message-ID: <20190918133333.GA21684@bogus>
-References: <cover.1568255903.git.agx@sigxcpu.org>
- <6e9d761598b2361532146f43161fd05f3eee6545.1568255903.git.agx@sigxcpu.org>
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=K/5/nBI2LwVM8sH5yu7LNoJ94uOcWWQp+DNw+x7Vdz4=;
+ b=nCNUQsFLBDdL++STig95S1+CLa37bR5qXLut4v+nVOCROvUnCKecBBJOQEqy3cb9wj
+ 3vocCNXphCzfdee6VhVsVAPxZ6JosbJJVp2TepDj7Rxk8C2Pcrf5mQt2bVYln247anxk
+ 97jTeJ5Pc7NV6yHp42lwiLqGt0rjEWp606tR1aAojHDwjfJsXsWsIIDhfNA2JaL4xUrA
+ 9YZTm+7Qol7Qb1gvDZE/UuaMDA3Hdpu5EjAWi2v1L3xoHnnPu6O3kS7LI4A5RGJ9dI4O
+ q3+stB8+fnwoVbSRbP3Dmvx8ItFfcjeKFb58EevwH3sbmHU4R7OujXc/GK7egOA1kNEg
+ V0Yg==
+X-Gm-Message-State: APjAAAVl+uCFObB9+RIYBMQbepuD0YmP2pAN39LBuX7GRFKwJAmkA6wQ
+ /SKCrIgbA085ex1j9zByZZUyS8yEnqE18lIzc88=
+X-Google-Smtp-Source: APXvYqwAFwVLlMGmxREpretxENWC42PqLSKJ375fNJWHO7xIqBoO4tdAjrPJtjnIeFyh7UFD+o9RLIdq8ZXTQeLztVE=
+X-Received: by 2002:a6b:b213:: with SMTP id b19mr2010394iof.58.1569278990853; 
+ Mon, 23 Sep 2019 15:49:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <6e9d761598b2361532146f43161fd05f3eee6545.1568255903.git.agx@sigxcpu.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+From: Adam Ford <aford173@gmail.com>
+Date: Mon, 23 Sep 2019 17:49:39 -0500
+Message-ID: <CAHCN7xKxNZ6DXcx5Vf=M+LDE3oXrufRT0yC72jtqEN1R=G3qfw@mail.gmail.com>
+Subject: i.MX6Q Etnaviv errors
+To: arm-soc <linux-arm-kernel@lists.infradead.org>,
+ etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 X-Mailman-Approved-At: Wed, 25 Sep 2019 09:38:14 +0000
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=K/5/nBI2LwVM8sH5yu7LNoJ94uOcWWQp+DNw+x7Vdz4=;
+ b=tMuULmesdBErrEgUTz6TCE77Sc+sdedCbweOkmyVB4qYh3n6XqWqMnCgrmq4KjMYxb
+ yWB7CjJVxdvIhGtpb1+G5CkVuoJA1I+gEMr9p1cdls7daMpxNpK4oLIyA0VB5gFHhaKQ
+ AL3n4odgzAeaP+HCOIlQq3yu8B8B88Br8hGcTBJOERA/QlbsZdlOCy/MbxjtG1ykis6s
+ 7nak85xtf7bTWl3JcoT3Rw/rnGYhs+MjpdXDygLw4vj1NVexptZXJzB3tQY7A9ugk3S/
+ nfPLLKKrYTf6Q44MnmgcvhD5xkexV8wwaeASK4DNIOSbsvH6XqWKKSuDnEhuEcTQMjd+
+ 4NGQ==
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,31 +59,48 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Pengutronix Kernel Team <kernel@pengutronix.de>,
- Anson Huang <Anson.Huang@nxp.com>, Carlo Caione <ccaione@baylibre.com>,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- Sascha Hauer <s.hauer@pengutronix.de>,
- "Angus Ainslie \(Purism\)" <angus@akkea.ca>, etnaviv@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Abel Vesa <abel.vesa@nxp.com>,
- Andrey Smirnov <andrew.smirnov@gmail.com>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- NXP Linux Team <linux-imx@nxp.com>, Daniel Vetter <daniel@ffwll.ch>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Fabio Estevam <festevam@gmail.com>,
- Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>,
- linux-arm-kernel@lists.infradead.org,
- "To : Lucas Stach" <l.stach@pengutronix.de>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-T24gV2VkLCAxMSBTZXAgMjAxOSAxOTo0MDozNiAtMDcwMCwgPT9VVEYtOD9xP0d1aWRvPTIwRz1D
-Mz1CQ250aGVyPz0gd3JvdGU6Cj4gQWRkICNjb29saW5nLWNlbGxzIGZvciB3aGVuIHRoZSBncHUg
-YWN0cyBhcyBhIGNvb2xpbmcgZGV2aWNlLgo+IAo+IFNpZ25lZC1vZmYtYnk6IEd1aWRvIEfDvG50
-aGVyIDxhZ3hAc2lneGNwdS5vcmc+Cj4gLS0tCj4gIC4uLi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rp
-c3BsYXkvZXRuYXZpdi9ldG5hdml2LWRybS50eHQgICAgICAgICAgfCAxICsKPiAgMSBmaWxlIGNo
-YW5nZWQsIDEgaW5zZXJ0aW9uKCspCj4gCgpBY2tlZC1ieTogUm9iIEhlcnJpbmcgPHJvYmhAa2Vy
-bmVsLm9yZz4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18K
-ZXRuYXZpdiBtYWlsaW5nIGxpc3QKZXRuYXZpdkBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6
-Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9ldG5hdml2
+SSB0aXJlZCB0byBydW4gc29tZSB0ZXN0cyBvbiA1LjQgYW5kIEkgd2FzIGdldHRpbmcgZXJyb3Jz
+LiAgSSB3ZW50IGFsbAp0aGUgd2F5IGJhY2sgdG8gNS4wIGFuZCBJIGdldCBlcnJvcnMuIDQuMTkg
+c2VlbXMgdG8gd29yayBqdXN0IGZpbmUuCgpJIHdhcyBjdXJpb3VzIHRvIGtub3cgaWYgYW55b25l
+IGlzIHNlZWluZyBlcnJvcnMuICBJJ2xsIGJpc2VjdAp0b21vcnJvdywgYnV0IEkgdGhvdWdodCBJ
+J2QgYXNrIGJlZm9yZSBJIGdvdCB0b28gZmFyLgoKIyBMSUJHTF9ERUJVRz12ZXJib3NlIGdsbWFy
+azItZXMyLWRybQoKZHJtT3BlbkRldmljZTogbm9kZSBuYW1lIGlzIC9kZXYvZHJpL2NhcmQwCmRy
+bU9wZW5EZXZpY2U6IG9wZW4gcmVzdWx0IGlzIDMsIChPSykKZHJtT3BlbkRldmljZTogbm9kZSBu
+YW1lIGlzIC9kZXYvZHJpL2NhcmQwCmRybU9wZW5EZXZpY2U6IG9wZW4gcmVzdWx0IGlzIDMsIChP
+SykKZHJtT3BlbkRldmljZTogbm9kZSBuYW1lIGlzIC9kZXYvZHJpL2NhcmQxCmRybU9wZW5EZXZp
+Y2U6IG9wZW4gcmVzdWx0IGlzIDMsIChPSykKZHJtT3BlbkRldmljZTogbm9kZSBuYW1lIGlzIC9k
+ZXYvZHJpL2NhcmQyCmRybU9wZW5EZXZpY2U6IG5vZGUgbmFtZSBpcyAvZGV2L2RyaS9jYXJkMwpk
+cm1PcGVuRGV2aWNlOiBub2RlIG5hbWUgaXMgL2Rldi9kcmkvY2FyZDQKZHJtT3BlbkRldmljZTog
+bm9kZSBuYW1lIGlzIC9kZXYvZHJpL2NhcmQ1CmRybU9wZW5EZXZpY2U6IG5vZGUgbmFtZSBpcyAv
+ZGV2L2RyaS9jYXJkNgpkcm1PcGVuRGV2aWNlOiBub2RlIG5hbWUgaXMgL2Rldi9kcmkvY2FyZDcK
+ZHJtT3BlbkRldmljZTogbm9kZSBuYW1lIGlzIC9kZXYvZHJpL2NhcmQ4CmRybU9wZW5EZXZpY2U6
+IG5vZGUgbmFtZSBpcyAvZGV2L2RyaS9jYXJkOQpkcm1PcGVuRGV2aWNlOiBub2RlIG5hbWUgaXMg
+L2Rldi9kcmkvY2FyZDEwCmRybU9wZW5EZXZpY2U6IG5vZGUgbmFtZSBpcyAvZGV2L2RyaS9jYXJk
+MTEKZHJtT3BlbkRldmljZTogbm9kZSBuYW1lIGlzIC9kZXYvZHJpL2NhcmQxMgpkcm1PcGVuRGV2
+aWNlOiBub2RlIG5hbWUgaXMgL2Rldi9kcmkvY2FyZDEzCmRybU9wZW5EZXZpY2U6IG5vZGUgbmFt
+ZSBpcyAvZGV2L2RyaS9jYXJkMTQKZHJtT3BlbkRldmljZTogbm9kZSBuYW1lIGlzIC9kZXYvZHJp
+L2NhcmQxNQpkcm1PcGVuRGV2aWNlOiBub2RlIG5hbWUgaXMgL2Rldi9kcmkvY2FyZDAKZHJtT3Bl
+bkRldmljZTogb3BlbiByZXN1bHQgaXMgMywgKE9LKQpkcm1PcGVuRGV2aWNlOiBub2RlIG5hbWUg
+aXMgL2Rldi9kcmkvY2FyZDAKZHJtT3BlbkRldmljZTogb3BlbiByZXN1bHQgaXMgMywgKE9LKQpk
+cm1HZXRCdXNpZCByZXR1cm5lZCAnJwpsaWJHTDogQ2FuJ3Qgb3BlbiBjb25maWd1cmF0aW9uIGZp
+bGUgL2V0Yy9kcmlyYzogTm8gc3VjaCBmaWxlIG9yIGRpcmVjdG9yeS4KbGliR0w6IENhbid0IG9w
+ZW4gY29uZmlndXJhdGlvbiBmaWxlIC9yb290Ly5kcmlyYzogTm8gc3VjaCBmaWxlIG9yIGRpcmVj
+dG9yeS4KTUVTQS1MT0FERVI6IGZhaWxlZCB0byBvcGVuIGlteC1kcm0gKHNlYXJjaCBwYXRocyAv
+dXNyL2xpYi9kcmkpCmZhaWxlZCB0byBsb2FkIGRyaXZlcjogaW14LWRybQpsaWJHTDogQ2FuJ3Qg
+b3BlbiBjb25maWd1cmF0aW9uIGZpbGUgL2V0Yy9kcmlyYzogTm8gc3VjaCBmaWxlIG9yIGRpcmVj
+dG9yeS4KbGliR0w6IENhbid0IG9wZW4gY29uZmlndXJhdGlvbiBmaWxlIC9yb290Ly5kcmlyYzog
+Tm8gc3VjaCBmaWxlIG9yIGRpcmVjdG9yeS4KbGliR0w6IENhbid0IG9wZW4gY29uZmlndXJhdGlv
+biBmaWxlIC9ldGMvZHJpcmM6IE5vIHN1Y2ggZmlsZSBvciBkaXJlY3RvcnkuCmxpYkdMOiBDYW4n
+dCBvcGVuIGNvbmZpZ3VyYXRpb24gZmlsZSAvcm9vdC8uZHJpcmM6IE5vIHN1Y2ggZmlsZSBvciBk
+aXJlY3RvcnkuCkVycm9yOiBlZ2xDcmVhdGVXaW5kb3dTdXJmYWNlIGZhaWxlZCB3aXRoIGVycm9y
+OiAweDMwMDkKRXJyb3I6IGVnbENyZWF0ZVdpbmRvd1N1cmZhY2UgZmFpbGVkIHdpdGggZXJyb3I6
+IDB4MzAwOQpFcnJvcjogQ2FudmFzR2VuZXJpYzogSW52YWxpZCBFR0wgc3RhdGUKRXJyb3I6IG1h
+aW46IENvdWxkIG5vdCBpbml0aWFsaXplIGNhbnZhcwpfX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fXwpldG5hdml2IG1haWxpbmcgbGlzdApldG5hdml2QGxpc3Rz
+LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
+c3RpbmZvL2V0bmF2aXY=
