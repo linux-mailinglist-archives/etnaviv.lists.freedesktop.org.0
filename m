@@ -2,58 +2,33 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70856C0670
-	for <lists+etnaviv@lfdr.de>; Fri, 27 Sep 2019 15:37:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28AC9C0671
+	for <lists+etnaviv@lfdr.de>; Fri, 27 Sep 2019 15:37:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A4906E136;
-	Fri, 27 Sep 2019 13:37:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C78176E140;
+	Fri, 27 Sep 2019 13:37:20 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
- [IPv6:2a00:1450:4864:20::243])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9887289D2E
- for <etnaviv@lists.freedesktop.org>; Wed, 25 Sep 2019 15:17:21 +0000 (UTC)
-Received: by mail-lj1-x243.google.com with SMTP id v24so6087907ljj.3
- for <etnaviv@lists.freedesktop.org>; Wed, 25 Sep 2019 08:17:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=rTBq6P5OxsGLjoGVhyAwZM8k0vklyHGTB2oJI82Er7M=;
- b=oEMyFVRjG8jRwqqq79nDwbyjSjDMHOGMNSJu1Nr3CA6VQd97DV+Whc3oDvhmBc1/CJ
- B8O45OdWLAh5Ry0+VNkmtS8+3vna8B80BOkqzlA99mbJhiClqVgMXrsXMX+DkFpXdBSa
- NaYLT+JgMymS3IhUPObBKvHmGb7P4V+kmB0xeVYYW73VuL55sonI0Co0PNt7H2yKwDtP
- HHuOKV3TVJjzvM/JzVj//VL/xJMBVwyYogg+wjoVvta/9NviIW2Sat4POtNSLYRSphEx
- 7OeMcm+w++O0UV3MK/XPXMFlmBVUj2SjBrKZjYBoXzEtuwsmW8tdQmDZOFYCyZU77C/N
- /7sA==
-X-Gm-Message-State: APjAAAUJwWe+d1BqKsO9nzNFytiDbK8PT8fwg5K8FDcG7KO1PEDKy7C+
- ISXgUv+aOU/E1VFo5TPuH4O/MWP4zf0WErtoji0=
-X-Google-Smtp-Source: APXvYqzF1RqhBAB47TPrTDl3zKUBxVzKbXcvNvcrU2oxqh5sJKOV3USfSG9GeeJJkpUMrG8FnoJZki1WHtkUnydqfw8=
-X-Received: by 2002:a2e:b0f4:: with SMTP id h20mr1893730ljl.10.1569424639817; 
- Wed, 25 Sep 2019 08:17:19 -0700 (PDT)
+Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 506E36EBEB;
+ Wed, 25 Sep 2019 15:30:14 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx1.suse.de (Postfix) with ESMTP id 86EB3ACA5;
+ Wed, 25 Sep 2019 15:30:12 +0000 (UTC)
+Message-ID: <43fb5fe1de317d65a4edf592f88ea150c6e3b8cc.camel@suse.de>
+Subject: Re: [PATCH 00/11] of: Fix DMA configuration for non-DT masters
+From: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+To: Robin Murphy <robin.murphy@arm.com>, Rob Herring <robh+dt@kernel.org>
+Date: Wed, 25 Sep 2019 17:30:10 +0200
+In-Reply-To: <e404c65b-5a66-6f91-5b38-8bf89a7697b2@arm.com>
+References: <20190924181244.7159-1-nsaenzjulienne@suse.de>
+ <CAL_Jsq+v+svTyna7UzQdRVqfNc5Z_bgWzxNRXv7-Wqv3NwDu2g@mail.gmail.com>
+ <d1a31a2ec8eb2f226b1fb41f6c24ffb47c3bf7c7.camel@suse.de>
+ <e404c65b-5a66-6f91-5b38-8bf89a7697b2@arm.com>
+User-Agent: Evolution 3.32.4 
 MIME-Version: 1.0
-References: <1548057848-15136-1-git-send-email-rppt@linux.ibm.com>
- <CAHCN7x+Jv7yGPoB0Gm=TJ30ObLJduw2XomHkd++KqFEURYQcGg@mail.gmail.com>
- <CAOMZO5A_U4aYC4XZXK1r9JaLg-eRdXy8m6z4GatQp62rK4HZ6A@mail.gmail.com>
- <CAHCN7xJdzEppn8-74SvzACsA25bUHGdV7v=CfS08xzSi59Z2uw@mail.gmail.com>
-In-Reply-To: <CAHCN7xJdzEppn8-74SvzACsA25bUHGdV7v=CfS08xzSi59Z2uw@mail.gmail.com>
-From: Fabio Estevam <festevam@gmail.com>
-Date: Wed, 25 Sep 2019 12:17:28 -0300
-Message-ID: <CAOMZO5D2uzR6Sz1QnX3G-Ce_juxU-0PO_vBZX+nR1mpQB8s8-w@mail.gmail.com>
-Subject: Re: [PATCH v2 00/21] Refine memblock API
-To: Adam Ford <aford173@gmail.com>
-X-Mailman-Approved-At: Fri, 27 Sep 2019 13:37:14 +0000
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc;
- bh=rTBq6P5OxsGLjoGVhyAwZM8k0vklyHGTB2oJI82Er7M=;
- b=eghD7xF1O36vsBrF3R1Ol+O9tfU+0jO9JXTPAGDQj/eD9TEB4fS0VQFijoygPStgr3
- 10lJjOrWc1bicRYqBtncYZdXUVZQzGo/mCRUFcwwwv+kexKbN1ES5l5Ac30Iyy/VSy6b
- zUdkmBZi6iQtLRd1ksj9hb1AR/76sVMVefmq8BgklCKkDi+tVqaxFM4AvBWSG3sKDCRC
- NPA4lDaeoCpS8CsgLxRZg802nWrQPQecGCdXqYctiynPyMIAzYncAW7BXnLuqZdmqiq7
- lmNY1mZLDVoPD5SAcNNPdqQCcypDkXcAg+PaiFPMbfZqC2X+xM6M1pHyx+WOo3XdPYs0
- eCpw==
+X-Mailman-Approved-At: Fri, 27 Sep 2019 13:37:20 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,46 +40,157 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rich Felker <dalias@libc.org>, linux-ia64@vger.kernel.org,
- linux-sh@vger.kernel.org, Catalin Marinas <catalin.marinas@arm.com>,
- Heiko Carstens <heiko.carstens@de.ibm.com>, linux-mips@vger.kernel.org,
- Max Filippov <jcmvbkbc@gmail.com>, devicetree <devicetree@vger.kernel.org>,
- Guo Ren <guoren@kernel.org>, sparclinux@vger.kernel.org,
- Christoph Hellwig <hch@lst.de>, linux-s390@vger.kernel.org,
- linux-c6x-dev@linux-c6x.org, Yoshinori Sato <ysato@users.sourceforge.jp>,
- Richard Weinberger <richard@nod.at>, x86@kernel.org,
- Russell King <linux@armlinux.org.uk>, kasan-dev <kasan-dev@googlegroups.com>,
- Mike Rapoport <rppt@linux.ibm.com>, Geert Uytterhoeven <geert@linux-m68k.org>,
- Mark Salter <msalter@redhat.com>, Dennis Zhou <dennis@kernel.org>,
- Matt Turner <mattst88@gmail.com>, linux-snps-arc@lists.infradead.org,
- Chris Healy <cphealy@gmail.com>, uclinux-h8-devel@lists.sourceforge.jp,
- Petr Mladek <pmladek@suse.com>, linux-xtensa@linux-xtensa.org,
- linux-alpha@vger.kernel.org, linux-um@lists.infradead.org,
- The etnaviv authors <etnaviv@lists.freedesktop.org>,
- linux-m68k@lists.linux-m68k.org, Rob Herring <robh+dt@kernel.org>,
- Greentime Hu <green.hu@gmail.com>, xen-devel@lists.xenproject.org,
- Stafford Horne <shorne@gmail.com>, Guan Xuetao <gxt@pku.edu.cn>,
- arm-soc <linux-arm-kernel@lists.infradead.org>,
- Michal Simek <monstr@monstr.eu>, Tony Luck <tony.luck@intel.com>,
- Linux Memory Management List <linux-mm@kvack.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- USB list <linux-usb@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Paul Burton <paul.burton@mips.com>, Vineet Gupta <vgupta@synopsys.com>,
- Michael Ellerman <mpe@ellerman.id.au>,
- Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org,
- "David S. Miller" <davem@davemloft.net>, openrisc@lists.librecores.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: devicetree@vger.kernel.org, Matthias Brugger <mbrugger@suse.com>,
+ Frank Rowand <frowand.list@gmail.com>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ linux-wireless <linux-wireless@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, etnaviv@lists.freedesktop.org,
+ "open list:DMA GENERIC OFFLOAD ENGINE SUBSYSTEM" <dmaengine@vger.kernel.org>,
+ Florian Fainelli <f.fainelli@gmail.com>, Stefan Wahren <wahrenst@gmx.net>,
+ james.quinlan@broadcom.com, linux-pci@vger.kernel.org,
+ linux-tegra@vger.kernel.org, xen-devel@lists.xenproject.org,
+ Dan Williams <dan.j.williams@intel.com>,
+ freedreno <freedreno@lists.freedesktop.org>,
+ "moderated list:ARM/FREESCALE IMX /
+ MXC ARM ARCHITECTURE" <linux-arm-kernel@lists.infradead.org>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>
+Content-Type: multipart/mixed; boundary="===============0136805874=="
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-T24gV2VkLCBTZXAgMjUsIDIwMTkgYXQgOToxNyBBTSBBZGFtIEZvcmQgPGFmb3JkMTczQGdtYWls
-LmNvbT4gd3JvdGU6Cgo+IEkgdHJpZWQgY21hPTI1Nk0gYW5kIG5vdGljZWQgdGhlIGNtYSBkdW1w
-IGF0IHRoZSBiZWdpbm5pbmcgZGlkbid0Cj4gY2hhbmdlLiAgRG8gd2UgbmVlZCB0byBzZXR1cCBh
-IHJlc2VydmVkLW1lbW9yeSBub2RlIGxpa2UKPiBpbXg2dWwtY2NpbXg2dWxzb20uZHRzaSBkaWQ/
-CgpJIGRvbid0IHRoaW5rIHNvLgoKV2VyZSB5b3UgYWJsZSB0byBpZGVudGlmeSB3aGF0IHdhcyB0
-aGUgZXhhY3QgY29tbWl0IHRoYXQgY2F1c2VkIHN1Y2ggcmVncmVzc2lvbj8KX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZXRuYXZpdiBtYWlsaW5nIGxpc3QK
-ZXRuYXZpdkBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5v
-cmcvbWFpbG1hbi9saXN0aW5mby9ldG5hdml2
+
+--===============0136805874==
+Content-Type: multipart/signed; micalg="pgp-sha256";
+	protocol="application/pgp-signature"; boundary="=-Jc6/4bVbm9VDLL08SmH3"
+
+
+--=-Jc6/4bVbm9VDLL08SmH3
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, 2019-09-25 at 16:09 +0100, Robin Murphy wrote:
+> On 25/09/2019 15:52, Nicolas Saenz Julienne wrote:
+> > On Tue, 2019-09-24 at 16:59 -0500, Rob Herring wrote:
+> > > On Tue, Sep 24, 2019 at 1:12 PM Nicolas Saenz Julienne
+> > > <nsaenzjulienne@suse.de> wrote:
+> > > > Hi All,
+> > > > this series tries to address one of the issues blocking us from
+> > > > upstreaming Broadcom's STB PCIe controller[1]. Namely, the fact tha=
+t
+> > > > devices not represented in DT which sit behind a PCI bus fail to ge=
+t the
+> > > > bus' DMA addressing constraints.
+> > > >=20
+> > > > This is due to the fact that of_dma_configure() assumes it's receiv=
+ing a
+> > > > DT node representing the device being configured, as opposed to the=
+ PCIe
+> > > > bridge node we currently pass. This causes the code to directly jum=
+p
+> > > > into PCI's parent node when checking for 'dma-ranges' and misses
+> > > > whatever was set there.
+> > > >=20
+> > > > To address this I create a new API in OF - inspired from Robin Murp=
+hys
+> > > > original proposal[2] - which accepts a bus DT node as it's input in
+> > > > order to configure a device's DMA constraints. The changes go deep =
+into
+> > > > of/address.c's implementation, as a device being having a DT node
+> > > > assumption was pretty strong.
+> > > >=20
+> > > > On top of this work, I also cleaned up of_dma_configure() removing =
+its
+> > > > redundant arguments and creating an alternative function for the sp=
+ecial
+> > > > cases
+> > > > not applicable to either the above case or the default usage.
+> > > >=20
+> > > > IMO the resulting functions are more explicit. They will probably
+> > > > surface some hacky usages that can be properly fixed as I show with=
+ the
+> > > > DT fixes on the Layerscape platform.
+> > > >=20
+> > > > This was also tested on a Raspberry Pi 4 with a custom PCIe driver =
+and
+> > > > on a Seattle AMD board.
+> > >=20
+> > > Humm, I've been working on this issue too. Looks similar though yours
+> > > has a lot more churn and there's some other bugs I've found.
+> >=20
+> > That's good news, and yes now that I see it, some stuff on my series is
+> > overly
+> > complicated. Specially around of_translate_*().
+> >=20
+> > On top of that, you removed in of_dma_get_range():
+> >=20
+> > -	/*
+> > -	 * At least empty ranges has to be defined for parent node if
+> > -	 * DMA is supported
+> > -	 */
+> > -	if (!ranges)
+> > -		break;
+> >=20
+> > Which I assumed was bound to the standard and makes things easier.
+> >=20
+> > > Can you test out this branch[1]. I don't have any h/w needing this,
+> > > but wrote a unittest and tested with modified QEMU.
+> >=20
+> > I reviewed everything, I did find a minor issue, see the patch attached=
+.
+>=20
+> WRT that patch, the original intent of "force_dma" was purely to=20
+> consider a device DMA-capable regardless of the presence of=20
+> "dma-ranges". Expecting of_dma_configure() to do anything for a non-OF=
+=20
+> device has always been bogus - magic paravirt devices which appear out=
+=20
+> of nowhere and expect to be treated as genuine DMA masters are a=20
+> separate problem that we haven't really approached yet.
+
+I agree it's clearly abusing the function. I have no problem with the behav=
+iour
+change if it's OK with you.
+
+Robin, have you looked into supporting multiple dma-ranges? It's the next t=
+hing
+we need for BCM STB's PCIe. I'll have a go at it myself if nothing is in th=
+e
+works already.
+
+Regards,
+Nicolas
+
+
+--=-Jc6/4bVbm9VDLL08SmH3
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCAAdFiEErOkkGDHCg2EbPcGjlfZmHno8x/4FAl2LiAIACgkQlfZmHno8
+x/7J7Af+NrtcYkM0WphLDC8n2KXI1Rofej10z7b8lAcPZvn586CNcayUtga34+e3
+jMIOwHl9qzzFJrgAT9FoyDjkcJ0gfVWKSzQYB798pTOVEND7LdUsHH0ZNqNqf4YM
+yRmNNvCpZi+i83aeetAQjPoMUeDjKU0dMCX7oEzfvlrmxi4YRx59jcOfIbaqr2Hg
+SGipuOc97V/so7VcwvypG9xeYU/zTeZ0wFoQzT7X4OdEUp4uBAgHoeou4kez1gSy
+27EmZX8DU3l7YbWTM5SBP13uDcQ0I2y25cjjy55r4gBm+zQYdGCuh3oHbdOvyws/
+xjAYrC9sFk3+VCjuPTn9CTbfyDqZ8A==
+=9rW4
+-----END PGP SIGNATURE-----
+
+--=-Jc6/4bVbm9VDLL08SmH3--
+
+
+--===============0136805874==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZXRuYXZpdiBt
+YWlsaW5nIGxpc3QKZXRuYXZpdkBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5m
+cmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9ldG5hdml2
+
+--===============0136805874==--
+
