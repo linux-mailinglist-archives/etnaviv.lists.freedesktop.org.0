@@ -1,32 +1,38 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DEF3C0673
-	for <lists+etnaviv@lfdr.de>; Fri, 27 Sep 2019 15:37:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CA7AC0678
+	for <lists+etnaviv@lfdr.de>; Fri, 27 Sep 2019 15:37:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC5FC6E14A;
-	Fri, 27 Sep 2019 13:37:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF2D76E14A;
+	Fri, 27 Sep 2019 13:37:36 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2AA046EBD5;
- Wed, 25 Sep 2019 14:53:04 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx1.suse.de (Postfix) with ESMTP id 47F59AEE1;
- Wed, 25 Sep 2019 14:53:02 +0000 (UTC)
-Message-ID: <d1a31a2ec8eb2f226b1fb41f6c24ffb47c3bf7c7.camel@suse.de>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C486589F75;
+ Wed, 25 Sep 2019 15:09:19 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 19E381000;
+ Wed, 25 Sep 2019 08:09:19 -0700 (PDT)
+Received: from [10.1.197.57] (e110467-lin.cambridge.arm.com [10.1.197.57])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3A1433F59C;
+ Wed, 25 Sep 2019 08:09:14 -0700 (PDT)
 Subject: Re: [PATCH 00/11] of: Fix DMA configuration for non-DT masters
-From: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-To: Rob Herring <robh+dt@kernel.org>
-Date: Wed, 25 Sep 2019 16:52:59 +0200
-In-Reply-To: <CAL_Jsq+v+svTyna7UzQdRVqfNc5Z_bgWzxNRXv7-Wqv3NwDu2g@mail.gmail.com>
+To: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
+ Rob Herring <robh+dt@kernel.org>
 References: <20190924181244.7159-1-nsaenzjulienne@suse.de>
  <CAL_Jsq+v+svTyna7UzQdRVqfNc5Z_bgWzxNRXv7-Wqv3NwDu2g@mail.gmail.com>
-User-Agent: Evolution 3.32.4 
+ <d1a31a2ec8eb2f226b1fb41f6c24ffb47c3bf7c7.camel@suse.de>
+From: Robin Murphy <robin.murphy@arm.com>
+Message-ID: <e404c65b-5a66-6f91-5b38-8bf89a7697b2@arm.com>
+Date: Wed, 25 Sep 2019 16:09:12 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-X-Mailman-Approved-At: Fri, 27 Sep 2019 13:37:20 +0000
+In-Reply-To: <d1a31a2ec8eb2f226b1fb41f6c24ffb47c3bf7c7.camel@suse.de>
+Content-Language: en-GB
+X-Mailman-Approved-At: Fri, 27 Sep 2019 13:37:35 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -38,172 +44,75 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno <freedreno@lists.freedesktop.org>, devicetree@vger.kernel.org,
- Matthias Brugger <mbrugger@suse.com>,
+Cc: devicetree@vger.kernel.org, Matthias Brugger <mbrugger@suse.com>,
  linux-arm-msm <linux-arm-msm@vger.kernel.org>,
  linux-wireless <linux-wireless@vger.kernel.org>,
  "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
  dri-devel <dri-devel@lists.freedesktop.org>, etnaviv@lists.freedesktop.org,
  linux-tegra@vger.kernel.org, Florian Fainelli <f.fainelli@gmail.com>,
  Stefan Wahren <wahrenst@gmx.net>, james.quinlan@broadcom.com,
- linux-pci@vger.kernel.org, "open list:DMA GENERIC OFFLOAD ENGINE
- SUBSYSTEM" <dmaengine@vger.kernel.org>, xen-devel@lists.xenproject.org,
- Dan Williams <dan.j.williams@intel.com>, Robin Murphy <robin.murphy@arm.com>,
+ linux-pci@vger.kernel.org,
+ "open list:DMA GENERIC OFFLOAD ENGINE SUBSYSTEM" <dmaengine@vger.kernel.org>,
+ xen-devel@lists.xenproject.org, Dan Williams <dan.j.williams@intel.com>,
+ freedreno <freedreno@lists.freedesktop.org>,
  Frank Rowand <frowand.list@gmail.com>,
  "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
  <linux-arm-kernel@lists.infradead.org>,
  Linux Media Mailing List <linux-media@vger.kernel.org>
-Content-Type: multipart/mixed; boundary="===============0911557144=="
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-
---===============0911557144==
-Content-Type: multipart/signed; micalg="pgp-sha256";
-	protocol="application/pgp-signature"; boundary="=-5Mzcra9IsjRjM5vnaomh"
-
-
---=-5Mzcra9IsjRjM5vnaomh
-Content-Type: multipart/mixed; boundary="=-QzsDiLgE5dpWVAyKk5Wj"
-
-
---=-QzsDiLgE5dpWVAyKk5Wj
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, 2019-09-24 at 16:59 -0500, Rob Herring wrote:
-> On Tue, Sep 24, 2019 at 1:12 PM Nicolas Saenz Julienne
-> <nsaenzjulienne@suse.de> wrote:
-> > Hi All,
-> > this series tries to address one of the issues blocking us from
-> > upstreaming Broadcom's STB PCIe controller[1]. Namely, the fact that
-> > devices not represented in DT which sit behind a PCI bus fail to get th=
-e
-> > bus' DMA addressing constraints.
-> >=20
-> > This is due to the fact that of_dma_configure() assumes it's receiving =
-a
-> > DT node representing the device being configured, as opposed to the PCI=
-e
-> > bridge node we currently pass. This causes the code to directly jump
-> > into PCI's parent node when checking for 'dma-ranges' and misses
-> > whatever was set there.
-> >=20
-> > To address this I create a new API in OF - inspired from Robin Murphys
-> > original proposal[2] - which accepts a bus DT node as it's input in
-> > order to configure a device's DMA constraints. The changes go deep into
-> > of/address.c's implementation, as a device being having a DT node
-> > assumption was pretty strong.
-> >=20
-> > On top of this work, I also cleaned up of_dma_configure() removing its
-> > redundant arguments and creating an alternative function for the specia=
-l
-> > cases
-> > not applicable to either the above case or the default usage.
-> >=20
-> > IMO the resulting functions are more explicit. They will probably
-> > surface some hacky usages that can be properly fixed as I show with the
-> > DT fixes on the Layerscape platform.
-> >=20
-> > This was also tested on a Raspberry Pi 4 with a custom PCIe driver and
-> > on a Seattle AMD board.
->=20
-> Humm, I've been working on this issue too. Looks similar though yours
-> has a lot more churn and there's some other bugs I've found.
-
-That's good news, and yes now that I see it, some stuff on my series is ove=
-rly
-complicated. Specially around of_translate_*().
-
-On top of that, you removed in of_dma_get_range():
-
--	/*
--	 * At least empty ranges has to be defined for parent node if
--	 * DMA is supported
--	 */
--	if (!ranges)
--		break;
-
-Which I assumed was bound to the standard and makes things easier.
-
-> Can you test out this branch[1]. I don't have any h/w needing this,
-> but wrote a unittest and tested with modified QEMU.
-
-I reviewed everything, I did find a minor issue, see the patch attached.
-
-Also I tested your branch both on an RPi4, with a PCI device that depends o=
-n
-these changes and by comparing the OF debugs logs on a Layerscape board whi=
-ch
-uses dma-ranges, dma-coherent and IOMMU. All works as expected.
-
-Will you send this series for v5.5? Please keep me in the loop, I'll review=
- and
-test the final version.
-
-Regards,
-Nicolas
-
-
---=-QzsDiLgE5dpWVAyKk5Wj
-Content-Disposition: attachment;
-	filename*0=0001-of-device-do-not-bail-of_dma_configure-when-force_dm.pat;
-	filename*1=ch
-Content-Type: text/x-patch;
-	name="0001-of-device-do-not-bail-of_dma_configure-when-force_dm.patch";
-	charset="UTF-8"
-Content-Transfer-Encoding: base64
-
-RnJvbSAyNmQ1MTg1M2MyNWMwNGMyOGRiYzA5MDYxOTUxYTkzYzEwMmRhYmNkIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBOaWNvbGFzIFNhZW56IEp1bGllbm5lIDxuc2FlbnpqdWxpZW5u
-ZUBzdXNlLmRlPgpEYXRlOiBXZWQsIDI1IFNlcCAyMDE5IDE2OjI2OjU3ICswMjAwClN1YmplY3Q6
-IFtQQVRDSF0gb2Y6IGRldmljZTogZG8gbm90IGJhaWwgb2ZfZG1hX2NvbmZpZ3VyZSgpIHdoZW4g
-Zm9yY2VfZG1hIGlzCiBzZXQKClNvbWUgWGVuIGRldmljZXMgY2FsbCBvZl9kbWFfY29uZmlndXJl
-KCkgd2l0aG91dCBhbiBhY3R1YWwgRFQgbm9kZSBpbgpvcmRlciBmb3IgaXQgdG8gc2V0IGl0cyAn
-ZG1hX29wcycuIFRoYXQncyB0aGUgb3JpZ2luYWwgaW50ZW50IG9mCidmb3JjZV9kbWEnLCBob25v
-ciB0aGF0IGJlaGF2aW91ci4KClNpZ25lZC1vZmYtYnk6IE5pY29sYXMgU2FlbnogSnVsaWVubmUg
-PG5zYWVuemp1bGllbm5lQHN1c2UuZGU+Ci0tLQogZHJpdmVycy9vZi9kZXZpY2UuYyB8IDIgLS0K
-IDEgZmlsZSBjaGFuZ2VkLCAyIGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvb2Yv
-ZGV2aWNlLmMgYi9kcml2ZXJzL29mL2RldmljZS5jCmluZGV4IGE0NTI2MWUyMTE0NC4uN2JjMDBm
-NzI0NjhmIDEwMDY0NAotLS0gYS9kcml2ZXJzL29mL2RldmljZS5jCisrKyBiL2RyaXZlcnMvb2Yv
-ZGV2aWNlLmMKQEAgLTEwMCw4ICsxMDAsNiBAQCBpbnQgb2ZfZG1hX2NvbmZpZ3VyZShzdHJ1Y3Qg
-ZGV2aWNlICpkZXYsIHN0cnVjdCBkZXZpY2Vfbm9kZSAqcGFyZW50LCBib29sIGZvcmNlXwogCW5w
-ID0gZGV2LT5vZl9ub2RlOwogCWlmICghbnApCiAJCW5wID0gcGFyZW50OwotCWlmICghbnApCi0J
-CXJldHVybiAtRU5PREVWOwogCiAJcmV0ID0gb2ZfZG1hX2dldF9yYW5nZShucCwgJmRtYV9hZGRy
-LCAmcGFkZHIsICZzaXplKTsKIAlpZiAocmV0IDwgMCkgewotLSAKMi4yMy4wCgo=
-
-
---=-QzsDiLgE5dpWVAyKk5Wj--
-
---=-5Mzcra9IsjRjM5vnaomh
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCAAdFiEErOkkGDHCg2EbPcGjlfZmHno8x/4FAl2Lf0sACgkQlfZmHno8
-x/7mvQf6A++shc7v4vCUvlFLh6kIZ0UPBKuSnxpUpUn+R3BMoS6J5Ce/ma0SOzIJ
-MRQmawROuL2F6qf0g3ykdpnaSD14TAEB9UnJzLoTkprKRFRhdq4pQjCDGDWIpWSO
-fW6GnBbCLaTa0r38siU1DvnV3ZXCNnmN+lO5mqEp380R7cLwMj0hrH4mzkNuSUHK
-uKWLMd/ZZyDk7e2j1qZ2bXg6PRRSfXZfU7Oqtwt6k7JNoPB/HneraMxoO43EyzDA
-qt4Fxx6cDsZQAPbqJPChpSN4USdi0rN171NlKW3+PRsGfZN4LzUF3MoK2uvReV0n
-DhW7JoNOzqhh0pk2iPTRov0M+zbYEg==
-=jmQ8
------END PGP SIGNATURE-----
-
---=-5Mzcra9IsjRjM5vnaomh--
-
-
---===============0911557144==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZXRuYXZpdiBt
-YWlsaW5nIGxpc3QKZXRuYXZpdkBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5m
-cmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9ldG5hdml2
-
---===============0911557144==--
-
+T24gMjUvMDkvMjAxOSAxNTo1MiwgTmljb2xhcyBTYWVueiBKdWxpZW5uZSB3cm90ZToKPiBPbiBU
+dWUsIDIwMTktMDktMjQgYXQgMTY6NTkgLTA1MDAsIFJvYiBIZXJyaW5nIHdyb3RlOgo+PiBPbiBU
+dWUsIFNlcCAyNCwgMjAxOSBhdCAxOjEyIFBNIE5pY29sYXMgU2FlbnogSnVsaWVubmUKPj4gPG5z
+YWVuemp1bGllbm5lQHN1c2UuZGU+IHdyb3RlOgo+Pj4gSGkgQWxsLAo+Pj4gdGhpcyBzZXJpZXMg
+dHJpZXMgdG8gYWRkcmVzcyBvbmUgb2YgdGhlIGlzc3VlcyBibG9ja2luZyB1cyBmcm9tCj4+PiB1
+cHN0cmVhbWluZyBCcm9hZGNvbSdzIFNUQiBQQ0llIGNvbnRyb2xsZXJbMV0uIE5hbWVseSwgdGhl
+IGZhY3QgdGhhdAo+Pj4gZGV2aWNlcyBub3QgcmVwcmVzZW50ZWQgaW4gRFQgd2hpY2ggc2l0IGJl
+aGluZCBhIFBDSSBidXMgZmFpbCB0byBnZXQgdGhlCj4+PiBidXMnIERNQSBhZGRyZXNzaW5nIGNv
+bnN0cmFpbnRzLgo+Pj4KPj4+IFRoaXMgaXMgZHVlIHRvIHRoZSBmYWN0IHRoYXQgb2ZfZG1hX2Nv
+bmZpZ3VyZSgpIGFzc3VtZXMgaXQncyByZWNlaXZpbmcgYQo+Pj4gRFQgbm9kZSByZXByZXNlbnRp
+bmcgdGhlIGRldmljZSBiZWluZyBjb25maWd1cmVkLCBhcyBvcHBvc2VkIHRvIHRoZSBQQ0llCj4+
+PiBicmlkZ2Ugbm9kZSB3ZSBjdXJyZW50bHkgcGFzcy4gVGhpcyBjYXVzZXMgdGhlIGNvZGUgdG8g
+ZGlyZWN0bHkganVtcAo+Pj4gaW50byBQQ0kncyBwYXJlbnQgbm9kZSB3aGVuIGNoZWNraW5nIGZv
+ciAnZG1hLXJhbmdlcycgYW5kIG1pc3Nlcwo+Pj4gd2hhdGV2ZXIgd2FzIHNldCB0aGVyZS4KPj4+
+Cj4+PiBUbyBhZGRyZXNzIHRoaXMgSSBjcmVhdGUgYSBuZXcgQVBJIGluIE9GIC0gaW5zcGlyZWQg
+ZnJvbSBSb2JpbiBNdXJwaHlzCj4+PiBvcmlnaW5hbCBwcm9wb3NhbFsyXSAtIHdoaWNoIGFjY2Vw
+dHMgYSBidXMgRFQgbm9kZSBhcyBpdCdzIGlucHV0IGluCj4+PiBvcmRlciB0byBjb25maWd1cmUg
+YSBkZXZpY2UncyBETUEgY29uc3RyYWludHMuIFRoZSBjaGFuZ2VzIGdvIGRlZXAgaW50bwo+Pj4g
+b2YvYWRkcmVzcy5jJ3MgaW1wbGVtZW50YXRpb24sIGFzIGEgZGV2aWNlIGJlaW5nIGhhdmluZyBh
+IERUIG5vZGUKPj4+IGFzc3VtcHRpb24gd2FzIHByZXR0eSBzdHJvbmcuCj4+Pgo+Pj4gT24gdG9w
+IG9mIHRoaXMgd29yaywgSSBhbHNvIGNsZWFuZWQgdXAgb2ZfZG1hX2NvbmZpZ3VyZSgpIHJlbW92
+aW5nIGl0cwo+Pj4gcmVkdW5kYW50IGFyZ3VtZW50cyBhbmQgY3JlYXRpbmcgYW4gYWx0ZXJuYXRp
+dmUgZnVuY3Rpb24gZm9yIHRoZSBzcGVjaWFsCj4+PiBjYXNlcwo+Pj4gbm90IGFwcGxpY2FibGUg
+dG8gZWl0aGVyIHRoZSBhYm92ZSBjYXNlIG9yIHRoZSBkZWZhdWx0IHVzYWdlLgo+Pj4KPj4+IElN
+TyB0aGUgcmVzdWx0aW5nIGZ1bmN0aW9ucyBhcmUgbW9yZSBleHBsaWNpdC4gVGhleSB3aWxsIHBy
+b2JhYmx5Cj4+PiBzdXJmYWNlIHNvbWUgaGFja3kgdXNhZ2VzIHRoYXQgY2FuIGJlIHByb3Blcmx5
+IGZpeGVkIGFzIEkgc2hvdyB3aXRoIHRoZQo+Pj4gRFQgZml4ZXMgb24gdGhlIExheWVyc2NhcGUg
+cGxhdGZvcm0uCj4+Pgo+Pj4gVGhpcyB3YXMgYWxzbyB0ZXN0ZWQgb24gYSBSYXNwYmVycnkgUGkg
+NCB3aXRoIGEgY3VzdG9tIFBDSWUgZHJpdmVyIGFuZAo+Pj4gb24gYSBTZWF0dGxlIEFNRCBib2Fy
+ZC4KPj4KPj4gSHVtbSwgSSd2ZSBiZWVuIHdvcmtpbmcgb24gdGhpcyBpc3N1ZSB0b28uIExvb2tz
+IHNpbWlsYXIgdGhvdWdoIHlvdXJzCj4+IGhhcyBhIGxvdCBtb3JlIGNodXJuIGFuZCB0aGVyZSdz
+IHNvbWUgb3RoZXIgYnVncyBJJ3ZlIGZvdW5kLgo+IAo+IFRoYXQncyBnb29kIG5ld3MsIGFuZCB5
+ZXMgbm93IHRoYXQgSSBzZWUgaXQsIHNvbWUgc3R1ZmYgb24gbXkgc2VyaWVzIGlzIG92ZXJseQo+
+IGNvbXBsaWNhdGVkLiBTcGVjaWFsbHkgYXJvdW5kIG9mX3RyYW5zbGF0ZV8qKCkuCj4gCj4gT24g
+dG9wIG9mIHRoYXQsIHlvdSByZW1vdmVkIGluIG9mX2RtYV9nZXRfcmFuZ2UoKToKPiAKPiAtCS8q
+Cj4gLQkgKiBBdCBsZWFzdCBlbXB0eSByYW5nZXMgaGFzIHRvIGJlIGRlZmluZWQgZm9yIHBhcmVu
+dCBub2RlIGlmCj4gLQkgKiBETUEgaXMgc3VwcG9ydGVkCj4gLQkgKi8KPiAtCWlmICghcmFuZ2Vz
+KQo+IC0JCWJyZWFrOwo+IAo+IFdoaWNoIEkgYXNzdW1lZCB3YXMgYm91bmQgdG8gdGhlIHN0YW5k
+YXJkIGFuZCBtYWtlcyB0aGluZ3MgZWFzaWVyLgo+IAo+PiBDYW4geW91IHRlc3Qgb3V0IHRoaXMg
+YnJhbmNoWzFdLiBJIGRvbid0IGhhdmUgYW55IGgvdyBuZWVkaW5nIHRoaXMsCj4+IGJ1dCB3cm90
+ZSBhIHVuaXR0ZXN0IGFuZCB0ZXN0ZWQgd2l0aCBtb2RpZmllZCBRRU1VLgo+IAo+IEkgcmV2aWV3
+ZWQgZXZlcnl0aGluZywgSSBkaWQgZmluZCBhIG1pbm9yIGlzc3VlLCBzZWUgdGhlIHBhdGNoIGF0
+dGFjaGVkLgoKV1JUIHRoYXQgcGF0Y2gsIHRoZSBvcmlnaW5hbCBpbnRlbnQgb2YgImZvcmNlX2Rt
+YSIgd2FzIHB1cmVseSB0byAKY29uc2lkZXIgYSBkZXZpY2UgRE1BLWNhcGFibGUgcmVnYXJkbGVz
+cyBvZiB0aGUgcHJlc2VuY2Ugb2YgCiJkbWEtcmFuZ2VzIi4gRXhwZWN0aW5nIG9mX2RtYV9jb25m
+aWd1cmUoKSB0byBkbyBhbnl0aGluZyBmb3IgYSBub24tT0YgCmRldmljZSBoYXMgYWx3YXlzIGJl
+ZW4gYm9ndXMgLSBtYWdpYyBwYXJhdmlydCBkZXZpY2VzIHdoaWNoIGFwcGVhciBvdXQgCm9mIG5v
+d2hlcmUgYW5kIGV4cGVjdCB0byBiZSB0cmVhdGVkIGFzIGdlbnVpbmUgRE1BIG1hc3RlcnMgYXJl
+IGEgCnNlcGFyYXRlIHByb2JsZW0gdGhhdCB3ZSBoYXZlbid0IHJlYWxseSBhcHByb2FjaGVkIHll
+dC4KClJvYmluLgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+XwpldG5hdml2IG1haWxpbmcgbGlzdApldG5hdml2QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRw
+czovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2V0bmF2aXY=
