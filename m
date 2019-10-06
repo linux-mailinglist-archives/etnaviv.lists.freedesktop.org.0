@@ -2,40 +2,68 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5CCDCD1B8
-	for <lists+etnaviv@lfdr.de>; Sun,  6 Oct 2019 13:24:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D9DAD3D99
+	for <lists+etnaviv@lfdr.de>; Fri, 11 Oct 2019 12:41:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 106666E406;
-	Sun,  6 Oct 2019 11:24:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC9636E02D;
+	Fri, 11 Oct 2019 10:41:54 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D641A6E039;
- Sun,  6 Oct 2019 08:07:16 +0000 (UTC)
-Received: from dragon (li937-157.members.linode.com [45.56.119.157])
- (using TLSv1.2 with cipher DHE-RSA-AES128-SHA (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 7AC5B2084D;
- Sun,  6 Oct 2019 08:06:54 +0000 (UTC)
-Date: Sun, 6 Oct 2019 16:06:43 +0800
-From: Shawn Guo <shawnguo@kernel.org>
-To: Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>
-Subject: Re: [PATCH v2 1/2] dts: arm64: imx8mq: Enable gpu passive throttling
-Message-ID: <20191006080641.GX7150@dragon>
-References: <cover.1568255903.git.agx@sigxcpu.org>
- <0ab2ee7de9c2e24f6de860ffcbcdfc25b72c2c61.1568255903.git.agx@sigxcpu.org>
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+ [209.85.128.67])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 61C2A6E0BA;
+ Sun,  6 Oct 2019 15:47:40 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id r17so13043403wme.0;
+ Sun, 06 Oct 2019 08:47:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=SBpRb6qd+48zQK5uPLn0YvEluIoUY9o3FhFhGA6TXtY=;
+ b=hxCP0AlhsZ0Xq4/uZ3uOzVRK+z9YLkU+bBOelgxDMwryEftK5M9QPTrK2fuYK8m6K+
+ z00GPlEuErUbAO/t3PXv2zC6q2CCAH3Jk4LHMwz/av4UJJwCwxT51CxVQU6l3cc/fEVr
+ ns0zNNdQyofMca91m9nEgEN4DiP7Be/f6rq3GmdK2gaqBDmJ94MOzYIHhhbAgEEMD3oY
+ CsoR0ibLpHf1staoVpieb4oYn5AWt/yhwuDPnrRz3+PRBkGkn8/Bqh4cF/UnKGupN/J9
+ iTWYYUcTK37aPdSBF9mDqNUEUd/QqV61pa1s7f+/VrKBLE2UUPo3mjFfm2uozt5q+k50
+ y4qg==
+X-Gm-Message-State: APjAAAVJxBfaalLSOIXJIRSadQTNVhzfSS4NWVQcmEsOQ6bQ58+PwKnh
+ EkJyQOD1a03aUrW/RSeeY/E=
+X-Google-Smtp-Source: APXvYqwiD5w33vuIYv9624AWG0k3vsCYtE8uO59mkpTJi1G/TZQDv7OS1UJvxH3zuwZ0w6XxIwuUIQ==
+X-Received: by 2002:a1c:9988:: with SMTP id
+ b130mr18139392wme.164.1570376858781; 
+ Sun, 06 Oct 2019 08:47:38 -0700 (PDT)
+Received: from kozik-lap ([194.230.155.145])
+ by smtp.googlemail.com with ESMTPSA id o22sm31539882wra.96.2019.10.06.08.47.36
+ (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+ Sun, 06 Oct 2019 08:47:38 -0700 (PDT)
+Date: Sun, 6 Oct 2019 17:47:34 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Sudeep Holla <sudeep.holla@arm.com>, Rob Herring <robh+dt@kernel.org>,
+ Mark Rutland <mark.rutland@arm.com>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>, Kevin Hilman <khilman@baylibre.com>,
+ "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+ Ulf Hansson <ulf.hansson@linaro.org>,
+ linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
+ linux-samsung-soc@vger.kernel.org, etnaviv@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-pci@vger.kernel.org, linux-amlogic@lists.infradead.org,
+ bcm-kernel-feedback-list@broadcom.com,
+ linux-rpi-kernel@lists.infradead.org, linux-usb@vger.kernel.org,
+ linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH v2 3/3] ARM: dts: exynos: Rename power domain nodes to
+ "power-domain" in Exynos4
+Message-ID: <20191006154734.GA29365@kozik-lap>
+References: <20191002160632.11140-1-krzk@kernel.org>
+ <20191002160632.11140-3-krzk@kernel.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <0ab2ee7de9c2e24f6de860ffcbcdfc25b72c2c61.1568255903.git.agx@sigxcpu.org>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Mailman-Approved-At: Sun, 06 Oct 2019 11:24:45 +0000
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=kernel.org; s=default; t=1570349236;
- bh=2mYmcL2dg3bAvRrFA6Aywfj8TPXbjBQZQZ81zTLe+rA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=zDR/zSv/WMVB4QUZ6FD/4WP2wLrUai/phhlsD/r282C6LRflGbq1p6YnEhTYTRpyY
- idChEquLgQ2wmccjNxJ3997rD4FAypI00QTA+FRq1Zw3v3W7I4lbo/10ZgW+Qfrp5F
- S3PzIyDmVZwugTG3SWsBRdmeZA87YZ/f0IO9AGUQ=
+In-Reply-To: <20191002160632.11140-3-krzk@kernel.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Mailman-Approved-At: Fri, 11 Oct 2019 10:41:54 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -47,51 +75,20 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Anson Huang <Anson.Huang@nxp.com>, Carlo Caione <ccaione@baylibre.com>,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- Sascha Hauer <s.hauer@pengutronix.de>,
- "Angus Ainslie \(Purism\)" <angus@akkea.ca>, etnaviv@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Abel Vesa <abel.vesa@nxp.com>,
- Andrey Smirnov <andrew.smirnov@gmail.com>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- Rob Herring <robh+dt@kernel.org>, NXP Linux Team <linux-imx@nxp.com>,
- Daniel Vetter <daniel@ffwll.ch>, Russell King <linux+etnaviv@armlinux.org.uk>,
- Fabio Estevam <festevam@gmail.com>, linux-arm-kernel@lists.infradead.org,
- "To : Lucas Stach" <l.stach@pengutronix.de>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-T24gV2VkLCBTZXAgMTEsIDIwMTkgYXQgMDc6NDA6MzVQTSAtMDcwMCwgR3VpZG8gR8O8bnRoZXIg
-d3JvdGU6Cj4gVGVtcGVyYXR1cmUgYW5kIGh5c3RlcmVzaXMgd2VyZSBwaWNrZWQgYWZ0ZXIgdGhl
-IENQVS4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBHdWlkbyBHw7xudGhlciA8YWd4QHNpZ3hjcHUub3Jn
-PgoKVGhlIHBhdGNoIHByZWZpeCBzaG91bGQgYmUgJ2FybTY0OiBkdHM6IC4uLicKCkkgZml4ZWQg
-aXQgdXAgYW5kIGFwcGxpZWQgdGhlIHBhdGNoLgoKU2hhd24KCj4gLS0tCj4gIGFyY2gvYXJtNjQv
-Ym9vdC9kdHMvZnJlZXNjYWxlL2lteDhtcS5kdHNpIHwgMTUgKysrKysrKysrKysrKysrCj4gIDEg
-ZmlsZSBjaGFuZ2VkLCAxNSBpbnNlcnRpb25zKCspCj4gCj4gZGlmZiAtLWdpdCBhL2FyY2gvYXJt
-NjQvYm9vdC9kdHMvZnJlZXNjYWxlL2lteDhtcS5kdHNpIGIvYXJjaC9hcm02NC9ib290L2R0cy9m
-cmVlc2NhbGUvaW14OG1xLmR0c2kKPiBpbmRleCA0ZmRkNjBmMmM1MWUuLjUwMjNhMGU1MDY4ZCAx
-MDA2NDQKPiAtLS0gYS9hcmNoL2FybTY0L2Jvb3QvZHRzL2ZyZWVzY2FsZS9pbXg4bXEuZHRzaQo+
-ICsrKyBiL2FyY2gvYXJtNjQvYm9vdC9kdHMvZnJlZXNjYWxlL2lteDhtcS5kdHNpCj4gQEAgLTIz
-NSwxMiArMjM1LDI2IEBACj4gIAkJCXRoZXJtYWwtc2Vuc29ycyA9IDwmdG11IDE+Owo+ICAKPiAg
-CQkJdHJpcHMgewo+ICsJCQkJZ3B1X2FsZXJ0OiBncHUtYWxlcnQgewo+ICsJCQkJCXRlbXBlcmF0
-dXJlID0gPDgwMDAwPjsKPiArCQkJCQloeXN0ZXJlc2lzID0gPDIwMDA+Owo+ICsJCQkJCXR5cGUg
-PSAicGFzc2l2ZSI7Cj4gKwkJCQl9Owo+ICsKPiAgCQkJCWdwdS1jcml0IHsKPiAgCQkJCQl0ZW1w
-ZXJhdHVyZSA9IDw5MDAwMD47Cj4gIAkJCQkJaHlzdGVyZXNpcyA9IDwyMDAwPjsKPiAgCQkJCQl0
-eXBlID0gImNyaXRpY2FsIjsKPiAgCQkJCX07Cj4gIAkJCX07Cj4gKwo+ICsJCQljb29saW5nLW1h
-cHMgewo+ICsJCQkJbWFwMCB7Cj4gKwkJCQkJdHJpcCA9IDwmZ3B1X2FsZXJ0PjsKPiArCQkJCQlj
-b29saW5nLWRldmljZSA9Cj4gKwkJCQkJCTwmZ3B1IFRIRVJNQUxfTk9fTElNSVQgVEhFUk1BTF9O
-T19MSU1JVD47Cj4gKwkJCQl9Owo+ICsJCQl9Owo+ICAJCX07Cj4gIAo+ICAJCXZwdS10aGVybWFs
-IHsKPiBAQCAtOTEyLDYgKzkyNiw3IEBACj4gIAkJCSAgICAgICAgIDwmY2xrIElNWDhNUV9DTEtf
-R1BVX0FYST4sCj4gIAkJCSAgICAgICAgIDwmY2xrIElNWDhNUV9DTEtfR1BVX0FIQj47Cj4gIAkJ
-CWNsb2NrLW5hbWVzID0gImNvcmUiLCAic2hhZGVyIiwgImJ1cyIsICJyZWciOwo+ICsJCQkjY29v
-bGluZy1jZWxscyA9IDwyPjsKPiAgCQkJYXNzaWduZWQtY2xvY2tzID0gPCZjbGsgSU1YOE1RX0NM
-S19HUFVfQ09SRV9TUkM+LAo+ICAJCQkgICAgICAgICAgICAgICAgICA8JmNsayBJTVg4TVFfQ0xL
-X0dQVV9TSEFERVJfU1JDPiwKPiAgCQkJICAgICAgICAgICAgICAgICAgPCZjbGsgSU1YOE1RX0NM
-S19HUFVfQVhJPiwKPiAtLSAKPiAyLjIzLjAucmMxCj4gCl9fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fCmV0bmF2aXYgbWFpbGluZyBsaXN0CmV0bmF2aXZAbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4v
-bGlzdGluZm8vZXRuYXZpdg==
+T24gV2VkLCBPY3QgMDIsIDIwMTkgYXQgMDY6MDY6MzJQTSArMDIwMCwgS3J6eXN6dG9mIEtvemxv
+d3NraSB3cm90ZToKPiBUaGUgZGV2aWNlIG5vZGUgbmFtZSBzaG91bGQgcmVmbGVjdCBnZW5lcmlj
+IGNsYXNzIG9mIGEgZGV2aWNlIHNvIHJlbmFtZQo+IHBvd2VyIGRvbWFpbiBub2RlcyB0byAicG93
+ZXItZG9tYWluIi4gIE5vIGZ1bmN0aW9uYWwgY2hhbmdlLgo+IAo+IFNpZ25lZC1vZmYtYnk6IEty
+enlzenRvZiBLb3psb3dza2kgPGtyemtAa2VybmVsLm9yZz4KPiAtLS0KPiAgYXJjaC9hcm0vYm9v
+dC9kdHMvZXh5bm9zNC5kdHNpICAgIHwgMTQgKysrKysrKy0tLS0tLS0KPiAgYXJjaC9hcm0vYm9v
+dC9kdHMvZXh5bm9zNDIxMC5kdHNpIHwgIDIgKy0KPiAgYXJjaC9hcm0vYm9vdC9kdHMvZXh5bm9z
+NDQxMi5kdHNpIHwgIDIgKy0KPiAgMyBmaWxlcyBjaGFuZ2VkLCA5IGluc2VydGlvbnMoKyksIDkg
+ZGVsZXRpb25zKC0pCgpBcHBsaWVkLgoKQmVzdCByZWdhcmRzLApLcnp5c3p0b2YKX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZXRuYXZpdiBtYWlsaW5nIGxp
+c3QKZXRuYXZpdkBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3Rv
+cC5vcmcvbWFpbG1hbi9saXN0aW5mby9ldG5hdml2
