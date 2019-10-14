@@ -2,33 +2,43 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD7ABD9535
-	for <lists+etnaviv@lfdr.de>; Wed, 16 Oct 2019 17:15:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3398AD953C
+	for <lists+etnaviv@lfdr.de>; Wed, 16 Oct 2019 17:15:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9AA416E3E3;
-	Wed, 16 Oct 2019 15:15:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D97916E9A3;
+	Wed, 16 Oct 2019 15:15:03 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C87D6E235;
- Mon, 14 Oct 2019 10:00:29 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx1.suse.de (Postfix) with ESMTP id 01915B744;
- Mon, 14 Oct 2019 10:00:27 +0000 (UTC)
-Message-ID: <f6262e61f858c6f50164416f4ea816e203c0704f.camel@suse.de>
-Subject: Re: [PATCH 07/11] dts: arm64: layerscape: add dma-ranges property
- to qoric-mc node
-From: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-To: Shawn Guo <shawnguo@kernel.org>
-Date: Mon, 14 Oct 2019 12:00:25 +0200
-In-Reply-To: <20191014082847.GH12262@dragon>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C0296E26C;
+ Mon, 14 Oct 2019 11:09:30 +0000 (UTC)
+Received: from dragon (li937-157.members.linode.com [45.56.119.157])
+ (using TLSv1.2 with cipher DHE-RSA-AES128-SHA (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 912D420650;
+ Mon, 14 Oct 2019 11:09:20 +0000 (UTC)
+Date: Mon, 14 Oct 2019 19:09:12 +0800
+From: Shawn Guo <shawnguo@kernel.org>
+To: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+Subject: Re: [PATCH 07/11] dts: arm64: layerscape: add dma-ranges property to
+ qoric-mc node
+Message-ID: <20191014110911.GL12262@dragon>
 References: <20190924181244.7159-1-nsaenzjulienne@suse.de>
  <20190924181244.7159-8-nsaenzjulienne@suse.de>
  <20191014082847.GH12262@dragon>
-User-Agent: Evolution 3.32.4 
+ <f6262e61f858c6f50164416f4ea816e203c0704f.camel@suse.de>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <f6262e61f858c6f50164416f4ea816e203c0704f.camel@suse.de>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 X-Mailman-Approved-At: Wed, 16 Oct 2019 15:15:00 +0000
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=kernel.org; s=default; t=1571051370;
+ bh=IGUjFKwdFvBuHDUBTTMUkHOqWN+qrspmIFd3EP+r5D0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=u6lV4BvTYW8QqsNve4UmSk9Z5IRL6ls+Ne+fUJeDqE/2kdCy6p2B3zszdb8a3CGfJ
+ zIUWNfhvJGX46ZQKGt0ADXS2mmtAPaMYHIMnAOQtJjH2drVoNnJIyH6+M8bbZA9fir
+ CCH+HHdvDRmqPLE15mDMW7UZttO+u5rVp++pF3JE=
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -49,79 +59,31 @@ Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
  dmaengine@vger.kernel.org, xen-devel@lists.xenproject.org,
  Li Yang <leoyang.li@nxp.com>, frowand.list@gmail.com,
  linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-Content-Type: multipart/mixed; boundary="===============0554833239=="
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-
---===============0554833239==
-Content-Type: multipart/signed; micalg="pgp-sha256";
-	protocol="application/pgp-signature"; boundary="=-ZhF7YshJftYaREkjx+2D"
-
-
---=-ZhF7YshJftYaREkjx+2D
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, 2019-10-14 at 16:28 +0800, Shawn Guo wrote:
-> On Tue, Sep 24, 2019 at 08:12:38PM +0200, Nicolas Saenz Julienne wrote:
-> > qoriq-mc's dpmacs DMA configuration is inherited from their parent node=
-,
-> > which acts a bus in this regard. So far it maked all devices as
-> > dma-coherent but no dma-ranges recommendation is made.
-> >=20
-> > The truth is that the underlying interconnect has DMA constraints, so
-> > add an empty dma-ranges in qoriq-mc's node in order for DT's DMA
-> > configuration code to get the DMA constraints from it.
-> >=20
-> > Signed-off-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
->=20
-> Updated subject prefix as 'arm64: dts: ...', and applied the patch.
-
-Hi Shawn,
-these two patches are no longer needed. This series has been superseded by =
-this
-patch[1] 951d48855d ('of: Make of_dma_get_range() work on bus nodes', avail=
-able
-in linux-next) which fixed the issue directly in OF code.
-
-Sorry for the noise.
-
-Regards,
-Nicolas
-
-[1] https://lkml.org/lkml/2019/10/8/870
-
-
---=-ZhF7YshJftYaREkjx+2D
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCAAdFiEErOkkGDHCg2EbPcGjlfZmHno8x/4FAl2kRzkACgkQlfZmHno8
-x/7Fhwf+OOorwS/yz7Mxwwgctc4wXslUVL4P1ubRvAEQYZ0UGUVtM1WJqXjukymn
-ydYIWe6mnmNSQqGYAEBcjzP/We/MxjMkpvpyMWkiJXiZvwXRs43BAcW5/eyvHNfD
-EEF3n4HCXZYSbmR9kDBwpZPKeoMCsQJbZuEF6rHwGNZeKA+tVpMZFEC17BGhW8LW
-MGx2W+1mXq7lLuDI5AIfnMt5Cqgl1IcsCzq4a2uRzNLXEDiQ5MFXaHVzroE0wWOQ
-O6GCM0HAcnR1wi0pZgEgDQyFQeiI4txKfLZ0P1z8zgVM+bFtNum4qIrtLbYm0Ny0
-y7htdJL8WlxXRHkbLVXIj0D71OiRYQ==
-=Ip4t
------END PGP SIGNATURE-----
-
---=-ZhF7YshJftYaREkjx+2D--
-
-
---===============0554833239==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZXRuYXZpdiBt
-YWlsaW5nIGxpc3QKZXRuYXZpdkBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5m
-cmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9ldG5hdml2
-
---===============0554833239==--
-
+T24gTW9uLCBPY3QgMTQsIDIwMTkgYXQgMTI6MDA6MjVQTSArMDIwMCwgTmljb2xhcyBTYWVueiBK
+dWxpZW5uZSB3cm90ZToKPiBPbiBNb24sIDIwMTktMTAtMTQgYXQgMTY6MjggKzA4MDAsIFNoYXdu
+IEd1byB3cm90ZToKPiA+IE9uIFR1ZSwgU2VwIDI0LCAyMDE5IGF0IDA4OjEyOjM4UE0gKzAyMDAs
+IE5pY29sYXMgU2FlbnogSnVsaWVubmUgd3JvdGU6Cj4gPiA+IHFvcmlxLW1jJ3MgZHBtYWNzIERN
+QSBjb25maWd1cmF0aW9uIGlzIGluaGVyaXRlZCBmcm9tIHRoZWlyIHBhcmVudCBub2RlLAo+ID4g
+PiB3aGljaCBhY3RzIGEgYnVzIGluIHRoaXMgcmVnYXJkLiBTbyBmYXIgaXQgbWFrZWQgYWxsIGRl
+dmljZXMgYXMKPiA+ID4gZG1hLWNvaGVyZW50IGJ1dCBubyBkbWEtcmFuZ2VzIHJlY29tbWVuZGF0
+aW9uIGlzIG1hZGUuCj4gPiA+IAo+ID4gPiBUaGUgdHJ1dGggaXMgdGhhdCB0aGUgdW5kZXJseWlu
+ZyBpbnRlcmNvbm5lY3QgaGFzIERNQSBjb25zdHJhaW50cywgc28KPiA+ID4gYWRkIGFuIGVtcHR5
+IGRtYS1yYW5nZXMgaW4gcW9yaXEtbWMncyBub2RlIGluIG9yZGVyIGZvciBEVCdzIERNQQo+ID4g
+PiBjb25maWd1cmF0aW9uIGNvZGUgdG8gZ2V0IHRoZSBETUEgY29uc3RyYWludHMgZnJvbSBpdC4K
+PiA+ID4gCj4gPiA+IFNpZ25lZC1vZmYtYnk6IE5pY29sYXMgU2FlbnogSnVsaWVubmUgPG5zYWVu
+emp1bGllbm5lQHN1c2UuZGU+Cj4gPiAKPiA+IFVwZGF0ZWQgc3ViamVjdCBwcmVmaXggYXMgJ2Fy
+bTY0OiBkdHM6IC4uLicsIGFuZCBhcHBsaWVkIHRoZSBwYXRjaC4KPiAKPiBIaSBTaGF3biwKPiB0
+aGVzZSB0d28gcGF0Y2hlcyBhcmUgbm8gbG9uZ2VyIG5lZWRlZC4gVGhpcyBzZXJpZXMgaGFzIGJl
+ZW4gc3VwZXJzZWRlZCBieSB0aGlzCj4gcGF0Y2hbMV0gOTUxZDQ4ODU1ZCAoJ29mOiBNYWtlIG9m
+X2RtYV9nZXRfcmFuZ2UoKSB3b3JrIG9uIGJ1cyBub2RlcycsIGF2YWlsYWJsZQo+IGluIGxpbnV4
+LW5leHQpIHdoaWNoIGZpeGVkIHRoZSBpc3N1ZSBkaXJlY3RseSBpbiBPRiBjb2RlLgo+IAo+IFNv
+cnJ5IGZvciB0aGUgbm9pc2UuCgpPa2F5LCB0aGFua3MgZm9yIGxldHRpbmcgbWUga25vdy4gIERy
+b3BwZWQgdGhlbS4KClNoYXduCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fCmV0bmF2aXYgbWFpbGluZyBsaXN0CmV0bmF2aXZAbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZXRuYXZp
+dg==
