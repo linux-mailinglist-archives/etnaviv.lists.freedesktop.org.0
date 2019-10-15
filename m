@@ -1,40 +1,41 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EF98D9536
-	for <lists+etnaviv@lfdr.de>; Wed, 16 Oct 2019 17:15:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B39A1D953A
+	for <lists+etnaviv@lfdr.de>; Wed, 16 Oct 2019 17:15:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE2486E99C;
-	Wed, 16 Oct 2019 15:15:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC33D6E9A1;
+	Wed, 16 Oct 2019 15:15:01 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CCF596E343
- for <etnaviv@lists.freedesktop.org>; Mon, 14 Oct 2019 22:44:25 +0000 (UTC)
-Received: from akpm3.svl.corp.google.com (unknown [104.133.8.65])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E53A16E5F6
+ for <etnaviv@lists.freedesktop.org>; Tue, 15 Oct 2019 06:42:14 +0000 (UTC)
+Received: from [172.20.185.47] (unknown [151.9.251.10])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 74E6F21835;
- Mon, 14 Oct 2019 22:44:24 +0000 (UTC)
-Date: Mon, 14 Oct 2019 15:44:23 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Mike Rapoport <rppt@kernel.org>
+ by mail.kernel.org (Postfix) with ESMTPSA id 4E23320872;
+ Tue, 15 Oct 2019 06:42:13 +0000 (UTC)
+Date: Tue, 15 Oct 2019 08:42:07 +0200
+User-Agent: K-9 Mail for Android
+In-Reply-To: <20191014154423.a472315834ce6a730ccbaf3f@linux-foundation.org>
+References: <1570915861-17633-1-git-send-email-rppt@kernel.org>
+ <20191014154423.a472315834ce6a730ccbaf3f@linux-foundation.org>
+MIME-Version: 1.0
 Subject: Re: [PATCH] mm: memblock: do not enforce current limit for
  memblock_phys* family
-Message-Id: <20191014154423.a472315834ce6a730ccbaf3f@linux-foundation.org>
-In-Reply-To: <1570915861-17633-1-git-send-email-rppt@kernel.org>
-References: <1570915861-17633-1-git-send-email-rppt@kernel.org>
-X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
+To: Andrew Morton <akpm@linux-foundation.org>
+From: Mike Rapoport <rppt@kernel.org>
+Message-ID: <43610D35-58EE-4019-B979-EAE3F4781EAA@kernel.org>
 X-Mailman-Approved-At: Wed, 16 Oct 2019 15:15:00 +0000
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=kernel.org; s=default; t=1571093064;
- bh=bR1w6UoSnX74UluDNWX1wTa+jYiev1lVKk27mIadYqc=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=VX64SZlgGVvm8FdahZlm6oDXPO4gIeEsrTnQbPR3Va+ueoUcERwlEsVXpOMlAnrdy
- a9qqXuO57/DkfQ3i24e7ANndxhlSTJQfn+0uTQD2YJnB07dpkZUaj401Z9AWJdNQyN
- CmskUWlecnXShZvGIg08xYVXTDI9siwDaYwyu5dc=
+ d=kernel.org; s=default; t=1571121734;
+ bh=rysVRgS2FyWINWo6N494AjxosS0+rfoIKEY8cnAlqSA=;
+ h=Date:In-Reply-To:References:Subject:To:CC:From:From;
+ b=WJ1RiJWg0ldBHseqfrvp5PmB2jl/7wc3M+Lc/btmiZF+qOzXjamufdias7ll/sXEJ
+ QwS1noye5k0R7HoaydsDEqHqK5e/mvsfAeXgrBzGgtAaYQ5tDA/4/k6x302+mFvcxj
+ QnD2Xs8HFk6dR3yYBKakkri/5m/87RAUPZ70FxNQ=
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,17 +57,20 @@ Content-Transfer-Encoding: base64
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-T24gU3VuLCAxMyBPY3QgMjAxOSAwMDozMTowMSArMDMwMCBNaWtlIFJhcG9wb3J0IDxycHB0QGtl
-cm5lbC5vcmc+IHdyb3RlOgoKPiBVbnRpbCBjb21taXQgOTJkMTJmOTU0NGI3ICgibWVtYmxvY2s6
-IHJlZmFjdG9yIGludGVybmFsIGFsbG9jYXRpb24KPiBmdW5jdGlvbnMiKSB0aGUgbWF4aW1hbCBh
-ZGRyZXNzIGZvciBtZW1ibG9jayBhbGxvY2F0aW9ucyB3YXMgZm9yY2VkIHRvCj4gbWVtYmxvY2su
-Y3VycmVudF9saW1pdCBvbmx5IGZvciB0aGUgYWxsb2NhdGlvbiBmdW5jdGlvbnMgcmV0dXJuaW5n
-IHZpcnR1YWwKPiBhZGRyZXNzLiBUaGUgY2hhbmdlcyBpbnRyb2R1Y2VkIGJ5IHRoYXQgY29tbWl0
-IG1vdmVkIHRoZSBsaW1pdCBlbmZvcmNlbWVudAo+IGludG8gdGhlIGFsbG9jYXRpb24gY29yZSBh
-bmQgYXMgYSByZXN1bHQgdGhlIGFsbG9jYXRpb24gZnVuY3Rpb25zIHJldHVybmluZwo+IHBoeXNp
-Y2FsIGFkZHJlc3MgYWxzbyBzdGFydGVkIHRvIGxpbWl0IGFsbG9jYXRpb25zIHRvCj4gbWVtYmxv
-Y2suY3VycmVudF9saW1pdC4KPiAKPiBUaGlzIGNhdXNlZCBicmVha2FnZSBvZiBldG5hdml2IEdQ
-VSBkcml2ZXI6Cj4gCj4gLi4uCj4KClNvIEknbGwgYWRkIGEgY2M6c3RhYmxlLCB5ZXM/Cl9fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmV0bmF2aXYgbWFpbGlu
-ZyBsaXN0CmV0bmF2aXZAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZXRuYXZpdg==
+T24gT2N0b2JlciAxNSwgMjAxOSAxMjo0NDoyMyBBTSBHTVQrMDI6MDAsIEFuZHJldyBNb3J0b24g
+PGFrcG1AbGludXgtZm91bmRhdGlvbi5vcmc+IHdyb3RlOgo+T24gU3VuLCAxMyBPY3QgMjAxOSAw
+MDozMTowMSArMDMwMCBNaWtlIFJhcG9wb3J0IDxycHB0QGtlcm5lbC5vcmc+Cj53cm90ZToKPgo+
+PiBVbnRpbCBjb21taXQgOTJkMTJmOTU0NGI3ICgibWVtYmxvY2s6IHJlZmFjdG9yIGludGVybmFs
+IGFsbG9jYXRpb24KPj4gZnVuY3Rpb25zIikgdGhlIG1heGltYWwgYWRkcmVzcyBmb3IgbWVtYmxv
+Y2sgYWxsb2NhdGlvbnMgd2FzIGZvcmNlZAo+dG8KPj4gbWVtYmxvY2suY3VycmVudF9saW1pdCBv
+bmx5IGZvciB0aGUgYWxsb2NhdGlvbiBmdW5jdGlvbnMgcmV0dXJuaW5nCj52aXJ0dWFsCj4+IGFk
+ZHJlc3MuIFRoZSBjaGFuZ2VzIGludHJvZHVjZWQgYnkgdGhhdCBjb21taXQgbW92ZWQgdGhlIGxp
+bWl0Cj5lbmZvcmNlbWVudAo+PiBpbnRvIHRoZSBhbGxvY2F0aW9uIGNvcmUgYW5kIGFzIGEgcmVz
+dWx0IHRoZSBhbGxvY2F0aW9uIGZ1bmN0aW9ucwo+cmV0dXJuaW5nCj4+IHBoeXNpY2FsIGFkZHJl
+c3MgYWxzbyBzdGFydGVkIHRvIGxpbWl0IGFsbG9jYXRpb25zIHRvCj4+IG1lbWJsb2NrLmN1cnJl
+bnRfbGltaXQuCj4+IAo+PiBUaGlzIGNhdXNlZCBicmVha2FnZSBvZiBldG5hdml2IEdQVSBkcml2
+ZXI6Cj4+IAo+PiAuLi4KPj4KPgo+U28gSSdsbCBhZGQgYSBjYzpzdGFibGUsIHllcz8KClllYWgs
+IHJpZ2h0LiBTb21laG93IEkndmUgbWlzc2VkIHRoYXQuLi4KCi0tIApTaW5jZXJlbHkgeW91cnMs
+Ck1pa2UKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZXRu
+YXZpdiBtYWlsaW5nIGxpc3QKZXRuYXZpdkBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9s
+aXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9ldG5hdml2
