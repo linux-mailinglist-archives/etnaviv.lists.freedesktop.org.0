@@ -2,68 +2,34 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D9DAD3D99
-	for <lists+etnaviv@lfdr.de>; Fri, 11 Oct 2019 12:41:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 886D6D93CE
+	for <lists+etnaviv@lfdr.de>; Wed, 16 Oct 2019 16:27:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC9636E02D;
-	Fri, 11 Oct 2019 10:41:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DBA226E992;
+	Wed, 16 Oct 2019 14:27:18 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
- [209.85.128.67])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 61C2A6E0BA;
- Sun,  6 Oct 2019 15:47:40 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id r17so13043403wme.0;
- Sun, 06 Oct 2019 08:47:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=SBpRb6qd+48zQK5uPLn0YvEluIoUY9o3FhFhGA6TXtY=;
- b=hxCP0AlhsZ0Xq4/uZ3uOzVRK+z9YLkU+bBOelgxDMwryEftK5M9QPTrK2fuYK8m6K+
- z00GPlEuErUbAO/t3PXv2zC6q2CCAH3Jk4LHMwz/av4UJJwCwxT51CxVQU6l3cc/fEVr
- ns0zNNdQyofMca91m9nEgEN4DiP7Be/f6rq3GmdK2gaqBDmJ94MOzYIHhhbAgEEMD3oY
- CsoR0ibLpHf1staoVpieb4oYn5AWt/yhwuDPnrRz3+PRBkGkn8/Bqh4cF/UnKGupN/J9
- iTWYYUcTK37aPdSBF9mDqNUEUd/QqV61pa1s7f+/VrKBLE2UUPo3mjFfm2uozt5q+k50
- y4qg==
-X-Gm-Message-State: APjAAAVJxBfaalLSOIXJIRSadQTNVhzfSS4NWVQcmEsOQ6bQ58+PwKnh
- EkJyQOD1a03aUrW/RSeeY/E=
-X-Google-Smtp-Source: APXvYqwiD5w33vuIYv9624AWG0k3vsCYtE8uO59mkpTJi1G/TZQDv7OS1UJvxH3zuwZ0w6XxIwuUIQ==
-X-Received: by 2002:a1c:9988:: with SMTP id
- b130mr18139392wme.164.1570376858781; 
- Sun, 06 Oct 2019 08:47:38 -0700 (PDT)
-Received: from kozik-lap ([194.230.155.145])
- by smtp.googlemail.com with ESMTPSA id o22sm31539882wra.96.2019.10.06.08.47.36
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Sun, 06 Oct 2019 08:47:38 -0700 (PDT)
-Date: Sun, 6 Oct 2019 17:47:34 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Sudeep Holla <sudeep.holla@arm.com>, Rob Herring <robh+dt@kernel.org>,
- Mark Rutland <mark.rutland@arm.com>,
- Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>, Kevin Hilman <khilman@baylibre.com>,
- "Rafael J. Wysocki" <rjw@rjwysocki.net>,
- Ulf Hansson <ulf.hansson@linaro.org>,
- linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
- linux-samsung-soc@vger.kernel.org, etnaviv@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, linux-tegra@vger.kernel.org,
- linux-media@vger.kernel.org, linux-pm@vger.kernel.org,
- linux-pci@vger.kernel.org, linux-amlogic@lists.infradead.org,
- bcm-kernel-feedback-list@broadcom.com,
- linux-rpi-kernel@lists.infradead.org, linux-usb@vger.kernel.org,
- linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH v2 3/3] ARM: dts: exynos: Rename power domain nodes to
- "power-domain" in Exynos4
-Message-ID: <20191006154734.GA29365@kozik-lap>
-References: <20191002160632.11140-1-krzk@kernel.org>
- <20191002160632.11140-3-krzk@kernel.org>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A9856E993
+ for <etnaviv@lists.freedesktop.org>; Wed, 16 Oct 2019 14:27:18 +0000 (UTC)
+Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28]
+ helo=dude02.pengutronix.de.)
+ by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1iKkGi-0002DO-Hj; Wed, 16 Oct 2019 16:27:16 +0200
+From: Lucas Stach <l.stach@pengutronix.de>
+To: etnaviv@lists.freedesktop.org
+Subject: [PATCH 1/2] drm/etnaviv: fix deadlock in GPU coredump
+Date: Wed, 16 Oct 2019 16:27:15 +0200
+Message-Id: <20191016142716.10168-1-l.stach@pengutronix.de>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20191002160632.11140-3-krzk@kernel.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Mailman-Approved-At: Fri, 11 Oct 2019 10:41:54 +0000
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,20 +41,44 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
+Cc: Christian Gmeiner <christian.gmeiner@gmail.com>,
+ patchwork-lst@pengutronix.de, kernel@pengutronix.de,
+ dri-devel@lists.freedesktop.org, Russell King <linux+etnaviv@armlinux.org.uk>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-T24gV2VkLCBPY3QgMDIsIDIwMTkgYXQgMDY6MDY6MzJQTSArMDIwMCwgS3J6eXN6dG9mIEtvemxv
-d3NraSB3cm90ZToKPiBUaGUgZGV2aWNlIG5vZGUgbmFtZSBzaG91bGQgcmVmbGVjdCBnZW5lcmlj
-IGNsYXNzIG9mIGEgZGV2aWNlIHNvIHJlbmFtZQo+IHBvd2VyIGRvbWFpbiBub2RlcyB0byAicG93
-ZXItZG9tYWluIi4gIE5vIGZ1bmN0aW9uYWwgY2hhbmdlLgo+IAo+IFNpZ25lZC1vZmYtYnk6IEty
-enlzenRvZiBLb3psb3dza2kgPGtyemtAa2VybmVsLm9yZz4KPiAtLS0KPiAgYXJjaC9hcm0vYm9v
-dC9kdHMvZXh5bm9zNC5kdHNpICAgIHwgMTQgKysrKysrKy0tLS0tLS0KPiAgYXJjaC9hcm0vYm9v
-dC9kdHMvZXh5bm9zNDIxMC5kdHNpIHwgIDIgKy0KPiAgYXJjaC9hcm0vYm9vdC9kdHMvZXh5bm9z
-NDQxMi5kdHNpIHwgIDIgKy0KPiAgMyBmaWxlcyBjaGFuZ2VkLCA5IGluc2VydGlvbnMoKyksIDkg
-ZGVsZXRpb25zKC0pCgpBcHBsaWVkLgoKQmVzdCByZWdhcmRzLApLcnp5c3p0b2YKX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZXRuYXZpdiBtYWlsaW5nIGxp
-c3QKZXRuYXZpdkBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3Rv
-cC5vcmcvbWFpbG1hbi9saXN0aW5mby9ldG5hdml2
+VGhlIEdQVSBjb3JlZHVtcCBmdW5jdGlvbiB2aW9sYXRlcyB0aGUgbG9ja2luZyBvcmRlciBieSBo
+b2xkaW5nIHRoZSBNTVUKY29udGV4dCBsb2NrIHdoaWxlIHRyeWluZyB0byBhY3F1aXJlIHRoZSBl
+dG5hdml2X2dlbV9vYmplY3QgbG9jay4gVGhpcwpyZXN1bHRzIGluIGEgcG9zc2libGUgQUJCQSBk
+ZWFkbG9jayB3aXRoIG90aGVyIGNvZGVwYXRocyB3aGljaCBmb2xsb3cKdGhlIGVzdGFibGlzaGVk
+IGxvY2tpbmcgb3JkZXIuCkZvcnR1bmF0ZWx5IHRoaXMgaXMgZWFzeSB0byBmaXggYnkgZHJvcHBp
+bmcgdGhlIE1NVSBjb250ZXh0IGxvY2sKZWFybGllciwgYXMgdGhlIEJPIGR1bXBpbmcgZG9lc24n
+dCBuZWVkIHRoZSBNTVUgY29udGV4dCB0byBiZSBzdGFibGUuClRoZSBvbmx5IHRoaW5nIHRoZSBC
+TyBkdW1waW5nIGNhcmVzIGFib3V0IGFyZSB0aGUgQk8gbWFwcGluZ3MsIHdoaWNoCmFyZSBzdGFi
+bGUgYWNyb3NzIHRoZSBsaWZldGltZSBvZiB0aGUgam9iLgoKRml4ZXM6IDI3YjY3Mjc4ZTAwNyAo
+ZHJtL2V0bmF2aXY6IHJld29yayBNTVUgaGFuZGxpbmcpClsgTm90IHJlYWxseSB0aGUgZmlyc3Qg
+YmFkIGNvbW1pdCwgYnV0IHRoZSBvbmUgd2hlcmUgdGhpcyBmaXggYXBwbGllcwogIGNsZWFubHku
+IFN0YWJsZSBrZXJuZWxzIG5lZWQgYSBtYW51YWwgYmFja3BvcnQuIF0KUmVwb3J0ZWQtYnk6IENo
+cmlzdGlhbiBHbWVpbmVyIDxjaHJpc3RpYW4uZ21laW5lckBnbWFpbC5jb20+ClNpZ25lZC1vZmYt
+Ynk6IEx1Y2FzIFN0YWNoIDxsLnN0YWNoQHBlbmd1dHJvbml4LmRlPgotLS0KIGRyaXZlcnMvZ3B1
+L2RybS9ldG5hdml2L2V0bmF2aXZfZHVtcC5jIHwgNCArKy0tCiAxIGZpbGUgY2hhbmdlZCwgMiBp
+bnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2Ry
+bS9ldG5hdml2L2V0bmF2aXZfZHVtcC5jIGIvZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZp
+dl9kdW1wLmMKaW5kZXggNjk4ZGI1NDA5NzJjLi42NDhjZjAyMDczMDkgMTAwNjQ0Ci0tLSBhL2Ry
+aXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfZHVtcC5jCisrKyBiL2RyaXZlcnMvZ3B1L2Ry
+bS9ldG5hdml2L2V0bmF2aXZfZHVtcC5jCkBAIC0xODAsNiArMTgwLDggQEAgdm9pZCBldG5hdml2
+X2NvcmVfZHVtcChzdHJ1Y3QgZXRuYXZpdl9nZW1fc3VibWl0ICpzdWJtaXQpCiAJCQkgICAgICBl
+dG5hdml2X2NtZGJ1Zl9nZXRfdmEoJnN1Ym1pdC0+Y21kYnVmLAogCQkJCQkmZ3B1LT5tbXVfY29u
+dGV4dC0+Y21kYnVmX21hcHBpbmcpKTsKIAorCW11dGV4X3VubG9jaygmZ3B1LT5tbXVfY29udGV4
+dC0+bG9jayk7CisKIAkvKiBSZXNlcnZlIHNwYWNlIGZvciB0aGUgYm9tYXAgKi8KIAlpZiAobl9i
+b21hcF9wYWdlcykgewogCQlib21hcF9zdGFydCA9IGJvbWFwID0gaXRlci5kYXRhOwpAQCAtMjIx
+LDggKzIyMyw2IEBAIHZvaWQgZXRuYXZpdl9jb3JlX2R1bXAoc3RydWN0IGV0bmF2aXZfZ2VtX3N1
+Ym1pdCAqc3VibWl0KQogCQkJCQkgb2JqLT5iYXNlLnNpemUpOwogCX0KIAotCW11dGV4X3VubG9j
+aygmZ3B1LT5tbXVfY29udGV4dC0+bG9jayk7Ci0KIAlldG5hdml2X2NvcmVfZHVtcF9oZWFkZXIo
+Jml0ZXIsIEVURFVNUF9CVUZfRU5ELCBpdGVyLmRhdGEpOwogCiAJZGV2X2NvcmVkdW1wdihncHUt
+PmRldiwgaXRlci5zdGFydCwgaXRlci5kYXRhIC0gaXRlci5zdGFydCwgR0ZQX0tFUk5FTCk7Ci0t
+IAoyLjIwLjEKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+CmV0bmF2aXYgbWFpbGluZyBsaXN0CmV0bmF2aXZAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBz
+Oi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZXRuYXZpdg==
