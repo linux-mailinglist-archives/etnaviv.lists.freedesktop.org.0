@@ -1,45 +1,48 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98945105124
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A99FD105126
 	for <lists+etnaviv@lfdr.de>; Thu, 21 Nov 2019 12:10:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3DA916EDD1;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 61ABB6EDD8;
 	Thu, 21 Nov 2019 11:10:30 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-oi1-f196.google.com (mail-oi1-f196.google.com
- [209.85.167.196])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3DBC66E2B1;
- Tue, 19 Nov 2019 16:00:24 +0000 (UTC)
-Received: by mail-oi1-f196.google.com with SMTP id o12so9258133oic.9;
- Tue, 19 Nov 2019 08:00:24 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=lOp09REXBJlIhxRQLG3yF3pkOzVMqVXKGYr5zOkYKTU=;
- b=YK1ex+fbSSEvL4IHPtHVkewSUgWnlnzo7ibi9v2YMb0E/efcj5wIhVIVnAi5nyxVtr
- CyjJgJl47dNLpoKWMSJ9gVTa+tqS297hP6T7NSVrEWJcpLV0jx7SDdkI4xUnQb2yZnu9
- cRX1E/vYqzDlJUWK/o2iZwA3nd+2lAC1USEVW7Wmlbv+iBH3lQSQqi84t11QCx/Wj5Io
- PxLU5N/tS3+UtOTka9hqRejPqncsv1RCMI63sVb8VDKkqR/gsArwjqkSx+C7//bfVL5T
- YS0V37ReUspbX2FkatAydajUnAmG5Xdj5ZZuz7YWJJv4H3EhM3FMVIOX7nXocCJDHPAR
- UL4A==
-X-Gm-Message-State: APjAAAUqp4mZOHUQxYOu2vqab7mUDSz9C+9OuLHD5LYtcAyam9ZVtyKW
- e6WeJ/lQ1DMc3GInIihRd/Sv6Poulx2zVVq7LD8=
-X-Google-Smtp-Source: APXvYqyFjVcr3DV/kDkPHFaPjGoNOAPUlx3qgBTMVdhzS/Ov2hib4acxOvn1dSc2R4bN1wN/M0QqvauTflblBxgZCm8=
-X-Received: by 2002:aca:fc92:: with SMTP id a140mr4573964oii.153.1574179223502; 
- Tue, 19 Nov 2019 08:00:23 -0800 (PST)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A27F96E9C2;
+ Tue, 19 Nov 2019 17:02:23 +0000 (UTC)
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com
+ [209.85.222.178])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 5BCE022400;
+ Tue, 19 Nov 2019 17:02:23 +0000 (UTC)
+Received: by mail-qk1-f178.google.com with SMTP id 71so18478750qkl.0;
+ Tue, 19 Nov 2019 09:02:23 -0800 (PST)
+X-Gm-Message-State: APjAAAUpwd6NvNjEIrfq6z18rzwmZ1/Ygg9eOjn+THAszJSZ67+/ryzn
+ C6hIywpN26toMZavAqf07esH1F6zIKKxiTDetg==
+X-Google-Smtp-Source: APXvYqxucfdWSXPgW2vd8l9633HeMvIH864eMJ/p+Bk0FhDvh444Pum/yEC+Gs6buUxeu7x2jucgvrCcmOz57phmAkg=
+X-Received: by 2002:a05:620a:205d:: with SMTP id
+ d29mr30290391qka.152.1574182942398; 
+ Tue, 19 Nov 2019 09:02:22 -0800 (PST)
 MIME-Version: 1.0
 References: <20191119144315.11261-1-krzk@kernel.org>
 In-Reply-To: <20191119144315.11261-1-krzk@kernel.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 19 Nov 2019 17:00:05 +0100
-Message-ID: <CAMuHMdUnn8uYyQ+D=6rp1+R1sE_W-SS1t+EuNHm=vWaKQ9Z6tQ@mail.gmail.com>
+From: Rob Herring <robh@kernel.org>
+Date: Tue, 19 Nov 2019 11:02:11 -0600
+X-Gmail-Original-Message-ID: <CAL_Jsq+1hHneSW5DzLNxU00AqQJ49chTyULJ0S3JR-CqfOfTgA@mail.gmail.com>
+Message-ID: <CAL_Jsq+1hHneSW5DzLNxU00AqQJ49chTyULJ0S3JR-CqfOfTgA@mail.gmail.com>
 Subject: Re: [PATCH] dt-bindings: power: Fix path to power-domain.txt bindings
 To: Krzysztof Kozlowski <krzk@kernel.org>
 X-Mailman-Approved-At: Thu, 21 Nov 2019 11:10:29 +0000
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=kernel.org; s=default; t=1574182943;
+ bh=9xlP6l6zc8LrRTuryqi4QOF5/Hg74NZf0SPlZK2mEU8=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=hHdDFqFWJkwOuMKZk0NzaOxgeAE6UqGlvZAVH+WTtjEaZ3CCkLs6cDI5yFhIl9SRE
+ 54T4E31B4t+satNSKMSJ+416Ec7m0NKdD49RPHEpukOMZs6k0mxIRc9AHYb5zIBbTG
+ bNPOVvg5RSncACs08sPyTJmxe1NXOpvf8io01pqY=
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -51,46 +54,62 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, Rob Herring <robh@kernel.org>,
- Ulf Hansson <ulf.hansson@linaro.org>, linux-samsung-soc@vger.kernel.org,
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ Ulf Hansson <ulf.hansson@linaro.org>,
+ linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
  Kevin Hilman <khilman@kernel.org>,
  linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Linux PM list <linux-pm@vger.kernel.org>,
+ "open list:THERMAL" <linux-pm@vger.kernel.org>,
  "Rafael J. Wysocki" <rjw@rjwysocki.net>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- etnaviv@lists.freedesktop.org,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, USB list <linux-usb@vger.kernel.org>,
- linux-pci <linux-pci@vger.kernel.org>,
- linux-tegra <linux-tegra@vger.kernel.org>, freedreno@lists.freedesktop.org,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, etnaviv@lists.freedesktop.org,
+ Linux USB List <linux-usb@vger.kernel.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, PCI <linux-pci@vger.kernel.org>,
+ linux-tegra@vger.kernel.org, freedreno <freedreno@lists.freedesktop.org>,
  linux-clk <linux-clk@vger.kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
+ <linux-arm-kernel@lists.infradead.org>,
  Linux Media Mailing List <linux-media@vger.kernel.org>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-SGkgS3J6eXN6dG9mLAoKT24gVHVlLCBOb3YgMTksIDIwMTkgYXQgMzo0MyBQTSBLcnp5c3p0b2Yg
-S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+IHdyb3RlOgo+IFdpdGggc3BsaXQgb2YgcG93ZXIg
-ZG9tYWluIGNvbnRyb2xsZXIgYmluZGluZ3MgdG8gcG93ZXItZG9tYWluLnlhbWwsIHRoZQo+IGNv
-bnN1bWVyIHBhcnQgd2FzIHJlbmFtZWQgdG8gcG93ZXItZG9tYWluLnR4dC4gIFVwZGF0ZSB0aGUg
-cmVmZXJlbmNlcyBpbgo+IG90aGVyIGJpbmRpbmdzLgo+Cj4gUmVwb3J0ZWQtYnk6IEdlZXJ0IFV5
-dHRlcmhvZXZlbiA8Z2VlcnRAbGludXgtbTY4ay5vcmc+Cj4gRml4ZXM6IGFiYjQ4MDVlMzQzYSAo
-ImR0LWJpbmRpbmdzOiBwb3dlcjogQ29udmVydCBTYW1zdW5nIEV4eW5vcyBQb3dlciBEb21haW4g
-YmluZGluZ3MgdG8ganNvbi1zY2hlbWEiKQo+IFNpZ25lZC1vZmYtYnk6IEtyenlzenRvZiBLb3ps
-b3dza2kgPGtyemtAa2VybmVsLm9yZz4KClRoYW5rcyBmb3IgeW91ciBwYXRjaCEKClJldmlld2Vk
-LWJ5OiBHZWVydCBVeXR0ZXJob2V2ZW4gPGdlZXJ0K3JlbmVzYXNAZ2xpZGVyLmJlPgoKPiAgLi4u
-L2JpbmRpbmdzL2Nsb2NrL3JlbmVzYXMscmNhci1nZW4yLWNwZy1jbG9ja3MudHh0ICAgICAgICAg
-ICB8IDIgKy0KClBsZWFzZSBub3RlIHRoaXMgZmlsZSBpcyBubyBsb25nZXIgcHJlc2VudCBpbiBu
-ZXh0LgpCdXQgcm9iaC9mb3ItbmV4dCBzdGlsbCBoYXMgaXQuCgpHcntvZXRqZSxlZXRpbmd9cywK
-CiAgICAgICAgICAgICAgICAgICAgICAgIEdlZXJ0CgotLSAKR2VlcnQgVXl0dGVyaG9ldmVuIC0t
-IFRoZXJlJ3MgbG90cyBvZiBMaW51eCBiZXlvbmQgaWEzMiAtLSBnZWVydEBsaW51eC1tNjhrLm9y
-ZwoKSW4gcGVyc29uYWwgY29udmVyc2F0aW9ucyB3aXRoIHRlY2huaWNhbCBwZW9wbGUsIEkgY2Fs
-bCBteXNlbGYgYSBoYWNrZXIuIEJ1dAp3aGVuIEknbSB0YWxraW5nIHRvIGpvdXJuYWxpc3RzIEkg
-anVzdCBzYXkgInByb2dyYW1tZXIiIG9yIHNvbWV0aGluZyBsaWtlIHRoYXQuCiAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgLS0gTGludXMgVG9ydmFsZHMKX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZXRuYXZpdiBtYWlsaW5nIGxpc3QKZXRuYXZp
-dkBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFp
-bG1hbi9saXN0aW5mby9ldG5hdml2
+T24gVHVlLCBOb3YgMTksIDIwMTkgYXQgODo0MyBBTSBLcnp5c3p0b2YgS296bG93c2tpIDxrcnpr
+QGtlcm5lbC5vcmc+IHdyb3RlOgo+Cj4gV2l0aCBzcGxpdCBvZiBwb3dlciBkb21haW4gY29udHJv
+bGxlciBiaW5kaW5ncyB0byBwb3dlci1kb21haW4ueWFtbCwgdGhlCj4gY29uc3VtZXIgcGFydCB3
+YXMgcmVuYW1lZCB0byBwb3dlci1kb21haW4udHh0LiAgVXBkYXRlIHRoZSByZWZlcmVuY2VzIGlu
+Cj4gb3RoZXIgYmluZGluZ3MuCj4KPiBSZXBvcnRlZC1ieTogR2VlcnQgVXl0dGVyaG9ldmVuIDxn
+ZWVydEBsaW51eC1tNjhrLm9yZz4KPiBGaXhlczogYWJiNDgwNWUzNDNhICgiZHQtYmluZGluZ3M6
+IHBvd2VyOiBDb252ZXJ0IFNhbXN1bmcgRXh5bm9zIFBvd2VyIERvbWFpbiBiaW5kaW5ncyB0byBq
+c29uLXNjaGVtYSIpCj4gU2lnbmVkLW9mZi1ieTogS3J6eXN6dG9mIEtvemxvd3NraSA8a3J6a0Br
+ZXJuZWwub3JnPgo+IC0tLQo+ICBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvY2xv
+Y2svY2xrLWV4eW5vcy1hdWRzcy50eHQgIHwgMiArLQo+ICBEb2N1bWVudGF0aW9uL2RldmljZXRy
+ZWUvYmluZGluZ3MvY2xvY2svZXh5bm9zNTQzMy1jbG9jay50eHQgIHwgMiArLQo+ICAuLi4vZGV2
+aWNldHJlZS9iaW5kaW5ncy9jbG9jay9yZW5lc2FzLHI4YTc3NzgtY3BnLWNsb2Nrcy50eHQgIHwg
+MiArLQo+ICAuLi4vZGV2aWNldHJlZS9iaW5kaW5ncy9jbG9jay9yZW5lc2FzLHI4YTc3NzktY3Bn
+LWNsb2Nrcy50eHQgIHwgMiArLQo+ICAuLi4vYmluZGluZ3MvY2xvY2svcmVuZXNhcyxyY2FyLWdl
+bjItY3BnLWNsb2Nrcy50eHQgICAgICAgICAgIHwgMiArLQo+ICAuLi4vZGV2aWNldHJlZS9iaW5k
+aW5ncy9jbG9jay9yZW5lc2FzLHJ6LWNwZy1jbG9ja3MudHh0ICAgICAgIHwgMiArLQo+ICAuLi4v
+ZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L2V0bmF2aXYvZXRuYXZpdi1kcm0udHh0ICAgICAg
+IHwgMiArLQo+ICBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9tc20v
+ZHB1LnR4dCAgICAgICAgIHwgMiArLQo+ICBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGlu
+Z3MvZGlzcGxheS9tc20vbWRwNS50eHQgICAgICAgIHwgMiArLQo+ICBEb2N1bWVudGF0aW9uL2Rl
+dmljZXRyZWUvYmluZGluZ3MvZHNwL2ZzbCxkc3AueWFtbCAgICAgICAgICAgIHwgMiArLQo+ICBE
+b2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvbWVkaWEvaW14Ny1taXBpLWNzaTIudHh0
+ICAgIHwgMiArLQo+ICAuLi4vZGV2aWNldHJlZS9iaW5kaW5ncy9tZWRpYS9tZWRpYXRlay1qcGVn
+LWRlY29kZXIudHh0ICAgICAgIHwgMiArLQo+ICBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmlu
+ZGluZ3MvbWVkaWEvbWVkaWF0ZWstbWRwLnR4dCAgICAgIHwgMiArLQo+ICBEb2N1bWVudGF0aW9u
+L2RldmljZXRyZWUvYmluZGluZ3Mvb3BwL3Fjb20tbnZtZW0tY3B1ZnJlcS50eHQgIHwgMiArLQo+
+ICBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvcGNpL3BjaS1rZXlzdG9uZS50eHQg
+ICAgICAgIHwgMiArLQo+ICBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvcGh5L3Rp
+LHBoeS1hbTY1NC1zZXJkZXMudHh0IHwgMiArLQo+ICBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUv
+YmluZGluZ3MvcG93ZXIvcWNvbSxycG1wZC50eHQgICAgICAgIHwgMiArLQo+ICBEb2N1bWVudGF0
+aW9uL2RldmljZXRyZWUvYmluZGluZ3MvcG93ZXIvcmVuZXNhcyxyY2FyLXN5c2MudHh0IHwgMiAr
+LQo+ICAuLi4vZGV2aWNldHJlZS9iaW5kaW5ncy91c2IvbnZpZGlhLHRlZ3JhMTI0LXh1c2IudHh0
+ICAgICAgICAgIHwgNCArKy0tCj4gIDE5IGZpbGVzIGNoYW5nZWQsIDIwIGluc2VydGlvbnMoKyks
+IDIwIGRlbGV0aW9ucygtKQoKUGxlYXNlIG5vLiBDYW4geW91IGp1c3QgdW5kbyB0aGUgcmVuYW1p
+bmcgYmFjayB0byBwb3dlcl9kb21haW4udHh0CgpSb2IKX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX18KZXRuYXZpdiBtYWlsaW5nIGxpc3QKZXRuYXZpdkBsaXN0
+cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9s
+aXN0aW5mby9ldG5hdml2
