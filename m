@@ -1,57 +1,48 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 411BF11EF02
-	for <lists+etnaviv@lfdr.de>; Sat, 14 Dec 2019 01:09:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 777F91201FA
+	for <lists+etnaviv@lfdr.de>; Mon, 16 Dec 2019 11:06:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9343F6EE28;
-	Sat, 14 Dec 2019 00:09:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B54076E484;
+	Mon, 16 Dec 2019 10:06:52 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA7726EE25
- for <etnaviv@lists.freedesktop.org>; Sat, 14 Dec 2019 00:09:34 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id t2so589469wrr.1
- for <etnaviv@lists.freedesktop.org>; Fri, 13 Dec 2019 16:09:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Ye/hWE82q7CtVjcCPN/tZ9yDb/tbbka1un83bKTcWH4=;
- b=jR+bhPwHkiZC1nrJpcA9fZdtqIFcJ/O61t/kV50tTDEX3gfyMF/HAZd/KF8E4/K/+e
- YvsY9kIxZsR8XhuPUDwRq7s3nK+tdyvL0I2xW9EnOXrQ0WER9S0TckCKHRvKKrXhHate
- 8s6R1c9DMxnvHC5ikULbXiMGAq8V5khp3xwxc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Ye/hWE82q7CtVjcCPN/tZ9yDb/tbbka1un83bKTcWH4=;
- b=jI8jOxX5TVZu3Kc5nc10/8r5cYMaPvmQJA44lihruiFZ8LnCuvQ+IUvTwqjzdH+pw7
- +zWJBPct5NRxAaN7Ozacj6OBklmR7sgSdTkBB5puzLgOtUY7/U+AcXNkjw/OkAhAUB5K
- 3vqimnBpWTcfwL6XRr0bRk+RulXGsFgFkQxX1IXmuquOj/TlPvt3uudinjnJPFUaTTBE
- h5xpofVBS3Bvgw1oiLzg6QgjuFNPokEegQIR+5s9dR/1AuOuoGRAhLP+n+Ih5bgLYx7I
- VBbr40QTP+VO1SZCkX20ZEsJRzmFt3XvLT1PlYlIB1y2Japcd6iAIo8bYLJgXCgOJl99
- kyoQ==
-X-Gm-Message-State: APjAAAUqbh4JLVIsUfoy3GCv1nZCpvgBHpigWCk3r6dE5QOFOHyfgPOx
- KN8f2jEOFMm2/WkDiOC39avyHrndOOc=
-X-Google-Smtp-Source: APXvYqxCPpP+VvorugNz4F+j3t0xo3UB8O7m2+X0ACwF9J9VmT7MGex/x1iCdvw0CngNj7IYoISpfg==
-X-Received: by 2002:a05:6000:160d:: with SMTP id
- u13mr16025907wrb.22.1576282173242; 
- Fri, 13 Dec 2019 16:09:33 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:564b:0:7567:bb67:3d7f:f863])
- by smtp.gmail.com with ESMTPSA id l2sm11741735wmi.5.2019.12.13.16.09.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Dec 2019 16:09:32 -0800 (PST)
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH] drm/etnaviv: Use dma_resv locking wrappers
-Date: Sat, 14 Dec 2019 01:09:27 +0100
-Message-Id: <20191214000927.1616384-1-daniel.vetter@ffwll.ch>
-X-Mailer: git-send-email 2.24.0
-In-Reply-To: <20191125094356.161941-2-daniel.vetter@ffwll.ch>
-References: <20191125094356.161941-2-daniel.vetter@ffwll.ch>
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D7BCC6EDC3;
+ Fri, 13 Dec 2019 20:58:08 +0000 (UTC)
+Received: from threadripper.lan ([149.172.19.189]) by mrelayeu.kundenserver.de
+ (mreue109 [212.227.15.145]) with ESMTPA (Nemesis) id
+ 1MvbO4-1hpQC52QtS-00scVY; Fri, 13 Dec 2019 21:50:19 +0100
+From: Arnd Bergmann <arnd@arndb.de>
+To: y2038@lists.linaro.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2 00/24] drivers, fs: y2038 updates
+Date: Fri, 13 Dec 2019 21:49:09 +0100
+Message-Id: <20191213204936.3643476-1-arnd@arndb.de>
+X-Mailer: git-send-email 2.20.0
 MIME-Version: 1.0
+X-Provags-ID: V03:K1:uP+kiANpOGJCAXUng4IDyXrHx7+oq5wNuUSCR2Raiw5aTIDdJGg
+ 5j4AA9RZwtRFpSlQJZR8HotU54Xfp+erI4gckXGaucpRhzYx4dcdDnO9RE7chr7C+S6QsS1
+ hz8jSvfht0kOIuwI+U39is0hUz6MZ6pZnETpaFRYUgmMegCz9cluYoQw5GzMKND6Vlt+MoP
+ vuRLets3Xp1M/VHl6bYkg==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:CHmV4re1oa0=:arr7HZ8qwuhxUQTfo55WC1
+ 21huvAvS9vC87CEJ4RTPFknUpQ9TEt7e0fDsnqBsPpqRJL8/jv09tf8emus0j0ljEZWzLLyrc
+ WJjrFlQ7YZDgIKd/dB51abgaJyHgpMRqaPj7DEUgRpSn/fqvlXxTVLPRaq8f6+pGVsima7fDz
+ X2MqOowew+d40Rk/XWRuVloBW2zcKUuImSNQNiQrxq1Ww/90CrNSjHVBxJ4R5cqpXu4nPyunR
+ WibT2FIwPtIzTxPWmmWK5qYnta5EuK34fkdT44BRRIfIk6M9FN3ZOXDOUB70a8JHHg81Z/LIu
+ r9PRQ57pu7mPtrM0p1A4SzQVk0/ipWyJtBAN7Rus5EHslqJpw5DGnL7SW5dqHWpDpcZStU/jj
+ 6LRH0m//lI/o+I4nN+CiT3NQ/89BSfZh/Ry8sZcJHuo6yOt/zhxdGJA52l3KJ9c2AyJbiFWyz
+ cRtbhdbz6qY19Mdi00/NhoiI1Iz3WgCqpBM4ED2vNwvMpp/DuZIDJJSGL90mICkQYPf35bRGW
+ MWaQh17dsVhZpHjfWspX1qE0ZrEhnMVRxhmD3t9tyzpBXeC9gwxFsM6stVSiQtNqarc6BB2bW
+ LcGsToWcHymmZhhi2CzKavLZBdpxCOOjy5WvutSPFfujOD6iQ7GQyTeKj+T8x3bGOIKhnBqFw
+ yTznXv5mrzgAw0sLW+2EDzsNbJda6t4T4YIhBst1EXBtHA+/TuIzk05RFhVeX4j0gGh8CkXsP
+ 17lDMrWK5Eu1rCRRFPBAiliNvVKiDahhWqHQYLW4jxBLuVRR61JFZ1VKJ8xH6e1VoQ4pjtFAM
+ eqYWDXNUA4e/HmQvCSC1uM8enKsXg4KVh0FxNTPQYqnG7MYd6+rnYAsg6XYEfnBaaQCYmzUkx
+ 1O4TQfOJn7mFGxZ1kaBg==
+X-Mailman-Approved-At: Mon, 16 Dec 2019 10:06:50 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,69 +54,181 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, etnaviv@lists.freedesktop.org,
- "Ruhl, Michael J" <michael.j.ruhl@intel.com>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Daniel Vetter <daniel.vetter@intel.com>, Lucas Stach <l.stach@pengutronix.de>
+Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org, jcmvbkbc@gmail.com,
+ netdev@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux1394-devel@lists.sourceforge.net, devel@driverdev.osuosl.org,
+ darrick.wong@oracle.com, richard@nod.at, cluster-devel@redhat.com,
+ ccaulfie@redhat.com, linux+etnaviv@armlinux.org.uk,
+ Arnd Bergmann <arnd@arndb.de>, linux-arm-msm@vger.kernel.org,
+ jdike@addtoit.com, linux-um@lists.infradead.org, etnaviv@lists.freedesktop.org,
+ christian.gmeiner@gmail.com, teigland@redhat.com, viro@zeniv.linux.org.uk,
+ tglx@linutronix.de, sean@poorly.run, trond.myklebust@hammerspace.com,
+ hirofumi@mail.parknet.co.jp, linux-nfs@vger.kernel.org,
+ valdis.kletnieks@vt.edu, rfontana@redhat.com, gregkh@linuxfoundation.org,
+ fw@strlen.de, anna.schumaker@netapp.com, linux-xfs@vger.kernel.org,
+ robdclark@gmail.com, stefanr@s5r6.in-berlin.de, daniel@ffwll.ch, jack@suse.com,
+ linux-fsdevel@vger.kernel.org, freedreno@lists.freedesktop.org,
+ davem@davemloft.net, l.stach@pengutronix.de
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-I'll add more fancy logic to them soon, so everyone really has to use
-them. Plus they already provide some nice additional debug
-infrastructure on top of direct ww_mutex usage for the fences tracked
-by dma_resv.
+These are updates to devidce drivers and file systems that for some
+reason or another were not included in the kernel in the previous
+y2038 series.
 
-v2: Fix the lost _interruptible (Michael)
+I've gone through all users of time_t again to make sure the
+kernel is in a long-term maintainable state.
 
-Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-Cc: Lucas Stach <l.stach@pengutronix.de>
-Cc: Russell King <linux+etnaviv@armlinux.org.uk>
-Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
-Cc: etnaviv@lists.freedesktop.org
-Cc: "Ruhl, Michael J" <michael.j.ruhl@intel.com>
----
- drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+Posting these as a series for better organization, but each change
+here is applicable standalone.
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-index aa3e4c3b063a..3b0afa156d92 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-@@ -113,7 +113,7 @@ static void submit_unlock_object(struct etnaviv_gem_submit *submit, int i)
- 	if (submit->bos[i].flags & BO_LOCKED) {
- 		struct drm_gem_object *obj = &submit->bos[i].obj->base;
- 
--		ww_mutex_unlock(&obj->resv->lock);
-+		dma_resv_unlock(obj->resv);
- 		submit->bos[i].flags &= ~BO_LOCKED;
- 	}
- }
-@@ -133,8 +133,7 @@ static int submit_lock_objects(struct etnaviv_gem_submit *submit,
- 		contended = i;
- 
- 		if (!(submit->bos[i].flags & BO_LOCKED)) {
--			ret = ww_mutex_lock_interruptible(&obj->resv->lock,
--							  ticket);
-+			ret = dma_resv_lock_interruptible(obj->resv, ticket);
- 			if (ret == -EALREADY)
- 				DRM_ERROR("BO at index %u already on submit list\n",
- 					  i);
-@@ -161,8 +160,7 @@ static int submit_lock_objects(struct etnaviv_gem_submit *submit,
- 		obj = &submit->bos[contended].obj->base;
- 
- 		/* we lost out in a seqno race, lock and retry.. */
--		ret = ww_mutex_lock_slow_interruptible(&obj->resv->lock,
--						       ticket);
-+		ret = dma_resv_lock_slow_interruptible(obj->resv, ticket);
- 		if (!ret) {
- 			submit->bos[contended].flags |= BO_LOCKED;
- 			slow_locked = contended;
+Please merge, review, ack/nack etc as you see fit. I will
+add these to my y2038 branch [1] for linux-next, but can keep
+rebasing for feedback and to remove any patches that get
+picked up by a maintainer.
+
+Changes since v1 [2]:
+
+- Add Acks I received
+- Rebase to v5.5-rc1, droping patches that got merged already
+- Add NFS, XFS and the final three patches from another series
+- Rewrite etnaviv patches
+
+      Arnd
+
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/arnd/playground.git/log/?h=y2038
+[2] https://lore.kernel.org/lkml/20191108213257.3097633-1-arnd@arndb.de/
+
+Arnd Bergmann (24):
+  Input: input_event: fix struct padding on sparc64
+  fat: use prandom_u32() for i_generation
+  dlm: use SO_SNDTIMEO_NEW instead of SO_SNDTIMEO_OLD
+  xtensa: ISS: avoid struct timeval
+  um: ubd: use 64-bit time_t where possible
+  acct: stop using get_seconds()
+  tsacct: add 64-bit btime field
+  packet: clarify timestamp overflow
+  quota: avoid time_t in v1_disk_dqblk definition
+  hostfs: pass 64-bit timestamps to/from user space
+  hfs/hfsplus: use 64-bit inode timestamps
+  drm/msm: avoid using 'timespec'
+  drm/etnaviv: reject timeouts with tv_nsec >= NSEC_PER_SEC
+  drm/etnaviv: avoid deprecated timespec
+  sunrpc: convert to time64_t for expiry
+  nfs: use time64_t internally
+  nfs: fix timstamp debug prints
+  nfs: fscache: use timespec64 in inode auxdata
+  xfs: rename compat_time_t to old_time32_t
+  xfs: disallow broken ioctls without compat-32-bit-time
+  xfs: quota: move to time64_t interfaces
+  y2038: remove obsolete jiffies conversion functions
+  y2038: rename itimerval to __kernel_old_itimerval
+  y2038: sparc: remove use of struct timex
+
+ arch/sparc/kernel/sys_sparc_64.c              | 29 +++++-----
+ arch/um/drivers/cow.h                         |  2 +-
+ arch/um/drivers/cow_user.c                    |  7 ++-
+ arch/um/drivers/ubd_kern.c                    | 10 ++--
+ arch/um/include/shared/os.h                   |  2 +-
+ arch/um/os-Linux/file.c                       |  2 +-
+ .../platforms/iss/include/platform/simcall.h  |  4 +-
+ drivers/gpu/drm/etnaviv/etnaviv_drv.c         | 20 ++++---
+ drivers/gpu/drm/etnaviv/etnaviv_drv.h         | 11 ++--
+ drivers/gpu/drm/etnaviv/etnaviv_gem.c         |  4 +-
+ drivers/gpu/drm/etnaviv/etnaviv_gem.h         |  2 +-
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c         |  5 +-
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.h         |  5 +-
+ drivers/gpu/drm/msm/msm_drv.h                 |  3 +-
+ drivers/input/evdev.c                         | 14 ++---
+ drivers/input/misc/uinput.c                   | 14 +++--
+ fs/dlm/lowcomms.c                             |  6 +-
+ fs/fat/inode.c                                |  3 +-
+ fs/hfs/hfs_fs.h                               | 28 +++++++--
+ fs/hfs/inode.c                                |  4 +-
+ fs/hfsplus/hfsplus_fs.h                       | 28 +++++++--
+ fs/hfsplus/inode.c                            | 12 ++--
+ fs/hostfs/hostfs.h                            | 22 ++++---
+ fs/hostfs/hostfs_kern.c                       | 15 +++--
+ fs/nfs/fscache-index.c                        |  6 +-
+ fs/nfs/fscache.c                              | 18 ++++--
+ fs/nfs/fscache.h                              |  8 ++-
+ fs/nfs/nfs4xdr.c                              | 10 ++--
+ fs/quota/quotaio_v1.h                         |  6 +-
+ fs/xfs/xfs_dquot.c                            |  6 +-
+ fs/xfs/xfs_ioctl.c                            | 26 +++++++++
+ fs/xfs/xfs_ioctl32.c                          |  2 +-
+ fs/xfs/xfs_ioctl32.h                          |  2 +-
+ fs/xfs/xfs_qm.h                               |  6 +-
+ fs/xfs/xfs_quotaops.c                         |  6 +-
+ fs/xfs/xfs_trans_dquot.c                      |  8 ++-
+ include/linux/jiffies.h                       | 20 -------
+ include/linux/sunrpc/cache.h                  | 42 ++++++++------
+ include/linux/sunrpc/gss_api.h                |  4 +-
+ include/linux/sunrpc/gss_krb5.h               |  2 +-
+ include/linux/syscalls.h                      |  9 ++-
+ include/uapi/linux/acct.h                     |  2 +
+ include/uapi/linux/input.h                    |  1 +
+ include/uapi/linux/taskstats.h                |  6 +-
+ include/uapi/linux/time_types.h               |  5 ++
+ include/uapi/linux/timex.h                    |  2 +
+ kernel/acct.c                                 |  4 +-
+ kernel/time/itimer.c                          | 18 +++---
+ kernel/time/time.c                            | 58 ++-----------------
+ kernel/tsacct.c                               |  9 ++-
+ net/packet/af_packet.c                        | 27 +++++----
+ net/sunrpc/auth_gss/gss_krb5_mech.c           | 12 +++-
+ net/sunrpc/auth_gss/gss_krb5_seal.c           |  8 +--
+ net/sunrpc/auth_gss/gss_krb5_unseal.c         |  6 +-
+ net/sunrpc/auth_gss/gss_krb5_wrap.c           | 16 ++---
+ net/sunrpc/auth_gss/gss_mech_switch.c         |  2 +-
+ net/sunrpc/auth_gss/svcauth_gss.c             |  6 +-
+ net/sunrpc/cache.c                            | 16 ++---
+ net/sunrpc/svcauth_unix.c                     | 10 ++--
+ 59 files changed, 351 insertions(+), 290 deletions(-)
+
 -- 
-2.24.0
+2.20.0
 
+Cc: jdike@addtoit.com
+Cc: richard@nod.at
+Cc: jcmvbkbc@gmail.com
+Cc: stefanr@s5r6.in-berlin.de
+Cc: l.stach@pengutronix.de
+Cc: linux+etnaviv@armlinux.org.uk
+Cc: christian.gmeiner@gmail.com
+Cc: airlied@linux.ie
+Cc: daniel@ffwll.ch
+Cc: robdclark@gmail.com
+Cc: sean@poorly.run
+Cc: valdis.kletnieks@vt.edu
+Cc: gregkh@linuxfoundation.org
+Cc: ccaulfie@redhat.com
+Cc: teigland@redhat.com
+Cc: hirofumi@mail.parknet.co.jp
+Cc: jack@suse.com
+Cc: davem@davemloft.net
+Cc: fw@strlen.de
+Cc: viro@zeniv.linux.org.uk
+Cc: rfontana@redhat.com
+Cc: tglx@linutronix.de
+Cc: linux-um@lists.infradead.org
+Cc: linux1394-devel@lists.sourceforge.net
+Cc: etnaviv@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-arm-msm@vger.kernel.org
+Cc: freedreno@lists.freedesktop.org
+Cc: devel@driverdev.osuosl.org
+Cc: cluster-devel@redhat.com
+Cc: linux-fsdevel@vger.kernel.org
+Cc: netdev@vger.kernel.org
+Cc: trond.myklebust@hammerspace.com
+Cc: anna.schumaker@netapp.com
+Cc: linux-nfs@vger.kernel.org
+Cc: linux-xfs@vger.kernel.org
+Cc: darrick.wong@oracle.com
+Cc: sparclinux@vger.kernel.org
 _______________________________________________
 etnaviv mailing list
 etnaviv@lists.freedesktop.org
