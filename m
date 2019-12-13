@@ -1,60 +1,61 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D6F0108B1C
-	for <lists+etnaviv@lfdr.de>; Mon, 25 Nov 2019 10:44:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F3CAE11EB88
+	for <lists+etnaviv@lfdr.de>; Fri, 13 Dec 2019 21:08:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AEB236E0D6;
-	Mon, 25 Nov 2019 09:44:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C5E56ECF9;
+	Fri, 13 Dec 2019 20:08:32 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 615F56E0C9
- for <etnaviv@lists.freedesktop.org>; Mon, 25 Nov 2019 09:44:05 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id y11so13973005wrt.6
- for <etnaviv@lists.freedesktop.org>; Mon, 25 Nov 2019 01:44:05 -0800 (PST)
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
+ [IPv6:2a00:1450:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 258A76ECF0
+ for <etnaviv@lists.freedesktop.org>; Fri, 13 Dec 2019 20:08:31 +0000 (UTC)
+Received: by mail-wr1-x444.google.com with SMTP id q6so30674wro.9
+ for <etnaviv@lists.freedesktop.org>; Fri, 13 Dec 2019 12:08:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=s0hmHEcvCC0qbSC/De866WAvWdTYGdzpFwLiouqM3/8=;
+ b=AD+itFb7W/67DJ3guxnxujbhlSqpK2mXyfTsoHLo+9mMka7qtiXe7Z/9b51ulGmp05
+ FJMRmPpqc2IW/DYXz1aymPEIfNLmbrn7xJdelUUJNxQUdOQFlplzBrli0sSphxsT+Iq+
+ YirfloHSpCwLWnJn88Amk4syJUwn2fnj7TjUA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=9P/88QZp3twV5ZMBCNpxP10Jrg6uWQ8vrgISj8qXSq0=;
- b=QpSRuou6FXT6d5uAI8K40T+twqPKCct3bW6pIL4XSlcZ/5Kg2hdsBVQFXo15y87aoz
- svvfm+IQJ4ZCftTDT4C7gbYlsZv+37AGJMDWluQLdXZir+cmzaE8SZ0SzMr/Nqhn4Grz
- 21xW3nFIxHy6Lx2+6jwguc9VNAi/58ypSJGx1xeWICJPd4HFlWJizZGcZWUw7r5nDfu6
- 4N8rFNWQZU+FuO/PvbefpBWUNrfjZeSc8BomlVCCfqDgKqxbM50vXYnseY3lx4my3c6j
- AxP71f87nAf93jkiXhyVkOPaOm0vjlqTwOHVI9Euhyxmxf43HbS7aAt34O71ivRW/Fzj
- ZVzw==
-X-Gm-Message-State: APjAAAVjKTo7Q9EPE/mH/uQIUFHf7HBZGAQ+Q6ehM9Q1orD1cUDIjAX/
- zI2zWDOQnNvh9Muit75Kxc2/dQ==
-X-Google-Smtp-Source: APXvYqwMoAw+yJfB7c4+ueaQWcTFXuuK+HTFpLh7X64EMiPuUMQeOpBynVtM55dhzAEGbCQtfXbzJw==
-X-Received: by 2002:adf:e881:: with SMTP id d1mr31107065wrm.296.1574675044020; 
- Mon, 25 Nov 2019 01:44:04 -0800 (PST)
-Received: from phenom.ffwll.local (212-51-149-96.fiber7.init7.net.
- [212.51.149.96])
- by smtp.gmail.com with ESMTPSA id x2sm7598233wmc.3.2019.11.25.01.44.02
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=s0hmHEcvCC0qbSC/De866WAvWdTYGdzpFwLiouqM3/8=;
+ b=k7Wfo7Xly3EBakkHZrNfjNmnVRbjtKtSci8gmzDxkGzjrWGE6w9lZkihOEpU4MKU3D
+ /lFZw09MBWEQVqjndoxORNRrDekCxbwL1e9aCdj0f05r1ujYFvRjAlomUncWjFPdSOjo
+ Gu8jm2+ixrp+saZ57tvg1ftxcKaOv9AgJJbekCHGJjEMgfHkKRskxN7r7oHSDVZwECIc
+ e11qdJSnM+ge2qj3r3BpkssuywB2s6Xtd/rAa57nJRwBYmRPPo7KEDtbnd/bjI7NVGJV
+ P21wVBjXMlOlvcRkVWmz73qTsDVKuQcnzCcGJ5JSdt5stNl+ZoHsctlKUrOR31L6uJL9
+ huzw==
+X-Gm-Message-State: APjAAAVwu+0NoV9r//P1JgOagbnDgA1UonCw+GAiL7KR1TXTIQfwW3I8
+ qaQjRKYO2fCBpFyz9M/M1BsYog==
+X-Google-Smtp-Source: APXvYqzvIiH858jendvGHuzJsone3U5RVzvk+l+K36SXi8Vi3S6teGKauM2zP38jKomfUVBIohq7aQ==
+X-Received: by 2002:a5d:50ce:: with SMTP id f14mr14553651wrt.254.1576267709713; 
+ Fri, 13 Dec 2019 12:08:29 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:564b:0:7567:bb67:3d7f:f863])
+ by smtp.gmail.com with ESMTPSA id j12sm11721163wrw.54.2019.12.13.12.08.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 25 Nov 2019 01:44:03 -0800 (PST)
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
+ Fri, 13 Dec 2019 12:08:28 -0800 (PST)
+Date: Fri, 13 Dec 2019 21:08:26 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
 To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 1/4] drm/etnaviv: Use dma_resv locking wrappers
-Date: Mon, 25 Nov 2019 10:43:53 +0100
-Message-Id: <20191125094356.161941-2-daniel.vetter@ffwll.ch>
-X-Mailer: git-send-email 2.24.0
-In-Reply-To: <20191125094356.161941-1-daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH 1/4] drm/etnaviv: Use dma_resv locking wrappers
+Message-ID: <20191213200826.GK624164@phenom.ffwll.local>
 References: <20191125094356.161941-1-daniel.vetter@ffwll.ch>
+ <20191125094356.161941-2-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=9P/88QZp3twV5ZMBCNpxP10Jrg6uWQ8vrgISj8qXSq0=;
- b=AWsmPt6USB81qT6NHiMlHZ706OVrHW9Q0tPWLU1F7CErK+5wn0tFkPQw4/sJEfAA0e
- K7SEjtPAVRScXDrLZ/itQnv46WKecMzn9+W0Ct7RtrKxWlMbhdP1GlcbAnxyy9bJhU6x
- 32uuhkdK+aBd7aaakAdZtZ/AZ8pF0cIOeAcZo=
+Content-Disposition: inline
+In-Reply-To: <20191125094356.161941-2-daniel.vetter@ffwll.ch>
+X-Operating-System: Linux phenom 5.3.0-2-amd64 
+User-Agent: Mutt/1.12.2 (2019-09-21)
 X-BeenThere: etnaviv@lists.freedesktop.org
-X-Mailman-Version: 2.1.23
+X-Mailman-Version: 2.1.29
 Precedence: list
 List-Id: <etnaviv.lists.freedesktop.org>
 List-Unsubscribe: <https://lists.freedesktop.org/mailman/options/etnaviv>,
@@ -69,45 +70,73 @@ Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
  etnaviv@lists.freedesktop.org, Christian Gmeiner <christian.gmeiner@gmail.com>,
  Russell King <linux+etnaviv@armlinux.org.uk>,
  Daniel Vetter <daniel.vetter@intel.com>, Lucas Stach <l.stach@pengutronix.de>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-SSdsbCBhZGQgbW9yZSBmYW5jeSBsb2dpYyB0byB0aGVtIHNvb24sIHNvIGV2ZXJ5b25lIHJlYWxs
-eSBoYXMgdG8gdXNlCnRoZW0uIFBsdXMgdGhleSBhbHJlYWR5IHByb3ZpZGUgc29tZSBuaWNlIGFk
-ZGl0aW9uYWwgZGVidWcKaW5mcmFzdHJ1Y3R1cmUgb24gdG9wIG9mIGRpcmVjdCB3d19tdXRleCB1
-c2FnZSBmb3IgdGhlIGZlbmNlcyB0cmFja2VkCmJ5IGRtYV9yZXN2LgoKU2lnbmVkLW9mZi1ieTog
-RGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBpbnRlbC5jb20+CkNjOiBMdWNhcyBTdGFjaCA8
-bC5zdGFjaEBwZW5ndXRyb25peC5kZT4KQ2M6IFJ1c3NlbGwgS2luZyA8bGludXgrZXRuYXZpdkBh
-cm1saW51eC5vcmcudWs+CkNjOiBDaHJpc3RpYW4gR21laW5lciA8Y2hyaXN0aWFuLmdtZWluZXJA
-Z21haWwuY29tPgpDYzogZXRuYXZpdkBsaXN0cy5mcmVlZGVza3RvcC5vcmcKLS0tCiBkcml2ZXJz
-L2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2X2dlbV9zdWJtaXQuYyB8IDggKysrLS0tLS0KIDEgZmls
-ZSBjaGFuZ2VkLCAzIGluc2VydGlvbnMoKyksIDUgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEv
-ZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9nZW1fc3VibWl0LmMgYi9kcml2ZXJzL2dw
-dS9kcm0vZXRuYXZpdi9ldG5hdml2X2dlbV9zdWJtaXQuYwppbmRleCBhYTNlNGMzYjA2M2EuLjk0
-N2IyMTg2OGU3MiAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9n
-ZW1fc3VibWl0LmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9nZW1fc3Vi
-bWl0LmMKQEAgLTExMyw3ICsxMTMsNyBAQCBzdGF0aWMgdm9pZCBzdWJtaXRfdW5sb2NrX29iamVj
-dChzdHJ1Y3QgZXRuYXZpdl9nZW1fc3VibWl0ICpzdWJtaXQsIGludCBpKQogCWlmIChzdWJtaXQt
-PmJvc1tpXS5mbGFncyAmIEJPX0xPQ0tFRCkgewogCQlzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKm9i
-aiA9ICZzdWJtaXQtPmJvc1tpXS5vYmotPmJhc2U7CiAKLQkJd3dfbXV0ZXhfdW5sb2NrKCZvYmot
-PnJlc3YtPmxvY2spOworCQlkbWFfcmVzdl91bmxvY2sob2JqLT5yZXN2KTsKIAkJc3VibWl0LT5i
-b3NbaV0uZmxhZ3MgJj0gfkJPX0xPQ0tFRDsKIAl9CiB9CkBAIC0xMzMsOCArMTMzLDcgQEAgc3Rh
-dGljIGludCBzdWJtaXRfbG9ja19vYmplY3RzKHN0cnVjdCBldG5hdml2X2dlbV9zdWJtaXQgKnN1
-Ym1pdCwKIAkJY29udGVuZGVkID0gaTsKIAogCQlpZiAoIShzdWJtaXQtPmJvc1tpXS5mbGFncyAm
-IEJPX0xPQ0tFRCkpIHsKLQkJCXJldCA9IHd3X211dGV4X2xvY2tfaW50ZXJydXB0aWJsZSgmb2Jq
-LT5yZXN2LT5sb2NrLAotCQkJCQkJCSAgdGlja2V0KTsKKwkJCXJldCA9IGRtYV9yZXN2X2xvY2so
-b2JqLT5yZXN2LCB0aWNrZXQpOwogCQkJaWYgKHJldCA9PSAtRUFMUkVBRFkpCiAJCQkJRFJNX0VS
-Uk9SKCJCTyBhdCBpbmRleCAldSBhbHJlYWR5IG9uIHN1Ym1pdCBsaXN0XG4iLAogCQkJCQkgIGkp
-OwpAQCAtMTYxLDggKzE2MCw3IEBAIHN0YXRpYyBpbnQgc3VibWl0X2xvY2tfb2JqZWN0cyhzdHJ1
-Y3QgZXRuYXZpdl9nZW1fc3VibWl0ICpzdWJtaXQsCiAJCW9iaiA9ICZzdWJtaXQtPmJvc1tjb250
-ZW5kZWRdLm9iai0+YmFzZTsKIAogCQkvKiB3ZSBsb3N0IG91dCBpbiBhIHNlcW5vIHJhY2UsIGxv
-Y2sgYW5kIHJldHJ5Li4gKi8KLQkJcmV0ID0gd3dfbXV0ZXhfbG9ja19zbG93X2ludGVycnVwdGli
-bGUoJm9iai0+cmVzdi0+bG9jaywKLQkJCQkJCSAgICAgICB0aWNrZXQpOworCQlyZXQgPSBkbWFf
-cmVzdl9sb2NrX3Nsb3dfaW50ZXJydXB0aWJsZShvYmotPnJlc3YsIHRpY2tldCk7CiAJCWlmICgh
-cmV0KSB7CiAJCQlzdWJtaXQtPmJvc1tjb250ZW5kZWRdLmZsYWdzIHw9IEJPX0xPQ0tFRDsKIAkJ
-CXNsb3dfbG9ja2VkID0gY29udGVuZGVkOwotLSAKMi4yNC4wCgpfX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fXwpldG5hdml2IG1haWxpbmcgbGlzdApldG5hdml2
-QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWls
-bWFuL2xpc3RpbmZvL2V0bmF2aXY=
+On Mon, Nov 25, 2019 at 10:43:53AM +0100, Daniel Vetter wrote:
+> I'll add more fancy logic to them soon, so everyone really has to use
+> them. Plus they already provide some nice additional debug
+> infrastructure on top of direct ww_mutex usage for the fences tracked
+> by dma_resv.
+> 
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> Cc: Lucas Stach <l.stach@pengutronix.de>
+> Cc: Russell King <linux+etnaviv@armlinux.org.uk>
+> Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
+> Cc: etnaviv@lists.freedesktop.org
+
+Ping for some review/acks.
+
+Thanks, Daniel
+
+> ---
+>  drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c | 8 +++-----
+>  1 file changed, 3 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+> index aa3e4c3b063a..947b21868e72 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+> @@ -113,7 +113,7 @@ static void submit_unlock_object(struct etnaviv_gem_submit *submit, int i)
+>  	if (submit->bos[i].flags & BO_LOCKED) {
+>  		struct drm_gem_object *obj = &submit->bos[i].obj->base;
+>  
+> -		ww_mutex_unlock(&obj->resv->lock);
+> +		dma_resv_unlock(obj->resv);
+>  		submit->bos[i].flags &= ~BO_LOCKED;
+>  	}
+>  }
+> @@ -133,8 +133,7 @@ static int submit_lock_objects(struct etnaviv_gem_submit *submit,
+>  		contended = i;
+>  
+>  		if (!(submit->bos[i].flags & BO_LOCKED)) {
+> -			ret = ww_mutex_lock_interruptible(&obj->resv->lock,
+> -							  ticket);
+> +			ret = dma_resv_lock(obj->resv, ticket);
+>  			if (ret == -EALREADY)
+>  				DRM_ERROR("BO at index %u already on submit list\n",
+>  					  i);
+> @@ -161,8 +160,7 @@ static int submit_lock_objects(struct etnaviv_gem_submit *submit,
+>  		obj = &submit->bos[contended].obj->base;
+>  
+>  		/* we lost out in a seqno race, lock and retry.. */
+> -		ret = ww_mutex_lock_slow_interruptible(&obj->resv->lock,
+> -						       ticket);
+> +		ret = dma_resv_lock_slow_interruptible(obj->resv, ticket);
+>  		if (!ret) {
+>  			submit->bos[contended].flags |= BO_LOCKED;
+>  			slow_locked = contended;
+> -- 
+> 2.24.0
+> 
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+etnaviv mailing list
+etnaviv@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/etnaviv
