@@ -1,31 +1,31 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54061130FE3
-	for <lists+etnaviv@lfdr.de>; Mon,  6 Jan 2020 11:04:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AA36313100E
+	for <lists+etnaviv@lfdr.de>; Mon,  6 Jan 2020 11:08:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EDEB66E21B;
-	Mon,  6 Jan 2020 10:04:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 668906E20A;
+	Mon,  6 Jan 2020 10:08:47 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EDC0B6E21B
- for <etnaviv@lists.freedesktop.org>; Mon,  6 Jan 2020 10:03:59 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1BE3B6E20A
+ for <etnaviv@lists.freedesktop.org>; Mon,  6 Jan 2020 10:08:46 +0000 (UTC)
 Received: from kresse.hi.pengutronix.de ([2001:67c:670:100:1d::2a])
  by metis.ext.pengutronix.de with esmtp (Exim 4.92)
  (envelope-from <l.stach@pengutronix.de>)
- id 1ioPEp-00016j-2P; Mon, 06 Jan 2020 11:03:55 +0100
-Message-ID: <5cd1dc11df43d86d9db0dc2520de9b2e839ea7cc.camel@pengutronix.de>
-Subject: Re: [PATCH 2/6] drm/etnaviv: determine product, customer and eco id
+ id 1ioPJS-0001hz-R9; Mon, 06 Jan 2020 11:08:42 +0100
+Message-ID: <15ed7b85a13e220a533a800b9c04f13b1c747c1c.camel@pengutronix.de>
+Subject: Re: [PATCH 3/6] drm/etnaviv: show identity information in debugfs
 From: Lucas Stach <l.stach@pengutronix.de>
 To: Christian Gmeiner <christian.gmeiner@gmail.com>, 
  linux-kernel@vger.kernel.org
-Date: Mon, 06 Jan 2020 11:03:52 +0100
-In-Reply-To: <20200102100230.420009-3-christian.gmeiner@gmail.com>
+Date: Mon, 06 Jan 2020 11:08:42 +0100
+In-Reply-To: <20200102100230.420009-4-christian.gmeiner@gmail.com>
 References: <20200102100230.420009-1-christian.gmeiner@gmail.com>
- <20200102100230.420009-3-christian.gmeiner@gmail.com>
+ <20200102100230.420009-4-christian.gmeiner@gmail.com>
 User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
 X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::2a
@@ -53,88 +53,38 @@ Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
 On Do, 2020-01-02 at 11:02 +0100, Christian Gmeiner wrote:
-> They will be used for extended HWDB support. The eco id logic was taken
-> from galcore kernel driver sources.
-> 
 > Signed-off-by: Christian Gmeiner <christian.gmeiner@gmail.com>
 > ---
->  drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 17 +++++++++++++++++
->  drivers/gpu/drm/etnaviv/etnaviv_gpu.h |  6 +++---
->  2 files changed, 20 insertions(+), 3 deletions(-)
+>  drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> index d47d1a8e0219..253301be9e95 100644
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> index 253301be9e95..cecef5034db1 100644
 > --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
 > +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> @@ -321,6 +321,18 @@ static void etnaviv_hw_specs(struct etnaviv_gpu *gpu)
->  		gpu->identity.varyings_count -= 1;
->  }
+> @@ -868,6 +868,18 @@ int etnaviv_gpu_debugfs(struct etnaviv_gpu *gpu,
+> struct seq_file *m)
 >  
-> +static void etnaviv_hw_eco_id(struct etnaviv_gpu *gpu)
-> +{
-> +	const u32 chipDate = gpu_read(gpu, VIVS_HI_CHIP_DATE);
-> +	gpu->identity.eco_id = gpu_read(gpu, VIVS_HI_CHIP_ECO_ID);
-> +
-> +	if (etnaviv_is_model_rev(gpu, GC1000, 0x5037) && (chipDate == 0x20120617))
-> +		gpu->identity.eco_id = 1;
-> +
-> +	if (etnaviv_is_model_rev(gpu, GC320, 0x5303) && (chipDate == 0x20140511))
-> +		gpu->identity.eco_id = 1;
-
-I'm not sure if those two checks warrant a separate function. Maybe
-just place them besides the other ID fixups?
-
-> +}
-> +
->  static void etnaviv_hw_identify(struct etnaviv_gpu *gpu)
->  {
->  	u32 chipIdentity;
-> @@ -362,6 +374,8 @@ static void etnaviv_hw_identify(struct etnaviv_gpu *gpu)
->  			}
->  		}
+>  	verify_dma(gpu, &debug);
 >  
-> +		gpu->identity.product_id = gpu_read(gpu, VIVS_HI_CHIP_PRODUCT_ID);
-> +
->  		/*
->  		 * NXP likes to call the GPU on the i.MX6QP GC2000+, but in
->  		 * reality it's just a re-branded GC3000. We can identify this
-> @@ -375,6 +389,9 @@ static void etnaviv_hw_identify(struct etnaviv_gpu *gpu)
->  		}
->  	}
->  
-> +	etnaviv_hw_eco_id(gpu);
-> +	gpu->identity.customer_id = gpu_read(gpu, VIVS_HI_CHIP_CUSTOMER_ID);
+> +	seq_puts(m, "\tidentity\n");
+> +	seq_printf(m, "\t model: 0x%x\n",
+> +		   gpu->identity.model);
+> +	seq_printf(m, "\t revision: 0x%x\n",
+> +		   gpu->identity.revision);
+> +	seq_printf(m, "\t product_id: 0x%x\n",
+> +		   gpu->identity.product_id);
+> +	seq_printf(m, "\t customer_id: 0x%x\n",
+> +		   gpu->identity.customer_id);
+> +	seq_printf(m, "\t eco_id: 0x%x\n",
+> +		   gpu->identity.eco_id);
 
-I don't like this scattering of identity register reads. Please move
-all of those reads to the else clause where we currently read
-model/rev. I doubt that the customer ID register is available on the
-really early cores, that only have the VIVS_HI_CHIP_IDENTITY register.
+I like having this info in debugfs. Most of those seq_printf don't need
+a line break though, as they fit well within the 80 char limit.
 
 Regards,
 Lucas
-
->  	dev_info(gpu->dev, "model: GC%x, revision: %x\n",
->  		 gpu->identity.model, gpu->identity.revision);
->  
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
-> index 8f9bd4edc96a..68bd966e3916 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
-> @@ -15,11 +15,11 @@ struct etnaviv_gem_submit;
->  struct etnaviv_vram_mapping;
->  
->  struct etnaviv_chip_identity {
-> -	/* Chip model. */
->  	u32 model;
-> -
-> -	/* Revision value.*/
->  	u32 revision;
-> +	u32 product_id;
-> +	u32 customer_id;
-> +	u32 eco_id;
->  
->  	/* Supported feature fields. */
->  	u32 features;
 
 _______________________________________________
 etnaviv mailing list
