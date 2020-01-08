@@ -1,40 +1,38 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61674131604
-	for <lists+etnaviv@lfdr.de>; Mon,  6 Jan 2020 17:28:09 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A599136A06
+	for <lists+etnaviv@lfdr.de>; Fri, 10 Jan 2020 10:32:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F0EF76E4A5;
-	Mon,  6 Jan 2020 16:28:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0300B6E0C4;
+	Fri, 10 Jan 2020 09:32:46 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7AD2E6E4AD;
- Mon,  6 Jan 2020 16:28:06 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id 8277F80536;
- Mon,  6 Jan 2020 17:28:03 +0100 (CET)
-Date: Mon, 6 Jan 2020 17:28:02 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Christian Gmeiner <christian.gmeiner@gmail.com>
-Subject: Re: [PATCH v2 0/6] update hwdw for gc400
-Message-ID: <20200106162802.GA20675@ravnborg.org>
-References: <20200106151655.311413-1-christian.gmeiner@gmail.com>
- <20200106153643.GA8535@ravnborg.org>
- <CAH9NwWd7C+DzAKe97kURm=sGjDH+KQJOif3j=w6K+99xmYGncQ@mail.gmail.com>
+X-Greylist: delayed 1231 seconds by postgrey-1.36 at gabe;
+ Wed, 08 Jan 2020 01:36:54 UTC
+Received: from imap2.colo.codethink.co.uk (imap2.colo.codethink.co.uk
+ [78.40.148.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A3E6D6E15F;
+ Wed,  8 Jan 2020 01:36:54 +0000 (UTC)
+Received: from shadbolt.e.decadent.org.uk ([88.96.1.126] helo=xylophone)
+ by imap2.colo.codethink.co.uk with esmtpsa  (Exim 4.92 #3 (Debian))
+ id 1iozxD-0001AQ-83; Wed, 08 Jan 2020 01:16:11 +0000
+Message-ID: <6c2151b5d9b07c7cc29cd484a80d0db213e5fa19.camel@codethink.co.uk>
+Subject: Re: [Y2038] [PATCH v2 13/24] drm/etnaviv: reject timeouts with
+ tv_nsec >= NSEC_PER_SEC
+From: Ben Hutchings <ben.hutchings@codethink.co.uk>
+To: Arnd Bergmann <arnd@arndb.de>, y2038@lists.linaro.org, 
+ linux-kernel@vger.kernel.org, Lucas Stach <l.stach@pengutronix.de>, David
+ Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+Date: Wed, 08 Jan 2020 01:16:09 +0000
+In-Reply-To: <20191213205417.3871055-4-arnd@arndb.de>
+References: <20191213204936.3643476-1-arnd@arndb.de>
+ <20191213205417.3871055-4-arnd@arndb.de>
+Organization: Codethink Ltd.
+User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAH9NwWd7C+DzAKe97kURm=sGjDH+KQJOif3j=w6K+99xmYGncQ@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=VcLZwmh9 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=D19gQVrFAAAA:8
- a=xMcAtTC5Z7CYE8FbCH0A:9 a=CjuIK1q_8ugA:10 a=JZBxSqCIBzwA:10
- a=W4TVW4IDbPiebHqcZpNg:22
+X-Mailman-Approved-At: Fri, 10 Jan 2020 09:32:46 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,37 +44,54 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- The etnaviv authors <etnaviv@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>,
- DRI mailing list <dri-devel@lists.freedesktop.org>,
- Russell King <linux+etnaviv@armlinux.org.uk>
+Cc: Guido =?ISO-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>,
+ etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>, Sam Ravnborg <sam@ravnborg.org>,
+ Emil Velikov <emil.velikov@collabora.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Hi Christian.
-
-> To be honest.. I forgot the change log thing this time - sorry.
-It was small changes - so no worries.
-
-> So the rule
-> is to have the change log in the normal commit message?
-This is what Danial Vetter tell people - but it is not documented as
-far as I can tell.
-
-> Funny - Lucas told me something different:
+On Fri, 2019-12-13 at 21:53 +0100, Arnd Bergmann wrote:
+> Most kernel interfaces that take a timespec require normalized
+> representation with tv_nsec between 0 and NSEC_PER_SEC.
 > 
-> "Please move those changelogs below the 3 dashes, so they don't end up
-> in the commit message. They don't really add any value to the
-> persistent kernel history."
-> https://lkml.org/lkml/2019/9/13/107
-Lucas is maintainer of etnaviv driver - so do as he says.
+> Passing values larger than 0x100000000ull further behaves differently
+> on 32-bit and 64-bit kernels, and can cause the latter to spend a long
+> time counting seconds in timespec64_sub()/set_normalized_timespec64().
+> 
+> Reject those large values at the user interface to enforce sane and
+> portable behavior.
+> 
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+>  drivers/gpu/drm/etnaviv/etnaviv_drv.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> index 1f9c01be40d7..95d72dc00280 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> @@ -297,6 +297,9 @@ static int etnaviv_ioctl_gem_cpu_prep(struct drm_device *dev, void *data,
+>  	if (args->op & ~(ETNA_PREP_READ | ETNA_PREP_WRITE | ETNA_PREP_NOSYNC))
+>  		return -EINVAL;
+>  
+> +	if (args->timeout.tv_nsec > NSEC_PER_SEC)
+[...]
 
-Keep up the good work on etnaviv in mesa too!
+There's an off-by-one error between the subject line and the actual
+changes.  The subject line seems to have the correct comparison.
 
-	Sam
+Ben.
+
+-- 
+Ben Hutchings, Software Developer                         Codethink Ltd
+https://www.codethink.co.uk/                 Dale House, 35 Dale Street
+                                     Manchester, M1 2HF, United Kingdom
+
 _______________________________________________
 etnaviv mailing list
 etnaviv@lists.freedesktop.org
