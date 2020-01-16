@@ -1,39 +1,39 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E0B814169D
-	for <lists+etnaviv@lfdr.de>; Sat, 18 Jan 2020 09:44:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D874C14169C
+	for <lists+etnaviv@lfdr.de>; Sat, 18 Jan 2020 09:44:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 88D6F6F9D5;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 77F946F9D2;
 	Sat, 18 Jan 2020 08:44:48 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA3646EE03;
- Thu, 16 Jan 2020 17:00:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4493B6EE32;
+ Thu, 16 Jan 2020 17:24:49 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 9377A2081E;
- Thu, 16 Jan 2020 17:00:57 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 1331E246B2;
+ Thu, 16 Jan 2020 17:24:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1579194058;
- bh=BIVeDkCcdsPl+1TKDpBlMJpU4E/TGWeqRij21fRbRCo=;
+ s=default; t=1579195489;
+ bh=EAJbWnwBlpDDCXgh5JtZ8Bw4nWOjmpO5KaecW+klynY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=hPfux9AE1B9PWKB5ichcKafeFIwjHFvP27QLeg2YCV/HzyBlRPIDcz0U3L0FSLLae
- OooTHWYZjUh7AlFLwGjsOV2L6QWVth8/v0TfzDvBn9biU9MIGxTW971tXZIru7whh0
- h8dCKd/WFLYjJ/oEDMd14WRVeBTUi8I+6dBkR0cU=
+ b=VZuWLbuA7Z63ZCvO0KxO97j3xYvWT/ERgtrbPiDJ4GHfryzhuQVOuZzBnJi/EII5G
+ MIFGk96gxKmthAu5AfZqv7AzpGxXoifsb/oOw4+b4Jl6tvy3Gwzy1ID1NG6u+UegvR
+ fpz2/wnidwJM9hby81rIK379gFayrdwFm5D9TjUw=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 171/671] drm/etnaviv: potential NULL dereference
-Date: Thu, 16 Jan 2020 11:51:20 -0500
-Message-Id: <20200116165940.10720-54-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 092/371] drm/etnaviv: potential NULL dereference
+Date: Thu, 16 Jan 2020 12:19:24 -0500
+Message-Id: <20200116172403.18149-35-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200116165940.10720-1-sashal@kernel.org>
-References: <20200116165940.10720-1-sashal@kernel.org>
+In-Reply-To: <20200116172403.18149-1-sashal@kernel.org>
+References: <20200116172403.18149-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -76,10 +76,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
-index 0566171f8df2..f21529e635e3 100644
+index ae884723e9b1..880b95511b98 100644
 --- a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
 +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
-@@ -15,7 +15,7 @@ struct sg_table *etnaviv_gem_prime_get_sg_table(struct drm_gem_object *obj)
+@@ -26,7 +26,7 @@ struct sg_table *etnaviv_gem_prime_get_sg_table(struct drm_gem_object *obj)
  	int npages = obj->size >> PAGE_SHIFT;
  
  	if (WARN_ON(!etnaviv_obj->pages))  /* should have already pinned! */
