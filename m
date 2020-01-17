@@ -1,38 +1,61 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A599136A06
-	for <lists+etnaviv@lfdr.de>; Fri, 10 Jan 2020 10:32:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB88E1410DE
+	for <lists+etnaviv@lfdr.de>; Fri, 17 Jan 2020 19:35:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0300B6E0C4;
-	Fri, 10 Jan 2020 09:32:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9876D6E02B;
+	Fri, 17 Jan 2020 18:35:48 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-X-Greylist: delayed 1231 seconds by postgrey-1.36 at gabe;
- Wed, 08 Jan 2020 01:36:54 UTC
-Received: from imap2.colo.codethink.co.uk (imap2.colo.codethink.co.uk
- [78.40.148.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A3E6D6E15F;
- Wed,  8 Jan 2020 01:36:54 +0000 (UTC)
-Received: from shadbolt.e.decadent.org.uk ([88.96.1.126] helo=xylophone)
- by imap2.colo.codethink.co.uk with esmtpsa  (Exim 4.92 #3 (Debian))
- id 1iozxD-0001AQ-83; Wed, 08 Jan 2020 01:16:11 +0000
-Message-ID: <6c2151b5d9b07c7cc29cd484a80d0db213e5fa19.camel@codethink.co.uk>
-Subject: Re: [Y2038] [PATCH v2 13/24] drm/etnaviv: reject timeouts with
- tv_nsec >= NSEC_PER_SEC
-From: Ben Hutchings <ben.hutchings@codethink.co.uk>
-To: Arnd Bergmann <arnd@arndb.de>, y2038@lists.linaro.org, 
- linux-kernel@vger.kernel.org, Lucas Stach <l.stach@pengutronix.de>, David
- Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Date: Wed, 08 Jan 2020 01:16:09 +0000
-In-Reply-To: <20191213205417.3871055-4-arnd@arndb.de>
-References: <20191213204936.3643476-1-arnd@arndb.de>
- <20191213205417.3871055-4-arnd@arndb.de>
-Organization: Codethink Ltd.
-User-Agent: Evolution 3.30.5-1.1 
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D02816E02B
+ for <etnaviv@lists.freedesktop.org>; Fri, 17 Jan 2020 18:35:47 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id d16so23693081wre.10
+ for <etnaviv@lists.freedesktop.org>; Fri, 17 Jan 2020 10:35:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=flowbird.group; s=google;
+ h=to:from:subject:message-id:date:user-agent:mime-version
+ :content-transfer-encoding:content-language;
+ bh=GsPIaTibXEhVfJWYZ5kgmYNLWn90ZLE3NERgL2kK+iU=;
+ b=d76oJX+Pk79NnFJPq5SsIAp1tSxPIB19L+if1Pb1pZ+azLDwAtpo5Zz1A6yAtt+aIy
+ SdSlIv6sB+pN2Nr9LpfeLn5xoyHMAh82QBGaZz264d6ls9lymmJz1pIZq90HZ3R2QRJA
+ lRwdVnXzoZdkfDXFqwijr6IMypDTnGxf5ZrfD6297/OBnVD6dyTIqcyC9EeV64uROr7E
+ CogLYtR42vIUMzmsQEpEymUmNxjuxhNNpduK5Kjo/56k8/DQoYnaXFHUFszn1PR/2K61
+ dj0OUQ2ezUUeNPUn0zRjlGS0mWcGbpN7k4GKmE3mbC6IW/F4SvQMQDtpk8hU1N637IoV
+ DKjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:to:from:subject:message-id:date:user-agent
+ :mime-version:content-transfer-encoding:content-language;
+ bh=GsPIaTibXEhVfJWYZ5kgmYNLWn90ZLE3NERgL2kK+iU=;
+ b=BRCtnTs4OOwvHFn+NmBLkagKwqfNU6PLH8DNZyXmm42nIf82u5OwhZ+7dtBR08J/9n
+ J0pmoh2RvRU1Dfq0u2465bIVcFUQ+q6cUvEjBnXOQwviKa3tkxOr4MrziSblaYRMnIgi
+ kknyaaPXgVO8hi89LJwmfWnTtgovw/X7IRby5gtBDlogblMtTdUe+pi7aq9AWiUnGv08
+ Z8rkkTGmhs1zEkicvmREyI20Lzt2ATEoH48vQKCgKqXA0Ux3l+Tk3q30pAySqPjWWsK5
+ S0vlRdia0uOjWQLm15kgT17QZpTxnoIkTpc50QqsglQ/kOEbc2eC2OfS7kDYDI7LCYhL
+ Dltg==
+X-Gm-Message-State: APjAAAXAhF5198Bu+4Jz9VNj0uFjwqyQ1nAlErsnoEp95tNvgFfHIu3D
+ O9i8TSalJcdp3pSnFkNRwvG/xHd0iUI=
+X-Google-Smtp-Source: APXvYqwYK8qZXDfz4jQIRPaUwZeGYOgfKYD9hlh2eI5czf0ScfTo7RTcKp80dhZGEHZ9fM6wW1aX1Q==
+X-Received: by 2002:adf:cf12:: with SMTP id o18mr4582530wrj.361.1579286146121; 
+ Fri, 17 Jan 2020 10:35:46 -0800 (PST)
+Received: from [10.32.51.181] ([185.149.63.251])
+ by smtp.gmail.com with ESMTPSA id u16sm8630032wmj.41.2020.01.17.10.35.45
+ for <etnaviv@lists.freedesktop.org>
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Fri, 17 Jan 2020 10:35:45 -0800 (PST)
+To: etnaviv@lists.freedesktop.org
+From: Martin Fuzzey <martin.fuzzey@flowbird.group>
+Subject: screen capture not working with etnaviv on Android
+Message-ID: <99eca0fc-e4b6-706c-977f-a74bdb54f1ce@flowbird.group>
+Date: Fri, 17 Jan 2020 19:35:45 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-X-Mailman-Approved-At: Fri, 10 Jan 2020 09:32:46 +0000
+Content-Language: fr
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,55 +67,67 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: Guido =?ISO-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>,
- etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>, Sam Ravnborg <sam@ravnborg.org>,
- Emil Velikov <emil.velikov@collabora.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-On Fri, 2019-12-13 at 21:53 +0100, Arnd Bergmann wrote:
-> Most kernel interfaces that take a timespec require normalized
-> representation with tv_nsec between 0 and NSEC_PER_SEC.
-> 
-> Passing values larger than 0x100000000ull further behaves differently
-> on 32-bit and 64-bit kernels, and can cause the latter to spend a long
-> time counting seconds in timespec64_sub()/set_normalized_timespec64().
-> 
-> Reject those large values at the user interface to enforce sane and
-> portable behavior.
-> 
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
->  drivers/gpu/drm/etnaviv/etnaviv_drv.c | 9 +++++++++
->  1 file changed, 9 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-> index 1f9c01be40d7..95d72dc00280 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-> @@ -297,6 +297,9 @@ static int etnaviv_ioctl_gem_cpu_prep(struct drm_device *dev, void *data,
->  	if (args->op & ~(ETNA_PREP_READ | ETNA_PREP_WRITE | ETNA_PREP_NOSYNC))
->  		return -EINVAL;
->  
-> +	if (args->timeout.tv_nsec > NSEC_PER_SEC)
-[...]
-
-There's an off-by-one error between the subject line and the actual
-changes.  The subject line seems to have the correct comparison.
-
-Ben.
-
--- 
-Ben Hutchings, Software Developer                         Codethink Ltd
-https://www.codethink.co.uk/                 Dale House, 35 Dale Street
-                                     Manchester, M1 2HF, United Kingdom
-
-_______________________________________________
-etnaviv mailing list
-etnaviv@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/etnaviv
+SGksCgp3aGVuIHVzaW5nIGV0bmF2aXYgKG1lc2EgMTkuMy4yKSBvbiBBbmRyb2lkIDguMSAob24g
+aS5NWDZETCBHQzg4MCkgdGhlIApzY3JlZW5jYXAgcHJvZ3JhbSBnZW5lcmF0ZXMgZW1wdHkgZmls
+ZXMuClRoZSBpc3N1ZSBhcHBlYXJzIHRvIGJlIHRoYXQgdGhlIHJlbmRlciByZXNvdXJjZXMgYXJl
+IG5vdCBiZWluZyBmbHVzaGVkLgpJIGhhdmUgbWFkZSBpdCB3b3JrIChzZWUgYmVsb3cpIGJ1dCBh
+bSBub3QgY29uZmlkZW50IGVub3VnaCBvZiB0aGUgCnNvbHV0aW9uIHRvIHByb3Bvc2UgaXQgYXMg
+YSBwYXRjaC4KCgpUaGUgc2NyZWVuY2FwIHByb2dyYW0gKGNvbW1hbmQgbGluZSB1dGlsaXR5KSBj
+cmVhdGVzIHRoZSBidWZmZXIgdG8gYmUgCmZpbGxlZCBmcm9tIGdyYWxsb2MgYW5kIHBhc3NlcyBp
+dCB0byBzdXJmYWNlZmxpbmdlci4KClN1cmZhY2VmbGluZ2VyIGltcG9ydHMgdGhlIGJ1ZmZlciBi
+eSBkb2luZyBlZ2xDcmVhdGVJbWFnZUtIUigpIHdoaWNoIAplbmRzIHVwIGRvaW5nCmRyb2lkX2Ny
+ZWF0ZV9pbWFnZV9mcm9tX3ByaW1lX2ZkcygpIHRoZW4gZXRuYV9yZXNvdXJjZV9mcm9tX2hhbmRs
+ZSgpCgpUaGF0IGlzIGJvdW5kIHRvIGFzIGEgZnJhbWVidWZmZXIgd2l0aAogwqDCoMKgIGdsR2Vu
+VGV4dHVyZXMoKQogwqDCoMKgIGdsQmluZFRleHR1cmUoKQogwqDCoMKgIGdsRUdMSW1hZ2VUYXJn
+ZXRUZXh0dXJlMkRPRVMoKQogwqDCoMKgIGdsR2VuRnJhbWVidWZmZXJzKCkKIMKgwqDCoCBnbEJp
+bmRGcmFtZWJ1ZmZlcigpCgpUaGUgc2NyZWVuIGlzIHRoZW4gcmVuZGVyZWQgYnkgc3VyZmFjZSBm
+bGluZ2VyIHRvIHRoYXQgZnJhbWVidWZmZXIKCkZpbmFsbHkgYSBlZ2xDcmVhdGVTeW5jS0hSKCkg
+aXMgZG9uZSwgZm9sbG93ZWQgYnkgYSBnbEZsdXNoKCkKCk9wdGlvbmFsbHkgKGluIGRlYnVnZ2lu
+ZyBtb2RlIG9ubHkpIGdsUmVhZFBpeGVscygpIGlzIGNhbGxlZC4KCltTZWUgCmh0dHA6Ly9hbmRy
+b2lkeHJlZi5jb20vOC4xLjBfcjMzL3M/cmVmcz1jYXB0dXJlU2NyZWVuSW1wbExvY2tlZCZwcm9q
+ZWN0PWZyYW1ld29ya3MgCmZvciB0aGUgcmVhbCBjb2RlXQoKV2hlbiB0aGUgZ2xSZWFkUGl4ZWxz
+KCkgaXMgZG9uZSB0aGUgYnVmZmVyIGlzIGZpbGxlZCB3aXRoIGFsbCB6ZXJvcy4KClRoZSBmb2xs
+b3dpbmcgcGF0Y2ggZml4ZXMgdGhhdDoKCi0tLSBhL3NyYy9nYWxsaXVtL2RyaXZlcnMvZXRuYXZp
+di9ldG5hdml2X3RyYW5zZmVyLmMKKysrIGIvc3JjL2dhbGxpdW0vZHJpdmVycy9ldG5hdml2L2V0
+bmF2aXZfdHJhbnNmZXIuYwpAQCAtMzY3LDYgKzM2NywxMCBAQCBldG5hX3RyYW5zZmVyX21hcChz
+dHJ1Y3QgcGlwZV9jb250ZXh0ICpwY3R4LCBzdHJ1Y3QgCnBpcGVfcmVzb3VyY2UgKnByc2MsCiDC
+oMKgwqAgaWYgKHRyYW5zLT5yc2MgfHwgISh1c2FnZSAmIFBJUEVfVFJBTlNGRVJfVU5TWU5DSFJP
+TklaRUQpKSB7CiDCoMKgwqDCoMKgwqAgdWludDMyX3QgcHJlcF9mbGFncyA9IDA7CgorCivCoMKg
+wqDCoMKgIGlmICh1c2FnZSAmIFBJUEVfVFJBTlNGRVJfUkVBRCkKK8KgwqDCoMKgwqDCoMKgwqAg
+cGN0eC0+Zmx1c2hfcmVzb3VyY2UocGN0eCwgcHJzYyk7CisKClRoaXMgaXMgYWxzbyBlbm91Z2gs
+IHdoZW4gdGhlIGdsUmVhZFBpeGVscygpIGlzIGNhbGxlZCBpbiBkZWJ1ZyBtb2RlLCAKZm9yIHRo
+ZSB0cmFuc2ZlciB0byB0aGUgY2xpZW50IHByb2Nlc3MgdG8gd29yay4KSG93ZXZlciwgd2l0aG91
+dCB0aGUgZ2xSZWFkUGl4ZWxzKCkgdGhlIGNhcHR1cmUgZG9lcyBub3Qgd29yayBldmVuIHdpdGgg
+CnRoZSBwYXRjaCwgd2hpY2ggaXMgbG9naWNhbCBzaW5jZSB0aGUgYnVmZmVyIGlzIG5vdCBtYXBw
+ZWQgaW4gdGhhdCBjYXNlLgoKSSBjYW4gbWFrZSB0aGUgbm9ybWFsIGNhc2Ugd29yayB0b28gYnkg
+bWFraW5nIGdsRmx1c2goKSBmbHVzaCB0aGUgCnJlc291cmNlcyB3aXRoIHRoaXM6CgotLS0gYS9z
+cmMvbWVzYS9zdGF0ZV90cmFja2VyL3N0X2NiX2ZsdXNoLmMKKysrIGIvc3JjL21lc2Evc3RhdGVf
+dHJhY2tlci9zdF9jYl9mbHVzaC5jCkBAIC01Miw2ICs1Miw4IEBAIHN0X2ZsdXNoKHN0cnVjdCBz
+dF9jb250ZXh0ICpzdCwKIMKgwqDCoMKgwqDCoMKgwqDCoCBzdHJ1Y3QgcGlwZV9mZW5jZV9oYW5k
+bGUgKipmZW5jZSwKIMKgwqDCoMKgwqDCoMKgwqDCoCB1bnNpZ25lZCBmbGFncykKIMKgeworwqDC
+oCBzdHJ1Y3QgZ2xfZnJhbWVidWZmZXIgKmZiID0gc3QtPmN0eC0+RHJhd0J1ZmZlcjsKKwogwqDC
+oMKgIHN0X2ZsdXNoX2JpdG1hcF9jYWNoZShzdCk7CgogwqDCoMKgIC8qIFdlIHdhbnQgdG8gY2Fs
+bCB0aGlzIGZ1bmN0aW9uIHBlcmlvZGljYWxseS4KQEAgLTU5LDYgKzYxLDIxIEBAIHN0X2ZsdXNo
+KHN0cnVjdCBzdF9jb250ZXh0ICpzdCwKIMKgwqDCoMKgICovCiDCoMKgwqAgc3RfY29udGV4dF9m
+cmVlX3pvbWJpZV9vYmplY3RzKHN0KTsKCivCoMKgIC8qIEZsdXNoIGFueSB0ZXh0dXJlIHJlc291
+cmNlcy4gTmVlZGVkIG9uIGV0bmF2aXYgZm9yIHNjcmVlbnNob3RzICovCivCoMKgIGlmIChmYikg
+eworwqDCoMKgwqDCoCBHTHVpbnQgaTsKKworwqDCoMKgwqDCoCBmb3IgKGkgPSAwOyBpIDwgQlVG
+RkVSX0NPVU5UOyBpKyspIHsKK8KgwqDCoMKgwqDCoMKgwqAgc3RydWN0IGdsX3JlbmRlcmJ1ZmZl
+cl9hdHRhY2htZW50ICphdHQgPSBmYi0+QXR0YWNobWVudCArIGk7CivCoMKgwqDCoMKgwqDCoMKg
+IHN0cnVjdCBnbF9yZW5kZXJidWZmZXIgKnJiID0gYXR0LT5SZW5kZXJidWZmZXI7CivCoMKgwqDC
+oMKgwqDCoMKgIHN0cnVjdCBzdF9yZW5kZXJidWZmZXIgKnN0cmIgPSBzdF9yZW5kZXJidWZmZXIo
+cmIpOworCivCoMKgwqDCoMKgwqDCoMKgIGlmIChzdHJiICYmIHN0cmItPnRleHR1cmUpIHsKK8Kg
+wqDCoMKgwqDCoMKgwqDCoMKgwqAgc3QtPnBpcGUtPmZsdXNoX3Jlc291cmNlKHN0LT5waXBlLCBz
+dHJiLT50ZXh0dXJlKTsKK8KgwqDCoMKgwqDCoMKgwqAgfQorwqDCoMKgwqDCoCB9CivCoMKgIH0K
+KwogwqDCoMKgIHN0LT5waXBlLT5mbHVzaChzdC0+cGlwZSwgZmVuY2UsIGZsYWdzKTsKIMKgfQoK
+Ckhvd2V2ZXIgSSdtIG5vdCBzdXJlIHRoaXMgaXMgdGhlIHJpZ2h0IHdheSB0byBmaXggdGhpcywg
+ZXhwZWNpYWxseSBmb3IgCnRoZSB0aGUgc2Vjb25kIHBhdGNoIHdoaWNoIG1vZGlmaWVzIGNvcmUg
+Y29kZS4KCkFueSBpZGVhcz8KClJlZ2FyZHMsCgpNYXJ0aW4KX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX18KZXRuYXZpdiBtYWlsaW5nIGxpc3QKZXRuYXZpdkBs
+aXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1h
+bi9saXN0aW5mby9ldG5hdml2Cg==
