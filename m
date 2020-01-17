@@ -2,42 +2,40 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D874C14169C
-	for <lists+etnaviv@lfdr.de>; Sat, 18 Jan 2020 09:44:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7678F14300E
+	for <lists+etnaviv@lfdr.de>; Mon, 20 Jan 2020 17:38:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 77F946F9D2;
-	Sat, 18 Jan 2020 08:44:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2DFF76E9FD;
+	Mon, 20 Jan 2020 16:38:37 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4493B6EE32;
- Thu, 16 Jan 2020 17:24:49 +0000 (UTC)
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
- [73.47.72.35])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 1331E246B2;
- Thu, 16 Jan 2020 17:24:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1579195489;
- bh=EAJbWnwBlpDDCXgh5JtZ8Bw4nWOjmpO5KaecW+klynY=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=VZuWLbuA7Z63ZCvO0KxO97j3xYvWT/ERgtrbPiDJ4GHfryzhuQVOuZzBnJi/EII5G
- MIFGk96gxKmthAu5AfZqv7AzpGxXoifsb/oOw4+b4Jl6tvy3Gwzy1ID1NG6u+UegvR
- fpz2/wnidwJM9hby81rIK379gFayrdwFm5D9TjUw=
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 092/371] drm/etnaviv: potential NULL dereference
-Date: Thu, 16 Jan 2020 12:19:24 -0500
-Message-Id: <20200116172403.18149-35-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200116172403.18149-1-sashal@kernel.org>
-References: <20200116172403.18149-1-sashal@kernel.org>
+X-Greylist: delayed 341 seconds by postgrey-1.36 at gabe;
+ Mon, 20 Jan 2020 15:10:56 UTC
+Received: from honk.sigxcpu.org (honk.sigxcpu.org [24.134.29.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3163D89B3C;
+ Mon, 20 Jan 2020 15:10:56 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by honk.sigxcpu.org (Postfix) with ESMTP id A5C71FB02;
+ Mon, 20 Jan 2020 16:05:12 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at honk.sigxcpu.org
+Received: from honk.sigxcpu.org ([127.0.0.1])
+ by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 8znXPdI71quQ; Mon, 20 Jan 2020 16:05:11 +0100 (CET)
+Received: by bogon.sigxcpu.org (Postfix, from userid 1000)
+ id ED37240007; Fri, 17 Jan 2020 16:47:26 +0100 (CET)
+Date: Fri, 17 Jan 2020 16:47:26 +0100
+From: Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>
+To: Arnd Bergmann <arnd@arndb.de>
+Subject: Re: [PATCH v2 13/24] drm/etnaviv: reject timeouts with tv_nsec >=
+ NSEC_PER_SEC
+Message-ID: <20200117154726.GA328525@bogon.m.sigxcpu.org>
+References: <20191213204936.3643476-1-arnd@arndb.de>
+ <20191213205417.3871055-4-arnd@arndb.de>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-Mailman-Approved-At: Sat, 18 Jan 2020 08:44:47 +0000
+Content-Disposition: inline
+In-Reply-To: <20191213205417.3871055-4-arnd@arndb.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Mailman-Approved-At: Mon, 20 Jan 2020 16:38:36 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,48 +47,98 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, etnaviv@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- Christian Gmeiner <christian.gmeiner@gmail.com>, linux-media@vger.kernel.org,
- Dan Carpenter <dan.carpenter@oracle.com>, Lucas Stach <l.stach@pengutronix.de>
+Cc: Philipp Zabel <p.zabel@pengutronix.de>, y2038@lists.linaro.org,
+ etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Russell King <linux+etnaviv@armlinux.org.uk>,
+ Emil Velikov <emil.velikov@collabora.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Lucas Stach <l.stach@pengutronix.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-From: Dan Carpenter <dan.carpenter@oracle.com>
+Hi,
+On Fri, Dec 13, 2019 at 09:53:41PM +0100, Arnd Bergmann wrote:
+> Most kernel interfaces that take a timespec require normalized
+> representation with tv_nsec between 0 and NSEC_PER_SEC.
+> 
+> Passing values larger than 0x100000000ull further behaves differently
+> on 32-bit and 64-bit kernels, and can cause the latter to spend a long
+> time counting seconds in timespec64_sub()/set_normalized_timespec64().
+> 
+> Reject those large values at the user interface to enforce sane and
+> portable behavior.
+> 
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+>  drivers/gpu/drm/etnaviv/etnaviv_drv.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> index 1f9c01be40d7..95d72dc00280 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> @@ -297,6 +297,9 @@ static int etnaviv_ioctl_gem_cpu_prep(struct drm_device *dev, void *data,
+>  	if (args->op & ~(ETNA_PREP_READ | ETNA_PREP_WRITE | ETNA_PREP_NOSYNC))
+>  		return -EINVAL;
+>  
+> +	if (args->timeout.tv_nsec > NSEC_PER_SEC)
+> +		return -EINVAL;
+> +
+>  	obj = drm_gem_object_lookup(file, args->handle);
+>  	if (!obj)
+>  		return -ENOENT;
+> @@ -360,6 +363,9 @@ static int etnaviv_ioctl_wait_fence(struct drm_device *dev, void *data,
+>  	if (args->flags & ~(ETNA_WAIT_NONBLOCK))
+>  		return -EINVAL;
+>  
+> +	if (args->timeout.tv_nsec > NSEC_PER_SEC)
+> +		return -EINVAL;
+> +
+>  	if (args->pipe >= ETNA_MAX_PIPES)
+>  		return -EINVAL;
+>  
+> @@ -411,6 +417,9 @@ static int etnaviv_ioctl_gem_wait(struct drm_device *dev, void *data,
+>  	if (args->flags & ~(ETNA_WAIT_NONBLOCK))
+>  		return -EINVAL;
+>  
+> +	if (args->timeout.tv_nsec > NSEC_PER_SEC)
+> +		return -EINVAL;
+> +
+>  	if (args->pipe >= ETNA_MAX_PIPES)
+>  		return -EINVAL;
+>
 
-[ Upstream commit 9e05352340d3a3e68c144136db9810b26ebb88c3 ]
+This breaks rendering here on arm64/gc7000 due to
 
-The etnaviv_gem_prime_get_sg_table() is supposed to return error
-pointers.  Otherwise it can lead to a NULL dereference when it's called
-from drm_gem_map_dma_buf().
+ioctl(6, DRM_IOCTL_ETNAVIV_GEM_CPU_PREP or DRM_IOCTL_MSM_GEM_CPU_PREP, 0xfffff7888680) = -1 EINVAL (Invalid argument)
+ioctl(6, DRM_IOCTL_ETNAVIV_GEM_CPU_FINI or DRM_IOCTL_QXL_CLIENTCAP, 0xfffff78885e0) = 0
+ioctl(6, DRM_IOCTL_ETNAVIV_GEM_CPU_PREP or DRM_IOCTL_MSM_GEM_CPU_PREP, 0xfffff7888680) = -1 EINVAL (Invalid argument)
+ioctl(6, DRM_IOCTL_ETNAVIV_GEM_CPU_FINI or DRM_IOCTL_QXL_CLIENTCAP, 0xfffff78885e0) = 0
+ioctl(6, DRM_IOCTL_ETNAVIV_GEM_CPU_PREP or DRM_IOCTL_MSM_GEM_CPU_PREP, 0xfffff7888680) = -1 EINVAL (Invalid argument)
+ioctl(6, DRM_IOCTL_ETNAVIV_GEM_CPU_FINI or DRM_IOCTL_QXL_CLIENTCAP, 0xfffff78885e0) = 0
 
-Fixes: 5f4a4a73f437 ("drm/etnaviv: fix gem_prime_get_sg_table to return new SG table")
-Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
-Reviewed-by: Christian Gmeiner <christian.gmeiner@gmail.com>
-Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This is due to
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
-index ae884723e9b1..880b95511b98 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
-@@ -26,7 +26,7 @@ struct sg_table *etnaviv_gem_prime_get_sg_table(struct drm_gem_object *obj)
- 	int npages = obj->size >> PAGE_SHIFT;
- 
- 	if (WARN_ON(!etnaviv_obj->pages))  /* should have already pinned! */
--		return NULL;
-+		return ERR_PTR(-EINVAL);
- 
- 	return drm_prime_pages_to_sg(etnaviv_obj->pages, npages);
- }
--- 
-2.20.1
+    get_abs_timeout(&req.timeout, 5000000000);
 
+in etna_bo_cpu_prep which can exceed NSEC_PER_SEC.
+
+Should i send a patch to revert that change since it breaks existing userspace?
+
+Cheers,
+ -- Guido
+
+> -- 
+> 2.20.0
+> 
+> _______________________________________________
+> etnaviv mailing list
+> etnaviv@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/etnaviv
+> 
 _______________________________________________
 etnaviv mailing list
 etnaviv@lists.freedesktop.org
