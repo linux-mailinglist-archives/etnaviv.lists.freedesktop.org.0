@@ -2,63 +2,37 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B85E143CC8
-	for <lists+etnaviv@lfdr.de>; Tue, 21 Jan 2020 13:27:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33E66143E1E
+	for <lists+etnaviv@lfdr.de>; Tue, 21 Jan 2020 14:38:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F1D4D6ECB4;
-	Tue, 21 Jan 2020 12:27:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D97276ECF4;
+	Tue, 21 Jan 2020 13:38:45 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-X-Greylist: delayed 303 seconds by postgrey-1.36 at gabe;
- Tue, 21 Jan 2020 11:51:24 UTC
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C731C6EC8B
- for <etnaviv@lists.freedesktop.org>; Tue, 21 Jan 2020 11:51:24 +0000 (UTC)
-Received: from mail-qv1-f47.google.com ([209.85.219.47]) by
- mrelayeu.kundenserver.de (mreue106 [212.227.15.145]) with ESMTPSA (Nemesis)
- id 1N3bGP-1jbM2C1Oy3-010gh6; Tue, 21 Jan 2020 12:46:19 +0100
-Received: by mail-qv1-f47.google.com with SMTP id t6so1264325qvs.5;
- Tue, 21 Jan 2020 03:46:19 -0800 (PST)
-X-Gm-Message-State: APjAAAWa0naDNBnvQGPFjMNdJUK1v7abzOOixpSwvr01WD6eNeLQpbSh
- Wu4VvAQcojqDaRPLGTn0kM7i//fnIcBoxrCa3hE=
-X-Google-Smtp-Source: APXvYqyxZGlIFCBF780+KS/2bkfvq0hP+a0/hThj2asG4RwHxIFlbrU9wtbrUp8O1361oVkawD1TQHBg3rBp7/M4I3g=
-X-Received: by 2002:a0c:e7c7:: with SMTP id c7mr4350634qvo.222.1579607178086; 
- Tue, 21 Jan 2020 03:46:18 -0800 (PST)
+Received: from honk.sigxcpu.org (honk.sigxcpu.org [24.134.29.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC47F6ECD6;
+ Tue, 21 Jan 2020 12:55:50 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by honk.sigxcpu.org (Postfix) with ESMTP id 6A6A4FB03;
+ Tue, 21 Jan 2020 13:55:48 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at honk.sigxcpu.org
+Received: from honk.sigxcpu.org ([127.0.0.1])
+ by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 5hwBqkAmIvg2; Tue, 21 Jan 2020 13:55:46 +0100 (CET)
+Received: by bogon.sigxcpu.org (Postfix, from userid 1000)
+ id 4A920404A9; Tue, 21 Jan 2020 13:55:46 +0100 (CET)
+Date: Tue, 21 Jan 2020 13:55:46 +0100
+From: Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>
+To: Arnd Bergmann <arnd@arndb.de>
+Subject: Re: [PATCH] drm/etnaviv: only reject timeouts with tv_nsec >= 2
+ seconds
+Message-ID: <20200121125546.GA71415@bogon.m.sigxcpu.org>
+References: <20200121114553.2667556-1-arnd@arndb.de>
 MIME-Version: 1.0
-References: <20191213204936.3643476-1-arnd@arndb.de>
- <20191213205417.3871055-4-arnd@arndb.de>
- <20200117154726.GA328525@bogon.m.sigxcpu.org>
- <aaf2f587a61dee42c25805c3fe7916bed4dbd0c3.camel@pengutronix.de>
- <CAK8P3a3hyDeskg0ix=1+yNihqacZ5rqsXaHbRsBfPt7zFr8EOw@mail.gmail.com>
- <8d86fcb526ee14c7e6c80a787db645192c2c7c33.camel@pengutronix.de>
-In-Reply-To: <8d86fcb526ee14c7e6c80a787db645192c2c7c33.camel@pengutronix.de>
-From: Arnd Bergmann <arnd@arndb.de>
-Date: Tue, 21 Jan 2020 12:46:01 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a0tKt_ZfAPnPKbaOQ9j3A+kS0LypeGA46epdyQw-knitA@mail.gmail.com>
-Message-ID: <CAK8P3a0tKt_ZfAPnPKbaOQ9j3A+kS0LypeGA46epdyQw-knitA@mail.gmail.com>
-Subject: Re: [PATCH v2 13/24] drm/etnaviv: reject timeouts with tv_nsec >=
- NSEC_PER_SEC
-To: Lucas Stach <l.stach@pengutronix.de>
-X-Provags-ID: V03:K1:7cCfG2I6unPcykExA0eqGhnxq3kI8O7GEPYxwEe4m0+U+J5oK/c
- Ih/SDYWYAkHN/g2GTL6b02UWOOSR+VEJriLqsKoTsYJ52+WgOb+hKHCEFrnga8Mton3z+Qj
- pkxoKV1bLskDuw6DVDnY4lbJ1ooUVIeeC4UKDucBoro5wVYWM8DRoQ2x5zExya0exZ4Lq1C
- TBuHpiXgZ1jupKl/3q7YQ==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Jj9Hz3Sk2WI=:vkK1v33bFmkdgmV9yZ+duh
- LaHVq20iKjHKgY1ooUO6XS1hxCHAQmyfjGzdhFUo+08E+bvR3m0KVsUr5gpVm7z7gava/y4vO
- CpMLxHVSD5rPMXsoIGgbgFOoAP8MZw07St0A5aTSyqvXjSK7BcNWc+pevYG7Y1yluTVrbFWrG
- lJuLPltGiVdZ7SuYmLIYUbpJzK4LPbieOid0JgudI/F3Po42CqSjatYUvw/5MoKYFShNAZLYd
- NfazY+5y8o9JqtZixcdVMJgvmNlI9J3t0ri8HukKx27zsPhIn632Vsgr4OcSk8vgaR/y0WNFB
- yhitO8YF+4Iemc3zGWmfvYNKW2HWZkQ+IIc6uuSzsSrp5LACiu5Fgyk++vRWYEg3R0DaeHzvO
- x2kjQj+lgNEsmfMdrdoXTc5j6/6dsIvFv/Y9mdKH0KJ13A8MP+rwM6GgLmH3OOOhsyFRyKDhg
- EnGdSSYkk+dzmG2OOKad6w4r6vexwBs19hrZyM2eHk7iZN9Yrwbux5EwCoOzA0gF5/pccvMZE
- vFtu3sDoMAIUnTLP1WnWZiXAwxMroJoqm5B/hO227aOFd+ZXCFj/8KR7yow1cjgdcjByEhqRt
- RcxXwLvoo6iiZdA4YLLsuoSP9WIdI3/04A974abQcfeYZK49swCM1mcbwzmsq2tt/pEB7BRMs
- MaY5kwL7xhC5/Xxt6dmO5xoa3yZmdwNMLzzRgcHRPVYktTJRZxdFDbCVO9YvhnoE8Tyndnpl2
- RldifYVB1KWPv7zuJgn/g76iqzYv7ioYvnt+WHJWWQt/WeGx02aMUQObGVufs1ERDmN64lRh3
- ve184AhQHWhYGqaSLe/nXcTF3Iw5yPbXcp1bAOvL3FYlpM2L4GYvfr9YVfZlwoOY7j+N8vo3a
- u92HHCtc5XFw5t021QwA==
-X-Mailman-Approved-At: Tue, 21 Jan 2020 12:27:14 +0000
+Content-Disposition: inline
+In-Reply-To: <20200121114553.2667556-1-arnd@arndb.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Mailman-Approved-At: Tue, 21 Jan 2020 13:38:45 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,74 +44,134 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel@ffwll.ch>,
- y2038 Mailman List <y2038@lists.linaro.org>,
- =?UTF-8?Q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>,
- The etnaviv authors <etnaviv@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- David Airlie <airlied@linux.ie>,
+Cc: Rob Herring <robh@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@linux.ie>, etnaviv@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  Christian Gmeiner <christian.gmeiner@gmail.com>,
  Philipp Zabel <p.zabel@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>, Sam Ravnborg <sam@ravnborg.org>,
- Emil Velikov <emil.velikov@collabora.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Emil Velikov <emil.velikov@collabora.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Lucas Stach <l.stach@pengutronix.de>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-T24gVHVlLCBKYW4gMjEsIDIwMjAgYXQgMTE6MjIgQU0gTHVjYXMgU3RhY2ggPGwuc3RhY2hAcGVu
-Z3V0cm9uaXguZGU+IHdyb3RlOgo+Cj4gT24gTW8sIDIwMjAtMDEtMjAgYXQgMTk6NDcgKzAxMDAs
-IEFybmQgQmVyZ21hbm4gd3JvdGU6Cj4gPiBPbiBNb24sIEphbiAyMCwgMjAyMCBhdCA2OjQ4IFBN
-IEx1Y2FzIFN0YWNoIDxsLnN0YWNoQHBlbmd1dHJvbml4LmRlPiB3cm90ZToKPiA+ID4gT24gRnIs
-IDIwMjAtMDEtMTcgYXQgMTY6NDcgKzAxMDAsIEd1aWRvIEfDvG50aGVyIHdyb3RlOgo+ID4gPiA+
-IFRoaXMgYnJlYWtzIHJlbmRlcmluZyBoZXJlIG9uIGFybTY0L2djNzAwMCBkdWUgdG8KPiA+ID4g
-Pgo+ID4gPiA+IGlvY3RsKDYsIERSTV9JT0NUTF9FVE5BVklWX0dFTV9DUFVfUFJFUCBvciBEUk1f
-SU9DVExfTVNNX0dFTV9DUFVfUFJFUCwgMHhmZmZmZjc4ODg2ODApID0gLTEgRUlOVkFMIChJbnZh
-bGlkIGFyZ3VtZW50KQo+ID4gPiA+IGlvY3RsKDYsIERSTV9JT0NUTF9FVE5BVklWX0dFTV9DUFVf
-RklOSSBvciBEUk1fSU9DVExfUVhMX0NMSUVOVENBUCwgMHhmZmZmZjc4ODg1ZTApID0gMAo+ID4g
-PiA+IGlvY3RsKDYsIERSTV9JT0NUTF9FVE5BVklWX0dFTV9DUFVfUFJFUCBvciBEUk1fSU9DVExf
-TVNNX0dFTV9DUFVfUFJFUCwgMHhmZmZmZjc4ODg2ODApID0gLTEgRUlOVkFMIChJbnZhbGlkIGFy
-Z3VtZW50KQo+ID4gPiA+IGlvY3RsKDYsIERSTV9JT0NUTF9FVE5BVklWX0dFTV9DUFVfRklOSSBv
-ciBEUk1fSU9DVExfUVhMX0NMSUVOVENBUCwgMHhmZmZmZjc4ODg1ZTApID0gMAo+ID4gPiA+IGlv
-Y3RsKDYsIERSTV9JT0NUTF9FVE5BVklWX0dFTV9DUFVfUFJFUCBvciBEUk1fSU9DVExfTVNNX0dF
-TV9DUFVfUFJFUCwgMHhmZmZmZjc4ODg2ODApID0gLTEgRUlOVkFMIChJbnZhbGlkIGFyZ3VtZW50
-KQo+ID4gPiA+IGlvY3RsKDYsIERSTV9JT0NUTF9FVE5BVklWX0dFTV9DUFVfRklOSSBvciBEUk1f
-SU9DVExfUVhMX0NMSUVOVENBUCwgMHhmZmZmZjc4ODg1ZTApID0gMAo+ID4gPiA+Cj4gPiA+ID4g
-VGhpcyBpcyBkdWUgdG8KPiA+ID4gPgo+ID4gPiA+ICAgICBnZXRfYWJzX3RpbWVvdXQoJnJlcS50
-aW1lb3V0LCA1MDAwMDAwMDAwKTsKPiA+ID4gPgo+ID4gPiA+IGluIGV0bmFfYm9fY3B1X3ByZXAg
-d2hpY2ggY2FuIGV4Y2VlZCBOU0VDX1BFUl9TRUMuCj4gPiA+ID4KPiA+ID4gPiBTaG91bGQgaSBz
-ZW5kIGEgcGF0Y2ggdG8gcmV2ZXJ0IHRoYXQgY2hhbmdlIHNpbmNlIGl0IGJyZWFrcyBleGlzdGlu
-ZyB1c2Vyc3BhY2U/Cj4gPiA+Cj4gPiA+IE5vIG5lZWQgdG8gcmV2ZXJ0LiBUaGlzIHBhdGNoIGhh
-cyBub3QgYmVlbiBhcHBsaWVkIHRvIHRoZSBldG5hdml2IHRyZWUKPiA+ID4geWV0LCBJIGd1ZXNz
-IGl0J3MganVzdCBpbiBvbmUgb2YgQXJuZHMgYnJhbmNoZXMgZmVlZGluZyBpbnRvIC1uZXh0Lgo+
-ID4gPgo+ID4gPiBUaGF0IHBhcnQgb2YgdXNlcnNwYWNlIGlzIHByZXR0eSBkdW1iLCBhcyBpdCBt
-aXNzZXMgdG8gcmVub3JtYWxpemUKPiA+ID4gdHZfbnNlYyB3aGVuIGl0IG92ZXJmbG93cyB0aGUg
-c2Vjb25kIGJvdW5kYXJ5LiBTbyBpZiB3aGF0IEkgc2VlIGlzCj4gPiA+IGNvcnJlY3QgaXQgc2hv
-dWxkIGJlIGVub3VnaCB0byBhbGxvdyAyICogTlNFQ19QRVJfU0VDLCB3aGljaCBzaG91bGQKPiA+
-ID4gYm90aCByZWplY3QgYnJva2VuIGxhcmdlIHRpbWVvdXQgYW5kIGtlZXAgZXhpc3RpbmcgdXNl
-cnNwYWNlIHdvcmtpbmcuCj4gPgo+ID4gQWgsIHNvIGl0J3MgbmV2ZXIgbW9yZSB0aGFuIDIgYmls
-bGlvbiBuYW5vc2Vjb25kcyBpbiBrbm93biB1c2VyIHNwYWNlPwo+ID4gSSBjYW4gZGVmaW5pdGVs
-eSBjaGFuZ2UgbXkgcGF0Y2ggKGFjdHVhbGx5IGFkZCBvbmUgb24gdG9wKSB0byBhbGxvdyB0aGF0
-Cj4gPiBhbmQgaGFuZGxlIGl0IGFzIGJlZm9yZSwgb3IgYWx0ZXJuYXRpdmVseSBhY2NlcHQgYW55
-IDY0LWJpdCBuYW5vc2Vjb25kIHZhbHVlCj4gPiBhcyBhcm02NCBhbHJlYWR5IGRpZCwgYnV0IG1h
-a2UgaXQgbGVzcyBpbmVmZmljaWVudCB0byBoYW5kbGUuCj4KPiBTbyB0aGUgYnJva2VuIHVzZXJz
-cGFjZSBjb2RlIGxvb2tzIGxpa2UgdGhpczoKPgo+IHN0YXRpYyBpbmxpbmUgdm9pZCBnZXRfYWJz
-X3RpbWVvdXQoc3RydWN0IGRybV9ldG5hdml2X3RpbWVzcGVjICp0diwgdWludDY0X3QgbnMpCj4g
-ewo+ICAgICAgICAgc3RydWN0IHRpbWVzcGVjIHQ7Cj4gICAgICAgICB1aW50MzJfdCBzID0gbnMg
-LyAxMDAwMDAwMDAwOwo+ICAgICAgICAgY2xvY2tfZ2V0dGltZShDTE9DS19NT05PVE9OSUMsICZ0
-KTsKPiAgICAgICAgIHR2LT50dl9zZWMgPSB0LnR2X3NlYyArIHM7Cj4gICAgICAgICB0di0+dHZf
-bnNlYyA9IHQudHZfbnNlYyArIG5zIC0gKHMgKiAxMDAwMDAwMDAwKTsKPiB9Cj4KPiBXaGljaCBt
-ZWFucyBpdCBfdHJpZXNfIHRvIGRvIHRoZSByaWdodCB0aGluZyBieSBwdXR0aW5nIHRoZSBiaWxs
-aW9uCj4gcGFydCBpbnRvIHRoZSB0dl9zZWMgbWVtYmVyIGFuZCBvbmx5IHRoZSByZW1haW5pbmcg
-bnMgcGFydCBpcyBhZGRlZCB0bwo+IHR2X25zZWMsIGJ1dCB0aGVuIGl0IGZhaWxzIHRvIHByb3Bh
-Z2F0ZSBhIHR2X25zZWMgb3ZlcmZsb3cgb3Zlcgo+IE5TRUNfUEVSX1NFQyBpbnRvIHR2X3NlYy4K
-Pgo+IFdoaWNoIG1lYW5zIHRoZSB0dl9uc2VjIHNob3VsZCBuZXZlciBiZSBtb3JlIHRoYW4gMiAq
-IE5TRUNfUEVSX1NFQyBpbgo+IGtub3duIHVzZXJzcGFjZS4gSSB3b3VsZCBwcmVmZXIgaWYgd2Ug
-Y291bGQgbWFrZSB0aGUgaW50ZXJmYWNlIGFzCj4gc3RyaWN0IGFzIHBvc3NpYmxlIChpLmUuIG5v
-IGFyYml0cmFyeSBsYXJnZSBudW1iZXJzIGluIHR2X25zZWMpLCB3aGlsZQo+IGtlZXBpbmcgdGhp
-cyBzcGVjaWZpYyBjb3JuZXIgY2FzZSB3b3JraW5nLgoKSSd2ZSBhZGRlZCBhIHBhdGNoIG9uIHRv
-cCBvZiBteSAyMDM4IGJyYW5jaCwgcGxlYXNlIGhhdmUgYSBsb29rIGF0IHRoYXQuCgogICAgICBB
-cm5kCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmV0bmF2
-aXYgbWFpbGluZyBsaXN0CmV0bmF2aXZAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZXRuYXZpdgo=
+Hi,
+On Tue, Jan 21, 2020 at 12:45:25PM +0100, Arnd Bergmann wrote:
+> As Guido G=FCnther reported, get_abs_timeout() in the etnaviv user space
+> sometimes passes timeouts with nanosecond values larger than 1000000000,
+> which gets rejected after my first patch.
+> =
+
+> To avoid breaking this, while also not allowing completely arbitrary
+> values, set the limit to 1999999999 and use set_normalized_timespec64()
+> to get the correct format before comparing it.
+
+I'm seeing values up to 5 seconds so I need
+
+     if (args->timeout.tv_nsec > (5 * NSEC_PER_SEC))
+
+to unbreak rendering. Which seems to match what mesa's get_abs_timeout()
+does and how it's invoked.
+
+   with that:
+
+Tested-by: Guido G=FCnther <agx@sigxcpu.org>
+
+Cheers,
+ -- Guido
+
+> =
+
+> This also addresses the off-by-1 glitch reported by Ben Hutchings.
+> =
+
+> Fixes: 172a216ff334 ("drm/etnaviv: reject timeouts with tv_nsec >=3D NSEC=
+_PER_SEC")
+> Cc: Guido G=FCnther <agx@sigxcpu.org>
+> Link: https://patchwork.kernel.org/patch/11291089/
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+>  drivers/gpu/drm/etnaviv/etnaviv_drv.c | 10 +++++++---
+>  drivers/gpu/drm/etnaviv/etnaviv_drv.h |  6 ++----
+>  2 files changed, 9 insertions(+), 7 deletions(-)
+> =
+
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etna=
+viv/etnaviv_drv.c
+> index 3eb0f9223bea..d94740c123d3 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> @@ -292,7 +292,11 @@ static int etnaviv_ioctl_gem_cpu_prep(struct drm_dev=
+ice *dev, void *data,
+>  	if (args->op & ~(ETNA_PREP_READ | ETNA_PREP_WRITE | ETNA_PREP_NOSYNC))
+>  		return -EINVAL;
+>  =
+
+> -	if (args->timeout.tv_nsec > NSEC_PER_SEC)
+> +	/*
+> +	 * existing user space passes non-normalized timespecs, but never
+> +	 * more than 2 seconds worth of nanoseconds
+> +	 */
+> +	if (args->timeout.tv_nsec >=3D (2 * NSEC_PER_SEC))
+>  		return -EINVAL;
+>  =
+
+>  	obj =3D drm_gem_object_lookup(file, args->handle);
+> @@ -358,7 +362,7 @@ static int etnaviv_ioctl_wait_fence(struct drm_device=
+ *dev, void *data,
+>  	if (args->flags & ~(ETNA_WAIT_NONBLOCK))
+>  		return -EINVAL;
+>  =
+
+> -	if (args->timeout.tv_nsec > NSEC_PER_SEC)
+> +	if (args->timeout.tv_nsec >=3D (2 * NSEC_PER_SEC))
+>  		return -EINVAL;
+>  =
+
+>  	if (args->pipe >=3D ETNA_MAX_PIPES)
+> @@ -412,7 +416,7 @@ static int etnaviv_ioctl_gem_wait(struct drm_device *=
+dev, void *data,
+>  	if (args->flags & ~(ETNA_WAIT_NONBLOCK))
+>  		return -EINVAL;
+>  =
+
+> -	if (args->timeout.tv_nsec > NSEC_PER_SEC)
+> +	if (args->timeout.tv_nsec >=3D (2 * NSEC_PER_SEC))
+>  		return -EINVAL;
+>  =
+
+>  	if (args->pipe >=3D ETNA_MAX_PIPES)
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.h b/drivers/gpu/drm/etna=
+viv/etnaviv_drv.h
+> index efc656efeb0f..3e47050af706 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.h
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.h
+> @@ -109,12 +109,10 @@ static inline size_t size_vstruct(size_t nelem, siz=
+e_t elem_size, size_t base)
+>  static inline unsigned long etnaviv_timeout_to_jiffies(
+>  	const struct drm_etnaviv_timespec *timeout)
+>  {
+> -	struct timespec64 ts, to =3D {
+> -		.tv_sec =3D timeout->tv_sec,
+> -		.tv_nsec =3D timeout->tv_nsec,
+> -	};
+> +	struct timespec64 ts, to;
+>  =
+
+>  	ktime_get_ts64(&ts);
+> +	set_normalized_timespec64(&to, timeout->tv_sec, timeout->tv_nsec);
+>  =
+
+>  	/* timeouts before "now" have already expired */
+>  	if (timespec64_compare(&to, &ts) <=3D 0)
+> -- =
+
+> 2.25.0
+> =
+
+_______________________________________________
+etnaviv mailing list
+etnaviv@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/etnaviv
