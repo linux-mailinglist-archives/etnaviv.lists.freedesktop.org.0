@@ -1,54 +1,40 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58F92143E1F
-	for <lists+etnaviv@lfdr.de>; Tue, 21 Jan 2020 14:38:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 94F59144209
+	for <lists+etnaviv@lfdr.de>; Tue, 21 Jan 2020 17:21:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F39B96ECF7;
-	Tue, 21 Jan 2020 13:38:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4929B6EDB4;
+	Tue, 21 Jan 2020 16:21:56 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-X-Greylist: delayed 552 seconds by postgrey-1.36 at gabe;
- Tue, 21 Jan 2020 13:12:26 UTC
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk
- [IPv6:2001:4d48:ad52:3201:214:fdff:fe10:1be6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C6086ECE5
- for <etnaviv@lists.freedesktop.org>; Tue, 21 Jan 2020 13:12:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:
- Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
- Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
- Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
- List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=MIW1a1CzdzcRBKcD9gTvgSedoGDPOuKCDCTKx1yi8/I=; b=tQtN4IdeDDjJluRJEDxx6qRjy
- aKKTYwoJ8e/flf0xfU9SX2MxmDxP4hyzo/wN4btmpSwSh2FWxqjT4yQLV2lP/ofnd7UsuXJpf7MxV
- by72E3J1keyyZ0e7pzurn9uXxSyHoEiSSPAyPKkegrxFHbLUyq6KBpoh8qsFN/BpuakdXG/FaqfON
- NL87FSdLt12y0mxnnFcXhhbMgNjsD7GVWeaV/HqICX0vYeOQxxkZTdlzMq4UQYbhwQsvWq0zESjKU
- LR3z0e1oMV+DQDDFRfd1c+mh+hIvqm2y/h8zPXXswSBb6mk/h1hmbAFOWR/7HZmA6dyTBvIgigr7D
- c1Lm4Qy/Q==;
-Received: from shell.armlinux.org.uk
- ([2001:4d48:ad52:3201:5054:ff:fe00:4ec]:57886)
- by pandora.armlinux.org.uk with esmtpsa
- (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256) (Exim 4.90_1)
- (envelope-from <linux@armlinux.org.uk>)
- id 1ittB9-0004iM-8Q; Tue, 21 Jan 2020 13:02:47 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.92)
- (envelope-from <linux@shell.armlinux.org.uk>)
- id 1ittB4-0003qO-3m; Tue, 21 Jan 2020 13:02:42 +0000
-Date: Tue, 21 Jan 2020 13:02:42 +0000
-From: Russell King - ARM Linux admin <linux@armlinux.org.uk>
-To: Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E73A6ED88
+ for <etnaviv@lists.freedesktop.org>; Tue, 21 Jan 2020 16:10:08 +0000 (UTC)
+Received: from kresse.hi.pengutronix.de ([2001:67c:670:100:1d::2a])
+ by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1itw6K-00023c-2Z; Tue, 21 Jan 2020 17:10:00 +0100
+Message-ID: <1971902c68ff805ee0b4a66f558afe06e6edf0c5.camel@pengutronix.de>
 Subject: Re: [PATCH] drm/etnaviv: only reject timeouts with tv_nsec >= 2
  seconds
-Message-ID: <20200121130241.GG25745@shell.armlinux.org.uk>
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Guido =?ISO-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>, Arnd Bergmann
+ <arnd@arndb.de>
+Date: Tue, 21 Jan 2020 17:09:56 +0100
+In-Reply-To: <20200121125546.GA71415@bogon.m.sigxcpu.org>
 References: <20200121114553.2667556-1-arnd@arndb.de>
  <20200121125546.GA71415@bogon.m.sigxcpu.org>
+User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200121125546.GA71415@bogon.m.sigxcpu.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Mailman-Approved-At: Tue, 21 Jan 2020 13:38:45 +0000
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::2a
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
+X-Mailman-Approved-At: Tue, 21 Jan 2020 16:21:54 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,50 +47,85 @@ List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
 Cc: Rob Herring <robh@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
- Arnd Bergmann <arnd@arndb.de>, David Airlie <airlied@linux.ie>,
- etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Christian Gmeiner <christian.gmeiner@gmail.com>,
+ David Airlie <airlied@linux.ie>, etnaviv@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
  Philipp Zabel <p.zabel@pengutronix.de>,
- Emil Velikov <emil.velikov@collabora.com>, Sam Ravnborg <sam@ravnborg.org>,
- Lucas Stach <l.stach@pengutronix.de>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+ Russell King <linux+etnaviv@armlinux.org.uk>, Sam Ravnborg <sam@ravnborg.org>,
+ Emil Velikov <emil.velikov@collabora.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-On Tue, Jan 21, 2020 at 01:55:46PM +0100, Guido G=FCnther wrote:
-> Hi,
-> On Tue, Jan 21, 2020 at 12:45:25PM +0100, Arnd Bergmann wrote:
-> > As Guido G=FCnther reported, get_abs_timeout() in the etnaviv user space
-> > sometimes passes timeouts with nanosecond values larger than 1000000000,
-> > which gets rejected after my first patch.
-> > =
-
-> > To avoid breaking this, while also not allowing completely arbitrary
-> > values, set the limit to 1999999999 and use set_normalized_timespec64()
-> > to get the correct format before comparing it.
-> =
-
-> I'm seeing values up to 5 seconds so I need
-> =
-
->      if (args->timeout.tv_nsec > (5 * NSEC_PER_SEC))
-
-I assume you're looking at 64-bit, but I suspect userspace needs
-looking at considering 32-bit.  If userspace uses a 32-bit tv_nsec
-anywhere in the path that it attempts to pass up to 5 seconds in
-tv_nsec, then this will fail to pass the correct timeout.
-
-If that is the case, userspace is buggy, and needs fixing not to
-pass such large values through tv_nsec irrespective of this issue.
-
--- =
-
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTC broadband for 0.8mile line in suburbia: sync at 12.1Mbps down 622kbps =
-up
-According to speedtest.net: 11.9Mbps down 500kbps up
-_______________________________________________
-etnaviv mailing list
-etnaviv@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/etnaviv
+SGkgR3VpZG8sCgpPbiBEaSwgMjAyMC0wMS0yMSBhdCAxMzo1NSArMDEwMCwgR3VpZG8gR8O8bnRo
+ZXIgd3JvdGU6Cj4gSGksCj4gT24gVHVlLCBKYW4gMjEsIDIwMjAgYXQgMTI6NDU6MjVQTSArMDEw
+MCwgQXJuZCBCZXJnbWFubiB3cm90ZToKPiA+IEFzIEd1aWRvIEfDvG50aGVyIHJlcG9ydGVkLCBn
+ZXRfYWJzX3RpbWVvdXQoKSBpbiB0aGUgZXRuYXZpdiB1c2VyIHNwYWNlCj4gPiBzb21ldGltZXMg
+cGFzc2VzIHRpbWVvdXRzIHdpdGggbmFub3NlY29uZCB2YWx1ZXMgbGFyZ2VyIHRoYW4gMTAwMDAw
+MDAwMCwKPiA+IHdoaWNoIGdldHMgcmVqZWN0ZWQgYWZ0ZXIgbXkgZmlyc3QgcGF0Y2guCj4gPiAK
+PiA+IFRvIGF2b2lkIGJyZWFraW5nIHRoaXMsIHdoaWxlIGFsc28gbm90IGFsbG93aW5nIGNvbXBs
+ZXRlbHkgYXJiaXRyYXJ5Cj4gPiB2YWx1ZXMsIHNldCB0aGUgbGltaXQgdG8gMTk5OTk5OTk5OSBh
+bmQgdXNlIHNldF9ub3JtYWxpemVkX3RpbWVzcGVjNjQoKQo+ID4gdG8gZ2V0IHRoZSBjb3JyZWN0
+IGZvcm1hdCBiZWZvcmUgY29tcGFyaW5nIGl0Lgo+IAo+IEknbSBzZWVpbmcgdmFsdWVzIHVwIHRv
+IDUgc2Vjb25kcyBzbyBJIG5lZWQKPiAKPiAgICAgIGlmIChhcmdzLT50aW1lb3V0LnR2X25zZWMg
+PiAoNSAqIE5TRUNfUEVSX1NFQykpCj4gCj4gdG8gdW5icmVhayByZW5kZXJpbmcuIFdoaWNoIHNl
+ZW1zIHRvIG1hdGNoIHdoYXQgbWVzYSdzIGdldF9hYnNfdGltZW91dCgpCj4gZG9lcyBhbmQgaG93
+IGl0J3MgaW52b2tlZC4KCkkgaGF2ZSBub3QgdGVzdGVkIHRoaXMgbXlzZWxmIHlldCwgb25seSBs
+b29rZWQgYXQgdGhlIGNvZGUuIEZyb20gdGhlCmNvZGUgSSBxdW90ZWQgZWFybGllciwgSSBkb24n
+dCBzZWUgaG93IHdlIGVuZCB1cCB3aXRoIDUgKiBOU0VDX1BFUl9TRUMKaW4gdGhlIHR2X25zZWMg
+bWVtYmVyLCBldmVuIGlmIHRoZSB0aW1lb3V0IHBhc3NlZCB0byBnZXRfYWJzX3RpbWVvdXQoKQpp
+cyA1IHNlY29uZHMuCgpSZWdhcmRzLApMdWNhcwoKPiAgICB3aXRoIHRoYXQ6Cj4gCj4gVGVzdGVk
+LWJ5OiBHdWlkbyBHw7xudGhlciA8YWd4QHNpZ3hjcHUub3JnPgo+IAo+IENoZWVycywKPiAgLS0g
+R3VpZG8KPiAKPiA+IFRoaXMgYWxzbyBhZGRyZXNzZXMgdGhlIG9mZi1ieS0xIGdsaXRjaCByZXBv
+cnRlZCBieSBCZW4gSHV0Y2hpbmdzLgo+ID4gCj4gPiBGaXhlczogMTcyYTIxNmZmMzM0ICgiZHJt
+L2V0bmF2aXY6IHJlamVjdCB0aW1lb3V0cyB3aXRoIHR2X25zZWMgPj0gTlNFQ19QRVJfU0VDIikK
+PiA+IENjOiBHdWlkbyBHw7xudGhlciA8YWd4QHNpZ3hjcHUub3JnPgo+ID4gTGluazogaHR0cHM6
+Ly9wYXRjaHdvcmsua2VybmVsLm9yZy9wYXRjaC8xMTI5MTA4OS8KPiA+IFNpZ25lZC1vZmYtYnk6
+IEFybmQgQmVyZ21hbm4gPGFybmRAYXJuZGIuZGU+Cj4gPiAtLS0KPiA+ICBkcml2ZXJzL2dwdS9k
+cm0vZXRuYXZpdi9ldG5hdml2X2Rydi5jIHwgMTAgKysrKysrKy0tLQo+ID4gIGRyaXZlcnMvZ3B1
+L2RybS9ldG5hdml2L2V0bmF2aXZfZHJ2LmggfCAgNiArKy0tLS0KPiA+ICAyIGZpbGVzIGNoYW5n
+ZWQsIDkgaW5zZXJ0aW9ucygrKSwgNyBkZWxldGlvbnMoLSkKPiA+IAo+ID4gZGlmZiAtLWdpdCBh
+L2RyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfZHJ2LmMgYi9kcml2ZXJzL2dwdS9kcm0v
+ZXRuYXZpdi9ldG5hdml2X2Rydi5jCj4gPiBpbmRleCAzZWIwZjkyMjNiZWEuLmQ5NDc0MGMxMjNk
+MyAxMDA2NDQKPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfZHJ2LmMK
+PiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfZHJ2LmMKPiA+IEBAIC0y
+OTIsNyArMjkyLDExIEBAIHN0YXRpYyBpbnQgZXRuYXZpdl9pb2N0bF9nZW1fY3B1X3ByZXAoc3Ry
+dWN0IGRybV9kZXZpY2UgKmRldiwgdm9pZCAqZGF0YSwKPiA+ICAJaWYgKGFyZ3MtPm9wICYgfihF
+VE5BX1BSRVBfUkVBRCB8IEVUTkFfUFJFUF9XUklURSB8IEVUTkFfUFJFUF9OT1NZTkMpKQo+ID4g
+IAkJcmV0dXJuIC1FSU5WQUw7Cj4gPiAgCj4gPiAtCWlmIChhcmdzLT50aW1lb3V0LnR2X25zZWMg
+PiBOU0VDX1BFUl9TRUMpCj4gPiArCS8qCj4gPiArCSAqIGV4aXN0aW5nIHVzZXIgc3BhY2UgcGFz
+c2VzIG5vbi1ub3JtYWxpemVkIHRpbWVzcGVjcywgYnV0IG5ldmVyCj4gPiArCSAqIG1vcmUgdGhh
+biAyIHNlY29uZHMgd29ydGggb2YgbmFub3NlY29uZHMKPiA+ICsJICovCj4gPiArCWlmIChhcmdz
+LT50aW1lb3V0LnR2X25zZWMgPj0gKDIgKiBOU0VDX1BFUl9TRUMpKQo+ID4gIAkJcmV0dXJuIC1F
+SU5WQUw7Cj4gPiAgCj4gPiAgCW9iaiA9IGRybV9nZW1fb2JqZWN0X2xvb2t1cChmaWxlLCBhcmdz
+LT5oYW5kbGUpOwo+ID4gQEAgLTM1OCw3ICszNjIsNyBAQCBzdGF0aWMgaW50IGV0bmF2aXZfaW9j
+dGxfd2FpdF9mZW5jZShzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LCB2b2lkICpkYXRhLAo+ID4gIAlp
+ZiAoYXJncy0+ZmxhZ3MgJiB+KEVUTkFfV0FJVF9OT05CTE9DSykpCj4gPiAgCQlyZXR1cm4gLUVJ
+TlZBTDsKPiA+ICAKPiA+IC0JaWYgKGFyZ3MtPnRpbWVvdXQudHZfbnNlYyA+IE5TRUNfUEVSX1NF
+QykKPiA+ICsJaWYgKGFyZ3MtPnRpbWVvdXQudHZfbnNlYyA+PSAoMiAqIE5TRUNfUEVSX1NFQykp
+Cj4gPiAgCQlyZXR1cm4gLUVJTlZBTDsKPiA+ICAKPiA+ICAJaWYgKGFyZ3MtPnBpcGUgPj0gRVRO
+QV9NQVhfUElQRVMpCj4gPiBAQCAtNDEyLDcgKzQxNiw3IEBAIHN0YXRpYyBpbnQgZXRuYXZpdl9p
+b2N0bF9nZW1fd2FpdChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LCB2b2lkICpkYXRhLAo+ID4gIAlp
+ZiAoYXJncy0+ZmxhZ3MgJiB+KEVUTkFfV0FJVF9OT05CTE9DSykpCj4gPiAgCQlyZXR1cm4gLUVJ
+TlZBTDsKPiA+ICAKPiA+IC0JaWYgKGFyZ3MtPnRpbWVvdXQudHZfbnNlYyA+IE5TRUNfUEVSX1NF
+QykKPiA+ICsJaWYgKGFyZ3MtPnRpbWVvdXQudHZfbnNlYyA+PSAoMiAqIE5TRUNfUEVSX1NFQykp
+Cj4gPiAgCQlyZXR1cm4gLUVJTlZBTDsKPiA+ICAKPiA+ICAJaWYgKGFyZ3MtPnBpcGUgPj0gRVRO
+QV9NQVhfUElQRVMpCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYvZXRu
+YXZpdl9kcnYuaCBiL2RyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfZHJ2LmgKPiA+IGlu
+ZGV4IGVmYzY1NmVmZWIwZi4uM2U0NzA1MGFmNzA2IDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVycy9n
+cHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9kcnYuaAo+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2V0
+bmF2aXYvZXRuYXZpdl9kcnYuaAo+ID4gQEAgLTEwOSwxMiArMTA5LDEwIEBAIHN0YXRpYyBpbmxp
+bmUgc2l6ZV90IHNpemVfdnN0cnVjdChzaXplX3QgbmVsZW0sIHNpemVfdCBlbGVtX3NpemUsIHNp
+emVfdCBiYXNlKQo+ID4gIHN0YXRpYyBpbmxpbmUgdW5zaWduZWQgbG9uZyBldG5hdml2X3RpbWVv
+dXRfdG9famlmZmllcygKPiA+ICAJY29uc3Qgc3RydWN0IGRybV9ldG5hdml2X3RpbWVzcGVjICp0
+aW1lb3V0KQo+ID4gIHsKPiA+IC0Jc3RydWN0IHRpbWVzcGVjNjQgdHMsIHRvID0gewo+ID4gLQkJ
+LnR2X3NlYyA9IHRpbWVvdXQtPnR2X3NlYywKPiA+IC0JCS50dl9uc2VjID0gdGltZW91dC0+dHZf
+bnNlYywKPiA+IC0JfTsKPiA+ICsJc3RydWN0IHRpbWVzcGVjNjQgdHMsIHRvOwo+ID4gIAo+ID4g
+IAlrdGltZV9nZXRfdHM2NCgmdHMpOwo+ID4gKwlzZXRfbm9ybWFsaXplZF90aW1lc3BlYzY0KCZ0
+bywgdGltZW91dC0+dHZfc2VjLCB0aW1lb3V0LT50dl9uc2VjKTsKPiA+ICAKPiA+ICAJLyogdGlt
+ZW91dHMgYmVmb3JlICJub3ciIGhhdmUgYWxyZWFkeSBleHBpcmVkICovCj4gPiAgCWlmICh0aW1l
+c3BlYzY0X2NvbXBhcmUoJnRvLCAmdHMpIDw9IDApCj4gPiAtLSAKPiA+IDIuMjUuMAo+ID4gCgpf
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpldG5hdml2IG1h
+aWxpbmcgbGlzdApldG5hdml2QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZy
+ZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2V0bmF2aXYK
