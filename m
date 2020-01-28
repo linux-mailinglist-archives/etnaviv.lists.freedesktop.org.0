@@ -1,61 +1,75 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4ABB14C01A
-	for <lists+etnaviv@lfdr.de>; Tue, 28 Jan 2020 19:46:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0ABF014C01C
+	for <lists+etnaviv@lfdr.de>; Tue, 28 Jan 2020 19:46:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 891F06F38C;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 966386F395;
 	Tue, 28 Jan 2020 18:46:23 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.187])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B3BAA6EE2D;
- Tue, 28 Jan 2020 13:08:14 +0000 (UTC)
-Received: from mail-qv1-f46.google.com ([209.85.219.46]) by
- mrelayeu.kundenserver.de (mreue011 [212.227.15.129]) with ESMTPSA (Nemesis)
- id 1MAfpQ-1ipnoj0Day-00B36j; Tue, 28 Jan 2020 14:08:13 +0100
-Received: by mail-qv1-f46.google.com with SMTP id db9so2588039qvb.3;
- Tue, 28 Jan 2020 05:08:12 -0800 (PST)
-X-Gm-Message-State: APjAAAUKue6NGNBD6f8i0kRjGz7+tmfVPixGVDqzPR+XfL0KK70If1/F
- 97DCYeL8SpxM7/pxlRNs1LdrlFFCmcKSLR93V2E=
-X-Google-Smtp-Source: APXvYqwbF70fulmMWpYsvgtwTwVOULgFhaykqGynP3TsqaWJatV/77WMv6RcxE8VKIM0b3GG4JzZReLAuPl6Qcio2Zw=
-X-Received: by 2002:a0c:d788:: with SMTP id z8mr20752657qvi.211.1580216887804; 
- Tue, 28 Jan 2020 05:08:07 -0800 (PST)
+X-Greylist: delayed 2649 seconds by postgrey-1.36 at gabe;
+ Tue, 28 Jan 2020 17:34:03 UTC
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
+ [62.209.51.94])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6BD266EF25
+ for <etnaviv@lists.freedesktop.org>; Tue, 28 Jan 2020 17:34:03 +0000 (UTC)
+Received: from pps.filterd (m0046037.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 00SGlDtY023385; Tue, 28 Jan 2020 17:49:38 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com;
+ h=from : to : cc : subject
+ : date : message-id : references : in-reply-to : content-type : content-id
+ : content-transfer-encoding : mime-version; s=STMicroelectronics;
+ bh=CIHFy0mpXNHWYOHODkLgaAdMxCyVoBTuoV1E4uG8N4s=;
+ b=BJ150Xf73hbnN0bLEEf+2Tp+7lOBzGmIVeJRu4sx9uRKodntTP0B8dXoWCQ09pGsRtXX
+ aPCLIE7SIeIlQMTPryODHZrE5AN8GdshrcWtZ7J6cm4dDRYsNKYo24gQ4blIPAhbxMPC
+ KNjN8nDWfUjxXKXffDzHNlDp767Ex6s0X7dDsdjyjwcC7Be77Yx/SIHITl/IGZtzehtz
+ HkXBc9drImE8Ex0wpMgoROWJRhKXKHkucx1xPCJXmdphrbG4d2P2fJeG5iy5bgWlK9Yg
+ vD01uh4AAlkPjCAjm8NXstDxHqU5rAXhdmPqkE7X+/q3DNQ1/0Cz4+ORrWR4hTU4GvlD wA== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+ by mx07-00178001.pphosted.com with ESMTP id 2xrcaxxwuh-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 28 Jan 2020 17:49:38 +0100
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id B6916100038;
+ Tue, 28 Jan 2020 17:49:35 +0100 (CET)
+Received: from Webmail-eu.st.com (sfhdag3node2.st.com [10.75.127.8])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 9FF0721CA94;
+ Tue, 28 Jan 2020 17:49:35 +0100 (CET)
+Received: from SFHDAG6NODE3.st.com (10.75.127.18) by SFHDAG3NODE2.st.com
+ (10.75.127.8) with Microsoft SMTP Server (TLS) id 15.0.1347.2; Tue, 28 Jan
+ 2020 17:49:35 +0100
+Received: from SFHDAG6NODE3.st.com ([fe80::d04:5337:ab17:b6f6]) by
+ SFHDAG6NODE3.st.com ([fe80::d04:5337:ab17:b6f6%20]) with mapi id
+ 15.00.1473.003; Tue, 28 Jan 2020 17:49:35 +0100
+From: Philippe CORNU <philippe.cornu@st.com>
+To: Benjamin GAIGNARD <benjamin.gaignard@st.com>, Maxime Ripard
+ <maxime@cerno.tech>
+Subject: Re: [PATCH v2] dt-bindings: display: Convert etnaviv to json-schema
+Thread-Topic: [PATCH v2] dt-bindings: display: Convert etnaviv to json-schema
+Thread-Index: AQHV1bPFvwodev/kWkOXWkWfzChdiaf/6nAAgAAHB4CAAEgqAA==
+Date: Tue, 28 Jan 2020 16:49:35 +0000
+Message-ID: <7acf71bb-092d-14f4-8208-6d906a993211@st.com>
+References: <20200128082013.15951-1-benjamin.gaignard@st.com>
+ <20200128120600.oagnindklixjyieo@gilmour.lan>
+ <a7fa1b43-a188-9d06-73ec-16bcd4012207@st.com>
+In-Reply-To: <a7fa1b43-a188-9d06-73ec-16bcd4012207@st.com>
+Accept-Language: fr-FR, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.75.127.49]
+Content-ID: <85CDDBF742537543A477C23D8CA2A1C8@st.com>
 MIME-Version: 1.0
-References: <20200121114553.2667556-1-arnd@arndb.de>
- <20200121125546.GA71415@bogon.m.sigxcpu.org>
- <1971902c68ff805ee0b4a66f558afe06e6edf0c5.camel@pengutronix.de>
- <CAK8P3a2E__zHPPEL37JwK=uHb_v-=C+-+zGaL3XoW5PZ+BUN5g@mail.gmail.com>
- <20200122103034.GA67385@bogon.m.sigxcpu.org>
- <20200122103553.GN25745@shell.armlinux.org.uk>
- <20200124085616.GA5680@bogon.m.sigxcpu.org>
-In-Reply-To: <20200124085616.GA5680@bogon.m.sigxcpu.org>
-From: Arnd Bergmann <arnd@arndb.de>
-Date: Tue, 28 Jan 2020 14:07:51 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a36b6OVW1izkmwML_iWof1BWcPSuh=zV5D=9Jx5Q+MRFg@mail.gmail.com>
-Message-ID: <CAK8P3a36b6OVW1izkmwML_iWof1BWcPSuh=zV5D=9Jx5Q+MRFg@mail.gmail.com>
-Subject: Re: [PATCH] drm/etnaviv: only reject timeouts with tv_nsec >= 2
- seconds
-To: =?UTF-8?Q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>
-X-Provags-ID: V03:K1:VhaebLygsFOvl2D2rX2OmMWORGmc/EGysrq4nAiq0f+TxAsvCYf
- okWoY3bRxi5M7+WkuD+0FdDbP9D3EAhnpW9Zy0rLTJSpyEARvS4TIX/0WWHfRBjLt469i4v
- 7cn34npyltN8IWFfgfhEsl+0Szr9ASJ42YwbaYRsWohlG8MJqt/RMyKCJS3iGCvyAR4PLb/
- PlCGRVKa/qC07cWGVbnuw==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:JFO++/3IoKY=:BzHJXJhmk5VFDf1iL8HX8L
- PhlWm4mOGsf5taaUXH3zYtQcyk+36/xU6+kIEViQnzCcNunewt1UhgjBCAcYFySc2gIAstnVP
- Or6o2/54cz5h2cfWPqXvp7EHvx1giNSxJGcHLffZt4hrzLzOr7mK/n/5Vgqj+Cg/97L+D9aW6
- x5kEicTlDviDhR8K/y2eODvHP6cG7Rl6/0WGccVWHhreePrPjYPRUPh24ohSn3TUQaI5Cg76r
- s1siEMGfbvPkJw5Z0Gr6VxpeiX0vsr5nDhDqt6tLNYZee1InFyyld0abUgGEiHh86P0exQszd
- cdaiWcG/fDWb0steGVloOU7dKH+LVipNhelRcNwBzAMIdvloPc6F5M9r7CXFl/YC8xohC3ebM
- GH11qY+QeHpNIXXpgcRmhjxhcaEP+ON1twgmvp9NVZ5XHBnA77U1ZpK87+KYUj0OjbZ7VEqlj
- uKS/3wH2v6x4prZZlve+4XlkGVtpNBYW7pjWVsrJ2DfMbMdhLfEmkvazXQQyZ/PG1IzeHN2XF
- ZzWCwzGkfliuTzv4+JujMDfj6sNmxNAQScLchZU3x3ympoqgt9sErDLC1eApiccTnp9BO2mJ6
- 00xpxUTAXo5zS8BYR1iTrrXmB9Sz6BieW6M8blx8RH43kCDL548Mwrd/ApYXd3qeocNHIbF1Y
- uftznPeCs/y/lnSKHb7M0mTORQ0lifK1cnu30iTpEjnataNcjbhiU/QZ0PbKbdiz/TyiIJjtP
- OnSZfZQOa7dySTMCdES2EkTWaqZCtb3zT+5xfjhgW2nHRxPDnQGcOwLUVaWOc4MENiwhdBUdn
- Jao+3fjfM/MBV+0NVcZfrSWrswQEGL8yps08aHtdDYpdhFLSdc=
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
+ definitions=2020-01-28_05:2020-01-28,
+ 2020-01-28 signatures=0
 X-Mailman-Approved-At: Tue, 28 Jan 2020 18:46:22 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,42 +82,197 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Herring <robh@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@linux.ie>,
+Cc: "mark.rutland@arm.com" <mark.rutland@arm.com>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "airlied@linux.ie" <airlied@linux.ie>,
+ "etnaviv@lists.freedesktop.org" <etnaviv@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
  "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Russell King - ARM Linux admin <linux@armlinux.org.uk>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- The etnaviv authors <etnaviv@lists.freedesktop.org>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Emil Velikov <emil.velikov@collabora.com>, Sam Ravnborg <sam@ravnborg.org>,
- Lucas Stach <l.stach@pengutronix.de>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ "christian.gmeiner@gmail.com" <christian.gmeiner@gmail.com>,
+ "robh+dt@kernel.org" <robh+dt@kernel.org>,
+ Pierre Yves MORDRET <pierre-yves.mordret@st.com>,
+ "daniel@ffwll.ch" <daniel@ffwll.ch>,
+ "linux+etnaviv@armlinux.org.uk" <linux+etnaviv@armlinux.org.uk>,
+ "l.stach@pengutronix.de" <l.stach@pengutronix.de>
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBKYW4gMjQsIDIwMjAgYXQgOTo1NiBBTSBHdWlkbyBHw7xudGhlciA8YWd4QHNpZ3hj
-cHUub3JnPiB3cm90ZToKPiBPbiBXZWQsIEphbiAyMiwgMjAyMCBhdCAxMDozNTo1M0FNICswMDAw
-LCBSdXNzZWxsIEtpbmcgLSBBUk0gTGludXggYWRtaW4gd3JvdGU6Cj4gPiBPbiBXZWQsIEphbiAy
-MiwgMjAyMCBhdCAxMTozMDozNEFNICswMTAwLCBHdWlkbyBHw7xudGhlciB3cm90ZToKCj4gPiBJ
-IHRoaW5rIGl0IHdvdWxkIHByb2JhYmx5IGJlIGJldHRlciBmb3IgdGhlIGtlcm5lbCB0byBwcmlu
-dCBhCj4gPiB3YXJuaW5nIG9uY2Ugd2hlbiBub3RpY2luZyBvdmVyLWxhcmdlIG5zZWMgdmFsdWVz
-LCBzdWdnZXN0aW5nIGEKPiA+IHVzZXJzcGFjZSB1cGdyYWRlIGlzIGluIG9yZGVyLCBidXQgY29u
-dGludWUgdGhlIGV4aXN0aW5nIGJlaGF2aW91ci4KPgo+IFRoYXQgbWFrZXMgc2Vuc2UgdG8gbWUu
-IFRoaXMgYWxzbyBtYWtlcyBzdXJlIHdlIGRvbid0IGJyZWFrIG90aGVyIChub24KPiBtZXNhIHVz
-aW5nKSBzdHVmZiBhY2NpZGVudGFsbHkuIFdlIGhhdmUKPgo+ICAgaHR0cHM6Ly9naXRsYWIuZnJl
-ZWRlc2t0b3Aub3JnL21lc2EvbWVzYS9jb21taXQvZDgxN2YyYzY5NjE1Y2YzN2I3OGY0ODRhMjVi
-NzgzMWViZTlkYmU2Zgo+Cj4gYW5kCj4KPiAgIGh0dHBzOi8vZ2l0bGFiLmZyZWVkZXNrdG9wLm9y
-Zy9tZXNhL21lc2EvbWVyZ2VfcmVxdWVzdHMvMzUzNAo+Cj4gdG8gbm9ybWFsaXplIG5zZWMgdG8g
-WzAuLjk5OTk5OTk5OV0gbm93Lgo+CgpJIGhhdmUgcmV2ZXJ0ZWQgbXkgcGF0Y2ggdGhhdCBhZGRz
-IHRoZSByYW5nZSBjaGVjayBub3csIHNvIEkgY2FuIHNlbmQgdGhlIHJlc3QKb2YgdGhlIHNlcmll
-cyBmb3IgaW5jbHVzaW9uLgoKSSd2ZSBwbGF5ZWQgYXJvdW5kIHdpdGggd2F5cyB0byBhZGQgYSBy
-YXRlbGltaXRlZCB3YXJuaW5nIG1lc3NhZ2UgYW5kIHRvCm1ha2Ugc3VyZSB0aGF0IGEgbWFsaWNp
-b3VzIGFwcGxpY2F0aW9uIGNhbm5vdCBjYXVzZSBhIGxvbmcgc3RhbGwsIGJ1dCBoYXZlbid0Cm1h
-bmFnZWQgdG8gZ2V0IGEgdmVyc2lvbiBJJ20gYWN0dWFsbHkgaGFwcHkgd2l0aC4KCkknbGwgZm9s
-bG93IHVwIG9uY2UgdGhlIHNlcmllcyBpcyBtZXJnZWQsIGFuZCB0aGVuIHdlIGNhbiBhZGQgYSBi
-ZXR0ZXIKd29ya2Fyb3VuZApsYXRlciB0aHJvdWdoIHRoZSBkcm0gdHJlZS4KCiAgICAgIEFybmQK
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZXRuYXZpdiBt
-YWlsaW5nIGxpc3QKZXRuYXZpdkBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5m
-cmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9ldG5hdml2Cg==
+Hi Benjamin,
+
+
+On 1/28/20 1:31 PM, Benjamin GAIGNARD wrote:
+> =
+
+> On 1/28/20 1:06 PM, Maxime Ripard wrote:
+>> Hi Benjamin,
+>>
+>> On Tue, Jan 28, 2020 at 09:20:13AM +0100, Benjamin Gaignard wrote:
+>>> Convert etnaviv bindings to yaml format.
+>>>
+>>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@st.com>
+>>> ---
+>>>    .../bindings/display/etnaviv/etnaviv-drm.txt       | 36 -----------
+>>>    .../devicetree/bindings/gpu/vivante,gc.yaml        | 72 ++++++++++++=
+++++++++++
+>>>    2 files changed, 72 insertions(+), 36 deletions(-)
+>>>    delete mode 100644 Documentation/devicetree/bindings/display/etnaviv=
+/etnaviv-drm.txt
+>>>    create mode 100644 Documentation/devicetree/bindings/gpu/vivante,gc.=
+yaml
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/display/etnaviv/etnaviv-=
+drm.txt b/Documentation/devicetree/bindings/display/etnaviv/etnaviv-drm.txt
+>>> deleted file mode 100644
+>>> index 8def11b16a24..000000000000
+>>> --- a/Documentation/devicetree/bindings/display/etnaviv/etnaviv-drm.txt
+>>> +++ /dev/null
+>>> @@ -1,36 +0,0 @@
+>>> -Vivante GPU core devices
+>>> -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D
+>>> -
+>>> -Required properties:
+>>> -- compatible: Should be "vivante,gc"
+>>> -  A more specific compatible is not needed, as the cores contain chip
+>>> -  identification registers at fixed locations, which provide all the
+>>> -  necessary information to the driver.
+>>> -- reg: should be register base and length as documented in the
+>>> -  datasheet
+>>> -- interrupts: Should contain the cores interrupt line
+>>> -- clocks: should contain one clock for entry in clock-names
+>>> -  see Documentation/devicetree/bindings/clock/clock-bindings.txt
+>>> -- clock-names:
+>>> -   - "bus":    AXI/master interface clock
+>>> -   - "reg":    AHB/slave interface clock
+>>> -               (only required if GPU can gate slave interface independ=
+ently)
+>>> -   - "core":   GPU core clock
+>>> -   - "shader": Shader clock (only required if GPU has feature PIPE_3D)
+>>> -
+>>> -Optional properties:
+>>> -- power-domains: a power domain consumer specifier according to
+>>> -  Documentation/devicetree/bindings/power/power_domain.txt
+>>> -
+>>> -example:
+>>> -
+>>> -gpu_3d: gpu@130000 {
+>>> -	compatible =3D "vivante,gc";
+>>> -	reg =3D <0x00130000 0x4000>;
+>>> -	interrupts =3D <0 9 IRQ_TYPE_LEVEL_HIGH>;
+>>> -	clocks =3D <&clks IMX6QDL_CLK_GPU3D_AXI>,
+>>> -	         <&clks IMX6QDL_CLK_GPU3D_CORE>,
+>>> -	         <&clks IMX6QDL_CLK_GPU3D_SHADER>;
+>>> -	clock-names =3D "bus", "core", "shader";
+>>> -	power-domains =3D <&gpc 1>;
+>>> -};
+>>> diff --git a/Documentation/devicetree/bindings/gpu/vivante,gc.yaml b/Do=
+cumentation/devicetree/bindings/gpu/vivante,gc.yaml
+>>> new file mode 100644
+>>> index 000000000000..c4f549c0d750
+>>> --- /dev/null
+>>> +++ b/Documentation/devicetree/bindings/gpu/vivante,gc.yaml
+>>> @@ -0,0 +1,72 @@
+>>> +# SPDX-License-Identifier: GPL-2.0
+>>> +%YAML 1.2
+>>> +---
+>>> +$id: http://devicetree.org/schemas/gpu/vivante,gc.yaml#
+>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>>> +
+>>> +title: Vivante GPU Bindings
+>>> +
+>>> +description: Vivante GPU core devices
+>>> +
+>>> +maintainers:
+>>> +  -  Lucas Stach <l.stach@pengutronix.de>
+>>> +
+>>> +properties:
+>>> +  compatible:
+>>> +    const: vivante,gc
+>>> +
+>>> +  reg:
+>>> +    maxItems: 1
+>>> +
+>>> +  interrupts:
+>>> +    maxItems: 1
+>>> +
+>>> +  clocks:
+>>> +    items:
+>>> +      - description: AXI/master interface clock
+>>> +      - description: GPU core clock
+>>> +      - description: Shader clock (only required if GPU has feature PI=
+PE_3D)
+>>> +      - description: AHB/slave interface clock (only required if GPU c=
+an gate slave interface independently)
+>> Can you have an AHB slave interface clock without a shader clock?
+> =
+
+> No because the items in the list are ordered so you need to have, in
+> order: "bus", "core", "shader", "reg"
+> =
+
+> If it is needed to allow any number of clock in any order I could write
+> it like this:
+> =
+
+> clocks:
+> =
+
+>   =A0 minItems: 1
+> =
+
+>   =A0 maxItems: 4
+> =
+
+> clock-names:
+> =
+
+>   =A0 items:
+> =
+
+>   =A0=A0=A0 enum: [ bus, core, shader, reg]
+> =
+
+>   =A0 minItems: 1
+> =
+
+>   =A0 maxItems: 4
+> =
+
+> Benjamin
+
+
+Thank you for your patch,
+
+I confirm that your last proposal with enum would be better.
+
+With that,
+Reviewed-by: Philippe Cornu <philippe.cornu@st.com>
+
+Philippe :-)
+
+
+> =
+
+>>
+>>> +    minItems: 2
+>>> +    maxItems: 4
+>>> +
+>>> +  clock-names:
+>>> +    items:
+>>> +      - const: bus
+>>> +      - const: core
+>>> +      - const: shader
+>>> +      - const: reg
+>>> +    minItems: 2
+>>> +    maxItems: 4
+>> If so, that check will fail, since it would expect a clock named
+>> shader on the 3rd item.
+>>
+>> It looks good otherwise, thanks!
+>> Maxime
+_______________________________________________
+etnaviv mailing list
+etnaviv@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/etnaviv
