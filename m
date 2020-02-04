@@ -1,32 +1,32 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2621F14EE42
-	for <lists+etnaviv@lfdr.de>; Fri, 31 Jan 2020 15:20:07 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 39DA4151876
+	for <lists+etnaviv@lfdr.de>; Tue,  4 Feb 2020 11:06:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D11F189FDD;
-	Fri, 31 Jan 2020 14:20:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E67706E5C8;
+	Tue,  4 Feb 2020 10:06:37 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CABA589FDD
- for <etnaviv@lists.freedesktop.org>; Fri, 31 Jan 2020 14:20:04 +0000 (UTC)
-Received: from gallifrey.ext.pengutronix.de
- ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=localhost)
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 70B3A6E5C8
+ for <etnaviv@lists.freedesktop.org>; Tue,  4 Feb 2020 10:06:36 +0000 (UTC)
+Received: from kresse.hi.pengutronix.de ([2001:67c:670:100:1d::2a])
+ by metis.ext.pengutronix.de with esmtp (Exim 4.92)
  (envelope-from <l.stach@pengutronix.de>)
- id 1ixX9O-0004p2-CY; Fri, 31 Jan 2020 15:20:02 +0100
-Message-ID: <c80cbf0da9bd86cc90826011dac1638684be3a3d.camel@pengutronix.de>
-Subject: etnaviv meetup at FOSDEM
+ id 1iyv6I-0001v5-M2; Tue, 04 Feb 2020 11:06:34 +0100
+Message-ID: <a9190db5357dcff46fb2e2d1061061e57992115c.camel@pengutronix.de>
+Subject: Re: Vivante GC7000UL
 From: Lucas Stach <l.stach@pengutronix.de>
-To: etnaviv@lists.freedesktop.org
-Date: Fri, 31 Jan 2020 15:20:25 +0100
-User-Agent: Evolution 3.34.3 (3.34.3-1.fc31) 
+To: nanaki89 <nanaki89@hotmail.fr>, etnaviv@lists.freedesktop.org
+Date: Tue, 04 Feb 2020 11:06:34 +0100
+In-Reply-To: <VI1PR07MB39979776FF3B325DE5A69413B9090@VI1PR07MB3997.eurprd07.prod.outlook.com>
+References: <VI1PR07MB39979776FF3B325DE5A69413B9090@VI1PR07MB3997.eurprd07.prod.outlook.com>
+User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::2a
 X-SA-Exim-Mail-From: l.stach@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
  SAEximRunCond expanded to false
@@ -47,15 +47,23 @@ Content-Transfer-Encoding: 7bit
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Hi all,
+Hi,
 
-it seems that quite a few people involved in etnaviv will be present at
-FOSDEM. A short IRC poll a while back concluded that meeting at the
-graphics devroom (K.4.401), before the start of the busy schedule (so
-between 10:00 and 11:00 on Saturday) seems like a good spot in space
-and time.
+On Sa, 2020-01-25 at 18:28 +0100, nanaki89 wrote:
+> Hi,
+> 
+> I'm building android for an old device, samsung galaxy grand prime 
+> (grandprimevelte), mainly to play with it rather than making it usable 
+> again, its old and slow.
+> 
+> I was looking for some Vivante kernel driver and it appears this device 
+> uses a SoC Marvell PXA1908 and a GPU Vivante GC7000UL, do you think the 
+> etnaviv could be used on this device ?
 
-Anyone interested in etnaviv is welcome to join!
+I see no reason why etnaviv wouldn't work on this GPU. You may need a
+kernel HWDB entry for this specific GPU, as the newer GPUs seem to
+provide some incorrect info in the feature registers. Other than that,
+things might just work.
 
 Regards,
 Lucas
