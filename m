@@ -1,55 +1,53 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7EC9166624
-	for <lists+etnaviv@lfdr.de>; Thu, 20 Feb 2020 19:25:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F3E51674C2
+	for <lists+etnaviv@lfdr.de>; Fri, 21 Feb 2020 09:28:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D5FA6EE3C;
-	Thu, 20 Feb 2020 18:25:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 401746E25D;
+	Fri, 21 Feb 2020 08:28:19 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from skedge03.snt-world.com (skedge03.snt-world.com [91.208.41.68])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B0206EE3C
- for <etnaviv@lists.freedesktop.org>; Thu, 20 Feb 2020 18:25:36 +0000 (UTC)
-Received: from sntmail14r.snt-is.com (unknown [10.203.32.184])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by skedge03.snt-world.com (Postfix) with ESMTPS id 067A667A7C7;
- Thu, 20 Feb 2020 19:25:33 +0100 (CET)
-Received: from sntmail12r.snt-is.com (10.203.32.182) by sntmail14r.snt-is.com
- (10.203.32.184) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1913.5; Thu, 20 Feb
- 2020 19:25:32 +0100
-Received: from sntmail12r.snt-is.com ([fe80::e551:8750:7bba:3305]) by
- sntmail12r.snt-is.com ([fe80::e551:8750:7bba:3305%3]) with mapi id
- 15.01.1913.005; Thu, 20 Feb 2020 19:25:32 +0100
-From: Schrempf Frieder <frieder.schrempf@kontron.de>
-To: Chris Healy <cphealy@gmail.com>
-Subject: Re: Etnaviv issues on i.MX8M-Mini
-Thread-Topic: Etnaviv issues on i.MX8M-Mini
-Thread-Index: AQHV5+yplA/1sTzXA027Bdn9yaxznqgkQ0YAgAASYYA=
-Date: Thu, 20 Feb 2020 18:25:32 +0000
-Message-ID: <bcc3af77-07c5-fbc7-ad20-d070c5ab1ce8@kontron.de>
-References: <2704d3bd-5563-8951-58f7-75a906782754@kontron.de>
- <CAFXsbZp9kW555gm+8Cz+oQVRNSzVzzQO2rM5YqzitCd6T7KN6Q@mail.gmail.com>
-In-Reply-To: <CAFXsbZp9kW555gm+8Cz+oQVRNSzVzzQO2rM5YqzitCd6T7KN6Q@mail.gmail.com>
-Accept-Language: de-DE, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.25.9.193]
-x-c2processedorg: 51b406b7-48a2-4d03-b652-521f56ac89f3
-Content-ID: <A82E78A70C04F941A79843ABBB90597E@snt-world.com>
+Received: from mail-ua1-x943.google.com (mail-ua1-x943.google.com
+ [IPv6:2607:f8b0:4864:20::943])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E2876E25A;
+ Fri, 21 Feb 2020 08:28:18 +0000 (UTC)
+Received: by mail-ua1-x943.google.com with SMTP id g13so367333uab.7;
+ Fri, 21 Feb 2020 00:28:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=kpZqkjJzq7maU5wRD/SzaYqTKkPoc6vJaalUsryW+8I=;
+ b=RWVYOsnefJ75cq6QAR9uBhrSY2wGv/IxxoO4tFK384goCjUffuRjVzizn58R9YvaW7
+ X31yruFrt6MSw7clKgt3OEMjdI5ShxL4K0YTbH5Ev0+WURhB/7lqvARcxgGxLiwCez/A
+ a034X2eq+189Iip0KOY7CbfjU8yQ10KCa/N8afzgU4F0HtIdeQh+Cz7oOWbg9n2YkfvT
+ IrZoeMlGPqk3uSUW1wdg/roL8/1BRqxR+UpPfbWMu7IVJAgT3ghT1TRxn59CgD53xBIQ
+ EJZ4o2oteTWqO68IOwZc6gMq2B2gIadDTXUEXU+G/TnheC3jxEeatzIbdYddSgIJQxoB
+ 3DMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=kpZqkjJzq7maU5wRD/SzaYqTKkPoc6vJaalUsryW+8I=;
+ b=cN2SpsSfq+3Bz71MtIiviwd+q4m9A1FxYCpOwQWQ3Q30eXFfR1fY3/5Upyq3xqLWQv
+ RtWZ2OQyTxAtEuwOzqTuFG27miO5ASlRS684qZeFTaOa8t5tBbcPYhGW/Lobse5rssLg
+ 1Jix2LwOzKhjLdiOd6E+VwcWvPjdrU0UoH4mfFcs4guxletxZcnaLKAse+6T7kz/UWOj
+ u7IQOrK9QG8SqE7kCxnmuVeJARiBy6xKHg6HzlM8E1UXZKL+7cF0pbF7+TWk9JUKbreT
+ Ma38vXmJteQKzqizuFctfeyRH+ROc/KLGHqHV8chsg7oHkQogLYDWGT7/K3AxSQ4eaej
+ YW9w==
+X-Gm-Message-State: APjAAAW+1qCJhmluB7m3PY48zENsyB7sMaSm8xbrAF0Qaj7j1wymPt51
+ kukDaBTAYYv6BaPbtSB3M6oYD47ynAKnWYnHbfg=
+X-Google-Smtp-Source: APXvYqxmLNkqW8mBwz0Iwb261cEY9aqyNNS8+/2m7CnN8EFRUA4/6WuhWMOyAGVA8CFlptNzcQE7DsGzQPkFHHDQR/k=
+X-Received: by 2002:ab0:3395:: with SMTP id y21mr9862260uap.124.1582273697648; 
+ Fri, 21 Feb 2020 00:28:17 -0800 (PST)
 MIME-Version: 1.0
-X-SnT-MailScanner-Information: Please contact the ISP for more information
-X-SnT-MailScanner-ID: 067A667A7C7.AE12F
-X-SnT-MailScanner: Not scanned: please contact your Internet E-Mail Service
- Provider for details
-X-SnT-MailScanner-SpamCheck: 
-X-SnT-MailScanner-From: frieder.schrempf@kontron.de
-X-SnT-MailScanner-To: cphealy@gmail.com, etnaviv@lists.freedesktop.org
-X-Spam-Status: No
+References: <20200106104339.215511-1-christian.gmeiner@gmail.com>
+In-Reply-To: <20200106104339.215511-1-christian.gmeiner@gmail.com>
+From: Christian Gmeiner <christian.gmeiner@gmail.com>
+Date: Fri, 21 Feb 2020 09:28:06 +0100
+Message-ID: <CAH9NwWcW-kq_GzhsfZboLKfGZj6=40Qi6Pf8-WoO4J6VOqzgoQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/etnaviv: rework perfmon query infrastructure
+To: LKML <linux-kernel@vger.kernel.org>
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,85 +59,155 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: "etnaviv@lists.freedesktop.org" <etnaviv@lists.freedesktop.org>
+Cc: David Airlie <airlied@linux.ie>,
+ The etnaviv authors <etnaviv@lists.freedesktop.org>, stable@vger.kernel.org,
+ DRI mailing list <dri-devel@lists.freedesktop.org>,
+ Daniel Vetter <daniel@ffwll.ch>, Russell King <linux+etnaviv@armlinux.org.uk>,
+ Dan Carpenter <dan.carpenter@oracle.com>, Lucas Stach <l.stach@pengutronix.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Hi Chris,
+Am Mo., 6. Jan. 2020 um 11:43 Uhr schrieb Christian Gmeiner
+<christian.gmeiner@gmail.com>:
+>
+> Report the correct perfmon domains and signals depending
+> on the supported feature flags.
+>
+> Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+> Fixes: 9e2c2e273012 ("drm/etnaviv: add infrastructure to query perf counter")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Christian Gmeiner <christian.gmeiner@gmail.com>
+> ---
+>  drivers/gpu/drm/etnaviv/etnaviv_perfmon.c | 57 ++++++++++++++++++++---
+>  1 file changed, 50 insertions(+), 7 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c b/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
+> index 8adbf2861bff..7ae8f347ca06 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
+> @@ -32,6 +32,7 @@ struct etnaviv_pm_domain {
+>  };
+>
+>  struct etnaviv_pm_domain_meta {
+> +       unsigned int feature;
+>         const struct etnaviv_pm_domain *domains;
+>         u32 nr_domains;
+>  };
+> @@ -410,36 +411,78 @@ static const struct etnaviv_pm_domain doms_vg[] = {
+>
+>  static const struct etnaviv_pm_domain_meta doms_meta[] = {
+>         {
+> +               .feature = chipFeatures_PIPE_3D,
+>                 .nr_domains = ARRAY_SIZE(doms_3d),
+>                 .domains = &doms_3d[0]
+>         },
+>         {
+> +               .feature = chipFeatures_PIPE_2D,
+>                 .nr_domains = ARRAY_SIZE(doms_2d),
+>                 .domains = &doms_2d[0]
+>         },
+>         {
+> +               .feature = chipFeatures_PIPE_VG,
+>                 .nr_domains = ARRAY_SIZE(doms_vg),
+>                 .domains = &doms_vg[0]
+>         }
+>  };
+>
+> +static unsigned int num_pm_domains(const struct etnaviv_gpu *gpu)
+> +{
+> +       unsigned int num = 0, i;
+> +
+> +       for (i = 0; i < ARRAY_SIZE(doms_meta); i++) {
+> +               const struct etnaviv_pm_domain_meta *meta = &doms_meta[i];
+> +
+> +               if (gpu->identity.features & meta->feature)
+> +                       num += meta->nr_domains;
+> +       }
+> +
+> +       return num;
+> +}
+> +
+> +static const struct etnaviv_pm_domain *pm_domain(const struct etnaviv_gpu *gpu,
+> +       unsigned int index)
+> +{
+> +       const struct etnaviv_pm_domain *domain = NULL;
+> +       unsigned int offset = 0, i;
+> +
+> +       for (i = 0; i < ARRAY_SIZE(doms_meta); i++) {
+> +               const struct etnaviv_pm_domain_meta *meta = &doms_meta[i];
+> +
+> +               if (!(gpu->identity.features & meta->feature))
+> +                       continue;
+> +
+> +               if (meta->nr_domains < (index - offset)) {
+> +                       offset += meta->nr_domains;
+> +                       continue;
+> +               }
+> +
+> +               domain = meta->domains + (index - offset);
+> +       }
+> +
+> +       BUG_ON(!domain);
+> +
+> +       return domain;
+> +}
+> +
+>  int etnaviv_pm_query_dom(struct etnaviv_gpu *gpu,
+>         struct drm_etnaviv_pm_domain *domain)
+>  {
+> -       const struct etnaviv_pm_domain_meta *meta = &doms_meta[domain->pipe];
+> +       const unsigned int nr_domains = num_pm_domains(gpu);
+>         const struct etnaviv_pm_domain *dom;
+>
+> -       if (domain->iter >= meta->nr_domains)
+> +       if (domain->iter >= nr_domains)
+>                 return -EINVAL;
+>
+> -       dom = meta->domains + domain->iter;
+> +       dom = pm_domain(gpu, domain->iter);
+>
+>         domain->id = domain->iter;
+>         domain->nr_signals = dom->nr_signals;
+>         strncpy(domain->name, dom->name, sizeof(domain->name));
+>
+>         domain->iter++;
+> -       if (domain->iter == meta->nr_domains)
+> +       if (domain->iter == nr_domains)
+>                 domain->iter = 0xff;
+>
+>         return 0;
+> @@ -448,14 +491,14 @@ int etnaviv_pm_query_dom(struct etnaviv_gpu *gpu,
+>  int etnaviv_pm_query_sig(struct etnaviv_gpu *gpu,
+>         struct drm_etnaviv_pm_signal *signal)
+>  {
+> -       const struct etnaviv_pm_domain_meta *meta = &doms_meta[signal->pipe];
+> +       const unsigned int nr_domains = num_pm_domains(gpu);
+>         const struct etnaviv_pm_domain *dom;
+>         const struct etnaviv_pm_signal *sig;
+>
+> -       if (signal->domain >= meta->nr_domains)
+> +       if (signal->domain >= nr_domains)
+>                 return -EINVAL;
+>
+> -       dom = meta->domains + signal->domain;
+> +       dom = pm_domain(gpu, signal->domain);
+>
+>         if (signal->iter >= dom->nr_signals)
+>                 return -EINVAL;
+> --
+> 2.24.1
+>
 
-On 20.02.20 18:19, Chris Healy wrote:
-> Hi Frieder,
-> 
-> For your #1, can you provide more detail on your configuration?  What
-> is your display resolution?  Are you running Qt with egl_fs or are you
-> running on top of a compositor?  If you are running on top of a
-> compositor, is the 3D GPU being used for compositing?
+ping
 
-Sure. The display resolution I'm testing with is 1024x600 and I'm using 
-the eglfs/KMS backend without compositor.
+-- 
+greets
+--
+Christian Gmeiner, MSc
 
-I'm passing this simple config to Qt via QT_QPA_EGLFS_KMS_CONFIG:
-
-{
-     "device": "/dev/dri/card1"
-}
-
-> 
-> For your #2, at least in the case of the GC2000, the GPU cannot deal
-> with shaders that have more than 512 instructions.  The terrain demo
-> has a shader that is typically larger than 512 instructions.  I've
-> always seen the terrain demo fail on the GC2000.  With the GC3000 and
-> GC7000L, this 512 instruction limit does not exist and the terrain
-> demo has always worked.  Likely the GC600 has this 512 instruction
-> limit.
-
-Ok, that's likely the reason for this. Thanks for explaining.
-
-Best regards,
-Frieder
-
-> 
-> Regards,
-> 
-> Chris
-> 
-> On Thu, Feb 20, 2020 at 8:56 AM Schrempf Frieder
-> <frieder.schrempf@kontron.de> wrote:
->>
->> Hi,
->>
->> according to the documents, the i.MX8M-Mini features a GC320 and a
->> GCNanoUltra. I tried to run the etnaviv drivers and the following GPUs
->> are detected:
->>
->>          etnaviv-gpu 38000000.gpu: model: GC600, revision: 4653
->>          etnaviv-gpu 38008000.gpu: model: GC520, revision: 5341
->>
->> Running some demos and tests with mesa 19.1.6 most things seem to work.
->> Still I currently have two issues, while the first one is kind of a
->> show-stopper and the second one is not really important as it seems to
->> affect shaders only.
->>
->> 1. When running any QtQuick applications, all transformations like
->> moving elements are really jerky and not smooth at all as it should be.
->> Any ideas what the reason could be, or how to get more information about
->> this problem?
->>
->> 2. With some demos (e.g. with 'glmark2-es2-drm -b terrain') I get:
->>
->>          error: compile failed!
->>          etna_draw_vbo:222: compiled shaders are not okay
->>
->> Can this be fixed somehow, or is this due to the limitations of the GPU?
->>
->> Thanks,
->> Frieder
->> _______________________________________________
->> etnaviv mailing list
->> etnaviv@lists.freedesktop.org
->> https://lists.freedesktop.org/mailman/listinfo/etnaviv
+https://christian-gmeiner.info/privacypolicy
 _______________________________________________
 etnaviv mailing list
 etnaviv@lists.freedesktop.org
