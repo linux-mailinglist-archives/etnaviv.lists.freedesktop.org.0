@@ -2,50 +2,47 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F7BE1734CD
-	for <lists+etnaviv@lfdr.de>; Fri, 28 Feb 2020 11:01:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DF9C1734C7
+	for <lists+etnaviv@lfdr.de>; Fri, 28 Feb 2020 11:00:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC4BC89C3B;
-	Fri, 28 Feb 2020 10:01:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A5C46EEB9;
+	Fri, 28 Feb 2020 10:00:48 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 38F736EAEB;
- Tue, 25 Feb 2020 14:17:50 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 25 Feb 2020 06:17:49 -0800
-X-IronPort-AV: E=Sophos;i="5.70,484,1574150400"; d="scan'208";a="231032368"
-Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.161])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 25 Feb 2020 06:17:38 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
+Received: from fireflyinternet.com (mail.fireflyinternet.com [109.228.58.192])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E873E6EB12;
+ Tue, 25 Feb 2020 15:04:31 +0000 (UTC)
+X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
+ x-ip-name=78.156.65.138; 
+Received: from localhost (unverified [78.156.65.138]) 
+ by fireflyinternet.com (Firefly Internet (M1)) with ESMTP (TLS) id
+ 20346492-1500050 for multiple; Tue, 25 Feb 2020 15:04:28 +0000
+MIME-Version: 1.0
 To: "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
- Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
  Christian Gmeiner <christian.gmeiner@gmail.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>, Dave Airlie <airlied@redhat.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Dave Airlie <airlied@redhat.com>,
+ David Airlie <airlied@linux.ie>, Eric Anholt <eric@anholt.net>,
  Gerd Hoffmann <kraxel@redhat.com>, Hans de Goede <hdegoede@redhat.com>,
- Eric Anholt <eric@anholt.net>,
- VMware Graphics <linux-graphics-maintainer@vmware.com>,
- Thomas Hellstrom <thellstrom@vmware.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Lucas Stach <l.stach@pengutronix.de>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+ Maxime Ripard <mripard@kernel.org>,
+ Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
+ Rob Clark <robdclark@gmail.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Russell King <linux+etnaviv@armlinux.org.uk>, Sean Paul <sean@poorly.run>,
+ Thomas Hellstrom <thellstrom@vmware.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ VMware Graphics <linux-graphics-maintainer@vmware.com>
+From: Chris Wilson <chris@chris-wilson.co.uk>
+In-Reply-To: <20200225140347.GA22864@embeddedor>
+References: <20200225140347.GA22864@embeddedor>
+Message-ID: <158264306645.3062.14566490586309398145@skylake-alporthouse-com>
+User-Agent: alot/0.6
 Subject: Re: [PATCH][next] drm: Replace zero-length array with flexible-array
  member
-In-Reply-To: <20200225140347.GA22864@embeddedor>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20200225140347.GA22864@embeddedor>
-Date: Tue, 25 Feb 2020 16:17:35 +0200
-Message-ID: <87a756sqdc.fsf@intel.com>
-MIME-Version: 1.0
-X-Mailman-Approved-At: Fri, 28 Feb 2020 10:01:14 +0000
+Date: Tue, 25 Feb 2020 15:04:26 +0000
+X-Mailman-Approved-At: Fri, 28 Feb 2020 10:00:47 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,73 +56,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
 Cc: "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
  linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, spice-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ etnaviv@lists.freedesktop.org, spice-devel@lists.freedesktop.org,
  virtualization@lists.linux-foundation.org, freedreno@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-On Tue, 25 Feb 2020, "Gustavo A. R. Silva" <gustavo@embeddedor.com> wrote:
+Quoting Gustavo A. R. Silva (2020-02-25 14:03:47)
 > The current codebase makes use of the zero-length array language
 > extension to the C90 standard, but the preferred mechanism to declare
 > variable-length types such as these ones is a flexible array member[1][2],
 > introduced in C99:
->
-> struct foo {
->         int stuff;
->         struct boo array[];
-> };
->
-> By making use of the mechanism above, we will get a compiler warning
-> in case the flexible array does not occur last in the structure, which
-> will help us prevent some kind of undefined behavior bugs from being
-> inadvertently introduced[3] to the codebase from now on.
->
-> Also, notice that, dynamic memory allocations won't be affected by
-> this change:
->
-> "Flexible array members have incomplete type, and so the sizeof operator
-> may not be applied. As a quirk of the original implementation of
-> zero-length arrays, sizeof evaluates to zero."[1]
->
-> This issue was found with the help of Coccinelle.
->
-> [1] https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html
-> [2] https://github.com/KSPP/linux/issues/21
-> [3] commit 76497732932f ("cxgb3/l2t: Fix undefined behaviour")
->
-> Signed-off-by: Gustavo A. R. Silva <gustavo@embeddedor.com>
-> ---
->  drivers/gpu/drm/etnaviv/etnaviv_gem.h         | 2 +-
->  drivers/gpu/drm/gma500/intel_bios.h           | 2 +-
->  drivers/gpu/drm/i915/display/intel_vbt_defs.h | 4 ++--
->  drivers/gpu/drm/i915/gt/intel_lrc.c           | 2 +-
->  drivers/gpu/drm/i915/i915_gpu_error.h         | 2 +-
 
-Please split out the i915 changes to a separate patch.
-
->  drivers/gpu/drm/msm/msm_gem.h                 | 2 +-
->  drivers/gpu/drm/qxl/qxl_cmd.c                 | 2 +-
->  drivers/gpu/drm/vboxvideo/vboxvideo.h         | 2 +-
->  drivers/gpu/drm/vc4/vc4_drv.h                 | 2 +-
->  drivers/gpu/drm/vmwgfx/vmwgfx_page_dirty.c    | 2 +-
->  drivers/gpu/drm/vmwgfx/vmwgfx_surface.c       | 2 +-
->  include/drm/bridge/mhl.h                      | 4 ++--
->  include/drm/drm_displayid.h                   | 2 +-
->  include/uapi/drm/i915_drm.h                   | 4 ++--
-
-Not sure it's worth touching uapi headers. They're full of both [0] and
-[]. Again, please at least split it to a separate patch to be decided
-separately.
-
-BR,
-Jani.
-
-
--- 
-Jani Nikula, Intel Open Source Graphics Center
+I remember when gcc didn't support []. For the record, it appears
+support for flexible arrays landed in gcc-3.0. So passes the minimum
+compiler spec. That would be useful to mention for old farts with
+forgetful memories.
+-Chris
 _______________________________________________
 etnaviv mailing list
 etnaviv@lists.freedesktop.org
