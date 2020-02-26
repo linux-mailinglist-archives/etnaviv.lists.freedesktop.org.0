@@ -1,38 +1,33 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3C39170280
-	for <lists+etnaviv@lfdr.de>; Wed, 26 Feb 2020 16:31:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A3935170333
+	for <lists+etnaviv@lfdr.de>; Wed, 26 Feb 2020 16:54:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F01E6EA88;
-	Wed, 26 Feb 2020 15:31:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B7726E356;
+	Wed, 26 Feb 2020 15:54:40 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from skedge03.snt-world.com (skedge03.snt-world.com [91.208.41.68])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B3496EA89
- for <etnaviv@lists.freedesktop.org>; Wed, 26 Feb 2020 15:31:48 +0000 (UTC)
-Received: from sntmail10s.snt-is.com (unknown [10.203.32.183])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by skedge03.snt-world.com (Postfix) with ESMTPS id A0D7067A904;
- Wed, 26 Feb 2020 16:31:45 +0100 (CET)
-Received: from sntmail12r.snt-is.com (10.203.32.182) by sntmail10s.snt-is.com
- (10.203.32.183) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1913.5; Wed, 26 Feb
- 2020 16:31:45 +0100
-Received: from sntmail12r.snt-is.com ([fe80::e551:8750:7bba:3305]) by
- sntmail12r.snt-is.com ([fe80::e551:8750:7bba:3305%3]) with mapi id
- 15.01.1913.005; Wed, 26 Feb 2020 16:31:45 +0100
-From: Schrempf Frieder <frieder.schrempf@kontron.de>
-To: Lucas Stach <l.stach@pengutronix.de>, Chris Healy <cphealy@gmail.com>,
- "etnaviv@lists.freedesktop.org" <etnaviv@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A593E6E356
+ for <etnaviv@lists.freedesktop.org>; Wed, 26 Feb 2020 15:54:38 +0000 (UTC)
+Received: from kresse.hi.pengutronix.de ([2001:67c:670:100:1d::2a])
+ by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1j6z1A-00019b-7U; Wed, 26 Feb 2020 16:54:36 +0100
+Message-ID: <8234253d725e665a4ef0f231c587e32cd4261a55.camel@pengutronix.de>
 Subject: Re: Etnaviv issues on i.MX8M-Mini
-Thread-Topic: Etnaviv issues on i.MX8M-Mini
-Thread-Index: AQHV5+yplA/1sTzXA027Bdn9yaxznqgkQ0YAgAASYYCAAAlEgIAFurcAgAAChwCAAAR5gIAABF6AgAFhcICAAgymAA==
-Date: Wed, 26 Feb 2020 15:31:45 +0000
-Message-ID: <47cc398f-565a-5725-eb93-66870dfbdc0c@kontron.de>
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Schrempf Frieder <frieder.schrempf@kontron.de>, Guido
+ =?ISO-8859-1?Q?G=FCnther?=
+ <agx@sigxcpu.org>, Chris Healy <cphealy@gmail.com>, 
+ "etnaviv@lists.freedesktop.org"
+ <etnaviv@lists.freedesktop.org>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>
+Date: Wed, 26 Feb 2020 16:54:35 +0100
+In-Reply-To: <47cc398f-565a-5725-eb93-66870dfbdc0c@kontron.de>
 References: <2704d3bd-5563-8951-58f7-75a906782754@kontron.de>
  <CAFXsbZp9kW555gm+8Cz+oQVRNSzVzzQO2rM5YqzitCd6T7KN6Q@mail.gmail.com>
  <bcc3af77-07c5-fbc7-ad20-d070c5ab1ce8@kontron.de>
@@ -42,24 +37,14 @@ References: <2704d3bd-5563-8951-58f7-75a906782754@kontron.de>
  <f3a0bd17-83f5-4afa-e9a6-3eac411d34ff@kontron.de>
  <ca594143751e94a2cf519e03915faa23a91c2836.camel@pengutronix.de>
  <41b4070d-8db8-112c-6c57-f50af00b1604@kontron.de>
-In-Reply-To: <41b4070d-8db8-112c-6c57-f50af00b1604@kontron.de>
-Accept-Language: de-DE, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.25.9.193]
-x-c2processedorg: 51b406b7-48a2-4d03-b652-521f56ac89f3
-Content-ID: <7DE6D7D774F52347BB92D832998BE4A9@snt-world.com>
+ <47cc398f-565a-5725-eb93-66870dfbdc0c@kontron.de>
+User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
-X-SnT-MailScanner-Information: Please contact the ISP for more information
-X-SnT-MailScanner-ID: A0D7067A904.ABB47
-X-SnT-MailScanner: Not scanned: please contact your Internet E-Mail Service
- Provider for details
-X-SnT-MailScanner-SpamCheck: 
-X-SnT-MailScanner-From: frieder.schrempf@kontron.de
-X-SnT-MailScanner-To: cphealy@gmail.com, dri-devel@lists.freedesktop.org,
- etnaviv@lists.freedesktop.org, l.stach@pengutronix.de
-X-Spam-Status: No
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::2a
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,65 +56,97 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-T24gMjUuMDIuMjAgMDk6MTMsIEZyaWVkZXIgU2NocmVtcGYgd3JvdGU6DQo+IEhpIEx1Y2FzLA0K
-PiANCj4gT24gMjQuMDIuMjAgMTI6MDgsIEx1Y2FzIFN0YWNoIHdyb3RlOg0KPj4gT24gTW8sIDIw
-MjAtMDItMjQgYXQgMTA6NTMgKzAwMDAsIFNjaHJlbXBmIEZyaWVkZXIgd3JvdGU6DQo+Pj4gSGkg
-THVjYXMsDQo+Pj4NCj4+PiBPbiAyNC4wMi4yMCAxMTozNywgTHVjYXMgU3RhY2ggd3JvdGU6DQo+
-Pj4+IEhpIEZyaWVkZXIsDQo+Pj4+DQo+Pj4+IE9uIE1vLCAyMDIwLTAyLTI0IGF0IDEwOjI4ICsw
-MDAwLCBTY2hyZW1wZiBGcmllZGVyIHdyb3RlOg0KPj4+Pj4gT24gMjAuMDIuMjAgMTk6NTgsIENo
-cmlzIEhlYWx5IHdyb3RlOg0KPj4+Pj4+IEZvciB0aGUgamVya2V5IHRyYW5zaXRpb25zLCBjYW4g
-eW91IGRldGVybWluZSBpZiB0aGlzIGlzIGEgc3ltcHRvbSBvZg0KPj4+Pj4+IGEgbG93IGZyYW1l
-cmF0ZSBvciBkcm9wcGVkIGZyYW1lcyBvciBzb21ldGhpbmcgZWxzZT8NCj4+Pj4+Pg0KPj4+Pj4+
-IFBlcmhhcHMgeW91IGNhbiBzdGFydCB5b3VyIGFwcCB3aXRoDQo+Pj4+Pj4gIkdBTExJVU1fSFVE
-PWZwcyxjcHUsZHJhdy1jYWxscyxmcmFtZXRpbWUiLsKgIFRoaXMgbWF5IGdpdmUgc29tZSANCj4+
-Pj4+PiBjbHVlcy4NCj4+Pj4+DQo+Pj4+PiBUaGUgZnJhbWVyYXRlIHNlZW1zIG9rLiBJIGdldCBz
-b21ldGhpbmcgYmV0d2VlbiA1MCBhbmQgNzAgRlBTLg0KPj4+Pj4NCj4+Pj4+IEkgaGF2ZSBhIFF0
-IGRlbW8gYXBwIHdpdGggYSBtZW51IGFuZCBhbiBhbmltYXRlZCAnYmFsbCcgdGhhdCBtb3Zlcw0K
-Pj4+Pj4gYWNyb3NzIHRoZSBzY3JlZW4uIFdoZW4gdGhlIG1lbnUgaXMgdmlzaWJsZSwgdGhlIGJh
-bGwgbW92ZW1lbnQgaXMgDQo+Pj4+PiByZWFsbHkNCj4+Pj4+IGplcmt5IChiYWxsIHNlZW1zIHRv
-ICdqdW1wIGJhY2sgYW5kIGZvcnRoJyBpbnN0ZWFkIG9mIG1vdmluZyANCj4+Pj4+IGxpbmVhcmx5
-KS4NCj4+Pj4+DQo+Pj4+PiBBcyBzb29uIGFzIEkgaGlkZSB0aGUgbWVudSBhbmQgc2hvdyB0aGUg
-YW5pbWF0aW9uIGZ1bGxzY3JlZW4sIHRoZQ0KPj4+Pj4gbW92ZW1lbnRzIGFyZSBwZXJmZWN0bHkg
-c21vb3RoLg0KPj4+Pj4NCj4+Pj4+IFJ1bm5pbmcgdGhlIHNhbWUgYXBwIHdpdGggc29mdHdhcmUg
-cmVuZGVyaW5nLCBldmVyeXRoaW5nIGxvb2tzIA0KPj4+Pj4gZ29vZCwgdG9vLg0KPj4+Pj4NCj4+
-Pj4+IE5vIGlkZWEgd2hhdCB0aGF0IG1lYW5zLCB0aG91Z2guIEkgcHJvYmFibHkgbmVlZCB0byBs
-b29rIGF0IHRoZSANCj4+Pj4+IGNvZGUgb2YNCj4+Pj4+IHRoZSBhcHAgYW5kIGRvIHNvbWUgbW9y
-ZSBleHBlcmltZW50cyB0byBnZXQgYSBiZXR0ZXIgaWRlYSBvZiB3aGF0IA0KPj4+Pj4gbWlnaHQN
-Cj4+Pj4+IGNhdXNlIHRoZSBkaXN0b3J0aW9uLg0KPj4+Pj4NCj4+Pj4+IFVubGVzcyBzb21lIG9m
-IHRoZSBncmFwaGljcyBleHBlcnRzIGhlcmUgYWxyZWFkeSBoYXZlIGFuIGlkZWEgb2Ygd2hhdA0K
-Pj4+Pj4gY2FuIGNhdXNlIGFuZC9vciBob3cgdG8gZGVidWcgc3VjaCBhbiBpc3N1ZSE/DQo+Pj4+
-DQo+Pj4+IFdoaWNoIGRyaXZlciBpcyB1c2VkIGZvciB0aGUgZGlzcGxheSBzaWRlPyBJdCBzZWVt
-cyBsaWtlIHRoZSBkaXNwbGF5DQo+Pj4+IHNpZGUgZG9lc24ndCBwcm9wZXJseSBoYW5kbGUgdGhl
-IGRtYSBmZW5jZXMgdXNlZCB0byBzeW5jaHJvbml6ZSBzY2Fub3V0DQo+Pj4+IGFuZCByZW5kZXJp
-bmcuDQo+Pj4NCj4+PiBJIHBvcnRlZC9waWNrZWQgdGhlIGRyaXZlcnMgZm9yIHRoZSBMQ0RJRiBh
-bmQgRFNJIGNvbnRyb2xsZXJzIGZyb20NCj4+PiBkZXZlbG9wbWVudCBicmFuY2ggb2YgdGhlIDUu
-NC1iYXNlZCB2ZW5kb3Iga2VybmVsIFsxXSB0byBvdXIgb3duDQo+Pj4gdjUuNC1iYXNlZCBrZXJu
-ZWwgWzJdLiBTbyBpdCBpcyBxdWl0ZSBwcm9iYWJsZSwgdGhhdCBzb21ldGhpbmcgY291bGQgYmUN
-Cj4+PiB3cm9uZyBoZXJlLg0KPj4NCj4+IFBsZWFzZSBqdXN0IHVzZSBEUk1fTVhTRkIgZm9yIHRo
-ZSBkaXNwbGF5IHNpZGUsIGluc3RlYWQgb2YgdGhlDQo+PiBkb3duc3RyZWFtIGRyaXZlci4NCj4g
-DQo+IEhtLCBnb29kIGlkZWEuIEkgc29tZWhvdyBmb3Jnb3QgYWJvdXQgdGhlIGZhY3QsIHRoYXQg
-dGhlcmUgaXMgYW4gDQo+IHVwc3RyZWFtIGRyaXZlciBmb3IgdGhlIExDRElGIGNvbnRyb2xsZXIu
-IE9uIGZpcnN0IHRyeSBJIGNvdWxkbid0IGdldCBpdCANCj4gdG8gcnVuIG9uIHRoZSBpLk1YOE1N
-LCBidXQgSSBzdXNwZWN0IHRoYXQncyBkdWUgdG8gc29tZSByZXNldCwgDQo+IHBvd2VyLWRvbWFp
-biBvciBjbG9jayBzZXR1cCwgdGhhdCBpcyBtaXNzaW5nIHVwc3RyZWFtLiBJIHdpbGwgc2VlIGlm
-IEkgDQo+IGNhbiBnZXQgYW55IGZ1cnRoZXIgd2l0aCB0aGlzLg0KDQpTbyBJIGhhZCBhIGNsb3Nl
-ciBsb29rIGFuZCB3aGlsZSB0aGUgRFJNX01YU0ZCIGxvb2tzIG9rIG9uIGl0cyBvd24sIEkgDQpo
-YXZlIHNvbWUgcHJvYmxlbSB3aXRoIHRoZSByZXN0IG9mIHRoZSBpLk1YOE1NIGRpc3BsYXkgc3Vi
-c3lzdGVtLg0KDQpUaGUgdmVuZG9yIHN0YWNrLCB0aGF0IEknbSBjdXJyZW50bHkgdXNpbmcgaW50
-ZWdyYXRlcyBpbnRvIHRoZSBpbXgtZHJtIA0KbWFzdGVyL2NvcmUgZHJpdmVyIFsxXSB0aGF0IGJp
-bmRzIGFsbCB0aGUgY29tcG9uZW50cyBvZiB0aGUgZGlzcGxheSANCnN1YnN5c3RlbSwgc3VjaCBh
-cyB0aGUgTENESUYgZHJpdmVyIGFuZCB0aGUgaW50ZWdyYXRlZCBTRUNfRFNJTSBEU0kgYnJpZGdl
-Lg0KDQpBbmQgYmVjYXVzZSBvZiBteSBsYWNrIG9mIERSTSBza2lsbHMsIEkgaGF2ZSBubyBpZGVh
-IGhvdyB0byBnZXQgdGhlIA0KRFJNX01YU0ZCIGRyaXZlciB0byBiaW5kIHRvIHRoZSBpbXgtZHJt
-IGNvcmUsIGluc3RlYWQgb2YgcnVubmluZyANCnNlcGFyYXRlbHkgYW5kIGNvbm5lY3RpbmcgZGly
-ZWN0bHkgdG8gc29tZSBwYW5lbCBhcyBpdCBpcyBkb25lIGZvciANCmkuTVgyMy8yOCBhbmQgaS5N
-WDZTWC9VTC4NCg0KWzFdIA0KaHR0cHM6Ly9naXQua2VybmVsLm9yZy9wdWIvc2NtL2xpbnV4L2tl
-cm5lbC9naXQvdG9ydmFsZHMvbGludXguZ2l0L3RyZWUvZHJpdmVycy9ncHUvZHJtL2lteC9pbXgt
-ZHJtLWNvcmUuYwpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-XwpldG5hdml2IG1haWxpbmcgbGlzdApldG5hdml2QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRw
-czovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2V0bmF2aXYK
+On Mi, 2020-02-26 at 15:31 +0000, Schrempf Frieder wrote:
+> On 25.02.20 09:13, Frieder Schrempf wrote:
+> > Hi Lucas,
+> > 
+> > On 24.02.20 12:08, Lucas Stach wrote:
+> > > On Mo, 2020-02-24 at 10:53 +0000, Schrempf Frieder wrote:
+> > > > Hi Lucas,
+> > > > 
+> > > > On 24.02.20 11:37, Lucas Stach wrote:
+> > > > > Hi Frieder,
+> > > > > 
+> > > > > On Mo, 2020-02-24 at 10:28 +0000, Schrempf Frieder wrote:
+> > > > > > On 20.02.20 19:58, Chris Healy wrote:
+> > > > > > > For the jerkey transitions, can you determine if this is a symptom of
+> > > > > > > a low framerate or dropped frames or something else?
+> > > > > > > 
+> > > > > > > Perhaps you can start your app with
+> > > > > > > "GALLIUM_HUD=fps,cpu,draw-calls,frametime".  This may give some 
+> > > > > > > clues.
+> > > > > > 
+> > > > > > The framerate seems ok. I get something between 50 and 70 FPS.
+> > > > > > 
+> > > > > > I have a Qt demo app with a menu and an animated 'ball' that moves
+> > > > > > across the screen. When the menu is visible, the ball movement is 
+> > > > > > really
+> > > > > > jerky (ball seems to 'jump back and forth' instead of moving 
+> > > > > > linearly).
+> > > > > > 
+> > > > > > As soon as I hide the menu and show the animation fullscreen, the
+> > > > > > movements are perfectly smooth.
+> > > > > > 
+> > > > > > Running the same app with software rendering, everything looks 
+> > > > > > good, too.
+> > > > > > 
+> > > > > > No idea what that means, though. I probably need to look at the 
+> > > > > > code of
+> > > > > > the app and do some more experiments to get a better idea of what 
+> > > > > > might
+> > > > > > cause the distortion.
+> > > > > > 
+> > > > > > Unless some of the graphics experts here already have an idea of what
+> > > > > > can cause and/or how to debug such an issue!?
+> > > > > 
+> > > > > Which driver is used for the display side? It seems like the display
+> > > > > side doesn't properly handle the dma fences used to synchronize scanout
+> > > > > and rendering.
+> > > > 
+> > > > I ported/picked the drivers for the LCDIF and DSI controllers from
+> > > > development branch of the 5.4-based vendor kernel [1] to our own
+> > > > v5.4-based kernel [2]. So it is quite probable, that something could be
+> > > > wrong here.
+> > > 
+> > > Please just use DRM_MXSFB for the display side, instead of the
+> > > downstream driver.
+> > 
+> > Hm, good idea. I somehow forgot about the fact, that there is an 
+> > upstream driver for the LCDIF controller. On first try I couldn't get it 
+> > to run on the i.MX8MM, but I suspect that's due to some reset, 
+> > power-domain or clock setup, that is missing upstream. I will see if I 
+> > can get any further with this.
+> 
+> So I had a closer look and while the DRM_MXSFB looks ok on its own, I 
+> have some problem with the rest of the i.MX8MM display subsystem.
+> 
+> The vendor stack, that I'm currently using integrates into the imx-drm 
+> master/core driver [1] that binds all the components of the display 
+> subsystem, such as the LCDIF driver and the integrated SEC_DSIM DSI bridge.
+> 
+> And because of my lack of DRM skills, I have no idea how to get the 
+> DRM_MXSFB driver to bind to the imx-drm core, instead of running 
+> separately and connecting directly to some panel as it is done for 
+> i.MX23/28 and i.MX6SX/UL.
+
+It's a separate hardware and it's a pretty major design issue of the
+downstream driver that it integrates into imx-drm. You don't want this
+with the upstream driver.
+
+Maybe Guido (CCed) can give you some clues, as apparently he is using
+the mainline eLCDIF driver + some patches to drive the DSI display path
+on i.MX8MQ. A lot of this will probably be transferable to the i.MX8MM
+display path.
+
+Regards,
+Lucas
+
+_______________________________________________
+etnaviv mailing list
+etnaviv@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/etnaviv
