@@ -1,120 +1,59 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E04017A47A
-	for <lists+etnaviv@lfdr.de>; Thu,  5 Mar 2020 12:43:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 459CF17D3D8
+	for <lists+etnaviv@lfdr.de>; Sun,  8 Mar 2020 14:25:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 584106E0A1;
-	Thu,  5 Mar 2020 11:43:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 73D5A6E2A5;
+	Sun,  8 Mar 2020 13:25:27 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-X-Greylist: delayed 1331 seconds by postgrey-1.36 at gabe;
- Thu, 05 Mar 2020 11:43:27 UTC
-Received: from gateway32.websitewelcome.com (gateway32.websitewelcome.com
- [192.185.145.123])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 499C36E0A1
- for <etnaviv@lists.freedesktop.org>; Thu,  5 Mar 2020 11:43:27 +0000 (UTC)
-Received: from cm11.websitewelcome.com (cm11.websitewelcome.com [100.42.49.5])
- by gateway32.websitewelcome.com (Postfix) with ESMTP id C58E4A9E1
- for <etnaviv@lists.freedesktop.org>; Thu,  5 Mar 2020 05:21:15 -0600 (CST)
-Received: from gator4166.hostgator.com ([108.167.133.22]) by cmsmtp with SMTP
- id 9oZ1jQUSeSl8q9oZ1j2x34; Thu, 05 Mar 2020 05:21:15 -0600
-X-Authority-Reason: nr=8
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
- In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
- :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
- Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
- List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=usY1ZVb0KADOhclrHm/oA0/FMLokJr97LHUuwZQcMFY=; b=AIyODCP+5Fd4TIEVMlmN7U1tJ6
- uGgRD7KhjNZhepaNDALZwQUBt47UUJKFe9CMH6qgmMvLuHeSInV7aokNchOvx6BHyCYFwfo6fEzYv
- UoKiPUVzaNCOz0JeUkSCJNZQy8tda/CVPzNhhmXuuLxzmR5D/zND6KU3wK6ZhwrchaA8iWe/EcSiM
- Ubz2eypPeUqyIJ0tH//rtBWqlUyOQERkw/oREfaRnui00fahq1jN/pY/HjIem2nB7IRDLUlvsUFk3
- tMRtQXX7xpjNI3c5HOD1l3r5qBTaj7Un+jGfhpeL4MXyNZBzjwS8BeSFu9usNoQGrn6h5a+QmurSs
- oBvL4N5w==;
-Received: from [201.166.169.220] (port=9199 helo=[192.168.43.132])
- by gator4166.hostgator.com with esmtpsa
- (TLSv1.2:ECDHE-RSA-AES128-GCM-SHA256:128) (Exim 4.92)
- (envelope-from <gustavo@embeddedor.com>)
- id 1j9oZ1-003wKG-11; Thu, 05 Mar 2020 05:21:15 -0600
-Subject: Re: [PATCH][next] drm: etnaviv_gem.h: Replace zero-length array with
- flexible-array member
-To: Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-References: <20200305105137.GA18628@embeddedor>
- <bbe8a83fade9c0cffbf439f06f94e8b5bc7fcfd3.camel@pengutronix.de>
-From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-Autocrypt: addr=gustavo@embeddedor.com; keydata=
- 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
- VtSixD1uOgytAP7RWS474w==
-Message-ID: <724b2e01-066a-f03f-a5ed-00e3052fd22a@embeddedor.com>
-Date: Thu, 5 Mar 2020 05:24:14 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C5C216E159;
+ Fri, 28 Feb 2020 10:37:59 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id j16so2393508wrt.3;
+ Fri, 28 Feb 2020 02:37:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=zgj7mTEBOZhnEp92w6YeduSWhL7aAxaZ23Ij9QT6Fcc=;
+ b=lDYpL4uNGZO9BvGkElG1ZZKiB6RvJvwsUSqj3oDNMloKBWG8fm7f5xfah7pgRVx/vS
+ kn5yawm8At4+BwAIzsioR8eNmllav5mPIJrwkxN8fYzQjZf8jde8TB58ZOVKy+yNAgPY
+ uE3vxyFFBYPDLTeVnW7vMgSQgjDrYY4ER+c5zpQpLNU/gricql9sKfFJCoYs84gABaaR
+ q9I9rCG4g/8Gsz6GZ8qSKg1KVa6tFvu2z+ig0BNcIPgGXN/ThiqIdgkTJASL1l36VDFh
+ Y5a0zld+pZ/94BdNivbeLXSr8KTnJ0RZOl3pTxSwUA8/18nWLYTM2mc8LgVo15Igbj1V
+ iQ/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=zgj7mTEBOZhnEp92w6YeduSWhL7aAxaZ23Ij9QT6Fcc=;
+ b=oov1HGN562J1aVJ066TgcCY3q+gDDgPwd91/8bDJSUcPP43z8tmAgpOu9h4J75nNPb
+ GBNpcXc+eZR5XrHtzlMCkYKVHPRT2/lBYbxHx/+GibO0y/rylHbxFP254oRsTPR/uelO
+ JChtnsA4cChoEN5USEwUC42EbXHkDip65nA3DAsfdIv8G/DZ0yaMeBv6XeNjr0Ll1imR
+ xT9eIx9gT+dihU0PmoaJQFVmTMKnkw8dVM/BciEiA5u0lrAYEsbEH5drlnMzCm31u6Wf
+ 63NM44dtv03n7PYcRYzLSqolYsjtBJ1I2D111A4SXFzJRFTt0wcpExM/fkIRdv8LPzRX
+ mSew==
+X-Gm-Message-State: APjAAAX9OcDV4TucvTDA9H0YVX3iRBHNJYBCHNNqQllWpcxzQJvlWIvR
+ OPWogJBmSY48U+wAWdUYXV8=
+X-Google-Smtp-Source: APXvYqw8f1DiLcW2DIjcpjJZpBiix4Ms4NoYtBEt2H6KG1bsFEVAD1D2iH6I52vH6vZYjWw1XxMhjQ==
+X-Received: by 2002:a5d:4f89:: with SMTP id d9mr4216926wru.391.1582886278351; 
+ Fri, 28 Feb 2020 02:37:58 -0800 (PST)
+Received: from localhost.localdomain (62-178-82-229.cable.dynamic.surfer.at.
+ [62.178.82.229])
+ by smtp.gmail.com with ESMTPSA id s22sm1550679wmc.16.2020.02.28.02.37.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 28 Feb 2020 02:37:57 -0800 (PST)
+From: Christian Gmeiner <christian.gmeiner@gmail.com>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH v2] drm/etnaviv: rework perfmon query infrastructure
+Date: Fri, 28 Feb 2020 11:37:49 +0100
+Message-Id: <20200228103752.1944629-1-christian.gmeiner@gmail.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-In-Reply-To: <bbe8a83fade9c0cffbf439f06f94e8b5bc7fcfd3.camel@pengutronix.de>
-Content-Language: en-US
-X-AntiAbuse: This header was added to track abuse,
- please include it with any abuse report
-X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
-X-AntiAbuse: Original Domain - lists.freedesktop.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - embeddedor.com
-X-BWhitelist: no
-X-Source-IP: 201.166.169.220
-X-Source-L: No
-X-Exim-ID: 1j9oZ1-003wKG-11
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: ([192.168.43.132]) [201.166.169.220]:9199
-X-Source-Auth: gustavo@embeddedor.com
-X-Email-Count: 23
-X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
-X-Local-Domain: yes
+X-Mailman-Approved-At: Sun, 08 Mar 2020 13:25:25 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,77 +65,149 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: David Airlie <airlied@linux.ie>, etnaviv@lists.freedesktop.org,
+ stable@vger.kernel.org, Christian Gmeiner <christian.gmeiner@gmail.com>,
+ dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Dan Carpenter <dan.carpenter@oracle.com>, Lucas Stach <l.stach@pengutronix.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Hi Lucas,
+Report the correct perfmon domains and signals depending
+on the supported feature flags.
 
-On 3/5/20 05:17, Lucas Stach wrote:
-> Hi Gustavo,
-> 
-> I've adjusted the subject a bit to match the style of the other etnaviv
-> driver commits and applied this to the etnaviv/next branch.
-> 
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+Fixes: 9e2c2e273012 ("drm/etnaviv: add infrastructure to query perf counter")
+Cc: stable@vger.kernel.org
+Signed-off-by: Christian Gmeiner <christian.gmeiner@gmail.com>
 
-Great. Thanks a lot for that. :)
---
-Gustavo
+---
+Changes V1 -> V2:
+  - Handle domain == NULL case better to get rid of BUG_ON(..) usage.
+---
+ drivers/gpu/drm/etnaviv/etnaviv_perfmon.c | 59 ++++++++++++++++++++---
+ 1 file changed, 52 insertions(+), 7 deletions(-)
 
-> Regards,
-> Lucas
-> 
-> On Do, 2020-03-05 at 04:51 -0600, Gustavo A. R. Silva wrote:
->> The current codebase makes use of the zero-length array language
->> extension to the C90 standard, but the preferred mechanism to declare
->> variable-length types such as these ones is a flexible array member[1][2],
->> introduced in C99:
->>
->> struct foo {
->>         int stuff;
->>         struct boo array[];
->> };
->>
->> By making use of the mechanism above, we will get a compiler warning
->> in case the flexible array does not occur last in the structure, which
->> will help us prevent some kind of undefined behavior bugs from being
->> inadvertently introduced[3] to the codebase from now on.
->>
->> Also, notice that, dynamic memory allocations won't be affected by
->> this change:
->>
->> "Flexible array members have incomplete type, and so the sizeof operator
->> may not be applied. As a quirk of the original implementation of
->> zero-length arrays, sizeof evaluates to zero."[1]
->>
->> This issue was found with the help of Coccinelle.
->>
->> [1] https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html
->> [2] https://github.com/KSPP/linux/issues/21
->> [3] commit 76497732932f ("cxgb3/l2t: Fix undefined behaviour")
->>
->> Signed-off-by: Gustavo A. R. Silva <gustavo@embeddedor.com>
->> ---
->>  drivers/gpu/drm/etnaviv/etnaviv_gem.h | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.h b/drivers/gpu/drm/etnaviv/etnaviv_gem.h
->> index 6b68fe16041b..98e60df882b6 100644
->> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem.h
->> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.h
->> @@ -105,7 +105,7 @@ struct etnaviv_gem_submit {
->>  	unsigned int nr_pmrs;
->>  	struct etnaviv_perfmon_request *pmrs;
->>  	unsigned int nr_bos;
->> -	struct etnaviv_gem_submit_bo bos[0];
->> +	struct etnaviv_gem_submit_bo bos[];
->>  	/* No new members here, the previous one is variable-length! */
->>  };
->>  
-> 
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c b/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
+index 8adbf2861bff..e6795bafcbb9 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
+@@ -32,6 +32,7 @@ struct etnaviv_pm_domain {
+ };
+ 
+ struct etnaviv_pm_domain_meta {
++	unsigned int feature;
+ 	const struct etnaviv_pm_domain *domains;
+ 	u32 nr_domains;
+ };
+@@ -410,36 +411,78 @@ static const struct etnaviv_pm_domain doms_vg[] = {
+ 
+ static const struct etnaviv_pm_domain_meta doms_meta[] = {
+ 	{
++		.feature = chipFeatures_PIPE_3D,
+ 		.nr_domains = ARRAY_SIZE(doms_3d),
+ 		.domains = &doms_3d[0]
+ 	},
+ 	{
++		.feature = chipFeatures_PIPE_2D,
+ 		.nr_domains = ARRAY_SIZE(doms_2d),
+ 		.domains = &doms_2d[0]
+ 	},
+ 	{
++		.feature = chipFeatures_PIPE_VG,
+ 		.nr_domains = ARRAY_SIZE(doms_vg),
+ 		.domains = &doms_vg[0]
+ 	}
+ };
+ 
++static unsigned int num_pm_domains(const struct etnaviv_gpu *gpu)
++{
++	unsigned int num = 0, i;
++
++	for (i = 0; i < ARRAY_SIZE(doms_meta); i++) {
++		const struct etnaviv_pm_domain_meta *meta = &doms_meta[i];
++
++		if (gpu->identity.features & meta->feature)
++			num += meta->nr_domains;
++	}
++
++	return num;
++}
++
++static const struct etnaviv_pm_domain *pm_domain(const struct etnaviv_gpu *gpu,
++	unsigned int index)
++{
++	const struct etnaviv_pm_domain *domain = NULL;
++	unsigned int offset = 0, i;
++
++	for (i = 0; i < ARRAY_SIZE(doms_meta); i++) {
++		const struct etnaviv_pm_domain_meta *meta = &doms_meta[i];
++
++		if (!(gpu->identity.features & meta->feature))
++			continue;
++
++		if (meta->nr_domains < (index - offset)) {
++			offset += meta->nr_domains;
++			continue;
++		}
++
++		domain = meta->domains + (index - offset);
++	}
++
++	return domain;
++}
++
+ int etnaviv_pm_query_dom(struct etnaviv_gpu *gpu,
+ 	struct drm_etnaviv_pm_domain *domain)
+ {
+-	const struct etnaviv_pm_domain_meta *meta = &doms_meta[domain->pipe];
++	const unsigned int nr_domains = num_pm_domains(gpu);
+ 	const struct etnaviv_pm_domain *dom;
+ 
+-	if (domain->iter >= meta->nr_domains)
++	if (domain->iter >= nr_domains)
+ 		return -EINVAL;
+ 
+-	dom = meta->domains + domain->iter;
++	dom = pm_domain(gpu, domain->iter);
++	if (!dom)
++		return -EINVAL;
+ 
+ 	domain->id = domain->iter;
+ 	domain->nr_signals = dom->nr_signals;
+ 	strncpy(domain->name, dom->name, sizeof(domain->name));
+ 
+ 	domain->iter++;
+-	if (domain->iter == meta->nr_domains)
++	if (domain->iter == nr_domains)
+ 		domain->iter = 0xff;
+ 
+ 	return 0;
+@@ -448,14 +491,16 @@ int etnaviv_pm_query_dom(struct etnaviv_gpu *gpu,
+ int etnaviv_pm_query_sig(struct etnaviv_gpu *gpu,
+ 	struct drm_etnaviv_pm_signal *signal)
+ {
+-	const struct etnaviv_pm_domain_meta *meta = &doms_meta[signal->pipe];
++	const unsigned int nr_domains = num_pm_domains(gpu);
+ 	const struct etnaviv_pm_domain *dom;
+ 	const struct etnaviv_pm_signal *sig;
+ 
+-	if (signal->domain >= meta->nr_domains)
++	if (signal->domain >= nr_domains)
+ 		return -EINVAL;
+ 
+-	dom = meta->domains + signal->domain;
++	dom = pm_domain(gpu, signal->domain);
++	if (!dom)
++		return -EINVAL;
+ 
+ 	if (signal->iter >= dom->nr_signals)
+ 		return -EINVAL;
+-- 
+2.24.1
+
 _______________________________________________
 etnaviv mailing list
 etnaviv@lists.freedesktop.org
