@@ -1,63 +1,54 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E918A1734CC
-	for <lists+etnaviv@lfdr.de>; Fri, 28 Feb 2020 11:01:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CB9B173575
+	for <lists+etnaviv@lfdr.de>; Fri, 28 Feb 2020 11:39:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9FDBA890EF;
-	Fri, 28 Feb 2020 10:01:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F8A96EF21;
+	Fri, 28 Feb 2020 10:39:21 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
- [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 729CF6E885;
- Thu, 27 Feb 2020 12:03:15 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id a5so3257897wmb.0;
- Thu, 27 Feb 2020 04:03:15 -0800 (PST)
+Received: from mail-vs1-xe42.google.com (mail-vs1-xe42.google.com
+ [IPv6:2607:f8b0:4864:20::e42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C02C6EF20;
+ Fri, 28 Feb 2020 10:39:18 +0000 (UTC)
+Received: by mail-vs1-xe42.google.com with SMTP id c18so1622886vsq.7;
+ Fri, 28 Feb 2020 02:39:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=mlvu3hS2FOo3jvYAFvg3HmupOT4tMbHUqUGMTdB0I0E=;
- b=BZv8TNIDUFwIG3XR5jTpC43/0HS4ISDRzsQP4QhE3dlcUIz/WeFLHmAXHaeIvwSsUq
- R7SxGRHjkL0zokvs3HwE2JaguZE7dCCSigW1UQSHM9lYsy4YaVzC7uJWR9YoDmutR03x
- rDkXLppqNkYUyr6cMX8MVshvl31rWo7RVgktxVt6SbKEj01xt2iQSuf6cY4rxAzdaSa+
- yyIxaYMV17Z8s68a5LXeKaKJpYZ3EitjrqNn85Vsp2s4h3NmP3WfGn0efg86p0CBe3s3
- P4zTMd9ufsIk4i2z03Exow5d+8y8vG29XoBfOoDj6fqkgMckKEEdc1+jeVPdvSyFCvak
- vHXQ==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=IVkeix1fcnYZXRBUxfNVTT56PIOklSoyZMm+hTUJTz0=;
+ b=Ameog9Zplz9fAzkjb6NxOLgSMttnlM8uqXZaWcCJ1N+7pd6rAmQgf1NkyDX0hZOt3T
+ wWV2Xrl+rAqWG8MwHYmsMGLU4pB4suuNd06Ev9ZeFjdo3oxqO40wHYIoR3qw2MNWRo/K
+ UCFlIxe9qUeFjcFgfwUShKXmY8xiI0/srqeQ/W279OjO4bcsX7SpbqBh24dNwiDt++aL
+ zmHJ6n7Th3+Eqfh2JJ5xVp0GS1UATfwzqohFkVaDFNsqV6591Eap7TtCPbvqwqeSMFhu
+ 8wxA/A2lAHK0xqRohlG4FBFOIRxWAtjchpgAso7x67VHxq8QpeHBqRnXNb80rchhR3uM
+ BfPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=mlvu3hS2FOo3jvYAFvg3HmupOT4tMbHUqUGMTdB0I0E=;
- b=HXSVLqq/b/+Fc38AqkpPPnG7+TSoQN7dgRUuC4mJER57/HfWcMtlShWLUwWBGXI+M2
- HR8KiTLGp/zqCtYmg9YdQ+TXBXnZxz+49In44WfKt7ziZKj55d2B8YVDeSwq+UakfkiJ
- DxwXU7jyS2Vit4nH4FmczDXpioGHJA7eQHPt0fX6PXE0qiRX084Gl7OmRDry/TTiSYfy
- NhxagjJrVvFy466uzAME2RnLN9BrapKbKR1FWAncBAALbzQCM0hqdLcbJljUXKEqVbcZ
- 9ZGZk8om5AxHurfIobq8TFHcOvLYpGq5gY9Ncgmjb26QqIBXHa5pHANOBLlRcLtq0Fmb
- /qNg==
-X-Gm-Message-State: APjAAAVu5wqKyJldChIKgR9eH8htPniM/JLKRKx3tduaGHnqp/he7fwK
- Dlu9SWXLK6TqvMrEVr+KL0g=
-X-Google-Smtp-Source: APXvYqwLTKlxTSe9jq6sfhmtWPDKx6ENvxFA/rCWw8/Sac/kMbjC4rIqOFLUs/Tb4QLjqA2V3FeKrw==
-X-Received: by 2002:a7b:c119:: with SMTP id w25mr5079981wmi.116.1582804994162; 
- Thu, 27 Feb 2020 04:03:14 -0800 (PST)
-Received: from wambui.zuku.co.ke ([197.237.61.225])
- by smtp.googlemail.com with ESMTPSA id t10sm7655017wru.59.2020.02.27.04.03.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Feb 2020 04:03:13 -0800 (PST)
-From: Wambui Karuga <wambui.karugax@gmail.com>
-To: daniel@ffwll.ch, airlied@linux.ie, Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>
-Subject: [PATCH 08/21] drm/etnaviv: remove check for return value of
- drm_debugfs function
-Date: Thu, 27 Feb 2020 15:02:19 +0300
-Message-Id: <20200227120232.19413-9-wambui.karugax@gmail.com>
-X-Mailer: git-send-email 2.25.0
-In-Reply-To: <20200227120232.19413-1-wambui.karugax@gmail.com>
-References: <20200227120232.19413-1-wambui.karugax@gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=IVkeix1fcnYZXRBUxfNVTT56PIOklSoyZMm+hTUJTz0=;
+ b=c5oV4+dYPavWVsq7BT5r7qlAC9XrGysr7mO86li6jDlqNR8LTrSPSvFdyhmaTiSzzi
+ MJbEvuccfp+m5DgfoUHWOx1k7C/S/f701sBlStfhzGvJ/C/4tgxxoM+hhffeG35PLoVi
+ jAGfhu2WVmfIUGE+zoqgaMoWhP6RCRlnMpHIaLAp6CuielULyERKASkRSmsl9fzqKMl/
+ N6VxCHr0NdItZ4+b9AhdPX2fSjQHkfZRe4q/uCtaavJL0dpOYD/SjzIcUOlpUNTIQWDK
+ ttxVm7Px2jHF7pmPZcWdkSDAjdhg0X/WiRfD321vQRfRFsGGEF74gm6A/OoQwEUf1ryw
+ KWlQ==
+X-Gm-Message-State: ANhLgQ2J+Rx5oR8K9iTuxpeN1QeVITGmFDnsKmCG4LU15tZAZdl+AhZi
+ WuJKn7ki23aw4jHkgTLiC49jsMGQqmug3+u9b6Y=
+X-Google-Smtp-Source: ADFU+vueeYEl9uMwIRv51UteUXQvmnDkMiNGIO2wkpX77fcl1BU/O4Ks+yfXVc+t5PicvqKK+dNtCRByY+iZ7df3CnA=
+X-Received: by 2002:a67:e912:: with SMTP id c18mr2058699vso.72.1582886357500; 
+ Fri, 28 Feb 2020 02:39:17 -0800 (PST)
 MIME-Version: 1.0
-X-Mailman-Approved-At: Fri, 28 Feb 2020 10:01:14 +0000
+References: <20200106104339.215511-1-christian.gmeiner@gmail.com>
+ <78e5e739269ee8f7467284ad88d2097e2ad991ba.camel@pengutronix.de>
+In-Reply-To: <78e5e739269ee8f7467284ad88d2097e2ad991ba.camel@pengutronix.de>
+From: Christian Gmeiner <christian.gmeiner@gmail.com>
+Date: Fri, 28 Feb 2020 11:39:05 +0100
+Message-ID: <CAH9NwWe85qELoLisKgVdZYeeBkngAk9qQVNDA3=cp4_uRwXsEw@mail.gmail.com>
+Subject: Re: [PATCH] drm/etnaviv: rework perfmon query infrastructure
+To: Lucas Stach <l.stach@pengutronix.de>
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,57 +60,121 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>,
+ The etnaviv authors <etnaviv@lists.freedesktop.org>, stable@vger.kernel.org,
+ Daniel Vetter <daniel@ffwll.ch>, Russell King <linux+etnaviv@armlinux.org.uk>,
+ Dan Carpenter <dan.carpenter@oracle.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Since commit 987d65d01356 (drm: debugfs: make
-drm_debugfs_create_files() never fail), drm_debugfs_create_file only
-returns 0, and there is no need to check the return value.
-This change therefore removes the check and error handling in
-etnaviv_debugfs_init() and also makes the function return void.
+Hi Lucas,
 
-Signed-off-by: Wambui Karuga <wambui.karugax@gmail.com>
----
- drivers/gpu/drm/etnaviv/etnaviv_drv.c | 18 ++++--------------
- 1 file changed, 4 insertions(+), 14 deletions(-)
+Am Mi., 26. Feb. 2020 um 16:19 Uhr schrieb Lucas Stach <l.stach@pengutronix.de>:
+>
+> Hi Christian,
+>
+> sorry for taking so long to get around to this.
+>
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-index 6b43c1c94e8f..a39735316ca5 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-@@ -231,21 +231,11 @@ static struct drm_info_list etnaviv_debugfs_list[] = {
- 		{"ring", show_each_gpu, 0, etnaviv_ring_show},
- };
- 
--static int etnaviv_debugfs_init(struct drm_minor *minor)
-+static void etnaviv_debugfs_init(struct drm_minor *minor)
- {
--	struct drm_device *dev = minor->dev;
--	int ret;
--
--	ret = drm_debugfs_create_files(etnaviv_debugfs_list,
--			ARRAY_SIZE(etnaviv_debugfs_list),
--			minor->debugfs_root, minor);
--
--	if (ret) {
--		dev_err(dev->dev, "could not install etnaviv_debugfs_list\n");
--		return ret;
--	}
--
--	return ret;
-+	drm_debugfs_create_files(etnaviv_debugfs_list,
-+				 ARRAY_SIZE(etnaviv_debugfs_list),
-+				 minor->debugfs_root, minor);
- }
- #endif
- 
+No problem...
+
+> On Mo, 2020-01-06 at 11:43 +0100, Christian Gmeiner wrote:
+> > Report the correct perfmon domains and signals depending
+> > on the supported feature flags.
+> >
+> > Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+> > Fixes: 9e2c2e273012 ("drm/etnaviv: add infrastructure to query perf counter")
+> > Cc: stable@vger.kernel.org
+> > Signed-off-by: Christian Gmeiner <christian.gmeiner@gmail.com>
+> > ---
+> >  drivers/gpu/drm/etnaviv/etnaviv_perfmon.c | 57 ++++++++++++++++++++---
+> >  1 file changed, 50 insertions(+), 7 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c b/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
+> > index 8adbf2861bff..7ae8f347ca06 100644
+> > --- a/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
+> > +++ b/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
+> > @@ -32,6 +32,7 @@ struct etnaviv_pm_domain {
+> >  };
+> >
+> >  struct etnaviv_pm_domain_meta {
+> > +     unsigned int feature;
+> >       const struct etnaviv_pm_domain *domains;
+> >       u32 nr_domains;
+> >  };
+> > @@ -410,36 +411,78 @@ static const struct etnaviv_pm_domain doms_vg[] = {
+> >
+> >  static const struct etnaviv_pm_domain_meta doms_meta[] = {
+> >       {
+> > +             .feature = chipFeatures_PIPE_3D,
+> >               .nr_domains = ARRAY_SIZE(doms_3d),
+> >               .domains = &doms_3d[0]
+> >       },
+> >       {
+> > +             .feature = chipFeatures_PIPE_2D,
+> >               .nr_domains = ARRAY_SIZE(doms_2d),
+> >               .domains = &doms_2d[0]
+> >       },
+> >       {
+> > +             .feature = chipFeatures_PIPE_VG,
+> >               .nr_domains = ARRAY_SIZE(doms_vg),
+> >               .domains = &doms_vg[0]
+> >       }
+> >  };
+> >
+> > +static unsigned int num_pm_domains(const struct etnaviv_gpu *gpu)
+> > +{
+> > +     unsigned int num = 0, i;
+> > +
+> > +     for (i = 0; i < ARRAY_SIZE(doms_meta); i++) {
+> > +             const struct etnaviv_pm_domain_meta *meta = &doms_meta[i];
+> > +
+> > +             if (gpu->identity.features & meta->feature)
+> > +                     num += meta->nr_domains;
+> > +     }
+> > +
+> > +     return num;
+> > +}
+> > +
+> > +static const struct etnaviv_pm_domain *pm_domain(const struct etnaviv_gpu *gpu,
+> > +     unsigned int index)
+> > +{
+> > +     const struct etnaviv_pm_domain *domain = NULL;
+> > +     unsigned int offset = 0, i;
+> > +
+> > +     for (i = 0; i < ARRAY_SIZE(doms_meta); i++) {
+> > +             const struct etnaviv_pm_domain_meta *meta = &doms_meta[i];
+> > +
+> > +             if (!(gpu->identity.features & meta->feature))
+> > +                     continue;
+> > +
+> > +             if (meta->nr_domains < (index - offset)) {
+> > +                     offset += meta->nr_domains;
+> > +                     continue;
+> > +             }
+> > +
+> > +             domain = meta->domains + (index - offset);
+> > +     }
+> > +
+> > +     BUG_ON(!domain);
+>
+> This is a no-go. BUG_ON is reserved for only the most severe kernel
+> bugs where you can't possibly continue without risking a corruption of
+> non-volatile state. This isn't the case here, please instead just make
+> the callers handle a NULL return gracefully.
+>
+
+Fixed it in V2.
+
 -- 
-2.25.0
+greets
+--
+Christian Gmeiner, MSc
 
+https://christian-gmeiner.info/privacypolicy
 _______________________________________________
 etnaviv mailing list
 etnaviv@lists.freedesktop.org
