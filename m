@@ -1,31 +1,36 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E56CC177B4C
-	for <lists+etnaviv@lfdr.de>; Tue,  3 Mar 2020 16:59:21 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B766177BDB
+	for <lists+etnaviv@lfdr.de>; Tue,  3 Mar 2020 17:27:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D2C16E14F;
-	Tue,  3 Mar 2020 15:59:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC1C888FA6;
+	Tue,  3 Mar 2020 16:27:45 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from honk.sigxcpu.org (honk.sigxcpu.org [24.134.29.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9BA876E14F;
- Tue,  3 Mar 2020 15:59:19 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by honk.sigxcpu.org (Postfix) with ESMTP id 151E4FB03;
- Tue,  3 Mar 2020 16:59:18 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at honk.sigxcpu.org
-Received: from honk.sigxcpu.org ([127.0.0.1])
- by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Z56NSEHNnWuQ; Tue,  3 Mar 2020 16:59:15 +0100 (CET)
-Received: by bogon.sigxcpu.org (Postfix, from userid 1000)
- id AE3BD40758; Tue,  3 Mar 2020 16:59:14 +0100 (CET)
-Date: Tue, 3 Mar 2020 16:59:14 +0100
-From: Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>
-To: Schrempf Frieder <frieder.schrempf@kontron.de>
+Received: from skedge04.snt-world.com (skedge04.snt-world.com [91.208.41.69])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F7D988FA6;
+ Tue,  3 Mar 2020 16:27:43 +0000 (UTC)
+Received: from sntmail10s.snt-is.com (unknown [10.203.32.183])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by skedge04.snt-world.com (Postfix) with ESMTPS id EBAA567A7C4;
+ Tue,  3 Mar 2020 17:27:41 +0100 (CET)
+Received: from sntmail12r.snt-is.com (10.203.32.182) by sntmail10s.snt-is.com
+ (10.203.32.183) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1913.5; Tue, 3 Mar 2020
+ 17:27:41 +0100
+Received: from sntmail12r.snt-is.com ([fe80::e551:8750:7bba:3305]) by
+ sntmail12r.snt-is.com ([fe80::e551:8750:7bba:3305%3]) with mapi id
+ 15.01.1913.005; Tue, 3 Mar 2020 17:27:41 +0100
+From: Schrempf Frieder <frieder.schrempf@kontron.de>
+To: =?utf-8?B?R3VpZG8gR8O8bnRoZXI=?= <agx@sigxcpu.org>
 Subject: Re: Etnaviv issues on i.MX8M-Mini
-Message-ID: <20200303155914.GA175086@bogon.m.sigxcpu.org>
+Thread-Topic: Etnaviv issues on i.MX8M-Mini
+Thread-Index: AQHV5+yplA/1sTzXA027Bdn9yaxznqgkQ0YAgAASYYCAAAlEgIAFurcAgAAChwCAAAR5gIAABF6AgAFhcICAAgymAIAABmKAgAAC9ICAB2CtgIABxCIAgABHhwCAAAfzgA==
+Date: Tue, 3 Mar 2020 16:27:41 +0000
+Message-ID: <6a90d065-85a1-24e2-efcd-3c6c59ae79e9@kontron.de>
 References: <d1c98cb7-c75f-d8ca-9541-3c118d371a57@kontron.de>
  <38c7cdc27213697b50517ce103a9d38120f84bd3.camel@pengutronix.de>
  <f3a0bd17-83f5-4afa-e9a6-3eac411d34ff@kontron.de>
@@ -36,10 +41,26 @@ References: <d1c98cb7-c75f-d8ca-9541-3c118d371a57@kontron.de>
  <20200226160509.GA71919@bogon.m.sigxcpu.org>
  <8cc6fed1-f438-75f2-a090-eca8e21db769@kontron.de>
  <365dc72c-2e61-720a-4580-4047fc7dc630@kontron.de>
+ <20200303155914.GA175086@bogon.m.sigxcpu.org>
+In-Reply-To: <20200303155914.GA175086@bogon.m.sigxcpu.org>
+Accept-Language: de-DE, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [172.25.9.193]
+x-c2processedorg: 51b406b7-48a2-4d03-b652-521f56ac89f3
+Content-ID: <9A5132BA3E959142A9E534FD803059B1@snt-world.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <365dc72c-2e61-720a-4580-4047fc7dc630@kontron.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SnT-MailScanner-Information: Please contact the ISP for more information
+X-SnT-MailScanner-ID: EBAA567A7C4.A3D0B
+X-SnT-MailScanner: Not scanned: please contact your Internet E-Mail Service
+ Provider for details
+X-SnT-MailScanner-SpamCheck: 
+X-SnT-MailScanner-From: frieder.schrempf@kontron.de
+X-SnT-MailScanner-To: agx@sigxcpu.org, cphealy@gmail.com,
+ dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
+ l.stach@pengutronix.de
+X-Spam-Status: No
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,207 +75,132 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
  "etnaviv@lists.freedesktop.org" <etnaviv@lists.freedesktop.org>,
  Chris Healy <cphealy@gmail.com>, Lucas Stach <l.stach@pengutronix.de>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Hi,
-On Tue, Mar 03, 2020 at 11:43:14AM +0000, Schrempf Frieder wrote:
-> On 02.03.20 09:44, Frieder Schrempf wrote:
-> > On 26.02.20 17:05, Guido G=FCnther wrote:
-> >> On Wed, Feb 26, 2020 at 04:54:35PM +0100, Lucas Stach wrote:
-> >>> On Mi, 2020-02-26 at 15:31 +0000, Schrempf Frieder wrote:
-> >>>> On 25.02.20 09:13, Frieder Schrempf wrote:
-> >>>>> Hi Lucas,
-> >>>>>
-> >>>>> On 24.02.20 12:08, Lucas Stach wrote:
-> >>>>>> On Mo, 2020-02-24 at 10:53 +0000, Schrempf Frieder wrote:
-> >>>>>>> Hi Lucas,
-> >>>>>>>
-> >>>>>>> On 24.02.20 11:37, Lucas Stach wrote:
-> >>>>>>>> Hi Frieder,
-> >>>>>>>>
-> >>>>>>>> On Mo, 2020-02-24 at 10:28 +0000, Schrempf Frieder wrote:
-> >>>>>>>>> On 20.02.20 19:58, Chris Healy wrote:
-> >>>>>>>>>> For the jerkey transitions, can you determine if this is a =
-
-> >>>>>>>>>> symptom of
-> >>>>>>>>>> a low framerate or dropped frames or something else?
-> >>>>>>>>>>
-> >>>>>>>>>> Perhaps you can start your app with
-> >>>>>>>>>> "GALLIUM_HUD=3Dfps,cpu,draw-calls,frametime".=A0 This may give=
- some
-> >>>>>>>>>> clues.
-> >>>>>>>>>
-> >>>>>>>>> The framerate seems ok. I get something between 50 and 70 FPS.
-> >>>>>>>>>
-> >>>>>>>>> I have a Qt demo app with a menu and an animated 'ball' that mo=
-ves
-> >>>>>>>>> across the screen. When the menu is visible, the ball movement =
-is
-> >>>>>>>>> really
-> >>>>>>>>> jerky (ball seems to 'jump back and forth' instead of moving
-> >>>>>>>>> linearly).
-> >>>>>>>>>
-> >>>>>>>>> As soon as I hide the menu and show the animation fullscreen, t=
-he
-> >>>>>>>>> movements are perfectly smooth.
-> >>>>>>>>>
-> >>>>>>>>> Running the same app with software rendering, everything looks
-> >>>>>>>>> good, too.
-> >>>>>>>>>
-> >>>>>>>>> No idea what that means, though. I probably need to look at the
-> >>>>>>>>> code of
-> >>>>>>>>> the app and do some more experiments to get a better idea of wh=
-at
-> >>>>>>>>> might
-> >>>>>>>>> cause the distortion.
-> >>>>>>>>>
-> >>>>>>>>> Unless some of the graphics experts here already have an idea =
-
-> >>>>>>>>> of what
-> >>>>>>>>> can cause and/or how to debug such an issue!?
-> >>>>>>>>
-> >>>>>>>> Which driver is used for the display side? It seems like the =
-
-> >>>>>>>> display
-> >>>>>>>> side doesn't properly handle the dma fences used to synchronize =
-
-> >>>>>>>> scanout
-> >>>>>>>> and rendering.
-> >>>>>>>
-> >>>>>>> I ported/picked the drivers for the LCDIF and DSI controllers from
-> >>>>>>> development branch of the 5.4-based vendor kernel [1] to our own
-> >>>>>>> v5.4-based kernel [2]. So it is quite probable, that something =
-
-> >>>>>>> could be
-> >>>>>>> wrong here.
-> >>>>>>
-> >>>>>> Please just use DRM_MXSFB for the display side, instead of the
-> >>>>>> downstream driver.
-> >>>>>
-> >>>>> Hm, good idea. I somehow forgot about the fact, that there is an
-> >>>>> upstream driver for the LCDIF controller. On first try I couldn't =
-
-> >>>>> get it
-> >>>>> to run on the i.MX8MM, but I suspect that's due to some reset,
-> >>>>> power-domain or clock setup, that is missing upstream. I will see i=
-f I
-> >>>>> can get any further with this.
-> >>>>
-> >>>> So I had a closer look and while the DRM_MXSFB looks ok on its own, I
-> >>>> have some problem with the rest of the i.MX8MM display subsystem.
-> >>>>
-> >>>> The vendor stack, that I'm currently using integrates into the imx-d=
-rm
-> >>>> master/core driver [1] that binds all the components of the display
-> >>>> subsystem, such as the LCDIF driver and the integrated SEC_DSIM DSI =
-
-> >>>> bridge.
-> >>>>
-> >>>> And because of my lack of DRM skills, I have no idea how to get the
-> >>>> DRM_MXSFB driver to bind to the imx-drm core, instead of running
-> >>>> separately and connecting directly to some panel as it is done for
-> >>>> i.MX23/28 and i.MX6SX/UL.
-> >>>
-> >>> It's a separate hardware and it's a pretty major design issue of the
-> >>> downstream driver that it integrates into imx-drm. You don't want this
-> >>> with the upstream driver.
-> >>>
-> >>> Maybe Guido (CCed) can give you some clues, as apparently he is using
-> >>> the mainline eLCDIF driver + some patches to drive the DSI display pa=
-th
-> >>> on i.MX8MQ. A lot of this will probably be transferable to the i.MX8MM
-> >>> display path.
-> >>
-> >> Newer mxsfb supports attaching a bridge so if you make your DSI host
-> >> controller driver a DSI bridge mxsfb can drive it:
-> >>
-> >>       =
-
-> >> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tre=
-e/drivers/gpu/drm/mxsfb/mxsfb_drv.c#n268 =
-
-> >>
-> >>
-> >> this should be similar to what was done for the imx8mq here (imx8mm
-> >> users a different ip core though):
-> >>
-> >>       =
-
-> >> https://source.puri.sm/guido.gunther/linux-imx8/commits/forward-upstre=
-am/next-20200217/mxsfb+nwl/v9-wip =
-
-> >>
-> >>
-> >> There's also some additional mxsfb patches by Robert floating around
-> >> which aren't mainline yet which the above branch also has.
-> >>
-> >> Which reminds me that i need to prepare and send out a v9.
-> > =
-
-> > Thanks Lucas and Guido for pointing out the details!
-> > It's very unfortunate that i.MX8MQ and i.MX8MM don't share the same DSI =
-
-> > ip core.
-> > It seems like I need to try coming up with a bridge driver for the =
-
-> > Samsung DSIM DSI controller for a proper upstream solution.
-> =
-
-> Sorry to bother you with one more question from a DRM newbie.
-> =
-
-> I'm currently looking at Guido's code for the NWL DSI bridge and trying =
-
-> to convert the NXP SEC DSIM host driver to a bridge driver.
-> =
-
-> The NWL driver uses mipi_dsi_host_register(), which searches for a =
-
-> output (panel) child node under the DSI bridge's node [1] as described =
-
-> in the bindings example [2].
-> =
-
-> How is this supposed to work in a setup with another bridge after the =
-
-> DSI bridge, where that bridge is not a child node of the DSI bridge, but =
-
-> only connected via the DSI bridges output port? For example I have a =
-
-> DSI->LVDS bridge, that is attached to an I2C port.
-
-You can also attach another bridge instead of a panel. NXPs BSP uses a
-driver very similar to the nwl one above and this is how they attach a
-DSI->HDMI bridge:
-
-    https://source.codeaurora.org/external/imx/linux-imx/tree/arch/arm64/bo=
-ot/dts/freescale/imx8mq-evk-lcdif-adv7535.dts?h=3Dimx_5.4.0_8dxlphantom_er#=
-n56
-
-Cheers,
- -- Guido
-
-> =
-
-> [1] =
-
-> https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/drm_mipi_d=
-si.c#L284
-> =
-
-> [2] =
-
-> https://source.puri.sm/guido.gunther/linux-imx8/blob/forward-upstream/nex=
-t-20200226/mxsfb+nwl/v9-wip/Documentation/devicetree/bindings/display/bridg=
-e/nwl-dsi.yaml#L173
-> =
-
-> Thanks,
-> Frieder
-_______________________________________________
-etnaviv mailing list
-etnaviv@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/etnaviv
+T24gMDMuMDMuMjAgMTY6NTksIEd1aWRvIEfDvG50aGVyIHdyb3RlOg0KPiBIaSwNCj4gT24gVHVl
+LCBNYXIgMDMsIDIwMjAgYXQgMTE6NDM6MTRBTSArMDAwMCwgU2NocmVtcGYgRnJpZWRlciB3cm90
+ZToNCj4+IE9uIDAyLjAzLjIwIDA5OjQ0LCBGcmllZGVyIFNjaHJlbXBmIHdyb3RlOg0KPj4+IE9u
+IDI2LjAyLjIwIDE3OjA1LCBHdWlkbyBHw7xudGhlciB3cm90ZToNCj4+Pj4gT24gV2VkLCBGZWIg
+MjYsIDIwMjAgYXQgMDQ6NTQ6MzVQTSArMDEwMCwgTHVjYXMgU3RhY2ggd3JvdGU6DQo+Pj4+PiBP
+biBNaSwgMjAyMC0wMi0yNiBhdCAxNTozMSArMDAwMCwgU2NocmVtcGYgRnJpZWRlciB3cm90ZToN
+Cj4+Pj4+PiBPbiAyNS4wMi4yMCAwOToxMywgRnJpZWRlciBTY2hyZW1wZiB3cm90ZToNCj4+Pj4+
+Pj4gSGkgTHVjYXMsDQo+Pj4+Pj4+DQo+Pj4+Pj4+IE9uIDI0LjAyLjIwIDEyOjA4LCBMdWNhcyBT
+dGFjaCB3cm90ZToNCj4+Pj4+Pj4+IE9uIE1vLCAyMDIwLTAyLTI0IGF0IDEwOjUzICswMDAwLCBT
+Y2hyZW1wZiBGcmllZGVyIHdyb3RlOg0KPj4+Pj4+Pj4+IEhpIEx1Y2FzLA0KPj4+Pj4+Pj4+DQo+
+Pj4+Pj4+Pj4gT24gMjQuMDIuMjAgMTE6MzcsIEx1Y2FzIFN0YWNoIHdyb3RlOg0KPj4+Pj4+Pj4+
+PiBIaSBGcmllZGVyLA0KPj4+Pj4+Pj4+Pg0KPj4+Pj4+Pj4+PiBPbiBNbywgMjAyMC0wMi0yNCBh
+dCAxMDoyOCArMDAwMCwgU2NocmVtcGYgRnJpZWRlciB3cm90ZToNCj4+Pj4+Pj4+Pj4+IE9uIDIw
+LjAyLjIwIDE5OjU4LCBDaHJpcyBIZWFseSB3cm90ZToNCj4+Pj4+Pj4+Pj4+PiBGb3IgdGhlIGpl
+cmtleSB0cmFuc2l0aW9ucywgY2FuIHlvdSBkZXRlcm1pbmUgaWYgdGhpcyBpcyBhDQo+Pj4+Pj4+
+Pj4+Pj4gc3ltcHRvbSBvZg0KPj4+Pj4+Pj4+Pj4+IGEgbG93IGZyYW1lcmF0ZSBvciBkcm9wcGVk
+IGZyYW1lcyBvciBzb21ldGhpbmcgZWxzZT8NCj4+Pj4+Pj4+Pj4+Pg0KPj4+Pj4+Pj4+Pj4+IFBl
+cmhhcHMgeW91IGNhbiBzdGFydCB5b3VyIGFwcCB3aXRoDQo+Pj4+Pj4+Pj4+Pj4gIkdBTExJVU1f
+SFVEPWZwcyxjcHUsZHJhdy1jYWxscyxmcmFtZXRpbWUiLsKgIFRoaXMgbWF5IGdpdmUgc29tZQ0K
+Pj4+Pj4+Pj4+Pj4+IGNsdWVzLg0KPj4+Pj4+Pj4+Pj4NCj4+Pj4+Pj4+Pj4+IFRoZSBmcmFtZXJh
+dGUgc2VlbXMgb2suIEkgZ2V0IHNvbWV0aGluZyBiZXR3ZWVuIDUwIGFuZCA3MCBGUFMuDQo+Pj4+
+Pj4+Pj4+Pg0KPj4+Pj4+Pj4+Pj4gSSBoYXZlIGEgUXQgZGVtbyBhcHAgd2l0aCBhIG1lbnUgYW5k
+IGFuIGFuaW1hdGVkICdiYWxsJyB0aGF0IG1vdmVzDQo+Pj4+Pj4+Pj4+PiBhY3Jvc3MgdGhlIHNj
+cmVlbi4gV2hlbiB0aGUgbWVudSBpcyB2aXNpYmxlLCB0aGUgYmFsbCBtb3ZlbWVudCBpcw0KPj4+
+Pj4+Pj4+Pj4gcmVhbGx5DQo+Pj4+Pj4+Pj4+PiBqZXJreSAoYmFsbCBzZWVtcyB0byAnanVtcCBi
+YWNrIGFuZCBmb3J0aCcgaW5zdGVhZCBvZiBtb3ZpbmcNCj4+Pj4+Pj4+Pj4+IGxpbmVhcmx5KS4N
+Cj4+Pj4+Pj4+Pj4+DQo+Pj4+Pj4+Pj4+PiBBcyBzb29uIGFzIEkgaGlkZSB0aGUgbWVudSBhbmQg
+c2hvdyB0aGUgYW5pbWF0aW9uIGZ1bGxzY3JlZW4sIHRoZQ0KPj4+Pj4+Pj4+Pj4gbW92ZW1lbnRz
+IGFyZSBwZXJmZWN0bHkgc21vb3RoLg0KPj4+Pj4+Pj4+Pj4NCj4+Pj4+Pj4+Pj4+IFJ1bm5pbmcg
+dGhlIHNhbWUgYXBwIHdpdGggc29mdHdhcmUgcmVuZGVyaW5nLCBldmVyeXRoaW5nIGxvb2tzDQo+
+Pj4+Pj4+Pj4+PiBnb29kLCB0b28uDQo+Pj4+Pj4+Pj4+Pg0KPj4+Pj4+Pj4+Pj4gTm8gaWRlYSB3
+aGF0IHRoYXQgbWVhbnMsIHRob3VnaC4gSSBwcm9iYWJseSBuZWVkIHRvIGxvb2sgYXQgdGhlDQo+
+Pj4+Pj4+Pj4+PiBjb2RlIG9mDQo+Pj4+Pj4+Pj4+PiB0aGUgYXBwIGFuZCBkbyBzb21lIG1vcmUg
+ZXhwZXJpbWVudHMgdG8gZ2V0IGEgYmV0dGVyIGlkZWEgb2Ygd2hhdA0KPj4+Pj4+Pj4+Pj4gbWln
+aHQNCj4+Pj4+Pj4+Pj4+IGNhdXNlIHRoZSBkaXN0b3J0aW9uLg0KPj4+Pj4+Pj4+Pj4NCj4+Pj4+
+Pj4+Pj4+IFVubGVzcyBzb21lIG9mIHRoZSBncmFwaGljcyBleHBlcnRzIGhlcmUgYWxyZWFkeSBo
+YXZlIGFuIGlkZWENCj4+Pj4+Pj4+Pj4+IG9mIHdoYXQNCj4+Pj4+Pj4+Pj4+IGNhbiBjYXVzZSBh
+bmQvb3IgaG93IHRvIGRlYnVnIHN1Y2ggYW4gaXNzdWUhPw0KPj4+Pj4+Pj4+Pg0KPj4+Pj4+Pj4+
+PiBXaGljaCBkcml2ZXIgaXMgdXNlZCBmb3IgdGhlIGRpc3BsYXkgc2lkZT8gSXQgc2VlbXMgbGlr
+ZSB0aGUNCj4+Pj4+Pj4+Pj4gZGlzcGxheQ0KPj4+Pj4+Pj4+PiBzaWRlIGRvZXNuJ3QgcHJvcGVy
+bHkgaGFuZGxlIHRoZSBkbWEgZmVuY2VzIHVzZWQgdG8gc3luY2hyb25pemUNCj4+Pj4+Pj4+Pj4g
+c2Nhbm91dA0KPj4+Pj4+Pj4+PiBhbmQgcmVuZGVyaW5nLg0KPj4+Pj4+Pj4+DQo+Pj4+Pj4+Pj4g
+SSBwb3J0ZWQvcGlja2VkIHRoZSBkcml2ZXJzIGZvciB0aGUgTENESUYgYW5kIERTSSBjb250cm9s
+bGVycyBmcm9tDQo+Pj4+Pj4+Pj4gZGV2ZWxvcG1lbnQgYnJhbmNoIG9mIHRoZSA1LjQtYmFzZWQg
+dmVuZG9yIGtlcm5lbCBbMV0gdG8gb3VyIG93bg0KPj4+Pj4+Pj4+IHY1LjQtYmFzZWQga2VybmVs
+IFsyXS4gU28gaXQgaXMgcXVpdGUgcHJvYmFibGUsIHRoYXQgc29tZXRoaW5nDQo+Pj4+Pj4+Pj4g
+Y291bGQgYmUNCj4+Pj4+Pj4+PiB3cm9uZyBoZXJlLg0KPj4+Pj4+Pj4NCj4+Pj4+Pj4+IFBsZWFz
+ZSBqdXN0IHVzZSBEUk1fTVhTRkIgZm9yIHRoZSBkaXNwbGF5IHNpZGUsIGluc3RlYWQgb2YgdGhl
+DQo+Pj4+Pj4+PiBkb3duc3RyZWFtIGRyaXZlci4NCj4+Pj4+Pj4NCj4+Pj4+Pj4gSG0sIGdvb2Qg
+aWRlYS4gSSBzb21laG93IGZvcmdvdCBhYm91dCB0aGUgZmFjdCwgdGhhdCB0aGVyZSBpcyBhbg0K
+Pj4+Pj4+PiB1cHN0cmVhbSBkcml2ZXIgZm9yIHRoZSBMQ0RJRiBjb250cm9sbGVyLiBPbiBmaXJz
+dCB0cnkgSSBjb3VsZG4ndA0KPj4+Pj4+PiBnZXQgaXQNCj4+Pj4+Pj4gdG8gcnVuIG9uIHRoZSBp
+Lk1YOE1NLCBidXQgSSBzdXNwZWN0IHRoYXQncyBkdWUgdG8gc29tZSByZXNldCwNCj4+Pj4+Pj4g
+cG93ZXItZG9tYWluIG9yIGNsb2NrIHNldHVwLCB0aGF0IGlzIG1pc3NpbmcgdXBzdHJlYW0uIEkg
+d2lsbCBzZWUgaWYgSQ0KPj4+Pj4+PiBjYW4gZ2V0IGFueSBmdXJ0aGVyIHdpdGggdGhpcy4NCj4+
+Pj4+Pg0KPj4+Pj4+IFNvIEkgaGFkIGEgY2xvc2VyIGxvb2sgYW5kIHdoaWxlIHRoZSBEUk1fTVhT
+RkIgbG9va3Mgb2sgb24gaXRzIG93biwgSQ0KPj4+Pj4+IGhhdmUgc29tZSBwcm9ibGVtIHdpdGgg
+dGhlIHJlc3Qgb2YgdGhlIGkuTVg4TU0gZGlzcGxheSBzdWJzeXN0ZW0uDQo+Pj4+Pj4NCj4+Pj4+
+PiBUaGUgdmVuZG9yIHN0YWNrLCB0aGF0IEknbSBjdXJyZW50bHkgdXNpbmcgaW50ZWdyYXRlcyBp
+bnRvIHRoZSBpbXgtZHJtDQo+Pj4+Pj4gbWFzdGVyL2NvcmUgZHJpdmVyIFsxXSB0aGF0IGJpbmRz
+IGFsbCB0aGUgY29tcG9uZW50cyBvZiB0aGUgZGlzcGxheQ0KPj4+Pj4+IHN1YnN5c3RlbSwgc3Vj
+aCBhcyB0aGUgTENESUYgZHJpdmVyIGFuZCB0aGUgaW50ZWdyYXRlZCBTRUNfRFNJTSBEU0kNCj4+
+Pj4+PiBicmlkZ2UuDQo+Pj4+Pj4NCj4+Pj4+PiBBbmQgYmVjYXVzZSBvZiBteSBsYWNrIG9mIERS
+TSBza2lsbHMsIEkgaGF2ZSBubyBpZGVhIGhvdyB0byBnZXQgdGhlDQo+Pj4+Pj4gRFJNX01YU0ZC
+IGRyaXZlciB0byBiaW5kIHRvIHRoZSBpbXgtZHJtIGNvcmUsIGluc3RlYWQgb2YgcnVubmluZw0K
+Pj4+Pj4+IHNlcGFyYXRlbHkgYW5kIGNvbm5lY3RpbmcgZGlyZWN0bHkgdG8gc29tZSBwYW5lbCBh
+cyBpdCBpcyBkb25lIGZvcg0KPj4+Pj4+IGkuTVgyMy8yOCBhbmQgaS5NWDZTWC9VTC4NCj4+Pj4+
+DQo+Pj4+PiBJdCdzIGEgc2VwYXJhdGUgaGFyZHdhcmUgYW5kIGl0J3MgYSBwcmV0dHkgbWFqb3Ig
+ZGVzaWduIGlzc3VlIG9mIHRoZQ0KPj4+Pj4gZG93bnN0cmVhbSBkcml2ZXIgdGhhdCBpdCBpbnRl
+Z3JhdGVzIGludG8gaW14LWRybS4gWW91IGRvbid0IHdhbnQgdGhpcw0KPj4+Pj4gd2l0aCB0aGUg
+dXBzdHJlYW0gZHJpdmVyLg0KPj4+Pj4NCj4+Pj4+IE1heWJlIEd1aWRvIChDQ2VkKSBjYW4gZ2l2
+ZSB5b3Ugc29tZSBjbHVlcywgYXMgYXBwYXJlbnRseSBoZSBpcyB1c2luZw0KPj4+Pj4gdGhlIG1h
+aW5saW5lIGVMQ0RJRiBkcml2ZXIgKyBzb21lIHBhdGNoZXMgdG8gZHJpdmUgdGhlIERTSSBkaXNw
+bGF5IHBhdGgNCj4+Pj4+IG9uIGkuTVg4TVEuIEEgbG90IG9mIHRoaXMgd2lsbCBwcm9iYWJseSBi
+ZSB0cmFuc2ZlcmFibGUgdG8gdGhlIGkuTVg4TU0NCj4+Pj4+IGRpc3BsYXkgcGF0aC4NCj4+Pj4N
+Cj4+Pj4gTmV3ZXIgbXhzZmIgc3VwcG9ydHMgYXR0YWNoaW5nIGEgYnJpZGdlIHNvIGlmIHlvdSBt
+YWtlIHlvdXIgRFNJIGhvc3QNCj4+Pj4gY29udHJvbGxlciBkcml2ZXIgYSBEU0kgYnJpZGdlIG14
+c2ZiIGNhbiBkcml2ZSBpdDoNCj4+Pj4NCj4+Pj4gICAgICAgIA0KPj4+PiBodHRwczovL2dpdC5r
+ZXJuZWwub3JnL3B1Yi9zY20vbGludXgva2VybmVsL2dpdC90b3J2YWxkcy9saW51eC5naXQvdHJl
+ZS9kcml2ZXJzL2dwdS9kcm0vbXhzZmIvbXhzZmJfZHJ2LmMjbjI2OA0KPj4+Pg0KPj4+Pg0KPj4+
+PiB0aGlzIHNob3VsZCBiZSBzaW1pbGFyIHRvIHdoYXQgd2FzIGRvbmUgZm9yIHRoZSBpbXg4bXEg
+aGVyZSAoaW14OG1tDQo+Pj4+IHVzZXJzIGEgZGlmZmVyZW50IGlwIGNvcmUgdGhvdWdoKToNCj4+
+Pj4NCj4+Pj4gICAgICAgIA0KPj4+PiBodHRwczovL3NvdXJjZS5wdXJpLnNtL2d1aWRvLmd1bnRo
+ZXIvbGludXgtaW14OC9jb21taXRzL2ZvcndhcmQtdXBzdHJlYW0vbmV4dC0yMDIwMDIxNy9teHNm
+Yitud2wvdjktd2lwDQo+Pj4+DQo+Pj4+DQo+Pj4+IFRoZXJlJ3MgYWxzbyBzb21lIGFkZGl0aW9u
+YWwgbXhzZmIgcGF0Y2hlcyBieSBSb2JlcnQgZmxvYXRpbmcgYXJvdW5kDQo+Pj4+IHdoaWNoIGFy
+ZW4ndCBtYWlubGluZSB5ZXQgd2hpY2ggdGhlIGFib3ZlIGJyYW5jaCBhbHNvIGhhcy4NCj4+Pj4N
+Cj4+Pj4gV2hpY2ggcmVtaW5kcyBtZSB0aGF0IGkgbmVlZCB0byBwcmVwYXJlIGFuZCBzZW5kIG91
+dCBhIHY5Lg0KPj4+DQo+Pj4gVGhhbmtzIEx1Y2FzIGFuZCBHdWlkbyBmb3IgcG9pbnRpbmcgb3V0
+IHRoZSBkZXRhaWxzIQ0KPj4+IEl0J3MgdmVyeSB1bmZvcnR1bmF0ZSB0aGF0IGkuTVg4TVEgYW5k
+IGkuTVg4TU0gZG9uJ3Qgc2hhcmUgdGhlIHNhbWUgRFNJDQo+Pj4gaXAgY29yZS4NCj4+PiBJdCBz
+ZWVtcyBsaWtlIEkgbmVlZCB0byB0cnkgY29taW5nIHVwIHdpdGggYSBicmlkZ2UgZHJpdmVyIGZv
+ciB0aGUNCj4+PiBTYW1zdW5nIERTSU0gRFNJIGNvbnRyb2xsZXIgZm9yIGEgcHJvcGVyIHVwc3Ry
+ZWFtIHNvbHV0aW9uLg0KPj4NCj4+IFNvcnJ5IHRvIGJvdGhlciB5b3Ugd2l0aCBvbmUgbW9yZSBx
+dWVzdGlvbiBmcm9tIGEgRFJNIG5ld2JpZS4NCj4+DQo+PiBJJ20gY3VycmVudGx5IGxvb2tpbmcg
+YXQgR3VpZG8ncyBjb2RlIGZvciB0aGUgTldMIERTSSBicmlkZ2UgYW5kIHRyeWluZw0KPj4gdG8g
+Y29udmVydCB0aGUgTlhQIFNFQyBEU0lNIGhvc3QgZHJpdmVyIHRvIGEgYnJpZGdlIGRyaXZlci4N
+Cj4+DQo+PiBUaGUgTldMIGRyaXZlciB1c2VzIG1pcGlfZHNpX2hvc3RfcmVnaXN0ZXIoKSwgd2hp
+Y2ggc2VhcmNoZXMgZm9yIGENCj4+IG91dHB1dCAocGFuZWwpIGNoaWxkIG5vZGUgdW5kZXIgdGhl
+IERTSSBicmlkZ2UncyBub2RlIFsxXSBhcyBkZXNjcmliZWQNCj4+IGluIHRoZSBiaW5kaW5ncyBl
+eGFtcGxlIFsyXS4NCj4+DQo+PiBIb3cgaXMgdGhpcyBzdXBwb3NlZCB0byB3b3JrIGluIGEgc2V0
+dXAgd2l0aCBhbm90aGVyIGJyaWRnZSBhZnRlciB0aGUNCj4+IERTSSBicmlkZ2UsIHdoZXJlIHRo
+YXQgYnJpZGdlIGlzIG5vdCBhIGNoaWxkIG5vZGUgb2YgdGhlIERTSSBicmlkZ2UsIGJ1dA0KPj4g
+b25seSBjb25uZWN0ZWQgdmlhIHRoZSBEU0kgYnJpZGdlcyBvdXRwdXQgcG9ydD8gRm9yIGV4YW1w
+bGUgSSBoYXZlIGENCj4+IERTSS0+TFZEUyBicmlkZ2UsIHRoYXQgaXMgYXR0YWNoZWQgdG8gYW4g
+STJDIHBvcnQuDQo+IA0KPiBZb3UgY2FuIGFsc28gYXR0YWNoIGFub3RoZXIgYnJpZGdlIGluc3Rl
+YWQgb2YgYSBwYW5lbC4gTlhQcyBCU1AgdXNlcyBhDQo+IGRyaXZlciB2ZXJ5IHNpbWlsYXIgdG8g
+dGhlIG53bCBvbmUgYWJvdmUgYW5kIHRoaXMgaXMgaG93IHRoZXkgYXR0YWNoIGENCj4gRFNJLT5I
+RE1JIGJyaWRnZToNCj4gDQo+ICAgICAgaHR0cHM6Ly9zb3VyY2UuY29kZWF1cm9yYS5vcmcvZXh0
+ZXJuYWwvaW14L2xpbnV4LWlteC90cmVlL2FyY2gvYXJtNjQvYm9vdC9kdHMvZnJlZXNjYWxlL2lt
+eDhtcS1ldmstbGNkaWYtYWR2NzUzNS5kdHM/aD1pbXhfNS40LjBfOGR4bHBoYW50b21fZXIjbjU2
+DQoNCk9rLCBJIHVuZGVyc3RhbmQgaG93IHRoaXMgaXMgc3VwcG9zZWQgdG8gd29yaywgYXMgaGVy
+ZSBkcm1fYnJpZGdlX2FkZCgpIA0KaXMgY2FsbGVkIGZyb20gcHJvYmUoKSBpbiB0aGUgTldMIGJy
+aWRnZSBkcml2ZXIuIEJ1dCBpbiB5b3VyIE5XTCBkcml2ZXIsIA0KZHJtX2JyaWRnZV9hZGQoKSBp
+cyBjYWxsZWQgZnJvbSBud2xfZHNpX2hvc3RfYXR0YWNoKCkgYW5kIEkgY3VycmVudGx5IA0KZmFp
+bCB0byB1bmRlcnN0YW5kIGhvdyB0aGlzIGlzIHN1cHBvc2VkIHRvIHdvcmsuDQoNCkJ1dCBkb24n
+dCBtaW5kLCBJIGZpZ3VyZWQgb3V0IHRoYXQgZGlmZmVyZW5jZSBub3cgYW5kIGNhbGwgDQpkcm1f
+YnJpZGdlX2FkZCgpIGZyb20gcHJvYmUoKSBpbiBteSBkcml2ZXIuIFRoZXJlJ3Mgc3RpbGwgYSBs
+b3Qgb2Ygb3RoZXIgDQp0aGluZ3MgSSBuZWVkIHRvIHVuZGVyc3RhbmQgYW5kIGluIGZhY3QgSSdt
+IG5vdCBldmVuIHN1cmUgaWYgSSBoYXZlIA0KZW5vdWdoIHRpbWUgdG8gaW1tZXJzZSBteXNlbGYg
+bXVjaCBkZWVwZXIuDQoNClRoYW5rcywNCkZyaWVkZXIKX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX18KZXRuYXZpdiBtYWlsaW5nIGxpc3QKZXRuYXZpdkBsaXN0
+cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9s
+aXN0aW5mby9ldG5hdml2Cg==
