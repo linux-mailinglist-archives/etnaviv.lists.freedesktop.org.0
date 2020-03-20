@@ -2,62 +2,35 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 378AA184C03
-	for <lists+etnaviv@lfdr.de>; Fri, 13 Mar 2020 17:07:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5664818D86D
+	for <lists+etnaviv@lfdr.de>; Fri, 20 Mar 2020 20:32:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DABF06EC01;
-	Fri, 13 Mar 2020 16:07:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E39946EB62;
+	Fri, 20 Mar 2020 19:32:23 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E8CC66E2DD;
- Tue, 10 Mar 2020 13:31:46 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id s14so2231329wrt.8;
- Tue, 10 Mar 2020 06:31:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=SGZgsH+padUygQ4Cia7cE9IFr+EvRgTaa32npdrtzWc=;
- b=dg7L82DWEiw0rdSwNr2DyRTaCTid+TPApdVxlafYq4AipWASzO9UjWBGoMzbQJU6Zn
- FcVLsljOgCFtV5tGCTDxvDcuENshSrjaqclQu4DLXYnyd8VwAbcmXaWptQDIIYRw0Mvk
- GfnIfAsgFE5LdRwk/p4NdBb6D+Uq0KG6pshRkMgRIvf6pPtcA8H2C1Ld55MdENrIXKZu
- mkPa1OnuzhVbyD5tQK6tLNKfwzIiV3aSe9+2HBqE759pdILSJw5zeVMxsZck4Utc0qZ+
- C6UhWibz+kjEltkkuyRd9QtNDvhPDu8h1CTszvI2gctrxNmY3IxCfDWcM8Y3KUJM5hWP
- 6ysg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=SGZgsH+padUygQ4Cia7cE9IFr+EvRgTaa32npdrtzWc=;
- b=VWY2grKFAV07r3nLBG5mUF+FnuNbbIIbbgKPu5J6A/avzwYSshGlf15dRvmrIo31ob
- 4+Xah1r1Xwf3tOPoINNakLrdUe2jNDuRd4ZcSDc+Z6yajIWiP1kC+g/gzMqev+TCV6SX
- TCxOooz2fQMf5CVcqeFOU3Z5iNiqXOi+AAhzCC3vDFEVsPN5MqGE+/BsJGAOBCQ1g/De
- t2KUs9/gXr6+Uku28S+cstDnJ9u6hz5f8qtlOou0m2O96HDL4Rd1yzlWkaI+2dUC73gM
- 1LHAd0mmID3+kki1mPQYNzuNbhi0cf0x8+pa6f2Uaa2GknOui66lfT/ncDmALm39+yID
- uWvg==
-X-Gm-Message-State: ANhLgQ2aDK7DNit0iQoNnuaT0CYYsKyJCU9Ms/Pq8A9gquAiMxzTYKG7
- oPeJh85+foJDHCa52qxLL90=
-X-Google-Smtp-Source: ADFU+vuTm8NKlxrWVPle4ZIU7qSC/syjzXhDqkYplHXSPQAFccyI2BA7t9nw37f8vOWSAuPKPa5K7Q==
-X-Received: by 2002:adf:e74e:: with SMTP id c14mr28701764wrn.128.1583847105552; 
- Tue, 10 Mar 2020 06:31:45 -0700 (PDT)
-Received: from localhost.localdomain ([197.248.222.210])
- by smtp.googlemail.com with ESMTPSA id o7sm14047141wrx.60.2020.03.10.06.31.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Mar 2020 06:31:44 -0700 (PDT)
-From: Wambui Karuga <wambui.karugax@gmail.com>
-To: airlied@linux.ie, daniel@ffwll.ch, Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>
-Subject: [PATCH v2 07/17] drm/etnaviv: remove check for return value of
- drm_debugfs_create_files()
-Date: Tue, 10 Mar 2020 16:31:11 +0300
-Message-Id: <20200310133121.27913-8-wambui.karugax@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200310133121.27913-1-wambui.karugax@gmail.com>
-References: <20200310133121.27913-1-wambui.karugax@gmail.com>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D9236EB63
+ for <etnaviv@lists.freedesktop.org>; Fri, 20 Mar 2020 19:32:23 +0000 (UTC)
+Received: from gallifrey.ext.pengutronix.de
+ ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=localhost)
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1jFNNU-0008E2-Rn; Fri, 20 Mar 2020 20:32:20 +0100
+Message-ID: <74d9c6d19099fdba6c6795204a6aa445b7930c79.camel@pengutronix.de>
+Subject: [GIT PULL] etnaviv-next for 5.7
+From: Lucas Stach <l.stach@pengutronix.de>
+To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+Date: Fri, 20 Mar 2020 20:32:18 +0100
+User-Agent: Evolution 3.34.4 (3.34.4-1.fc31) 
 MIME-Version: 1.0
-X-Mailman-Approved-At: Fri, 13 Mar 2020 16:07:49 +0000
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,60 +42,64 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: dri-devel@lists.freedesktop.org, kernel@pengutronix.de,
+ etnaviv@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Since commit 987d65d01356 (drm: debugfs: make
-drm_debugfs_create_files() never fail), drm_debugfs_create_files() never
-fails and only returns 0. Therefore, remove the unnecessary check of its
-return value and error handling in etnaviv_debugfs_init() and have the
-function return 0 directly.
-
-v2: have etnaviv_debugfs_init() return 0 instead of void to ensure
-individual compilation and avoid build breakage.
-
-References: https://lists.freedesktop.org/archives/dri-devel/2020-February/257183.html
-Signed-off-by: Wambui Karuga <wambui.karugax@gmail.com>
----
- drivers/gpu/drm/etnaviv/etnaviv_drv.c | 16 ++++------------
- 1 file changed, 4 insertions(+), 12 deletions(-)
-
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-index 6b43c1c94e8f..a65d30a48a9d 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-@@ -233,19 +233,11 @@ static struct drm_info_list etnaviv_debugfs_list[] = {
- 
- static int etnaviv_debugfs_init(struct drm_minor *minor)
- {
--	struct drm_device *dev = minor->dev;
--	int ret;
--
--	ret = drm_debugfs_create_files(etnaviv_debugfs_list,
--			ARRAY_SIZE(etnaviv_debugfs_list),
--			minor->debugfs_root, minor);
-+	drm_debugfs_create_files(etnaviv_debugfs_list,
-+				 ARRAY_SIZE(etnaviv_debugfs_list),
-+				 minor->debugfs_root, minor);
- 
--	if (ret) {
--		dev_err(dev->dev, "could not install etnaviv_debugfs_list\n");
--		return ret;
--	}
--
--	return ret;
-+	return 0;
- }
- #endif
- 
--- 
-2.25.1
-
-_______________________________________________
-etnaviv mailing list
-etnaviv@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/etnaviv
+SGkgRGFuaWVsLCBEYXZlLAoKbm90aGluZyB0b28gZXhjaXRpbmcgdGhpcyB0aW1lLCBtb3N0bHkg
+bWFraW5nIG5ld2VyIGhhcmR3YXJlIG1vcmUKc3RhYmxlLgoKLSBmaXggZm9yIHBvdGVudGlhbCBv
+dXQtb2YtYm91bmRzIHJlYWRzIGluIHRoZSBwZXJmbW9uIGlvY3RsCiAgaW1wbGVtZW50YXRpb24g
+ZnJvbSBDaHJpc3RpYW4KLSBvdmVycmlkZSB0byBleHBvc2UgcHJvcGVyIGZlYXR1cmUgZmxhZ3Mg
+Zm9yIHRoZSBHQzQwMCBmb3VuZCBvbiB0aGUKICBTVE0zMk1QMSBTb0MsIGFsc28gZnJvbSBDaHJp
+c3RpYW4KLSBHdWlkbyBmaXhlZCBhbiBpc3N1ZSB3aGVyZSB3ZSB3b3VsZCBzcHVyaW91c2x5IGZh
+aWwgdG8gZW50ZXIKICBydW50aW1lIHN1c3BlbmQgZHVlIHRvIGEgbmV3IEdQVSBlbmdpbmUgc3Rh
+dHVzIGJpdCBvbiBHQzcwMDAKLSB0cmVlLXdpZGUgY2hhbmdlIGZyb20gR3VzdGF2byB0byBnZXQg
+cmlkIG9mIHplcm8tbGVuZ3RoIGFycmF5cwotIGZpeCBmb3IgbWlzc2VkIFRTIGNhY2hlIGZsdXNo
+IG9uIEdDNzAwMCwgbGVhZGluZyB0byBzcHVyaW91cwogIE1NVSBmYXVsdHMgZnJvbSBtZQotIHJl
+cXVlc3QgcGFnZXMgZnJvbSBETUEzMiB6b25lIG9uIHN5c3RlbXMgd2hlcmUgd2UgY2FuJ3QgYWRk
+cmVzcwogIGFsbCBwcmVzZW50IG1lbW9yeSBmcm9tIG1lCgpSZWdhcmRzLApMdWNhcwoKVGhlIGZv
+bGxvd2luZyBjaGFuZ2VzIHNpbmNlIGNvbW1pdCBiYjZkM2ZiMzU0YzVlZThkNmJkZTJkNTc2ZWI3
+MjIwZWEwOTg2MmI5OgoKICBMaW51eCA1LjYtcmMxICgyMDIwLTAyLTA5IDE2OjA4OjQ4IC0wODAw
+KQoKYXJlIGF2YWlsYWJsZSBpbiB0aGUgR2l0IHJlcG9zaXRvcnkgYXQ6CgogIGh0dHBzOi8vZ2l0
+LnBlbmd1dHJvbml4LmRlL2dpdC9sc3QvbGludXggZXRuYXZpdi9uZXh0Cgpmb3IgeW91IHRvIGZl
+dGNoIGNoYW5nZXMgdXAgdG8gZjIzMmQ5ZWMwMjljZTNlMjU0M2IwNTIxM2UyOTc5ZTAxZTUwMzQw
+ODoKCiAgZHJtL2V0bmF2aXY6IGZpeCBUUyBjYWNoZSBmbHVzaGluZyBvbiBHUFVzIHdpdGggQkxU
+IGVuZ2luZSAoMjAyMC0wMy0yMCAxODo0MDo0NCArMDEwMCkKCi0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KQ2hyaXN0aWFuIEdt
+ZWluZXIgKDcpOgogICAgICBkcm0vZXRuYXZpdjogdXBkYXRlIGhhcmR3YXJlIGhlYWRlcnMgZnJv
+bSBybm5kYgogICAgICBkcm0vZXRuYXZpdjogZGV0ZXJtaW5lIHByb2R1Y3QsIGN1c3RvbWVyIGFu
+ZCBlY28gaWQKICAgICAgZHJtL2V0bmF2aXY6IHNob3cgaWRlbnRpdHkgaW5mb3JtYXRpb24gaW4g
+ZGVidWdmcwogICAgICBkcm0vZXRuYXZpdjogdXBkYXRlIGdjNzAwMCBjaGlwIGlkZW50aXR5IGVu
+dHJ5CiAgICAgIGRybS9ldG5hdml2OiB1cGRhdGUgaHdkYiBzZWxlY3Rpb24gbG9naWMKICAgICAg
+ZHJtL2V0bmF2aXY6IGFkZCBod2RiIGVudHJ5IGZvciBnYzQwMCBmb3VuZCBpbiBTVE0zMgogICAg
+ICBkcm0vZXRuYXZpdjogcmV3b3JrIHBlcmZtb24gcXVlcnkgaW5mcmFzdHJ1Y3R1cmUKCkd1aWRv
+IEfDvG50aGVyICg1KToKICAgICAgZHJtL2V0bmF2aXY6IEZpeCB0eXBvIGluIGNvbW1lbnQKICAg
+ICAgZHJtL2V0bmF2aXY6IFVwZGF0ZSBpZGxlIGJpdHMKICAgICAgZHJtL2V0bmF2aXY6IENvbnNp
+ZGVyIGFsbCBrd25vd24gaWRsZSBiaXRzIGluIGRlYnVnZnMKICAgICAgZHJtL2V0bmF2aXY6IEln
+bm9yZSBNQyB3aGVuIGNoZWNraW5nIHJ1bnRpbWUgc3VzcGVuZCBpZGxlbmVzcwogICAgICBkcm0v
+ZXRuYXZpdjogV2FybiB3aGVuIEdQVSBkb2Vzbid0IGlkbGUgZmFzdCBlbm91Z2gKCkd1c3Rhdm8g
+QS4gUi4gU2lsdmEgKDEpOgogICAgICBkcm0vZXRuYXZpdjogUmVwbGFjZSB6ZXJvLWxlbmd0aCBh
+cnJheSB3aXRoIGZsZXhpYmxlLWFycmF5IG1lbWJlcgoKTHVjYXMgU3RhY2ggKDIpOgogICAgICBk
+cm0vZXRuYXZpdjogcmVxdWVzdCBwYWdlcyBmcm9tIERNQTMyIHpvbmUgd2hlbiBuZWVkZWQKICAg
+ICAgZHJtL2V0bmF2aXY6IGZpeCBUUyBjYWNoZSBmbHVzaGluZyBvbiBHUFVzIHdpdGggQkxUIGVu
+Z2luZQoKIGRyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfYnVmZmVyLmMgIHwgNjAgKysr
+KysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKy0tLS0t
+CiBkcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2X2Rydi5jICAgICB8ICAxICsKIGRyaXZl
+cnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfZHJ2LmggICAgIHwgIDEgKwogZHJpdmVycy9ncHUv
+ZHJtL2V0bmF2aXYvZXRuYXZpdl9nZW0uYyAgICAgfCAgNCArKy0tCiBkcml2ZXJzL2dwdS9kcm0v
+ZXRuYXZpdi9ldG5hdml2X2dlbS5oICAgICB8ICAyICstCiBkcml2ZXJzL2dwdS9kcm0vZXRuYXZp
+di9ldG5hdml2X2dwdS5jICAgICB8IDUyICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysr
+KysrKysrKysrKysrKysrLS0tLS0KIGRyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfZ3B1
+LmggICAgIHwgIDYgKysrLS0tCiBkcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2X2h3ZGIu
+YyAgICB8IDQyICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrLQogZHJp
+dmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9wZXJmbW9uLmMgfCA1OSArKysrKysrKysrKysr
+KysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrLS0tLS0tLQogZHJpdmVycy9n
+cHUvZHJtL2V0bmF2aXYvc3RhdGVfYmx0LnhtbC5oICAgfCAgMiArKwogZHJpdmVycy9ncHUvZHJt
+L2V0bmF2aXYvc3RhdGVfaGkueG1sLmggICAgfCAzNiArKysrKysrKysrKysrKysrKysrKysrKysr
+LS0tLS0tLS0tLS0KIDExIGZpbGVzIGNoYW5nZWQsIDIzMCBpbnNlcnRpb25zKCspLCAzNSBkZWxl
+dGlvbnMoLSkKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+CmV0bmF2aXYgbWFpbGluZyBsaXN0CmV0bmF2aXZAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBz
+Oi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZXRuYXZpdgo=
