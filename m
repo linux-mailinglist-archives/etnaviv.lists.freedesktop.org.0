@@ -2,41 +2,63 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 054E719BD4D
+	by mail.lfdr.de (Postfix) with ESMTPS id 87B2F19BD4E
 	for <lists+etnaviv@lfdr.de>; Thu,  2 Apr 2020 10:06:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B9AC6EA03;
-	Thu,  2 Apr 2020 08:06:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 37C036EA06;
+	Thu,  2 Apr 2020 08:06:29 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D5D0C89237;
- Mon, 30 Mar 2020 20:15:19 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id 3484A804AF;
- Mon, 30 Mar 2020 22:15:14 +0200 (CEST)
-Date: Mon, 30 Mar 2020 22:15:12 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Russell King - ARM Linux admin <linux@armlinux.org.uk>
+X-Greylist: delayed 428 seconds by postgrey-1.36 at gabe;
+ Tue, 31 Mar 2020 07:28:08 UTC
+Received: from lb2-smtp-cloud7.xs4all.net (lb2-smtp-cloud7.xs4all.net
+ [194.109.24.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C62EA6E558;
+ Tue, 31 Mar 2020 07:28:08 +0000 (UTC)
+Received: from [192.168.2.10] ([46.9.234.233])
+ by smtp-cloud7.xs4all.net with ESMTPA
+ id JBCajz1YpLu1fJBCejHCjJ; Tue, 31 Mar 2020 09:20:58 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+ t=1585639258; bh=vFLAFhFQyb8gbOSDxO/VdFf8CdbtbKDUC1VbJ0Ed4G8=;
+ h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+ Subject;
+ b=gbPi5YAr5hxI+IP+zZ+HYziBEXN0T2iw9gDqp91WtQMjptvSTPRUZ4z0w/kZoiQVU
+ nTPg0EUDN5XnbWKYt91gRC1SqYirOEb0PzZjNH8kmVbpHgjqc5fqvNZH+xv9oEHUrM
+ 8Fq74/BqVf9GvIrRHdZ6wd0PZqhwu189HWHwc0FeF0z/WJq3i9KM67H+d24/7YI05m
+ ZRGhTqjpHabK7xpT7AGvDKqSkG70OMPqtVvDm8YmcP51AVqo24kMvAc4QLshzLPwyb
+ mIK+1byC+17cml41lF5WeDYxpjB2Lyu1c1H0IDXjFO8VXNLEHIrNffAWkt7Cp6S5C4
+ dBaiTUPDFMpwQ==
 Subject: Re: [PATCH] Update my email address in various drivers
-Message-ID: <20200330201512.GA23451@ravnborg.org>
+To: Russell King <rmk+kernel@armlinux.org.uk>, David Airlie
+ <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Andrzej Hajda <a.hajda@samsung.com>, Neil Armstrong
+ <narmstrong@baylibre.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@siol.net>,
+ Lucas Stach <l.stach@pengutronix.de>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
+ Florian Fainelli <f.fainelli@gmail.com>,
+ Heiner Kallweit <hkallweit1@gmail.com>, "David S. Miller"
+ <davem@davemloft.net>, dri-devel@lists.freedesktop.org,
+ etnaviv@lists.freedesktop.org, linux-media@vger.kernel.org,
+ netdev@vger.kernel.org
 References: <E1jIV26-0005X3-RS@rmk-PC.armlinux.org.uk>
- <20200330180444.GA16073@ravnborg.org>
- <20200330193346.GI25745@shell.armlinux.org.uk>
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <4362392b-132d-c316-3a54-e6cc05cab659@xs4all.nl>
+Date: Tue, 31 Mar 2020 09:20:48 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200330193346.GI25745@shell.armlinux.org.uk>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=XpTUx2N9 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=PHq6YzTAAAAA:8
- a=drOt6m5kAAAA:8 a=7gkXJVJtAAAA:8 a=IFATEmdhu-ErwIyn04kA:9
- a=mtL8tZnu2Jrx5SaM:21 a=DNgyL8e6fjdIsIrl:21 a=CjuIK1q_8ugA:10
- a=ZKzU8r6zoKMcqsNulkmm:22 a=RMMjzBEyIzXRtoq5n5K6:22
- a=E9Po1WZjFZOl8hwRPBS3:22
+In-Reply-To: <E1jIV26-0005X3-RS@rmk-PC.armlinux.org.uk>
+Content-Language: en-US
+X-CMAE-Envelope: MS4wfC+slg84mdYP89l6SxInCHeF3g0JtL9VqM18bDfdysIjAFPUT6OD/g1M51H/cR6bMpfTtDuuoFy2dHpRDp4BgyY7h7u/IYlu59Kzm59ciC0z0BN13Eck
+ yvrPJVFXdzoYP9kSvXta9VQvTMgFCseEXD6rVcCWXpPZOQgglWaOkRsyeTyPEExASsJ0dsVWT5czOOo6QRfi98A61dWYBawRg5ZMBYvykkDfsKirYNYyFKiS
+ QKu3aNNUfhNt4o/AVQIyaOrJW1dMLmCeEzSs9/6i8yuEm48Ujlgj4UFcrtKs/PoWFN9lhdpRpk0DsgNrRxH86vfJLfk8ZARnNOIHsVltDe1GpVhOmiWaLDVa
+ JQOr1dWy9lf7MjKq4nytQgx0TC4zx3cCB50w2raxgFIwMCQpYGSv7Z7lCts2QwqZQbiycnNwIqPEl5Rcx2TpNJhThriuwOf78/PizDhwo+ONWCIPbnLy45bY
+ GzB1iPXCx3Vx8bRwgISgeB76Au28GRYPu4vM9gSn/HCO3XgT5Y9sOoyvP3o9V/xvUWt9xD1I+mIRMWEPuqpM7K9rzChTmcSiFhDUL/4L7Q5+Y/thdbN2K9Yz
+ QKIUh/odmDnuZrjkHboaA6eRZIhQMdXuX4X5hQmBf1Yxs/B3XJ1nuYfEVKWP7EFmTDAh2mv5OX8l4DFtS0gXCeCo6a/4WeJu75oCCCNw03x+8FHvapY1+4p/
+ aK6S0f2dWLF2lwX7w1BCMa8wsjuxERLnsEIrkX8lhxzBaVsgA4N27FanHbO3RQHw48i7MvKZ9M/RDOgNkQLr4wt/J9fuPCJe
 X-Mailman-Approved-At: Thu, 02 Apr 2020 08:06:26 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -49,86 +71,113 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrew Lunn <andrew@lunn.ch>, Jernej Skrabec <jernej.skrabec@siol.net>,
- Florian Fainelli <f.fainelli@gmail.com>, linux-media@vger.kernel.org,
- Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
- netdev@vger.kernel.org, Neil Armstrong <narmstrong@baylibre.com>,
- etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Heiner Kallweit <hkallweit1@gmail.com>, Andrzej Hajda <a.hajda@samsung.com>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Daniel Vetter <daniel@ffwll.ch>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- "David S. Miller" <davem@davemloft.net>, Lucas Stach <l.stach@pengutronix.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Hi Russell
+On 3/29/20 12:19 PM, Russell King wrote:
+> Globally update my email address in six files scattered through the
+> tree.
+> 
+> Signed-off-by: Russell King <rmk+kernel@armlinux.org.uk>
 
-On Mon, Mar 30, 2020 at 08:33:46PM +0100, Russell King - ARM Linux admin wrote:
-> On Mon, Mar 30, 2020 at 08:04:44PM +0200, Sam Ravnborg wrote:
-> > Hi Russell.
-> > 
-> > On Sun, Mar 29, 2020 at 11:19:10AM +0100, Russell King wrote:
-> > > Globally update my email address in six files scattered through the
-> > > tree.
-> > > 
-> > > Signed-off-by: Russell King <rmk+kernel@armlinux.org.uk>
-> > > ---
-> > >  drivers/gpu/drm/armada/armada_drv.c                 | 2 +-
-> > >  drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c | 2 +-
-> > >  drivers/gpu/drm/etnaviv/etnaviv_drv.c               | 2 +-
-> > >  drivers/media/cec/cec-notifier.c                    | 2 +-
-> > >  drivers/net/phy/swphy.c                             | 2 +-
-> > >  include/media/cec-notifier.h                        | 2 +-
-> > >  6 files changed, 6 insertions(+), 6 deletions(-)
-> > 
-> > This changes all cases of:
-> >    
-> >    rmk+kernel@arm.linux.org.uk
-> > 
-> > to
-> > 
-> >   rmk+kernel@armlinux.org.uk or no mail address.
-> 
-> Correct.  This is the address I sign off all my commits with, and this
-> is the one I use to associate with authorship because it uses my
-> initials.
-> 
-> > But I am confused.
-> > 
-> > The new address does not appear anywhere in MAINTAINERS and is used
-> > only in three other files.
-> 
-> MAINTAINERS lists the addresses I prefer email for the day to day
-> maintanence, which is my linux@ accounts.  The above addresses
-> also fall into _this_ mailbox too, rather than my rmk@ mailbox.
-> So, ultimately all that email comes to the same place.
-> 
-> However, the plain rmk@ address doesn't.
-> 
-> > And there are a few other mail addresses that would reach you.
-> > But no matter how confused I am the patch looks fine so:
-> > 
-> > Acked-by: Sam Ravnborg <sam@ravnborg.org>
-> > 
-> > And if the change is for private reaons then I do not have to know
-> > anyway so feel free to ignore my confusion.
-> 
-> The reason for the change is so I can drop the routing information
-> rmk+kernel@arm.linux.org.uk, thereby causing that address to start
-> bouncing, rather than being a spam inlet.  Sure, the new one will
-> be as well, but the point is that keeping both around indefinitely
-> gives a bigger attack surface for spam ingress.
+For media/cec files:
 
-Thanks for taking your time to explain the background.
+Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
-The patch touches several files outside drivers/gpu/
-so I do not feel confident to apply this to drm-misc-next.
+Regards,
 
-	Sam
+	Hans
+
+> ---
+>  drivers/gpu/drm/armada/armada_drv.c                 | 2 +-
+>  drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c | 2 +-
+>  drivers/gpu/drm/etnaviv/etnaviv_drv.c               | 2 +-
+>  drivers/media/cec/cec-notifier.c                    | 2 +-
+>  drivers/net/phy/swphy.c                             | 2 +-
+>  include/media/cec-notifier.h                        | 2 +-
+>  6 files changed, 6 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/armada/armada_drv.c b/drivers/gpu/drm/armada/armada_drv.c
+> index 3df2dacf4c94..5a82a12cd105 100644
+> --- a/drivers/gpu/drm/armada/armada_drv.c
+> +++ b/drivers/gpu/drm/armada/armada_drv.c
+> @@ -389,7 +389,7 @@ static void __exit armada_drm_exit(void)
+>  }
+>  module_exit(armada_drm_exit);
+>  
+> -MODULE_AUTHOR("Russell King <rmk+kernel@arm.linux.org.uk>");
+> +MODULE_AUTHOR("Russell King <rmk+kernel@armlinux.org.uk>");
+>  MODULE_DESCRIPTION("Armada DRM Driver");
+>  MODULE_LICENSE("GPL");
+>  MODULE_ALIAS("platform:armada-drm");
+> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c
+> index e8e3e9339ff9..f6f55776e43e 100644
+> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c
+> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c
+> @@ -698,7 +698,7 @@ static struct platform_driver snd_dw_hdmi_driver = {
+>  
+>  module_platform_driver(snd_dw_hdmi_driver);
+>  
+> -MODULE_AUTHOR("Russell King <rmk+kernel@arm.linux.org.uk>");
+> +MODULE_AUTHOR("Russell King <rmk+kernel@armlinux.org.uk>");
+>  MODULE_DESCRIPTION("Synopsis Designware HDMI AHB ALSA interface");
+>  MODULE_LICENSE("GPL v2");
+>  MODULE_ALIAS("platform:" DRIVER_NAME);
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> index 1f9c01be40d7..d6798f716b77 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> @@ -739,7 +739,7 @@ static void __exit etnaviv_exit(void)
+>  module_exit(etnaviv_exit);
+>  
+>  MODULE_AUTHOR("Christian Gmeiner <christian.gmeiner@gmail.com>");
+> -MODULE_AUTHOR("Russell King <rmk+kernel@arm.linux.org.uk>");
+> +MODULE_AUTHOR("Russell King <rmk+kernel@armlinux.org.uk>");
+>  MODULE_AUTHOR("Lucas Stach <l.stach@pengutronix.de>");
+>  MODULE_DESCRIPTION("etnaviv DRM Driver");
+>  MODULE_LICENSE("GPL v2");
+> diff --git a/drivers/media/cec/cec-notifier.c b/drivers/media/cec/cec-notifier.c
+> index 7cf42b133dbc..2d4f7dd7cef7 100644
+> --- a/drivers/media/cec/cec-notifier.c
+> +++ b/drivers/media/cec/cec-notifier.c
+> @@ -2,7 +2,7 @@
+>  /*
+>   * cec-notifier.c - notify CEC drivers of physical address changes
+>   *
+> - * Copyright 2016 Russell King <rmk+kernel@arm.linux.org.uk>
+> + * Copyright 2016 Russell King.
+>   * Copyright 2016-2017 Cisco Systems, Inc. and/or its affiliates. All rights reserved.
+>   */
+>  
+> diff --git a/drivers/net/phy/swphy.c b/drivers/net/phy/swphy.c
+> index 53c214a22b95..774814714c82 100644
+> --- a/drivers/net/phy/swphy.c
+> +++ b/drivers/net/phy/swphy.c
+> @@ -2,7 +2,7 @@
+>  /*
+>   * Software PHY emulation
+>   *
+> - * Code taken from fixed_phy.c by Russell King <rmk+kernel@arm.linux.org.uk>
+> + * Code taken from fixed_phy.c by Russell King.
+>   *
+>   * Author: Vitaly Bordug <vbordug@ru.mvista.com>
+>   *         Anton Vorontsov <avorontsov@ru.mvista.com>
+> diff --git a/include/media/cec-notifier.h b/include/media/cec-notifier.h
+> index 985afea1ee36..e2b1b894aae7 100644
+> --- a/include/media/cec-notifier.h
+> +++ b/include/media/cec-notifier.h
+> @@ -2,7 +2,7 @@
+>  /*
+>   * cec-notifier.h - notify CEC drivers of physical address changes
+>   *
+> - * Copyright 2016 Russell King <rmk+kernel@arm.linux.org.uk>
+> + * Copyright 2016 Russell King.
+>   * Copyright 2016-2017 Cisco Systems, Inc. and/or its affiliates. All rights reserved.
+>   */
+>  
+> 
 
 _______________________________________________
 etnaviv mailing list
