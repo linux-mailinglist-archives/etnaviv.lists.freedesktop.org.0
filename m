@@ -1,51 +1,58 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31BD51A1D82
-	for <lists+etnaviv@lfdr.de>; Wed,  8 Apr 2020 10:41:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FEA41B0F50
+	for <lists+etnaviv@lfdr.de>; Mon, 20 Apr 2020 17:08:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D6E796E9B4;
-	Wed,  8 Apr 2020 08:41:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C2556E5B9;
+	Mon, 20 Apr 2020 15:08:51 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com
- [IPv6:2607:f8b0:4864:20::22c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B2AEB6E9B4;
- Wed,  8 Apr 2020 08:41:05 +0000 (UTC)
-Received: by mail-oi1-x22c.google.com with SMTP id k5so3996843oiw.10;
- Wed, 08 Apr 2020 01:41:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to;
- bh=8CsBlVCB7xAbcBCFehmkfGlVBzvRtziwn6tVRTogb5I=;
- b=A/WtBYrOuyAwIBVU+3HC6pfAopxi7VJpuuHELcdlac1gWWAeDyIuR8g4UrCYhL8fHg
- RQ9wLxdres0Wvmc23CdyPi3gkqWehkaAm2KOZnXsiwKA5V6dplfYYkp9YZLjVMx5ysxY
- JnWcNjPTRqT/X2FUUrhUioWokJBNpd9fkpdIY3nZaXbRKdly9mpDyK4n3EwRLNpxBCVC
- wxU0KK33w5jfCG5DqMDTwHcsUdQAHTG6ylZp+kCCmfEUwLW0KV0b4opqZ4uHjo6viB/o
- jxs1+CztT9BZ925f/h6ea8XyozzwnRtn6zWWkAobc9b7Cl8Lnc6eXZ5xzd/PsoTMYY80
- 1FBg==
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
+ [IPv6:2a00:1450:4864:20::244])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AAC0C6E24E
+ for <etnaviv@lists.freedesktop.org>; Wed, 15 Apr 2020 17:38:26 +0000 (UTC)
+Received: by mail-lj1-x244.google.com with SMTP id h25so4605265lja.10
+ for <etnaviv@lists.freedesktop.org>; Wed, 15 Apr 2020 10:38:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=sHqR2C2kxuUQojnOegpnVpnZsXBDzDgx0iHXx8OBUys=;
+ b=Vy4tGFrR/UDz2J5FSZuzqmOKo1GCzxTWtZYw44vcauEzWQop68wvIG9gTD/GD6vSVx
+ XU/sx8wBiHWMnElHjd+vgG43Pu0fwjE3OO6i10GBubZa9VgOL7U0dcLRL7z//U4t7RVc
+ yLc9JmltDVJ99nNme9B93oOoyJNrRlTztgoU7PoT7uk9kJpOkDNL2nlKBeZazkdblE01
+ TYsbPQTSf+oLWvQov5xMyKCCjZmXaHOs4Oj2N8do8WbBa1c82XNc6T+bPgKB33ZBEsEE
+ wlFNw5pM/M5kzUb6Trl6SkDgQkpS5pamRzWGqC8x2YCx0gKHq/ICFrqJXnZTr9ti2G55
+ KnRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=8CsBlVCB7xAbcBCFehmkfGlVBzvRtziwn6tVRTogb5I=;
- b=U/NXAOQtNTnFcEaBVn9uoEIBAv0VBEx1aHOSOToG4o0wizkdXzCOvA9VpuXgo04o7I
- PLaJzklHKcHeLpq/PG4k8dBFzYBBQYSt/bDy7YSM36lwTB21EOgV6KyPusYYMzoGkxXB
- QOYyrFUDAf8XiSRBt0LspuxQlBriMg0/+YR8Y4PyYqdJ84/rPxiCsSbKRhV8fK+NFy4a
- NIUQWkTCL4+cuj3Ov6jNHy3quuANJkKy7olKyvBPH/+KHJZAjEAbyQAKdj0jwcXUg16b
- ynn9mhpMriWh5M1mMera7TLNI8Tz/bfEGmI7Nnfc4pUB1EQ+/IkPwEpNuOkTvc0u0yim
- yDwA==
-X-Gm-Message-State: AGi0PuYLl7skxF4kM0X2ED58QvZRosIOdlny9NVXdRbxSD2VQyHwBHxp
- mpoqagSqbAQRu/D47X3n2HUxm9OEBq1jpSq4xszTUd0=
-X-Google-Smtp-Source: APiQypLhNzb1KdGA9EAubGmS51y0FkSiJi7D3quWO9+BQc9AZxDElo9TfizT43gnfmJ+HgC6jrh3Erp7cvqpqM9UzIo=
-X-Received: by 2002:a54:4416:: with SMTP id k22mr1681070oiw.34.1586335264802; 
- Wed, 08 Apr 2020 01:41:04 -0700 (PDT)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=sHqR2C2kxuUQojnOegpnVpnZsXBDzDgx0iHXx8OBUys=;
+ b=RYqOBdlXsxPw3xAL+dU4uVLASovHBdwn0MSDyH4iRYwZ3y0QrulvU3nCcTve35Bhzx
+ zN451Jahw4AK/JXudoDmWCLK62WrcscJswbW80IRx/b/5VW+P526Uf80owDKosCVAlp0
+ 1osGfH+PcCbmGaiB0PfAfaREiHokzfn9tlNHbiwQS1L11Ax6MoeSP6ZCgfwzBqWPZ3ln
+ oy7OZwsBlAJuGpeBj/hMcBBGMOhpB8k6wWv2G0B58vMQN1PbEBJ5fLcbQcqcxM3WJuDS
+ C8ibiFy5K5iQX4c4Aysgh1of50vyHPDtPzoaobm081OtvStbk88ZnBzFG9vv2Q46h+Q3
+ kw0g==
+X-Gm-Message-State: AGi0PuZPa0V41AuHs178mOqh3fJ2jbH2v1l71MSTm64/Q1aZbPjmGGeU
+ HcjyzD4IpMqV97UPQzGMpIsvAEJVmhxOJhxff4LFFA==
+X-Google-Smtp-Source: APiQypLDAmF2P6A5YCpLFM2PBnROKXHaBtzTgdG+1WeYnzrJQ57PGXzD+r87BQuOOpT+tLulD2nVxdXC0mh6T+pWCAQ=
+X-Received: by 2002:a2e:9455:: with SMTP id o21mr3998409ljh.245.1586972304780; 
+ Wed, 15 Apr 2020 10:38:24 -0700 (PDT)
 MIME-Version: 1.0
-From: Johannes Pointner <h4nn35.work@gmail.com>
-Date: Wed, 8 Apr 2020 10:40:53 +0200
-Message-ID: <CAHvQdo2pDtKfKqxt1j5hQt1AKRhtTayQYf-9x3Txbq7=VYfGxA@mail.gmail.com>
-Subject: etnaviv: command buffer outside valid memory window
-To: Lucas Stach <l.stach@pengutronix.de>, etnaviv@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org
+References: <20200228103752.1944629-1-christian.gmeiner@gmail.com>
+ <4a5436201ff4345194f64aac1553f9656887203a.camel@pengutronix.de>
+In-Reply-To: <4a5436201ff4345194f64aac1553f9656887203a.camel@pengutronix.de>
+From: Naresh Kamboju <naresh.kamboju@linaro.org>
+Date: Wed, 15 Apr 2020 23:08:13 +0530
+Message-ID: <CA+G9fYvVC8TYk1u-B98MvABqQUuG6hEB6Y7AYd0Qnzs0=-pFUw@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/etnaviv: rework perfmon query infrastructure
+To: Lucas Stach <l.stach@pengutronix.de>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Sasha Levin <sashal@kernel.org>
+X-Mailman-Approved-At: Mon, 20 Apr 2020 15:08:50 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,52 +64,81 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
+Cc: David Airlie <airlied@linux.ie>, lkft-triage@lists.linaro.org,
+ open list <linux-kernel@vger.kernel.org>,
+ linux- stable <stable@vger.kernel.org>, etnaviv@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Dan Carpenter <dan.carpenter@oracle.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Hello,
+On Tue, 3 Mar 2020 at 17:19, Lucas Stach <l.stach@pengutronix.de> wrote:
+>
+> On Fr, 2020-02-28 at 11:37 +0100, Christian Gmeiner wrote:
+> > Report the correct perfmon domains and signals depending
+> > on the supported feature flags.
+> >
+> > Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+> > Fixes: 9e2c2e273012 ("drm/etnaviv: add infrastructure to query perf counter")
+> > Cc: stable@vger.kernel.org
+> > Signed-off-by: Christian Gmeiner <christian.gmeiner@gmail.com>
+>
+> Thanks, applied to etnaviv/next.
+>
+> Regards,
+> Lucas
+>
+> >
+> > ---
+> > Changes V1 -> V2:
+> >   - Handle domain == NULL case better to get rid of BUG_ON(..) usage.
+> > ---
+> >  drivers/gpu/drm/etnaviv/etnaviv_perfmon.c | 59 ++++++++++++++++++++---
+> >  1 file changed, 52 insertions(+), 7 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c b/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
+> > index 8adbf2861bff..e6795bafcbb9 100644
+> > --- a/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
+> > +++ b/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
+> > @@ -32,6 +32,7 @@ struct etnaviv_pm_domain {
+> >  };
+> >
+> >  struct etnaviv_pm_domain_meta {
+> > +     unsigned int feature;
+> >       const struct etnaviv_pm_domain *domains;
+> >       u32 nr_domains;
+> >  };
+> > @@ -410,36 +411,78 @@ static const struct etnaviv_pm_domain doms_vg[] = {
+> >
+> >  static const struct etnaviv_pm_domain_meta doms_meta[] = {
+> >       {
+> > +             .feature = chipFeatures_PIPE_3D,
 
-I'm trying to get etnaviv on an i.MX6Q (2 GB DDR RAM) device running
-with kernel 5.6.2 but it is failing to setup the GPU with the
-following error:
+make modules failed for arm architecture on stable rc 4.19 branch.
 
-[    0.000000] Memory policy: Data cache writealloc
-[    0.000000] cma: Reserved 256 MiB at 0x7f400000
-[    0.000000] On node 0 totalpages: 524288
-[    0.000000]   Normal zone: 4608 pages used for memmap
-[    0.000000]   Normal zone: 0 pages reserved
-[    0.000000]   Normal zone: 524288 pages, LIFO batch:63
-...
-[    0.000000] Memory: 1803240K/2097152K available (6144K kernel code,
-247K rwdata, 2284K rodata, 1024K init, 375K bss, 31768K reserved,
-262144K cma-reserved, 0K highmem)
-...
-[    0.529924] etnaviv etnaviv: bound 130000.gpu (ops gpu_ops)
-[    0.530153] etnaviv etnaviv: bound 134000.gpu (ops gpu_ops)
-[    0.530408] etnaviv etnaviv: bound 2204000.gpu (ops gpu_ops)
-[    0.530427] etnaviv-gpu 130000.gpu: model: GC2000, revision: 5108
-[    0.530748] etnaviv-gpu 134000.gpu: model: GC320, revision: 5007
-[    0.530833] etnaviv-gpu 2204000.gpu: model: GC355, revision: 1215
-[    0.530853] etnaviv-gpu 2204000.gpu: Ignoring GPU with VG and FE2.0
-...
-[    5.374046] etnaviv etnaviv: command buffer outside valid memory window
-[    5.389451] etnaviv etnaviv: command buffer outside valid memory window
-[    5.406062] etnaviv etnaviv: command buffer outside valid memory window
-[    5.421381] etnaviv etnaviv: command buffer outside valid memory window
+drivers/gpu/drm/etnaviv/etnaviv_perfmon.c:392:14: error:
+'chipFeatures_PIPE_3D' undeclared here (not in a function)
+   .feature = chipFeatures_PIPE_3D,
+              ^~~~~~~~~~~~~~~~~~~~
+drivers/gpu/drm/etnaviv/etnaviv_perfmon.c:397:14: error:
+'chipFeatures_PIPE_2D' undeclared here (not in a function); did you
+mean 'chipFeatures_PIPE_3D'?
+   .feature = chipFeatures_PIPE_2D,
+              ^~~~~~~~~~~~~~~~~~~~
+              chipFeatures_PIPE_3D
+drivers/gpu/drm/etnaviv/etnaviv_perfmon.c:402:14: error:
+'chipFeatures_PIPE_VG' undeclared here (not in a function); did you
+mean 'chipFeatures_PIPE_2D'?
+   .feature = chipFeatures_PIPE_VG,
+              ^~~~~~~~~~~~~~~~~~~~
+              chipFeatures_PIPE_2D
 
-I have a similar setup with a i.MX6DL (1GB DDR RAM) and this works w/o an error.
 
-I found this patch  https://lkml.org/lkml/2019/6/19/809 which
-describes a similar issue.
-
-Is there something I'm missing or I have misconfigured?
-
-Any hint would be highly appreciated.
-
-Thx,
-Hannes
+ref:
+https://ci.linaro.org/view/lkft/job/openembedded-lkft-linux-stable-rc-4.19/DISTRO=lkft,MACHINE=am57xx-evm,label=docker-lkft/511/consoleText
 _______________________________________________
 etnaviv mailing list
 etnaviv@lists.freedesktop.org
