@@ -2,39 +2,53 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2037E1B0F4E
-	for <lists+etnaviv@lfdr.de>; Mon, 20 Apr 2020 17:08:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D75DC1B0F5A
+	for <lists+etnaviv@lfdr.de>; Mon, 20 Apr 2020 17:10:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1A116E5B2;
-	Mon, 20 Apr 2020 15:08:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 58AAF6E5BB;
+	Mon, 20 Apr 2020 15:10:41 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-X-Greylist: delayed 546 seconds by postgrey-1.36 at gabe;
- Sat, 18 Apr 2020 10:10:33 UTC
-Received: from cmccmta3.chinamobile.com (cmccmta3.chinamobile.com
- [221.176.66.81])
- by gabe.freedesktop.org (Postfix) with ESMTP id 516266E250
- for <etnaviv@lists.freedesktop.org>; Sat, 18 Apr 2020 10:10:32 +0000 (UTC)
-Received: from spf.mail.chinamobile.com (unknown[172.16.121.1]) by
- rmmx-syy-dmz-app12-12012 (RichMail) with SMTP id 2eec5e9acfe6ca7-aceeb;
- Sat, 18 Apr 2020 18:01:13 +0800 (CST)
-X-RM-TRANSID: 2eec5e9acfe6ca7-aceeb
-X-RM-TagInfo: emlType=0                                       
-X-RM-SPAM-FLAG: 00000000
-Received: from localhost.localdomain (unknown[112.1.172.61])
- by rmsmtp-syy-appsvr01-12001 (RichMail) with SMTP id 2ee15e9acfe69d5-6ed96;
- Sat, 18 Apr 2020 18:01:12 +0800 (CST)
-X-RM-TRANSID: 2ee15e9acfe69d5-6ed96
-From: Tang Bin <tangbin@cmss.chinamobile.com>
-To: l.stach@pengutronix.de, linux+etnaviv@armlinux.org.uk,
- christian.gmeiner@gmail.com, airlied@linux.ie, daniel@ffwll.ch
-Subject: [PATCH] drm/etnaviv: Omit superfluous error message in
- etnaviv_gpu_platform_probe()
-Date: Sat, 18 Apr 2020 18:02:48 +0800
-Message-Id: <20200418100248.4552-1-tangbin@cmss.chinamobile.com>
-X-Mailer: git-send-email 2.20.1.windows.1
+Received: from mail-vs1-xe43.google.com (mail-vs1-xe43.google.com
+ [IPv6:2607:f8b0:4864:20::e43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C83276E5B6;
+ Mon, 20 Apr 2020 15:10:39 +0000 (UTC)
+Received: by mail-vs1-xe43.google.com with SMTP id b5so6226470vsb.1;
+ Mon, 20 Apr 2020 08:10:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=dNzKdVNw/y2yDQaVrRieyT4KFZArRiYw0+stJCrhWMM=;
+ b=JNPvc9kLgjs5c9Uy8hyHPgxiH8+0negQy6zmpAHp2KR6Ir9JpMb7vP75WjtW3y0ml3
+ duKpnVNLX7bu1KKmfoNSSZTd2XfqLNgfybcp7NcogR/KjElgrEgPekEydh+OYoHy7WX1
+ 5Q35lOKzjXK6z+M81TfHZLXOyDX4SrnLSb7JlKtPgsA8BYznUlwbOMver8L5++NGeUty
+ CyPJtO3+WaFWoxFV0kx1ALlDuCBjDedXYhzrQnL6PClY6VeGZOrfR4hOo01pSmF7BAI+
+ To9EM+eupvrq1bDopsdFZXw5gapsU0Uu45aXg1/+jrS7mbxs7w5xBq8kQIfLGZkcn/9B
+ s+Xg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=dNzKdVNw/y2yDQaVrRieyT4KFZArRiYw0+stJCrhWMM=;
+ b=NA5QNHnJLN1d1peGKVCSJfp/FoXdSTk5R6l5wYFCMYc3+hbr9kNxaHAmGp0T97tbPs
+ FAzEfMEV2e9wuzORNF5mdBbMiHZmfCAkhsTsXz8uXnqO2cbKP83vmcPg84t8+1bQL3jy
+ D53sgTm54dWcJ0CTrquk11YXgk5w975y9J3xdEsNU1hlMoXTYYF8yhOLHYlVazYD2hQv
+ XjtRi0EUnJbyd7t5vsg0+6zQl5S8hFp7ZEBPziVmHULon7K7vsIu2yoFpPFG0ENHyyUS
+ hdph2OSRMGjum/w9o9bcjtm+cmZVUFIdM0q+wLoXasP96/XWYlBz14RTLD71yTG/LhEj
+ q1eA==
+X-Gm-Message-State: AGi0PuZsQfDlr15tPfYYW7RTqlsly/o5knKR/mzKPgoeEKh/p41tVMeg
+ 4NNIGK61gkEiBqWV/+GG9oE1NeBJ4KvhAX8584w=
+X-Google-Smtp-Source: APiQypL2QQKbpGTWOQ+R3+RLwT9Wlq4zMNhd6n1JfD0GCVkNSx+1rXyQG12GB7grmz3Zt9kxXQTBLbme8f5g5qTDxc0=
+X-Received: by 2002:a67:7d83:: with SMTP id y125mr10557611vsc.96.1587395438822; 
+ Mon, 20 Apr 2020 08:10:38 -0700 (PDT)
 MIME-Version: 1.0
-X-Mailman-Approved-At: Mon, 20 Apr 2020 15:08:50 +0000
+References: <20200418100248.4552-1-tangbin@cmss.chinamobile.com>
+In-Reply-To: <20200418100248.4552-1-tangbin@cmss.chinamobile.com>
+From: Christian Gmeiner <christian.gmeiner@gmail.com>
+Date: Mon, 20 Apr 2020 17:10:27 +0200
+Message-ID: <CAH9NwWck5KwOGNcYWOAsfKa5CQjJHqMr2j8FW9SmWUYiyu1ebA@mail.gmail.com>
+Subject: Re: [PATCH] drm/etnaviv: Omit superfluous error message in
+ etnaviv_gpu_platform_probe()
+To: Tang Bin <tangbin@cmss.chinamobile.com>
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,43 +60,61 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tang Bin <tangbin@cmss.chinamobile.com>, etnaviv@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: David Airlie <airlied@linux.ie>,
+ The etnaviv authors <etnaviv@lists.freedesktop.org>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Lucas Stach <l.stach@pengutronix.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-In the function etnaviv_gpu_platform_probe(), when get irq failed,
-the function platform_get_irq() logs an error message, so remove
-redundant message here.
+Am Sa., 18. Apr. 2020 um 12:01 Uhr schrieb Tang Bin
+<tangbin@cmss.chinamobile.com>:
+>
+> In the function etnaviv_gpu_platform_probe(), when get irq failed,
+> the function platform_get_irq() logs an error message, so remove
+> redundant message here.
+>
+> Signed-off-by: Tang Bin <tangbin@cmss.chinamobile.com>
 
-Signed-off-by: Tang Bin <tangbin@cmss.chinamobile.com>
----
- drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+Reviewed-by: Christian Gmeiner <christian.gmeiner@gmail.com>
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-index a31eeff2b..6dbe0c45b 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-@@ -1770,10 +1770,8 @@ static int etnaviv_gpu_platform_probe(struct platform_device *pdev)
- 
- 	/* Get Interrupt: */
- 	gpu->irq = platform_get_irq(pdev, 0);
--	if (gpu->irq < 0) {
--		dev_err(dev, "failed to get irq: %d\n", gpu->irq);
-+	if (gpu->irq < 0)
- 		return gpu->irq;
--	}
- 
- 	err = devm_request_irq(&pdev->dev, gpu->irq, irq_handler, 0,
- 			       dev_name(gpu->dev), gpu);
+> ---
+>  drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> index a31eeff2b..6dbe0c45b 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> @@ -1770,10 +1770,8 @@ static int etnaviv_gpu_platform_probe(struct platform_device *pdev)
+>
+>         /* Get Interrupt: */
+>         gpu->irq = platform_get_irq(pdev, 0);
+> -       if (gpu->irq < 0) {
+> -               dev_err(dev, "failed to get irq: %d\n", gpu->irq);
+> +       if (gpu->irq < 0)
+>                 return gpu->irq;
+> -       }
+>
+>         err = devm_request_irq(&pdev->dev, gpu->irq, irq_handler, 0,
+>                                dev_name(gpu->dev), gpu);
+> --
+> 2.20.1.windows.1
+>
+>
+>
+
+
 -- 
-2.20.1.windows.1
+greets
+--
+Christian Gmeiner, MSc
 
-
-
+https://christian-gmeiner.info/privacypolicy
 _______________________________________________
 etnaviv mailing list
 etnaviv@lists.freedesktop.org
