@@ -2,70 +2,56 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C10B01C01F1
-	for <lists+etnaviv@lfdr.de>; Thu, 30 Apr 2020 18:16:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C8961C01F3
+	for <lists+etnaviv@lfdr.de>; Thu, 30 Apr 2020 18:16:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 696D36E934;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 800356E936;
 	Thu, 30 Apr 2020 16:16:43 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from skedge04.snt-world.com (skedge04.snt-world.com [91.208.41.69])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E2276E1F8;
- Thu, 30 Apr 2020 15:35:49 +0000 (UTC)
-Received: from sntmail14r.snt-is.com (unknown [10.203.32.184])
- by skedge04.snt-world.com (Postfix) with ESMTP id 29A1567A7D8;
- Thu, 30 Apr 2020 17:35:47 +0200 (CEST)
-Received: from sntmail12r.snt-is.com (10.203.32.182) by sntmail14r.snt-is.com
- (10.203.32.184) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1913.5; Thu, 30 Apr
- 2020 17:35:46 +0200
-Received: from sntmail12r.snt-is.com ([fe80::e551:8750:7bba:3305]) by
- sntmail12r.snt-is.com ([fe80::e551:8750:7bba:3305%3]) with mapi id
- 15.01.1913.007; Thu, 30 Apr 2020 17:35:46 +0200
-From: Schrempf Frieder <frieder.schrempf@kontron.de>
-To: Lucas Stach <l.stach@pengutronix.de>, Adam Ford <aford173@gmail.com>,
- Anson Huang <Anson.Huang@nxp.com>, Christian Gmeiner
- <christian.gmeiner@gmail.com>, Daniel Baluta <daniel.baluta@nxp.com>, "Fabio
- Estevam" <festevam@gmail.com>, Leonard Crestez <leonard.crestez@nxp.com>, "Li
- Jun" <jun.li@nxp.com>, NXP Linux Team <linux-imx@nxp.com>, Peng Fan
- <peng.fan@nxp.com>, Pengutronix Kernel Team <kernel@pengutronix.de>, "Russell
- King" <linux+etnaviv@armlinux.org.uk>, Sascha Hauer <s.hauer@pengutronix.de>, 
- Shawn Guo <shawnguo@kernel.org>, "S.j. Wang" <shengjiu.wang@nxp.com>
-Subject: Re: [RFC PATCH 3/4] drm/etnaviv: Change order of enabling clocks to
- fix boot on i.MX8MM
-Thread-Topic: [RFC PATCH 3/4] drm/etnaviv: Change order of enabling clocks to
- fix boot on i.MX8MM
-Thread-Index: AQHWHu1V9EwL5xxa+UiJnz7nneFudaiRmbMAgAAQ8oA=
-Date: Thu, 30 Apr 2020 15:35:46 +0000
-Message-ID: <72e8618b-856e-de42-9282-958cd03b239f@kontron.de>
-References: <20200430124602.14463-1-frieder.schrempf@kontron.de>
- <20200430124602.14463-4-frieder.schrempf@kontron.de>
- <3895f202cf5919e41a56878a62f6d5259dea12d3.camel@pengutronix.de>
-In-Reply-To: <3895f202cf5919e41a56878a62f6d5259dea12d3.camel@pengutronix.de>
-Accept-Language: de-DE, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.25.9.193]
-x-c2processedorg: 51b406b7-48a2-4d03-b652-521f56ac89f3
-Content-ID: <9F9D967AC7E63B45A2B9F9A531BF74C8@snt-world.com>
+Received: from mail-io1-xd44.google.com (mail-io1-xd44.google.com
+ [IPv6:2607:f8b0:4864:20::d44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B20F6E935;
+ Thu, 30 Apr 2020 16:14:17 +0000 (UTC)
+Received: by mail-io1-xd44.google.com with SMTP id w4so2066052ioc.6;
+ Thu, 30 Apr 2020 09:14:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=9tMKgUNiVkUhpbJNhAr0hm95irgxD28lhjeV8PkyOXw=;
+ b=lJBIxD+U8h9JNWqczpIHYOA2edcOylANhJNLxX7tesOutIKTPAgFimaA71Q4BN3lFt
+ CGdE71ndDyan0ElbnjdpXRfFAeM3FaoZUuZy4QwOiG6H2+Ms9wxfrmq86ne2Ncxduo2s
+ o3oH8+ZOcyM+mE6+HP4hWSsipRphFTDlHJjDks7AcSYXE7geDz7xu6toAZaAdZAWGs7u
+ doCtqwvkh1wxfWlI/hclqWa5WNI/PUHzg9W1oPax2zCgrBJN8THiWO9T/BRkfG7p5sQ6
+ 6byMtoOITdG3H87AkEiMJfkj6f+yvBrPZTtUnw30mdJTdGYwy75RtSWnREdZmACd4nAs
+ pzPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=9tMKgUNiVkUhpbJNhAr0hm95irgxD28lhjeV8PkyOXw=;
+ b=bx0xbBUDlt3qErDrxnysfNwdZE+Nq7/r8Qtmskgm00JmBzeKCKkL/op5aE6mlGPB8D
+ /vTZOZ3B2nvQHF8se+i/sIzqMa+qq+KDyWAyGDSsqUFm+oEtCxTNP+Tpj1abohta1lWp
+ bSm4sTIzXewQ4M8wXNwBexifQdTDG2vDLCRGqepVsg/qIL3TbjsE2apAvdO8lfH5i+uD
+ 1qUXI9ozj4NHw2g9CKEK0RxCvCNIsd9o7WF2ApWdBzTv1gmsVoKKxME6IKSQMC5C1IVJ
+ fJhHHbsWEWX5gxlwG7rnu86VMOJyRsnQyj9stkPBB4v6UYGHwVn5vRs65vB05v3i5ner
+ DF/Q==
+X-Gm-Message-State: AGi0PuYRhkOcYwAHOjgH3x8v6ztVIZw5bqJ2OAIGgAjBXRvLCUGQtuU1
+ KchBQr67TooBDAPGbq4GiRJIoNNrtbzpLbUiHGo=
+X-Google-Smtp-Source: APiQypJNNe1JlSiWqNAvYCGbEyLo6QHM5ubwp0R2i0yMPOBM1qvYMgIWqO2AKVPK+ePUbVGYtX9sAhF9NavoFEScekM=
+X-Received: by 2002:a6b:5904:: with SMTP id n4mr2693593iob.142.1588263256671; 
+ Thu, 30 Apr 2020 09:14:16 -0700 (PDT)
 MIME-Version: 1.0
-X-SnT-MailScanner-Information: Please contact the ISP for more information
-X-SnT-MailScanner-ID: 29A1567A7D8.A090B
-X-SnT-MailScanner: Not scanned: please contact your Internet E-Mail Service
- Provider for details
-X-SnT-MailScanner-SpamCheck: 
-X-SnT-MailScanner-From: frieder.schrempf@kontron.de
-X-SnT-MailScanner-To: aford173@gmail.com, anson.huang@nxp.com,
- christian.gmeiner@gmail.com, daniel.baluta@nxp.com,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- etnaviv@lists.freedesktop.org, festevam@gmail.com, jun.li@nxp.com,
- kernel@pengutronix.de, l.stach@pengutronix.de,
- leonard.crestez@nxp.com, linux+etnaviv@armlinux.org.uk,
- linux-arm-kernel@lists.infradead.org, linux-imx@nxp.com,
- linux-kernel@vger.kernel.org, peng.fan@nxp.com,
- s.hauer@pengutronix.de, shawnguo@kernel.org, shengjiu.wang@nxp.com
-X-Spam-Status: No
+References: <20200430124602.14463-1-frieder.schrempf@kontron.de>
+ <20200430124602.14463-2-frieder.schrempf@kontron.de>
+ <5e1f804c4c27927d10b2283747c1cae6606abe7c.camel@pengutronix.de>
+ <6a5fbb8a-bf28-9c8e-53c7-7a3e5f338a2c@kontron.de>
+In-Reply-To: <6a5fbb8a-bf28-9c8e-53c7-7a3e5f338a2c@kontron.de>
+From: Adam Ford <aford173@gmail.com>
+Date: Thu, 30 Apr 2020 11:14:02 -0500
+Message-ID: <CAHCN7x+sA9cGF6oqvZLKBdhRdZcxgW=U98uB81_R3iq_-Ok9=w@mail.gmail.com>
+Subject: Re: [RFC PATCH 1/4] drm/etnaviv: Prevent IRQ triggering at probe time
+ on i.MX8MM
+To: Schrempf Frieder <frieder.schrempf@kontron.de>
 X-Mailman-Approved-At: Thu, 30 Apr 2020 16:16:42 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -78,138 +64,141 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ Peng Fan <peng.fan@nxp.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Anson Huang <Anson.Huang@nxp.com>, Daniel Baluta <daniel.baluta@nxp.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
  "etnaviv@lists.freedesktop.org" <etnaviv@lists.freedesktop.org>,
  "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+ Li Jun <jun.li@nxp.com>, Christian Gmeiner <christian.gmeiner@gmail.com>,
+ NXP Linux Team <linux-imx@nxp.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>, Shawn Guo <shawnguo@kernel.org>,
+ Leonard Crestez <leonard.crestez@nxp.com>, Fabio Estevam <festevam@gmail.com>,
+ "S.j. Wang" <shengjiu.wang@nxp.com>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ Lucas Stach <l.stach@pengutronix.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-On 30.04.20 16:35, Lucas Stach wrote:
-> Am Donnerstag, den 30.04.2020, 12:46 +0000 schrieb Schrempf Frieder:
->> From: Frieder Schrempf <frieder.schrempf@kontron.de>
->>
->> On some i.MX8MM devices the boot hangs when enabling the GPU clocks.
->> Changing the order of clock initalization to
->>
->> core -> shader -> bus -> reg
->>
->> fixes the issue. This is the same order used in the imx platform code
->> of the downstream GPU driver in the NXP kernel [1]. For the sake of
->> consistency we also adjust the order of disabling the clocks to the
->> reverse.
->>
->> [1] https://eur04.safelinks.protection.outlook.com/?url=https%3A%2F%2Fsource.codeaurora.org%2Fexternal%2Fimx%2Flinux-imx%2Ftree%2Fdrivers%2Fmxc%2Fgpu-viv%2Fhal%2Fos%2Flinux%2Fkernel%2Fplatform%2Ffreescale%2Fgc_hal_kernel_platform_imx.c%3Fh%3Dimx_5.4.3_2.0.0%23n1538&amp;data=02%7C01%7Cfrieder.schrempf%40kontron.de%7Cdae15f14ed4a4999065508d7ed13ae87%7C8c9d3c973fd941c8a2b1646f3942daf1%7C0%7C0%7C637238541095594019&amp;sdata=%2BImteXNH%2FqJDionnJVHtjVnXJk%2BG%2BVlgvBdRGfnlQro%3D&amp;reserved=0
-> 
-> I don't see why the order of the clocks is important. Is this really a
-> GPU issue? As in: does a GPU access hang when enabling the clocks in
-> the wrong order? Or is this a clock driver issue with a clock access
-> hanging due to an upstream clock still being disabled?
+On Thu, Apr 30, 2020 at 10:31 AM Schrempf Frieder
+<frieder.schrempf@kontron.de> wrote:
+>
+> Hi Lucas,
+>
+> On 30.04.20 16:32, Lucas Stach wrote:
+> > Hi Frieder,
+> >
+> > Am Donnerstag, den 30.04.2020, 12:46 +0000 schrieb Schrempf Frieder:
+> >> From: Frieder Schrempf <frieder.schrempf@kontron.de>
+> >>
+> >> On i.MX8MM there is an interrupt getting triggered immediately after
+> >> requesting the IRQ, which leads to a stall as the handler accesses
+> >> the GPU registers whithout the clock being enabled.
+> >>
+> >> Enabling the clocks briefly seems to clear the IRQ state, so we do
+> >> this before requesting the IRQ.
+> >
+> > This is most likely caused by improper power-up sequencing. Normally
+> > the GPC will trigger a hardware reset of the modules inside a power
+> > domain when the domain is powered on. This requires the clocks to be
+> > running at this point, as those resets are synchronous, so need clock
+> > pulses to propagate through the hardware.
+>
+> Ok, I was suspecting something like that and your explanation makes
+> total sense to me.
+>
+> >
+> >  From what I see the i.MX8MM is still missing the power domain
+> > controller integration, but I'm pretty confident that this problem
+> > should be solved in the power domain code, instead of the GPU driver.
+>
+> Ok. I was hoping that GPU support could be added without power domain
+> control, but I now see that this is probably not reasonable at all.
+> So I will keep on hoping that NXP comes up with an upstreamable solution
+> for the power domain handling.
 
-Actually you might be right with this being a clock driver issue. The 
-hanging happens while enabling the clocks (unrelated to any GPU register 
-access). The strange thing is that most of the devices we have don't 
-care and work as is and some devices reliably fail each time when 
-enabling the clocks in the "wrong" order.
 
-So I guess this could indeed be some clock being enabled with an 
-upstream PLL not having locked yet or something.
+There was a patch for upstream power-domain control from NXP a few days ago:
 
-> 
-> Regards,
-> Lucas
-> 
->> Signed-off-by: Frieder Schrempf <frieder.schrempf@kontron.de>
->> ---
->>   drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 42 +++++++++++++--------------
->>   1 file changed, 21 insertions(+), 21 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
->> index 7b138d4dd068..424b2e5951f0 100644
->> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
->> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
->> @@ -1487,55 +1487,55 @@ static int etnaviv_gpu_clk_enable(struct etnaviv_gpu *gpu)
->>   {
->>   	int ret;
->>   
->> -	if (gpu->clk_reg) {
->> -		ret = clk_prepare_enable(gpu->clk_reg);
->> +	if (gpu->clk_core) {
->> +		ret = clk_prepare_enable(gpu->clk_core);
->>   		if (ret)
->>   			return ret;
->>   	}
->>   
->> -	if (gpu->clk_bus) {
->> -		ret = clk_prepare_enable(gpu->clk_bus);
->> +	if (gpu->clk_shader) {
->> +		ret = clk_prepare_enable(gpu->clk_shader);
->>   		if (ret)
->> -			goto disable_clk_reg;
->> +			goto disable_clk_core;
->>   	}
->>   
->> -	if (gpu->clk_core) {
->> -		ret = clk_prepare_enable(gpu->clk_core);
->> +	if (gpu->clk_bus) {
->> +		ret = clk_prepare_enable(gpu->clk_bus);
->>   		if (ret)
->> -			goto disable_clk_bus;
->> +			goto disable_clk_shader;
->>   	}
->>   
->> -	if (gpu->clk_shader) {
->> -		ret = clk_prepare_enable(gpu->clk_shader);
->> +	if (gpu->clk_reg) {
->> +		ret = clk_prepare_enable(gpu->clk_reg);
->>   		if (ret)
->> -			goto disable_clk_core;
->> +			goto disable_clk_bus;
->>   	}
->>   
->>   	return 0;
->>   
->> -disable_clk_core:
->> -	if (gpu->clk_core)
->> -		clk_disable_unprepare(gpu->clk_core);
->>   disable_clk_bus:
->>   	if (gpu->clk_bus)
->>   		clk_disable_unprepare(gpu->clk_bus);
->> -disable_clk_reg:
->> -	if (gpu->clk_reg)
->> -		clk_disable_unprepare(gpu->clk_reg);
->> +disable_clk_shader:
->> +	if (gpu->clk_shader)
->> +		clk_disable_unprepare(gpu->clk_shader);
->> +disable_clk_core:
->> +	if (gpu->clk_core)
->> +		clk_disable_unprepare(gpu->clk_core);
->>   
->>   	return ret;
->>   }
->>   
->>   static int etnaviv_gpu_clk_disable(struct etnaviv_gpu *gpu)
->>   {
->> +	if (gpu->clk_reg)
->> +		clk_disable_unprepare(gpu->clk_reg);
->> +	if (gpu->clk_bus)
->> +		clk_disable_unprepare(gpu->clk_bus);
->>   	if (gpu->clk_shader)
->>   		clk_disable_unprepare(gpu->clk_shader);
->>   	if (gpu->clk_core)
->>   		clk_disable_unprepare(gpu->clk_core);
->> -	if (gpu->clk_bus)
->> -		clk_disable_unprepare(gpu->clk_bus);
->> -	if (gpu->clk_reg)
->> -		clk_disable_unprepare(gpu->clk_reg);
->>   
->>   	return 0;
->>   }
-> 
+https://patchwork.kernel.org/cover/10904511/
+
+Can these be somehow tested to see if it helps the issue with the GPU?
+
+adam
+>
+> Thanks,
+> Frieder
+>
+> >
+> > Regards,
+> > Lucas
+> >
+> >> Signed-off-by: Frieder Schrempf <frieder.schrempf@kontron.de>
+> >> ---
+> >>   drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 29 ++++++++++++++++++++-----
+> >> --
+> >>   1 file changed, 22 insertions(+), 7 deletions(-)
+> >>
+> >> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> >> b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> >> index a31eeff2b297..23877c1f150a 100644
+> >> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> >> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> >> @@ -1775,13 +1775,6 @@ static int etnaviv_gpu_platform_probe(struct
+> >> platform_device *pdev)
+> >>              return gpu->irq;
+> >>      }
+> >>
+> >> -    err = devm_request_irq(&pdev->dev, gpu->irq, irq_handler, 0,
+> >> -                           dev_name(gpu->dev), gpu);
+> >> -    if (err) {
+> >> -            dev_err(dev, "failed to request IRQ%u: %d\n", gpu->irq,
+> >> err);
+> >> -            return err;
+> >> -    }
+> >> -
+> >>      /* Get Clocks: */
+> >>      gpu->clk_reg = devm_clk_get(&pdev->dev, "reg");
+> >>      DBG("clk_reg: %p", gpu->clk_reg);
+> >> @@ -1805,6 +1798,28 @@ static int etnaviv_gpu_platform_probe(struct
+> >> platform_device *pdev)
+> >>              gpu->clk_shader = NULL;
+> >>      gpu->base_rate_shader = clk_get_rate(gpu->clk_shader);
+> >>
+> >> +    /*
+> >> +     * On i.MX8MM there is an interrupt getting triggered
+> >> immediately
+> >> +     * after requesting the IRQ, which leads to a stall as the
+> >> handler
+> >> +     * accesses the GPU registers whithout the clock being enabled.
+> >> +     * Enabling the clocks briefly seems to clear the IRQ state, so
+> >> we do
+> >> +     * this here before requesting the IRQ.
+> >> +     */
+> >> +    err = etnaviv_gpu_clk_enable(gpu);
+> >> +    if (err)
+> >> +            return err;
+> >> +
+> >> +    err = etnaviv_gpu_clk_disable(gpu);
+> >> +    if (err)
+> >> +            return err;
+> >> +
+> >> +    err = devm_request_irq(&pdev->dev, gpu->irq, irq_handler, 0,
+> >> +                           dev_name(gpu->dev), gpu);
+> >> +    if (err) {
+> >> +            dev_err(dev, "failed to request IRQ%u: %d\n", gpu->irq,
+> >> err);
+> >> +            return err;
+> >> +    }
+> >> +
+> >>      /* TODO: figure out max mapped size */
+> >>      dev_set_drvdata(dev, gpu);
+> >>
+> >
 _______________________________________________
 etnaviv mailing list
 etnaviv@lists.freedesktop.org
