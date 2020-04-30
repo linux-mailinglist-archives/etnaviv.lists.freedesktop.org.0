@@ -1,71 +1,101 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA2B81BFE0B
-	for <lists+etnaviv@lfdr.de>; Thu, 30 Apr 2020 16:25:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A033B1BFE0F
+	for <lists+etnaviv@lfdr.de>; Thu, 30 Apr 2020 16:25:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 884C56E915;
-	Thu, 30 Apr 2020 14:25:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 491386E91B;
+	Thu, 30 Apr 2020 14:25:54 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from skedge03.snt-world.com (skedge03.snt-world.com [91.208.41.68])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D538F6E837;
- Thu, 30 Apr 2020 12:52:05 +0000 (UTC)
-Received: from sntmail11s.snt-is.com (unknown [10.203.32.181])
- by skedge03.snt-world.com (Postfix) with ESMTP id C054A67A902;
- Thu, 30 Apr 2020 14:46:17 +0200 (CEST)
-Received: from sntmail12r.snt-is.com (10.203.32.182) by sntmail11s.snt-is.com
- (10.203.32.181) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1913.5; Thu, 30 Apr
- 2020 14:46:17 +0200
-Received: from sntmail12r.snt-is.com ([fe80::e551:8750:7bba:3305]) by
- sntmail12r.snt-is.com ([fe80::e551:8750:7bba:3305%3]) with mapi id
- 15.01.1913.007; Thu, 30 Apr 2020 14:46:17 +0200
-From: Schrempf Frieder <frieder.schrempf@kontron.de>
-To: Adam Ford <aford173@gmail.com>, Anson Huang <Anson.Huang@nxp.com>,
- Christian Gmeiner <christian.gmeiner@gmail.com>, Daniel Baluta
- <daniel.baluta@nxp.com>, Fabio Estevam <festevam@gmail.com>, Schrempf Frieder
- <frieder.schrempf@kontron.de>, Leonard Crestez <leonard.crestez@nxp.com>, "Li
- Jun" <jun.li@nxp.com>, Lucas Stach <l.stach@pengutronix.de>, NXP Linux Team
- <linux-imx@nxp.com>, Peng Fan <peng.fan@nxp.com>, Pengutronix Kernel Team
+Received: from EUR03-VE1-obe.outbound.protection.outlook.com
+ (mail-eopbgr50070.outbound.protection.outlook.com [40.107.5.70])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E3A56E912;
+ Thu, 30 Apr 2020 14:23:53 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=iZi3X8oE5ztZI3lSJ39AcGlTfG9ZF93w1m393Adp3yGQDJVvtKMa9n+Y6bjavvWI0iPFhareXY5Qv8xYA+9leSgDNLjFWVF7SHtqJqVw1rVYRNiZfAMn9NM3qyU7AXENp0U7P0qjwQiKIU2Akd+IBWg401AjoD3xokPDvze2eAWcKjkpt548qE83KXzQp16Hm8h6qy17/6U5h15LULTgOhr19EpschHfxrhf/7yxjI043bXr1b4Gp87Sgwgg8KkE/M8GqHnu4wrFOQOqo/lLkYVKdLL+v7PR4d+sTogBl10HZSnGAU48iji64X+VxoxODe/4lRwQD/ABLXR/RSGk8w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=OgwA8dy0B0OjevUiIbvjBH0k35sbLfhD4qGkgFpt5ak=;
+ b=GZZsiDtd84zVU3DzxnZvkCYM1AYdA+zNm6jpM6i6CHOQNz63cpHBNGOTL9fOlKLlw5JARnsOhZ2s6KJYwXuK5yHTG1vOKfHX4tNON42zLTvUsRQIlGAL0ilCdSoIhVCKvtiWhs1IGeR/et/w+3IMUxJNqlRR9oVRDqc7ztBxYVn8yC6CVSlElSDic6D5NkL+a+Y0yIeco9j+qhB4UJNrFMNeK9C2TQxk43dN2xjHjmhQNVHGLV+PFdy+iFyrtfCoBN/c0u/4Kcwi8tLqoSHWhOXc/k6DtOzgu2TT2zCSyBvIzP19nPEYumdqjDpybKtpI8P6fLCAOn6m17AuyCMi8g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=OgwA8dy0B0OjevUiIbvjBH0k35sbLfhD4qGkgFpt5ak=;
+ b=mqwhmqLBlsMTZsFF1nKTWRPD7mjgHGDMBrZpQzwsgJMjvAm3fGNCfYW2M6CKgOG6g/9Q2N+9d3rdP8UolM9AC/Iu7n8mViydXLciSn5y0vs1mhCIjMMs5xRxYWunZD9ehsZKuNeQ5AieI0NE5DcV+3TCAefT5j/gS4zHbOYlqNE=
+Authentication-Results: vger.kernel.org; dkim=none (message not signed)
+ header.d=none;vger.kernel.org; dmarc=none action=none header.from=nxp.com;
+Received: from VI1PR0401MB2287.eurprd04.prod.outlook.com
+ (2603:10a6:800:2e::19) by VI1PR0401MB2464.eurprd04.prod.outlook.com
+ (2603:10a6:800:56::20) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2937.22; Thu, 30 Apr
+ 2020 14:23:50 +0000
+Received: from VI1PR0401MB2287.eurprd04.prod.outlook.com
+ ([fe80::9858:e485:aaa6:ecc8]) by VI1PR0401MB2287.eurprd04.prod.outlook.com
+ ([fe80::9858:e485:aaa6:ecc8%3]) with mapi id 15.20.2958.020; Thu, 30 Apr 2020
+ 14:23:49 +0000
+Subject: Re: [RFC PATCH 1/4] drm/etnaviv: Prevent IRQ triggering at probe time
+ on i.MX8MM
+To: Schrempf Frieder <frieder.schrempf@kontron.de>,
+ Adam Ford <aford173@gmail.com>, Anson Huang <Anson.Huang@nxp.com>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Fabio Estevam <festevam@gmail.com>, Leonard Crestez
+ <leonard.crestez@nxp.com>, Li Jun <jun.li@nxp.com>,
+ Lucas Stach <l.stach@pengutronix.de>, NXP Linux Team <linux-imx@nxp.com>,
+ Peng Fan <peng.fan@nxp.com>, Pengutronix Kernel Team
  <kernel@pengutronix.de>, Russell King <linux+etnaviv@armlinux.org.uk>,
- "Sascha Hauer" <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
  "S.j. Wang" <shengjiu.wang@nxp.com>
-Subject: [RFC PATCH 4/4] arm64: dts: imx8mm: Add GPU nodes for 2D and 3D core
- using Etnaviv
-Thread-Topic: [RFC PATCH 4/4] arm64: dts: imx8mm: Add GPU nodes for 2D and 3D
- core using Etnaviv
-Thread-Index: AQHWHu1XU8cnqZiR7kmt3VxL/7fb7Q==
-Date: Thu, 30 Apr 2020 12:46:17 +0000
-Message-ID: <20200430124602.14463-5-frieder.schrempf@kontron.de>
 References: <20200430124602.14463-1-frieder.schrempf@kontron.de>
-In-Reply-To: <20200430124602.14463-1-frieder.schrempf@kontron.de>
-Accept-Language: de-DE, en-US
+ <20200430124602.14463-2-frieder.schrempf@kontron.de>
+From: Daniel Baluta <daniel.baluta@nxp.com>
+Message-ID: <5c4c994b-8868-f68c-cd0d-7f7a2530f697@nxp.com>
+Date: Thu, 30 Apr 2020 17:23:46 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
+In-Reply-To: <20200430124602.14463-2-frieder.schrempf@kontron.de>
 Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: git-send-email 2.17.1
-x-originating-ip: [172.25.9.193]
-x-c2processedorg: 51b406b7-48a2-4d03-b652-521f56ac89f3
+X-ClientProxiedBy: AM5PR0202CA0018.eurprd02.prod.outlook.com
+ (2603:10a6:203:69::28) To VI1PR0401MB2287.eurprd04.prod.outlook.com
+ (2603:10a6:800:2e::19)
 MIME-Version: 1.0
-X-SnT-MailScanner-Information: Please contact the ISP for more information
-X-SnT-MailScanner-ID: C054A67A902.A0242
-X-SnT-MailScanner: Not scanned: please contact your Internet E-Mail Service
- Provider for details
-X-SnT-MailScanner-SpamCheck: 
-X-SnT-MailScanner-From: frieder.schrempf@kontron.de
-X-SnT-MailScanner-To: aford173@gmail.com, anson.huang@nxp.com,
- christian.gmeiner@gmail.com, daniel.baluta@nxp.com,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- etnaviv@lists.freedesktop.org, festevam@gmail.com, jun.li@nxp.com,
- kernel@pengutronix.de, l.stach@pengutronix.de,
- leonard.crestez@nxp.com, linux+etnaviv@armlinux.org.uk,
- linux-arm-kernel@lists.infradead.org, linux-imx@nxp.com,
- linux-kernel@vger.kernel.org, peng.fan@nxp.com,
- s.hauer@pengutronix.de, shawnguo@kernel.org, shengjiu.wang@nxp.com
-X-Spam-Status: No
-X-Mailman-Approved-At: Thu, 30 Apr 2020 14:25:42 +0000
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.0.100] (188.25.27.134) by
+ AM5PR0202CA0018.eurprd02.prod.outlook.com (2603:10a6:203:69::28) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2958.20 via Frontend
+ Transport; Thu, 30 Apr 2020 14:23:47 +0000
+X-Originating-IP: [188.25.27.134]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 8eb5b4ce-0207-4f8f-54d6-08d7ed1219b1
+X-MS-TrafficTypeDiagnostic: VI1PR0401MB2464:|VI1PR0401MB2464:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <VI1PR0401MB246487BFC48985FA3C0D099FF9AA0@VI1PR0401MB2464.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2958;
+X-Forefront-PRVS: 0389EDA07F
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:VI1PR0401MB2287.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(396003)(136003)(39860400002)(346002)(366004)(376002)(8676002)(44832011)(2616005)(31686004)(956004)(186003)(16526019)(66946007)(8936002)(478600001)(26005)(2906002)(31696002)(86362001)(66556008)(66476007)(5660300002)(4744005)(36756003)(316002)(54906003)(4326008)(16576012)(110136005)(53546011)(6636002)(6486002)(52116002)(7416002)(921003);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 0IGT4uou9PK0QOiAw2oz/QgmCAU2fAxJtN4K0MV3nPTCB4thUoaxjd+9/nWT7jkdFMdBZzQaKcOLvvgEiTl/OrNcKgqfCdltR8OZsC1LfNGeXcBusj4T+yQbx8bJW/FjfMegB6IwSFgjkKH6nQTIW/clKhkWBnDXN3DurNSGj/3aMkk1oUCQMFWLQcCoQWu39vX07zf1I7SF/BCo1heCUwPN3p5z59PchWWgG7uxdiPI138G1J7KnNw1yfRr7I+dzQGE/Hn/qp1dgMa0d9IOXANIx5wS6Uas+7YglCHrIZnMHZ0chBpGJRKgNX48uqpHVOXUcafjJP30d35gKEaARU9AWx1/K7VBlRWRN0I6eDyk/2qaq0YCevc9IljV8lVi4nckLVf43r86hRya7N6Nhwoa86jyAeGXed+cPvqmYP3kQB/2KAKuEJHWvohvE0A2HhrIaBymWitPDNO9wRKp0MtuMHo6PRTZF9arE9nl+14=
+X-MS-Exchange-AntiSpam-MessageData: BnKFYfgKUpunK32IGgixQpiK+0unEmaS66p8IL/krJwB2URlml3A8p5x6EEPULqRLUifaXQFjF7xFUtNi4jVFDSiOKQ8NZcDsUeHV3AnSAKnqjiX4UFXK3cTnZvjWy3VyrZ9yuzrgpx/ed6lnGi5tVuQXx4H+MT50oPpSuaPw9092OWNTRXKYiu0M5DmrgXRCsu1y7m5zPbRd/swuglr9ofh3IHsPujLKq6oi9ykO8CdvB6WH62AqW0+xMEmLSlO7QZlapnhuD6KHAX3vrrlS/2ibOhHyu1UbD63wFLTXlPyfJQX/Tf2AkLyHdzdXRBuTBWHSMRy9J5osQiRtvlzcIf6fbHV626gt4EhAoVXW+IHNRInHZvVhXO0YCjwDOHAP5471qR2NdJDYf51GCBAMKwXQc5lPCi6QFDVt/9XpjsPsLl//fYsyWJ3Jbb8/AG2K85z11rACT7Z0Fu2iHymM/HHJsQ8yUSMaXj1IfbzRTjiGW3Dyg+8Ic1LIOHz7sgabYidxQd5N1yREu1P44D+qhtRsbuaPtlGYgBxjAwEgDWKxPg+pRbBSNPnc5u/lBSZfh/MpcKHEsbugr7Fc1/hQIN1pXAGuluIRIiLvY+sUGc93oHfTSkzonyrgbIQGv9GPsBcBjnqv1myOeeG1pedqcnzOfNlfYQQ/MJcUMLn9PhbgvKGUiv2ARkRyijYy5sUeulwrbgOhRGtGrBMZ3w8OUAuqQ1XRyyAOBTTh3ENSZgwJS/6q/Y0UHsXymvCUHrlk9svYUzl/Q0IP0lI+DLxbb9mL4eG5RIFdl0pXO1SO/Y=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8eb5b4ce-0207-4f8f-54d6-08d7ed1219b1
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Apr 2020 14:23:49.6818 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: wcWHd6PYy0VmYZCsfnZdzw21Q8K+2FLcyTr6rqqjkrEhPheo/x2R/pG7ITSzNow8LVS7/kay0B4bbBHMjN3QKQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR0401MB2464
+X-Mailman-Approved-At: Thu, 30 Apr 2020 14:25:53 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,77 +113,38 @@ Cc: "linux-arm-kernel@lists.infradead.org"
  "etnaviv@lists.freedesktop.org" <etnaviv@lists.freedesktop.org>,
  "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
  "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-From: Frieder Schrempf <frieder.schrempf@kontron.de>
+On 4/30/20 3:46 PM, Schrempf Frieder wrote:
+>   
+> +	/*
+> +	 * On i.MX8MM there is an interrupt getting triggered immediately
+> +	 * after requesting the IRQ, which leads to a stall as the handler
+> +	 * accesses the GPU registers whithout the clock being enabled.
+> +	 * Enabling the clocks briefly seems to clear the IRQ state, so we do
+> +	 * this here before requesting the IRQ.
+> +	 */
+> +	err = etnaviv_gpu_clk_enable(gpu);
+> +	if (err)
+> +		return err;
+> +
+> +	err = etnaviv_gpu_clk_disable(gpu);
+> +	if (err)
+> +		return err;
+> +
+> +	err = devm_request_irq(&pdev->dev, gpu->irq, irq_handler, 0,
+> +			       dev_name(gpu->dev), gpu);
+> +	if (err) {
+> +		dev_err(dev, "failed to request IRQ%u: %d\n", gpu->irq, err);
+> +		return err;
+> +	}
 
-According to the documents, the i.MX8M-Mini features a GC320 and a
-GCNanoUltra GPU core. Etnaviv detects them as:
+Shouldn't you disable the clk after devm_request_irq is called?
 
-	etnaviv-gpu 38000000.gpu: model: GC600, revision: 4653
-	etnaviv-gpu 38008000.gpu: model: GC520, revision: 5341
 
-This seems to work fine more or less without any changes to the HWDB,
-which still might be needed in the future to correct some features,
-etc.
-
-Signed-off-by: Frieder Schrempf <frieder.schrempf@kontron.de>
----
- arch/arm64/boot/dts/freescale/imx8mm.dtsi | 36 +++++++++++++++++++++++
- 1 file changed, 36 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/freescale/imx8mm.dtsi b/arch/arm64/boot/dts/freescale/imx8mm.dtsi
-index cc7152ecedd9..1dd0a6e849d3 100644
---- a/arch/arm64/boot/dts/freescale/imx8mm.dtsi
-+++ b/arch/arm64/boot/dts/freescale/imx8mm.dtsi
-@@ -937,6 +937,42 @@
- 			status = "disabled";
- 		};
- 
-+		gpu_3d: gpu@38000000 {
-+			compatible = "vivante,gc";
-+			reg = <0x38000000 0x8000>;
-+			interrupts = <GIC_SPI 3 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&clk IMX8MM_CLK_GPU_AHB>,
-+				 <&clk IMX8MM_CLK_GPU_BUS_ROOT>,
-+				 <&clk IMX8MM_CLK_GPU3D_ROOT>;
-+			clock-names = "reg", "bus", "core";
-+			assigned-clocks = <&clk IMX8MM_CLK_GPU3D_SRC>,
-+					<&clk IMX8MM_CLK_GPU_AXI>,
-+					<&clk IMX8MM_CLK_GPU_AHB>,
-+					<&clk IMX8MM_GPU_PLL_OUT>;
-+			assigned-clock-parents = <&clk IMX8MM_GPU_PLL_OUT>,
-+					<&clk IMX8MM_SYS_PLL1_800M>,
-+					<&clk IMX8MM_SYS_PLL1_800M>;
-+			assigned-clock-rates = <0>, <0>,<400000000>,<1000000000>;
-+		};
-+
-+		gpu_2d: gpu@38008000 {
-+			compatible = "vivante,gc";
-+			reg = <0x38008000 0x8000>;
-+			interrupts = <GIC_SPI 25 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&clk IMX8MM_CLK_GPU_AHB>,
-+				 <&clk IMX8MM_CLK_GPU_BUS_ROOT>,
-+				 <&clk IMX8MM_CLK_GPU2D_ROOT>;
-+			clock-names = "reg", "bus", "core";
-+			assigned-clocks = <&clk IMX8MM_CLK_GPU2D_SRC>,
-+					<&clk IMX8MM_CLK_GPU_AXI>,
-+					<&clk IMX8MM_CLK_GPU_AHB>,
-+					<&clk IMX8MM_GPU_PLL_OUT>;
-+			assigned-clock-parents = <&clk IMX8MM_GPU_PLL_OUT>,
-+					<&clk IMX8MM_SYS_PLL1_800M>,
-+					<&clk IMX8MM_SYS_PLL1_800M>;
-+			assigned-clock-rates = <0>, <0>,<400000000>,<1000000000>;
-+		};
-+
- 		gic: interrupt-controller@38800000 {
- 			compatible = "arm,gic-v3";
- 			reg = <0x38800000 0x10000>, /* GIC Dist */
--- 
-2.17.1
 _______________________________________________
 etnaviv mailing list
 etnaviv@lists.freedesktop.org
