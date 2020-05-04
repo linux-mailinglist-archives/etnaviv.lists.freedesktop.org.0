@@ -1,43 +1,103 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C15EA1C3539
-	for <lists+etnaviv@lfdr.de>; Mon,  4 May 2020 11:03:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 455731C3ADA
+	for <lists+etnaviv@lfdr.de>; Mon,  4 May 2020 15:04:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 74C466E34A;
-	Mon,  4 May 2020 09:03:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EEFE76E3E3;
+	Mon,  4 May 2020 13:04:42 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F06616E343
- for <etnaviv@lists.freedesktop.org>; Mon,  4 May 2020 08:07:31 +0000 (UTC)
-Received: from gallifrey.ext.pengutronix.de
- ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=localhost)
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1jVW8B-0007yE-Il; Mon, 04 May 2020 10:07:15 +0200
-Message-ID: <bf758b2ce26ba8f1b94f1f8fbd1c506d84759a5f.camel@pengutronix.de>
-Subject: Re: [RFC PATCH 4/4] arm64: dts: imx8mm: Add GPU nodes for 2D and 3D
- core using Etnaviv
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Adam Ford <aford173@gmail.com>, Schrempf Frieder
- <frieder.schrempf@kontron.de>
-Date: Mon, 04 May 2020 10:07:14 +0200
-In-Reply-To: <CAHCN7xJ=srZxygtG6hW_+us=qH1heY-k=EosavYH9tDk-KG0Bw@mail.gmail.com>
-References: <20200430124602.14463-1-frieder.schrempf@kontron.de>
- <20200430124602.14463-5-frieder.schrempf@kontron.de>
- <CAHCN7xJ=srZxygtG6hW_+us=qH1heY-k=EosavYH9tDk-KG0Bw@mail.gmail.com>
-User-Agent: Evolution 3.36.1 (3.36.1-1.fc32) 
-MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
-X-Mailman-Approved-At: Mon, 04 May 2020 09:03:41 +0000
+X-Greylist: delayed 426 seconds by postgrey-1.36 at gabe;
+ Mon, 04 May 2020 13:01:20 UTC
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
+ [210.118.77.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA37889798
+ for <etnaviv@lists.freedesktop.org>; Mon,  4 May 2020 13:01:20 +0000 (UTC)
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20200504125413euoutp0104dfdae851ee13342f8c0ce754000c99~L1GvQttum2809928099euoutp01_
+ for <etnaviv@lists.freedesktop.org>; Mon,  4 May 2020 12:54:13 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20200504125413euoutp0104dfdae851ee13342f8c0ce754000c99~L1GvQttum2809928099euoutp01_
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1588596853;
+ bh=3AsDN+Ip+DfttKjzscLc7jI+YsnIB2JKbA1xgPMfI2w=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=Otjz/aruMzbJosj+k+Bs7pVQbG7s+jioZpb+8mHQjI1vq6ZOBkoLpie3dsszj3qNL
+ VRELBHAD+35iW0dTJVQgVT8S05to5AEzVxCGSFbbRQe5wR1cPF+aPfFIjj+HdI1U+P
+ KImVFQ/6ZsleD5AH9R0qqh1S8wPGUupFb2vnsRGA=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+ 20200504125412eucas1p14c9a533433ce915e288a960b880d3fd7~L1GuxxnZU0159401594eucas1p1x;
+ Mon,  4 May 2020 12:54:12 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+ eusmges3new.samsung.com (EUCPMTA) with SMTP id 53.12.60698.47010BE5; Mon,  4
+ May 2020 13:54:12 +0100 (BST)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20200504125412eucas1p263f2029c4fd299db92b365d7b66316a0~L1GuaZfff2246922469eucas1p2c;
+ Mon,  4 May 2020 12:54:12 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+ eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20200504125412eusmtrp1b440a81df43aafbd62abc5eb12095fc8~L1GuZc1Ua2497724977eusmtrp1U;
+ Mon,  4 May 2020 12:54:12 +0000 (GMT)
+X-AuditID: cbfec7f5-a29ff7000001ed1a-44-5eb010743d0d
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+ eusmgms2.samsung.com (EUCPMTA) with SMTP id B3.06.07950.47010BE5; Mon,  4
+ May 2020 13:54:12 +0100 (BST)
+Received: from AMDC2765.digital.local (unknown [106.120.51.73]) by
+ eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20200504125411eusmtip2951048608315bac83b0939c8772239f8~L1Gtnq0EO0350103501eusmtip20;
+ Mon,  4 May 2020 12:54:11 +0000 (GMT)
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+To: dri-devel@lists.freedesktop.org, iommu@lists.linux-foundation.org,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v2 04/21] drm: etnaviv: fix sg_table nents vs. orig_nents
+ misuse
+Date: Mon,  4 May 2020 14:53:42 +0200
+Message-Id: <20200504125359.5678-4-m.szyprowski@samsung.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200504125359.5678-1-m.szyprowski@samsung.com>
+X-Brightmail-Tracker: H4sIAAAAAAAAA0VSaUgUURzvzezsjuLmtAo+PBIXOsU7ZEjTRD9MhNGBIIHmlpOK947rFZRr
+ Xq26mhYepZhEmkfrlZmWx5raolieaGlqlqUgJR5lm5bTqH37ne8Hfx6OiroxYzwoLIqWhklC
+ xHxdXmP3+hurKKLG17Z13YLM7NcgZG2+CiNzXowj5J/G2yg5vPqNTzbnTwjIx5VdCFnS5kRO
+ F22ZK8MzCPkzrxgh62ZHMXKo+T6frH41KSA7vn/CTupTVcVVgBoaHUCpl2slPOp54aSAerY2
+ jVFT6T0IVf/wBvV+cxalcsfKANUynsCnsjZsKWVDBaCW6/afFV7UdfanQ4KiaamNi59u4K3c
+ 4IgHhrFTIxosAaTvUwAdHBLHYLe8CFEAXVxElAM4vyQHHFkB8HNbO48jywCObI4hO5XyibsY
+ i0VEGYCpcmy30Zc2y2MNPmEHFYsKPosNiWQAX2fqsSGUUKOwtqUcsIYBcR6WpdwRKACO84gD
+ UKGyZ2Uh4Qy/KDWAGzOHlTXtKBvRIU7AgsxD7DOQ+CiAj7KX+VzGAw7UtmznDeBCT4OAw6aw
+ NzeDxxVuAjjTXy3gSAaAQ4n52w0nONH/i88uoMQRqGq24WQ3+LS/FbAyJPbCscV/90K3YE5j
+ HsrJQpiWIuLSB2Fhz5Pd2Y63g9sRCo4pvbjzdAKoTd0QZAPzwv9bJQBUACNaxoQG0IxDGB1j
+ zUhCGVlYgPWV8NA6sPW7ejd7VptA6+/LakDgQKwn9F5W+YowSTQTF6oGEEfFhsKmpC1J6C+J
+ i6el4ZekshCaUQMTnCc2EjqUzvuIiABJFB1M0xG0dMdFcB3jBHAKqAKNnFxWve3PmVpSenMX
+ OgcSPwRV99VrGc/YMx2N0PWwzKQ5wvF0gTLZc0K7Z3WxXi4ueNeNyGYRH/X6nLV+qUSL6t2L
+ cb9qZvn1mrzUUf96qcZNW+Y6GD8Z7mEWuWTi5a8J6kpJyVLaukda2VpE+1f4JR1f+JE8qqMp
+ XBPzmECJ3VFUykj+AmX0RJ5ZAwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrJIsWRmVeSWpSXmKPExsVy+t/xe7olAhviDLZ2sVn0njvJZLFxxnpW
+ i0l7bjJZ/N82kdniytf3bBa7Ztxht1i5+iiTxYL91hYP5gIlv1x5yGTxY/o8JotNj6+xWlze
+ NYfNYu2Ru+wWBz88YXXg91gzbw2jx+VrF5k99n5bwOKxc9Zddo/t3x6wetzvPs7ksXlJvcft
+ f4+ZPSbfWM7osftmA5tH/18Dj74tqxg9Pm+SC+CN0rMpyi8tSVXIyC8usVWKNrQw0jO0tNAz
+ MrHUMzQ2j7UyMlXSt7NJSc3JLEst0rdL0MvonJxdsFCk4v7Vk6wNjN2CXYycHBICJhIr7kxl
+ 7WLk4hASWMooceD5RHaIhIzEyWkNrBC2sMSfa11sEEWfGCX2/G5kAkmwCRhKdL2FSIgIdDJK
+ TOv+yA7iMAucYpbYsHs+WJWwQIDE0XMHmbsYOThYBFQlutYbgYR5BWwknvedZITYIC+xesMB
+ sBJOAVuJmb3qIGEhgXyJu0//sUxg5FvAyLCKUSS1tDg3PbfYSK84Mbe4NC9dLzk/dxMjMJq2
+ Hfu5ZQdj17vgQ4wCHIxKPLwbvq6PE2JNLCuuzD3EKMHBrCTCu6MFKMSbklhZlVqUH19UmpNa
+ fIjRFOikicxSosn5wEjPK4k3NDU0t7A0NDc2NzazUBLn7RA4GCMkkJ5YkpqdmlqQWgTTx8TB
+ KdXAyKd+Oj3TMXn5vKiXRxL/39b56VbempD5eh3P7f7AtKTvd77d1H85Z5rYprWr7n9+dUTZ
+ Zeey8G3v9uVuvhSqdePzxjVVjAYG57cKz7fk0NzK17bK8ryRygmf8DULFqb9P3i+qrHus8Hc
+ Z1W71vyS409oa+9btXHq/S2N8YtdXE1/7ZSa8yHaaZUSS3FGoqEWc1FxIgBZbF/WvAIAAA==
+X-CMS-MailID: 20200504125412eucas1p263f2029c4fd299db92b365d7b66316a0
+X-Msg-Generator: CA
+X-RootMTR: 20200504125412eucas1p263f2029c4fd299db92b365d7b66316a0
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20200504125412eucas1p263f2029c4fd299db92b365d7b66316a0
+References: <20200504125017.5494-1-m.szyprowski@samsung.com>
+ <20200504125359.5678-1-m.szyprowski@samsung.com>
+ <CGME20200504125412eucas1p263f2029c4fd299db92b365d7b66316a0@eucas1p2.samsung.com>
+X-Mailman-Approved-At: Mon, 04 May 2020 13:04:41 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,57 +109,78 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- Peng Fan <peng.fan@nxp.com>, Anson Huang <Anson.Huang@nxp.com>,
- Daniel Baluta <daniel.baluta@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
- "etnaviv@lists.freedesktop.org" <etnaviv@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ David Airlie <airlied@linux.ie>, etnaviv@lists.freedesktop.org,
  Christian Gmeiner <christian.gmeiner@gmail.com>,
- NXP Linux Team <linux-imx@nxp.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>, Shawn Guo <shawnguo@kernel.org>,
- Leonard Crestez <leonard.crestez@nxp.com>, Fabio Estevam <festevam@gmail.com>,
- "S.j. Wang" <shengjiu.wang@nxp.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- Li Jun <jun.li@nxp.com>
+ Daniel Vetter <daniel@ffwll.ch>, Russell King <linux+etnaviv@armlinux.org.uk>,
+ Lucas Stach <l.stach@pengutronix.de>, Robin Murphy <robin.murphy@arm.com>,
+ Christoph Hellwig <hch@lst.de>, linux-arm-kernel@lists.infradead.org,
+ Marek Szyprowski <m.szyprowski@samsung.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Am Sonntag, den 03.05.2020, 09:49 -0500 schrieb Adam Ford:
-> On Thu, Apr 30, 2020 at 7:46 AM Schrempf Frieder
-> <frieder.schrempf@kontron.de> wrote:
-> > From: Frieder Schrempf <frieder.schrempf@kontron.de>
-> > 
-> > According to the documents, the i.MX8M-Mini features a GC320 and a
-> > GCNanoUltra GPU core. Etnaviv detects them as:
-> > 
-> >         etnaviv-gpu 38000000.gpu: model: GC600, revision: 4653
-> >         etnaviv-gpu 38008000.gpu: model: GC520, revision: 5341
-> > 
-> > This seems to work fine more or less without any changes to the HWDB,
-> > which still might be needed in the future to correct some features,
-> > etc.
-> > 
-> > Signed-off-by: Frieder Schrempf <frieder.schrempf@kontron.de>
-> > ---
-> Since not everyone uses the 3D or 2D, would it make sense to mark them
-> as disabled by default and let people who need the 3D and 2D enable
-> them at their respective board files?
+The Documentation/DMA-API-HOWTO.txt states that dma_map_sg returns the
+numer of the created entries in the DMA address space. However the
+subsequent calls to dma_sync_sg_for_{device,cpu} and dma_unmap_sg must be
+called with the original number of entries passed to dma_map_sg. The
+sg_table->nents in turn holds the result of the dma_map_sg call as stated
+in include/linux/scatterlist.h. Adapt the code to obey those rules.
 
-No, devices on the SoC with no external dependencies should be always
-enabled.
+Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+---
+For more information, see '[PATCH v2 00/21] DRM: fix struct sg_table nents
+vs. orig_nents misuse' thread: https://lkml.org/lkml/2020/5/4/373
+---
+ drivers/gpu/drm/etnaviv/etnaviv_gem.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-The board has much less influence over whether the GPU is being used
-than the specific use-case. While the board designer may not even think
-about using the GPUs (because no display connector present or something
-like that) people using the board may still find uses for the GPU, like
-doing video pipeline color space conversions or something lie that.
-
-Regards,
-Lucas
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+index dc9ef30..a224a97 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+@@ -27,7 +27,8 @@ static void etnaviv_gem_scatter_map(struct etnaviv_gem_object *etnaviv_obj)
+ 	 * because display controller, GPU, etc. are not coherent.
+ 	 */
+ 	if (etnaviv_obj->flags & ETNA_BO_CACHE_MASK)
+-		dma_map_sg(dev->dev, sgt->sgl, sgt->nents, DMA_BIDIRECTIONAL);
++		sgt->nents = dma_map_sg(dev->dev, sgt->sgl, sgt->orig_nents,
++					DMA_BIDIRECTIONAL);
+ }
+ 
+ static void etnaviv_gem_scatterlist_unmap(struct etnaviv_gem_object *etnaviv_obj)
+@@ -51,7 +52,8 @@ static void etnaviv_gem_scatterlist_unmap(struct etnaviv_gem_object *etnaviv_obj
+ 	 * discard those writes.
+ 	 */
+ 	if (etnaviv_obj->flags & ETNA_BO_CACHE_MASK)
+-		dma_unmap_sg(dev->dev, sgt->sgl, sgt->nents, DMA_BIDIRECTIONAL);
++		dma_unmap_sg(dev->dev, sgt->sgl, sgt->orig_nents,
++			     DMA_BIDIRECTIONAL);
+ }
+ 
+ /* called with etnaviv_obj->lock held */
+@@ -405,7 +407,7 @@ int etnaviv_gem_cpu_prep(struct drm_gem_object *obj, u32 op,
+ 
+ 	if (etnaviv_obj->flags & ETNA_BO_CACHED) {
+ 		dma_sync_sg_for_cpu(dev->dev, etnaviv_obj->sgt->sgl,
+-				    etnaviv_obj->sgt->nents,
++				    etnaviv_obj->sgt->orig_nents,
+ 				    etnaviv_op_to_dma_dir(op));
+ 		etnaviv_obj->last_cpu_prep_op = op;
+ 	}
+@@ -422,7 +424,7 @@ int etnaviv_gem_cpu_fini(struct drm_gem_object *obj)
+ 		/* fini without a prep is almost certainly a userspace error */
+ 		WARN_ON(etnaviv_obj->last_cpu_prep_op == 0);
+ 		dma_sync_sg_for_device(dev->dev, etnaviv_obj->sgt->sgl,
+-			etnaviv_obj->sgt->nents,
++			etnaviv_obj->sgt->orig_nents,
+ 			etnaviv_op_to_dma_dir(etnaviv_obj->last_cpu_prep_op));
+ 		etnaviv_obj->last_cpu_prep_op = 0;
+ 	}
+-- 
+1.9.1
 
 _______________________________________________
 etnaviv mailing list
