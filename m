@@ -1,101 +1,75 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 133F41C67A1
-	for <lists+etnaviv@lfdr.de>; Wed,  6 May 2020 07:50:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C8621C7166
+	for <lists+etnaviv@lfdr.de>; Wed,  6 May 2020 15:08:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7DC4889FE8;
-	Wed,  6 May 2020 05:50:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 50A026E229;
+	Wed,  6 May 2020 13:08:29 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
- [210.118.77.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7704B89D7C
- for <etnaviv@lists.freedesktop.org>; Tue,  5 May 2020 08:46:28 +0000 (UTC)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20200505084627euoutp016e56d111905b15a569f4fc6363478aeb~MFXsgd1PR0374903749euoutp01F
- for <etnaviv@lists.freedesktop.org>; Tue,  5 May 2020 08:46:27 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20200505084627euoutp016e56d111905b15a569f4fc6363478aeb~MFXsgd1PR0374903749euoutp01F
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1588668387;
- bh=kVItjuzkDZEWgWWKI3FgsiswD6i+/SL80m0l+V0hN28=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=DwPzGLBxZhh4g1jktHAp0peUHDhIlb3NPoiSsIdhOGYVCiBIF2qTINWJjfYJBp1KE
- w8M5TLed7PNXLMOrmtFVahVe64l/nCAoBxJmVi0T0wkNHAEfXH77L+EFd34Ao9LQ+T
- jgXexE5+sEbXy0S/Jw9Hammvz5CnNdzCrI+1zhDE=
-Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20200505084626eucas1p2bd08c1934dd8d39db7ddf52dfe576b9d~MFXsULUhN1058410584eucas1p2r;
- Tue,  5 May 2020 08:46:26 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges1new.samsung.com (EUCPMTA) with SMTP id E0.CF.61286.2E721BE5; Tue,  5
- May 2020 09:46:26 +0100 (BST)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20200505084626eucas1p20abe79e406f60ae92fec252072befc5a~MFXsB2CIY1942419424eucas1p2I;
- Tue,  5 May 2020 08:46:26 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
- eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20200505084626eusmtrp18fa2f153b5af7296c4a2a944ba75303f~MFXsBOMfc0942509425eusmtrp15;
- Tue,  5 May 2020 08:46:26 +0000 (GMT)
-X-AuditID: cbfec7f2-ef1ff7000001ef66-97-5eb127e2d689
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
- eusmgms2.samsung.com (EUCPMTA) with SMTP id 24.21.07950.2E721BE5; Tue,  5
- May 2020 09:46:26 +0100 (BST)
-Received: from AMDC2765.digital.local (unknown [106.120.51.73]) by
- eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20200505084626eusmtip198ef62d087e4d50afa1a00ff5371d8a9~MFXreJocU0686606866eusmtip1H;
- Tue,  5 May 2020 08:46:25 +0000 (GMT)
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-To: dri-devel@lists.freedesktop.org, iommu@lists.linux-foundation.org,
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 05/25] drm: etnaviv: fix common struct sg_table related
- issues
-Date: Tue,  5 May 2020 10:45:54 +0200
-Message-Id: <20200505084614.30424-5-m.szyprowski@samsung.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200505084614.30424-1-m.szyprowski@samsung.com>
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrCKsWRmVeSWpSXmKPExsWy7djPc7qP1DfGGRy9aWrRe+4kk8XGGetZ
- Lf5vm8hsceXrezaLXTPusFusXH2UyWLBfmuLB3NvMll8ufKQyWLT42usFpd3zWGzWHvkLrvF
- wQ9PWB14PdbMW8PosffbAhaP7d8esHrc7z7O5LF5Sb3H7X+PmT0m31jO6LH7ZgObR/9fA4++
- LasYPT5vkgvgjuKySUnNySxLLdK3S+DKaGsxKngjVrH540+2BsZ1wl2MHBwSAiYSBzrsuhi5
- OIQEVjBKHLiwgRnC+cIo0fvnBwuE85lR4uTkHUAZTrCOI2fXQCWWM0rMb5mM0HJ29joWkCo2
- AUOJrrddbCC2iEAro8SJXh4Qm1ngPpPE75dZILawQLDEmtVvwKayCKhKfJzVA9bLK2Ar8e7a
- aiaIbfISqzccAKvhFLCTeHzpDhvIMgmBY+wSB/5+ZoQocpFYPa2NBcIWlnh1fAs7hC0jcXpy
- DwtEQzOjxMNza9khnB5GictNM6C6rSXunPvFBgoOZgFNifW79CHCjhLzGh+yQUKJT+LGW0GI
- B/gkJm2bzgwR5pXoaBOCqFaTmHV8HdzagxcuQUPLQ6Lry2NGSAAdZZRY++A20wRG+VkIyxYw
- Mq5iFE8tLc5NTy02zEst1ytOzC0uzUvXS87P3cQITEun/x3/tIPx66WkQ4wCHIxKPLwRn9fH
- CbEmlhVX5h5ilOBgVhLhXfZjQ5wQb0piZVVqUX58UWlOavEhRmkOFiVxXuNFL2OFBNITS1Kz
- U1MLUotgskwcnFINjHo2PJ33RHV8L0nbMh1dV2V2/9WfqqXyiz9GXld7+U9nw7NNL+5L39+e
- 8Cy0giFh5soMjcA7eeaefmz/tjGEv61eofMk/lmcz2rNGxL/suf2Sk+NfSWavv7E4XUNztvq
- /99/PuXQjKkMNU8O/Tr/ZE9JhP3qxuVPOvP96rWYvh4LPNDQcU37iZgSS3FGoqEWc1FxIgDg
- MXN2RwMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprKIsWRmVeSWpSXmKPExsVy+t/xu7qP1DfGGVzbomjRe+4kk8XGGetZ
- Lf5vm8hsceXrezaLXTPusFusXH2UyWLBfmuLB3NvMll8ufKQyWLT42usFpd3zWGzWHvkLrvF
- wQ9PWB14PdbMW8PosffbAhaP7d8esHrc7z7O5LF5Sb3H7X+PmT0m31jO6LH7ZgObR/9fA4++
- LasYPT5vkgvgjtKzKcovLUlVyMgvLrFVija0MNIztLTQMzKx1DM0No+1MjJV0rezSUnNySxL
- LdK3S9DLaGsxKngjVrH540+2BsZ1wl2MnBwSAiYSR86uYeli5OIQEljKKPFxyT82iISMxMlp
- DawQtrDEn2tdbBBFnxglnk6/zQ6SYBMwlOh6C5EQEehklJjW/REswSzwnEniZYt+FyMHh7BA
- oMTfdgGQMIuAqsTHWT0sIDavgK3Eu2urmSAWyEus3nCAGcTmFLCTeHzpDtgRQgKFEh/Of2ed
- wMi3gJFhFaNIamlxbnpusZFecWJucWleul5yfu4mRmCUbDv2c8sOxq53wYcYBTgYlXh4N3xd
- HyfEmlhWXJl7iFGCg1lJhHfZjw1xQrwpiZVVqUX58UWlOanFhxhNgY6ayCwlmpwPjOC8knhD
- U0NzC0tDc2NzYzMLJXHeDoGDMUIC6YklqdmpqQWpRTB9TBycUg2MAR/zt7hp3xEWyrk0N5Sp
- unbJzPtTxZP7LzwR0on/Khzzdd+C5UqcGU8St2ueOeiebbG/+0zd6XKbGHaFZ5fKpJVCeh6f
- LlhR0/wufdNn092PWFmcAq613276Y5rQ3fxFXaw+q1HdbJlvdo673YyLR+9UNJqmJzbrVVje
- 4tXSZzN41KzkvUuJpTgj0VCLuag4EQC8t0YKqAIAAA==
-X-CMS-MailID: 20200505084626eucas1p20abe79e406f60ae92fec252072befc5a
-X-Msg-Generator: CA
-X-RootMTR: 20200505084626eucas1p20abe79e406f60ae92fec252072befc5a
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20200505084626eucas1p20abe79e406f60ae92fec252072befc5a
-References: <20200505083926.28503-1-m.szyprowski@samsung.com>
- <20200505084614.30424-1-m.szyprowski@samsung.com>
- <CGME20200505084626eucas1p20abe79e406f60ae92fec252072befc5a@eucas1p2.samsung.com>
-X-Mailman-Approved-At: Wed, 06 May 2020 05:50:46 +0000
+Received: from skedge04.snt-world.com (skedge04.snt-world.com [91.208.41.69])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A7BD6E864;
+ Wed,  6 May 2020 11:27:16 +0000 (UTC)
+Received: from sntmail11s.snt-is.com (unknown [10.203.32.181])
+ by skedge04.snt-world.com (Postfix) with ESMTP id 44AF067A6F2;
+ Wed,  6 May 2020 13:27:11 +0200 (CEST)
+Received: from sntmail12r.snt-is.com (10.203.32.182) by sntmail11s.snt-is.com
+ (10.203.32.181) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1913.5; Wed, 6 May 2020
+ 13:27:10 +0200
+Received: from sntmail12r.snt-is.com ([fe80::e551:8750:7bba:3305]) by
+ sntmail12r.snt-is.com ([fe80::e551:8750:7bba:3305%3]) with mapi id
+ 15.01.1913.007; Wed, 6 May 2020 13:27:10 +0200
+From: Schrempf Frieder <frieder.schrempf@kontron.de>
+To: Peng Fan <peng.fan@nxp.com>, Lucas Stach <l.stach@pengutronix.de>, "Adam
+ Ford" <aford173@gmail.com>, Anson Huang <anson.huang@nxp.com>, "Christian
+ Gmeiner" <christian.gmeiner@gmail.com>, Daniel Baluta
+ <daniel.baluta@nxp.com>, Fabio Estevam <festevam@gmail.com>, Leonard Crestez
+ <leonard.crestez@nxp.com>, Jun Li <jun.li@nxp.com>, dl-linux-imx
+ <linux-imx@nxp.com>, Pengutronix Kernel Team <kernel@pengutronix.de>,
+ "Russell King" <linux+etnaviv@armlinux.org.uk>, Sascha Hauer
+ <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, "S.j. Wang"
+ <shengjiu.wang@nxp.com>
+Subject: Re: [RFC PATCH 3/4] drm/etnaviv: Change order of enabling clocks to
+ fix boot on i.MX8MM
+Thread-Topic: [RFC PATCH 3/4] drm/etnaviv: Change order of enabling clocks to
+ fix boot on i.MX8MM
+Thread-Index: AQHWHu1V9EwL5xxa+UiJnz7nneFudaiRmbMAgAAQ8oCAAWBPgIAHyDoA
+Date: Wed, 6 May 2020 11:27:10 +0000
+Message-ID: <24a5aceb-9c47-2029-aa5b-8fa7f9ba5670@kontron.de>
+References: <20200430124602.14463-1-frieder.schrempf@kontron.de>
+ <20200430124602.14463-4-frieder.schrempf@kontron.de>
+ <3895f202cf5919e41a56878a62f6d5259dea12d3.camel@pengutronix.de>
+ <72e8618b-856e-de42-9282-958cd03b239f@kontron.de>
+ <DB6PR0402MB276059A8D612ECBA8812379988AB0@DB6PR0402MB2760.eurprd04.prod.outlook.com>
+In-Reply-To: <DB6PR0402MB276059A8D612ECBA8812379988AB0@DB6PR0402MB2760.eurprd04.prod.outlook.com>
+Accept-Language: de-DE, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [172.25.9.193]
+x-c2processedorg: 51b406b7-48a2-4d03-b652-521f56ac89f3
+Content-ID: <D25527CCBDEB3645AAE31FCF6D268574@snt-world.com>
+MIME-Version: 1.0
+X-SnT-MailScanner-Information: Please contact the ISP for more information
+X-SnT-MailScanner-ID: 44AF067A6F2.A23F9
+X-SnT-MailScanner: Not scanned: please contact your Internet E-Mail Service
+ Provider for details
+X-SnT-MailScanner-SpamCheck: 
+X-SnT-MailScanner-From: frieder.schrempf@kontron.de
+X-SnT-MailScanner-To: aford173@gmail.com, anson.huang@nxp.com,
+ christian.gmeiner@gmail.com, daniel.baluta@nxp.com,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ etnaviv@lists.freedesktop.org, festevam@gmail.com, jun.li@nxp.com,
+ kernel@pengutronix.de, l.stach@pengutronix.de,
+ leonard.crestez@nxp.com, linux+etnaviv@armlinux.org.uk,
+ linux-arm-kernel@lists.infradead.org, linux-imx@nxp.com,
+ linux-kernel@vger.kernel.org, peng.fan@nxp.com,
+ s.hauer@pengutronix.de, shawnguo@kernel.org, shengjiu.wang@nxp.com
+X-Spam-Status: No
+X-Mailman-Approved-At: Wed, 06 May 2020 13:08:28 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,85 +81,189 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- David Airlie <airlied@linux.ie>, etnaviv@lists.freedesktop.org,
- Daniel Vetter <daniel@ffwll.ch>, Lucas Stach <l.stach@pengutronix.de>,
- Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>,
- linux-arm-kernel@lists.infradead.org,
- Marek Szyprowski <m.szyprowski@samsung.com>
-MIME-Version: 1.0
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "etnaviv@lists.freedesktop.org" <etnaviv@lists.freedesktop.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-The Documentation/DMA-API-HOWTO.txt states that dma_map_sg returns the
-numer of the created entries in the DMA address space. However the
-subsequent calls to dma_sync_sg_for_{device,cpu} and dma_unmap_sg must be
-called with the original number of the entries passed to dma_map_sg. The
-sg_table->nents in turn holds the result of the dma_map_sg call as stated
-in include/linux/scatterlist.h. A common mistake was to ignore a result
-of the dma_map_sg function and don't use the sg_table->orig_nents at all.
+Hi Peng,
 
-To avoid such issues, lets use common dma-mapping wrappers operating
-directly on the struct sg_table objects and adjust references to the
-nents and orig_nents respectively.
+On 01.05.20 14:36, Peng Fan wrote:
+>> Subject: Re: [RFC PATCH 3/4] drm/etnaviv: Change order of enabling clocks to
+>> fix boot on i.MX8MM
+>>
+>> On 30.04.20 16:35, Lucas Stach wrote:
+>>> Am Donnerstag, den 30.04.2020, 12:46 +0000 schrieb Schrempf Frieder:
+>>>> From: Frieder Schrempf <frieder.schrempf@kontron.de>
+>>>>
+>>>> On some i.MX8MM devices the boot hangs when enabling the GPU clocks.
+>>>> Changing the order of clock initalization to
+>>>>
+>>>> core -> shader -> bus -> reg
+>>>>
+>>>> fixes the issue. This is the same order used in the imx platform code
+>>>> of the downstream GPU driver in the NXP kernel [1]. For the sake of
+>>>> consistency we also adjust the order of disabling the clocks to the
+>>>> reverse.
+>>>>
+>>>> [1]
+>>>> https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fsou
+>>>>
+>> rce.codeaurora.org%2Fexternal%2Fimx%2Flinux-imx%2Ftree%2Fdrivers%2F
+>> mx
+>>>>
+>> c%2Fgpu-viv%2Fhal%2Fos%2Flinux%2Fkernel%2Fplatform%2Ffreescale%2Fgc
+>> _h
+>>>>
+>> al_kernel_platform_imx.c%3Fh%3Dimx_5.4.3_2.0.0%23n1538&amp;data=02
+>> %7C
+>>>>
+>> 01%7Cpeng.fan%40nxp.com%7Cdc7da53f665e4f567e3008d7ed1c27e0%7C6
+>> 86ea1d3
+>>>>
+>> bc2b4c6fa92cd99c5c301635%7C0%7C0%7C637238577497969787&amp;sda
+>> ta=QRHzu
+>>>> C6gSKy%2F6y2FTRvlNF5t7DmJIvTgBESYKchI%2FDw%3D&amp;reserved=0
+>>>
+>>> I don't see why the order of the clocks is important. Is this really a
+>>> GPU issue? As in: does a GPU access hang when enabling the clocks in
+>>> the wrong order? Or is this a clock driver issue with a clock access
+>>> hanging due to an upstream clock still being disabled?
+>>
+>> Actually you might be right with this being a clock driver issue. The hanging
+>> happens while enabling the clocks (unrelated to any GPU register access). The
+>> strange thing is that most of the devices we have don't care and work as is
+>> and some devices reliably fail each time when enabling the clocks in the
+>> "wrong" order.
+>>
+>> So I guess this could indeed be some clock being enabled with an upstream
+>> PLL not having locked yet or something.
+> 
+> https://eur04.safelinks.protection.outlook.com/?url=https%3A%2F%2Fpatchwork.kernel.org%2Fcover%2F11433775%2F&amp;data=02%7C01%7Cfrieder.schrempf%40kontron.de%7C1014be5f9b8b4d0c6e8108d7edcc5bde%7C8c9d3c973fd941c8a2b1646f3942daf1%7C0%7C0%7C637239334279684748&amp;sdata=UwVVzPEvNOP6I4g78uG5O9jVYmHwqyo6hj97wvtlzs0%3D&amp;reserved=0
+> 
+> Will this pachset help?
 
-Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
----
-For more information, see '[PATCH v3 00/25] DRM: fix struct sg_table nents
-vs. orig_nents misuse' thread: https://lkml.org/lkml/2020/5/5/187
----
- drivers/gpu/drm/etnaviv/etnaviv_gem.c | 12 +++++-------
- 1 file changed, 5 insertions(+), 7 deletions(-)
+Thanks for the pointer. Unfortunately the clock patches don't help. I 
+tried with 5.7-rc4 and your patches on top and the issue still persists.
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-index dc9ef30..340026b 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-@@ -27,7 +27,7 @@ static void etnaviv_gem_scatter_map(struct etnaviv_gem_object *etnaviv_obj)
- 	 * because display controller, GPU, etc. are not coherent.
- 	 */
- 	if (etnaviv_obj->flags & ETNA_BO_CACHE_MASK)
--		dma_map_sg(dev->dev, sgt->sgl, sgt->nents, DMA_BIDIRECTIONAL);
-+		dma_map_sgtable(dev->dev, sgt, DMA_BIDIRECTIONAL);
- }
- 
- static void etnaviv_gem_scatterlist_unmap(struct etnaviv_gem_object *etnaviv_obj)
-@@ -51,7 +51,7 @@ static void etnaviv_gem_scatterlist_unmap(struct etnaviv_gem_object *etnaviv_obj
- 	 * discard those writes.
- 	 */
- 	if (etnaviv_obj->flags & ETNA_BO_CACHE_MASK)
--		dma_unmap_sg(dev->dev, sgt->sgl, sgt->nents, DMA_BIDIRECTIONAL);
-+		dma_unmap_sgtable(dev->dev, sgt, DMA_BIDIRECTIONAL);
- }
- 
- /* called with etnaviv_obj->lock held */
-@@ -404,9 +404,8 @@ int etnaviv_gem_cpu_prep(struct drm_gem_object *obj, u32 op,
- 	}
- 
- 	if (etnaviv_obj->flags & ETNA_BO_CACHED) {
--		dma_sync_sg_for_cpu(dev->dev, etnaviv_obj->sgt->sgl,
--				    etnaviv_obj->sgt->nents,
--				    etnaviv_op_to_dma_dir(op));
-+		dma_sync_sgtable_for_cpu(dev->dev, etnaviv_obj->sgt,
-+					 etnaviv_op_to_dma_dir(op));
- 		etnaviv_obj->last_cpu_prep_op = op;
- 	}
- 
-@@ -421,8 +420,7 @@ int etnaviv_gem_cpu_fini(struct drm_gem_object *obj)
- 	if (etnaviv_obj->flags & ETNA_BO_CACHED) {
- 		/* fini without a prep is almost certainly a userspace error */
- 		WARN_ON(etnaviv_obj->last_cpu_prep_op == 0);
--		dma_sync_sg_for_device(dev->dev, etnaviv_obj->sgt->sgl,
--			etnaviv_obj->sgt->nents,
-+		dma_sync_sgtable_for_device(dev->dev, etnaviv_obj->sgt,
- 			etnaviv_op_to_dma_dir(etnaviv_obj->last_cpu_prep_op));
- 		etnaviv_obj->last_cpu_prep_op = 0;
- 	}
--- 
-1.9.1
+Also I found out that changing the order of the clock initialization as 
+proposed, does not fix the problem, either. On some boards it helps, 
+others still hang when the clocks are initialized.
 
+Thanks,
+Frieder
+
+> 
+> The i.MX8M CCM root mux code in Linux needs a fix.
+> 
+> Regards,
+> Peng.
+> 
+>>
+>>>
+>>> Regards,
+>>> Lucas
+>>>
+>>>> Signed-off-by: Frieder Schrempf <frieder.schrempf@kontron.de>
+>>>> ---
+>>>>    drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 42
+>> +++++++++++++--------------
+>>>>    1 file changed, 21 insertions(+), 21 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+>>>> b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+>>>> index 7b138d4dd068..424b2e5951f0 100644
+>>>> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+>>>> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+>>>> @@ -1487,55 +1487,55 @@ static int etnaviv_gpu_clk_enable(struct
+>> etnaviv_gpu *gpu)
+>>>>    {
+>>>>    	int ret;
+>>>>
+>>>> -	if (gpu->clk_reg) {
+>>>> -		ret = clk_prepare_enable(gpu->clk_reg);
+>>>> +	if (gpu->clk_core) {
+>>>> +		ret = clk_prepare_enable(gpu->clk_core);
+>>>>    		if (ret)
+>>>>    			return ret;
+>>>>    	}
+>>>>
+>>>> -	if (gpu->clk_bus) {
+>>>> -		ret = clk_prepare_enable(gpu->clk_bus);
+>>>> +	if (gpu->clk_shader) {
+>>>> +		ret = clk_prepare_enable(gpu->clk_shader);
+>>>>    		if (ret)
+>>>> -			goto disable_clk_reg;
+>>>> +			goto disable_clk_core;
+>>>>    	}
+>>>>
+>>>> -	if (gpu->clk_core) {
+>>>> -		ret = clk_prepare_enable(gpu->clk_core);
+>>>> +	if (gpu->clk_bus) {
+>>>> +		ret = clk_prepare_enable(gpu->clk_bus);
+>>>>    		if (ret)
+>>>> -			goto disable_clk_bus;
+>>>> +			goto disable_clk_shader;
+>>>>    	}
+>>>>
+>>>> -	if (gpu->clk_shader) {
+>>>> -		ret = clk_prepare_enable(gpu->clk_shader);
+>>>> +	if (gpu->clk_reg) {
+>>>> +		ret = clk_prepare_enable(gpu->clk_reg);
+>>>>    		if (ret)
+>>>> -			goto disable_clk_core;
+>>>> +			goto disable_clk_bus;
+>>>>    	}
+>>>>
+>>>>    	return 0;
+>>>>
+>>>> -disable_clk_core:
+>>>> -	if (gpu->clk_core)
+>>>> -		clk_disable_unprepare(gpu->clk_core);
+>>>>    disable_clk_bus:
+>>>>    	if (gpu->clk_bus)
+>>>>    		clk_disable_unprepare(gpu->clk_bus);
+>>>> -disable_clk_reg:
+>>>> -	if (gpu->clk_reg)
+>>>> -		clk_disable_unprepare(gpu->clk_reg);
+>>>> +disable_clk_shader:
+>>>> +	if (gpu->clk_shader)
+>>>> +		clk_disable_unprepare(gpu->clk_shader);
+>>>> +disable_clk_core:
+>>>> +	if (gpu->clk_core)
+>>>> +		clk_disable_unprepare(gpu->clk_core);
+>>>>
+>>>>    	return ret;
+>>>>    }
+>>>>
+>>>>    static int etnaviv_gpu_clk_disable(struct etnaviv_gpu *gpu)
+>>>>    {
+>>>> +	if (gpu->clk_reg)
+>>>> +		clk_disable_unprepare(gpu->clk_reg);
+>>>> +	if (gpu->clk_bus)
+>>>> +		clk_disable_unprepare(gpu->clk_bus);
+>>>>    	if (gpu->clk_shader)
+>>>>    		clk_disable_unprepare(gpu->clk_shader);
+>>>>    	if (gpu->clk_core)
+>>>>    		clk_disable_unprepare(gpu->clk_core);
+>>>> -	if (gpu->clk_bus)
+>>>> -		clk_disable_unprepare(gpu->clk_bus);
+>>>> -	if (gpu->clk_reg)
+>>>> -		clk_disable_unprepare(gpu->clk_reg);
+>>>>
+>>>>    	return 0;
+>>>>    }
+>>>
+> _______________________________________________
+> linux-arm-kernel mailing list
+> linux-arm-kernel@lists.infradead.org
+> https://eur04.safelinks.protection.outlook.com/?url=http%3A%2F%2Flists.infradead.org%2Fmailman%2Flistinfo%2Flinux-arm-kernel&amp;data=02%7C01%7Cfrieder.schrempf%40kontron.de%7C1014be5f9b8b4d0c6e8108d7edcc5bde%7C8c9d3c973fd941c8a2b1646f3942daf1%7C0%7C0%7C637239334279684748&amp;sdata=kpx6LDA6QXgR3CPGsugEIIDt2YbZuJTC7%2FxrRsDhtok%3D&amp;reserved=0
+> 
 _______________________________________________
 etnaviv mailing list
 etnaviv@lists.freedesktop.org
