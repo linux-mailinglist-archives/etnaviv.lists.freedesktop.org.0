@@ -2,65 +2,58 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D2971C7167
-	for <lists+etnaviv@lfdr.de>; Wed,  6 May 2020 15:08:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 344CA1CDA2D
+	for <lists+etnaviv@lfdr.de>; Mon, 11 May 2020 14:39:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC9AB6E878;
-	Wed,  6 May 2020 13:08:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E344F6E454;
+	Mon, 11 May 2020 12:39:21 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from skedge04.snt-world.com (skedge04.snt-world.com [91.208.41.69])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C97CF6E866;
- Wed,  6 May 2020 11:59:32 +0000 (UTC)
-Received: from sntmail14r.snt-is.com (unknown [10.203.32.184])
- by skedge04.snt-world.com (Postfix) with ESMTP id 283B267A887;
- Wed,  6 May 2020 13:59:27 +0200 (CEST)
-Received: from sntmail12r.snt-is.com (10.203.32.182) by sntmail14r.snt-is.com
- (10.203.32.184) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1913.5; Wed, 6 May 2020
- 13:59:26 +0200
-Received: from sntmail12r.snt-is.com ([fe80::e551:8750:7bba:3305]) by
- sntmail12r.snt-is.com ([fe80::e551:8750:7bba:3305%3]) with mapi id
- 15.01.1913.007; Wed, 6 May 2020 13:59:26 +0200
-From: Schrempf Frieder <frieder.schrempf@kontron.de>
-To: Adam Ford <aford173@gmail.com>
-Subject: Re: [RFC PATCH 4/4] arm64: dts: imx8mm: Add GPU nodes for 2D and 3D
- core using Etnaviv
-Thread-Topic: [RFC PATCH 4/4] arm64: dts: imx8mm: Add GPU nodes for 2D and 3D
- core using Etnaviv
-Thread-Index: AQHWHu1XU8cnqZiR7kmt3VxL/7fb7aiWVM8AgASDlACAAAPOgA==
-Date: Wed, 6 May 2020 11:59:26 +0000
-Message-ID: <c9379cdb-cd53-804b-a214-bfee3022a859@kontron.de>
-References: <20200430124602.14463-1-frieder.schrempf@kontron.de>
- <20200430124602.14463-5-frieder.schrempf@kontron.de>
- <CAHCN7xJ=srZxygtG6hW_+us=qH1heY-k=EosavYH9tDk-KG0Bw@mail.gmail.com>
- <0df68f7c-13d2-5bd6-e27a-4bf8534f88fb@kontron.de>
-In-Reply-To: <0df68f7c-13d2-5bd6-e27a-4bf8534f88fb@kontron.de>
-Accept-Language: de-DE, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.25.9.193]
-x-c2processedorg: 51b406b7-48a2-4d03-b652-521f56ac89f3
-Content-ID: <44F5D1A06A190C449A968796CBDACFE2@snt-world.com>
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE0F06E233;
+ Mon, 11 May 2020 12:37:52 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id x17so10770082wrt.5;
+ Mon, 11 May 2020 05:37:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=WudCDKNIwltqXyIC4sQmrbpS3pV2CUnNxCEdHAnQUy4=;
+ b=mZOCtuOYeQFrMdo7vUDcjGR/z4NHAHfhoEAuZycbrWaagbg6QpIKT+ZGRgL3JZ4Fqr
+ bfqG4S7lQF2W66AvtBncKd/JQyRgGsLp5Hhplwxj2Iy8k2dPKBHIT/6mu2uuhYkClfPr
+ p4ynpQoowfRu3zO5ntd1Xc0sy575WYhifa6NJH6yXtP+J17d39ikTYGZVzlPIeCm9pCy
+ H6bxp1igS3Hc2m6ype4rDWzCZIkvg11FT5ZGWCUI2AtAy2D9/pXivMyulsltV0y+06OZ
+ fbpDKU/Tyh6KZAwtoAskeHG4Z8TjuDNhUbDfqZMDsS6sv1ayU91WJGn8rpol6V/DCr2M
+ vRaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=WudCDKNIwltqXyIC4sQmrbpS3pV2CUnNxCEdHAnQUy4=;
+ b=lIDJmNNmCPPBUGCQiH+pH6tMvMetsF9OtFdTV7CKkWD8SfC66j5/MEP7mdEyGtc0TO
+ 7qifBhf00q77u0KPGsCVCcEnuu687nRJRrHxAYvqnyIhSmxHHNO6JmMpEKsMTB4U5iv/
+ 0KdrzqkVJClYX/vafgHPcXSpt/3B0dxrBn63dK3ywDJlkPo6CiZnxrffv6eGy0mHugV7
+ EucxZsDohIrU8rO18/QV2M0xlhNDEZHrysYVFtkDwmML9JPTP7dF84Jy8vQEOQaOE4QW
+ Gr/aIum6JSCzvsvFP3w4y7c0IwUHMIaoty2qYBM3EX15mb69pOYxOBysak/5OPU1+0jA
+ Ixdw==
+X-Gm-Message-State: AGi0PuZFjR3USaOP6JUZzjedN/5EFqKhaNq+QGPomG/fhyrnstjiHjGg
+ zrI8LGO0Fb5h5PA2aPoHR2Q=
+X-Google-Smtp-Source: APiQypJ1RLhv+eW1TsuHlL9e31WY/kp/20I/CtCBpc1+BVpOMZUIWxDjCKGW3YThyDvPEw8Yrsfg7w==
+X-Received: by 2002:adf:8563:: with SMTP id 90mr18295265wrh.74.1589200671321; 
+ Mon, 11 May 2020 05:37:51 -0700 (PDT)
+Received: from localhost.localdomain.at
+ (62-178-82-229.cable.dynamic.surfer.at. [62.178.82.229])
+ by smtp.gmail.com with ESMTPSA id y70sm27981473wmc.36.2020.05.11.05.37.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 11 May 2020 05:37:50 -0700 (PDT)
+From: Christian Gmeiner <christian.gmeiner@gmail.com>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/etnaviv: fix perfmon domain interation
+Date: Mon, 11 May 2020 14:37:33 +0200
+Message-Id: <20200511123744.96246-1-christian.gmeiner@gmail.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-X-SnT-MailScanner-Information: Please contact the ISP for more information
-X-SnT-MailScanner-ID: 283B267A887.AF18A
-X-SnT-MailScanner: Not scanned: please contact your Internet E-Mail Service
- Provider for details
-X-SnT-MailScanner-SpamCheck: 
-X-SnT-MailScanner-From: frieder.schrempf@kontron.de
-X-SnT-MailScanner-To: aford173@gmail.com, anson.huang@nxp.com,
- christian.gmeiner@gmail.com, daniel.baluta@nxp.com,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- etnaviv@lists.freedesktop.org, festevam@gmail.com, jun.li@nxp.com,
- kernel@pengutronix.de, l.stach@pengutronix.de,
- leonard.crestez@nxp.com, linux+etnaviv@armlinux.org.uk,
- linux-arm-kernel@lists.infradead.org, linux-imx@nxp.com,
- linux-kernel@vger.kernel.org, peng.fan@nxp.com,
- s.hauer@pengutronix.de, shawnguo@kernel.org, shengjiu.wang@nxp.com
-X-Spam-Status: No
-X-Mailman-Approved-At: Wed, 06 May 2020 13:08:28 +0000
+X-Mailman-Approved-At: Mon, 11 May 2020 12:39:20 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,48 +65,66 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- Peng Fan <peng.fan@nxp.com>, Anson Huang <Anson.Huang@nxp.com>,
- Daniel Baluta <daniel.baluta@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- "etnaviv@lists.freedesktop.org" <etnaviv@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+Cc: stable@vger.kernel.or, David Airlie <airlied@linux.ie>,
+ etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Paul Cercueil <paul@crapouillou.net>,
  Christian Gmeiner <christian.gmeiner@gmail.com>,
- NXP Linux Team <linux-imx@nxp.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Lucas Stach <l.stach@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
- Leonard Crestez <leonard.crestez@nxp.com>, Fabio
- Estevam <festevam@gmail.com>, "S.j. Wang" <shengjiu.wang@nxp.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- Li Jun <jun.li@nxp.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ Daniel Vetter <daniel@ffwll.ch>, Russell King <linux+etnaviv@armlinux.org.uk>,
+ Lucas Stach <l.stach@pengutronix.de>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-T24gMDYuMDUuMjAgMTM6NDUsIEZyaWVkZXIgU2NocmVtcGYgd3JvdGU6DQo+IE9uIDAzLjA1LjIw
-IDE2OjQ5LCBBZGFtIEZvcmQgd3JvdGU6DQo+PiBPbiBUaHUsIEFwciAzMCwgMjAyMCBhdCA3OjQ2
-IEFNIFNjaHJlbXBmIEZyaWVkZXINCj4+IDxmcmllZGVyLnNjaHJlbXBmQGtvbnRyb24uZGU+IHdy
-b3RlOg0KPj4+DQo+Pj4gRnJvbTogRnJpZWRlciBTY2hyZW1wZiA8ZnJpZWRlci5zY2hyZW1wZkBr
-b250cm9uLmRlPg0KPj4+DQo+Pj4gQWNjb3JkaW5nIHRvIHRoZSBkb2N1bWVudHMsIHRoZSBpLk1Y
-OE0tTWluaSBmZWF0dXJlcyBhIEdDMzIwIGFuZCBhDQo+Pj4gR0NOYW5vVWx0cmEgR1BVIGNvcmUu
-IEV0bmF2aXYgZGV0ZWN0cyB0aGVtIGFzOg0KPj4+DQo+Pj4gwqDCoMKgwqDCoMKgwqDCoCBldG5h
-dml2LWdwdSAzODAwMDAwMC5ncHU6IG1vZGVsOiBHQzYwMCwgcmV2aXNpb246IDQ2NTMNCj4+PiDC
-oMKgwqDCoMKgwqDCoMKgIGV0bmF2aXYtZ3B1IDM4MDA4MDAwLmdwdTogbW9kZWw6IEdDNTIwLCBy
-ZXZpc2lvbjogNTM0MQ0KPj4+DQo+Pj4gVGhpcyBzZWVtcyB0byB3b3JrIGZpbmUgbW9yZSBvciBs
-ZXNzIHdpdGhvdXQgYW55IGNoYW5nZXMgdG8gdGhlIEhXREIsDQo+Pj4gd2hpY2ggc3RpbGwgbWln
-aHQgYmUgbmVlZGVkIGluIHRoZSBmdXR1cmUgdG8gY29ycmVjdCBzb21lIGZlYXR1cmVzLA0KPj4+
-IGV0Yy4NCj4+Pg0KPj4+IFNpZ25lZC1vZmYtYnk6IEZyaWVkZXIgU2NocmVtcGYgPGZyaWVkZXIu
-c2NocmVtcGZAa29udHJvbi5kZT4NCj4+PiAtLS0NCj4+IFNpbmNlIG5vdCBldmVyeW9uZSB1c2Vz
-IHRoZSAzRCBvciAyRCwgd291bGQgaXQgbWFrZSBzZW5zZSB0byBtYXJrIHRoZW0NCj4+IGFzIGRp
-c2FibGVkIGJ5IGRlZmF1bHQgYW5kIGxldCBwZW9wbGUgd2hvIG5lZWQgdGhlIDNEIGFuZCAyRCBl
-bmFibGUNCj4+IHRoZW0gYXQgdGhlaXIgcmVzcGVjdGl2ZSBib2FyZCBmaWxlcz8NCj4gDQo+IEkg
-d291bGQgcmF0aGVyIGtlZXAgaXQgdGhlIHdheSBpdCBoYXMgYmVlbiBkb25lIGZvciBvdGhlciBT
-b0NzLiBMb29raW5nIA0KPiBhdCB0aGUgaS5NWDYgZGV2aWNldHJlZXMsIHRoZXkgYWxsIHNlZW0g
-dG8gaGF2ZSB0aGUgR1BVcyBlbmFibGVkIGJ5IA0KPiBkZWZhdWx0Lg0KDQpBaCwgSSBoYWQgbWlz
-c2VkIEx1Y2FzIHJlcGx5LiBIZSBhbHJlYWR5IHByb3ZpZGVkIG11Y2ggYmV0dGVyIGFyZ3VtZW50
-cyANCmZvciBrZWVwaW5nIHRoZSBHUFVzIGVuYWJsZWQgYnkgZGVmYXVsdC4KX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZXRuYXZpdiBtYWlsaW5nIGxpc3QK
-ZXRuYXZpdkBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5v
-cmcvbWFpbG1hbi9saXN0aW5mby9ldG5hdml2Cg==
+The GC860 has one GPU device which has a 2d and 3d core. In this case
+we want to expose perfmon information for both cores.
+
+The driver has one array which contains all possible perfmon domains
+with some meta data - doms_meta. Here we can see that for the GC860
+two elements of that array are relevant:
+
+  doms_3d: is at index 0 in the doms_meta array with 8 perfmon domains
+  doms_2d: is at index 1 in the doms_meta array with 1 perfmon domain
+
+The userspace driver wants to get a list of all perfmon domains and
+their perfmon signals. This is done by iterating over all domains and
+their signals. If the userspace driver wants to access the domain with
+id 8 the kernel driver fails and returns invalid data from doms_3d with
+and invalid offset.
+
+This results in:
+  Unable to handle kernel paging request at virtual address 00000000
+
+On such a device it is not possible to use the userspace driver at all.
+
+The fix for this off-by-one error is quite simple.
+
+Reported-by: Paul Cercueil <paul@crapouillou.net>
+Tested-by: Paul Cercueil <paul@crapouillou.net>
+Fixes: ed1dd899baa3 ("drm/etnaviv: rework perfmon query infrastructure")
+Cc: stable@vger.kernel.or
+Signed-off-by: Christian Gmeiner <christian.gmeiner@gmail.com>
+---
+ drivers/gpu/drm/etnaviv/etnaviv_perfmon.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c b/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
+index e6795bafcbb9..35f7171e779a 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
+@@ -453,7 +453,7 @@ static const struct etnaviv_pm_domain *pm_domain(const struct etnaviv_gpu *gpu,
+ 		if (!(gpu->identity.features & meta->feature))
+ 			continue;
+ 
+-		if (meta->nr_domains < (index - offset)) {
++		if ((meta->nr_domains - 1) < (index - offset)) {
+ 			offset += meta->nr_domains;
+ 			continue;
+ 		}
+-- 
+2.26.2
+
+_______________________________________________
+etnaviv mailing list
+etnaviv@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/etnaviv
