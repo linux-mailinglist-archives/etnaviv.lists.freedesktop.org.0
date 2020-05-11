@@ -1,56 +1,56 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 344CA1CDA2D
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C3591CDA2C
 	for <lists+etnaviv@lfdr.de>; Mon, 11 May 2020 14:39:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E344F6E454;
+	by gabe.freedesktop.org (Postfix) with ESMTP id A9E9F6E453;
 	Mon, 11 May 2020 12:39:21 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE0F06E233;
- Mon, 11 May 2020 12:37:52 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id x17so10770082wrt.5;
- Mon, 11 May 2020 05:37:52 -0700 (PDT)
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A20BE6E452;
+ Mon, 11 May 2020 12:38:50 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id v12so10717625wrp.12;
+ Mon, 11 May 2020 05:38:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=WudCDKNIwltqXyIC4sQmrbpS3pV2CUnNxCEdHAnQUy4=;
- b=mZOCtuOYeQFrMdo7vUDcjGR/z4NHAHfhoEAuZycbrWaagbg6QpIKT+ZGRgL3JZ4Fqr
- bfqG4S7lQF2W66AvtBncKd/JQyRgGsLp5Hhplwxj2Iy8k2dPKBHIT/6mu2uuhYkClfPr
- p4ynpQoowfRu3zO5ntd1Xc0sy575WYhifa6NJH6yXtP+J17d39ikTYGZVzlPIeCm9pCy
- H6bxp1igS3Hc2m6ype4rDWzCZIkvg11FT5ZGWCUI2AtAy2D9/pXivMyulsltV0y+06OZ
- fbpDKU/Tyh6KZAwtoAskeHG4Z8TjuDNhUbDfqZMDsS6sv1ayU91WJGn8rpol6V/DCr2M
- vRaQ==
+ bh=e/7g+Dk3ulGJzA1ZqqgcvZurwlfTuEzqTNp6ZYliVW4=;
+ b=rtJPvnSDjKuOSMfGnG/B2uMl5ngrAGDoVHkoFM4MO24RwTb42n3UNtiOk15NtGYfw6
+ 8uw/mobincTc+Y1Dkrvw/+WuIIuPaIq4L3JrxEXscFXkOmgnK3a0EGRruaG/y7P5pTGN
+ UJTYd5NQPGskTdo/EGmEmU8Bd8ohjtqoxp5vsyER/31I7feNHy0o6/WafUuZ8Zfr4w5o
+ 2FjhCHhqKubUuAaxtQTRSLsgQdFULhaTkFhV3SU1nncjaR2nRuZmYNLQOlQHxW3Z1rT6
+ 0M4+3kC4kP54w1YR9rdllPZaWEy/BqE3uPY18dCH5TKgpeFk9hJpb/UyeX9ZNIk+TWsx
+ jpDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=WudCDKNIwltqXyIC4sQmrbpS3pV2CUnNxCEdHAnQUy4=;
- b=lIDJmNNmCPPBUGCQiH+pH6tMvMetsF9OtFdTV7CKkWD8SfC66j5/MEP7mdEyGtc0TO
- 7qifBhf00q77u0KPGsCVCcEnuu687nRJRrHxAYvqnyIhSmxHHNO6JmMpEKsMTB4U5iv/
- 0KdrzqkVJClYX/vafgHPcXSpt/3B0dxrBn63dK3ywDJlkPo6CiZnxrffv6eGy0mHugV7
- EucxZsDohIrU8rO18/QV2M0xlhNDEZHrysYVFtkDwmML9JPTP7dF84Jy8vQEOQaOE4QW
- Gr/aIum6JSCzvsvFP3w4y7c0IwUHMIaoty2qYBM3EX15mb69pOYxOBysak/5OPU1+0jA
- Ixdw==
-X-Gm-Message-State: AGi0PuZFjR3USaOP6JUZzjedN/5EFqKhaNq+QGPomG/fhyrnstjiHjGg
- zrI8LGO0Fb5h5PA2aPoHR2Q=
-X-Google-Smtp-Source: APiQypJ1RLhv+eW1TsuHlL9e31WY/kp/20I/CtCBpc1+BVpOMZUIWxDjCKGW3YThyDvPEw8Yrsfg7w==
-X-Received: by 2002:adf:8563:: with SMTP id 90mr18295265wrh.74.1589200671321; 
- Mon, 11 May 2020 05:37:51 -0700 (PDT)
+ bh=e/7g+Dk3ulGJzA1ZqqgcvZurwlfTuEzqTNp6ZYliVW4=;
+ b=HcZwYkbPIRQzUVIJULrb/XK9iJay4fNSh5/LqbQM9cBD2oEM1CYQ6AXL8a6/JOI4ws
+ C6WuH4g4U2KkQ5+jo2YRuH0yxLsUq6f20gRudCMqovqyppGGu+9yTZpVZRavtjOf5dKj
+ BppPCS2aFTh1xBftO0SruQ6s8PRWwPfFp9OF4J7u7bLhUi2rlHr5au8viG64jiOomLdn
+ gBEUodgZmhU0q3QJSKUlZgxSRjhk4IubC2jc0CtLBYmzrk/vVbyQQicQy6hI2Rbxya1l
+ QcTjPUAUJ/GWJpv6vth3yT1+8rcVPMYG8ubOcAShx2KZgX3WnGTKbU7EnVTKcJviHC+2
+ AkGg==
+X-Gm-Message-State: AGi0PubiLpyL9Ds+pHRJqhKn9k/hj8vVx5AcTZGx7UnNQ75/nE1jpzg3
+ BNJxIHy8Zfz0rHq8x7VrjSo=
+X-Google-Smtp-Source: APiQypIEWKDu44A+npU7MmH4oc2np5qOouKCs0oVitxMIUb0GK3Z+Ab/RzdBhjYvMZAXgblwnKWCFQ==
+X-Received: by 2002:a5d:4801:: with SMTP id l1mr18074398wrq.235.1589200729281; 
+ Mon, 11 May 2020 05:38:49 -0700 (PDT)
 Received: from localhost.localdomain.at
  (62-178-82-229.cable.dynamic.surfer.at. [62.178.82.229])
- by smtp.gmail.com with ESMTPSA id y70sm27981473wmc.36.2020.05.11.05.37.49
+ by smtp.gmail.com with ESMTPSA id y3sm16965388wrt.87.2020.05.11.05.38.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 May 2020 05:37:50 -0700 (PDT)
+ Mon, 11 May 2020 05:38:48 -0700 (PDT)
 From: Christian Gmeiner <christian.gmeiner@gmail.com>
 To: linux-kernel@vger.kernel.org
 Subject: [PATCH] drm/etnaviv: fix perfmon domain interation
-Date: Mon, 11 May 2020 14:37:33 +0200
-Message-Id: <20200511123744.96246-1-christian.gmeiner@gmail.com>
+Date: Mon, 11 May 2020 14:38:41 +0200
+Message-Id: <20200511123846.96594-1-christian.gmeiner@gmail.com>
 X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
 X-Mailman-Approved-At: Mon, 11 May 2020 12:39:20 +0000
@@ -65,11 +65,11 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: stable@vger.kernel.or, David Airlie <airlied@linux.ie>,
- etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Paul Cercueil <paul@crapouillou.net>,
+Cc: David Airlie <airlied@linux.ie>, etnaviv@lists.freedesktop.org,
+ stable@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>,
  Christian Gmeiner <christian.gmeiner@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Russell King <linux+etnaviv@armlinux.org.uk>,
+ dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
  Lucas Stach <l.stach@pengutronix.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
@@ -102,7 +102,7 @@ The fix for this off-by-one error is quite simple.
 Reported-by: Paul Cercueil <paul@crapouillou.net>
 Tested-by: Paul Cercueil <paul@crapouillou.net>
 Fixes: ed1dd899baa3 ("drm/etnaviv: rework perfmon query infrastructure")
-Cc: stable@vger.kernel.or
+Cc: stable@vger.kernel.org
 Signed-off-by: Christian Gmeiner <christian.gmeiner@gmail.com>
 ---
  drivers/gpu/drm/etnaviv/etnaviv_perfmon.c | 2 +-
