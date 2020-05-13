@@ -2,51 +2,51 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C20C51D1A96
-	for <lists+etnaviv@lfdr.de>; Wed, 13 May 2020 18:05:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 991F51D1BE8
+	for <lists+etnaviv@lfdr.de>; Wed, 13 May 2020 19:08:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 73B066EA73;
-	Wed, 13 May 2020 16:05:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 077B689D9B;
+	Wed, 13 May 2020 17:08:10 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
- [IPv6:2a00:1450:4864:20::144])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E9B96EA71;
- Wed, 13 May 2020 16:05:54 +0000 (UTC)
-Received: by mail-lf1-x144.google.com with SMTP id 8so11380465lfp.4;
- Wed, 13 May 2020 09:05:54 -0700 (PDT)
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
+ [IPv6:2a00:1450:4864:20::241])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB38389D6C;
+ Wed, 13 May 2020 17:08:08 +0000 (UTC)
+Received: by mail-lj1-x241.google.com with SMTP id b6so441852ljj.1;
+ Wed, 13 May 2020 10:08:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=/yS65XV/YtISiDaptac0FJiXD3Tn4ArFGdgQXRHd/aM=;
- b=PLKqSYSNicC0BUQNdjEBXIczUU2Ubmi9uxrakyohfeKedUu5pEjNXH3weTM/WNFlZM
- J0X0KiO9Umy3eAbZ6TSsOuO7vFxuUSITJmODaZj5uHx1byuQUI1JEpqZPhSadkgdJarR
- G82gO3AHOnSB1JJqvwQCpqXLG0u2HJHiRbmKYZ4qIqOmuO5YD4fM7cbjOKZifuhJ6kgB
- hBNPxWc05yFQjfYr36j97EXsX3A/3qHd/kwTB0qw4RjH/x09QeLmHlexCET4l5UZ3Hdq
- t9P2Ttw4nmH7TsI/0i0jzkM7qHcffz0O8Xh8NoHN8f9eamzTWS80bAo82wIrvz2gcFJm
- rhSA==
+ :cc; bh=Ct92GoQxmjkrJFsjfbiJncWVHhbFDJqrFKHkKPJTo14=;
+ b=Tl5Rbiyng5LgHx5Gg6sJfh0nYM5fQaO5R9FbQ+FxIU77QOtG1peH+rYIp9YdGC0Ki+
+ WMXudb69z9CbqDUAkmJ3uZ+faKYl1Afni3nUwNKCKi/+a1HCy7m0BUJxuCLN/QaJaXC+
+ PdNYd1Dh5DYxj84YQrMpUC8Zm0+T5H/JPUxd1oW787D9a/0TLAHR9oDiFXTD7MWyUNo4
+ qRy6awADaPbdSVWfF+K7VbVR8QXWfuQEN6/5D1EnO0K1dC14g/EkK/vbB2U5oLD7vdWu
+ L4SEzlMjFeNtqCBrEZGIyJkYetgwgmZzYWL5R+Ve1HRbh+gpXwa2AYqY2ccWB6P+Aj9w
+ zADQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=/yS65XV/YtISiDaptac0FJiXD3Tn4ArFGdgQXRHd/aM=;
- b=f9KpAnjmHxsP9FFyqzonLna9FCYH6+S9WOzHa+R0rmvEAxed3I7tZ03dACDIQvi6HF
- b4MgfItA3YWRMYB1Ho7Qr4jmZtDEN0MTbff+iyETfixqnxNMzCHNyMODBKZO/cQzf9Z0
- /aQvGM1O7HQ4YH8U9u+YTFzvasmrbRM4lDGNQlf/gEMTZyyu/Rezr9x09XriT+WJ+PC8
- yRqtAJ2tYrrbvfd/MDD6cxW0loCT+vcGisTpFbgjlqkSrpRqN4Uof/tfUfSGNSyEKLAW
- kx78KCidoax9LGINJCyvJn68hDG1MwashqU/LonPZLNAB6SV3bMYqImBWrXiEHqhqXUD
- pjMA==
-X-Gm-Message-State: AOAM530dQpPeMSfiRl/358zvUrU0n1czzCJHIalmi93eviaeCdkH78bt
- fGkePNCnhhhjcLlNYdmeaIvmxB3jeCzEZApD7gk=
-X-Google-Smtp-Source: ABdhPJy16wWQDPJNS54OlcDRfVMpoO17uW3oqhASyCtXCLRYCkdn+EsWQCegAtv+YMXArpzHEQO/EEfoyLKS/V25tiw=
-X-Received: by 2002:a19:4a97:: with SMTP id x145mr169435lfa.66.1589385952502; 
- Wed, 13 May 2020 09:05:52 -0700 (PDT)
+ bh=Ct92GoQxmjkrJFsjfbiJncWVHhbFDJqrFKHkKPJTo14=;
+ b=crYtbN3hP4GYEb+Zmb04IhgepHiBoYYL6zbqeT2KrGU43Fh7tK8619qV07HgtIn9z2
+ tG4inPMuLB/s6WMtykd8DQxIssy1UOEr+1La7mUJkiXlei1OfOmgyKFmBMQdU1HJ8M5E
+ XL/szojJOXOan0UkVTKnGBFMq9h4FTOhuDm0NguuP+EiNh0Mi7p/mI2GKao579tFQt9C
+ KaYrRTDB8RMVUtoA3bZ7UyoELB3tayJn9Ohl6cSzgevflZceK9SlLK1gZc0cPv+ynmze
+ VY92f1eDKXxiHSM8nHbB0LLyxA+9F8oxSf387rDet9fe60VSDero3zNfupguERdF+DXY
+ ndDA==
+X-Gm-Message-State: AOAM5306U1QttZSH7xU8FYfNT4TAvel84IDfJMEmBu9ZKNPFFmi5tswz
+ 7gLNArCi2bUZaQNsSsiWchDJlWOiBdU8GhjAzdg=
+X-Google-Smtp-Source: ABdhPJztZOzynU5omXWIWITm6a2uO+5uiPsUQ2mpbi7pLnKEITDKvJ/cWebb6gPS7BsFK4UO0pNiyNMAI5b0QypN0sM=
+X-Received: by 2002:a2e:9b50:: with SMTP id o16mr75061ljj.164.1589389687029;
+ Wed, 13 May 2020 10:08:07 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200513150007.1315395-1-lkundrak@v3.sk>
  <20200513150007.1315395-3-lkundrak@v3.sk>
 In-Reply-To: <20200513150007.1315395-3-lkundrak@v3.sk>
 From: Fabio Estevam <festevam@gmail.com>
-Date: Wed, 13 May 2020 13:07:06 -0300
-Message-ID: <CAOMZO5CfPC_awoo4RRgOabWYk8WaAKJUypG8A=XeuThuCZHqDQ@mail.gmail.com>
+Date: Wed, 13 May 2020 14:09:21 -0300
+Message-ID: <CAOMZO5B582=tZ_YBCyVYFtGh=z5hZKFxP7XoUHEmH3jZsk2uYQ@mail.gmail.com>
 Subject: Re: [PATCH 2/3] drm/etnaviv: Don't ignore errors on getting clocks
 To: Lubomir Rintel <lkundrak@v3.sk>
 X-BeenThere: etnaviv@lists.freedesktop.org
@@ -71,10 +71,24 @@ Content-Transfer-Encoding: 7bit
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Hi Lubomir,
-
 On Wed, May 13, 2020 at 12:08 PM Lubomir Rintel <lkundrak@v3.sk> wrote:
-
+>
+> There might be good reasons why the getting a clock failed. To treat the
+> clocks as optional we're specifically only interested in ignoring -ENOENT,
+> and devm_clk_get_optional() does just that.
+>
+> Signed-off-by: Lubomir Rintel <lkundrak@v3.sk>
+> ---
+>  drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 16 ++++++++--------
+>  1 file changed, 8 insertions(+), 8 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> index c6dacfe3d321..e7dbb924f576 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> @@ -1786,26 +1786,26 @@ static int etnaviv_gpu_platform_probe(struct platform_device *pdev)
+>         }
+>
 >         /* Get Clocks: */
 > -       gpu->clk_reg = devm_clk_get(&pdev->dev, "reg");
 > +       gpu->clk_reg = devm_clk_get_optional(&pdev->dev, "reg");
@@ -82,8 +96,44 @@ On Wed, May 13, 2020 at 12:08 PM Lubomir Rintel <lkundrak@v3.sk> wrote:
 >         if (IS_ERR(gpu->clk_reg))
 > -               gpu->clk_reg = NULL;
 > +               return err;
+>
+> -       gpu->clk_bus = devm_clk_get(&pdev->dev, "bus");
+> +       gpu->clk_bus = devm_clk_get_optional(&pdev->dev, "bus");
 
-You should return PTR_ERR(gpu->clk_reg) instead.
+The binding doc Documentation/devicetree/bindings/gpu/vivante,gc.yaml
+says that only the 'reg' clock could be optional, the others are
+required.
+
+
+>         DBG("clk_bus: %p", gpu->clk_bus);
+>         if (IS_ERR(gpu->clk_bus))
+> -               gpu->clk_bus = NULL;
+> +               return err;
+>
+> -       gpu->clk_core = devm_clk_get(&pdev->dev, "core");
+> +       gpu->clk_core = devm_clk_get_optional(&pdev->dev, "core");
+>         DBG("clk_core: %p", gpu->clk_core);
+>         if (IS_ERR(gpu->clk_core))
+> -               gpu->clk_core = NULL;
+> +               return err;
+>         gpu->base_rate_core = clk_get_rate(gpu->clk_core);
+>
+> -       gpu->clk_shader = devm_clk_get(&pdev->dev, "shader");
+> +       gpu->clk_shader = devm_clk_get_optional(&pdev->dev, "shader");
+>         DBG("clk_shader: %p", gpu->clk_shader);
+>         if (IS_ERR(gpu->clk_shader))
+> -               gpu->clk_shader = NULL;
+> +               return err;
+>         gpu->base_rate_shader = clk_get_rate(gpu->clk_shader);
+>
+>         /* TODO: figure out max mapped size */
+> --
+> 2.26.2
+>
+> _______________________________________________
+> etnaviv mailing list
+> etnaviv@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/etnaviv
 _______________________________________________
 etnaviv mailing list
 etnaviv@lists.freedesktop.org
