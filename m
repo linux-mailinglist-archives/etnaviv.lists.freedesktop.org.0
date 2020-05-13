@@ -2,30 +2,53 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E15A91D18B9
-	for <lists+etnaviv@lfdr.de>; Wed, 13 May 2020 17:08:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C20C51D1A96
+	for <lists+etnaviv@lfdr.de>; Wed, 13 May 2020 18:05:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 989486EA6D;
-	Wed, 13 May 2020 15:08:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 73B066EA73;
+	Wed, 13 May 2020 16:05:55 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from v6.sk (v6.sk [167.172.42.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C0FF6EA6A
- for <etnaviv@lists.freedesktop.org>; Wed, 13 May 2020 15:07:03 +0000 (UTC)
-Received: from localhost (v6.sk [IPv6:::1])
- by v6.sk (Postfix) with ESMTP id D41E6610D7;
- Wed, 13 May 2020 15:00:16 +0000 (UTC)
-From: Lubomir Rintel <lkundrak@v3.sk>
-To: Lucas Stach <l.stach@pengutronix.de>
-Subject: [PATCH 3/3] drm/etnaviv: Simplify clock enable/disable
-Date: Wed, 13 May 2020 17:00:07 +0200
-Message-Id: <20200513150007.1315395-4-lkundrak@v3.sk>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200513150007.1315395-1-lkundrak@v3.sk>
-References: <[PATCH 0/3] drm/etnaviv: Clock fixes>
- <20200513150007.1315395-1-lkundrak@v3.sk>
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
+ [IPv6:2a00:1450:4864:20::144])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E9B96EA71;
+ Wed, 13 May 2020 16:05:54 +0000 (UTC)
+Received: by mail-lf1-x144.google.com with SMTP id 8so11380465lfp.4;
+ Wed, 13 May 2020 09:05:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=/yS65XV/YtISiDaptac0FJiXD3Tn4ArFGdgQXRHd/aM=;
+ b=PLKqSYSNicC0BUQNdjEBXIczUU2Ubmi9uxrakyohfeKedUu5pEjNXH3weTM/WNFlZM
+ J0X0KiO9Umy3eAbZ6TSsOuO7vFxuUSITJmODaZj5uHx1byuQUI1JEpqZPhSadkgdJarR
+ G82gO3AHOnSB1JJqvwQCpqXLG0u2HJHiRbmKYZ4qIqOmuO5YD4fM7cbjOKZifuhJ6kgB
+ hBNPxWc05yFQjfYr36j97EXsX3A/3qHd/kwTB0qw4RjH/x09QeLmHlexCET4l5UZ3Hdq
+ t9P2Ttw4nmH7TsI/0i0jzkM7qHcffz0O8Xh8NoHN8f9eamzTWS80bAo82wIrvz2gcFJm
+ rhSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=/yS65XV/YtISiDaptac0FJiXD3Tn4ArFGdgQXRHd/aM=;
+ b=f9KpAnjmHxsP9FFyqzonLna9FCYH6+S9WOzHa+R0rmvEAxed3I7tZ03dACDIQvi6HF
+ b4MgfItA3YWRMYB1Ho7Qr4jmZtDEN0MTbff+iyETfixqnxNMzCHNyMODBKZO/cQzf9Z0
+ /aQvGM1O7HQ4YH8U9u+YTFzvasmrbRM4lDGNQlf/gEMTZyyu/Rezr9x09XriT+WJ+PC8
+ yRqtAJ2tYrrbvfd/MDD6cxW0loCT+vcGisTpFbgjlqkSrpRqN4Uof/tfUfSGNSyEKLAW
+ kx78KCidoax9LGINJCyvJn68hDG1MwashqU/LonPZLNAB6SV3bMYqImBWrXiEHqhqXUD
+ pjMA==
+X-Gm-Message-State: AOAM530dQpPeMSfiRl/358zvUrU0n1czzCJHIalmi93eviaeCdkH78bt
+ fGkePNCnhhhjcLlNYdmeaIvmxB3jeCzEZApD7gk=
+X-Google-Smtp-Source: ABdhPJy16wWQDPJNS54OlcDRfVMpoO17uW3oqhASyCtXCLRYCkdn+EsWQCegAtv+YMXArpzHEQO/EEfoyLKS/V25tiw=
+X-Received: by 2002:a19:4a97:: with SMTP id x145mr169435lfa.66.1589385952502; 
+ Wed, 13 May 2020 09:05:52 -0700 (PDT)
 MIME-Version: 1.0
-X-Mailman-Approved-At: Wed, 13 May 2020 15:08:18 +0000
+References: <20200513150007.1315395-1-lkundrak@v3.sk>
+ <20200513150007.1315395-3-lkundrak@v3.sk>
+In-Reply-To: <20200513150007.1315395-3-lkundrak@v3.sk>
+From: Fabio Estevam <festevam@gmail.com>
+Date: Wed, 13 May 2020 13:07:06 -0300
+Message-ID: <CAOMZO5CfPC_awoo4RRgOabWYk8WaAKJUypG8A=XeuThuCZHqDQ@mail.gmail.com>
+Subject: Re: [PATCH 2/3] drm/etnaviv: Don't ignore errors on getting clocks
+To: Lubomir Rintel <lkundrak@v3.sk>
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -37,105 +60,30 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- etnaviv@lists.freedesktop.org, Lubomir Rintel <lkundrak@v3.sk>,
+Cc: The etnaviv authors <etnaviv@lists.freedesktop.org>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
  Christian Gmeiner <christian.gmeiner@gmail.com>,
- Russell King <linux+etnaviv@armlinux.org.uk>
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Lucas Stach <l.stach@pengutronix.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-All the NULL checks are pointless, clk_*() routines already deal with NULL
-just fine.
+Hi Lubomir,
 
-Signed-off-by: Lubomir Rintel <lkundrak@v3.sk>
----
- drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 53 ++++++++++-----------------
- 1 file changed, 19 insertions(+), 34 deletions(-)
+On Wed, May 13, 2020 at 12:08 PM Lubomir Rintel <lkundrak@v3.sk> wrote:
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-index e7dbb924f576..f5b95cb4f058 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-@@ -1487,55 +1487,40 @@ static int etnaviv_gpu_clk_enable(struct etnaviv_gpu *gpu)
- {
- 	int ret;
- 
--	if (gpu->clk_reg) {
--		ret = clk_prepare_enable(gpu->clk_reg);
--		if (ret)
--			return ret;
--	}
-+	ret = clk_prepare_enable(gpu->clk_reg);
-+	if (ret)
-+		return ret;
- 
--	if (gpu->clk_bus) {
--		ret = clk_prepare_enable(gpu->clk_bus);
--		if (ret)
--			goto disable_clk_reg;
--	}
-+	ret = clk_prepare_enable(gpu->clk_bus);
-+	if (ret)
-+		goto disable_clk_reg;
- 
--	if (gpu->clk_core) {
--		ret = clk_prepare_enable(gpu->clk_core);
--		if (ret)
--			goto disable_clk_bus;
--	}
-+	ret = clk_prepare_enable(gpu->clk_core);
-+	if (ret)
-+		goto disable_clk_bus;
- 
--	if (gpu->clk_shader) {
--		ret = clk_prepare_enable(gpu->clk_shader);
--		if (ret)
--			goto disable_clk_core;
--	}
-+	ret = clk_prepare_enable(gpu->clk_shader);
-+	if (ret)
-+		goto disable_clk_core;
- 
- 	return 0;
- 
- disable_clk_core:
--	if (gpu->clk_core)
--		clk_disable_unprepare(gpu->clk_core);
-+	clk_disable_unprepare(gpu->clk_core);
- disable_clk_bus:
--	if (gpu->clk_bus)
--		clk_disable_unprepare(gpu->clk_bus);
-+	clk_disable_unprepare(gpu->clk_bus);
- disable_clk_reg:
--	if (gpu->clk_reg)
--		clk_disable_unprepare(gpu->clk_reg);
-+	clk_disable_unprepare(gpu->clk_reg);
- 
- 	return ret;
- }
- 
- static int etnaviv_gpu_clk_disable(struct etnaviv_gpu *gpu)
- {
--	if (gpu->clk_shader)
--		clk_disable_unprepare(gpu->clk_shader);
--	if (gpu->clk_core)
--		clk_disable_unprepare(gpu->clk_core);
--	if (gpu->clk_bus)
--		clk_disable_unprepare(gpu->clk_bus);
--	if (gpu->clk_reg)
--		clk_disable_unprepare(gpu->clk_reg);
-+	clk_disable_unprepare(gpu->clk_shader);
-+	clk_disable_unprepare(gpu->clk_core);
-+	clk_disable_unprepare(gpu->clk_bus);
-+	clk_disable_unprepare(gpu->clk_reg);
- 
- 	return 0;
- }
--- 
-2.26.2
+>         /* Get Clocks: */
+> -       gpu->clk_reg = devm_clk_get(&pdev->dev, "reg");
+> +       gpu->clk_reg = devm_clk_get_optional(&pdev->dev, "reg");
+>         DBG("clk_reg: %p", gpu->clk_reg);
+>         if (IS_ERR(gpu->clk_reg))
+> -               gpu->clk_reg = NULL;
+> +               return err;
 
+You should return PTR_ERR(gpu->clk_reg) instead.
 _______________________________________________
 etnaviv mailing list
 etnaviv@lists.freedesktop.org
