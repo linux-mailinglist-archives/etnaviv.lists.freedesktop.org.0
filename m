@@ -2,58 +2,65 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC07D1D4B47
-	for <lists+etnaviv@lfdr.de>; Fri, 15 May 2020 12:44:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE2861D532C
+	for <lists+etnaviv@lfdr.de>; Fri, 15 May 2020 17:07:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E73E6E144;
-	Fri, 15 May 2020 10:44:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 68F4F6E194;
+	Fri, 15 May 2020 15:07:58 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-ua1-x941.google.com (mail-ua1-x941.google.com
- [IPv6:2607:f8b0:4864:20::941])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A3836E13F;
- Fri, 15 May 2020 10:44:24 +0000 (UTC)
-Received: by mail-ua1-x941.google.com with SMTP id t8so622679uap.3;
- Fri, 15 May 2020 03:44:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=YgrIIrg4mnIAMD9622ZNs+MTWyUAyrZXO6F1RXxlaUo=;
- b=qBpBRBd+taT5XlFmUkeAv/Lh+hN7eLDn8H6QxhWoJpEpjwIwhm+RO81oNPuFkcPTiU
- t5qFna5c2zvlntgknYHcHd5xd3W4vR8i10sbG3EVVO0S5qFs188+RcwEBhy7JSoCSrxQ
- e4OmdKf5lv3LNLKVCbds2+5jvr0iYU8ItqiknQJz5P8m3VEUhUj1t3EBfNtdaqmwE8gU
- 7gvEyQ9YaHs0cvJ/8WPsWL+50Do3WQe6R/0LVv5AqqZfNSa9XbiqrU5NXyixK8CccUd4
- 4a5XzGqvgl5Pa4zBNVAfYThXRix4FJ6BTryUrzURbn9/d7u9EmqLX7InwgkwXvFSHJ55
- 6WlQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=YgrIIrg4mnIAMD9622ZNs+MTWyUAyrZXO6F1RXxlaUo=;
- b=eL489/kbYxvNInhJgiUnqhu13TuUA3tBLuut2vYLNsySapIsf8ECT8+KGdsF2SIfJb
- Fa5bV5RnY9uOXCjrqsKSE9OhcgUbr69Lwm8jL1EwYaQ9fTl+yStgZTV/w10u8r/iCnsJ
- POsPZ1C5UwNkVOR2uzhYXL2naQ1sd2cvYpxa9gf4sJw1MaJ8+i4m2Bc5Q0QBXrVvvHuU
- c7Fn1mH7vglIoPlqk0Z7kOtQGOk1hEmXoJxf3fhqq8y6Y2RH69+LJkA+A68ncM8ONOvt
- yy7B9Helj9mc5TvmJjb2/CvFsJalYQsBLXhTJIZqOK2odeFAMHFkadkpu3k8/PJOdt/d
- J8GA==
-X-Gm-Message-State: AOAM5310vuZE3hvcd37MRDZzyIdym1auoJcP2pu9+ELMZ6jR2nCKUApq
- sRw7s1BfDgx933/tvFbpV/eVkYdhU6zg65zlCTjaIGbv9DX8wQ==
-X-Google-Smtp-Source: ABdhPJzGP3waNVN9Q8Dt2zJH7viCURTLsKBnUK2Y9VknZqkyRmQ7DRt5B81IjaNpVV5vHr1rgJGqeMMQ4pnGv69SQTA=
-X-Received: by 2002:ab0:4ac9:: with SMTP id t9mr2350299uae.40.1589539463686;
- Fri, 15 May 2020 03:44:23 -0700 (PDT)
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2855E6ECB2;
+ Fri, 15 May 2020 14:15:21 +0000 (UTC)
+IronPort-SDR: UG6p7PsUknkABRbwbnrzbZWRSSJw/NFP6d9ox2OAjQT3928uSIem6emtg2ypdWXYZw0AeAFBXY
+ N5unSe71Q88w==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 May 2020 07:15:18 -0700
+IronPort-SDR: 48D8D6N9ITJ1eakIQgSIO1hwzcC1TUMSkWaxxUqccg2fR2o9qv+mtbdlOzwHvDnYskMOhjBmm9
+ Yad1wTimal7A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,395,1583222400"; d="scan'208";a="252388052"
+Received: from irsmsx154.ger.corp.intel.com ([163.33.192.96])
+ by fmsmga007.fm.intel.com with ESMTP; 15 May 2020 07:15:11 -0700
+Received: from irsmsx602.ger.corp.intel.com (163.33.146.8) by
+ IRSMSX154.ger.corp.intel.com (163.33.192.96) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Fri, 15 May 2020 15:15:10 +0100
+Received: from irsmsx601.ger.corp.intel.com (163.33.146.7) by
+ irsmsx602.ger.corp.intel.com (163.33.146.8) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Fri, 15 May 2020 15:15:10 +0100
+Received: from irsmsx601.ger.corp.intel.com ([163.33.146.7]) by
+ irsmsx601.ger.corp.intel.com ([163.33.146.7]) with mapi id 15.01.1713.004;
+ Fri, 15 May 2020 15:15:10 +0100
+From: "Szwichtenberg, Radoslaw" <radoslaw.szwichtenberg@intel.com>
+To: "events@lists.x.org" <events@lists.x.org>,
+ "xorg-devel@lists.freedesktop.org" <xorg-devel@lists.freedesktop.org>,
+ "wayland-devel@lists.freedesktop.org" <wayland-devel@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "mesa-dev@lists.freedesktop.org" <mesa-dev@lists.freedesktop.org>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ "etnaviv@lists.freedesktop.org" <etnaviv@lists.freedesktop.org>,
+ "freedreno@lists.freedesktop.org" <freedreno@lists.freedesktop.org>,
+ "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
+Subject: XDC 2020: Registration & Call for Proposals now open!
+Thread-Topic: XDC 2020: Registration & Call for Proposals now open!
+Thread-Index: AdYqwkf6xuypRettR8CslFMm+spI/w==
+Date: Fri, 15 May 2020 14:15:10 +0000
+Message-ID: <9a4392829de747a9a752a5b13f31f90b@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-version: 11.2.0.6
+dlp-product: dlpe-windows
+dlp-reaction: no-action
+x-originating-ip: [163.33.253.164]
 MIME-Version: 1.0
-References: <20200511123846.96594-1-christian.gmeiner@gmail.com>
- <CAH9NwWcJNhUVkzd0KAfJyxNZJ9a71KLzipW+qRwhgEWUmnnxmg@mail.gmail.com>
- <X0BDAQ.L99CTJZCDEJE3@crapouillou.net>
- <a51cb70623c4c2441bb8df8385f56c99392b8435.camel@pengutronix.de>
- <CAH9NwWc6zUvoJ0xep9zO2Ocm8BzR7nRNx9=EQuwb5DXsX-J0Zw@mail.gmail.com>
- <ed4688343e443ff76644051be544c70fd8c5345b.camel@pengutronix.de>
-In-Reply-To: <ed4688343e443ff76644051be544c70fd8c5345b.camel@pengutronix.de>
-From: Christian Gmeiner <christian.gmeiner@gmail.com>
-Date: Fri, 15 May 2020 12:44:12 +0200
-Message-ID: <CAH9NwWctscn-cfU_Y1OV2GV_T3oNn1H2Tmu18OHQOD4=aTYbFA@mail.gmail.com>
-Subject: Re: [PATCH] drm/etnaviv: fix perfmon domain interation
-To: Lucas Stach <l.stach@pengutronix.de>
+X-Mailman-Approved-At: Fri, 15 May 2020 15:07:57 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,89 +72,85 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
- stable@vger.kernel.org, The etnaviv authors <etnaviv@lists.freedesktop.org>,
- Paul Cercueil <paul@crapouillou.net>,
- DRI mailing list <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel@ffwll.ch>, Russell King <linux+etnaviv@armlinux.org.uk>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: "board@foundation.x.org" <board@foundation.x.org>
+Content-Type: text/plain; charset="iso-8859-2"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-QW0gRnIuLCAxNS4gTWFpIDIwMjAgdW0gMTI6MzMgVWhyIHNjaHJpZWIgTHVjYXMgU3RhY2ggPGwu
-c3RhY2hAcGVuZ3V0cm9uaXguZGU+Ogo+Cj4gQW0gRnJlaXRhZywgZGVuIDE1LjA1LjIwMjAsIDEy
-OjI3ICswMjAwIHNjaHJpZWIgQ2hyaXN0aWFuIEdtZWluZXI6Cj4gPiBBbSBGci4sIDE1LiBNYWkg
-MjAyMCB1bSAxMjoyNCBVaHIgc2NocmllYiBMdWNhcyBTdGFjaCA8bC5zdGFjaEBwZW5ndXRyb25p
-eC5kZT46Cj4gPiA+IEFtIEZyZWl0YWcsIGRlbiAxNS4wNS4yMDIwLCAxMjoxMiArMDIwMCBzY2hy
-aWViIFBhdWwgQ2VyY3VlaWw6Cj4gPiA+ID4gSGkgQ2hyaXN0aWFuLAo+ID4gPiA+Cj4gPiA+ID4g
-TGUgdmVuLiAxNSBtYWkgMjAyMCDDoCAxMjowOSwgQ2hyaXN0aWFuIEdtZWluZXIKPiA+ID4gPiA8
-Y2hyaXN0aWFuLmdtZWluZXJAZ21haWwuY29tPiBhIMOpY3JpdCA6Cj4gPiA+ID4gPiBBbSBNby4s
-IDExLiBNYWkgMjAyMCB1bSAxNDozOCBVaHIgc2NocmllYiBDaHJpc3RpYW4gR21laW5lcgo+ID4g
-PiA+ID4gPGNocmlzdGlhbi5nbWVpbmVyQGdtYWlsLmNvbT46Cj4gPiA+ID4gPiA+ICBUaGUgR0M4
-NjAgaGFzIG9uZSBHUFUgZGV2aWNlIHdoaWNoIGhhcyBhIDJkIGFuZCAzZCBjb3JlLiBJbiB0aGlz
-Cj4gPiA+ID4gPiA+IGNhc2UKPiA+ID4gPiA+ID4gIHdlIHdhbnQgdG8gZXhwb3NlIHBlcmZtb24g
-aW5mb3JtYXRpb24gZm9yIGJvdGggY29yZXMuCj4gPiA+ID4gPiA+Cj4gPiA+ID4gPiA+ICBUaGUg
-ZHJpdmVyIGhhcyBvbmUgYXJyYXkgd2hpY2ggY29udGFpbnMgYWxsIHBvc3NpYmxlIHBlcmZtb24g
-ZG9tYWlucwo+ID4gPiA+ID4gPiAgd2l0aCBzb21lIG1ldGEgZGF0YSAtIGRvbXNfbWV0YS4gSGVy
-ZSB3ZSBjYW4gc2VlIHRoYXQgZm9yIHRoZSBHQzg2MAo+ID4gPiA+ID4gPiAgdHdvIGVsZW1lbnRz
-IG9mIHRoYXQgYXJyYXkgYXJlIHJlbGV2YW50Ogo+ID4gPiA+ID4gPgo+ID4gPiA+ID4gPiAgICBk
-b21zXzNkOiBpcyBhdCBpbmRleCAwIGluIHRoZSBkb21zX21ldGEgYXJyYXkgd2l0aCA4IHBlcmZt
-b24KPiA+ID4gPiA+ID4gZG9tYWlucwo+ID4gPiA+ID4gPiAgICBkb21zXzJkOiBpcyBhdCBpbmRl
-eCAxIGluIHRoZSBkb21zX21ldGEgYXJyYXkgd2l0aCAxIHBlcmZtb24KPiA+ID4gPiA+ID4gZG9t
-YWluCj4gPiA+ID4gPiA+Cj4gPiA+ID4gPiA+ICBUaGUgdXNlcnNwYWNlIGRyaXZlciB3YW50cyB0
-byBnZXQgYSBsaXN0IG9mIGFsbCBwZXJmbW9uIGRvbWFpbnMgYW5kCj4gPiA+ID4gPiA+ICB0aGVp
-ciBwZXJmbW9uIHNpZ25hbHMuIFRoaXMgaXMgZG9uZSBieSBpdGVyYXRpbmcgb3ZlciBhbGwgZG9t
-YWlucwo+ID4gPiA+ID4gPiBhbmQKPiA+ID4gPiA+ID4gIHRoZWlyIHNpZ25hbHMuIElmIHRoZSB1
-c2Vyc3BhY2UgZHJpdmVyIHdhbnRzIHRvIGFjY2VzcyB0aGUgZG9tYWluCj4gPiA+ID4gPiA+IHdp
-dGgKPiA+ID4gPiA+ID4gIGlkIDggdGhlIGtlcm5lbCBkcml2ZXIgZmFpbHMgYW5kIHJldHVybnMg
-aW52YWxpZCBkYXRhIGZyb20gZG9tc18zZAo+ID4gPiA+ID4gPiB3aXRoCj4gPiA+ID4gPiA+ICBh
-bmQgaW52YWxpZCBvZmZzZXQuCj4gPiA+ID4gPiA+Cj4gPiA+ID4gPiA+ICBUaGlzIHJlc3VsdHMg
-aW46Cj4gPiA+ID4gPiA+ICAgIFVuYWJsZSB0byBoYW5kbGUga2VybmVsIHBhZ2luZyByZXF1ZXN0
-IGF0IHZpcnR1YWwgYWRkcmVzcyAwMDAwMDAwMAo+ID4gPiA+ID4gPgo+ID4gPiA+ID4gPiAgT24g
-c3VjaCBhIGRldmljZSBpdCBpcyBub3QgcG9zc2libGUgdG8gdXNlIHRoZSB1c2Vyc3BhY2UgZHJp
-dmVyIGF0Cj4gPiA+ID4gPiA+IGFsbC4KPiA+ID4gPiA+ID4KPiA+ID4gPiA+ID4gIFRoZSBmaXgg
-Zm9yIHRoaXMgb2ZmLWJ5LW9uZSBlcnJvciBpcyBxdWl0ZSBzaW1wbGUuCj4gPiA+ID4gPiA+Cj4g
-PiA+ID4gPiA+ICBSZXBvcnRlZC1ieTogUGF1bCBDZXJjdWVpbCA8cGF1bEBjcmFwb3VpbGxvdS5u
-ZXQ+Cj4gPiA+ID4gPiA+ICBUZXN0ZWQtYnk6IFBhdWwgQ2VyY3VlaWwgPHBhdWxAY3JhcG91aWxs
-b3UubmV0Pgo+ID4gPiA+ID4gPiAgRml4ZXM6IGVkMWRkODk5YmFhMyAoImRybS9ldG5hdml2OiBy
-ZXdvcmsgcGVyZm1vbiBxdWVyeQo+ID4gPiA+ID4gPiBpbmZyYXN0cnVjdHVyZSIpCj4gPiA+ID4g
-PiA+ICBDYzogc3RhYmxlQHZnZXIua2VybmVsLm9yZwo+ID4gPiA+ID4gPiAgU2lnbmVkLW9mZi1i
-eTogQ2hyaXN0aWFuIEdtZWluZXIgPGNocmlzdGlhbi5nbWVpbmVyQGdtYWlsLmNvbT4KPiA+ID4g
-PiA+ID4gIC0tLQo+ID4gPiA+ID4gPiAgIGRyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZf
-cGVyZm1vbi5jIHwgMiArLQo+ID4gPiA+ID4gPiAgIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlv
-bigrKSwgMSBkZWxldGlvbigtKQo+ID4gPiA+ID4gPgo+ID4gPiA+ID4gPiAgZGlmZiAtLWdpdCBh
-L2RyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfcGVyZm1vbi5jCj4gPiA+ID4gPiA+IGIv
-ZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9wZXJmbW9uLmMKPiA+ID4gPiA+ID4gIGlu
-ZGV4IGU2Nzk1YmFmY2JiOS4uMzVmNzE3MWU3NzlhIDEwMDY0NAo+ID4gPiA+ID4gPiAgLS0tIGEv
-ZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9wZXJmbW9uLmMKPiA+ID4gPiA+ID4gICsr
-KyBiL2RyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfcGVyZm1vbi5jCj4gPiA+ID4gPiA+
-ICBAQCAtNDUzLDcgKzQ1Myw3IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgZXRuYXZpdl9wbV9kb21h
-aW4KPiA+ID4gPiA+ID4gKnBtX2RvbWFpbihjb25zdCBzdHJ1Y3QgZXRuYXZpdl9ncHUgKmdwdSwK
-PiA+ID4gPiA+ID4gICAgICAgICAgICAgICAgICBpZiAoIShncHUtPmlkZW50aXR5LmZlYXR1cmVz
-ICYgbWV0YS0+ZmVhdHVyZSkpCj4gPiA+ID4gPiA+ICAgICAgICAgICAgICAgICAgICAgICAgICBj
-b250aW51ZTsKPiA+ID4gPiA+ID4KPiA+ID4gPiA+ID4gIC0gICAgICAgICAgICAgICBpZiAobWV0
-YS0+bnJfZG9tYWlucyA8IChpbmRleCAtIG9mZnNldCkpIHsKPiA+ID4gPiA+ID4gICsgICAgICAg
-ICAgICAgICBpZiAoKG1ldGEtPm5yX2RvbWFpbnMgLSAxKSA8IChpbmRleCAtIG9mZnNldCkpIHsK
-PiA+ID4gPiA+ID4gICAgICAgICAgICAgICAgICAgICAgICAgIG9mZnNldCArPSBtZXRhLT5ucl9k
-b21haW5zOwo+ID4gPiA+ID4gPiAgICAgICAgICAgICAgICAgICAgICAgICAgY29udGludWU7Cj4g
-PiA+ID4gPiA+ICAgICAgICAgICAgICAgICAgfQo+ID4gPiA+ID4gPiAgLS0KPiA+ID4gPiA+ID4g
-IDIuMjYuMgo+ID4gPiA+ID4gPgo+ID4gPiA+ID4KPiA+ID4gPiA+IHBpbmcKPiA+ID4gPgo+ID4g
-PiA+IEknbGwgbWVyZ2UgaXQgdG9tb3Jyb3cgaWYgdGhlcmUncyBubyBmdXJ0aGVyIGZlZWRiYWNr
-Lgo+ID4gPgo+ID4gPiBIdWg/IEV0bmF2aXYgcGF0Y2hlcyBhcmUgZ29pbmcgdGhyb3VnaCB0aGUg
-ZXRuYXZpdiB0cmVlLgo+ID4gPgo+ID4gPiBXZSBub3cgaGF2ZSB0d28gZGlmZmVyZW50IHNvbHV0
-aW9ucyB0byB0aGUgc2FtZSBpc3N1ZS4gSSBmaXJzdCB3YW50IHRvCj4gPiA+IGRpZyBpbnRvIHRo
-ZSBjb2RlIHRvIHNlZSB3aHkgdHdvIGRldmVsb3BlcnMgY2FuIGdldCBjb25mdXNlZCBlbm91Z2gg
-YnkKPiA+ID4gdGhlIGNvZGUgdG8gY29tZSB1cCB3aXRoIHRvdGFsbHkgZGlmZmVyZW50IGZpeGVz
-Lgo+ID4gPgo+ID4KPiA+IFlvdSB3aWxsIHNlZSB0aGF0IHRoZSBzb2x1dGlvbnMgYXJlIG5vdCB0
-b3RhbGx5IGRpZmZlcmVudC4gSSByZWFsbHkgaG9wZWQgdG8KPiA+IGdldCB0aGlzIGZpeGVkIGlu
-IHRoZSA1LjcgcmVsZWFzZS4uIGJ1dCBJIHRoaW5rIGl0cyBub3cgdG9vIGxhdGUuCj4KPiBJIGRp
-ZG4ndCBoYXZlIHRpbWUgdG8gbG9vayBhdCB0aGUgZnVsbCBwaWN0dXJlLCB5ZXQuIFdlIHN0aWxs
-IGhhdmUgYXQKPiBsZWFzdCBhIHdlZWsgdW50aWwgdGhlIGZpbmFsIDUuNyByZWxlYXNlLCB3aHkg
-d291bGQgaXQgYmUgdG9vIGxhdGUgdG8KPiBnZXQgYSBmaXggdXBzdHJlYW0/Cj4KCkdyZWF0IC0g
-c28gSSBjb3VudCBvbiB5b3UgdGhhdCB3ZSB3aWxsIGhhdmUgYSBmaXggaW4gNS43IHJlbGVhc2Uu
-CgotLSAKZ3JlZXRzCi0tCkNocmlzdGlhbiBHbWVpbmVyLCBNU2MKCmh0dHBzOi8vY2hyaXN0aWFu
-LWdtZWluZXIuaW5mby9wcml2YWN5cG9saWN5Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fCmV0bmF2aXYgbWFpbGluZyBsaXN0CmV0bmF2aXZAbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGlu
-Zm8vZXRuYXZpdgo=
+Hello!
+
+Registration & Call for Proposals are now open for XDC 2020, which will
+take place at the Gda=F1sk University of Technology in Gda=F1sk, Poland on =
+September 16-18, 2020.
+
+Thanks to LWN.net for hosting the website again this year!
+
+    https://xdc2020.x.org
+    =
+
+As usual, the conference is free of charge and open to the general public. =
+If you plan on attending, please make sure to register as early as possible=
+! However, don't book any travel or hotel until the organization decides if=
+ we keep the conference as it is or there is any change. Please read this m=
+essage on the website for more information:
+
+https://xdc2020.x.org/event/9/page/78-covid-19
+
+In order to register as attendee, you will therefore need to register via t=
+he XDC
+website. However, as XDC is sharing the same Indico infrastructure as
+LPC, if you previously registered on the LPC website
+(linuxplumbersconference.org) or on the XDC 2019 website (xdc2019.x.org), t=
+hen you already have an active account
+and can use the same username & password to login!
+
+    https://xdc2020.x.org/event/9/registrations/7/
+
+In addition to registration, the CfP is now open for talks, workshops
+and demos at XDC 2020. While any serious proposal will be gratefully
+considered, topics of interest to X.Org and freedesktop.org developers
+are encouraged. The program focus is on new development, ongoing
+challenges and anything else that will spark discussions among
+attendees in the hallway track.
+
+We are open to talks across all layers of the graphics stack, from the
+kernel to desktop environments / graphical applications and about how
+to make things better for the developers who build them. Head to the
+CfP page to learn more: =
+
+
+    https://xdc2020.x.org/event/9/abstracts/
+
+The deadline for submissions is Sunday, 5 July 2020.
+
+Notice that the event may end up being postponed, converted to a fully onli=
+ne conference, or even a hybrid one (physical event + some remote talks). I=
+t depends on how COVID-19 situation evolves in the different countries and =
+the restrictions we will have at that time.
+Also, some people may decide to skip the physical conference to avoid any r=
+isk of infection. Because of that, please indicate in your talk submission =
+if you prefer to give a remote talk in the case that XDC keeps being a phys=
+ical event this year. Similarly, if you think that your talk makes no sense=
+ if XDC ends up being a fully-virtual conference, please indicate that in t=
+he notes of the talk submission.
+
+If COVID-19 situation allows it, we are looking forward to seeing you in Gd=
+a=F1sk! If you have any questions, please send me an email to radoslaw.szwi=
+chtenberg@intel.com,  adding on CC the X.org board (board at foundation.x.o=
+rg).
+
+And don't forget, you can follow us on Twitter for all the latest
+updates and to stay connected:
+
+    https://twitter.com/xdc2020
+
+Best,
+
+Radek
+
+
+_______________________________________________
+etnaviv mailing list
+etnaviv@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/etnaviv
