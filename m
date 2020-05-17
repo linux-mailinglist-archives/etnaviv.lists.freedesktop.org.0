@@ -2,65 +2,38 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE2861D532C
-	for <lists+etnaviv@lfdr.de>; Fri, 15 May 2020 17:07:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 369A61D67E0
+	for <lists+etnaviv@lfdr.de>; Sun, 17 May 2020 14:03:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 68F4F6E194;
-	Fri, 15 May 2020 15:07:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC9516E09A;
+	Sun, 17 May 2020 12:03:55 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2855E6ECB2;
- Fri, 15 May 2020 14:15:21 +0000 (UTC)
-IronPort-SDR: UG6p7PsUknkABRbwbnrzbZWRSSJw/NFP6d9ox2OAjQT3928uSIem6emtg2ypdWXYZw0AeAFBXY
- N5unSe71Q88w==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 May 2020 07:15:18 -0700
-IronPort-SDR: 48D8D6N9ITJ1eakIQgSIO1hwzcC1TUMSkWaxxUqccg2fR2o9qv+mtbdlOzwHvDnYskMOhjBmm9
- Yad1wTimal7A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,395,1583222400"; d="scan'208";a="252388052"
-Received: from irsmsx154.ger.corp.intel.com ([163.33.192.96])
- by fmsmga007.fm.intel.com with ESMTP; 15 May 2020 07:15:11 -0700
-Received: from irsmsx602.ger.corp.intel.com (163.33.146.8) by
- IRSMSX154.ger.corp.intel.com (163.33.192.96) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Fri, 15 May 2020 15:15:10 +0100
-Received: from irsmsx601.ger.corp.intel.com (163.33.146.7) by
- irsmsx602.ger.corp.intel.com (163.33.146.8) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Fri, 15 May 2020 15:15:10 +0100
-Received: from irsmsx601.ger.corp.intel.com ([163.33.146.7]) by
- irsmsx601.ger.corp.intel.com ([163.33.146.7]) with mapi id 15.01.1713.004;
- Fri, 15 May 2020 15:15:10 +0100
-From: "Szwichtenberg, Radoslaw" <radoslaw.szwichtenberg@intel.com>
-To: "events@lists.x.org" <events@lists.x.org>,
- "xorg-devel@lists.freedesktop.org" <xorg-devel@lists.freedesktop.org>,
- "wayland-devel@lists.freedesktop.org" <wayland-devel@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "mesa-dev@lists.freedesktop.org" <mesa-dev@lists.freedesktop.org>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "etnaviv@lists.freedesktop.org" <etnaviv@lists.freedesktop.org>,
- "freedreno@lists.freedesktop.org" <freedreno@lists.freedesktop.org>,
- "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
-Subject: XDC 2020: Registration & Call for Proposals now open!
-Thread-Topic: XDC 2020: Registration & Call for Proposals now open!
-Thread-Index: AdYqwkf6xuypRettR8CslFMm+spI/w==
-Date: Fri, 15 May 2020 14:15:10 +0000
-Message-ID: <9a4392829de747a9a752a5b13f31f90b@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-version: 11.2.0.6
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-x-originating-ip: [163.33.253.164]
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D2CB6E09A
+ for <etnaviv@lists.freedesktop.org>; Sun, 17 May 2020 12:03:54 +0000 (UTC)
+Received: from gallifrey.ext.pengutronix.de
+ ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=localhost)
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1jaI1D-0006Nw-6U; Sun, 17 May 2020 14:03:47 +0200
+Message-ID: <79f9e841042bf1c0fca39366d95cfb6f74da07bd.camel@pengutronix.de>
+Subject: Re: [PATCH] drm/etnaviv: fix perfmon domain interation
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Christian Gmeiner <christian.gmeiner@gmail.com>, 
+ linux-kernel@vger.kernel.org
+Date: Sun, 17 May 2020 14:03:44 +0200
+In-Reply-To: <20200511123744.96246-1-christian.gmeiner@gmail.com>
+References: <20200511123744.96246-1-christian.gmeiner@gmail.com>
+User-Agent: Evolution 3.36.2 (3.36.2-1.fc32) 
 MIME-Version: 1.0
-X-Mailman-Approved-At: Fri, 15 May 2020 15:07:57 +0000
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,83 +45,76 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: "board@foundation.x.org" <board@foundation.x.org>
-Content-Type: text/plain; charset="iso-8859-2"
-Content-Transfer-Encoding: quoted-printable
+Cc: David Airlie <airlied@linux.ie>, etnaviv@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Paul Cercueil <paul@crapouillou.net>,
+ Daniel Vetter <daniel@ffwll.ch>, Russell King <linux+etnaviv@armlinux.org.uk>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Hello!
+Hi Christian,
 
-Registration & Call for Proposals are now open for XDC 2020, which will
-take place at the Gda=F1sk University of Technology in Gda=F1sk, Poland on =
-September 16-18, 2020.
+Am Montag, den 11.05.2020, 14:37 +0200 schrieb Christian Gmeiner:
+> The GC860 has one GPU device which has a 2d and 3d core. In this case
+> we want to expose perfmon information for both cores.
+> 
+> The driver has one array which contains all possible perfmon domains
+> with some meta data - doms_meta. Here we can see that for the GC860
+> two elements of that array are relevant:
+> 
+>   doms_3d: is at index 0 in the doms_meta array with 8 perfmon domains
+>   doms_2d: is at index 1 in the doms_meta array with 1 perfmon domain
+> 
+> The userspace driver wants to get a list of all perfmon domains and
+> their perfmon signals. This is done by iterating over all domains and
+> their signals. If the userspace driver wants to access the domain with
+> id 8 the kernel driver fails and returns invalid data from doms_3d with
+> and invalid offset.
+> 
+> This results in:
+>   Unable to handle kernel paging request at virtual address 00000000
+> 
+> On such a device it is not possible to use the userspace driver at all.
+> 
+> The fix for this off-by-one error is quite simple.
+> 
+> Reported-by: Paul Cercueil <paul@crapouillou.net>
+> Tested-by: Paul Cercueil <paul@crapouillou.net>
+> Fixes: ed1dd899baa3 ("drm/etnaviv: rework perfmon query infrastructure")
+> Cc: stable@vger.kernel.or
 
-Thanks to LWN.net for hosting the website again this year!
+Missing last letter of the TLD.
 
-    https://xdc2020.x.org
-    =
+> Signed-off-by: Christian Gmeiner <christian.gmeiner@gmail.com>
+> ---
+>  drivers/gpu/drm/etnaviv/etnaviv_perfmon.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c b/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
+> index e6795bafcbb9..35f7171e779a 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
+> @@ -453,7 +453,7 @@ static const struct etnaviv_pm_domain *pm_domain(const struct etnaviv_gpu *gpu,
+>  		if (!(gpu->identity.features & meta->feature))
+>  			continue;
+>  
+> -		if (meta->nr_domains < (index - offset)) {
+> +		if ((meta->nr_domains - 1) < (index - offset)) {
 
-As usual, the conference is free of charge and open to the general public. =
-If you plan on attending, please make sure to register as early as possible=
-! However, don't book any travel or hotel until the organization decides if=
- we keep the conference as it is or there is any change. Please read this m=
-essage on the website for more information:
+While the logic is correct, I find this quite hard to read. A more
+idiomatic way to write this (which is much easier to grok when reading
+the code IMHO) would be:
 
-https://xdc2020.x.org/event/9/page/78-covid-19
+if (index - offset >= meta->nr_domains)
 
-In order to register as attendee, you will therefore need to register via t=
-he XDC
-website. However, as XDC is sharing the same Indico infrastructure as
-LPC, if you previously registered on the LPC website
-(linuxplumbersconference.org) or on the XDC 2019 website (xdc2019.x.org), t=
-hen you already have an active account
-and can use the same username & password to login!
+If you agree, please send a v2 of this patch.
 
-    https://xdc2020.x.org/event/9/registrations/7/
-
-In addition to registration, the CfP is now open for talks, workshops
-and demos at XDC 2020. While any serious proposal will be gratefully
-considered, topics of interest to X.Org and freedesktop.org developers
-are encouraged. The program focus is on new development, ongoing
-challenges and anything else that will spark discussions among
-attendees in the hallway track.
-
-We are open to talks across all layers of the graphics stack, from the
-kernel to desktop environments / graphical applications and about how
-to make things better for the developers who build them. Head to the
-CfP page to learn more: =
-
-
-    https://xdc2020.x.org/event/9/abstracts/
-
-The deadline for submissions is Sunday, 5 July 2020.
-
-Notice that the event may end up being postponed, converted to a fully onli=
-ne conference, or even a hybrid one (physical event + some remote talks). I=
-t depends on how COVID-19 situation evolves in the different countries and =
-the restrictions we will have at that time.
-Also, some people may decide to skip the physical conference to avoid any r=
-isk of infection. Because of that, please indicate in your talk submission =
-if you prefer to give a remote talk in the case that XDC keeps being a phys=
-ical event this year. Similarly, if you think that your talk makes no sense=
- if XDC ends up being a fully-virtual conference, please indicate that in t=
-he notes of the talk submission.
-
-If COVID-19 situation allows it, we are looking forward to seeing you in Gd=
-a=F1sk! If you have any questions, please send me an email to radoslaw.szwi=
-chtenberg@intel.com,  adding on CC the X.org board (board at foundation.x.o=
-rg).
-
-And don't forget, you can follow us on Twitter for all the latest
-updates and to stay connected:
-
-    https://twitter.com/xdc2020
-
-Best,
-
-Radek
-
+Regards,
+Lucas
+>  			offset += meta->nr_domains;
+>  			continue;
+>  		}
 
 _______________________________________________
 etnaviv mailing list
