@@ -2,56 +2,53 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E0C11D7166
-	for <lists+etnaviv@lfdr.de>; Mon, 18 May 2020 08:59:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71E6F1D7342
+	for <lists+etnaviv@lfdr.de>; Mon, 18 May 2020 10:49:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 26ADB89E9E;
-	Mon, 18 May 2020 06:59:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1CF286E1E6;
+	Mon, 18 May 2020 08:49:20 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-X-Greylist: delayed 901 seconds by postgrey-1.36 at gabe;
- Mon, 18 May 2020 05:58:18 UTC
-Received: from hqnvemgate25.nvidia.com (hqnvemgate25.nvidia.com
- [216.228.121.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0AB7389DCF
- for <etnaviv@lists.freedesktop.org>; Mon, 18 May 2020 05:58:18 +0000 (UTC)
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
- id <B5ec220270000>; Sun, 17 May 2020 22:42:00 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
- by hqpgpgate101.nvidia.com (PGP Universal service);
- Sun, 17 May 2020 22:43:17 -0700
-X-PGP-Universal: processed;
- by hqpgpgate101.nvidia.com on Sun, 17 May 2020 22:43:17 -0700
-Received: from HQMAIL111.nvidia.com (172.20.187.18) by HQMAIL101.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 18 May
- 2020 05:43:17 +0000
-Received: from rnnvemgw01.nvidia.com (10.128.109.123) by HQMAIL111.nvidia.com
- (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via
- Frontend Transport; Mon, 18 May 2020 05:43:16 +0000
-Received: from sandstorm.nvidia.com (Not Verified[10.2.48.175]) by
- rnnvemgw01.nvidia.com with Trustwave SEG (v7, 5, 8, 10121)
- id <B5ec220740002>; Sun, 17 May 2020 22:43:16 -0700
-From: John Hubbard <jhubbard@nvidia.com>
-To: LKML <linux-kernel@vger.kernel.org>
-Subject: [PATCH] drm/etnaviv: convert get_user_pages() --> pin_user_pages()
-Date: Sun, 17 May 2020 22:43:15 -0700
-Message-ID: <20200518054315.2407093-1-jhubbard@nvidia.com>
-X-Mailer: git-send-email 2.26.2
+Received: from mail-vk1-xa44.google.com (mail-vk1-xa44.google.com
+ [IPv6:2607:f8b0:4864:20::a44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D1B676E126;
+ Mon, 18 May 2020 08:49:18 +0000 (UTC)
+Received: by mail-vk1-xa44.google.com with SMTP id m18so2186227vkk.9;
+ Mon, 18 May 2020 01:49:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=p8GaXNISpBU56tinwWEgmNwxx/8bwcx91Qa4//hCnFs=;
+ b=Kph2ozsXLRPRu/dxLis1gDJmQZnJwAwLoC8AGDFvqAspAd55fLvrgyopC/YJwXexGO
+ WZFLrskkt5/tormgb0wpKJP9O0JanDZ+XYw94xSKhjgRtSmtM98dhK1gMns+g9z6ecmI
+ ddXDNmX89hRR11bx5uJYC52OO6sZTtSk3HpPOqw/AflsIAOoO3qBDYcTZZsZ3xjHCIPY
+ vgGvvyEZ8bv2W3K/pH05Q+Z5XB5TE7ZiL8vv/m8NFrwJmNEgxje8q76l3iPx27X1d/i1
+ Y3aX4gLXv1IF2JTmF466SLgWFIXDCjcy/BFcbR0vccGm6+57ELeMwwIw9m5EWwvEu7rv
+ qjUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=p8GaXNISpBU56tinwWEgmNwxx/8bwcx91Qa4//hCnFs=;
+ b=oPHdjoW9h56yG2VTfh42F95t+iAbvfW9gOdJPjyw3ymGdiMjLDRjAiecQP1tWn7oIN
+ lyOAbsJxV69HMLQR1+nm2bIvsFAM75JLz5h0iXJgdf557lovlGZHzssOUpP8qtcAGFAT
+ lSN9YncIZMqBf2av+x681eLcPycbCZH+t7Lj+xtYdtiy7dUi7lcUMCjvoDr14wayJjf8
+ PP4mT1zCwzvLqdRYzUn5X+F/H6DmISjYW5q9/pZoIGe1ixS/LjF6XhgtY+pVGl3wI8Oe
+ pX6eSPhdKl6hPRwCh4mn4nSFM4po62DUvN/EWmGOupZ5WF7JJk8o3UNou4TM8vAmb+HY
+ 75pw==
+X-Gm-Message-State: AOAM530nymUo7trmvm60kW30UojxtlqAFNn8Tel3jcO9QGotCYP2rrso
+ 8xBAaQFgCwWX6NxSiMHI4LPwoku5zgf2dlBbP8I=
+X-Google-Smtp-Source: ABdhPJw9/ty9sw1NZG3ECF+G8Anz7+Swnxt4WzKMd2QN8sUNskUcTmNMvE75R92q4PwRaGH3bTqKFFFDvBAcwkG/wVg=
+X-Received: by 2002:a1f:24ce:: with SMTP id k197mr10159979vkk.13.1589791757909; 
+ Mon, 18 May 2020 01:49:17 -0700 (PDT)
 MIME-Version: 1.0
-X-NVConfidentiality: public
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1589780520; bh=Nw/n11knSNrp8BRVAAf0yZA96pwzBUISJeQpKg/G4dc=;
- h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
- MIME-Version:X-NVConfidentiality:Content-Transfer-Encoding:
- Content-Type;
- b=Y8OzVbBUzW9w/9M2Wg03/k4DFOeTeW4XJIAYKYx24E2BSAh2InaXI3chth31KBebn
- lUcWz5ZaKYceDrBL1IHvIVaOHxmoBsTn3TEs95oCFOUX9A52yqKzaDww8i029K+b6P
- Y3FidGcZZpH+C/U79Fownhl7VNNTogejGlc6MgA+i5ajT9RVCnRZ6EfS8op0fmH9sP
- QIJofhVM9SmAicaoEj7NSfzcb+qYfRLgnm4pCjBy0AbbxSn/MiiwO4VT/jlWmDD99o
- u4Qf/CI+JzYMdIlhzasehts4HJ3mE1n1X0LU6rlaKtP06hRnCXhHFfDCh88xa5XJff
- GVW/CDgkRIg3Q==
-X-Mailman-Approved-At: Mon, 18 May 2020 06:59:46 +0000
+References: <20200511123744.96246-1-christian.gmeiner@gmail.com>
+ <79f9e841042bf1c0fca39366d95cfb6f74da07bd.camel@pengutronix.de>
+In-Reply-To: <79f9e841042bf1c0fca39366d95cfb6f74da07bd.camel@pengutronix.de>
+From: Christian Gmeiner <christian.gmeiner@gmail.com>
+Date: Mon, 18 May 2020 10:49:06 +0200
+Message-ID: <CAH9NwWe=8AUBaR=05ZEZHDMrD1wW5wkpx85a=8UEmo24q8VTzg@mail.gmail.com>
+Subject: Re: [PATCH] drm/etnaviv: fix perfmon domain interation
+To: Lucas Stach <l.stach@pengutronix.de>
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,73 +60,86 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, John Hubbard <jhubbard@nvidia.com>,
- etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
+Cc: David Airlie <airlied@linux.ie>,
+ The etnaviv authors <etnaviv@lists.freedesktop.org>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>, Paul Cercueil <paul@crapouillou.net>,
  Daniel Vetter <daniel@ffwll.ch>, Russell King <linux+etnaviv@armlinux.org.uk>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-This code was using get_user_pages*(), in a "Case 2" scenario
-(DMA/RDMA), using the categorization from [1]. That means that it's
-time to convert the get_user_pages*() + put_page() calls to
-pin_user_pages*() + unpin_user_pages() calls.
+Hi Lucas,
 
-There is some helpful background in [2]: basically, this is a small
-part of fixing a long-standing disconnect between pinning pages, and
-file systems' use of those pages.
+Am So., 17. Mai 2020 um 14:03 Uhr schrieb Lucas Stach <l.stach@pengutronix.de>:
+>
+> Hi Christian,
+>
+> Am Montag, den 11.05.2020, 14:37 +0200 schrieb Christian Gmeiner:
+> > The GC860 has one GPU device which has a 2d and 3d core. In this case
+> > we want to expose perfmon information for both cores.
+> >
+> > The driver has one array which contains all possible perfmon domains
+> > with some meta data - doms_meta. Here we can see that for the GC860
+> > two elements of that array are relevant:
+> >
+> >   doms_3d: is at index 0 in the doms_meta array with 8 perfmon domains
+> >   doms_2d: is at index 1 in the doms_meta array with 1 perfmon domain
+> >
+> > The userspace driver wants to get a list of all perfmon domains and
+> > their perfmon signals. This is done by iterating over all domains and
+> > their signals. If the userspace driver wants to access the domain with
+> > id 8 the kernel driver fails and returns invalid data from doms_3d with
+> > and invalid offset.
+> >
+> > This results in:
+> >   Unable to handle kernel paging request at virtual address 00000000
+> >
+> > On such a device it is not possible to use the userspace driver at all.
+> >
+> > The fix for this off-by-one error is quite simple.
+> >
+> > Reported-by: Paul Cercueil <paul@crapouillou.net>
+> > Tested-by: Paul Cercueil <paul@crapouillou.net>
+> > Fixes: ed1dd899baa3 ("drm/etnaviv: rework perfmon query infrastructure")
+> > Cc: stable@vger.kernel.or
+>
+> Missing last letter of the TLD.
+>
+> > Signed-off-by: Christian Gmeiner <christian.gmeiner@gmail.com>
+> > ---
+> >  drivers/gpu/drm/etnaviv/etnaviv_perfmon.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c b/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
+> > index e6795bafcbb9..35f7171e779a 100644
+> > --- a/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
+> > +++ b/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
+> > @@ -453,7 +453,7 @@ static const struct etnaviv_pm_domain *pm_domain(const struct etnaviv_gpu *gpu,
+> >               if (!(gpu->identity.features & meta->feature))
+> >                       continue;
+> >
+> > -             if (meta->nr_domains < (index - offset)) {
+> > +             if ((meta->nr_domains - 1) < (index - offset)) {
+>
+> While the logic is correct, I find this quite hard to read. A more
+> idiomatic way to write this (which is much easier to grok when reading
+> the code IMHO) would be:
+>
+> if (index - offset >= meta->nr_domains)
+>
+> If you agree, please send a v2 of this patch.
+>
 
-[1] Documentation/core-api/pin_user_pages.rst
+Works for me - will send a v2 in the evening.
 
-[2] "Explicit pinning of user-space pages":
-    https://lwn.net/Articles/807108/
-
-Signed-off-by: John Hubbard <jhubbard@nvidia.com>
----
-
-Hi,
-
-Note that I have only compile-tested this patch, although that does
-also include cross-compiling for a few other arches.
-
-thanks,
-John Hubbard
-NVIDIA
-
- drivers/gpu/drm/etnaviv/etnaviv_gem.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-index dc9ef302f517..0f4578dc169d 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-@@ -675,10 +675,10 @@ static int etnaviv_gem_userptr_get_pages(struct etnaviv_gem_object *etnaviv_obj)
- 		uint64_t ptr = userptr->ptr + pinned * PAGE_SIZE;
- 		struct page **pages = pvec + pinned;
- 
--		ret = get_user_pages_fast(ptr, num_pages,
-+		ret = pin_user_pages_fast(ptr, num_pages,
- 					  !userptr->ro ? FOLL_WRITE : 0, pages);
- 		if (ret < 0) {
--			release_pages(pvec, pinned);
-+			unpin_user_pages(pvec, pinned);
- 			kvfree(pvec);
- 			return ret;
- 		}
-@@ -702,7 +702,7 @@ static void etnaviv_gem_userptr_release(struct etnaviv_gem_object *etnaviv_obj)
- 	if (etnaviv_obj->pages) {
- 		int npages = etnaviv_obj->base.size >> PAGE_SHIFT;
- 
--		release_pages(etnaviv_obj->pages, npages);
-+		unpin_user_pages(etnaviv_obj->pages, npages);
- 		kvfree(etnaviv_obj->pages);
- 	}
- }
 -- 
-2.26.2
+greets
+--
+Christian Gmeiner, MSc
 
+https://christian-gmeiner.info/privacypolicy
 _______________________________________________
 etnaviv mailing list
 etnaviv@lists.freedesktop.org
