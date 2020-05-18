@@ -2,53 +2,70 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71E6F1D7342
-	for <lists+etnaviv@lfdr.de>; Mon, 18 May 2020 10:49:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDF0D1D78BD
+	for <lists+etnaviv@lfdr.de>; Mon, 18 May 2020 14:35:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1CF286E1E6;
-	Mon, 18 May 2020 08:49:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 860D66E1E9;
+	Mon, 18 May 2020 12:35:39 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-vk1-xa44.google.com (mail-vk1-xa44.google.com
- [IPv6:2607:f8b0:4864:20::a44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D1B676E126;
- Mon, 18 May 2020 08:49:18 +0000 (UTC)
-Received: by mail-vk1-xa44.google.com with SMTP id m18so2186227vkk.9;
- Mon, 18 May 2020 01:49:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=p8GaXNISpBU56tinwWEgmNwxx/8bwcx91Qa4//hCnFs=;
- b=Kph2ozsXLRPRu/dxLis1gDJmQZnJwAwLoC8AGDFvqAspAd55fLvrgyopC/YJwXexGO
- WZFLrskkt5/tormgb0wpKJP9O0JanDZ+XYw94xSKhjgRtSmtM98dhK1gMns+g9z6ecmI
- ddXDNmX89hRR11bx5uJYC52OO6sZTtSk3HpPOqw/AflsIAOoO3qBDYcTZZsZ3xjHCIPY
- vgGvvyEZ8bv2W3K/pH05Q+Z5XB5TE7ZiL8vv/m8NFrwJmNEgxje8q76l3iPx27X1d/i1
- Y3aX4gLXv1IF2JTmF466SLgWFIXDCjcy/BFcbR0vccGm6+57ELeMwwIw9m5EWwvEu7rv
- qjUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=p8GaXNISpBU56tinwWEgmNwxx/8bwcx91Qa4//hCnFs=;
- b=oPHdjoW9h56yG2VTfh42F95t+iAbvfW9gOdJPjyw3ymGdiMjLDRjAiecQP1tWn7oIN
- lyOAbsJxV69HMLQR1+nm2bIvsFAM75JLz5h0iXJgdf557lovlGZHzssOUpP8qtcAGFAT
- lSN9YncIZMqBf2av+x681eLcPycbCZH+t7Lj+xtYdtiy7dUi7lcUMCjvoDr14wayJjf8
- PP4mT1zCwzvLqdRYzUn5X+F/H6DmISjYW5q9/pZoIGe1ixS/LjF6XhgtY+pVGl3wI8Oe
- pX6eSPhdKl6hPRwCh4mn4nSFM4po62DUvN/EWmGOupZ5WF7JJk8o3UNou4TM8vAmb+HY
- 75pw==
-X-Gm-Message-State: AOAM530nymUo7trmvm60kW30UojxtlqAFNn8Tel3jcO9QGotCYP2rrso
- 8xBAaQFgCwWX6NxSiMHI4LPwoku5zgf2dlBbP8I=
-X-Google-Smtp-Source: ABdhPJw9/ty9sw1NZG3ECF+G8Anz7+Swnxt4WzKMd2QN8sUNskUcTmNMvE75R92q4PwRaGH3bTqKFFFDvBAcwkG/wVg=
-X-Received: by 2002:a1f:24ce:: with SMTP id k197mr10159979vkk.13.1589791757909; 
- Mon, 18 May 2020 01:49:17 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200511123744.96246-1-christian.gmeiner@gmail.com>
- <79f9e841042bf1c0fca39366d95cfb6f74da07bd.camel@pengutronix.de>
-In-Reply-To: <79f9e841042bf1c0fca39366d95cfb6f74da07bd.camel@pengutronix.de>
-From: Christian Gmeiner <christian.gmeiner@gmail.com>
-Date: Mon, 18 May 2020 10:49:06 +0200
-Message-ID: <CAH9NwWe=8AUBaR=05ZEZHDMrD1wW5wkpx85a=8UEmo24q8VTzg@mail.gmail.com>
-Subject: Re: [PATCH] drm/etnaviv: fix perfmon domain interation
+X-Greylist: delayed 1365 seconds by postgrey-1.36 at gabe;
+ Mon, 18 May 2020 11:53:24 UTC
+Received: from userp2120.oracle.com (userp2120.oracle.com [156.151.31.85])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7957089CA8
+ for <etnaviv@lists.freedesktop.org>; Mon, 18 May 2020 11:53:24 +0000 (UTC)
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+ by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 04IBSax6064445;
+ Mon, 18 May 2020 11:30:18 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : mime-version : content-type; s=corp-2020-01-29;
+ bh=3hJmbFBQ/c+pV/4LSjZbaFju2v8iBBdkolOJiGRiDPQ=;
+ b=qu7z3q4tQS9KkxXBDR8pbEbSPFWluIznEmbReAosOSdTorYzd3JUG8MDMQ4X/DzOV8oc
+ 7zFXC63UwcDTzAwQn5qPgFyhioWWinjGIFgpWT326m9HWl20BEplEarsFslbkq1uu5VH
+ /RTjq7tEFy2KTC+qyocax+nNT9M9hjNOeMt44hfmYXc58ApZqQTd/CXZkQR7f411gzg9
+ eJuw+Je3Z3uPmO++Nb6/am2pZ8nsbMmxQ0Wi4w+yziyL08Vu+xisGKDlHBl+hP83w+pU
+ wDLh+eFcD+CsnXld9JhInR7yByhJVmuh2mxl5He/5AOzjxH2jCw3KGXZ4f4P1Cop23k4 sg== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by userp2120.oracle.com with ESMTP id 3128tn63vn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Mon, 18 May 2020 11:30:18 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 04IBSUMf119827;
+ Mon, 18 May 2020 11:30:17 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+ by aserp3030.oracle.com with ESMTP id 313ghynvuh-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 18 May 2020 11:30:17 +0000
+Received: from abhmp0004.oracle.com (abhmp0004.oracle.com [141.146.116.10])
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 04IBU3J3001467;
+ Mon, 18 May 2020 11:30:03 GMT
+Received: from mwanda (/41.57.98.10) by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Mon, 18 May 2020 04:30:03 -0700
+Date: Mon, 18 May 2020 14:29:55 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
 To: Lucas Stach <l.stach@pengutronix.de>
+Subject: [PATCH] drm/etnaviv: Fix a leak in submit_pin_objects()
+Message-ID: <20200518112955.GA48709@mwanda>
+MIME-Version: 1.0
+Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9624
+ signatures=668686
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
+ spamscore=0 malwarescore=0
+ mlxscore=0 adultscore=0 bulkscore=0 suspectscore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2004280000
+ definitions=main-2005180104
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9624
+ signatures=668686
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 impostorscore=0
+ bulkscore=0 spamscore=0
+ clxscore=1011 cotscore=-2147483648 suspectscore=0 lowpriorityscore=0
+ adultscore=0 phishscore=0 mlxlogscore=999 mlxscore=0 priorityscore=1501
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2004280000 definitions=main-2005180103
+X-Mailman-Approved-At: Mon, 18 May 2020 12:35:39 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,86 +77,48 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- The etnaviv authors <etnaviv@lists.freedesktop.org>,
- DRI mailing list <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>, Paul Cercueil <paul@crapouillou.net>,
- Daniel Vetter <daniel@ffwll.ch>, Russell King <linux+etnaviv@armlinux.org.uk>
+Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
+ Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>,
+ kernel-janitors@vger.kernel.org, etnaviv@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Hi Lucas,
+If the mapping address is wrong then we have to release the reference to
+it before returning -EINVAL.
 
-Am So., 17. Mai 2020 um 14:03 Uhr schrieb Lucas Stach <l.stach@pengutronix.de>:
->
-> Hi Christian,
->
-> Am Montag, den 11.05.2020, 14:37 +0200 schrieb Christian Gmeiner:
-> > The GC860 has one GPU device which has a 2d and 3d core. In this case
-> > we want to expose perfmon information for both cores.
-> >
-> > The driver has one array which contains all possible perfmon domains
-> > with some meta data - doms_meta. Here we can see that for the GC860
-> > two elements of that array are relevant:
-> >
-> >   doms_3d: is at index 0 in the doms_meta array with 8 perfmon domains
-> >   doms_2d: is at index 1 in the doms_meta array with 1 perfmon domain
-> >
-> > The userspace driver wants to get a list of all perfmon domains and
-> > their perfmon signals. This is done by iterating over all domains and
-> > their signals. If the userspace driver wants to access the domain with
-> > id 8 the kernel driver fails and returns invalid data from doms_3d with
-> > and invalid offset.
-> >
-> > This results in:
-> >   Unable to handle kernel paging request at virtual address 00000000
-> >
-> > On such a device it is not possible to use the userspace driver at all.
-> >
-> > The fix for this off-by-one error is quite simple.
-> >
-> > Reported-by: Paul Cercueil <paul@crapouillou.net>
-> > Tested-by: Paul Cercueil <paul@crapouillou.net>
-> > Fixes: ed1dd899baa3 ("drm/etnaviv: rework perfmon query infrastructure")
-> > Cc: stable@vger.kernel.or
->
-> Missing last letter of the TLD.
->
-> > Signed-off-by: Christian Gmeiner <christian.gmeiner@gmail.com>
-> > ---
-> >  drivers/gpu/drm/etnaviv/etnaviv_perfmon.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c b/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
-> > index e6795bafcbb9..35f7171e779a 100644
-> > --- a/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
-> > +++ b/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
-> > @@ -453,7 +453,7 @@ static const struct etnaviv_pm_domain *pm_domain(const struct etnaviv_gpu *gpu,
-> >               if (!(gpu->identity.features & meta->feature))
-> >                       continue;
-> >
-> > -             if (meta->nr_domains < (index - offset)) {
-> > +             if ((meta->nr_domains - 1) < (index - offset)) {
->
-> While the logic is correct, I find this quite hard to read. A more
-> idiomatic way to write this (which is much easier to grok when reading
-> the code IMHO) would be:
->
-> if (index - offset >= meta->nr_domains)
->
-> If you agree, please send a v2 of this patch.
->
+Fixes: 088880ddc0b2 ("drm/etnaviv: implement softpin")
+Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+---
+From static analysis.  Untested.
 
-Works for me - will send a v2 in the evening.
+ drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+index 3b0afa156d92..54def341c1db 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+@@ -238,8 +238,10 @@ static int submit_pin_objects(struct etnaviv_gem_submit *submit)
+ 		}
+ 
+ 		if ((submit->flags & ETNA_SUBMIT_SOFTPIN) &&
+-		     submit->bos[i].va != mapping->iova)
++		     submit->bos[i].va != mapping->iova) {
++			etnaviv_gem_mapping_unreference(mapping);
+ 			return -EINVAL;
++		}
+ 
+ 		atomic_inc(&etnaviv_obj->gpu_active);
+ 
 -- 
-greets
---
-Christian Gmeiner, MSc
+2.26.2
 
-https://christian-gmeiner.info/privacypolicy
 _______________________________________________
 etnaviv mailing list
 etnaviv@lists.freedesktop.org
