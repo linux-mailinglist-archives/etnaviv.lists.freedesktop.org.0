@@ -1,59 +1,39 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A20A1D8F97
-	for <lists+etnaviv@lfdr.de>; Tue, 19 May 2020 07:51:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 62B1B1D94B4
+	for <lists+etnaviv@lfdr.de>; Tue, 19 May 2020 12:48:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CAAE56E2AF;
-	Tue, 19 May 2020 05:51:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1394489E5B;
+	Tue, 19 May 2020 10:48:44 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
- [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4982C6E183;
- Tue, 19 May 2020 05:30:24 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id h4so1658127wmb.4;
- Mon, 18 May 2020 22:30:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=aWDo42nhd4sqFdF5voa++LZ2U/jNdAL9z6XA6dzl6uE=;
- b=lyoVSu9rXYV0z0/+Rous+Dp3s7nEhkenGZzIKs1ZkqzeVNnzUhZcV3wJk5agDUJWbq
- rcMHz/OC6/O9K9mRBTR4etcp+DUNsQGvLrwM7631Ph+y5HupMNjZ6YJP9pwXyFcPTQ3n
- rpeHKC6bentSXGu9z8YeO6/i5banBuwyfNSzFDnamYwrBYT6tr6ewd2oejfZ198De8Uo
- oMbwLHNjlSyaSrXA4ZVCfOuElXeeqPDEsTNsgsri89E5veLZHoregF69qi3u2F//PP2O
- NFh616lyMXgCUGQIZIIVM4dqr9jCQaHnX6JII1Cn+qy9RPqL/ESxxK0FrwBOxEyQbDQP
- mlxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=aWDo42nhd4sqFdF5voa++LZ2U/jNdAL9z6XA6dzl6uE=;
- b=TphLDy4AA+dw+GXrICxaWwGOVRDwPk8u/lLsS7+aNdDRkPdIHiVq98QOvzqH9EsTlS
- ear0z4UVaRCVFl9il7WFWpgzvEmjjycwAkSIfQSgNBLLIaD0N4EqKJ+aRsCwE1o2H9mu
- bihdwtNt1UaDf1qinRWgh0XNmoLwPgi08N2Pt788AmA2w9aQVlHjS01cczREaOENzpBn
- KjuPyY7sxMVRr8nEgnE0JXIwfdAX1u3tfrMmCc2tXL7KDNXhGr+EuVCabdMrYJzHwoVU
- 7pTqkm38SqHCzYSjmweABfFQeqj1yuq+atP6cqIP+cfMQ8q+WeQ+23TOJQNkxeniZjsn
- CW+A==
-X-Gm-Message-State: AOAM533sqfFcDNvYvFWMX9B0qHzRRBU65vZm8fOwGj6CfTWbWQuFjcro
- dMZbRSVZEcxw7EwXjZxgMzM=
-X-Google-Smtp-Source: ABdhPJyq7IUvmim5jAxuLmb0uu1FuRmT4ZBQmSjs1Ixu/wTOC9lspqVblmVqEC+1r4ogbwM7wq2uPA==
-X-Received: by 2002:a1c:2e4d:: with SMTP id u74mr3310071wmu.145.1589866222870; 
- Mon, 18 May 2020 22:30:22 -0700 (PDT)
-Received: from localhost.localdomain (62-178-82-229.cable.dynamic.surfer.at.
- [62.178.82.229])
- by smtp.gmail.com with ESMTPSA id f123sm2312114wmf.44.2020.05.18.22.30.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 May 2020 22:30:22 -0700 (PDT)
-From: Christian Gmeiner <christian.gmeiner@gmail.com>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH v2] drm/etnaviv: fix perfmon domain interation
-Date: Tue, 19 May 2020 07:30:15 +0200
-Message-Id: <20200519053019.48376-1-christian.gmeiner@gmail.com>
-X-Mailer: git-send-email 2.26.2
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED61C89E5B
+ for <etnaviv@lists.freedesktop.org>; Tue, 19 May 2020 10:48:42 +0000 (UTC)
+Received: from gallifrey.ext.pengutronix.de
+ ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=localhost)
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1jaznZ-00060D-Ht; Tue, 19 May 2020 12:48:37 +0200
+Message-ID: <074a3a7c83c87f5265eec69c150f8f993bd787da.camel@pengutronix.de>
+Subject: Re: [PATCH v2] drm/etnaviv: fix perfmon domain interation
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Christian Gmeiner <christian.gmeiner@gmail.com>, 
+ linux-kernel@vger.kernel.org
+Date: Tue, 19 May 2020 12:48:35 +0200
+In-Reply-To: <20200519053019.48376-1-christian.gmeiner@gmail.com>
+References: <20200519053019.48376-1-christian.gmeiner@gmail.com>
+User-Agent: Evolution 3.36.2 (3.36.2-1.fc32) 
 MIME-Version: 1.0
-X-Mailman-Approved-At: Tue, 19 May 2020 05:51:28 +0000
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,63 +47,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
 Cc: David Airlie <airlied@linux.ie>, etnaviv@lists.freedesktop.org,
  stable@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
  dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Lucas Stach <l.stach@pengutronix.de>
+ Russell King <linux+etnaviv@armlinux.org.uk>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-The GC860 has one GPU device which has a 2d and 3d core. In this case
-we want to expose perfmon information for both cores.
+Am Dienstag, den 19.05.2020, 07:30 +0200 schrieb Christian Gmeiner:
+> The GC860 has one GPU device which has a 2d and 3d core. In this case
+> we want to expose perfmon information for both cores.
+> 
+> The driver has one array which contains all possible perfmon domains
+> with some meta data - doms_meta. Here we can see that for the GC860
+> two elements of that array are relevant:
+> 
+>   doms_3d: is at index 0 in the doms_meta array with 8 perfmon domains
+>   doms_2d: is at index 1 in the doms_meta array with 1 perfmon domain
+> 
+> The userspace driver wants to get a list of all perfmon domains and
+> their perfmon signals. This is done by iterating over all domains and
+> their signals. If the userspace driver wants to access the domain with
+> id 8 the kernel driver fails and returns invalid data from doms_3d with
+> and invalid offset.
+> 
+> This results in:
+>   Unable to handle kernel paging request at virtual address 00000000
+> 
+> On such a device it is not possible to use the userspace driver at all.
+> 
+> The fix for this off-by-one error is quite simple.
+> 
+> Reported-by: Paul Cercueil <paul@crapouillou.net>
+> Tested-by: Paul Cercueil <paul@crapouillou.net>
+> Fixes: ed1dd899baa3 ("drm/etnaviv: rework perfmon query infrastructure")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Christian Gmeiner <christian.gmeiner@gmail.com>
 
-The driver has one array which contains all possible perfmon domains
-with some meta data - doms_meta. Here we can see that for the GC860
-two elements of that array are relevant:
+Thanks, applied to etnaviv/fixes.
 
-  doms_3d: is at index 0 in the doms_meta array with 8 perfmon domains
-  doms_2d: is at index 1 in the doms_meta array with 1 perfmon domain
+Regards,
+Lucas
 
-The userspace driver wants to get a list of all perfmon domains and
-their perfmon signals. This is done by iterating over all domains and
-their signals. If the userspace driver wants to access the domain with
-id 8 the kernel driver fails and returns invalid data from doms_3d with
-and invalid offset.
-
-This results in:
-  Unable to handle kernel paging request at virtual address 00000000
-
-On such a device it is not possible to use the userspace driver at all.
-
-The fix for this off-by-one error is quite simple.
-
-Reported-by: Paul Cercueil <paul@crapouillou.net>
-Tested-by: Paul Cercueil <paul@crapouillou.net>
-Fixes: ed1dd899baa3 ("drm/etnaviv: rework perfmon query infrastructure")
-Cc: stable@vger.kernel.org
-Signed-off-by: Christian Gmeiner <christian.gmeiner@gmail.com>
-
----
- drivers/gpu/drm/etnaviv/etnaviv_perfmon.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c b/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
-index e6795bafcbb9..75f9db8f7bec 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
-@@ -453,7 +453,7 @@ static const struct etnaviv_pm_domain *pm_domain(const struct etnaviv_gpu *gpu,
- 		if (!(gpu->identity.features & meta->feature))
- 			continue;
- 
--		if (meta->nr_domains < (index - offset)) {
-+		if (index - offset >= meta->nr_domains) {
- 			offset += meta->nr_domains;
- 			continue;
- 		}
--- 
-2.26.2
+> ---
+>  drivers/gpu/drm/etnaviv/etnaviv_perfmon.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c b/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
+> index e6795bafcbb9..75f9db8f7bec 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
+> @@ -453,7 +453,7 @@ static const struct etnaviv_pm_domain *pm_domain(const struct etnaviv_gpu *gpu,
+>  		if (!(gpu->identity.features & meta->feature))
+>  			continue;
+>  
+> -		if (meta->nr_domains < (index - offset)) {
+> +		if (index - offset >= meta->nr_domains) {
+>  			offset += meta->nr_domains;
+>  			continue;
+>  		}
 
 _______________________________________________
 etnaviv mailing list
