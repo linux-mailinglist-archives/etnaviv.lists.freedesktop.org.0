@@ -2,35 +2,48 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E2FA1DAE30
-	for <lists+etnaviv@lfdr.de>; Wed, 20 May 2020 11:00:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9375A1DB162
+	for <lists+etnaviv@lfdr.de>; Wed, 20 May 2020 13:20:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5359E89D7F;
-	Wed, 20 May 2020 09:00:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F41F6E5D4;
+	Wed, 20 May 2020 11:20:29 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 28CB789DC5
- for <etnaviv@lists.freedesktop.org>; Wed, 20 May 2020 09:00:15 +0000 (UTC)
-Received: from gallifrey.ext.pengutronix.de
- ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=localhost)
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1jbKaD-0000MC-5E; Wed, 20 May 2020 11:00:13 +0200
-Message-ID: <ca7bce5c8aff0fcbbdc3bf2b9723df5f687c8924.camel@pengutronix.de>
-Subject: [GIT PULL] etnaviv-fixes for 5.7
-From: Lucas Stach <l.stach@pengutronix.de>
-To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Date: Wed, 20 May 2020 11:00:11 +0200
-User-Agent: Evolution 3.36.2 (3.36.2-1.fc32) 
-MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
+X-Greylist: delayed 720 seconds by postgrey-1.36 at gabe;
+ Wed, 20 May 2020 10:24:09 UTC
+Received: from aliyun-sdnproxy-4.icoremail.net (aliyun-cloud.icoremail.net
+ [47.90.73.12])
+ by gabe.freedesktop.org (Postfix) with SMTP id 5216889E15;
+ Wed, 20 May 2020 10:24:09 +0000 (UTC)
+Received: from localhost.localdomain (unknown [222.205.77.158])
+ by mail-app2 (Coremail) with SMTP id by_KCgAnKeDRAMVeTUqMAQ--.58846S4;
+ Wed, 20 May 2020 18:05:08 +0800 (CST)
+From: Dinghao Liu <dinghao.liu@zju.edu.cn>
+To: dinghao.liu@zju.edu.cn,
+	kjlu@umn.edu
+Subject: [PATCH] drm/etnaviv: fix runtime pm imbalance on error
+Date: Wed, 20 May 2020 18:05:04 +0800
+Message-Id: <20200520100504.13360-1-dinghao.liu@zju.edu.cn>
+X-Mailer: git-send-email 2.17.1
+X-CM-TRANSID: by_KCgAnKeDRAMVeTUqMAQ--.58846S4
+X-Coremail-Antispam: 1UD129KBjvdXoWrKrWrZF15CFyUGr4xXF1UKFg_yoW3KFc_Cw
+ 15Zrn3JrsIqr1vqr17Z3y5ZFyIvF93Xa92gw4ktas3K342vr1DXrykZryDX345XFWxWF1D
+ Ja1vqa4fAr1DWjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUbT8Fc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AK
+ wVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20x
+ vE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK6I8E
+ 87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c
+ 8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JrI_
+ JrylYx0Ex4A2jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwI
+ xGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc2xSY4AK
+ 67AK6r4DMxAIw28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_GFWkJr1UJwCFx2IqxV
+ CFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r10
+ 6r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxV
+ WUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG
+ 6rWUJVWrZr1UMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr
+ 1j6F4UJbIYCTnIWIevJa73UjIFyTuYvjfUOlkVUUUUU
+X-CM-SenderInfo: qrrzjiaqtzq6lmxovvfxof0/
+X-Mailman-Approved-At: Wed, 20 May 2020 11:20:28 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,45 +55,42 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, kernel@pengutronix.de,
- etnaviv@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>, etnaviv@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Russell King <linux+etnaviv@armlinux.org.uk>,
+ Lucas Stach <l.stach@pengutronix.de>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Hi Dave, hi Daniel,
+pm_runtime_get_sync() increments the runtime PM usage counter even
+the call returns an error code. Thus a pairing decrement is needed
+on the error handling path to keep the counter balanced.
 
-two fixes:
-- memory leak fix when userspace passes a invalid softpin address
-- off-by-one crashing the kernel in the perfmon domain iteration when
-the GPU core has both 2D and 3D capabilities
+Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
+---
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Regards,
-Lucas
-
-The following changes since commit 8f3d9f354286745c751374f5f1fcafee6b3f3136:
-
-  Linux 5.7-rc1 (2020-04-12 12:35:55 -0700)
-
-are available in the Git repository at:
-
-  https://git.pengutronix.de/git/lst/linux etnaviv/fixes
-
-for you to fetch changes up to ad99cb5e783bb03d512092db3387ead9504aad3d:
-
-  drm/etnaviv: Fix a leak in submit_pin_objects() (2020-05-19 11:18:59 +0200)
-
-----------------------------------------------------------------
-Christian Gmeiner (1):
-      drm/etnaviv: fix perfmon domain interation
-
-Dan Carpenter (1):
-      drm/etnaviv: Fix a leak in submit_pin_objects()
-
- drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c | 4 +++-
- drivers/gpu/drm/etnaviv/etnaviv_perfmon.c    | 2 +-
- 2 files changed, 4 insertions(+), 2 deletions(-)
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+index a31eeff2b297..da3f6ca5849f 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+@@ -1691,6 +1691,9 @@ static int etnaviv_gpu_bind(struct device *dev, struct device *master,
+ 	return 0;
+ 
+ out_sched:
++#ifdef CONFIG_PM
++	pm_runtime_put_autosuspend(gpu->dev);
++#endif
+ 	etnaviv_sched_fini(gpu);
+ 
+ out_workqueue:
+-- 
+2.17.1
 
 _______________________________________________
 etnaviv mailing list
