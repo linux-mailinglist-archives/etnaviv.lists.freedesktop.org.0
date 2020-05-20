@@ -2,30 +2,28 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00CAA1D989D
-	for <lists+etnaviv@lfdr.de>; Tue, 19 May 2020 15:53:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E2FA1DAE30
+	for <lists+etnaviv@lfdr.de>; Wed, 20 May 2020 11:00:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A81326E061;
-	Tue, 19 May 2020 13:53:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5359E89D7F;
+	Wed, 20 May 2020 09:00:16 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E86786E2F2
- for <etnaviv@lists.freedesktop.org>; Tue, 19 May 2020 10:49:51 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 28CB789DC5
+ for <etnaviv@lists.freedesktop.org>; Wed, 20 May 2020 09:00:15 +0000 (UTC)
 Received: from gallifrey.ext.pengutronix.de
  ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=localhost)
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <l.stach@pengutronix.de>)
- id 1jazoU-00061m-TM; Tue, 19 May 2020 12:49:34 +0200
-Message-ID: <20aa90bd9004e24d6e79968fa03a97d2030bf013.camel@pengutronix.de>
-Subject: Re: [PATCH] drm/etnaviv: Fix a leak in submit_pin_objects()
+ id 1jbKaD-0000MC-5E; Wed, 20 May 2020 11:00:13 +0200
+Message-ID: <ca7bce5c8aff0fcbbdc3bf2b9723df5f687c8924.camel@pengutronix.de>
+Subject: [GIT PULL] etnaviv-fixes for 5.7
 From: Lucas Stach <l.stach@pengutronix.de>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Date: Tue, 19 May 2020 12:49:33 +0200
-In-Reply-To: <20200518112955.GA48709@mwanda>
-References: <20200518112955.GA48709@mwanda>
+To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+Date: Wed, 20 May 2020 11:00:11 +0200
 User-Agent: Evolution 3.36.2 (3.36.2-1.fc32) 
 MIME-Version: 1.0
 X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
@@ -33,7 +31,6 @@ X-SA-Exim-Mail-From: l.stach@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
  SAEximRunCond expanded to false
 X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
-X-Mailman-Approved-At: Tue, 19 May 2020 13:53:24 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,52 +42,45 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
- Guido =?ISO-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>,
- kernel-janitors@vger.kernel.org, etnaviv@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>
+Cc: dri-devel@lists.freedesktop.org, kernel@pengutronix.de,
+ etnaviv@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Am Montag, den 18.05.2020, 14:29 +0300 schrieb Dan Carpenter:
-> If the mapping address is wrong then we have to release the reference to
-> it before returning -EINVAL.
-> 
-> Fixes: 088880ddc0b2 ("drm/etnaviv: implement softpin")
-> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+Hi Dave, hi Daniel,
 
-Thanks, applied to etnaviv/fixes.
+two fixes:
+- memory leak fix when userspace passes a invalid softpin address
+- off-by-one crashing the kernel in the perfmon domain iteration when
+the GPU core has both 2D and 3D capabilities
 
 Regards,
 Lucas
 
-> ---
-> From static analysis.  Untested.
-> 
->  drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-> index 3b0afa156d92..54def341c1db 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-> @@ -238,8 +238,10 @@ static int submit_pin_objects(struct etnaviv_gem_submit *submit)
->  		}
->  
->  		if ((submit->flags & ETNA_SUBMIT_SOFTPIN) &&
-> -		     submit->bos[i].va != mapping->iova)
-> +		     submit->bos[i].va != mapping->iova) {
-> +			etnaviv_gem_mapping_unreference(mapping);
->  			return -EINVAL;
-> +		}
->  
->  		atomic_inc(&etnaviv_obj->gpu_active);
->  
+The following changes since commit 8f3d9f354286745c751374f5f1fcafee6b3f3136:
+
+  Linux 5.7-rc1 (2020-04-12 12:35:55 -0700)
+
+are available in the Git repository at:
+
+  https://git.pengutronix.de/git/lst/linux etnaviv/fixes
+
+for you to fetch changes up to ad99cb5e783bb03d512092db3387ead9504aad3d:
+
+  drm/etnaviv: Fix a leak in submit_pin_objects() (2020-05-19 11:18:59 +0200)
+
+----------------------------------------------------------------
+Christian Gmeiner (1):
+      drm/etnaviv: fix perfmon domain interation
+
+Dan Carpenter (1):
+      drm/etnaviv: Fix a leak in submit_pin_objects()
+
+ drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c | 4 +++-
+ drivers/gpu/drm/etnaviv/etnaviv_perfmon.c    | 2 +-
+ 2 files changed, 4 insertions(+), 2 deletions(-)
 
 _______________________________________________
 etnaviv mailing list
