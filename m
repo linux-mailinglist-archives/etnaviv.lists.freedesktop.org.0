@@ -1,56 +1,36 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8DDC1DB13F
-	for <lists+etnaviv@lfdr.de>; Wed, 20 May 2020 13:15:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2718C1DB539
+	for <lists+etnaviv@lfdr.de>; Wed, 20 May 2020 15:39:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 824486E5CF;
-	Wed, 20 May 2020 11:15:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E1E2D6E850;
+	Wed, 20 May 2020 13:39:01 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com
- [IPv6:2a00:1450:4864:20::141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D7FF6E5CF
- for <etnaviv@lists.freedesktop.org>; Wed, 20 May 2020 11:15:20 +0000 (UTC)
-Received: by mail-lf1-x141.google.com with SMTP id 82so2078290lfh.2
- for <etnaviv@lists.freedesktop.org>; Wed, 20 May 2020 04:15:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=flowbird.group; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=5g/o8PUZPrNAJIWyoOWEybfjQaVuCtrfU+HgSjaoumw=;
- b=kea5AkX0ou1aP/8ibJ65TsXqG7JKMLU5s5e4R3yHJGH+a+ozn11pQBzKtTGq34DtKo
- RpweiZTOmY7YZ4KFVqDxsCSVe2OZjBDZBVBIn/jeg4Qwn1W5PwPPJokOlzpOoj3vqshv
- cmORZuq7e91IWNiG9pAOQMeA6/vJ6mMkgATPDXMJg/5XElENes0TWwKd7wN3jFB9mLuO
- BQys++AIoeAGlaFcfW9EcbCvm3aHIe78PLHpGSPlZyBWp3wlWqbLeZ3RiP1G7rqRx0jJ
- lg4doC3DKqJzQHczPWTl76Im8fzgIXX6vJTOHa+LhhD+oYvNwbksAc+SLjunjyGdow94
- JBeg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=5g/o8PUZPrNAJIWyoOWEybfjQaVuCtrfU+HgSjaoumw=;
- b=XAUxwVzt6ldyIwvROYhZNH+K2+gYi3ORmbC+LRYiOZejw8IJqK2JlHMTdLAENcEJYp
- SSocBPbXsNo/djGFWzoLMV+oK04hhDy/N20D2rEdPLmiqG+wBzKxk3xjhLOEVF6w20le
- xfywg2UUUWndwxNB05k4gDUlkui+Lm4BpxfCamS6OHimo1o0wTI+sxVK4T77X8ghz7lL
- ftytgm86FDLDBgIaBGLmXmUI5Skp9Ai/Tcw+nsjP2gPW6/bRvZSuTRKV0w9G6JozHQO1
- B/i8GNJaq47O4hjB8PfXB3HgYOgqs/pTSkrdeCjYtej7BWBkjK5NR3THz6jCqvFFZWJE
- iDiQ==
-X-Gm-Message-State: AOAM530g0TuJW6zOR9QvoNKyhvRWrH+kv3LNRSwByo5YCZ+VN/1e3BtG
- B3oM+jX1Mf+hCanjrjiLmYK8MA73JKfXt8HFGMREyA==
-X-Google-Smtp-Source: ABdhPJy255WD8U21Ushovf34k+G+2sKMGyfVGQ6u/StQOpa9NwmtllVnOahvkS7bR02qE6ErmJ0TOwu/zbsjmgOWYM8=
-X-Received: by 2002:ac2:4d1c:: with SMTP id r28mr2303943lfi.45.1589973318888; 
- Wed, 20 May 2020 04:15:18 -0700 (PDT)
+Received: from v6.sk (v6.sk [167.172.42.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 519A56E850;
+ Wed, 20 May 2020 13:39:00 +0000 (UTC)
+Received: from localhost (v6.sk [IPv6:::1])
+ by v6.sk (Postfix) with ESMTP id 0F6AC61300;
+ Wed, 20 May 2020 13:38:28 +0000 (UTC)
+Date: Wed, 20 May 2020 15:38:24 +0200
+From: Lubomir Rintel <lkundrak@v3.sk>
+To: Russell King - ARM Linux admin <linux@armlinux.org.uk>
+Subject: Re: [PATCH 2/3] drm/etnaviv: Don't ignore errors on getting clocks
+Message-ID: <20200520133824.GK1695525@furthur.local>
+References: <20200513150007.1315395-1-lkundrak@v3.sk>
+ <20200513150007.1315395-3-lkundrak@v3.sk>
+ <CAOMZO5B582=tZ_YBCyVYFtGh=z5hZKFxP7XoUHEmH3jZsk2uYQ@mail.gmail.com>
+ <CAOMZO5BdiXCVXs+8jP7PoRvgKd1sxCu4KhjvJBvL=Qig2WOs4g@mail.gmail.com>
+ <1e15be39906034a95b86c026e060ed9866586d94.camel@pengutronix.de>
+ <20200514082755.GN1551@shell.armlinux.org.uk>
+ <ab384507b90474b0030d8ce64fdcfe868b52c3cb.camel@pengutronix.de>
+ <20200514085307.GO1551@shell.armlinux.org.uk>
 MIME-Version: 1.0
-References: <1589969500-6554-1-git-send-email-martin.fuzzey@flowbird.group>
- <d7a0646840374e1d7515bfea7da2badd94df0042.camel@pengutronix.de>
-In-Reply-To: <d7a0646840374e1d7515bfea7da2badd94df0042.camel@pengutronix.de>
-From: "Fuzzey, Martin" <martin.fuzzey@flowbird.group>
-Date: Wed, 20 May 2020 13:15:07 +0200
-Message-ID: <CANh8Qzz4bx8scFdF3Hhe0UsojEyBswBuwiJQ0UW9HPUjrjpd_Q@mail.gmail.com>
-Subject: Re: [PATCH] drm/etnaviv: fix memory leak when mapping prime imported
- buffers
-To: Lucas Stach <l.stach@pengutronix.de>
+Content-Disposition: inline
+In-Reply-To: <20200514085307.GO1551@shell.armlinux.org.uk>
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,41 +42,94 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: Christian Gmeiner <christian.gmeiner@gmail.com>,
- The etnaviv authors <etnaviv@lists.freedesktop.org>, stable@vger.kernel.org,
- "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>
+Cc: The etnaviv authors <etnaviv@lists.freedesktop.org>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Fabio Estevam <festevam@gmail.com>, Lucas Stach <l.stach@pengutronix.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Hi Lucas,
+On Thu, May 14, 2020 at 09:53:08AM +0100, Russell King - ARM Linux admin wrote:
+> On Thu, May 14, 2020 at 10:40:58AM +0200, Lucas Stach wrote:
+> > Am Donnerstag, den 14.05.2020, 09:27 +0100 schrieb Russell King - ARM Linux admin:
+> > > On Thu, May 14, 2020 at 10:18:02AM +0200, Lucas Stach wrote:
+> > > > Am Mittwoch, den 13.05.2020, 23:41 -0300 schrieb Fabio Estevam:
+> > > > > On Wed, May 13, 2020 at 2:09 PM Fabio Estevam <festevam@gmail.com> wrote:
+> > > > > 
+> > > > > > The binding doc Documentation/devicetree/bindings/gpu/vivante,gc.yaml
+> > > > > > says that only the 'reg' clock could be optional, the others are
+> > > > > > required.
+> > > > > 
+> > > > > arch/arm/boot/dts/dove.dtsi only uses the 'core' clock.
+> > > > > arch/arm/boot/dts/stm32mp157.dtsi uses 'bus' and 'core'
+> > > > > 
+> > > > > Maybe the binding needs to be updated and it seems that using
+> > > > > devm_clk_get_optional() like you propose is safe.
+> > > > 
+> > > > The binding is correct as-is. We want to require those clocks to be
+> > > > present, but the dove DT was added before the binding was finalized, so
+> > > > the driver still treats the clocks as optional to not break
+> > > > compatibility with old DTs. Maybe this warrants a comment in the
+> > > > code...
+> > > 
+> > > The binding doc in mainline says:
+> > > 
+> > >   clocks:
+> > >     items:
+> > >       - description: AXI/master interface clock
+> > >       - description: GPU core clock
+> > >       - description: Shader clock (only required if GPU has feature PIPE_3D)
+> > >       - description: AHB/slave interface clock (only required if GPU can gate slave interface independently)
+> > >     minItems: 1
+> > >     maxItems: 4
+> > > 
+> > >   clock-names:
+> > >     items:
+> > >       enum: [ bus, core, shader, reg ]
+> > >     minItems: 1
+> > >     maxItems: 4
+> > > 
+> > > which looks correct to me - and means that Dove is compliant with that.
+> > 
+> > The YAML binding actually did loose something in translation here,
+> > which I didn't notice. Previously all those clocks were listed under
+> > "Required properties", with the exceptions listed in parenthesis. So
+> > the Dove GPU, which is a combined 2D/3D core should have axi, core and
+> > shader clocks specified.
+> 
+> That may be your desire, but that is impossible without knowing that
+> (a) it has the clocks
+> (b) what those clocks are connected to
+> 
+> I guess we could "make something up" but as DT is supposed to describe
+> hardware, I don't see how we can satisfy that and your requirement.
+> 
+> The only thing that is known from the documentation is that there is
+> one clock for the GPU on Dove.
 
-> Am Mittwoch, den 20.05.2020, 12:10 +0200 schrieb Martin Fuzzey:
-> What's the use-case where you did hit this issue? mmap'ing of imported
-> buffers through the etnaviv DRM device is currently not well defined
-> and I was pondering the idea of forbidding it completely by not
-> returning a mmap offset for those objects.
->
+Yes. This means that in fact "core" is the only required clock for all
+implementations of vivante,gc and the common binding needs to be updated
+to reflect that. I'll follow with a patch that does that, unless there
+are strong objections.
 
-I hit this on Android 8 (on i.MX6 using mesa 20.0.6 with gbm gralloc
-and drm hwcomposer)  and had a memory leak every time an activity was
-started.
-I'm not sure exactly why but Android does a gralloc.lock() and
-gralloc.unlock() on every activity startup.
-Those map and unmap the buffer.
+If there are implementations that require different clock inputs, then they
+need to use additional compatible string for the particular flavor and the
+binding should have conditionals for them. Something like this:
 
-Under Android (at least in 8+) the actual graphics buffer allocations
-are done by a dedicated process
-(android.hardware.graphics.allocator@2.0-service)
-because it uses a "binderized HAL" for the allocation
-[https://source.android.com/devices/architecture/hal-types]
-This means that buffers are *always* imported (though they are usually
-only mmaped for SW rendering or screen shots).
+  if:
+    properties:
+      compatible:
+        contains:
+          const: fsl,imx6sx-gpu
+  then:
+    properties:
+      clocks:
+        minItems: 4
 
-Regards,
-
-Martin
+Lubo
 _______________________________________________
 etnaviv mailing list
 etnaviv@lists.freedesktop.org
