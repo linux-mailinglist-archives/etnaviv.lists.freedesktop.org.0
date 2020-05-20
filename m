@@ -2,48 +2,61 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9375A1DB162
-	for <lists+etnaviv@lfdr.de>; Wed, 20 May 2020 13:20:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 984041DAFBB
+	for <lists+etnaviv@lfdr.de>; Wed, 20 May 2020 12:11:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F41F6E5D4;
-	Wed, 20 May 2020 11:20:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 17F936E5CF;
+	Wed, 20 May 2020 10:11:45 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-X-Greylist: delayed 720 seconds by postgrey-1.36 at gabe;
- Wed, 20 May 2020 10:24:09 UTC
-Received: from aliyun-sdnproxy-4.icoremail.net (aliyun-cloud.icoremail.net
- [47.90.73.12])
- by gabe.freedesktop.org (Postfix) with SMTP id 5216889E15;
- Wed, 20 May 2020 10:24:09 +0000 (UTC)
-Received: from localhost.localdomain (unknown [222.205.77.158])
- by mail-app2 (Coremail) with SMTP id by_KCgAnKeDRAMVeTUqMAQ--.58846S4;
- Wed, 20 May 2020 18:05:08 +0800 (CST)
-From: Dinghao Liu <dinghao.liu@zju.edu.cn>
-To: dinghao.liu@zju.edu.cn,
-	kjlu@umn.edu
-Subject: [PATCH] drm/etnaviv: fix runtime pm imbalance on error
-Date: Wed, 20 May 2020 18:05:04 +0800
-Message-Id: <20200520100504.13360-1-dinghao.liu@zju.edu.cn>
-X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID: by_KCgAnKeDRAMVeTUqMAQ--.58846S4
-X-Coremail-Antispam: 1UD129KBjvdXoWrKrWrZF15CFyUGr4xXF1UKFg_yoW3KFc_Cw
- 15Zrn3JrsIqr1vqr17Z3y5ZFyIvF93Xa92gw4ktas3K342vr1DXrykZryDX345XFWxWF1D
- Ja1vqa4fAr1DWjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJTRUUUbT8Fc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AK
- wVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20x
- vE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK6I8E
- 87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c
- 8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JrI_
- JrylYx0Ex4A2jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwI
- xGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc2xSY4AK
- 67AK6r4DMxAIw28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_GFWkJr1UJwCFx2IqxV
- CFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r10
- 6r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxV
- WUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG
- 6rWUJVWrZr1UMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr
- 1j6F4UJbIYCTnIWIevJa73UjIFyTuYvjfUOlkVUUUUU
-X-CM-SenderInfo: qrrzjiaqtzq6lmxovvfxof0/
-X-Mailman-Approved-At: Wed, 20 May 2020 11:20:28 +0000
+Received: from mail-lf1-x161.google.com (mail-lf1-x161.google.com
+ [IPv6:2a00:1450:4864:20::161])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7FDE16E5CF
+ for <etnaviv@lists.freedesktop.org>; Wed, 20 May 2020 10:11:43 +0000 (UTC)
+Received: by mail-lf1-x161.google.com with SMTP id z22so1986070lfd.0
+ for <etnaviv@lists.freedesktop.org>; Wed, 20 May 2020 03:11:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=flowbird.group; s=google;
+ h=from:to:cc:subject:date:message-id;
+ bh=yp51Q0sOB5VzCHGDErAd468gZKoo7fbqGFyeoX1zhRY=;
+ b=ThEl8Oxvvu2EpOgExjI1uw9IJaWrOTyN6TeoIOAx66gl8ZXbMJfUAKKMeLsAnRwDKe
+ 9+61cEz99V0JnrapuBITGj08OB2JjzLIQmmHGMvzul/KNjYnomamrTG45VavwijuJAaX
+ fnTCW+XQdTt7EzgQQitb7oA966p5UrUDMKCFjcOHlPn8zuejMQ/l6Oko6ApauFyyJKyD
+ /OnfLeowMAHn9WlDNpsbv/K4GwI8Tk0t9MfetoG5KNcPHHJtLbIG4GKXqS/5gjBOQe/H
+ YDmm+DvGX+3VBGHnrFJdhzqGZFyOX/d4IeO70/MdrJtL6P//p4z6i7yuesLlLI8yoZsV
+ D1Uw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=yp51Q0sOB5VzCHGDErAd468gZKoo7fbqGFyeoX1zhRY=;
+ b=XcekDih0a5rjtBCBAjCAN+shKg4ijuZJ1iC009BvBWVnjdeaLfGQIU619x/JzdIXca
+ k5yXYNf9aiIN0//jVDj563d8UeCJr7kPFIXtrBXk+bO+SAWq12n7ip+b3e0nmVymnc5v
+ 5NJj4a7q/5UgquRT6RnrdpES6HtnwD//6/5j2vTiATe7sPuR4jRJQY6Xn3DdrzVhMqS4
+ 5mGTL8TkdPnp7rABb9jbxBDnrYuQ2tZKbuLO8OUJrsXqN6sGzdbryAfO0D+uT2HZqz2Q
+ YkWRKkw0EiDbUsULtvNw2YgfkNon79uGnJYN4xpFIQJQxyhJYiIy7Iu7C7nrZhxFpsXV
+ PsGQ==
+X-Gm-Message-State: AOAM5334YNORTgykQH5GNXoAcjFnmzk+JUFX06bbE+/WQD75uk7RjsXZ
+ x+IpSc0u7zEpgQkcb+5Q1+eFgslZr4B5AijKGDdy5gupMfhY
+X-Google-Smtp-Source: ABdhPJy2NKKbUt6o8dwz2I3/kDRRKV+s2TFbEoOUyNC+W7l4M+gSyIhS7fKhPsOMazs4jPjQDBaXZWKDlgm3
+X-Received: by 2002:a19:3855:: with SMTP id d21mr2248332lfj.156.1589969501504; 
+ Wed, 20 May 2020 03:11:41 -0700 (PDT)
+Received: from mail.besancon.parkeon.com ([185.149.63.251])
+ by smtp-relay.gmail.com with ESMTPS id a25sm12902lfl.26.2020.05.20.03.11.41
+ (version=TLS1 cipher=AES128-SHA bits=128/128);
+ Wed, 20 May 2020 03:11:41 -0700 (PDT)
+X-Relaying-Domain: flowbird.group
+Received: from [172.16.13.226] (port=44934
+ helo=PC12445-BES.dynamic.besancon.parkeon.com)
+ by mail.besancon.parkeon.com with esmtp (Exim 4.71)
+ (envelope-from <martin.fuzzey@flowbird.group>)
+ id 1jbLhM-0001dH-QH; Wed, 20 May 2020 12:11:40 +0200
+From: Martin Fuzzey <martin.fuzzey@flowbird.group>
+To: Lucas Stach <l.stach@pengutronix.de>
+Subject: [PATCH] drm/etnaviv: fix memory leak when mapping prime imported
+ buffers
+Date: Wed, 20 May 2020 12:10:02 +0200
+Message-Id: <1589969500-6554-1-git-send-email-martin.fuzzey@flowbird.group>
+X-Mailer: git-send-email 1.9.1
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,42 +68,59 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, etnaviv@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Russell King <linux+etnaviv@armlinux.org.uk>,
- Lucas Stach <l.stach@pengutronix.de>
+Cc: Christian Gmeiner <christian.gmeiner@gmail.com>,
+ etnaviv@lists.freedesktop.org, stable@vger.kernel.org,
+ linux-kernel@vger.kernel.org
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-pm_runtime_get_sync() increments the runtime PM usage counter even
-the call returns an error code. Thus a pairing decrement is needed
-on the error handling path to keep the counter balanced.
+When using mmap() on a prime imported buffer allocated by a
+different driver (such as imx-drm) the later munmap() does
+not correctly decrement the refcount of the original enaviv_gem_object,
+leading to a leak.
 
-Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
+Signed-off-by: Martin Fuzzey <martin.fuzzey@flowbird.group>
+Cc: stable@vger.kernel.org
 ---
- drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c | 20 +++++++++++++++++++-
+ 1 file changed, 19 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-index a31eeff2b297..da3f6ca5849f 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-@@ -1691,6 +1691,9 @@ static int etnaviv_gpu_bind(struct device *dev, struct device *master,
- 	return 0;
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
+index f24dd21..28a01b8 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
+@@ -93,7 +93,25 @@ static void *etnaviv_gem_prime_vmap_impl(struct etnaviv_gem_object *etnaviv_obj)
+ static int etnaviv_gem_prime_mmap_obj(struct etnaviv_gem_object *etnaviv_obj,
+ 		struct vm_area_struct *vma)
+ {
+-	return dma_buf_mmap(etnaviv_obj->base.dma_buf, vma, 0);
++	int ret;
++
++	ret = dma_buf_mmap(etnaviv_obj->base.dma_buf, vma, 0);
++
++	/* drm_gem_mmap_obj() has already been called before this function
++	 * and has incremented our refcount, expecting it to be decremented
++	 * on unmap() via drm_gem_vm_close().
++	 * However dma_buf_mmap() invokes drm_gem_cma_prime_mmap()
++	 * that ends up updating the vma->vma_private_data to point to the
++	 * dma_buf's gem object.
++	 * Hence our gem object here will not have its refcount decremented
++	 * when userspace does unmap().
++	 * So decrement the refcount here to avoid a memory leak if the dma
++	 * buf mapping was successful.
++	 */
++	if (!ret)
++		drm_gem_object_put_unlocked(&etnaviv_obj->base);
++
++	return ret;
+ }
  
- out_sched:
-+#ifdef CONFIG_PM
-+	pm_runtime_put_autosuspend(gpu->dev);
-+#endif
- 	etnaviv_sched_fini(gpu);
- 
- out_workqueue:
+ static const struct etnaviv_gem_ops etnaviv_gem_prime_ops = {
 -- 
-2.17.1
+1.9.1
 
 _______________________________________________
 etnaviv mailing list
