@@ -1,29 +1,54 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 346E41DF6B2
-	for <lists+etnaviv@lfdr.de>; Sat, 23 May 2020 12:42:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB2E51E1855
+	for <lists+etnaviv@lfdr.de>; Tue, 26 May 2020 01:49:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DFC426E148;
-	Sat, 23 May 2020 10:42:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 31BFE89D8E;
+	Mon, 25 May 2020 23:49:50 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from v6.sk (v6.sk [167.172.42.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F9D66E148;
- Sat, 23 May 2020 10:42:20 +0000 (UTC)
-Received: from localhost (v6.sk [IPv6:::1])
- by v6.sk (Postfix) with ESMTP id 3B60461300;
- Sat, 23 May 2020 10:41:49 +0000 (UTC)
-From: Lubomir Rintel <lkundrak@v3.sk>
+Received: from hqnvemgate26.nvidia.com (hqnvemgate26.nvidia.com
+ [216.228.121.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A03AC89C27;
+ Mon, 25 May 2020 23:49:48 +0000 (UTC)
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5ecc59900000>; Mon, 25 May 2020 16:49:36 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+ by hqpgpgate102.nvidia.com (PGP Universal service);
+ Mon, 25 May 2020 16:49:48 -0700
+X-PGP-Universal: processed;
+ by hqpgpgate102.nvidia.com on Mon, 25 May 2020 16:49:48 -0700
+Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL111.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 25 May
+ 2020 23:49:47 +0000
+Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL105.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Mon, 25 May 2020 23:49:47 +0000
+Received: from sandstorm.nvidia.com (Not Verified[10.2.58.199]) by
+ hqnvemgw03.nvidia.com with Trustwave SEG (v7, 5, 8, 10121)
+ id <B5ecc599b0000>; Mon, 25 May 2020 16:49:47 -0700
+From: John Hubbard <jhubbard@nvidia.com>
 To: Lucas Stach <l.stach@pengutronix.de>
-Subject: [PATCH v2 4/4] drm/etnaviv: Simplify clock enable/disable
-Date: Sat, 23 May 2020 12:41:37 +0200
-Message-Id: <20200523104137.12562-5-lkundrak@v3.sk>
+Subject: [PATCH v2] drm/etnaviv: convert get_user_pages() --> pin_user_pages()
+Date: Mon, 25 May 2020 16:49:46 -0700
+Message-ID: <20200525234946.512848-1-jhubbard@nvidia.com>
 X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200523104137.12562-1-lkundrak@v3.sk>
-References: <20200523104137.12562-1-lkundrak@v3.sk>
 MIME-Version: 1.0
+X-NVConfidentiality: public
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1590450576; bh=C3o3eympRzwR7c/b70BhXHJjaTleTxgbsTFGbme4xwE=;
+ h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+ MIME-Version:X-NVConfidentiality:Content-Transfer-Encoding:
+ Content-Type;
+ b=cp9XtId8piYPKy0k91vDh1oN7UUmAfRRRnaC9WZ+kxzR3hGCRc4fn3sjSBs1PUBiA
+ ROZX9BwckP+dqa3nPdjNHOrfzxDW7jx3aBhnrsQNLKdZv1oKFquRrHFMeyGJeiQ1DM
+ Vm1VIJqcLAi8LZZRR8s1W+1ZzPgzDxvPakgH/A8F/1bV9/zuMA6pwanKJrkEJwVL6e
+ 7OIfsGldpXQpeymtJWixdgO22WKCcZF0nLOQZQLeAixXHAn6nG86N9dRAWlAr4XLYy
+ vCJywMUv1K6Aw2KT5d3ZQM/jTTHYfgfGzgZLzdbszaPKRCoiq4RzwNg/2pf+3+xZzZ
+ qunVFDmPMQUEg==
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -35,101 +60,74 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- etnaviv@lists.freedesktop.org, Lubomir Rintel <lkundrak@v3.sk>,
+Cc: David Airlie <airlied@linux.ie>, John Hubbard <jhubbard@nvidia.com>,
+ etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ LKML <linux-kernel@vger.kernel.org>,
  Christian Gmeiner <christian.gmeiner@gmail.com>,
- Russell King <linux+etnaviv@armlinux.org.uk>
+ Daniel Vetter <daniel@ffwll.ch>, Russell King <linux+etnaviv@armlinux.org.uk>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-All the NULL checks are pointless, clk_*() routines already deal with NULL
-just fine.
+This code was using get_user_pages*(), in a "Case 2" scenario
+(DMA/RDMA), using the categorization from [1]. That means that it's
+time to convert the get_user_pages*() + put_page() calls to
+pin_user_pages*() + unpin_user_pages() calls.
 
-Signed-off-by: Lubomir Rintel <lkundrak@v3.sk>
+There is some helpful background in [2]: basically, this is a small
+part of fixing a long-standing disconnect between pinning pages, and
+file systems' use of those pages.
+
+[1] Documentation/core-api/pin_user_pages.rst
+
+[2] "Explicit pinning of user-space pages":
+    https://lwn.net/Articles/807108/
+
+Signed-off-by: John Hubbard <jhubbard@nvidia.com>
 ---
- drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 53 ++++++++++-----------------
- 1 file changed, 19 insertions(+), 34 deletions(-)
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-index 798fdbc8ecdb..fb37787449bb 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-@@ -1487,55 +1487,40 @@ static int etnaviv_gpu_clk_enable(struct etnaviv_gpu *gpu)
- {
- 	int ret;
+Hi,
+
+Changes since v1:
+
+* Rebased onto Linux 5.7-rc7
+
+* Added: Lucas Stach
+
+thanks
+John Hubbard
+NVIDIA
+
+
+ drivers/gpu/drm/etnaviv/etnaviv_gem.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+index dc9ef302f517..0f4578dc169d 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+@@ -675,10 +675,10 @@ static int etnaviv_gem_userptr_get_pages(struct etnaviv_gem_object *etnaviv_obj)
+ 		uint64_t ptr = userptr->ptr + pinned * PAGE_SIZE;
+ 		struct page **pages = pvec + pinned;
  
--	if (gpu->clk_reg) {
--		ret = clk_prepare_enable(gpu->clk_reg);
--		if (ret)
--			return ret;
--	}
-+	ret = clk_prepare_enable(gpu->clk_reg);
-+	if (ret)
-+		return ret;
+-		ret = get_user_pages_fast(ptr, num_pages,
++		ret = pin_user_pages_fast(ptr, num_pages,
+ 					  !userptr->ro ? FOLL_WRITE : 0, pages);
+ 		if (ret < 0) {
+-			release_pages(pvec, pinned);
++			unpin_user_pages(pvec, pinned);
+ 			kvfree(pvec);
+ 			return ret;
+ 		}
+@@ -702,7 +702,7 @@ static void etnaviv_gem_userptr_release(struct etnaviv_gem_object *etnaviv_obj)
+ 	if (etnaviv_obj->pages) {
+ 		int npages = etnaviv_obj->base.size >> PAGE_SHIFT;
  
--	if (gpu->clk_bus) {
--		ret = clk_prepare_enable(gpu->clk_bus);
--		if (ret)
--			goto disable_clk_reg;
--	}
-+	ret = clk_prepare_enable(gpu->clk_bus);
-+	if (ret)
-+		goto disable_clk_reg;
- 
--	if (gpu->clk_core) {
--		ret = clk_prepare_enable(gpu->clk_core);
--		if (ret)
--			goto disable_clk_bus;
--	}
-+	ret = clk_prepare_enable(gpu->clk_core);
-+	if (ret)
-+		goto disable_clk_bus;
- 
--	if (gpu->clk_shader) {
--		ret = clk_prepare_enable(gpu->clk_shader);
--		if (ret)
--			goto disable_clk_core;
--	}
-+	ret = clk_prepare_enable(gpu->clk_shader);
-+	if (ret)
-+		goto disable_clk_core;
- 
- 	return 0;
- 
- disable_clk_core:
--	if (gpu->clk_core)
--		clk_disable_unprepare(gpu->clk_core);
-+	clk_disable_unprepare(gpu->clk_core);
- disable_clk_bus:
--	if (gpu->clk_bus)
--		clk_disable_unprepare(gpu->clk_bus);
-+	clk_disable_unprepare(gpu->clk_bus);
- disable_clk_reg:
--	if (gpu->clk_reg)
--		clk_disable_unprepare(gpu->clk_reg);
-+	clk_disable_unprepare(gpu->clk_reg);
- 
- 	return ret;
- }
- 
- static int etnaviv_gpu_clk_disable(struct etnaviv_gpu *gpu)
- {
--	if (gpu->clk_shader)
--		clk_disable_unprepare(gpu->clk_shader);
--	if (gpu->clk_core)
--		clk_disable_unprepare(gpu->clk_core);
--	if (gpu->clk_bus)
--		clk_disable_unprepare(gpu->clk_bus);
--	if (gpu->clk_reg)
--		clk_disable_unprepare(gpu->clk_reg);
-+	clk_disable_unprepare(gpu->clk_shader);
-+	clk_disable_unprepare(gpu->clk_core);
-+	clk_disable_unprepare(gpu->clk_bus);
-+	clk_disable_unprepare(gpu->clk_reg);
- 
- 	return 0;
+-		release_pages(etnaviv_obj->pages, npages);
++		unpin_user_pages(etnaviv_obj->pages, npages);
+ 		kvfree(etnaviv_obj->pages);
+ 	}
  }
 -- 
 2.26.2
