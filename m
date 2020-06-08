@@ -2,35 +2,36 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB2631F2350
-	for <lists+etnaviv@lfdr.de>; Tue,  9 Jun 2020 01:15:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0075C1F2365
+	for <lists+etnaviv@lfdr.de>; Tue,  9 Jun 2020 01:15:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 579C76E0E4;
-	Mon,  8 Jun 2020 23:15:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9FF646E9AF;
+	Mon,  8 Jun 2020 23:15:21 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF77F6E0E4;
- Mon,  8 Jun 2020 23:15:12 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 32B8D6E9AD;
+ Mon,  8 Jun 2020 23:15:20 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id E1FF3214F1;
- Mon,  8 Jun 2020 23:15:11 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 526592078B;
+ Mon,  8 Jun 2020 23:15:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1591658112;
- bh=jFe9aXoR6voETZO9HbVJP9RbbHAyfbsp/G1r2RlBApo=;
+ s=default; t=1591658120;
+ bh=cL658tjAUDKGMd9q07eE3Ieo9f+l6YZLd8BqvCF2ifA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=lH5feIjSWoZ847i4PNz78tvfG2mz8RukMWqtpR2Vb8NfwG/KcZyHeU/PHlps/Coiw
- S4uN6c273Ct2XDCXomRyp9W3Tq06Cwy1n5L0BP4ervMFDcocc8AWxGPl/PHvFqVwLs
- 5XON9B+VaaN5xZM5WQLtSnVVDK5ojBvJVKYuSMXs=
+ b=TeIeOvUhOHKShqMN7CJgxTZf0E2IBBtI3OnmMcZO3TPtpbAMPaqTJrr45BA6sT2E3
+ JuCG2ev7Za6MsNK7/x9EwhQb0onUfYm/7ivJWpSqKPxjBtSOBw0oUR2FYRtDfyP5An
+ UoP9p3KiYZa5s7UM4mNNX9/4zTI2r4ELF9Gnx2MY=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.6 151/606] drm/etnaviv: fix perfmon domain interation
-Date: Mon,  8 Jun 2020 19:04:36 -0400
-Message-Id: <20200608231211.3363633-151-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.6 157/606] drm/etnaviv: Fix a leak in
+ submit_pin_objects()
+Date: Mon,  8 Jun 2020 19:04:42 -0400
+Message-Id: <20200608231211.3363633-157-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200608231211.3363633-1-sashal@kernel.org>
 References: <20200608231211.3363633-1-sashal@kernel.org>
@@ -49,66 +50,44 @@ List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Paul Cercueil <paul@crapouillou.net>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- Lucas Stach <l.stach@pengutronix.de>
+ dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
+ Dan Carpenter <dan.carpenter@oracle.com>, Lucas Stach <l.stach@pengutronix.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-From: Christian Gmeiner <christian.gmeiner@gmail.com>
+From: Dan Carpenter <dan.carpenter@oracle.com>
 
-commit 40b697e256ccdb88aaff424b44b4d300eb8460e8 upstream.
+commit ad99cb5e783bb03d512092db3387ead9504aad3d upstream.
 
-The GC860 has one GPU device which has a 2d and 3d core. In this case
-we want to expose perfmon information for both cores.
+If the mapping address is wrong then we have to release the reference to
+it before returning -EINVAL.
 
-The driver has one array which contains all possible perfmon domains
-with some meta data - doms_meta. Here we can see that for the GC860
-two elements of that array are relevant:
-
-  doms_3d: is at index 0 in the doms_meta array with 8 perfmon domains
-  doms_2d: is at index 1 in the doms_meta array with 1 perfmon domain
-
-The userspace driver wants to get a list of all perfmon domains and
-their perfmon signals. This is done by iterating over all domains and
-their signals. If the userspace driver wants to access the domain with
-id 8 the kernel driver fails and returns invalid data from doms_3d with
-and invalid offset.
-
-This results in:
-  Unable to handle kernel paging request at virtual address 00000000
-
-On such a device it is not possible to use the userspace driver at all.
-
-The fix for this off-by-one error is quite simple.
-
-Reported-by: Paul Cercueil <paul@crapouillou.net>
-Tested-by: Paul Cercueil <paul@crapouillou.net>
-Fixes: ed1dd899baa3 ("drm/etnaviv: rework perfmon query infrastructure")
-Cc: stable@vger.kernel.org
-Signed-off-by: Christian Gmeiner <christian.gmeiner@gmail.com>
+Fixes: 088880ddc0b2 ("drm/etnaviv: implement softpin")
+Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
 Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/gpu/drm/etnaviv/etnaviv_perfmon.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c b/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
-index e6795bafcbb9..75f9db8f7bec 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
-@@ -453,7 +453,7 @@ static const struct etnaviv_pm_domain *pm_domain(const struct etnaviv_gpu *gpu,
- 		if (!(gpu->identity.features & meta->feature))
- 			continue;
- 
--		if (meta->nr_domains < (index - offset)) {
-+		if (index - offset >= meta->nr_domains) {
- 			offset += meta->nr_domains;
- 			continue;
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+index 3b0afa156d92..54def341c1db 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+@@ -238,8 +238,10 @@ static int submit_pin_objects(struct etnaviv_gem_submit *submit)
  		}
+ 
+ 		if ((submit->flags & ETNA_SUBMIT_SOFTPIN) &&
+-		     submit->bos[i].va != mapping->iova)
++		     submit->bos[i].va != mapping->iova) {
++			etnaviv_gem_mapping_unreference(mapping);
+ 			return -EINVAL;
++		}
+ 
+ 		atomic_inc(&etnaviv_obj->gpu_active);
+ 
 -- 
 2.25.1
 
