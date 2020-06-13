@@ -2,60 +2,52 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94EE31F32E8
-	for <lists+etnaviv@lfdr.de>; Tue,  9 Jun 2020 06:09:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBF7E1F881A
+	for <lists+etnaviv@lfdr.de>; Sun, 14 Jun 2020 11:29:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E73B6E9EA;
-	Tue,  9 Jun 2020 04:09:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 754BE899B3;
+	Sun, 14 Jun 2020 09:29:36 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-qk1-x744.google.com (mail-qk1-x744.google.com
- [IPv6:2607:f8b0:4864:20::744])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 871656E99C
- for <etnaviv@lists.freedesktop.org>; Mon,  8 Jun 2020 21:06:08 +0000 (UTC)
-Received: by mail-qk1-x744.google.com with SMTP id f18so18814830qkh.1
- for <etnaviv@lists.freedesktop.org>; Mon, 08 Jun 2020 14:06:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=poorly.run; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=88E1b1M85yoLt2wQSUARt1kqrX/wmst0RMRkdQQFLvY=;
- b=eV6tB2DMiYMp9aq5CL2nHjRZfadoA56ZVinBb8t1ouoHvNvsZdHME1MO6SN75PuU3O
- 7pe+icAw3bycKTtJjBP3EssD8kQDOjH8/b6a69azEZ7plAQwmSFYe13Iv96OCAOAAbIE
- KvlIqzAwKODnrtgDHQxgKdLObgPHEwmhhM2VH8iVpzU1f7sWyf45PHXSEPhGmqEotQXv
- 0cvRnineQC3NVTNPdZgxpGWu3j5sfJUZGpDGrnjUHoLHHVAYI8EfFHo1lKEkURHEd4gd
- sbzQ+YVZgQ0S5vwfM5hLyQoXx5umlq1MUMJhRiFyk31QiEjn/4OQU0/pjk45lHjTGXEL
- Stpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=88E1b1M85yoLt2wQSUARt1kqrX/wmst0RMRkdQQFLvY=;
- b=WTTIIMBCyiDpxNvP81uMtziO+xcoUx/M2hXhiLG3FcdbqhudIyXM7AgpRMWIkVs+qT
- iN3AZQLVxpearARVmaYzpAjG0okuYLSAbyuBC9C+9axL32FQrNBt2WzTOp/Q/qmDZ08m
- /K95SaYCGjcP/kTQErZf8cjraMdDxPYbIAQI1zxV+kUvRtws3KPQ4L/n1H2zsK5FcQii
- yfOZjRUhJfmA5F3T6oYdLEAiKZovO2TlZeRNRIKp05285yTUIGz+LCrgGw0pdb3tGXWx
- D3IWPHF35yyiUsuDcCHIW7J06N5/1XTLxspVrX2Irh7f7UrL1Q54+TdeYsbUelVKMvSh
- nwhg==
-X-Gm-Message-State: AOAM530Wam3MViD8JABinh2Mj9dLPGuwBGXox4gtHotS6A4zQFy78r+T
- xuL5jwiPWRBRh/kwylAtVNsZrA==
-X-Google-Smtp-Source: ABdhPJw+jlIdPJV1eXMsqqg65yxIIDLqsUSVa/vXlYz25h1eL1tIBueBHjuCloadV2NlG9t6xhSOPA==
-X-Received: by 2002:a05:620a:15e8:: with SMTP id
- p8mr25094222qkm.333.1591650367719; 
- Mon, 08 Jun 2020 14:06:07 -0700 (PDT)
-Received: from localhost (mobile-166-173-249-24.mycingular.net.
- [166.173.249.24])
- by smtp.gmail.com with ESMTPSA id u7sm7606239qku.119.2020.06.08.14.06.07
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Mon, 08 Jun 2020 14:06:07 -0700 (PDT)
-From: Sean Paul <sean@poorly.run>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v5 07/13] drm/etnaviv: Change buffer dump checks to target
- syslog
-Date: Mon,  8 Jun 2020 17:04:57 -0400
-Message-Id: <20200608210505.48519-8-sean@poorly.run>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200608210505.48519-1-sean@poorly.run>
-References: <20200608210505.48519-1-sean@poorly.run>
-X-Mailman-Approved-At: Tue, 09 Jun 2020 04:09:26 +0000
+Received: from sonic314-19.consmr.mail.gq1.yahoo.com
+ (sonic314-19.consmr.mail.gq1.yahoo.com [98.137.69.82])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 30BAA6E180
+ for <etnaviv@lists.freedesktop.org>; Sat, 13 Jun 2020 15:37:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
+ t=1592062656; bh=EdQ6J0sRRv3XBxt3j7IlulUVvRg4uKdicik//r5GkY8=;
+ h=Date:From:Reply-To:To:Subject:References:From:Subject;
+ b=jdMj1Pf+aKosqFxPEGZAr0J19u8TFSylDMIC1K3j/TJ3gcVp7p0LSZ9KnrV/qUZY5zFM4oTv9l0dZ4CQdVIWmMyE5oJjRv3taLPo9h6vfwH6hjje6r6ERkzuMkJq5lWHxZRzqUhQ3rtThDvyflqLqckldxCgof8HFs5vflWifOTZmbfAHcTxE+bx4REROLycN7p7oH1mxNsDQJnb9aityeQBs2eB6ctN5qOvG1s18gLBBL42hC+mIPyL89Ii4E74YxdnJJMSTElHcPvD0YAfUNE1qCX2MxQ5uE3bkzqYnBVp6nXJ3w2M+NbLoq8ZWiFrcJZl1t7obRYl6Yb2LvWMvQ==
+X-YMail-OSG: 426Ijf8VM1mV_kgIKsodz0fmPJHRsO.w4nhJnOThikY89sZz8FQR714CTDcreNt
+ TxrzcbRG8BrIiRXYwlfLUIX8P8q4g3P5gm3fd2fpXr_bPxJlIPPGBPcXm_lNTKVGccPH.qFSXqZu
+ KdtgVFhLJEkbqs5G929j4aV9NAm4n1VbW8fS4xrtRbuUzfLKKLNza_2bGXDGB2BiRfnazmRJ20xc
+ pejDtF6TAS9cepvhGWdiPxu.f_f8hjlMAxgpwyjsSNJZjxAdT2mNtZHh06gQPzcXel70WNkSwBQJ
+ Y2dq_0kRl1fWRwBlGu7ccLlyrnaxCmniTjtQ23BAbisXgEjZuPiSn2pJJUKjIb4OvAnuh5G1gwTy
+ x98GWSqU6qvIf7Y0evEAdmwvFze12ZLQx1cPZNy3PfQ39EqOheMn.7aqo7sAZlOF05vNu1HvgooV
+ OR.4w_Z.fj9cEt18KsvHCnvK2aeEhWw2lFnBZlziH6IshZm39yAGQg7vMgbl1kb4twZ.BoqGAJ9N
+ a9_4v0bgh82GHKtdnGyc8iLF5j3AvJSk51NgzeRMXzMTySSuB3il25w3AbLSiem5YjXgq6wy2OrZ
+ qD1wjijJZohheSPfZqPvH44mswKHai86S8oH3Jt1xZJXsPrPKieTFWJnVAZGb6cBQiiNlMVRX70y
+ Yeu1UVzUyd9nz.1FuZz1npijOn7bbLqSgRM73VmhkHlqS2Yoq.pNfH3lR1RqXzDXRn2FcqOWYIco
+ WokrJ5BMcpjtMEStBKOpWAhMO3aYXFQrRcBJTKtWbNTIpPqodLAQUo5.XL7k14AwLBieM17cBilP
+ kZehbCLXFMcK_.psnrw4aoJEAHQmx_AqxKkDRFTwolmA2MUXdtY_uoYACEuLt6nzOHpNmC.OU_cs
+ 4lRCxloiVABt_gfT9HX09RhPC_OZSpm48FE_ewr70.qlNIcrZhvbHqJHym8NCnox80kakIWzucZM
+ qt5wl631AxbM2YBubH1L4SDbQQrBHmQyjODdid7cBkaMlX5MzcxDa8OmbwFpXD.g2JKtq_y9ZbM0
+ hmNmIf0d_zz_xUxc.z58PetElfgjsyWPBaDybVhm5whY6TPgvVSTbJ4qYg87w52uyvS4wvx57Wvo
+ mlhe_juGV2c6VQ_UrEbXI6TybCeia2bPMzmpH9mzyFmjx4t5HniHxqO4EWdusOij926b2b56Ecn0
+ yZesPIvK6_QMd2eLFo52NoQzl9cBTFDUBklfg9CL2L41xZCy2zzy7dHWo9oqWv.EA6qzxrvMVvid
+ ItWJrIazP1sxYrIqMRRM9BtD.jw.gxvXQqMA5bZQyO9jBcogU36jf3UBSSWBk8w--
+Received: from sonic.gate.mail.ne1.yahoo.com by
+ sonic314.consmr.mail.gq1.yahoo.com with HTTP; Sat, 13 Jun 2020 15:37:36 +0000
+Date: Sat, 13 Jun 2020 15:37:34 +0000 (UTC)
+From: Rose Gomo <rose_gomo101@yahoo.com>
+To: rose_gomo101@yahoo.com
+Message-ID: <457052051.273526.1592062654796@mail.yahoo.com>
+Subject: Dear Good Friend.
+MIME-Version: 1.0
+References: <457052051.273526.1592062654796.ref@mail.yahoo.com>
+X-Mailer: WebService/1.1.16119 YMailNodin Mozilla/4.0 (compatible; MSIE 8.0;
+ Windows NT 6.1; Trident/4.0; GTB7.5; SLCC2; .NET CLR 2.0.50727;
+ .NET CLR 3.5.30729; .NET CLR 3.0.30729; Media Center PC 6.0; InfoPath.2)
+X-Mailman-Approved-At: Sun, 14 Jun 2020 09:29:35 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,74 +59,20 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
- daniel.vetter@ffwll.ch, maarten.lankhorst@linux.intel.com,
- Christian Gmeiner <christian.gmeiner@gmail.com>, mripard@kernel.org,
- etnaviv@lists.freedesktop.org, ppaalanen@gmail.com,
- Sean Paul <seanpaul@chromium.org>, tzimmermann@suse.de,
- Russell King <linux+etnaviv@armlinux.org.uk>, airlied@gmail.com,
- Lucas Stach <l.stach@pengutronix.de>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Reply-To: rose_gomo101@yahoo.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-From: Sean Paul <seanpaul@chromium.org>
-
-Since the logs protected by these checks specifically target syslog,
-use the new drm_debug_syslog_enabled() call to avoid triggering
-these prints when only trace is enabled.
-
-Signed-off-by: Sean Paul <seanpaul@chromium.org>
-
-Changes in v5:
--Added to the set
----
- drivers/gpu/drm/etnaviv/etnaviv_buffer.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_buffer.c b/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
-index 76d38561c910..7713474800e8 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
-@@ -353,7 +353,7 @@ void etnaviv_buffer_queue(struct etnaviv_gpu *gpu, u32 exec_state,
- 
- 	lockdep_assert_held(&gpu->lock);
- 
--	if (drm_debug_enabled(DRM_UT_DRIVER))
-+	if (drm_debug_syslog_enabled(DRM_UT_DRIVER))
- 		etnaviv_buffer_dump(gpu, buffer, 0, 0x50);
- 
- 	link_target = etnaviv_cmdbuf_get_va(cmdbuf,
-@@ -509,13 +509,13 @@ void etnaviv_buffer_queue(struct etnaviv_gpu *gpu, u32 exec_state,
- 		 etnaviv_cmdbuf_get_va(buffer, &gpu->mmu_context->cmdbuf_mapping)
- 		 + buffer->user_size - 4);
- 
--	if (drm_debug_enabled(DRM_UT_DRIVER))
-+	if (drm_debug_syslog_enabled(DRM_UT_DRIVER))
- 		pr_info("stream link to 0x%08x @ 0x%08x %p\n",
- 			return_target,
- 			etnaviv_cmdbuf_get_va(cmdbuf, &gpu->mmu_context->cmdbuf_mapping),
- 			cmdbuf->vaddr);
- 
--	if (drm_debug_enabled(DRM_UT_DRIVER)) {
-+	if (drm_debug_syslog_enabled(DRM_UT_DRIVER)) {
- 		print_hex_dump(KERN_INFO, "cmd ", DUMP_PREFIX_OFFSET, 16, 4,
- 			       cmdbuf->vaddr, cmdbuf->size, 0);
- 
-@@ -534,6 +534,6 @@ void etnaviv_buffer_queue(struct etnaviv_gpu *gpu, u32 exec_state,
- 				    VIV_FE_LINK_HEADER_PREFETCH(link_dwords),
- 				    link_target);
- 
--	if (drm_debug_enabled(DRM_UT_DRIVER))
-+	if (drm_debug_syslog_enabled(DRM_UT_DRIVER))
- 		etnaviv_buffer_dump(gpu, buffer, 0, 0x50);
- }
--- 
-Sean Paul, Software Engineer, Google / Chromium OS
-
-_______________________________________________
-etnaviv mailing list
-etnaviv@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/etnaviv
+RGVhciBHb29kIEZyaWVuZC4KClBsZWFzZSBjYW4geW91IGhlbHAgbWUgdG8gcmVjZWl2ZSB0aGUg
+ZnVuZCBJIGluaGVyaXRlZCBmcm9tIG15IGZhdGhlciB0byB5b3VyIGFjY291bnQgaW4geW91ciBj
+b3VudHJ5IGZvciBidXNpbmVzcyBpbnZlc3RtZW50PyBSaWdodCBub3cgdGhlIGZ1bmQgaXMgaW4g
+dGhlIGJhbmsgaGVyZSB3aGVyZSBteSBmYXRoZXIgZGVwb3NpdGVkIGl0IGJlZm9yZSBoZSBkaWVk
+IGFuZCB0aGUgYW1vdW50IGlzIOKCrDIuNW1pbGxpb24gRXVyb3MgKFR3byBNaWxsaW9uIEZpdmUg
+SHVuZHJlZCBUaG91c2FuZCBFdXJvcykKClBsZWFzZSBpZiB5b3UgYXJlIGludGVyZXN0ZWQgeW91
+IGNhbiBjb250YWN0IG1lIGFzIHNvb24gYXMgcG9zc2libGUgZm9yIG1vcmUgZGV0YWlscy4KCkJl
+c3QgcmVnYXJkcwpSb3NlIEdvbW8uCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fCmV0bmF2aXYgbWFpbGluZyBsaXN0CmV0bmF2aXZAbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZXRu
+YXZpdgo=
