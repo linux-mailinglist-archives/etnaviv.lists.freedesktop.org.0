@@ -2,52 +2,60 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBF7E1F881A
-	for <lists+etnaviv@lfdr.de>; Sun, 14 Jun 2020 11:29:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 599C81F881C
+	for <lists+etnaviv@lfdr.de>; Sun, 14 Jun 2020 11:29:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 754BE899B3;
-	Sun, 14 Jun 2020 09:29:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1609B89FF9;
+	Sun, 14 Jun 2020 09:29:48 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from sonic314-19.consmr.mail.gq1.yahoo.com
- (sonic314-19.consmr.mail.gq1.yahoo.com [98.137.69.82])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 30BAA6E180
- for <etnaviv@lists.freedesktop.org>; Sat, 13 Jun 2020 15:37:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
- t=1592062656; bh=EdQ6J0sRRv3XBxt3j7IlulUVvRg4uKdicik//r5GkY8=;
- h=Date:From:Reply-To:To:Subject:References:From:Subject;
- b=jdMj1Pf+aKosqFxPEGZAr0J19u8TFSylDMIC1K3j/TJ3gcVp7p0LSZ9KnrV/qUZY5zFM4oTv9l0dZ4CQdVIWmMyE5oJjRv3taLPo9h6vfwH6hjje6r6ERkzuMkJq5lWHxZRzqUhQ3rtThDvyflqLqckldxCgof8HFs5vflWifOTZmbfAHcTxE+bx4REROLycN7p7oH1mxNsDQJnb9aityeQBs2eB6ctN5qOvG1s18gLBBL42hC+mIPyL89Ii4E74YxdnJJMSTElHcPvD0YAfUNE1qCX2MxQ5uE3bkzqYnBVp6nXJ3w2M+NbLoq8ZWiFrcJZl1t7obRYl6Yb2LvWMvQ==
-X-YMail-OSG: 426Ijf8VM1mV_kgIKsodz0fmPJHRsO.w4nhJnOThikY89sZz8FQR714CTDcreNt
- TxrzcbRG8BrIiRXYwlfLUIX8P8q4g3P5gm3fd2fpXr_bPxJlIPPGBPcXm_lNTKVGccPH.qFSXqZu
- KdtgVFhLJEkbqs5G929j4aV9NAm4n1VbW8fS4xrtRbuUzfLKKLNza_2bGXDGB2BiRfnazmRJ20xc
- pejDtF6TAS9cepvhGWdiPxu.f_f8hjlMAxgpwyjsSNJZjxAdT2mNtZHh06gQPzcXel70WNkSwBQJ
- Y2dq_0kRl1fWRwBlGu7ccLlyrnaxCmniTjtQ23BAbisXgEjZuPiSn2pJJUKjIb4OvAnuh5G1gwTy
- x98GWSqU6qvIf7Y0evEAdmwvFze12ZLQx1cPZNy3PfQ39EqOheMn.7aqo7sAZlOF05vNu1HvgooV
- OR.4w_Z.fj9cEt18KsvHCnvK2aeEhWw2lFnBZlziH6IshZm39yAGQg7vMgbl1kb4twZ.BoqGAJ9N
- a9_4v0bgh82GHKtdnGyc8iLF5j3AvJSk51NgzeRMXzMTySSuB3il25w3AbLSiem5YjXgq6wy2OrZ
- qD1wjijJZohheSPfZqPvH44mswKHai86S8oH3Jt1xZJXsPrPKieTFWJnVAZGb6cBQiiNlMVRX70y
- Yeu1UVzUyd9nz.1FuZz1npijOn7bbLqSgRM73VmhkHlqS2Yoq.pNfH3lR1RqXzDXRn2FcqOWYIco
- WokrJ5BMcpjtMEStBKOpWAhMO3aYXFQrRcBJTKtWbNTIpPqodLAQUo5.XL7k14AwLBieM17cBilP
- kZehbCLXFMcK_.psnrw4aoJEAHQmx_AqxKkDRFTwolmA2MUXdtY_uoYACEuLt6nzOHpNmC.OU_cs
- 4lRCxloiVABt_gfT9HX09RhPC_OZSpm48FE_ewr70.qlNIcrZhvbHqJHym8NCnox80kakIWzucZM
- qt5wl631AxbM2YBubH1L4SDbQQrBHmQyjODdid7cBkaMlX5MzcxDa8OmbwFpXD.g2JKtq_y9ZbM0
- hmNmIf0d_zz_xUxc.z58PetElfgjsyWPBaDybVhm5whY6TPgvVSTbJ4qYg87w52uyvS4wvx57Wvo
- mlhe_juGV2c6VQ_UrEbXI6TybCeia2bPMzmpH9mzyFmjx4t5HniHxqO4EWdusOij926b2b56Ecn0
- yZesPIvK6_QMd2eLFo52NoQzl9cBTFDUBklfg9CL2L41xZCy2zzy7dHWo9oqWv.EA6qzxrvMVvid
- ItWJrIazP1sxYrIqMRRM9BtD.jw.gxvXQqMA5bZQyO9jBcogU36jf3UBSSWBk8w--
-Received: from sonic.gate.mail.ne1.yahoo.com by
- sonic314.consmr.mail.gq1.yahoo.com with HTTP; Sat, 13 Jun 2020 15:37:36 +0000
-Date: Sat, 13 Jun 2020 15:37:34 +0000 (UTC)
-From: Rose Gomo <rose_gomo101@yahoo.com>
-To: rose_gomo101@yahoo.com
-Message-ID: <457052051.273526.1592062654796@mail.yahoo.com>
-Subject: Dear Good Friend.
-MIME-Version: 1.0
-References: <457052051.273526.1592062654796.ref@mail.yahoo.com>
-X-Mailer: WebService/1.1.16119 YMailNodin Mozilla/4.0 (compatible; MSIE 8.0;
- Windows NT 6.1; Trident/4.0; GTB7.5; SLCC2; .NET CLR 2.0.50727;
- .NET CLR 3.5.30729; .NET CLR 3.0.30729; Media Center PC 6.0; InfoPath.2)
-X-Mailman-Approved-At: Sun, 14 Jun 2020 09:29:35 +0000
+Received: from mail-io1-xd41.google.com (mail-io1-xd41.google.com
+ [IPv6:2607:f8b0:4864:20::d41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7AEC06E0E4;
+ Sun, 14 Jun 2020 06:46:08 +0000 (UTC)
+Received: by mail-io1-xd41.google.com with SMTP id p20so14467350iop.11;
+ Sat, 13 Jun 2020 23:46:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=kNRgWSDrAxCQwXvPM8GfVhkSvHW0aGR2LY+D+JUgFPs=;
+ b=tpz6lloDe6hYvlh6jsWmIipsRXWnPP0UiedPptwWGRKELFOHp/S4yk/xo3VPtk7RBd
+ b8BFXR91yWxOWHo61kM6nPkTbM42uoBFw9J9MkGRlwsK++gjZyLouPCkub8FImugIyHD
+ gQjzKQI8AU15T1efls+KhXfuI7SJm/+61arQDI1rwg80tqlkK3ojzpFaaHplhjzAWxxH
+ qFdeORV4dtDSkk3i0W8wPQ1LR0WFdLrLCXWjQ4lqnaD+NOx5lYGizDu4Jng23mrTwoD+
+ 35vusyT4LgYIvIyLsCA3X3CVASUFkJSCVowZ7588w2xOJiYWn+WtI+MShm6sx1TzcyvN
+ jh8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=kNRgWSDrAxCQwXvPM8GfVhkSvHW0aGR2LY+D+JUgFPs=;
+ b=JxkheDoVG6INO85yhgeZD81idx7WsEI08jRrWESuZzC3AePoZw+GE7k+Ck0uS4Nba7
+ SPxsXYpvSVHHoAUw98smD21AFaOf/axYgo2rXFQSgKx2lAtiXzdTqVa7yaRBktsGVTkV
+ ptz2ZIHPrMLi+CYtmYrBxrOlqlOWiKm2Dwx3NN5d9OcABmYUJMMmjwAIHKramMH49HT0
+ C6ibF8zNyR8oEGSDxO8l2SbPNr15GCeNE2UWznNGEWlmdRxeNB19L2Nyp3iWwpjVAn8S
+ rkjQErDIjV9qiP5Zr0kd2lB4nInx30JjYRltCouj+oYQkxfs3hjZW7nqcC8wmh5gRaSO
+ 9O5w==
+X-Gm-Message-State: AOAM532QPnQGAIB6fiXd+dRx3DfE2hDOCCkS13CfMD2xK5gcyyeQfjxk
+ I53XwZKisob058LMypFnRFfI9et3dSo=
+X-Google-Smtp-Source: ABdhPJxsK9CUvgdKD6ZCZBAqfWYD1gdpJNSlmVez8DOhmPECL9S8rEWBfYR3H4BqgrwtUNAZdstTGw==
+X-Received: by 2002:a05:6602:22d6:: with SMTP id
+ e22mr21867513ioe.128.1592117167830; 
+ Sat, 13 Jun 2020 23:46:07 -0700 (PDT)
+Received: from cs-u-kase.dtc.umn.edu (cs-u-kase.cs.umn.edu. [160.94.64.2])
+ by smtp.googlemail.com with ESMTPSA id m5sm5744932ioj.52.2020.06.13.23.46.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 13 Jun 2020 23:46:07 -0700 (PDT)
+From: Navid Emamdoost <navid.emamdoost@gmail.com>
+To: Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/etnaviv: fix ref count leak via pm_runtime_get_sync
+Date: Sun, 14 Jun 2020 01:46:01 -0500
+Message-Id: <20200614064601.7872-1-navid.emamdoost@gmail.com>
+X-Mailer: git-send-email 2.17.1
+X-Mailman-Approved-At: Sun, 14 Jun 2020 09:29:46 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,20 +67,103 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: rose_gomo101@yahoo.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Navid Emamdoost <navid.emamdoost@gmail.com>, emamd001@umn.edu, kjlu@umn.edu,
+ wu000273@umn.edu, smccaman@umn.edu
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-RGVhciBHb29kIEZyaWVuZC4KClBsZWFzZSBjYW4geW91IGhlbHAgbWUgdG8gcmVjZWl2ZSB0aGUg
-ZnVuZCBJIGluaGVyaXRlZCBmcm9tIG15IGZhdGhlciB0byB5b3VyIGFjY291bnQgaW4geW91ciBj
-b3VudHJ5IGZvciBidXNpbmVzcyBpbnZlc3RtZW50PyBSaWdodCBub3cgdGhlIGZ1bmQgaXMgaW4g
-dGhlIGJhbmsgaGVyZSB3aGVyZSBteSBmYXRoZXIgZGVwb3NpdGVkIGl0IGJlZm9yZSBoZSBkaWVk
-IGFuZCB0aGUgYW1vdW50IGlzIOKCrDIuNW1pbGxpb24gRXVyb3MgKFR3byBNaWxsaW9uIEZpdmUg
-SHVuZHJlZCBUaG91c2FuZCBFdXJvcykKClBsZWFzZSBpZiB5b3UgYXJlIGludGVyZXN0ZWQgeW91
-IGNhbiBjb250YWN0IG1lIGFzIHNvb24gYXMgcG9zc2libGUgZm9yIG1vcmUgZGV0YWlscy4KCkJl
-c3QgcmVnYXJkcwpSb3NlIEdvbW8uCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fCmV0bmF2aXYgbWFpbGluZyBsaXN0CmV0bmF2aXZAbGlzdHMuZnJlZWRlc2t0
-b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZXRu
-YXZpdgo=
+in etnaviv_gpu_submit, etnaviv_gpu_recover_hang, etnaviv_gpu_debugfs,
+and etnaviv_gpu_init the call to pm_runtime_get_sync increments the
+counter even in case of failure, leading to incorrect ref count.
+In case of failure, decrement the ref count before returning.
+
+Signed-off-by: Navid Emamdoost <navid.emamdoost@gmail.com>
+---
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+index a31eeff2b297..16f5bc65771a 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+@@ -722,7 +722,7 @@ int etnaviv_gpu_init(struct etnaviv_gpu *gpu)
+ 	ret = pm_runtime_get_sync(gpu->dev);
+ 	if (ret < 0) {
+ 		dev_err(gpu->dev, "Failed to enable GPU power domain\n");
+-		return ret;
++		goto pm_put;
+ 	}
+ 
+ 	etnaviv_hw_identify(gpu);
+@@ -819,6 +819,7 @@ int etnaviv_gpu_init(struct etnaviv_gpu *gpu)
+ 
+ fail:
+ 	pm_runtime_mark_last_busy(gpu->dev);
++pm_put:
+ 	pm_runtime_put_autosuspend(gpu->dev);
+ 
+ 	return ret;
+@@ -859,7 +860,7 @@ int etnaviv_gpu_debugfs(struct etnaviv_gpu *gpu, struct seq_file *m)
+ 
+ 	ret = pm_runtime_get_sync(gpu->dev);
+ 	if (ret < 0)
+-		return ret;
++		goto pm_put;
+ 
+ 	dma_lo = gpu_read(gpu, VIVS_FE_DMA_LOW);
+ 	dma_hi = gpu_read(gpu, VIVS_FE_DMA_HIGH);
+@@ -1003,6 +1004,7 @@ int etnaviv_gpu_debugfs(struct etnaviv_gpu *gpu, struct seq_file *m)
+ 	ret = 0;
+ 
+ 	pm_runtime_mark_last_busy(gpu->dev);
++pm_put:
+ 	pm_runtime_put_autosuspend(gpu->dev);
+ 
+ 	return ret;
+@@ -1016,7 +1018,7 @@ void etnaviv_gpu_recover_hang(struct etnaviv_gpu *gpu)
+ 	dev_err(gpu->dev, "recover hung GPU!\n");
+ 
+ 	if (pm_runtime_get_sync(gpu->dev) < 0)
+-		return;
++		goto pm_put;
+ 
+ 	mutex_lock(&gpu->lock);
+ 
+@@ -1035,6 +1037,7 @@ void etnaviv_gpu_recover_hang(struct etnaviv_gpu *gpu)
+ 
+ 	mutex_unlock(&gpu->lock);
+ 	pm_runtime_mark_last_busy(gpu->dev);
++pm_put:
+ 	pm_runtime_put_autosuspend(gpu->dev);
+ }
+ 
+@@ -1308,8 +1311,10 @@ struct dma_fence *etnaviv_gpu_submit(struct etnaviv_gem_submit *submit)
+ 
+ 	if (!submit->runtime_resumed) {
+ 		ret = pm_runtime_get_sync(gpu->dev);
+-		if (ret < 0)
++		if (ret < 0) {
++			pm_runtime_put(gpu->dev);
+ 			return NULL;
++		}
+ 		submit->runtime_resumed = true;
+ 	}
+ 
+@@ -1326,6 +1331,7 @@ struct dma_fence *etnaviv_gpu_submit(struct etnaviv_gem_submit *submit)
+ 	ret = event_alloc(gpu, nr_events, event);
+ 	if (ret) {
+ 		DRM_ERROR("no free events\n");
++		pm_runtime_put(gpu->dev);
+ 		return NULL;
+ 	}
+ 
+-- 
+2.17.1
+
+_______________________________________________
+etnaviv mailing list
+etnaviv@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/etnaviv
