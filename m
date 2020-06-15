@@ -1,54 +1,63 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94B3A1F8879
-	for <lists+etnaviv@lfdr.de>; Sun, 14 Jun 2020 12:56:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AB201F8D8A
+	for <lists+etnaviv@lfdr.de>; Mon, 15 Jun 2020 08:12:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A5C389F85;
-	Sun, 14 Jun 2020 10:56:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0674689B57;
+	Mon, 15 Jun 2020 06:12:33 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com
- [IPv6:2607:f8b0:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 092FD89E33;
- Sun, 14 Jun 2020 09:48:24 +0000 (UTC)
-Received: by mail-pf1-x444.google.com with SMTP id 64so6479966pfv.11;
- Sun, 14 Jun 2020 02:48:24 -0700 (PDT)
+Received: from mail-io1-xd41.google.com (mail-io1-xd41.google.com
+ [IPv6:2607:f8b0:4864:20::d41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 75B0989B57;
+ Mon, 15 Jun 2020 06:12:32 +0000 (UTC)
+Received: by mail-io1-xd41.google.com with SMTP id r2so16595781ioo.4;
+ Sun, 14 Jun 2020 23:12:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=rvxXGWImKK0idVHDWiFzUpEVLlobMFbDY9vn//eI/9A=;
- b=nkJFC3z1IN6j1mHX2gbfdoVRUMFSXotIgLCRLgLxMSbaFtMSnRF9i6kPNYaLn0QY2e
- KWLSX5yWkn1H57pNir1VZyy69tP0B4cvfNrKqFk6IJJaoGiGxCLEbdaUkHe7qtvhd5DS
- vFsOyE+pK3shQ4G6+mAqNeZB0SEsE0vMc5xF8nAZgp01m5YYzqNOQqTpASlB+soZECmh
- GCIwNbUjkKVjQQRMUQnKOoHbCaMpw1wgHqGMsth8ybEFjzjAARbMFCP8BZmrDFx3Jy5J
- VoaROYENiQjg/qd/8KN/cIwZBaqSUczlgK4XHzX5xEcjnEBXf5YTQb1DorH79/IvM/NU
- KR+A==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=MpaNV/qQKz10iqV54hZ3d06qChO86uOpWp9hsgu+lWY=;
+ b=R9dTqLFqtzTAkZcs7wraz0nABjqsFyXZgImHWAjW/JRpifRBjCvM4fhxHp9/gej4n5
+ DNMG3Ht6UnmJefKwqtmlhhw6gIS51mdT1Y03Dnl9+jenWXLpeSk0+rwg8O4nQtCext1X
+ nN6yPFGPJ+ELR06ivu2dPofx7LFNSa56L2y+2g3mphJQsRxGkMX1+fAFWN3JLabu4yBa
+ O0YY12KchtNRz8i9AUYqDcaxqSQcOnKPDZ8O/HCnOaFRm4DSY0kKjelxhtlSXgZ0kMnS
+ I1pPgussUNro4NKXQN6Zm8TzPLvyU8Ak5siiRMN+2tg6y27KxK1az6mPo3c1JgSpplOw
+ J5oA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=rvxXGWImKK0idVHDWiFzUpEVLlobMFbDY9vn//eI/9A=;
- b=G/Y6mnpDW3KXnq8/2wUO+IGocHD5YwTa7xM/U66cDG+XBZDIvY/x414ispCLPw68IX
- BiFwc2g2LSqG3APQRrI1SyNdcJCdb3M23ikhkdN23KL/YO1GFPnaJ3g18Ku2SMSljXWq
- jkCfxKCRiUBpiXbClOWQS8rrlSWyogrN3s2HZ4mg0Ztgq9rzjPZava9wSfp8tKNru8iJ
- UsZBK7ilAGp0BUqHt+lb1muKvaB9/SjttmjT9z3hLQfewZwYeRSzrgGWi5DvFuBoHxVd
- fhgxdnhk1zjFuQX8u8L0TY05+IbEMk/Jf4mAUo48R6dS4TN5TqsGfpI1eePdL6uKlROv
- +dBg==
-X-Gm-Message-State: AOAM532jMwfLJyiXITHNFHyvVteZyHsDa5GibkPTawMWWQljtOQ4bS54
- j0TF3SOAs9AmV1b3CuJ7te0yEnHMkugOq4cr21Q=
-X-Google-Smtp-Source: ABdhPJwYZavEWvdA0J1yrGBUxY/uYHKnkxZs2SsvB+9yof058vomrhWPnHEJZKAb221T+W5zWfJi7OS9ca5pfxCA65s=
-X-Received: by 2002:a62:5284:: with SMTP id g126mr12644494pfb.36.1592128103604; 
- Sun, 14 Jun 2020 02:48:23 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200614064601.7872-1-navid.emamdoost@gmail.com>
-In-Reply-To: <20200614064601.7872-1-navid.emamdoost@gmail.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Sun, 14 Jun 2020 12:48:06 +0300
-Message-ID: <CAHp75VcLR2w9Ym0YOqUT9G8xT9qWrdD1-wP4UA-1wtuwCNxqSA@mail.gmail.com>
-Subject: Re: [PATCH] drm/etnaviv: fix ref count leak via pm_runtime_get_sync
-To: Navid Emamdoost <navid.emamdoost@gmail.com>
-X-Mailman-Approved-At: Sun, 14 Jun 2020 10:56:21 +0000
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references;
+ bh=MpaNV/qQKz10iqV54hZ3d06qChO86uOpWp9hsgu+lWY=;
+ b=RH5hX2PlB0zVqRH8nMJmklCSMj6UaST9flAdfeqPTVMubiTAG4kyo/F11bScP8jefU
+ 4jdgLcT69duIAI+HhhI43vAMEqtfBQHANPDhvRhWM/5tzsejXr4FhWeOJYZk4GJQ0TrK
+ dzI86r6kYc1ovwWZ2N0EwS5B/CK0x6kyn7B1t/E66gONmpN8Z8QI25kK1K374ibRuIId
+ ihiHBHD60tIjKzmQY9KoC7VTaImy5HUyV6OwlzLEQKv6ZZFmsuvxaR9/mK+GhRGnpP7M
+ uxZ6sqNOcWoK+0SP1olwmKLlwk/YHEnQn94/rNICwwQ77jKRWrRR32yQ920hNTuqZOmt
+ ffkg==
+X-Gm-Message-State: AOAM530tQP3kElqTzUajemxmhIZ9WmIk39nhozI2zOU/mOCX2c//pXxJ
+ +JJB3oinT+NXMzxuJQFY/fA=
+X-Google-Smtp-Source: ABdhPJyzcnYLaAIqOamesc01+OyA8JCS1/7QXApZEWy/YVtyVV5vBZBB6DNo4QZqY8CgYo+qQnFOqw==
+X-Received: by 2002:a05:6638:d05:: with SMTP id
+ q5mr19398438jaj.2.1592201551850; 
+ Sun, 14 Jun 2020 23:12:31 -0700 (PDT)
+Received: from cs-u-kase.dtc.umn.edu (cs-u-kase.cs.umn.edu. [160.94.64.2])
+ by smtp.googlemail.com with ESMTPSA id c3sm7421822ilr.45.2020.06.14.23.12.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 14 Jun 2020 23:12:31 -0700 (PDT)
+From: Navid Emamdoost <navid.emamdoost@gmail.com>
+To: Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH v2] drm/etnaviv: fix ref count leak via pm_runtime_get_sync
+Date: Mon, 15 Jun 2020 01:12:20 -0500
+Message-Id: <20200615061220.68711-1-navid.emamdoost@gmail.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <CAHp75VcLR2w9Ym0YOqUT9G8xT9qWrdD1-wP4UA-1wtuwCNxqSA@mail.gmail.com>
+References: <CAHp75VcLR2w9Ym0YOqUT9G8xT9qWrdD1-wP4UA-1wtuwCNxqSA@mail.gmail.com>
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,40 +69,106 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: wu000273@umn.edu, David Airlie <airlied@linux.ie>,
- Stephen McCamant <smccaman@umn.edu>, Kangjie Lu <kjlu@umn.edu>,
- etnaviv@lists.freedesktop.org, dri-devel <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- Navid Emamdoost <emamd001@umn.edu>, Daniel Vetter <daniel@ffwll.ch>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Lucas Stach <l.stach@pengutronix.de>
+Cc: kjlu@umn.edu, mccamant@cs.umn.edu, andy.shevchenko@gmail.com,
+ emamd001@umn.edu, wu000273@umn.edu,
+ Navid Emamdoost <navid.emamdoost@gmail.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-On Sun, Jun 14, 2020 at 9:48 AM Navid Emamdoost
-<navid.emamdoost@gmail.com> wrote:
+in etnaviv_gpu_submit, etnaviv_gpu_recover_hang, etnaviv_gpu_debugfs,
+and etnaviv_gpu_init the call to pm_runtime_get_sync increments the
+counter even in case of failure, leading to incorrect ref count.
+In case of failure, decrement the ref count before returning.
 
-...
+Signed-off-by: Navid Emamdoost <navid.emamdoost@gmail.com>
+---
+Changes in v2:
+	- replace pm_runtime_put with  pm_runtime_put_noidle
+---
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
 
-> +               if (ret < 0) {
-
-> +                       pm_runtime_put(gpu->dev);
-
-Please, in all your patches fix this to be _put_noidle(). We wouldn't
-bear the flag day of fixing these parts again.
-Yes, I know that *now* behaviour is the same, but calling put here is
-slightly inconsistent.
-
-...
-
-> +               pm_runtime_put(gpu->dev);
-
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+index a31eeff2b297..7c9f3f9ba123 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+@@ -722,7 +722,7 @@ int etnaviv_gpu_init(struct etnaviv_gpu *gpu)
+ 	ret = pm_runtime_get_sync(gpu->dev);
+ 	if (ret < 0) {
+ 		dev_err(gpu->dev, "Failed to enable GPU power domain\n");
+-		return ret;
++		goto pm_put;
+ 	}
+ 
+ 	etnaviv_hw_identify(gpu);
+@@ -819,6 +819,7 @@ int etnaviv_gpu_init(struct etnaviv_gpu *gpu)
+ 
+ fail:
+ 	pm_runtime_mark_last_busy(gpu->dev);
++pm_put:
+ 	pm_runtime_put_autosuspend(gpu->dev);
+ 
+ 	return ret;
+@@ -859,7 +860,7 @@ int etnaviv_gpu_debugfs(struct etnaviv_gpu *gpu, struct seq_file *m)
+ 
+ 	ret = pm_runtime_get_sync(gpu->dev);
+ 	if (ret < 0)
+-		return ret;
++		goto pm_put;
+ 
+ 	dma_lo = gpu_read(gpu, VIVS_FE_DMA_LOW);
+ 	dma_hi = gpu_read(gpu, VIVS_FE_DMA_HIGH);
+@@ -1003,6 +1004,7 @@ int etnaviv_gpu_debugfs(struct etnaviv_gpu *gpu, struct seq_file *m)
+ 	ret = 0;
+ 
+ 	pm_runtime_mark_last_busy(gpu->dev);
++pm_put:
+ 	pm_runtime_put_autosuspend(gpu->dev);
+ 
+ 	return ret;
+@@ -1016,7 +1018,7 @@ void etnaviv_gpu_recover_hang(struct etnaviv_gpu *gpu)
+ 	dev_err(gpu->dev, "recover hung GPU!\n");
+ 
+ 	if (pm_runtime_get_sync(gpu->dev) < 0)
+-		return;
++		goto pm_put;
+ 
+ 	mutex_lock(&gpu->lock);
+ 
+@@ -1035,6 +1037,7 @@ void etnaviv_gpu_recover_hang(struct etnaviv_gpu *gpu)
+ 
+ 	mutex_unlock(&gpu->lock);
+ 	pm_runtime_mark_last_busy(gpu->dev);
++pm_put:
+ 	pm_runtime_put_autosuspend(gpu->dev);
+ }
+ 
+@@ -1308,8 +1311,10 @@ struct dma_fence *etnaviv_gpu_submit(struct etnaviv_gem_submit *submit)
+ 
+ 	if (!submit->runtime_resumed) {
+ 		ret = pm_runtime_get_sync(gpu->dev);
+-		if (ret < 0)
++		if (ret < 0) {
++			pm_runtime_put_noidle(gpu->dev);
+ 			return NULL;
++		}
+ 		submit->runtime_resumed = true;
+ 	}
+ 
+@@ -1326,6 +1331,7 @@ struct dma_fence *etnaviv_gpu_submit(struct etnaviv_gem_submit *submit)
+ 	ret = event_alloc(gpu, nr_events, event);
+ 	if (ret) {
+ 		DRM_ERROR("no free events\n");
++		pm_runtime_put_noidle(gpu->dev);
+ 		return NULL;
+ 	}
+ 
 -- 
-With Best Regards,
-Andy Shevchenko
+2.17.1
+
 _______________________________________________
 etnaviv mailing list
 etnaviv@lists.freedesktop.org
