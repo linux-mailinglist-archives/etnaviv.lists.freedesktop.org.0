@@ -1,28 +1,26 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18FF11FC0EC
-	for <lists+etnaviv@lfdr.de>; Tue, 16 Jun 2020 23:21:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FC2E1FC1CB
+	for <lists+etnaviv@lfdr.de>; Wed, 17 Jun 2020 00:44:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BBF536E9A5;
-	Tue, 16 Jun 2020 21:21:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D5156E211;
+	Tue, 16 Jun 2020 22:44:10 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
 Received: from v6.sk (v6.sk [167.172.42.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 738666E9A5;
- Tue, 16 Jun 2020 21:21:41 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB1926E211;
+ Tue, 16 Jun 2020 22:44:08 +0000 (UTC)
 Received: from localhost (v6.sk [IPv6:::1])
- by v6.sk (Postfix) with ESMTP id 4D4586163C;
- Tue, 16 Jun 2020 21:21:40 +0000 (UTC)
+ by v6.sk (Postfix) with ESMTP id 47A8261634;
+ Tue, 16 Jun 2020 22:44:07 +0000 (UTC)
 From: Lubomir Rintel <lkundrak@v3.sk>
 To: Lucas Stach <l.stach@pengutronix.de>
-Subject: [RESEND PATCH v2 4/4] drm/etnaviv: Simplify clock enable/disable
-Date: Tue, 16 Jun 2020 23:21:27 +0200
-Message-Id: <20200616212127.986410-5-lkundrak@v3.sk>
+Subject: [PATCH v5 0/2] mfd: Add ENE KB3930 Embedded Controller driver
+Date: Wed, 17 Jun 2020 00:44:02 +0200
+Message-Id: <20200616224404.994285-1-lkundrak@v3.sk>
 X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200616212127.986410-1-lkundrak@v3.sk>
-References: <20200616212127.986410-1-lkundrak@v3.sk>
 MIME-Version: 1.0
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -35,104 +33,27 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: Russell King <linux+etnaviv@arlinux.org.uk>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
- Lubomir Rintel <lkundrak@v3.sk>,
- Christian Geiner <christian.gmeiner@gmail.com>
+Cc: linux-kernel@vger.kernel.org,
+ Christian Geiner <christian.gmeiner@gmail.com>,
+ Russell King <linux+etnaviv@arlinux.org.uk>, dri-devel@lists.freedesktop.org,
+ etnaviv@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-All the NULL checks are pointless, clk_*() routines already deal with NULL
-just fine.
+Hi,
 
-Signed-off-by: Lubomir Rintel <lkundrak@v3.sk>
----
- drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 53 ++++++++++-----------------
- 1 file changed, 19 insertions(+), 34 deletions(-)
+please consider applying the patches chained to this message. It's the
+fifth version of the driver for the ENE KB3930 Embedded Controller.
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-index 798fdbc8ecdb5..fb37787449bb7 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-@@ -1487,55 +1487,40 @@ static int etnaviv_gpu_clk_enable(struct etnaviv_gpu *gpu)
- {
- 	int ret;
- 
--	if (gpu->clk_reg) {
--		ret = clk_prepare_enable(gpu->clk_reg);
--		if (ret)
--			return ret;
--	}
-+	ret = clk_prepare_enable(gpu->clk_reg);
-+	if (ret)
-+		return ret;
- 
--	if (gpu->clk_bus) {
--		ret = clk_prepare_enable(gpu->clk_bus);
--		if (ret)
--			goto disable_clk_reg;
--	}
-+	ret = clk_prepare_enable(gpu->clk_bus);
-+	if (ret)
-+		goto disable_clk_reg;
- 
--	if (gpu->clk_core) {
--		ret = clk_prepare_enable(gpu->clk_core);
--		if (ret)
--			goto disable_clk_bus;
--	}
-+	ret = clk_prepare_enable(gpu->clk_core);
-+	if (ret)
-+		goto disable_clk_bus;
- 
--	if (gpu->clk_shader) {
--		ret = clk_prepare_enable(gpu->clk_shader);
--		if (ret)
--			goto disable_clk_core;
--	}
-+	ret = clk_prepare_enable(gpu->clk_shader);
-+	if (ret)
-+		goto disable_clk_core;
- 
- 	return 0;
- 
- disable_clk_core:
--	if (gpu->clk_core)
--		clk_disable_unprepare(gpu->clk_core);
-+	clk_disable_unprepare(gpu->clk_core);
- disable_clk_bus:
--	if (gpu->clk_bus)
--		clk_disable_unprepare(gpu->clk_bus);
-+	clk_disable_unprepare(gpu->clk_bus);
- disable_clk_reg:
--	if (gpu->clk_reg)
--		clk_disable_unprepare(gpu->clk_reg);
-+	clk_disable_unprepare(gpu->clk_reg);
- 
- 	return ret;
- }
- 
- static int etnaviv_gpu_clk_disable(struct etnaviv_gpu *gpu)
- {
--	if (gpu->clk_shader)
--		clk_disable_unprepare(gpu->clk_shader);
--	if (gpu->clk_core)
--		clk_disable_unprepare(gpu->clk_core);
--	if (gpu->clk_bus)
--		clk_disable_unprepare(gpu->clk_bus);
--	if (gpu->clk_reg)
--		clk_disable_unprepare(gpu->clk_reg);
-+	clk_disable_unprepare(gpu->clk_shader);
-+	clk_disable_unprepare(gpu->clk_core);
-+	clk_disable_unprepare(gpu->clk_bus);
-+	clk_disable_unprepare(gpu->clk_reg);
- 
- 	return 0;
- }
--- 
-2.26.2
+This version is essentially a resend of v4. The only actual change is the
+addition of the Rob's Reviewed-by tag which I failed to do previously.
+Detailed change logs are in the individual patch descriptions.
+
+Thanks,
+Lubo
+
 
 _______________________________________________
 etnaviv mailing list
