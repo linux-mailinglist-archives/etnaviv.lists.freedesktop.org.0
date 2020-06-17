@@ -1,31 +1,36 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 616741FC956
-	for <lists+etnaviv@lfdr.de>; Wed, 17 Jun 2020 10:58:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 150031FCA2F
+	for <lists+etnaviv@lfdr.de>; Wed, 17 Jun 2020 11:53:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0EDB06E044;
-	Wed, 17 Jun 2020 08:58:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC241898EA;
+	Wed, 17 Jun 2020 09:53:17 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A6E626E044
- for <etnaviv@lists.freedesktop.org>; Wed, 17 Jun 2020 08:58:38 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 28BCC898EA
+ for <etnaviv@lists.freedesktop.org>; Wed, 17 Jun 2020 09:53:17 +0000 (UTC)
 Received: from gallifrey.ext.pengutronix.de
  ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=localhost)
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <l.stach@pengutronix.de>)
- id 1jlTtu-00071k-3n; Wed, 17 Jun 2020 10:58:30 +0200
-Message-ID: <6ce028567aead7e5270c7d62b4f201bc686c0b3e.camel@pengutronix.de>
-Subject: Re: [PATCH v5 0/2] mfd: Add ENE KB3930 Embedded Controller driver
+ id 1jlUks-0003EN-LW; Wed, 17 Jun 2020 11:53:14 +0200
+Message-ID: <befc07e1d630dbc5a6f96fba4e47e083e6386090.camel@pengutronix.de>
+Subject: Re: [PATCH v2] drm/etnaviv: fix ref count leak via pm_runtime_get_sync
 From: Lucas Stach <l.stach@pengutronix.de>
-To: Lubomir Rintel <lkundrak@v3.sk>
-Date: Wed, 17 Jun 2020 10:58:28 +0200
-In-Reply-To: <20200616224404.994285-1-lkundrak@v3.sk>
-References: <20200616224404.994285-1-lkundrak@v3.sk>
+To: Navid Emamdoost <navid.emamdoost@gmail.com>, Russell King
+ <linux+etnaviv@armlinux.org.uk>, Christian Gmeiner
+ <christian.gmeiner@gmail.com>,  David Airlie <airlied@linux.ie>, Daniel
+ Vetter <daniel@ffwll.ch>, etnaviv@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Date: Wed, 17 Jun 2020 11:53:08 +0200
+In-Reply-To: <20200615061220.68711-1-navid.emamdoost@gmail.com>
+References: <CAHp75VcLR2w9Ym0YOqUT9G8xT9qWrdD1-wP4UA-1wtuwCNxqSA@mail.gmail.com>
+ <20200615061220.68711-1-navid.emamdoost@gmail.com>
 User-Agent: Evolution 3.36.2 (3.36.2-1.fc32) 
 MIME-Version: 1.0
 X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
@@ -44,31 +49,114 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org,
- Christian Geiner <christian.gmeiner@gmail.com>, etnaviv@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Russell King <linux+etnaviv@armlinux.org.uk>
+Cc: mccamant@cs.umn.edu, andy.shevchenko@gmail.com, emamd001@umn.edu,
+ kjlu@umn.edu, wu000273@umn.edu
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Hi Lubomir,
+Hi Navid,
 
-Am Mittwoch, den 17.06.2020, 00:44 +0200 schrieb Lubomir Rintel:
-> Hi,
-> 
-> please consider applying the patches chained to this message. It's the
-> fifth version of the driver for the ENE KB3930 Embedded Controller.
-> 
-> This version is essentially a resend of v4. The only actual change is the
-> addition of the Rob's Reviewed-by tag which I failed to do previously.
-> Detailed change logs are in the individual patch descriptions.
+Am Montag, den 15.06.2020, 01:12 -0500 schrieb Navid Emamdoost:
+> in etnaviv_gpu_submit, etnaviv_gpu_recover_hang, etnaviv_gpu_debugfs,
+> and etnaviv_gpu_init the call to pm_runtime_get_sync increments the
+> counter even in case of failure, leading to incorrect ref count.
+> In case of failure, decrement the ref count before returning.
 
-I don't think you wanted this to go to the etnaviv list and
-maintainers, right?
+While that change is correct with the current API, may I ask the
+question why the way this API works is considered reasonable? A API
+call that fails, but still changes internal state and expects the
+caller to clean up the mess it not really what I would consider fool-
+proof API design. Is there a specific reason why it is done this way
+and not handled internally?
 
 Regards,
 Lucas
+
+> Signed-off-by: Navid Emamdoost <navid.emamdoost@gmail.com>
+> ---
+> Changes in v2:
+> 	- replace pm_runtime_put with  pm_runtime_put_noidle
+> ---
+>  drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 14 ++++++++++----
+>  1 file changed, 10 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> index a31eeff2b297..7c9f3f9ba123 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> @@ -722,7 +722,7 @@ int etnaviv_gpu_init(struct etnaviv_gpu *gpu)
+>  	ret = pm_runtime_get_sync(gpu->dev);
+>  	if (ret < 0) {
+>  		dev_err(gpu->dev, "Failed to enable GPU power domain\n");
+> -		return ret;
+> +		goto pm_put;
+>  	}
+>  
+>  	etnaviv_hw_identify(gpu);
+> @@ -819,6 +819,7 @@ int etnaviv_gpu_init(struct etnaviv_gpu *gpu)
+>  
+>  fail:
+>  	pm_runtime_mark_last_busy(gpu->dev);
+> +pm_put:
+>  	pm_runtime_put_autosuspend(gpu->dev);
+>  
+>  	return ret;
+> @@ -859,7 +860,7 @@ int etnaviv_gpu_debugfs(struct etnaviv_gpu *gpu, struct seq_file *m)
+>  
+>  	ret = pm_runtime_get_sync(gpu->dev);
+>  	if (ret < 0)
+> -		return ret;
+> +		goto pm_put;
+>  
+>  	dma_lo = gpu_read(gpu, VIVS_FE_DMA_LOW);
+>  	dma_hi = gpu_read(gpu, VIVS_FE_DMA_HIGH);
+> @@ -1003,6 +1004,7 @@ int etnaviv_gpu_debugfs(struct etnaviv_gpu *gpu, struct seq_file *m)
+>  	ret = 0;
+>  
+>  	pm_runtime_mark_last_busy(gpu->dev);
+> +pm_put:
+>  	pm_runtime_put_autosuspend(gpu->dev);
+>  
+>  	return ret;
+> @@ -1016,7 +1018,7 @@ void etnaviv_gpu_recover_hang(struct etnaviv_gpu *gpu)
+>  	dev_err(gpu->dev, "recover hung GPU!\n");
+>  
+>  	if (pm_runtime_get_sync(gpu->dev) < 0)
+> -		return;
+> +		goto pm_put;
+>  
+>  	mutex_lock(&gpu->lock);
+>  
+> @@ -1035,6 +1037,7 @@ void etnaviv_gpu_recover_hang(struct etnaviv_gpu *gpu)
+>  
+>  	mutex_unlock(&gpu->lock);
+>  	pm_runtime_mark_last_busy(gpu->dev);
+> +pm_put:
+>  	pm_runtime_put_autosuspend(gpu->dev);
+>  }
+>  
+> @@ -1308,8 +1311,10 @@ struct dma_fence *etnaviv_gpu_submit(struct etnaviv_gem_submit *submit)
+>  
+>  	if (!submit->runtime_resumed) {
+>  		ret = pm_runtime_get_sync(gpu->dev);
+> -		if (ret < 0)
+> +		if (ret < 0) {
+> +			pm_runtime_put_noidle(gpu->dev);
+>  			return NULL;
+> +		}
+>  		submit->runtime_resumed = true;
+>  	}
+>  
+> @@ -1326,6 +1331,7 @@ struct dma_fence *etnaviv_gpu_submit(struct etnaviv_gem_submit *submit)
+>  	ret = event_alloc(gpu, nr_events, event);
+>  	if (ret) {
+>  		DRM_ERROR("no free events\n");
+> +		pm_runtime_put_noidle(gpu->dev);
+>  		return NULL;
+>  	}
+>  
 
 _______________________________________________
 etnaviv mailing list
