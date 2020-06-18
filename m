@@ -2,54 +2,100 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15E041FD3DB
-	for <lists+etnaviv@lfdr.de>; Wed, 17 Jun 2020 19:57:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E7031FF7AB
+	for <lists+etnaviv@lfdr.de>; Thu, 18 Jun 2020 17:45:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BEA0A6EA03;
-	Wed, 17 Jun 2020 17:57:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D0696EB66;
+	Thu, 18 Jun 2020 15:45:25 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-io1-xd41.google.com (mail-io1-xd41.google.com
- [IPv6:2607:f8b0:4864:20::d41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C67D56EA01;
- Wed, 17 Jun 2020 17:57:21 +0000 (UTC)
-Received: by mail-io1-xd41.google.com with SMTP id q8so3878511iow.7;
- Wed, 17 Jun 2020 10:57:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=q00goUzCyLy6SD4mp+vmnrzfR0St7QeKsEVA6ziR2PU=;
- b=RRvn7qM35mVqAY1knuIVPc10vaUdrQvNMukTRVNOheuSL4BNGgJUWKZcI1Tlop7ulM
- eHEbNnONoOFpOMHgV3OxjZJtAVHASnb6+Kp0iM8VLOvBUPU30Ce6EvIRrDUDDe7aq/1t
- V5AIQ1Be14Z83jXBo6gBw9pPIYqOTrpX+U/4BWkVHzRchV8quM6JYDrY7uXvtB/sCM4i
- BXsTwdu2DB+p4w8OeDUtvERmD0VxVXxT27DcDci4gRQ0R9Xg28f6mSS7xRq8+TWNyqVw
- YtcHyxUltXLKolgtcMD0+EotnZ7NCfKeRWa0Uo3yDAMselHTgbsUYYTAFboGZqKs2pz3
- NTDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=q00goUzCyLy6SD4mp+vmnrzfR0St7QeKsEVA6ziR2PU=;
- b=hc46Vr4EP0jDOmuO6LEDfbkcDq/HqCQDe/WZWs+V1YbRhbmc/e7P9qYTJmHW2T6SMo
- koTgaJYolsCLUq1LGBZuiWh6dYsNlsrhekZxT0psacCofzMg73jcMaJMLFnPJ8zwlscW
- SMPJIPKHOdx7mLf3sj03FBkPCJliyERk+OepiuP89kUdDFzptd5m2JKZbQuCW+QHZIch
- DEha0+Scz9ydJvo7q/UEfYPP7M8m8xQsD9Iw5Bcm9wiW1kh8hFBWU9b7NWOJcoT+sub7
- Zg7SYYdRt1wQEbFEk9S/ExVQIZjR2Ag0qhoUR/+UTMr8GPb7qIFXu5EaP/pwykCpScIP
- 6m3Q==
-X-Gm-Message-State: AOAM531/J9pvdr6yNYmFhsHFSrxBHdkZxvst1aMWTn1PelRx9atbr4FG
- 8pYOMvpwL6jupJXwE6CpCMjOwdcyawBt9Igs6Fo=
-X-Google-Smtp-Source: ABdhPJzZJiTWi2uOtNqtsGdWLlE7w0p8Q7blzZ5DDM9DIsZb9e2+H8BHK6oknVOa8kl+OV9UMTyk7Mfx5H5udXhynxA=
-X-Received: by 2002:a6b:b252:: with SMTP id b79mr621281iof.31.1592416640937;
- Wed, 17 Jun 2020 10:57:20 -0700 (PDT)
-MIME-Version: 1.0
-References: <CAHp75VcLR2w9Ym0YOqUT9G8xT9qWrdD1-wP4UA-1wtuwCNxqSA@mail.gmail.com>
- <20200615061220.68711-1-navid.emamdoost@gmail.com>
- <befc07e1d630dbc5a6f96fba4e47e083e6386090.camel@pengutronix.de>
-In-Reply-To: <befc07e1d630dbc5a6f96fba4e47e083e6386090.camel@pengutronix.de>
-From: Navid Emamdoost <navid.emamdoost@gmail.com>
-Date: Wed, 17 Jun 2020 12:57:09 -0500
-Message-ID: <CAEkB2EQ9DuLt12MXkw3DYpBDaDAxoWTnMC9+=E7v=6dGGRK=nQ@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/etnaviv: fix ref count leak via pm_runtime_get_sync
-To: Lucas Stach <l.stach@pengutronix.de>
+X-Greylist: delayed 303 seconds by postgrey-1.36 at gabe;
+ Thu, 18 Jun 2020 15:45:23 UTC
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
+ [210.118.77.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A2E266EB82
+ for <etnaviv@lists.freedesktop.org>; Thu, 18 Jun 2020 15:45:23 +0000 (UTC)
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20200618154018euoutp013da753e46c0d7cabe06da7e8542a029b~ZrZmxUk-D1844818448euoutp01u
+ for <etnaviv@lists.freedesktop.org>; Thu, 18 Jun 2020 15:40:18 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20200618154018euoutp013da753e46c0d7cabe06da7e8542a029b~ZrZmxUk-D1844818448euoutp01u
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1592494818;
+ bh=BUDsnzPfM8pecFmTHTRzLrmx2aEqpYyXAUW4mvYfV28=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=j2ZV2oFRMrGCaywwNNrqCbdbyyW5U75ngXK/V2zR6qmOh/dluGTEVEDky5ITNQEyk
+ 4g/IpRjRpvljHuRi+CSWA61J6/AoBy/Pxh2Y7DmFG/EnxdhCRKO9NKMfFTE0sDA3r0
+ t/q8+U6oz1QKTxGfo5lDIRPeV9wbaXUeHG5lSE/k=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20200618154018eucas1p26ba7a8cdc44363cbbd10ab03428eab17~ZrZmi99Za0607806078eucas1p2O;
+ Thu, 18 Jun 2020 15:40:18 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+ eusmges1new.samsung.com (EUCPMTA) with SMTP id DE.0F.61286.2EA8BEE5; Thu, 18
+ Jun 2020 16:40:18 +0100 (BST)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20200618154018eucas1p1037a99bc0dc24e0ba61242e7b34c5818~ZrZmBgStb1248212482eucas1p1j;
+ Thu, 18 Jun 2020 15:40:18 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+ eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20200618154018eusmtrp26611e9f6b80cabf5be0abbf0d9a6e422~ZrZmA3jaW0399203992eusmtrp2T;
+ Thu, 18 Jun 2020 15:40:18 +0000 (GMT)
+X-AuditID: cbfec7f2-ef1ff7000001ef66-be-5eeb8ae2fe0e
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+ eusmgms1.samsung.com (EUCPMTA) with SMTP id D3.EE.08375.1EA8BEE5; Thu, 18
+ Jun 2020 16:40:17 +0100 (BST)
+Received: from AMDC2765.digital.local (unknown [106.120.51.73]) by
+ eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20200618154017eusmtip183dd4207368bf9a26fc090eb2dfead5c~ZrZlXRMas0834108341eusmtip1L;
+ Thu, 18 Jun 2020 15:40:17 +0000 (GMT)
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+To: dri-devel@lists.freedesktop.org, iommu@lists.linux-foundation.org,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v6 06/36] drm: etnaviv: fix common struct sg_table related
+ issues
+Date: Thu, 18 Jun 2020 17:39:27 +0200
+Message-Id: <20200618153956.29558-7-m.szyprowski@samsung.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200618153956.29558-1-m.szyprowski@samsung.com>
+X-Brightmail-Tracker: H4sIAAAAAAAAA0WSeUgUURzHeTN7jJsr4yr5sFLYyjDIIyOmPNASHEhIyIikNlcd1HJ13VFL
+ gxKvbM3byrZLTfK+VtnKWzFXs7wzLUUtz1SSvMpQcx2t/z6/7+/75fve42GoQMk2xHz9gyiZ
+ v9hPyOGxVM2/O458lc+ILNbrDhDx7a0IUZZewiY2VMko0bv0g0NUpg9yibyCtwiRUWdNjDwd
+ QIjF3lGEUH7rYxM9lU84RFHTEJdomB9j2/PJwmeFgKxZzmCRr5ZH2ORwnBohy7Nvk1/Wv6Fk
+ an8OIKsGwjlk4poFmVCRD8gFpZHLLjeejRfl5xtCyczt3Hk+K+UxXOnK/hsvm7s44SDBSA4w
+ DOLH4OdZRA54mADPBfBj3xqXGRYBTOjP294sAFhaW8XaSeTdOc7oOQC+z3qwadJiEqooXQ1z
+ cEson5NzNKyPRwPYEq+tYRQfRuCf6asa1sPPwdaKrq0sCz8INyI0fgzj47ZQVSTWyBA3hgWl
+ 9aiGtXA72KaOZmt6Id7Mhfc757mMyRH2KZpZDOvB7+qKbX0v3HjzHGECkQCOthdxmeEegD0R
+ 6YBxWcPB9tWtZhQ3hSWV5ozsAFdT8jnMhXVg/5wuc34dmKJ6iDIyH8bGCBi3CVSoi//VNnR2
+ owyT8PHq+PaDJgO4PDTBTgLGiv9lGQDkAwMqmJZ4U7SlP3XdjBZL6GB/bzPPAIkSbP6ktnX1
+ z9dgqdujEeAYEGrz7S/MiARscQgdKmkEEEOF+vxTH9pEAr6XODSMkgVckQX7UXQj2IOxhAZ8
+ q6zpywLcWxxEXaMoKSXb2SKYlmE4iJzIjPP0mI1QzJ4NrXB1lwVlOqaLrLJFHqZpTtIT/U7v
+ EJdLbia/Wma7jsqNUgrPxOZKs6iO8JsrU8XO9dU9TfPjLxwC9+0Os62+e7pscmkyWZWWVO18
+ /uKUzZhra8Cj7BYTM/74J5ZhcI3kkNUtQa40MdBcORyV2nOyVtJC89qELNpHbHkYldHivwPO
+ JYZFAwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprKIsWRmVeSWpSXmKPExsVy+t/xu7oPu17HGSzYYG3Re+4kk8XGGetZ
+ Lf5vm8hsceXrezaLXTPusFusXH2UyWLBfmuLB3NvMll8ufKQyWLT42usFpd3zWGzWHvkLrvF
+ wQ9PWB14PdbMW8PosffbAhaP7d8esHrc7z7O5LF5Sb3H7X+PmT0m31jO6LH7ZgObR/9fA4++
+ LasYPT5vkgvgjtKzKcovLUlVyMgvLrFVija0MNIztLTQMzKx1DM0No+1MjJV0rezSUnNySxL
+ LdK3S9DL+L65jb3gu3LFsmMX2RoY++S6GDk4JARMJFa2m3UxcnEICSxllDj0ZwpbFyMnUFxG
+ 4uS0BlYIW1jiz7UuNoiiT4wS9w6uZQJJsAkYSnS9hUiICHQySkzr/sgOkmAWeM4k8bJFH8QW
+ FgiUmLBhOdhUFgFVif9NIA0cHLwCthLb1iZCLJCXWL3hADOIzSlgJ3H6eCvYYiGgkucf2tgm
+ MPItYGRYxSiSWlqcm55bbKhXnJhbXJqXrpecn7uJERgl24793LyD8dLG4EOMAhyMSjy8L0Je
+ xwmxJpYVV+YeYpTgYFYS4XU6ezpOiDclsbIqtSg/vqg0J7X4EKMp0E0TmaVEk/OBEZxXEm9o
+ amhuYWlobmxubGahJM7bIXAwRkggPbEkNTs1tSC1CKaPiYNTqoGR087TkcF3lcZ8E9kekdeH
+ o9Lv8B/mTBCaxHFvwjzVYK7w9hTNqmyFM+8NN2vuWSx9Nyrc0tLfdG1JueXG17M/71opltFn
+ zHBpZvajwDKbs0Iex9euvz3ndnhJhNAt/r21VV9kb3AaH/miOkc9JCZbv/tR9satuw+vaK49
+ 4OZjf09s0Wo/s5tKLMUZiYZazEXFiQDSfWdeqAIAAA==
+X-CMS-MailID: 20200618154018eucas1p1037a99bc0dc24e0ba61242e7b34c5818
+X-Msg-Generator: CA
+X-RootMTR: 20200618154018eucas1p1037a99bc0dc24e0ba61242e7b34c5818
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20200618154018eucas1p1037a99bc0dc24e0ba61242e7b34c5818
+References: <20200618153956.29558-1-m.szyprowski@samsung.com>
+ <CGME20200618154018eucas1p1037a99bc0dc24e0ba61242e7b34c5818@eucas1p1.samsung.com>
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,137 +107,132 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: Qiushi Wu <wu000273@umn.edu>, David Airlie <airlied@linux.ie>,
- Andy Shevchenko <andy.shevchenko@gmail.com>, Kangjie Lu <kjlu@umn.edu>,
- etnaviv@lists.freedesktop.org, dri-devel <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>, mccamant@cs.umn.edu,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- Navid Emamdoost <emamd001@umn.edu>, Daniel Vetter <daniel@ffwll.ch>,
- Russell King <linux+etnaviv@armlinux.org.uk>
+Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ David Airlie <airlied@linux.ie>, etnaviv@lists.freedesktop.org,
+ Daniel Vetter <daniel@ffwll.ch>, Lucas Stach <l.stach@pengutronix.de>,
+ Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>,
+ linux-arm-kernel@lists.infradead.org,
+ Marek Szyprowski <m.szyprowski@samsung.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Hi Lucas,
+The Documentation/DMA-API-HOWTO.txt states that the dma_map_sg() function
+returns the number of the created entries in the DMA address space.
+However the subsequent calls to the dma_sync_sg_for_{device,cpu}() and
+dma_unmap_sg must be called with the original number of the entries
+passed to the dma_map_sg().
 
+struct sg_table is a common structure used for describing a non-contiguous
+memory buffer, used commonly in the DRM and graphics subsystems. It
+consists of a scatterlist with memory pages and DMA addresses (sgl entry),
+as well as the number of scatterlist entries: CPU pages (orig_nents entry)
+and DMA mapped pages (nents entry).
 
-On Wed, Jun 17, 2020 at 4:53 AM Lucas Stach <l.stach@pengutronix.de> wrote:
->
-> Hi Navid,
->
-> Am Montag, den 15.06.2020, 01:12 -0500 schrieb Navid Emamdoost:
-> > in etnaviv_gpu_submit, etnaviv_gpu_recover_hang, etnaviv_gpu_debugfs,
-> > and etnaviv_gpu_init the call to pm_runtime_get_sync increments the
-> > counter even in case of failure, leading to incorrect ref count.
-> > In case of failure, decrement the ref count before returning.
->
-> While that change is correct with the current API, may I ask the
-> question why the way this API works is considered reasonable? A API
-> call that fails, but still changes internal state and expects the
-> caller to clean up the mess it not really what I would consider fool-
-> proof API design. Is there a specific reason why it is done this way
-> and not handled internally?
+It turned out that it was a common mistake to misuse nents and orig_nents
+entries, calling DMA-mapping functions with a wrong number of entries or
+ignoring the number of mapped entries returned by the dma_map_sg()
+function.
 
-I share the same concern with you on the way this API is working now.
-To the best of my knowledge, there are ongoing discussions on this
-issue:
+To avoid such issues, lets use a common dma-mapping wrappers operating
+directly on the struct sg_table objects and use scatterlist page
+iterators where possible. This, almost always, hides references to the
+nents and orig_nents entries, making the code robust, easier to follow
+and copy/paste safe.
 
-https://lkml.org/lkml/2020/6/14/76
-https://patchwork.ozlabs.org/project/linux-tegra/patch/20200520095148.10995-1-dinghao.liu@zju.edu.cn/
+Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+---
+ drivers/gpu/drm/etnaviv/etnaviv_gem.c | 12 +++++-------
+ drivers/gpu/drm/etnaviv/etnaviv_mmu.c | 13 +++----------
+ 2 files changed, 8 insertions(+), 17 deletions(-)
 
->
-> Regards,
-> Lucas
->
-> > Signed-off-by: Navid Emamdoost <navid.emamdoost@gmail.com>
-> > ---
-> > Changes in v2:
-> >       - replace pm_runtime_put with  pm_runtime_put_noidle
-> > ---
-> >  drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 14 ++++++++++----
-> >  1 file changed, 10 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> > index a31eeff2b297..7c9f3f9ba123 100644
-> > --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> > +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> > @@ -722,7 +722,7 @@ int etnaviv_gpu_init(struct etnaviv_gpu *gpu)
-> >       ret = pm_runtime_get_sync(gpu->dev);
-> >       if (ret < 0) {
-> >               dev_err(gpu->dev, "Failed to enable GPU power domain\n");
-> > -             return ret;
-> > +             goto pm_put;
-> >       }
-> >
-> >       etnaviv_hw_identify(gpu);
-> > @@ -819,6 +819,7 @@ int etnaviv_gpu_init(struct etnaviv_gpu *gpu)
-> >
-> >  fail:
-> >       pm_runtime_mark_last_busy(gpu->dev);
-> > +pm_put:
-> >       pm_runtime_put_autosuspend(gpu->dev);
-> >
-> >       return ret;
-> > @@ -859,7 +860,7 @@ int etnaviv_gpu_debugfs(struct etnaviv_gpu *gpu, struct seq_file *m)
-> >
-> >       ret = pm_runtime_get_sync(gpu->dev);
-> >       if (ret < 0)
-> > -             return ret;
-> > +             goto pm_put;
-> >
-> >       dma_lo = gpu_read(gpu, VIVS_FE_DMA_LOW);
-> >       dma_hi = gpu_read(gpu, VIVS_FE_DMA_HIGH);
-> > @@ -1003,6 +1004,7 @@ int etnaviv_gpu_debugfs(struct etnaviv_gpu *gpu, struct seq_file *m)
-> >       ret = 0;
-> >
-> >       pm_runtime_mark_last_busy(gpu->dev);
-> > +pm_put:
-> >       pm_runtime_put_autosuspend(gpu->dev);
-> >
-> >       return ret;
-> > @@ -1016,7 +1018,7 @@ void etnaviv_gpu_recover_hang(struct etnaviv_gpu *gpu)
-> >       dev_err(gpu->dev, "recover hung GPU!\n");
-> >
-> >       if (pm_runtime_get_sync(gpu->dev) < 0)
-> > -             return;
-> > +             goto pm_put;
-> >
-> >       mutex_lock(&gpu->lock);
-> >
-> > @@ -1035,6 +1037,7 @@ void etnaviv_gpu_recover_hang(struct etnaviv_gpu *gpu)
-> >
-> >       mutex_unlock(&gpu->lock);
-> >       pm_runtime_mark_last_busy(gpu->dev);
-> > +pm_put:
-> >       pm_runtime_put_autosuspend(gpu->dev);
-> >  }
-> >
-> > @@ -1308,8 +1311,10 @@ struct dma_fence *etnaviv_gpu_submit(struct etnaviv_gem_submit *submit)
-> >
-> >       if (!submit->runtime_resumed) {
-> >               ret = pm_runtime_get_sync(gpu->dev);
-> > -             if (ret < 0)
-> > +             if (ret < 0) {
-> > +                     pm_runtime_put_noidle(gpu->dev);
-> >                       return NULL;
-> > +             }
-> >               submit->runtime_resumed = true;
-> >       }
-> >
-> > @@ -1326,6 +1331,7 @@ struct dma_fence *etnaviv_gpu_submit(struct etnaviv_gem_submit *submit)
-> >       ret = event_alloc(gpu, nr_events, event);
-> >       if (ret) {
-> >               DRM_ERROR("no free events\n");
-> > +             pm_runtime_put_noidle(gpu->dev);
-> >               return NULL;
-> >       }
-> >
->
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+index f5e5bb8ba953..9f4613f7e255 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+@@ -27,7 +27,7 @@ static void etnaviv_gem_scatter_map(struct etnaviv_gem_object *etnaviv_obj)
+ 	 * because display controller, GPU, etc. are not coherent.
+ 	 */
+ 	if (etnaviv_obj->flags & ETNA_BO_CACHE_MASK)
+-		dma_map_sg(dev->dev, sgt->sgl, sgt->nents, DMA_BIDIRECTIONAL);
++		dma_map_sgtable(dev->dev, sgt, DMA_BIDIRECTIONAL, 0);
+ }
+ 
+ static void etnaviv_gem_scatterlist_unmap(struct etnaviv_gem_object *etnaviv_obj)
+@@ -51,7 +51,7 @@ static void etnaviv_gem_scatterlist_unmap(struct etnaviv_gem_object *etnaviv_obj
+ 	 * discard those writes.
+ 	 */
+ 	if (etnaviv_obj->flags & ETNA_BO_CACHE_MASK)
+-		dma_unmap_sg(dev->dev, sgt->sgl, sgt->nents, DMA_BIDIRECTIONAL);
++		dma_unmap_sgtable(dev->dev, sgt, DMA_BIDIRECTIONAL, 0);
+ }
+ 
+ /* called with etnaviv_obj->lock held */
+@@ -404,9 +404,8 @@ int etnaviv_gem_cpu_prep(struct drm_gem_object *obj, u32 op,
+ 	}
+ 
+ 	if (etnaviv_obj->flags & ETNA_BO_CACHED) {
+-		dma_sync_sg_for_cpu(dev->dev, etnaviv_obj->sgt->sgl,
+-				    etnaviv_obj->sgt->nents,
+-				    etnaviv_op_to_dma_dir(op));
++		dma_sync_sgtable_for_cpu(dev->dev, etnaviv_obj->sgt,
++					 etnaviv_op_to_dma_dir(op));
+ 		etnaviv_obj->last_cpu_prep_op = op;
+ 	}
+ 
+@@ -421,8 +420,7 @@ int etnaviv_gem_cpu_fini(struct drm_gem_object *obj)
+ 	if (etnaviv_obj->flags & ETNA_BO_CACHED) {
+ 		/* fini without a prep is almost certainly a userspace error */
+ 		WARN_ON(etnaviv_obj->last_cpu_prep_op == 0);
+-		dma_sync_sg_for_device(dev->dev, etnaviv_obj->sgt->sgl,
+-			etnaviv_obj->sgt->nents,
++		dma_sync_sgtable_for_device(dev->dev, etnaviv_obj->sgt,
+ 			etnaviv_op_to_dma_dir(etnaviv_obj->last_cpu_prep_op));
+ 		etnaviv_obj->last_cpu_prep_op = 0;
+ 	}
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_mmu.c b/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
+index 3607d348c298..13b100553a0b 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
+@@ -79,7 +79,7 @@ static int etnaviv_iommu_map(struct etnaviv_iommu_context *context, u32 iova,
+ 	if (!context || !sgt)
+ 		return -EINVAL;
+ 
+-	for_each_sg(sgt->sgl, sg, sgt->nents, i) {
++	for_each_sgtable_dma_sg(sgt, sg, i) {
+ 		u32 pa = sg_dma_address(sg) - sg->offset;
+ 		size_t bytes = sg_dma_len(sg) + sg->offset;
+ 
+@@ -95,14 +95,7 @@ static int etnaviv_iommu_map(struct etnaviv_iommu_context *context, u32 iova,
+ 	return 0;
+ 
+ fail:
+-	da = iova;
+-
+-	for_each_sg(sgt->sgl, sg, i, j) {
+-		size_t bytes = sg_dma_len(sg) + sg->offset;
+-
+-		etnaviv_context_unmap(context, da, bytes);
+-		da += bytes;
+-	}
++	etnaviv_context_unmap(context, iova, da - iova);
+ 	return ret;
+ }
+ 
+@@ -113,7 +106,7 @@ static void etnaviv_iommu_unmap(struct etnaviv_iommu_context *context, u32 iova,
+ 	unsigned int da = iova;
+ 	int i;
+ 
+-	for_each_sg(sgt->sgl, sg, sgt->nents, i) {
++	for_each_sgtable_dma_sg(sgt, sg, i) {
+ 		size_t bytes = sg_dma_len(sg) + sg->offset;
+ 
+ 		etnaviv_context_unmap(context, da, bytes);
+-- 
+2.17.1
 
-
---
-Navid.
 _______________________________________________
 etnaviv mailing list
 etnaviv@lists.freedesktop.org
