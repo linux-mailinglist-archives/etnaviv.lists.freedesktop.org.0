@@ -2,46 +2,38 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCFA7205ED0
-	for <lists+etnaviv@lfdr.de>; Tue, 23 Jun 2020 22:31:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27FB820A182
+	for <lists+etnaviv@lfdr.de>; Thu, 25 Jun 2020 17:04:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8AF6A6EA54;
-	Tue, 23 Jun 2020 20:31:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB07B6E1C4;
+	Thu, 25 Jun 2020 15:03:59 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from fanzine.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9238A6E081;
- Tue, 23 Jun 2020 07:29:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
- s=20170329; 
- h=MIME-Version:Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID;
- bh=Kzlg3bHRorDD7BWffZJv6GE9TJPKF3y/v/amkqlv3GY=; 
- b=Aa5RZQ61Gr35Q9a7feARdpIBKBsBfXEzl4lNWlIFxFMSiigV830bNRBv9SrGb+DYg7WK4SGf4Q+HM/0DDj3K4Dc8K6i5te0h3BlsqZy1/n2G5aGhfmwbe/NH4spRpJoV80nUlOjWU0ja8SeBmTVIZYJJYWl2mm6WgA305MXx3vhGIS9oC9O4JCeiaWB6q7orEP2X7WW3mCRtIJQMOMqAoVV23wJYTEDCMEjyM94FDCnUbQ47WpNUj3pbty0pVwhMVkcCpHVUBbyCYXdCDyq+SGtPl6t0i5vgjsiUjsTmmLY7FD+TnA/V9Pz63DUOgBctFgF0maao6LvbspBiSo5vcQ==;
-Received: from 53.red-88-15-141.dynamicip.rima-tde.net ([88.15.141.53]
- helo=maxwell) by fanzine.igalia.com with esmtpsa 
- (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
- id 1jndN9-0003TO-IZ; Tue, 23 Jun 2020 09:29:35 +0200
-Message-ID: <78d5ab87f0dfb7e3e1286a5f3f4f10fefa33e077.camel@igalia.com>
-Subject: Re: [Mesa-dev] XDC 2020: Registration & Call for Proposals now open!
-From: Samuel Iglesias =?ISO-8859-1?Q?Gons=E1lvez?= <siglesias@igalia.com>
-To: "Szwichtenberg, Radoslaw" <radoslaw.szwichtenberg@intel.com>, 
- "events@lists.x.org"
- <events@lists.x.org>, "xorg-devel@lists.freedesktop.org"
- <xorg-devel@lists.freedesktop.org>, "wayland-devel@lists.freedesktop.org"
- <wayland-devel@lists.freedesktop.org>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "mesa-dev@lists.freedesktop.org"
- <mesa-dev@lists.freedesktop.org>, "amd-gfx@lists.freedesktop.org"
- <amd-gfx@lists.freedesktop.org>, "etnaviv@lists.freedesktop.org"
- <etnaviv@lists.freedesktop.org>, "freedreno@lists.freedesktop.org"
- <freedreno@lists.freedesktop.org>, "nouveau@lists.freedesktop.org"
- <nouveau@lists.freedesktop.org>, "intel-gfx@lists.freedesktop.org"
- <intel-gfx@lists.freedesktop.org>
-Date: Tue, 23 Jun 2020 09:29:25 +0200
-In-Reply-To: <9a4392829de747a9a752a5b13f31f90b@intel.com>
-References: <9a4392829de747a9a752a5b13f31f90b@intel.com>
-User-Agent: Evolution 3.36.3 (3.36.3-1.fc32) 
+X-Greylist: delayed 531 seconds by postgrey-1.36 at gabe;
+ Thu, 25 Jun 2020 15:03:58 UTC
+Received: from honk.sigxcpu.org (honk.sigxcpu.org [24.134.29.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 50CF76E16F
+ for <etnaviv@lists.freedesktop.org>; Thu, 25 Jun 2020 15:03:58 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by honk.sigxcpu.org (Postfix) with ESMTP id C3418FB03;
+ Thu, 25 Jun 2020 16:55:04 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at honk.sigxcpu.org
+Received: from honk.sigxcpu.org ([127.0.0.1])
+ by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 1airAkfx232Y; Thu, 25 Jun 2020 16:55:03 +0200 (CEST)
+Received: by bogon.sigxcpu.org (Postfix, from userid 1000)
+ id 3490445273; Thu, 25 Jun 2020 16:55:03 +0200 (CEST)
+Date: Thu, 25 Jun 2020 16:55:03 +0200
+From: Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>
+To: Lucas Stach <l.stach@pengutronix.de>
+Subject: Re: [PATCH 0/5] drm/etnaviv: Ignore MC bit when checking for runtime
+ suspend
+Message-ID: <20200625145503.GA48167@bogon.m.sigxcpu.org>
+References: <cover.1583176306.git.agx@sigxcpu.org>
+ <4c61fde86c5e0dced249221dbc0a8d4207d5bffa.camel@pengutronix.de>
 MIME-Version: 1.0
-X-Mailman-Approved-At: Tue, 23 Jun 2020 20:31:47 +0000
+Content-Disposition: inline
+In-Reply-To: <4c61fde86c5e0dced249221dbc0a8d4207d5bffa.camel@pengutronix.de>
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,151 +45,71 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: "board@foundation.x.org" <board@foundation.x.org>
-Content-Type: multipart/mixed; boundary="===============0127453322=="
+Cc: David Airlie <airlied@linux.ie>, etnaviv@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Russell King <linux+etnaviv@armlinux.org.uk>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-
---===============0127453322==
-Content-Type: multipart/signed; micalg="pgp-sha256";
-	protocol="application/pgp-signature"; boundary="=-9+orxlxz86sWcnKf/R+o"
-
-
---=-9+orxlxz86sWcnKf/R+o
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
 Hi,
+On Tue, Mar 03, 2020 at 12:55:04PM +0100, Lucas Stach wrote:
+> On Mo, 2020-03-02 at 20:13 +0100, Guido G=FCnther wrote:
+> > At least GC7000 fails to enter runtime suspend for long periods of time=
+ since
+> > the MC becomes busy again even when the FE is idle. The rest of the ser=
+ies
+> > makes detecting similar issues easier to debug in the future by checking
+> > all known bits in debugfs and also warning in the EBUSY case.
+> =
 
-This is a kindly reminder that the CFP deadline is in less than two
-weeks :)
+> Thanks, series applied to etnaviv/next.
+> =
 
-On Fri, 2020-05-15 at 14:15 +0000, Szwichtenberg, Radoslaw wrote:
-> Hello!
->=20
-> Registration & Call for Proposals are now open for XDC 2020, which
-> will
-> take place at the Gda=C5=84sk University of Technology in Gda=C5=84sk, Po=
-land
-> on September 16-18, 2020.
->=20
-> Thanks to LWN.net for hosting the website again this year!
->=20
->     https://xdc2020.x.org
->    =20
-> As usual, the conference is free of charge and open to the general
-> public. If you plan on attending, please make sure to register as
-> early as possible! However, don't book any travel or hotel until the
-> organization decides if we keep the conference as it is or there is
-> any change. Please read this message on the website for more
-> information:
->=20
-> https://xdc2020.x.org/event/9/page/78-covid-19
->=20
-> In order to register as attendee, you will therefore need to register
-> via the XDC
-> website. However, as XDC is sharing the same Indico infrastructure as
-> LPC, if you previously registered on the LPC website
-> (linuxplumbersconference.org) or on the XDC 2019 website
-> (xdc2019.x.org), then you already have an active account
-> and can use the same username & password to login!
->=20
->     https://xdc2020.x.org/event/9/registrations/7/
->=20
-> In addition to registration, the CfP is now open for talks, workshops
-> and demos at XDC 2020. While any serious proposal will be gratefully
-> considered, topics of interest to X.Org and freedesktop.org
-> developers
-> are encouraged. The program focus is on new development, ongoing
-> challenges and anything else that will spark discussions among
-> attendees in the hallway track.
->=20
-> We are open to talks across all layers of the graphics stack, from
-> the
-> kernel to desktop environments / graphical applications and about how
-> to make things better for the developers who build them. Head to the
-> CfP page to learn more:=20
->=20
->     https://xdc2020.x.org/event/9/abstracts/
->=20
-> The deadline for submissions is Sunday, 5 July 2020.
->=20
-> Notice that the event may end up being postponed, converted to a
-> fully online conference, or even a hybrid one (physical event + some
-> remote talks). It depends on how COVID-19 situation evolves in the
-> different countries and the restrictions we will have at that time.
-> Also, some people may decide to skip the physical conference to avoid
-> any risk of infection. Because of that, please indicate in your talk
-> submission if you prefer to give a remote talk in the case that XDC
-> keeps being a physical event this year. Similarly, if you think that
-> your talk makes no sense if XDC ends up being a fully-virtual
-> conference, please indicate that in the notes of the talk submission.
->=20
+> > Tested on GC7000 with a reduced runtime delay of 50ms. Patches are
+> > against next-20200226.
+> =
 
-We are gathering all the information in order to make a decision at the
-beginning of July. Stay tuned [0]!
+> I've already wondered if 200ms is too long, 50ms sounds more
+> reasonable. Do you have any numbers on the power draw on the i.MX8M
+> with idle GPU, vs. being fully power gated?
 
-Sam
+The difference is at least 250mW. It makes a huge difference over here.
+We hit
+https://lore.kernel.org/dri-devel/20200614064601.7872-1-navid.emamdoost@gma=
+il.com/
+recently and you notice instantly when that happens when looking at the
+SoC temperature.
 
-[0] https://xdc2020.x.org/event/9/page/78-covid-19
+Cheers,
+ -- Guido
+> =
 
-> If COVID-19 situation allows it, we are looking forward to seeing you
-> in Gda=C5=84sk! If you have any questions, please send me an email to=20
-> radoslaw.szwichtenberg@intel.com,  adding on CC the X.org board
-> (board at foundation.x.org).
->=20
-> And don't forget, you can follow us on Twitter for all the latest
-> updates and to stay connected:
->=20
->     https://twitter.com/xdc2020
->=20
-> Best,
->=20
-> Radek
->=20
->=20
-> _______________________________________________
-> mesa-dev mailing list
-> mesa-dev@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/mesa-dev
->=20
+> Regards,
+> Lucas
+> =
 
---=-9+orxlxz86sWcnKf/R+o
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
+> > Thanks to Lucas Stach for pointing me in the right direction.
+> > =
 
------BEGIN PGP SIGNATURE-----
+> > Guido G=FCnther (5):
+> >   drm/etnaviv: Fix typo in comment
+> >   drm/etnaviv: Update idle bits
+> >   drm/etnaviv: Consider all kwnown idle bits in debugfs
+> >   drm/etnaviv: Ignore MC when checking runtime suspend idleness
+> >   drm/etnaviv: Warn when GPU doesn't idle fast enough
+> > =
 
-iQIzBAABCAAdFiEEQP+ZAvaXWkfuKXiEf/S6MvF9w0MFAl7xr1UACgkQf/S6MvF9
-w0OLkA//X2kk/vAbrnL+0CSgFbOfhaOJAhjB2KAGpfsKVdDYKXcRCIgoJE9ZAUDY
-HaWB/8mFfZPgfjHbqVQ7qTsQ1bITBHM0uAQ0L0PEgg/qpfaZIW5mI3jwmCWnVaXY
-NqgeicXisv2y4Fl+VzZe2qE1GWsnfnfW6NDV3rTUMckNiy1sQ9edF1vuTg1e31NB
-hCNy/50FUOR09EZAhjnMl8WfU6HSBxQNGeJK1k34TX7xGmPIjO17v4KmknZohLBd
-C441QmBG+144xV3so35CgNbtclyyJArHqUhSgsI9PoQjF6aCpw/1LFN54LPVg+dm
-848rSTgIdHNX432Zso605nv+QiU6DWCGX5/5RJ8iR9Nim3WKGZTPgdJfId3EI0BJ
-yzxIh/dJvTnoCPyYOUv4nAVdRnpAVtEBxiC4OuNnBo7szzp/qxfM/e6t0Zc6nWkx
-1gBTb5uG8JfHA6E534ktRU8INpEbwJnzsFk/GJX2oJ0CsPhhBQyBhtTAbFIDwYNP
-gHtJMzVVvp3dnYZfamqdON3fWH7/j75GT8fwGuutM/H17l4dShjKLtDX/+sLwfcn
-6dVX7Keg8PeDb6YvJhKAlT0TA2l0kqiKW7td1wkJvwp69Owkc/J81MQ5ky6vmxjT
-h/mk6pyEp31lIWNHovnfv21NWIriU7qnEc2FiPQIKsg3NJGb3n4=
-=BV8w
------END PGP SIGNATURE-----
+> >  drivers/gpu/drm/etnaviv/etnaviv_gpu.c  | 26 ++++++++++++++++++++++----
+> >  drivers/gpu/drm/etnaviv/state_hi.xml.h |  7 +++++++
+> >  2 files changed, 29 insertions(+), 4 deletions(-)
+> > =
 
---=-9+orxlxz86sWcnKf/R+o--
-
-
---===============0127453322==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+> =
 
 _______________________________________________
 etnaviv mailing list
 etnaviv@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/etnaviv
-
---===============0127453322==--
-
