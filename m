@@ -2,38 +2,53 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00ACF21B161
-	for <lists+etnaviv@lfdr.de>; Fri, 10 Jul 2020 10:31:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FF4E21B188
+	for <lists+etnaviv@lfdr.de>; Fri, 10 Jul 2020 10:45:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A3ED56EB9B;
-	Fri, 10 Jul 2020 08:31:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC46F6EB9B;
+	Fri, 10 Jul 2020 08:44:59 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B22116EB9B
- for <etnaviv@lists.freedesktop.org>; Fri, 10 Jul 2020 08:31:38 +0000 (UTC)
-Received: from gallifrey.ext.pengutronix.de
- ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=localhost)
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1jtoRT-0000yE-Jw; Fri, 10 Jul 2020 10:31:35 +0200
-Message-ID: <58ef264448eb3ea75f846513210a5430b75b44c6.camel@pengutronix.de>
-Subject: Re: [PATCH 0/4] Add support for GPU load values
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Christian Gmeiner <christian.gmeiner@gmail.com>, 
- linux-kernel@vger.kernel.org
-Date: Fri, 10 Jul 2020 10:31:33 +0200
-In-Reply-To: <20200710074143.306787-1-christian.gmeiner@gmail.com>
-References: <20200710074143.306787-1-christian.gmeiner@gmail.com>
-User-Agent: Evolution 3.36.3 (3.36.3-1.fc32) 
+Received: from mail-vs1-xe44.google.com (mail-vs1-xe44.google.com
+ [IPv6:2607:f8b0:4864:20::e44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 717B86EB9B;
+ Fri, 10 Jul 2020 08:44:59 +0000 (UTC)
+Received: by mail-vs1-xe44.google.com with SMTP id b77so2566134vsd.8;
+ Fri, 10 Jul 2020 01:44:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=MHXlflOXGuztUVgAtLl/DuS9kIGjLj5v35ORjMrhjPE=;
+ b=EEQvmCMHjyclSAhI44+gIuqzh+C/J5qzex5wrhW9B0YcxTb/LLpF2j1KmeCXe3r1cs
+ sSzo+IO+LroLSEAqbmoNWnJeHHsHwKtxjXCPXTXIx/dtxX2R92YsUyhmIv9SqHInHdWN
+ zpvdll5+a8KMZUmi4mN0LMQojweykbDStLGfxo3v1iN7LL3YxO0IfawqU4lEAtU7H0b4
+ qILzAEgOGEM4ndIV7zfhHvsn9H2m1aqXXJw3XF1xGsjZXyQDAo1mn6k9lTSNxFB50avF
+ h7lL1geyw6ipxhGJV/fCtnr0uYt4rbxqEF73WVGPaCbs4q+Yr+6GXnvtXZUT4Hc30MAq
+ ji4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=MHXlflOXGuztUVgAtLl/DuS9kIGjLj5v35ORjMrhjPE=;
+ b=G/Mnw8H/8jbS2SX0NBItrcS4RN0+XuAPB8lekEDlvYh6/BP5yKfTrEQ6BdZ9BfQ/wR
+ fU0kwCbikgX98szSRoq5eKdl0t+R6e7ayY247jYriudsQJk4ITUFM8usQZpG9OR9Qw2U
+ mFkGSNWFBkD2C99jZ4JLhGqMEiYifDhlLeHaZELUK4x0Iyz97fnlaB4pjIWoc0xXRGGd
+ 5jX9ovGQJleiLLjz9qVJSZDW6vc3ZHzmOx5IPjNXGWZ9E05H7C6Hn5eD43MypUG867Gm
+ pBWRw2hDemKReBLkllHRYzb2NoyISymTH9WUcOCi+58hXOwqbDcLTn2PoIcPa6vkvH4R
+ CaEw==
+X-Gm-Message-State: AOAM530ms8Wb76AjaatZLQ8wl9mhz5uv1UP92DBhLbP+e1QMS5+WkKa2
+ jgJDgXCERwHb0euzdWsgMzBYUOIKxUZS2iGMidaav5MVMu4=
+X-Google-Smtp-Source: ABdhPJzIYoseFJB38+HV5mT96b+B83dWVVvKzIDLfH7eNTLgMVXIfXPCAJ9zwTfECX3rxBx84h1GzMhh0nzGD75UN+4=
+X-Received: by 2002:a67:fa5a:: with SMTP id j26mr11750292vsq.95.1594370698604; 
+ Fri, 10 Jul 2020 01:44:58 -0700 (PDT)
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
+References: <20200710074143.306787-1-christian.gmeiner@gmail.com>
+ <58ef264448eb3ea75f846513210a5430b75b44c6.camel@pengutronix.de>
+In-Reply-To: <58ef264448eb3ea75f846513210a5430b75b44c6.camel@pengutronix.de>
+From: Christian Gmeiner <christian.gmeiner@gmail.com>
+Date: Fri, 10 Jul 2020 10:44:47 +0200
+Message-ID: <CAH9NwWfQfejtup6hHi68gE_VJs2RkL=298NURELqt3kVfc_AVA@mail.gmail.com>
+Subject: Re: [PATCH 0/4] Add support for GPU load values
+To: Lucas Stach <l.stach@pengutronix.de>
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,45 +60,47 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, etnaviv@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
- Russell King <linux+etnaviv@armlinux.org.uk>, cphealy@gmail.com
+Cc: David Airlie <airlied@linux.ie>,
+ The etnaviv authors <etnaviv@lists.freedesktop.org>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
+ Russell King <linux+etnaviv@armlinux.org.uk>, Chris Healy <cphealy@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Hi Christian,
+Hoi Lucas
 
-Am Freitag, den 10.07.2020, 09:41 +0200 schrieb Christian Gmeiner:
-> This patch series add support for loadavg values for GPU
-> sub-components. I am adding a SMA algorithm as I was not
-> really sure if EWMA would be a good fit for this use case.
+Am Fr., 10. Juli 2020 um 10:31 Uhr schrieb Lucas Stach <l.stach@pengutronix.de>:
+>
+> Hi Christian,
+>
+> Am Freitag, den 10.07.2020, 09:41 +0200 schrieb Christian Gmeiner:
+> > This patch series add support for loadavg values for GPU
+> > sub-components. I am adding a SMA algorithm as I was not
+> > really sure if EWMA would be a good fit for this use case.
+>
+> 1 second is a pretty long window in GPU time. Why do you feel that a
+> simple moving average is more appropriate than a exponentially
+> weighted one here? Note that I haven't given this any thought myself
+> and haven't made up my mind yet, so this is a honest question to
+> understand the reasoning behind your choice.
+>
 
-1 second is a pretty long window in GPU time. Why do you feel that a
-simple moving average is more appropriate than a exponentially
-weighted one here? Note that I haven't given this any thought myself
-and haven't made up my mind yet, so this is a honest question to
-understand the reasoning behind your choice.
+I played with both variants but I 'feel' that SMA might be a better
+fit. To be honest I
+have no background in signal processing and stuff like this so.. I
+will go the route you
+guide me to :) I have kept the "interface" for SMA equal to the one EWMA uses
+so I can easily switch between them.
 
-Regards,
-Lucas
+-- 
+greets
+--
+Christian Gmeiner, MSc
 
-> Christian Gmeiner (4):
->   drm/etnaviv: add simple moving average (SMA)
->   drm/etnaviv: add loadavg accounting
->   drm/etnaviv: show loadavg in debugfs
->   drm/etnaviv: export loadavg via perfmon
-> 
->  drivers/gpu/drm/etnaviv/etnaviv_drv.c     | 14 ++++
->  drivers/gpu/drm/etnaviv/etnaviv_gpu.c     | 44 ++++++++++++-
->  drivers/gpu/drm/etnaviv/etnaviv_gpu.h     | 29 +++++++++
->  drivers/gpu/drm/etnaviv/etnaviv_perfmon.c | 79 +++++++++++++++++++++++
->  drivers/gpu/drm/etnaviv/etnaviv_sma.h     | 53 +++++++++++++++
->  5 files changed, 218 insertions(+), 1 deletion(-)
->  create mode 100644 drivers/gpu/drm/etnaviv/etnaviv_sma.h
-> 
-
+https://christian-gmeiner.info/privacypolicy
 _______________________________________________
 etnaviv mailing list
 etnaviv@lists.freedesktop.org
