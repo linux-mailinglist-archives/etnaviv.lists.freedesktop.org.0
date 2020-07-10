@@ -2,43 +2,55 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7AFE213BF1
-	for <lists+etnaviv@lfdr.de>; Fri,  3 Jul 2020 16:41:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0282D21B057
+	for <lists+etnaviv@lfdr.de>; Fri, 10 Jul 2020 09:41:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D47396E191;
-	Fri,  3 Jul 2020 14:41:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A3EC66EB71;
+	Fri, 10 Jul 2020 07:41:49 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from fanzine.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F9CC6E12E;
- Fri,  3 Jul 2020 14:41:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
- s=20170329; 
- h=MIME-Version:Content-Type:Date:Cc:To:From:Subject:Message-ID;
- bh=3wtKwJ8jSwfxuwx4E2mHdRG1tuB411zQFYLo5GaTh/I=; 
- b=Db6qtSAHt79/RpBjDbl8aIymP0L4/A9eTkabNzQadHpj5CdkpTaz4JRZSiNNgydwWHt/iFrh7YzSIwEWWX8mDmDUL4LWjqe3O5UIc+M8RiX5wLvlHp8f3uYdANV3hjKByGuOzkI8CIiYMciD5JKDiOQprRvD05q5al82Xf7SpMTtbHhSZ4ymWEILsyizYi2UwL61n5gsG3mUpyPiPQOqWPuYHvx9sUWFFNjcG0kuE3sjRErLUTv4tZKYhRVGDdIdkvnXxWaq9svl6ZC8RwX+2VXpx5LqjViVsnH6/NRzQtbM3P95qNFNXuAlPbMhc9JBnVNO4omj69f1jA7lAyaPow==;
-Received: from 53.red-88-15-141.dynamicip.rima-tde.net ([88.15.141.53]
- helo=maxwell) by fanzine.igalia.com with esmtpsa 
- (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
- id 1jrMsy-0006k1-L4; Fri, 03 Jul 2020 16:41:52 +0200
-Message-ID: <4e5319c905109f9fe4ca48dee0e89d83ec73f2da.camel@igalia.com>
-Subject: [XDC 2020] Virtual conference + Call for Proposals extended 2 weeks
- more
-From: Samuel Iglesias =?ISO-8859-1?Q?Gons=E1lvez?= <siglesias@igalia.com>
-To: "Szwichtenberg, Radoslaw" <radoslaw.szwichtenberg@intel.com>, 
- "events@lists.x.org"
- <events@lists.x.org>, "xorg-devel@lists.freedesktop.org"
- <xorg-devel@lists.freedesktop.org>, "wayland-devel@lists.freedesktop.org"
- <wayland-devel@lists.freedesktop.org>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "mesa-dev@lists.freedesktop.org"
- <mesa-dev@lists.freedesktop.org>, "amd-gfx@lists.freedesktop.org"
- <amd-gfx@lists.freedesktop.org>, "etnaviv@lists.freedesktop.org"
- <etnaviv@lists.freedesktop.org>, "freedreno@lists.freedesktop.org"
- <freedreno@lists.freedesktop.org>, "nouveau@lists.freedesktop.org"
- <nouveau@lists.freedesktop.org>, "intel-gfx@lists.freedesktop.org"
- <intel-gfx@lists.freedesktop.org>
-Date: Fri, 03 Jul 2020 16:41:42 +0200
-User-Agent: Evolution 3.36.3 (3.36.3-1.fc32) 
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F1E3E6EB71;
+ Fri, 10 Jul 2020 07:41:48 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id 17so4780383wmo.1;
+ Fri, 10 Jul 2020 00:41:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=yRzp0fkgzEo5tA9tK65ADA4d9spnntHWN3TuXkgZmws=;
+ b=hnIxyl30UtrFXLZ6C2gE3jejOPSzk9VK2aMARHzcMFEZg7PxhTfGSvsUkq38Jmb3FF
+ aL8YYBIb0MucB5wIMw9j7LnIxVIrZc1Nu+AEDxD/nYZaGcHZeVzLaUbqtjr+LUW0Uor0
+ fG8uwhLNVZGW9T+v+d7kRCQSRP0tSwjELvSuV6bOHOrwuQ1f/VQs3tZ1im5omyHPK/Sk
+ 0yu+kQt9yJu6/BmfmqFOM8DW/ccPh8khhnvRtGxOkL4hGZLDGSJ0mp4YAzQ8J/59E6a7
+ xh2rMZbBe96Iazd9dCQjjsH+M1/M3pKbuiN2GIPPz4qO5QS8bd/B9OKym0BcH/3vt4OZ
+ OAvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=yRzp0fkgzEo5tA9tK65ADA4d9spnntHWN3TuXkgZmws=;
+ b=NWlZER3lfdoRNszjE6sO6xgaUISyEDHCDRnjIctssnMWf8gJmD1of75PBAdkN6k6gK
+ PKbGptZtTUcwIenmpyO2NwvSBNlLDEqoUIy3jiys59Fa74P8bCl16Tkbgv4UkQJSVSux
+ 28wUTQKKlQTz1P6shd4U9WUQMJMs3Y5HtI++yunIadlbu26f72G8cawQ5tBeQkm4TSbE
+ N6Wzhz57fTdbUjtsggjQX7e11I8RJqCvSE94GcfvOr0a4qvR9rn3MlwcqPpKJ6MTCVkR
+ C02dmQxv7xSkW/qoLfnT8g6yb6ieuUwu7eTWXl9yjqQOhJbPHueA89KKVPCJ8Ms4Dzyr
+ vUJw==
+X-Gm-Message-State: AOAM532bmriy+nQSAaZurY5eT9TmPG3SVWyAI5zP98kJUJrDEz0KUXjt
+ IrcgEYR3xf6Fhe0/nsE+d2E=
+X-Google-Smtp-Source: ABdhPJxjmu1t81pwJYQvJu6PXnZ1rTlbee7s/kcWW+nojDUMarVkTZhwOJtURe+jV8IEXIJSndJrqA==
+X-Received: by 2002:a1c:48d7:: with SMTP id v206mr2150751wma.145.1594366907543; 
+ Fri, 10 Jul 2020 00:41:47 -0700 (PDT)
+Received: from localhost.localdomain ([62.178.82.229])
+ by smtp.gmail.com with ESMTPSA id p17sm7951375wma.47.2020.07.10.00.41.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 10 Jul 2020 00:41:46 -0700 (PDT)
+From: Christian Gmeiner <christian.gmeiner@gmail.com>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH 0/4] Add support for GPU load values
+Date: Fri, 10 Jul 2020 09:41:23 +0200
+Message-Id: <20200710074143.306787-1-christian.gmeiner@gmail.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -51,75 +63,38 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: "board@foundation.x.org" <board@foundation.x.org>
-Content-Type: multipart/mixed; boundary="===============0429531225=="
+Cc: David Airlie <airlied@linux.ie>, etnaviv@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Russell King <linux+etnaviv@armlinux.org.uk>,
+ cphealy@gmail.com, Lucas Stach <l.stach@pengutronix.de>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
+This patch series add support for loadavg values for GPU
+sub-components. I am adding a SMA algorithm as I was not
+really sure if EWMA would be a good fit for this use case.
 
---===============0429531225==
-Content-Type: multipart/signed; micalg="pgp-sha256";
-	protocol="application/pgp-signature"; boundary="=-UA8V1+yvXFwTWVEJGo8l"
+Christian Gmeiner (4):
+  drm/etnaviv: add simple moving average (SMA)
+  drm/etnaviv: add loadavg accounting
+  drm/etnaviv: show loadavg in debugfs
+  drm/etnaviv: export loadavg via perfmon
 
+ drivers/gpu/drm/etnaviv/etnaviv_drv.c     | 14 ++++
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c     | 44 ++++++++++++-
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.h     | 29 +++++++++
+ drivers/gpu/drm/etnaviv/etnaviv_perfmon.c | 79 +++++++++++++++++++++++
+ drivers/gpu/drm/etnaviv/etnaviv_sma.h     | 53 +++++++++++++++
+ 5 files changed, 218 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/gpu/drm/etnaviv/etnaviv_sma.h
 
---=-UA8V1+yvXFwTWVEJGo8l
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Hi,
-
-In the last meeting, X.Org Foundation board has decided that XDC 2020
-will be a virtual conference, given the uncertain COVID-19 situation in
-Europe by September, including the possibility of a second wave,
-outbreaks and travel restrictions, either in Poland or in other
-countries.
-
-XDC 2020 organization team agrees on this decision and it volunteered
-to organize our first virtual XDC!
-
-We would like to announce as well that the new CFP deadline is Sunday
-July 19th 2020. Don't forget to submit your talk, demo and workshop
-proposals!
-
-Thanks,
-
-Sam
-
---=-UA8V1+yvXFwTWVEJGo8l
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEQP+ZAvaXWkfuKXiEf/S6MvF9w0MFAl7/Q6YACgkQf/S6MvF9
-w0PrUw/9Hx3/w07dFx2Eyn/tQnhsAYXs+ZSTHUZ0wuFlv+pWrLQ0g1swQF/GNpbO
-ZeJt2nKTqc8bbwdn/yQzf+ktt0jsKAktwCyJBVlHhjsvIj/tJx5IvD8iRfNZRftz
-OhE+UAqwPCUqc3QZ/R11IRyVr7XVu1RTarTGsC6Clk8tFzIuaRDEKJWTJ9B9jjy0
-WHh8ufEVVQsU3qlSNS+C7BvKKIJlHfYQvaEBDHjMYT3z9pc0ZwExMtM4zeedtCLz
-tUS9yynRrtXlrZuwvDAXZAnURMl9oj8SOPhyk1zwPoPF6FX6imurQkP9BbNeqX17
-f81vAOm4fhX5VPnFPHQ1QiwCOj8xaCiwaMPZEwr6qZbbIKQEFgRpJYzgMF8nis+K
-MOf9fPdsEbRm1B2wSNT3pcoPYkn15TztF0kq0seWhgESzXCnr+5k+1UyO66Cp22x
-xx1thK5P3Y2/nYAKy827fWc1NrDXpUOxaAaWvRAvfWNVjG37sUSFcoHE0/Sc4QZN
-cZCDfFIO1+UwYQZXHjotslrW3He4APqgRm+pZgdKLufuPuaCpdFRNYPqdpBcmSI0
-aYm3QmeCmXxiTLZak6I8wardeR9bgDBdVmexBOONbOZjIXzRg/dijn8YjxvzeiOQ
-vJslTubiFcKRbbrZnr5gBaBtp0rFGN/nSQlUT4A7loMlianuavA=
-=pmv+
------END PGP SIGNATURE-----
-
---=-UA8V1+yvXFwTWVEJGo8l--
-
-
---===============0429531225==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+-- 
+2.26.2
 
 _______________________________________________
 etnaviv mailing list
 etnaviv@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/etnaviv
-
---===============0429531225==--
-
