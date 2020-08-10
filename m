@@ -1,40 +1,40 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70CAF240DBB
-	for <lists+etnaviv@lfdr.de>; Mon, 10 Aug 2020 21:10:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C4DD240DE1
+	for <lists+etnaviv@lfdr.de>; Mon, 10 Aug 2020 21:12:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C7DC6E120;
-	Mon, 10 Aug 2020 19:10:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 235DD6E1CD;
+	Mon, 10 Aug 2020 19:12:16 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C15B26E122;
- Mon, 10 Aug 2020 19:10:53 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 46CFB6E1CD;
+ Mon, 10 Aug 2020 19:12:15 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id AAD2F2078D;
- Mon, 10 Aug 2020 19:10:52 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 24AEA22BEB;
+ Mon, 10 Aug 2020 19:12:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1597086653;
- bh=1hUmOdoEj32TW0X8WVtmQHKVAglxkLerFvsfjtaXHtE=;
+ s=default; t=1597086735;
+ bh=r5rm6ll5WBmlFIdky0kzG2SWcqXv1LKcGX9ms3WduZU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=suwk/qp6MUVwynZE41B3+sfRnQc/KL2r5pj+uSRUweNgxks5qZgGpZZeJLrMo2ShD
- 36LNFFrRwS6v9j0C8LNCr46zo924EPGjX/DIra3hGBmg7vXk15oBaSkZpAhe52mIYw
- xokFD33UKCIsZgBivN4qYvH5YpNBOYpb/8RnI0yg=
+ b=VQTSUkEGUcCwkHADJ6pZvlXZvvF1JnDfOEFEfl6BJMkrZ1x+U2AITcobl+KYpNAcm
+ O7XN2TAy3vt9WTlxOgqd+eYLqeJAhU97pg+hQn2i7olGvnN4/vuvLQ9cnGCa2CaWAa
+ uY1xRb+CIwpRjdR2mhfBhm9I+VaL35nApzBpX2Is=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.7 18/60] drm/etnaviv: fix ref count leak via
+Subject: [PATCH AUTOSEL 5.4 15/45] drm/etnaviv: fix ref count leak via
  pm_runtime_get_sync
-Date: Mon, 10 Aug 2020 15:09:46 -0400
-Message-Id: <20200810191028.3793884-18-sashal@kernel.org>
+Date: Mon, 10 Aug 2020 15:11:23 -0400
+Message-Id: <20200810191153.3794446-15-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200810191028.3793884-1-sashal@kernel.org>
-References: <20200810191028.3793884-1-sashal@kernel.org>
+In-Reply-To: <20200810191153.3794446-1-sashal@kernel.org>
+References: <20200810191153.3794446-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -74,10 +74,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 10 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-index a31eeff2b297a..7c9f3f9ba1235 100644
+index d47d1a8e02198..8a26ea2a53348 100644
 --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
 +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-@@ -722,7 +722,7 @@ int etnaviv_gpu_init(struct etnaviv_gpu *gpu)
+@@ -713,7 +713,7 @@ int etnaviv_gpu_init(struct etnaviv_gpu *gpu)
  	ret = pm_runtime_get_sync(gpu->dev);
  	if (ret < 0) {
  		dev_err(gpu->dev, "Failed to enable GPU power domain\n");
@@ -86,7 +86,7 @@ index a31eeff2b297a..7c9f3f9ba1235 100644
  	}
  
  	etnaviv_hw_identify(gpu);
-@@ -819,6 +819,7 @@ int etnaviv_gpu_init(struct etnaviv_gpu *gpu)
+@@ -802,6 +802,7 @@ int etnaviv_gpu_init(struct etnaviv_gpu *gpu)
  
  fail:
  	pm_runtime_mark_last_busy(gpu->dev);
@@ -94,7 +94,7 @@ index a31eeff2b297a..7c9f3f9ba1235 100644
  	pm_runtime_put_autosuspend(gpu->dev);
  
  	return ret;
-@@ -859,7 +860,7 @@ int etnaviv_gpu_debugfs(struct etnaviv_gpu *gpu, struct seq_file *m)
+@@ -842,7 +843,7 @@ int etnaviv_gpu_debugfs(struct etnaviv_gpu *gpu, struct seq_file *m)
  
  	ret = pm_runtime_get_sync(gpu->dev);
  	if (ret < 0)
@@ -103,7 +103,7 @@ index a31eeff2b297a..7c9f3f9ba1235 100644
  
  	dma_lo = gpu_read(gpu, VIVS_FE_DMA_LOW);
  	dma_hi = gpu_read(gpu, VIVS_FE_DMA_HIGH);
-@@ -1003,6 +1004,7 @@ int etnaviv_gpu_debugfs(struct etnaviv_gpu *gpu, struct seq_file *m)
+@@ -965,6 +966,7 @@ int etnaviv_gpu_debugfs(struct etnaviv_gpu *gpu, struct seq_file *m)
  	ret = 0;
  
  	pm_runtime_mark_last_busy(gpu->dev);
@@ -111,7 +111,7 @@ index a31eeff2b297a..7c9f3f9ba1235 100644
  	pm_runtime_put_autosuspend(gpu->dev);
  
  	return ret;
-@@ -1016,7 +1018,7 @@ void etnaviv_gpu_recover_hang(struct etnaviv_gpu *gpu)
+@@ -978,7 +980,7 @@ void etnaviv_gpu_recover_hang(struct etnaviv_gpu *gpu)
  	dev_err(gpu->dev, "recover hung GPU!\n");
  
  	if (pm_runtime_get_sync(gpu->dev) < 0)
@@ -120,7 +120,7 @@ index a31eeff2b297a..7c9f3f9ba1235 100644
  
  	mutex_lock(&gpu->lock);
  
-@@ -1035,6 +1037,7 @@ void etnaviv_gpu_recover_hang(struct etnaviv_gpu *gpu)
+@@ -997,6 +999,7 @@ void etnaviv_gpu_recover_hang(struct etnaviv_gpu *gpu)
  
  	mutex_unlock(&gpu->lock);
  	pm_runtime_mark_last_busy(gpu->dev);
@@ -128,7 +128,7 @@ index a31eeff2b297a..7c9f3f9ba1235 100644
  	pm_runtime_put_autosuspend(gpu->dev);
  }
  
-@@ -1308,8 +1311,10 @@ struct dma_fence *etnaviv_gpu_submit(struct etnaviv_gem_submit *submit)
+@@ -1269,8 +1272,10 @@ struct dma_fence *etnaviv_gpu_submit(struct etnaviv_gem_submit *submit)
  
  	if (!submit->runtime_resumed) {
  		ret = pm_runtime_get_sync(gpu->dev);
@@ -140,7 +140,7 @@ index a31eeff2b297a..7c9f3f9ba1235 100644
  		submit->runtime_resumed = true;
  	}
  
-@@ -1326,6 +1331,7 @@ struct dma_fence *etnaviv_gpu_submit(struct etnaviv_gem_submit *submit)
+@@ -1287,6 +1292,7 @@ struct dma_fence *etnaviv_gpu_submit(struct etnaviv_gem_submit *submit)
  	ret = event_alloc(gpu, nr_events, event);
  	if (ret) {
  		DRM_ERROR("no free events\n");
