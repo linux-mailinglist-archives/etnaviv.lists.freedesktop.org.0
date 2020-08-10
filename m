@@ -2,39 +2,39 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C0E6240D83
-	for <lists+etnaviv@lfdr.de>; Mon, 10 Aug 2020 21:09:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70CAF240DBB
+	for <lists+etnaviv@lfdr.de>; Mon, 10 Aug 2020 21:10:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D085689C7F;
-	Mon, 10 Aug 2020 19:09:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C7DC6E120;
+	Mon, 10 Aug 2020 19:10:55 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 44C0689C8F;
- Mon, 10 Aug 2020 19:09:26 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C15B26E122;
+ Mon, 10 Aug 2020 19:10:53 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 4E7CA21775;
- Mon, 10 Aug 2020 19:09:25 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id AAD2F2078D;
+ Mon, 10 Aug 2020 19:10:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1597086566;
+ s=default; t=1597086653;
  bh=1hUmOdoEj32TW0X8WVtmQHKVAglxkLerFvsfjtaXHtE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=VVp04AFdJRnwSredpHavZgeoqHimx1ZRsbBXTuBFPKnrw6iH0mQ7+tTD01DdBXRwq
- CChEyHxQsbW2YHnTaM6zRe0znXzC4FZ/n7NntIJ3UtbZZo/hAHUTXQCs9F/KPlimh/
- L/COOoJbmyIJEMAqG8Rw7weoRQzB9PnFLeLx7Ijc=
+ b=suwk/qp6MUVwynZE41B3+sfRnQc/KL2r5pj+uSRUweNgxks5qZgGpZZeJLrMo2ShD
+ 36LNFFrRwS6v9j0C8LNCr46zo924EPGjX/DIra3hGBmg7vXk15oBaSkZpAhe52mIYw
+ xokFD33UKCIsZgBivN4qYvH5YpNBOYpb/8RnI0yg=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.8 19/64] drm/etnaviv: fix ref count leak via
+Subject: [PATCH AUTOSEL 5.7 18/60] drm/etnaviv: fix ref count leak via
  pm_runtime_get_sync
-Date: Mon, 10 Aug 2020 15:08:14 -0400
-Message-Id: <20200810190859.3793319-19-sashal@kernel.org>
+Date: Mon, 10 Aug 2020 15:09:46 -0400
+Message-Id: <20200810191028.3793884-18-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200810190859.3793319-1-sashal@kernel.org>
-References: <20200810190859.3793319-1-sashal@kernel.org>
+In-Reply-To: <20200810191028.3793884-1-sashal@kernel.org>
+References: <20200810191028.3793884-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
