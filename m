@@ -2,38 +2,33 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1837243ADF
-	for <lists+etnaviv@lfdr.de>; Thu, 13 Aug 2020 15:39:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44823243B19
+	for <lists+etnaviv@lfdr.de>; Thu, 13 Aug 2020 15:57:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3EABC6E8DA;
-	Thu, 13 Aug 2020 13:39:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E06AB6E9FD;
+	Thu, 13 Aug 2020 13:57:39 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD1616E20E;
- Thu, 13 Aug 2020 13:39:08 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id E5A85DC4;
- Thu, 13 Aug 2020 15:39:06 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1597325947;
- bh=u7wHRaVyO7DrbsX2nqetdVnvRuNOMGWV+k6ki9aYG+c=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=fGcxd9nBc+UvEuHeqangKI78ZhZFqN7chbSr5l/BS8YYWVbtOrnLTbcqBss75NxSr
- Sy/AjGzT5m1nGI0nUiBQAUZ+SJwtOcikeUfTJtoqGHVo6GY58v5i5tdk5nWLelSZsu
- 5Dkl+JflxlwXT455dCEmZVr0RCRVzEXLte98LlM8=
-Date: Thu, 13 Aug 2020 16:38:53 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 10/20] drm/omapdrm: Introduce GEM object functions
-Message-ID: <20200813133853.GK6057@pendragon.ideasonboard.com>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 88A156E9F5;
+ Thu, 13 Aug 2020 13:57:38 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 5740DB19E;
+ Thu, 13 Aug 2020 13:57:59 +0000 (UTC)
+Subject: Re: [PATCH 19/20] drm/xlnx: Initialize DRM driver instance with CMA
+ helper macro
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 References: <20200813083644.31711-1-tzimmermann@suse.de>
- <20200813083644.31711-11-tzimmermann@suse.de>
+ <20200813083644.31711-20-tzimmermann@suse.de>
+ <20200813133605.GJ6057@pendragon.ideasonboard.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <a8e39798-9812-e325-255a-e6536cb32339@suse.de>
+Date: Thu, 13 Aug 2020 15:57:32 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200813083644.31711-11-tzimmermann@suse.de>
+In-Reply-To: <20200813133605.GJ6057@pendragon.ideasonboard.com>
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,146 +40,192 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: hamohammed.sa@gmail.com, heiko@sntech.de, andrey.grodzovsky@amd.com,
- airlied@linux.ie, nouveau@lists.freedesktop.org,
- joonas.lahtinen@linux.intel.com, dri-devel@lists.freedesktop.org,
- michal.simek@xilinx.com, eric@anholt.net, thierry.reding@gmail.com,
- robdclark@gmail.com, krzk@kernel.org, sam@ravnborg.org,
- sumit.semwal@linaro.org, emil.velikov@collabora.com,
- abdiel.janulgue@linux.intel.com, linux-samsung-soc@vger.kernel.org,
- jy0922.shim@samsung.com, oleksandr_andrushchenko@epam.com,
- tomi.valkeinen@ti.com, linux-tegra@vger.kernel.org, linux@armlinux.org.uk,
- patrik.r.jakobsson@gmail.com, jonathanh@nvidia.com,
- linux-rockchip@lists.infradead.org, kgene@kernel.org, bskeggs@redhat.com,
- xen-devel@lists.xenproject.org, intel-gfx@lists.freedesktop.org,
- matthew.auld@intel.com, chunkuang.hu@kernel.org, andi.shyti@intel.com,
- daniel@ffwll.ch, linux-arm-msm@vger.kernel.org, marek.olsak@amd.com,
- tianci.yin@amd.com, maarten.lankhorst@linux.intel.com,
- etnaviv@lists.freedesktop.org, jani.nikula@linux.intel.com,
- inki.dae@samsung.com, hdegoede@redhat.com, christian.gmeiner@gmail.com,
- linux-mediatek@lists.infradead.org, mripard@kernel.org, rodrigo.vivi@intel.com,
- matthias.bgg@gmail.com, evan.quan@amd.com, sean@poorly.run,
+Cc: hamohammed.sa@gmail.com, airlied@linux.ie, nouveau@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux@armlinux.org.uk, matthias.bgg@gmail.com,
+ thierry.reding@gmail.com, amd-gfx@lists.freedesktop.org, sam@ravnborg.org,
+ emil.velikov@collabora.com, abdiel.janulgue@linux.intel.com,
+ linux-samsung-soc@vger.kernel.org, jy0922.shim@samsung.com,
+ oleksandr_andrushchenko@epam.com, michal.simek@xilinx.com, krzk@kernel.org,
+ jonathanh@nvidia.com, linux-rockchip@lists.infradead.org,
+ tomi.valkeinen@ti.com, bskeggs@redhat.com, xen-devel@lists.xenproject.org,
+ marek.olsak@amd.com, matthew.auld@intel.com, chunkuang.hu@kernel.org,
+ andi.shyti@intel.com, linux-arm-msm@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, tianci.yin@amd.com, nirmoy.das@amd.com,
+ etnaviv@lists.freedesktop.org, hdegoede@redhat.com,
+ linux-mediatek@lists.infradead.org, rodrigo.vivi@intel.com,
+ linux-tegra@vger.kernel.org, evan.quan@amd.com, sean@poorly.run,
  linux-arm-kernel@lists.infradead.org, tvrtko.ursulin@linux.intel.com,
- amd-gfx@lists.freedesktop.org, chris@chris-wilson.co.uk, hyun.kwon@xilinx.com,
- rodrigosiqueiramelo@gmail.com, aaron.liu@amd.com, Felix.Kuehling@amd.com,
- xinhui.pan@amd.com, sw0312.kim@samsung.com, hjc@rock-chips.com,
- miaoqinglang@huawei.com, kyungmin.park@samsung.com, nirmoy.das@amd.com,
- p.zabel@pengutronix.de, alexander.deucher@amd.com, Hawking.Zhang@amd.com,
+ chris@chris-wilson.co.uk, rodrigosiqueiramelo@gmail.com, hyun.kwon@xilinx.com,
+ aaron.liu@amd.com, Felix.Kuehling@amd.com, xinhui.pan@amd.com,
+ sw0312.kim@samsung.com, hjc@rock-chips.com, kyungmin.park@samsung.com,
+ miaoqinglang@huawei.com, kgene@kernel.org, alexander.deucher@amd.com,
  freedreno@lists.freedesktop.org, christian.koenig@amd.com,
- l.stach@pengutronix.de
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+ Hawking.Zhang@amd.com
+Content-Type: multipart/mixed; boundary="===============1580512401=="
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Hi Thomas,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============1580512401==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="tbCt2o5uFn9Z4Xo4P1cpCcyhXosV08OH6"
 
-Thank you for the patch.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--tbCt2o5uFn9Z4Xo4P1cpCcyhXosV08OH6
+Content-Type: multipart/mixed; boundary="Orz2ZqpSWnksEfl2yo6RF3aBwExLujGG6";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: hamohammed.sa@gmail.com, airlied@linux.ie, nouveau@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, michal.simek@xilinx.com,
+ thierry.reding@gmail.com, krzk@kernel.org, sam@ravnborg.org,
+ emil.velikov@collabora.com, abdiel.janulgue@linux.intel.com,
+ linux-samsung-soc@vger.kernel.org, jy0922.shim@samsung.com,
+ oleksandr_andrushchenko@epam.com, tomi.valkeinen@ti.com,
+ linux-tegra@vger.kernel.org, linux@armlinux.org.uk, jonathanh@nvidia.com,
+ linux-rockchip@lists.infradead.org, kgene@kernel.org, bskeggs@redhat.com,
+ xen-devel@lists.xenproject.org, intel-gfx@lists.freedesktop.org,
+ matthew.auld@intel.com, chunkuang.hu@kernel.org, andi.shyti@intel.com,
+ linux-arm-msm@vger.kernel.org, marek.olsak@amd.com, tianci.yin@amd.com,
+ etnaviv@lists.freedesktop.org, hdegoede@redhat.com,
+ linux-mediatek@lists.infradead.org, rodrigo.vivi@intel.com,
+ matthias.bgg@gmail.com, evan.quan@amd.com, sean@poorly.run,
+ linux-arm-kernel@lists.infradead.org, tvrtko.ursulin@linux.intel.com,
+ amd-gfx@lists.freedesktop.org, chris@chris-wilson.co.uk,
+ hyun.kwon@xilinx.com, rodrigosiqueiramelo@gmail.com, aaron.liu@amd.com,
+ Felix.Kuehling@amd.com, xinhui.pan@amd.com, sw0312.kim@samsung.com,
+ hjc@rock-chips.com, miaoqinglang@huawei.com, kyungmin.park@samsung.com,
+ nirmoy.das@amd.com, alexander.deucher@amd.com, Hawking.Zhang@amd.com,
+ freedreno@lists.freedesktop.org, christian.koenig@amd.com
+Message-ID: <a8e39798-9812-e325-255a-e6536cb32339@suse.de>
+Subject: Re: [PATCH 19/20] drm/xlnx: Initialize DRM driver instance with CMA
+ helper macro
+References: <20200813083644.31711-1-tzimmermann@suse.de>
+ <20200813083644.31711-20-tzimmermann@suse.de>
+ <20200813133605.GJ6057@pendragon.ideasonboard.com>
+In-Reply-To: <20200813133605.GJ6057@pendragon.ideasonboard.com>
 
-On Thu, Aug 13, 2020 at 10:36:34AM +0200, Thomas Zimmermann wrote:
-> GEM object functions deprecate several similar callback interfaces in
-> struct drm_driver. This patch replaces the per-driver callbacks with
-> per-instance callbacks in omapdrm.
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
->  drivers/gpu/drm/omapdrm/omap_drv.c |  9 ---------
->  drivers/gpu/drm/omapdrm/omap_gem.c | 16 +++++++++++++++-
->  drivers/gpu/drm/omapdrm/omap_gem.h |  1 -
->  3 files changed, 15 insertions(+), 11 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/omapdrm/omap_drv.c b/drivers/gpu/drm/omapdrm/omap_drv.c
-> index 53d5e184ee77..2e598b8b72af 100644
-> --- a/drivers/gpu/drm/omapdrm/omap_drv.c
-> +++ b/drivers/gpu/drm/omapdrm/omap_drv.c
-> @@ -521,12 +521,6 @@ static int dev_open(struct drm_device *dev, struct drm_file *file)
->  	return 0;
->  }
->  
-> -static const struct vm_operations_struct omap_gem_vm_ops = {
-> -	.fault = omap_gem_fault,
-> -	.open = drm_gem_vm_open,
-> -	.close = drm_gem_vm_close,
-> -};
-> -
->  static const struct file_operations omapdriver_fops = {
->  	.owner = THIS_MODULE,
->  	.open = drm_open,
-> @@ -549,10 +543,7 @@ static struct drm_driver omap_drm_driver = {
->  #endif
->  	.prime_handle_to_fd = drm_gem_prime_handle_to_fd,
->  	.prime_fd_to_handle = drm_gem_prime_fd_to_handle,
-> -	.gem_prime_export = omap_gem_prime_export,
->  	.gem_prime_import = omap_gem_prime_import,
-> -	.gem_free_object_unlocked = omap_gem_free_object,
-> -	.gem_vm_ops = &omap_gem_vm_ops,
->  	.dumb_create = omap_gem_dumb_create,
->  	.dumb_map_offset = omap_gem_dumb_map_offset,
->  	.ioctls = ioctls,
-> diff --git a/drivers/gpu/drm/omapdrm/omap_gem.c b/drivers/gpu/drm/omapdrm/omap_gem.c
-> index d0d12d5dd76c..d68dc63dea0a 100644
-> --- a/drivers/gpu/drm/omapdrm/omap_gem.c
-> +++ b/drivers/gpu/drm/omapdrm/omap_gem.c
-> @@ -487,7 +487,7 @@ static vm_fault_t omap_gem_fault_2d(struct drm_gem_object *obj,
->   * vma->vm_private_data points to the GEM object that is backing this
->   * mapping.
->   */
-> -vm_fault_t omap_gem_fault(struct vm_fault *vmf)
-> +static vm_fault_t omap_gem_fault(struct vm_fault *vmf)
->  {
->  	struct vm_area_struct *vma = vmf->vma;
->  	struct drm_gem_object *obj = vma->vm_private_data;
-> @@ -1169,6 +1169,18 @@ static bool omap_gem_validate_flags(struct drm_device *dev, u32 flags)
->  	return true;
->  }
->  
-> +static const struct vm_operations_struct omap_gem_vm_ops = {
-> +	.fault = omap_gem_fault,
-> +	.open = drm_gem_vm_open,
-> +	.close = drm_gem_vm_close,
-> +};
-> +
-> +static const struct drm_gem_object_funcs omap_gem_object_funcs = {
-> +	.free = omap_gem_free_object,
-> +	.export = omap_gem_prime_export,
-> +	.vm_ops = &omap_gem_vm_ops,
-> +};
-> +
->  /* GEM buffer object constructor */
->  struct drm_gem_object *omap_gem_new(struct drm_device *dev,
->  		union omap_gem_size gsize, u32 flags)
-> @@ -1236,6 +1248,8 @@ struct drm_gem_object *omap_gem_new(struct drm_device *dev,
->  		size = PAGE_ALIGN(gsize.bytes);
->  	}
->  
-> +	obj->funcs = &omap_gem_object_funcs;
-> +
->  	/* Initialize the GEM object. */
->  	if (!(flags & OMAP_BO_MEM_SHMEM)) {
->  		drm_gem_private_object_init(dev, obj, size);
-> diff --git a/drivers/gpu/drm/omapdrm/omap_gem.h b/drivers/gpu/drm/omapdrm/omap_gem.h
-> index 729b7812a815..9e6b5c8195d9 100644
-> --- a/drivers/gpu/drm/omapdrm/omap_gem.h
-> +++ b/drivers/gpu/drm/omapdrm/omap_gem.h
-> @@ -69,7 +69,6 @@ struct dma_buf *omap_gem_prime_export(struct drm_gem_object *obj, int flags);
->  struct drm_gem_object *omap_gem_prime_import(struct drm_device *dev,
->  		struct dma_buf *buffer);
->  
-> -vm_fault_t omap_gem_fault(struct vm_fault *vmf);
+--Orz2ZqpSWnksEfl2yo6RF3aBwExLujGG6
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-I like how this function now becomes internal to omap_gem.c.
+Hi
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Am 13.08.20 um 15:36 schrieb Laurent Pinchart:
+> Hi Thomas,
+>=20
+> Thank you for the patch.
+>=20
+> On Thu, Aug 13, 2020 at 10:36:43AM +0200, Thomas Zimmermann wrote:
+>> The xlnx driver uses CMA helpers with default callback functions.
+>> Initialize the driver structure with the rsp CMA helper macro. The
+>> driver is being converted to use GEM object functions as part of
+>> this change.
+>>
+>> Two callbacks, .dumb_destroy and .gem_prime_import, were initialized
+>> to their default implementations, so they are just kept empty now.
+>>
+>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> ---
+>>  drivers/gpu/drm/xlnx/zynqmp_dpsub.c | 14 +-------------
+>>  1 file changed, 1 insertion(+), 13 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/xlnx/zynqmp_dpsub.c b/drivers/gpu/drm/xln=
+x/zynqmp_dpsub.c
+>> index 26328c76305b..058044dcc062 100644
+>> --- a/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
+>> +++ b/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
+>> @@ -80,19 +80,7 @@ static struct drm_driver zynqmp_dpsub_drm_driver =3D=
+ {
+>>  	.driver_features		=3D DRIVER_MODESET | DRIVER_GEM |
+>>  					  DRIVER_ATOMIC,
+>> =20
+>> -	.prime_handle_to_fd		=3D drm_gem_prime_handle_to_fd,
+>> -	.prime_fd_to_handle		=3D drm_gem_prime_fd_to_handle,
+>> -	.gem_prime_export		=3D drm_gem_prime_export,
+>> -	.gem_prime_import		=3D drm_gem_prime_import,
+>> -	.gem_prime_get_sg_table		=3D drm_gem_cma_prime_get_sg_table,
+>> -	.gem_prime_import_sg_table	=3D drm_gem_cma_prime_import_sg_table,
+>> -	.gem_prime_vmap			=3D drm_gem_cma_prime_vmap,
+>> -	.gem_prime_vunmap		=3D drm_gem_cma_prime_vunmap,
+>> -	.gem_prime_mmap			=3D drm_gem_cma_prime_mmap,
+>> -	.gem_free_object_unlocked	=3D drm_gem_cma_free_object,
+>> -	.gem_vm_ops			=3D &drm_gem_cma_vm_ops,
+>> -	.dumb_create			=3D zynqmp_dpsub_dumb_create,
+>> -	.dumb_destroy			=3D drm_gem_dumb_destroy,
+>> +	DRM_GEM_CMA_DRIVER_OPS_VMAP_WITH_DUMB_CREATE(zynqmp_dpsub_dumb_creat=
+e),
+>=20
+> The only effective change here is
+>=20
+> -	.gem_prime_import_sg_table	=3D drm_gem_cma_prime_import_sg_table,
+> -	.gem_prime_mmap			=3D drm_gem_cma_prime_mmap,
+> +	.gem_prime_import_sg_table	=3D drm_gem_cma_prime_import_sg_table_vmap=
+,
+> +	.gem_prime_mmap			=3D drm_gem_prime_mmap,
+>=20
+> The change is significant, and I have a hard time following the code to=
 
->  int omap_gem_roll(struct drm_gem_object *obj, u32 roll);
->  void omap_gem_cpu_sync_page(struct drm_gem_object *obj, int pgoff);
->  void omap_gem_dma_sync_buffer(struct drm_gem_object *obj,
+> verify that it's correct, or if it's an undesired side effect. If it's
+> correct, could the change be mentioned in the commit message, with at
+> least a brief explanation of why this is correct, and what the
+> consequences here ?
 
--- 
-Regards,
+I think this is a mistake that I didn't notice. Thanks for spotting it.
+Initializing the driver structure
+DRM_GEM_CMA_DRIVER_OPS_WITH_DUMB_CREATE should fix it. I'll change this
+for the patch's next revision.
 
-Laurent Pinchart
+Best regards
+Thomas
+
+>=20
+>> =20
+>>  	.fops				=3D &zynqmp_dpsub_drm_fops,
+>> =20
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--Orz2ZqpSWnksEfl2yo6RF3aBwExLujGG6--
+
+--tbCt2o5uFn9Z4Xo4P1cpCcyhXosV08OH6
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl81RswUHHR6aW1tZXJt
+YW5uQHN1c2UuZGUACgkQaA3BHVMLeiPfqAgAoOYcX5UFEbejKi/wGBq3HxlV2lCp
+5M6+u8OsIfDWcmroBE+YK419eRwDbsNeDSbzHs7GVQ7SOEeltGdgRpf7QuaUgupn
+VJmuMSjAwqbV0l5nyd5DD0Tr2Z/QOxaLAguvxUcSTOdYWAuqLwTo6X5+butu86YB
+tEBhKOk6Vzm8C5KA3Loy27We59QzBmDHJ+cdzEhsM1AG0SPJ5sePjMiKFMM3Mo4u
+8+HQ3wVLzYAQVhK7Q8bUM/6yIv+AQaAfoNtG3zPI7q9FKKKMbBbTVQV0YeZUKC4T
+kIHdnG+dlK834qYxJmlxWwcU8XjHoiAbQYJDfpmjeYw++Xz1MePDB6MG2g==
+=PGhi
+-----END PGP SIGNATURE-----
+
+--tbCt2o5uFn9Z4Xo4P1cpCcyhXosV08OH6--
+
+--===============1580512401==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 etnaviv mailing list
 etnaviv@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/etnaviv
+
+--===============1580512401==--
