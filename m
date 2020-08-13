@@ -1,116 +1,40 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68C862438DD
-	for <lists+etnaviv@lfdr.de>; Thu, 13 Aug 2020 12:47:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DC6E243AD2
+	for <lists+etnaviv@lfdr.de>; Thu, 13 Aug 2020 15:36:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 853D26E9C8;
-	Thu, 13 Aug 2020 10:47:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F6116E1BA;
+	Thu, 13 Aug 2020 13:36:22 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2044.outbound.protection.outlook.com [40.107.223.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 840FB6E9B8;
- Thu, 13 Aug 2020 10:47:25 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gdj0grcaIIecbwllRgGWhUlIlUjv13/R78NNehk1PCGSsCQxqbj1TEw/ObrGIlzPLZlHEa8MW9w8nM+cCCDqPSRSB2pJRJMCH4O7SIql6Zp+4jzn0Y2Wpbee3EAZ+UjfLr4d20vCKEOYNHdqr3RHAH/paiq2ULNhCz6XBz47drGw/KOjZELlxt1X/HMxH2pcou/rV7i9j7+tdmXyKuBAlx+OnAXDQa5T/i6+kv6uCEnLu84Dkq5h2SDShJ+r/okDG3ZhOlnSec+RSd2IRvfHaqKElC6pIqiJOptijkAE9+JU3nFhMXDHjYd7FuOqWPoU+h/7+eOvNsCqYH3IGAdLSQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mBd8DQ/bfMAfOk7SWaHtrVKCOWBNjh1g7eNQlYG5zBI=;
- b=m0mI5rL95cXVyf+YuiVP6uYt4JKxjzgIRb9eHS4uuatdO9Q+MpZ1jnbikskRCmLuQnsbjpZbVSZbP55ZGrIH815TeGvjc1N3TxH75MLzOpdKS2+y6zc0AN9m68k1TuMlVwZYKVIzEHcWqzTdpTKIwj8+6ds5poscou9r+oyfFdszFW0rdLaZu78yV9GaTurbZiyYgNPe9tN6lE6ruoBH2F23N1mJhINEKG4E2oMADFCHRHabvGM2X7LogU41tyVK1+z1VWZZPwQSNA71APVJJERLCMbkgqLl/9z5r8pPZxx7at9K0H/F0ddwEmoPUjjfUnbKiD8c6FL+o+ouKR1Ptw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mBd8DQ/bfMAfOk7SWaHtrVKCOWBNjh1g7eNQlYG5zBI=;
- b=14JkI7HQW+JlY8Q+sZRyDe6ABruAgDWZ5LTJYOZ9kJKX8wlLmed5jAiW0nGCFnWvB3FlXBuxLmm4WgdEUsySPGmhJQ1I1e+q5Hm6trYDBAlVAP7MvqhVObtGGELyvGUOxuSeAYUAf29UdkkGwqDSz4oxlZWP6TPQZNYTHSFkm0Y=
-Authentication-Results: lists.xenproject.org; dkim=none (message not signed)
- header.d=none;lists.xenproject.org; dmarc=none action=none
- header.from=amd.com;
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by MN2PR12MB3999.namprd12.prod.outlook.com (2603:10b6:208:158::27)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3283.15; Thu, 13 Aug
- 2020 10:47:20 +0000
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::a16e:8812:b4c0:918d]) by MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::a16e:8812:b4c0:918d%6]) with mapi id 15.20.3283.015; Thu, 13 Aug 2020
- 10:47:20 +0000
-Subject: Re: [PATCH 12/20] drm/radeon: Introduce GEM object functions
-To: Thomas Zimmermann <tzimmermann@suse.de>, alexander.deucher@amd.com,
- airlied@linux.ie, daniel@ffwll.ch, linux@armlinux.org.uk,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- l.stach@pengutronix.de, christian.gmeiner@gmail.com, inki.dae@samsung.com,
- jy0922.shim@samsung.com, sw0312.kim@samsung.com, kyungmin.park@samsung.com,
- kgene@kernel.org, krzk@kernel.org, patrik.r.jakobsson@gmail.com,
- jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
- rodrigo.vivi@intel.com, chunkuang.hu@kernel.org, p.zabel@pengutronix.de,
- matthias.bgg@gmail.com, robdclark@gmail.com, sean@poorly.run,
- bskeggs@redhat.com, tomi.valkeinen@ti.com, eric@anholt.net,
- hjc@rock-chips.com, heiko@sntech.de, thierry.reding@gmail.com,
- jonathanh@nvidia.com, rodrigosiqueiramelo@gmail.com,
- hamohammed.sa@gmail.com, oleksandr_andrushchenko@epam.com,
- hyun.kwon@xilinx.com, laurent.pinchart@ideasonboard.com,
- michal.simek@xilinx.com, sumit.semwal@linaro.org, evan.quan@amd.com,
- Hawking.Zhang@amd.com, tianci.yin@amd.com, marek.olsak@amd.com,
- hdegoede@redhat.com, andrey.grodzovsky@amd.com, Felix.Kuehling@amd.com,
- xinhui.pan@amd.com, aaron.liu@amd.com, nirmoy.das@amd.com,
- chris@chris-wilson.co.uk, matthew.auld@intel.com,
- abdiel.janulgue@linux.intel.com, tvrtko.ursulin@linux.intel.com,
- andi.shyti@intel.com, sam@ravnborg.org, miaoqinglang@huawei.com,
- emil.velikov@collabora.com
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE1D06E147;
+ Thu, 13 Aug 2020 13:36:20 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id EEF4C80C;
+ Thu, 13 Aug 2020 15:36:18 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1597325779;
+ bh=LFjCPgHaIF6gKZ6ttwoh7vM/ha5xd+8WqVY3LrXFqdY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=mD2ffodeTiALBx4jMPG8qxz9L2zNHMknBM29LVKDZwsuv+HPNiU01uwaTPvLjoGS1
+ sOMLw+vbWye9FliJAd9NJAyN9AUdPYnu7XpJWDyFWNmXGiBOuqF8WtSmdbAdPKkTbA
+ m/8ZHk2o7qVvXfCHUPCtVlJuq/Rqpw7zILkn+1Oc=
+Date: Thu, 13 Aug 2020 16:36:05 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 19/20] drm/xlnx: Initialize DRM driver instance with CMA
+ helper macro
+Message-ID: <20200813133605.GJ6057@pendragon.ideasonboard.com>
 References: <20200813083644.31711-1-tzimmermann@suse.de>
- <20200813083644.31711-13-tzimmermann@suse.de>
- <fb070238-b6ca-8e31-e559-51eda489915e@amd.com>
- <5372b2ef-b7cf-f4e9-9199-6dee5bf6696f@suse.de>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <f6792a90-6dfb-5806-47b2-3208a85ec79b@amd.com>
-Date: Thu, 13 Aug 2020 12:47:04 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <5372b2ef-b7cf-f4e9-9199-6dee5bf6696f@suse.de>
-Content-Language: en-US
-X-ClientProxiedBy: AM4PR0101CA0067.eurprd01.prod.exchangelabs.com
- (2603:10a6:200:41::35) To MN2PR12MB3775.namprd12.prod.outlook.com
- (2603:10b6:208:159::19)
+ <20200813083644.31711-20-tzimmermann@suse.de>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
- (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by
- AM4PR0101CA0067.eurprd01.prod.exchangelabs.com (2603:10a6:200:41::35) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3283.15 via Frontend
- Transport; Thu, 13 Aug 2020 10:47:08 +0000
-X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: ab994f1c-ee35-497a-985d-08d83f764080
-X-MS-TrafficTypeDiagnostic: MN2PR12MB3999:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <MN2PR12MB399990A8E65661C03D1DA2FB83430@MN2PR12MB3999.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2276;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: huQnBvIEPPPlt5fmax/wAQd/SeYGnhqX13yrHJLiFk8oUlakhZe8r0BQKN4W96V2DdBw4LE2bTjkTGxojJRyIMsw+W6aXafEZyjBZNXU33xX9ERj022oRKls3pfgb0YAbm1c49/ZQ0YlOWB8WjiSWaFGjX7ycnH4P9mmMqgAmhTl3PiYkA3k0K9afZBJTtkuyHqFIucUAc4Ik2c4pxobGpvHIkvv+pam2jnJGHF2eN5lmmptzNgqnUiPvzqHFbCA7zR7so5ucIt+vIwOvr/b2eNoTPHtuV3BTF8v1g0NtwwwO1j7C+wdo9IfThB8cfQHCDsp0sK1B54lvCFLLEXXD7ANUkwpaZMiAMNtfOMIvp7tn6cWfxcRz2amMKj4bzQv8TQbFCXsOnq3xrwyWMuNbw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(4326008)(186003)(66574015)(8936002)(6486002)(31696002)(2616005)(83380400001)(7406005)(7366002)(2906002)(6666004)(66946007)(66476007)(31686004)(498600001)(52116002)(36756003)(16526019)(5660300002)(8676002)(1191002)(66556008)(7416002)(86362001)(921003)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: C7QVq5xWUUnSFRVFtIbelIBtkBVKbqpntqzuFq5dEbyvSaYRcg+GBGhHRsxIgue0QMNrl1uJV5CcmD837zdQRab3IRuDubWfQ3/QZznZzLXxacrP2lTu1hU2s8t32abKfhjESUMVwbDcATpwOmyZ7spUXO10HzPAkFGZpsHQCUYURYRAAG/pIvpgdBqqfSsTXKh/wFEzjQTILBopcbQo2GqQzAUVFA2UoDSGiLOkJ0P4J8BxAbUyedvqDAv0cJbY8u2O722MLR+P79HBRVJolucyqafW4MdALOmuYxqzwCUmqvYCVpdYgh9HRJpelIGWRhlFMfgO/zNGou/9LLNYUySHyj4d2NNPR3ZUxpOLquMetAVZI8mj/xHjwlbotMVAYapLpBAt95kXTgIoXpnfIKZTxiW2UWKcNe7WNWr91LXXho1J04nmKoZOJEpL52zLtEjuMVG6zs9TJES8NTq4puJHHfubXqYDXguKTx2pRK5OuH0USeg1px5onCQkwz+s+TD6wL7nH26aiYNDPMoAmXuKiml9cBzT1PURepTBxTCKpfBNF1PDGYdocBnZwZhBPhqm/52ZuxfsTWK+GE5+CdVzWiEDC1Qa4nCleMfeeN1RuQXAaNo12cbp9efAYUTl+4VayxoqNSN1MxEdeir839f9yqTbKzjxocKbYUl9FFeJRpJIpO7fpFymBG7kaVQO7CzyLshxgK5dZh94rEZ1OQ==
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ab994f1c-ee35-497a-985d-08d83f764080
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Aug 2020 10:47:19.7753 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: s63P4Wxp/CKackyV6vflQiOjfqlpzMa8Br1qIsa/tN6WAbx9naWAPaCCXvsETFkD
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3999
+Content-Disposition: inline
+In-Reply-To: <20200813083644.31711-20-tzimmermann@suse.de>
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -122,147 +46,101 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
- linux-mediatek@lists.infradead.org, amd-gfx@lists.freedesktop.org,
- nouveau@lists.freedesktop.org, linux-tegra@vger.kernel.org,
- xen-devel@lists.xenproject.org, freedreno@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: hamohammed.sa@gmail.com, heiko@sntech.de, andrey.grodzovsky@amd.com,
+ airlied@linux.ie, nouveau@lists.freedesktop.org,
+ joonas.lahtinen@linux.intel.com, dri-devel@lists.freedesktop.org,
+ michal.simek@xilinx.com, eric@anholt.net, thierry.reding@gmail.com,
+ robdclark@gmail.com, krzk@kernel.org, sam@ravnborg.org,
+ sumit.semwal@linaro.org, emil.velikov@collabora.com,
+ abdiel.janulgue@linux.intel.com, linux-samsung-soc@vger.kernel.org,
+ jy0922.shim@samsung.com, oleksandr_andrushchenko@epam.com,
+ tomi.valkeinen@ti.com, linux-tegra@vger.kernel.org, linux@armlinux.org.uk,
+ patrik.r.jakobsson@gmail.com, jonathanh@nvidia.com,
+ linux-rockchip@lists.infradead.org, kgene@kernel.org, bskeggs@redhat.com,
+ xen-devel@lists.xenproject.org, intel-gfx@lists.freedesktop.org,
+ matthew.auld@intel.com, chunkuang.hu@kernel.org, andi.shyti@intel.com,
+ daniel@ffwll.ch, linux-arm-msm@vger.kernel.org, marek.olsak@amd.com,
+ tianci.yin@amd.com, maarten.lankhorst@linux.intel.com,
+ etnaviv@lists.freedesktop.org, jani.nikula@linux.intel.com,
+ inki.dae@samsung.com, hdegoede@redhat.com, christian.gmeiner@gmail.com,
+ linux-mediatek@lists.infradead.org, mripard@kernel.org, rodrigo.vivi@intel.com,
+ matthias.bgg@gmail.com, evan.quan@amd.com, sean@poorly.run,
+ linux-arm-kernel@lists.infradead.org, tvrtko.ursulin@linux.intel.com,
+ amd-gfx@lists.freedesktop.org, chris@chris-wilson.co.uk, hyun.kwon@xilinx.com,
+ rodrigosiqueiramelo@gmail.com, aaron.liu@amd.com, Felix.Kuehling@amd.com,
+ xinhui.pan@amd.com, sw0312.kim@samsung.com, hjc@rock-chips.com,
+ miaoqinglang@huawei.com, kyungmin.park@samsung.com, nirmoy.das@amd.com,
+ p.zabel@pengutronix.de, alexander.deucher@amd.com, Hawking.Zhang@amd.com,
+ freedreno@lists.freedesktop.org, christian.koenig@amd.com,
+ l.stach@pengutronix.de
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-QW0gMTMuMDguMjAgdW0gMTI6NDEgc2NocmllYiBUaG9tYXMgWmltbWVybWFubjoKPiBIaQo+Cj4g
-QW0gMTMuMDguMjAgdW0gMTI6MjQgc2NocmllYiBDaHJpc3RpYW4gS8O2bmlnOgo+PiBBbSAxMy4w
-OC4yMCB1bSAxMDozNiBzY2hyaWViIFRob21hcyBaaW1tZXJtYW5uOgo+Pj4gR0VNIG9iamVjdCBm
-dW5jdGlvbnMgZGVwcmVjYXRlIHNldmVyYWwgc2ltaWxhciBjYWxsYmFjayBpbnRlcmZhY2VzIGlu
-Cj4+PiBzdHJ1Y3QgZHJtX2RyaXZlci4gVGhpcyBwYXRjaCByZXBsYWNlcyB0aGUgcGVyLWRyaXZl
-ciBjYWxsYmFja3Mgd2l0aAo+Pj4gcGVyLWluc3RhbmNlIGNhbGxiYWNrcyBpbiByYWRlb24uCj4+
-Pgo+Pj4gU2lnbmVkLW9mZi1ieTogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2Uu
-ZGU+Cj4+PiAtLS0KPj4+ICDCoCBkcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVvbl9kcnYuY8Kg
-wqDCoCB8IDIzICstLS0tLS0tLS0tLS0tLS0tLS0tLS0tCj4+PiAgwqAgZHJpdmVycy9ncHUvZHJt
-L3JhZGVvbi9yYWRlb25fb2JqZWN0LmMgfCAyNiArKysrKysrKysrKysrKysrKysrKysrKysrKwo+
-Pj4gIMKgIDIgZmlsZXMgY2hhbmdlZCwgMjcgaW5zZXJ0aW9ucygrKSwgMjIgZGVsZXRpb25zKC0p
-Cj4+Pgo+Pj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9yYWRlb24vcmFkZW9uX2Rydi5j
-Cj4+PiBiL2RyaXZlcnMvZ3B1L2RybS9yYWRlb24vcmFkZW9uX2Rydi5jCj4+PiBpbmRleCA0Y2Qz
-MDYxM2ZhMWQuLjY1MDYxYzk0OWFlZSAxMDA2NDQKPj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9y
-YWRlb24vcmFkZW9uX2Rydi5jCj4+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVv
-bl9kcnYuYwo+Pj4gQEAgLTEyNCwxMyArMTI0LDYgQEAgdm9pZCByYWRlb25fZHJpdmVyX2lycV9w
-cmVpbnN0YWxsX2ttcyhzdHJ1Y3QKPj4+IGRybV9kZXZpY2UgKmRldik7Cj4+PiAgwqAgaW50IHJh
-ZGVvbl9kcml2ZXJfaXJxX3Bvc3RpbnN0YWxsX2ttcyhzdHJ1Y3QgZHJtX2RldmljZSAqZGV2KTsK
-Pj4+ICDCoCB2b2lkIHJhZGVvbl9kcml2ZXJfaXJxX3VuaW5zdGFsbF9rbXMoc3RydWN0IGRybV9k
-ZXZpY2UgKmRldik7Cj4+PiAgwqAgaXJxcmV0dXJuX3QgcmFkZW9uX2RyaXZlcl9pcnFfaGFuZGxl
-cl9rbXMoaW50IGlycSwgdm9pZCAqYXJnKTsKPj4+IC12b2lkIHJhZGVvbl9nZW1fb2JqZWN0X2Zy
-ZWUoc3RydWN0IGRybV9nZW1fb2JqZWN0ICpvYmopOwo+Pj4gLWludCByYWRlb25fZ2VtX29iamVj
-dF9vcGVuKHN0cnVjdCBkcm1fZ2VtX29iamVjdCAqb2JqLAo+Pj4gLcKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoCBzdHJ1Y3QgZHJtX2ZpbGUgKmZpbGVfcHJpdik7Cj4+PiAtdm9pZCByYWRl
-b25fZ2VtX29iamVjdF9jbG9zZShzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKm9iaiwKPj4+IC3CoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgc3RydWN0IGRybV9maWxlICpmaWxlX3ByaXYpOwo+
-Pj4gLXN0cnVjdCBkbWFfYnVmICpyYWRlb25fZ2VtX3ByaW1lX2V4cG9ydChzdHJ1Y3QgZHJtX2dl
-bV9vYmplY3QgKmdvYmosCj4+PiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqAgaW50IGZsYWdzKTsKPj4+ICDCoCBleHRlcm4gaW50IHJhZGVvbl9nZXRfY3J0Y19zY2Fub3V0
-cG9zKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsCj4+PiB1bnNpZ25lZCBpbnQgY3J0YywKPj4+ICDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHVuc2lnbmVkIGlu
-dCBmbGFncywgaW50ICp2cG9zLCBpbnQgKmhwb3MsCj4+PiAgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBrdGltZV90ICpzdGltZSwga3RpbWVfdCAqZXRpbWUs
-Cj4+PiBAQCAtMTQ1LDE0ICsxMzgsOSBAQCBpbnQgcmFkZW9uX21vZGVfZHVtYl9tbWFwKHN0cnVj
-dCBkcm1fZmlsZSAqZmlscCwKPj4+ICDCoCBpbnQgcmFkZW9uX21vZGVfZHVtYl9jcmVhdGUoc3Ry
-dWN0IGRybV9maWxlICpmaWxlX3ByaXYsCj4+PiAgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoCBzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LAo+Pj4gIMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqAgc3RydWN0IGRybV9tb2RlX2NyZWF0ZV9kdW1iICphcmdzKTsKPj4+IC1z
-dHJ1Y3Qgc2dfdGFibGUgKnJhZGVvbl9nZW1fcHJpbWVfZ2V0X3NnX3RhYmxlKHN0cnVjdCBkcm1f
-Z2VtX29iamVjdAo+Pj4gKm9iaik7Cj4+PiAgwqAgc3RydWN0IGRybV9nZW1fb2JqZWN0ICpyYWRl
-b25fZ2VtX3ByaW1lX2ltcG9ydF9zZ190YWJsZShzdHJ1Y3QKPj4+IGRybV9kZXZpY2UgKmRldiwK
-Pj4+ICDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgIHN0cnVjdCBkbWFfYnVmX2F0dGFjaG1lbnQgKiwKPj4+ICDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHN0cnVjdCBzZ190YWJs
-ZSAqc2cpOwo+Pj4gLWludCByYWRlb25fZ2VtX3ByaW1lX3BpbihzdHJ1Y3QgZHJtX2dlbV9vYmpl
-Y3QgKm9iaik7Cj4+PiAtdm9pZCByYWRlb25fZ2VtX3ByaW1lX3VucGluKHN0cnVjdCBkcm1fZ2Vt
-X29iamVjdCAqb2JqKTsKPj4+IC12b2lkICpyYWRlb25fZ2VtX3ByaW1lX3ZtYXAoc3RydWN0IGRy
-bV9nZW1fb2JqZWN0ICpvYmopOwo+Pj4gLXZvaWQgcmFkZW9uX2dlbV9wcmltZV92dW5tYXAoc3Ry
-dWN0IGRybV9nZW1fb2JqZWN0ICpvYmosIHZvaWQgKnZhZGRyKTsKPj4+ICDCoCDCoCAvKiBhdHB4
-IGhhbmRsZXIgKi8KPj4+ICDCoCAjaWYgZGVmaW5lZChDT05GSUdfVkdBX1NXSVRDSEVST08pCj4+
-PiBAQCAtNTUwLDcgKzUzOCw3IEBAIGxvbmcgcmFkZW9uX2RybV9pb2N0bChzdHJ1Y3QgZmlsZSAq
-ZmlscCwKPj4+ICDCoMKgwqDCoMKgIH0KPj4+ICDCoCDCoMKgwqDCoMKgIHJldCA9IGRybV9pb2N0
-bChmaWxwLCBjbWQsIGFyZyk7Cj4+PiAtCj4+PiArCj4+PiAgwqDCoMKgwqDCoCBwbV9ydW50aW1l
-X21hcmtfbGFzdF9idXN5KGRldi0+ZGV2KTsKPj4+ICDCoMKgwqDCoMKgIHBtX3J1bnRpbWVfcHV0
-X2F1dG9zdXNwZW5kKGRldi0+ZGV2KTsKPj4+ICDCoMKgwqDCoMKgIHJldHVybiByZXQ7Cj4+PiBA
-QCAtNjA5LDIyICs1OTcsMTMgQEAgc3RhdGljIHN0cnVjdCBkcm1fZHJpdmVyIGttc19kcml2ZXIg
-PSB7Cj4+PiAgwqDCoMKgwqDCoCAuaXJxX3VuaW5zdGFsbCA9IHJhZGVvbl9kcml2ZXJfaXJxX3Vu
-aW5zdGFsbF9rbXMsCj4+PiAgwqDCoMKgwqDCoCAuaXJxX2hhbmRsZXIgPSByYWRlb25fZHJpdmVy
-X2lycV9oYW5kbGVyX2ttcywKPj4+ICDCoMKgwqDCoMKgIC5pb2N0bHMgPSByYWRlb25faW9jdGxz
-X2ttcywKPj4+IC3CoMKgwqAgLmdlbV9mcmVlX29iamVjdF91bmxvY2tlZCA9IHJhZGVvbl9nZW1f
-b2JqZWN0X2ZyZWUsCj4+PiAtwqDCoMKgIC5nZW1fb3Blbl9vYmplY3QgPSByYWRlb25fZ2VtX29i
-amVjdF9vcGVuLAo+Pj4gLcKgwqDCoCAuZ2VtX2Nsb3NlX29iamVjdCA9IHJhZGVvbl9nZW1fb2Jq
-ZWN0X2Nsb3NlLAo+Pj4gIMKgwqDCoMKgwqAgLmR1bWJfY3JlYXRlID0gcmFkZW9uX21vZGVfZHVt
-Yl9jcmVhdGUsCj4+PiAgwqDCoMKgwqDCoCAuZHVtYl9tYXBfb2Zmc2V0ID0gcmFkZW9uX21vZGVf
-ZHVtYl9tbWFwLAo+Pj4gIMKgwqDCoMKgwqAgLmZvcHMgPSAmcmFkZW9uX2RyaXZlcl9rbXNfZm9w
-cywKPj4+ICDCoCDCoMKgwqDCoMKgIC5wcmltZV9oYW5kbGVfdG9fZmQgPSBkcm1fZ2VtX3ByaW1l
-X2hhbmRsZV90b19mZCwKPj4+ICDCoMKgwqDCoMKgIC5wcmltZV9mZF90b19oYW5kbGUgPSBkcm1f
-Z2VtX3ByaW1lX2ZkX3RvX2hhbmRsZSwKPj4+IC3CoMKgwqAgLmdlbV9wcmltZV9leHBvcnQgPSBy
-YWRlb25fZ2VtX3ByaW1lX2V4cG9ydCwKPj4+IC3CoMKgwqAgLmdlbV9wcmltZV9waW4gPSByYWRl
-b25fZ2VtX3ByaW1lX3BpbiwKPj4+IC3CoMKgwqAgLmdlbV9wcmltZV91bnBpbiA9IHJhZGVvbl9n
-ZW1fcHJpbWVfdW5waW4sCj4+PiAtwqDCoMKgIC5nZW1fcHJpbWVfZ2V0X3NnX3RhYmxlID0gcmFk
-ZW9uX2dlbV9wcmltZV9nZXRfc2dfdGFibGUsCj4+PiAgwqDCoMKgwqDCoCAuZ2VtX3ByaW1lX2lt
-cG9ydF9zZ190YWJsZSA9IHJhZGVvbl9nZW1fcHJpbWVfaW1wb3J0X3NnX3RhYmxlLAo+Pj4gLcKg
-wqDCoCAuZ2VtX3ByaW1lX3ZtYXAgPSByYWRlb25fZ2VtX3ByaW1lX3ZtYXAsCj4+PiAtwqDCoMKg
-IC5nZW1fcHJpbWVfdnVubWFwID0gcmFkZW9uX2dlbV9wcmltZV92dW5tYXAsCj4+PiAgwqAgwqDC
-oMKgwqDCoCAubmFtZSA9IERSSVZFUl9OQU1FLAo+Pj4gIMKgwqDCoMKgwqAgLmRlc2MgPSBEUklW
-RVJfREVTQywKPj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVvbl9v
-YmplY3QuYwo+Pj4gYi9kcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVvbl9vYmplY3QuYwo+Pj4g
-aW5kZXggYmI3NTgyYWZkODAzLi44ODIzOTBlMTVkZmUgMTAwNjQ0Cj4+PiAtLS0gYS9kcml2ZXJz
-L2dwdS9kcm0vcmFkZW9uL3JhZGVvbl9vYmplY3QuYwo+Pj4gKysrIGIvZHJpdmVycy9ncHUvZHJt
-L3JhZGVvbi9yYWRlb25fb2JqZWN0LmMKPj4+IEBAIC00NSw2ICs0NSwxOSBAQCBpbnQgcmFkZW9u
-X3R0bV9pbml0KHN0cnVjdCByYWRlb25fZGV2aWNlICpyZGV2KTsKPj4+ICDCoCB2b2lkIHJhZGVv
-bl90dG1fZmluaShzdHJ1Y3QgcmFkZW9uX2RldmljZSAqcmRldik7Cj4+PiAgwqAgc3RhdGljIHZv
-aWQgcmFkZW9uX2JvX2NsZWFyX3N1cmZhY2VfcmVnKHN0cnVjdCByYWRlb25fYm8gKmJvKTsKPj4+
-ICDCoCArdm9pZCByYWRlb25fZ2VtX29iamVjdF9mcmVlKHN0cnVjdCBkcm1fZ2VtX29iamVjdCAq
-b2JqKTsKPj4+ICtpbnQgcmFkZW9uX2dlbV9vYmplY3Rfb3BlbihzdHJ1Y3QgZHJtX2dlbV9vYmpl
-Y3QgKm9iaiwKPj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgc3RydWN0IGRybV9m
-aWxlICpmaWxlX3ByaXYpOwo+Pj4gK3ZvaWQgcmFkZW9uX2dlbV9vYmplY3RfY2xvc2Uoc3RydWN0
-IGRybV9nZW1fb2JqZWN0ICpvYmosCj4+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-IHN0cnVjdCBkcm1fZmlsZSAqZmlsZV9wcml2KTsKPj4+ICtzdHJ1Y3QgZG1hX2J1ZiAqcmFkZW9u
-X2dlbV9wcmltZV9leHBvcnQoc3RydWN0IGRybV9nZW1fb2JqZWN0ICpnb2JqLAo+Pj4gK8KgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGludCBmbGFncyk7Cj4+PiArc3RydWN0
-IHNnX3RhYmxlICpyYWRlb25fZ2VtX3ByaW1lX2dldF9zZ190YWJsZShzdHJ1Y3QgZHJtX2dlbV9v
-YmplY3QKPj4+ICpvYmopOwo+Pj4gK2ludCByYWRlb25fZ2VtX3ByaW1lX3BpbihzdHJ1Y3QgZHJt
-X2dlbV9vYmplY3QgKm9iaik7Cj4+PiArdm9pZCByYWRlb25fZ2VtX3ByaW1lX3VucGluKHN0cnVj
-dCBkcm1fZ2VtX29iamVjdCAqb2JqKTsKPj4+ICt2b2lkICpyYWRlb25fZ2VtX3ByaW1lX3ZtYXAo
-c3RydWN0IGRybV9nZW1fb2JqZWN0ICpvYmopOwo+Pj4gK3ZvaWQgcmFkZW9uX2dlbV9wcmltZV92
-dW5tYXAoc3RydWN0IGRybV9nZW1fb2JqZWN0ICpvYmosIHZvaWQgKnZhZGRyKTsKPj4+ICsKPj4+
-ICDCoCAvKgo+Pj4gIMKgwqAgKiBUbyBleGNsdWRlIG11dHVhbCBCTyBhY2Nlc3Mgd2UgcmVseSBv
-biBib19yZXNlcnZlIGV4Y2x1c2lvbiwgYXMgYWxsCj4+PiAgwqDCoCAqIGZ1bmN0aW9uIGFyZSBj
-YWxsaW5nIGl0Lgo+Pj4gQEAgLTE4MCw2ICsxOTMsMTggQEAgdm9pZCByYWRlb25fdHRtX3BsYWNl
-bWVudF9mcm9tX2RvbWFpbihzdHJ1Y3QKPj4+IHJhZGVvbl9ibyAqcmJvLCB1MzIgZG9tYWluKQo+
-Pj4gIMKgwqDCoMKgwqAgfQo+Pj4gIMKgIH0KPj4+ICDCoCArc3RhdGljIGNvbnN0IHN0cnVjdCBk
-cm1fZ2VtX29iamVjdF9mdW5jcyByYWRlb25fZ2VtX29iamVjdF9mdW5jcyA9IHsKPj4+ICvCoMKg
-wqAgLmZyZWUgPSByYWRlb25fZ2VtX29iamVjdF9mcmVlLAo+Pj4gK8KgwqDCoCAub3BlbiA9IHJh
-ZGVvbl9nZW1fb2JqZWN0X29wZW4sCj4+PiArwqDCoMKgIC5jbG9zZSA9IHJhZGVvbl9nZW1fb2Jq
-ZWN0X2Nsb3NlLAo+Pj4gK8KgwqDCoCAuZXhwb3J0ID0gcmFkZW9uX2dlbV9wcmltZV9leHBvcnQs
-Cj4+PiArwqDCoMKgIC5waW4gPSByYWRlb25fZ2VtX3ByaW1lX3BpbiwKPj4+ICvCoMKgwqAgLnVu
-cGluID0gcmFkZW9uX2dlbV9wcmltZV91bnBpbiwKPj4+ICvCoMKgwqAgLmdldF9zZ190YWJsZSA9
-IHJhZGVvbl9nZW1fcHJpbWVfZ2V0X3NnX3RhYmxlLAo+Pj4gK8KgwqDCoCAudm1hcCA9IHJhZGVv
-bl9nZW1fcHJpbWVfdm1hcCwKPj4+ICvCoMKgwqAgLnZ1bm1hcCA9IHJhZGVvbl9nZW1fcHJpbWVf
-dnVubWFwLAo+Pj4gK307Cj4+PiArCj4+IFNhbWUgY29tbWVudCBhcyBmb3IgYW1kZ3B1LCBwbGVh
-c2UgcHV0IHRoYXQgaW50byByYWRlb25fZ2VtLmMgaW5zdGVhZC4KPiBUaGVyZSdzIG5vIGdvb2Qg
-aGVhZGVyIGZpbGUgdG8gcHV0IHRoZSBkZWNsYXJhdGlvbnMsIHJpZ2h0PyBJJ20gYXNraW5nCj4g
-YmVjYXVzZSBjaGVja3BhdGNoIHdhcm5zIGFib3V0IGRlY2xhcmF0aW9ucyBpbiB0aGUgc291cmNl
-IGZpbGVzLgoKWWVzLCB0aGF0IGlzIGtpbmQgb2YgYSBtZXNzIGJlY2F1c2UgcmFkZW9uIHVzZWQg
-dG8gc3VwcG9ydCBib3RoIEtNUyBhbmQgVU1TLgoKVGhhbmtzIGZvciBjbGVhbmluZyB0aGlzIHVw
-LApDaHJpc3RpYW4uCgo+Cj4gQmVzdCByZWdhcmRzCj4gVGhvbWFzCj4KPj4gQ2hyaXN0aWFuLgo+
-Pgo+Pj4gIMKgIGludCByYWRlb25fYm9fY3JlYXRlKHN0cnVjdCByYWRlb25fZGV2aWNlICpyZGV2
-LAo+Pj4gIMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgdW5zaWduZWQgbG9uZyBzaXplLCBp
-bnQgYnl0ZV9hbGlnbiwgYm9vbCBrZXJuZWwsCj4+PiAgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoCB1MzIgZG9tYWluLCB1MzIgZmxhZ3MsIHN0cnVjdCBzZ190YWJsZSAqc2csCj4+PiBAQCAt
-MjA5LDYgKzIzNCw3IEBAIGludCByYWRlb25fYm9fY3JlYXRlKHN0cnVjdCByYWRlb25fZGV2aWNl
-ICpyZGV2LAo+Pj4gIMKgwqDCoMKgwqAgYm8gPSBremFsbG9jKHNpemVvZihzdHJ1Y3QgcmFkZW9u
-X2JvKSwgR0ZQX0tFUk5FTCk7Cj4+PiAgwqDCoMKgwqDCoCBpZiAoYm8gPT0gTlVMTCkKPj4+ICDC
-oMKgwqDCoMKgwqDCoMKgwqAgcmV0dXJuIC1FTk9NRU07Cj4+PiArwqDCoMKgIGJvLT50Ym8uYmFz
-ZS5mdW5jcyA9ICZyYWRlb25fZ2VtX29iamVjdF9mdW5jczsKPj4+ICDCoMKgwqDCoMKgIGRybV9n
-ZW1fcHJpdmF0ZV9vYmplY3RfaW5pdChyZGV2LT5kZGV2LCAmYm8tPnRiby5iYXNlLCBzaXplKTsK
-Pj4+ICDCoMKgwqDCoMKgIGJvLT5yZGV2ID0gcmRldjsKPj4+ICDCoMKgwqDCoMKgIGJvLT5zdXJm
-YWNlX3JlZyA9IC0xOwoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX18KZXRuYXZpdiBtYWlsaW5nIGxpc3QKZXRuYXZpdkBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
-aHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9ldG5hdml2Cg==
+Hi Thomas,
+
+Thank you for the patch.
+
+On Thu, Aug 13, 2020 at 10:36:43AM +0200, Thomas Zimmermann wrote:
+> The xlnx driver uses CMA helpers with default callback functions.
+> Initialize the driver structure with the rsp CMA helper macro. The
+> driver is being converted to use GEM object functions as part of
+> this change.
+> 
+> Two callbacks, .dumb_destroy and .gem_prime_import, were initialized
+> to their default implementations, so they are just kept empty now.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>  drivers/gpu/drm/xlnx/zynqmp_dpsub.c | 14 +-------------
+>  1 file changed, 1 insertion(+), 13 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/xlnx/zynqmp_dpsub.c b/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
+> index 26328c76305b..058044dcc062 100644
+> --- a/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
+> +++ b/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
+> @@ -80,19 +80,7 @@ static struct drm_driver zynqmp_dpsub_drm_driver = {
+>  	.driver_features		= DRIVER_MODESET | DRIVER_GEM |
+>  					  DRIVER_ATOMIC,
+>  
+> -	.prime_handle_to_fd		= drm_gem_prime_handle_to_fd,
+> -	.prime_fd_to_handle		= drm_gem_prime_fd_to_handle,
+> -	.gem_prime_export		= drm_gem_prime_export,
+> -	.gem_prime_import		= drm_gem_prime_import,
+> -	.gem_prime_get_sg_table		= drm_gem_cma_prime_get_sg_table,
+> -	.gem_prime_import_sg_table	= drm_gem_cma_prime_import_sg_table,
+> -	.gem_prime_vmap			= drm_gem_cma_prime_vmap,
+> -	.gem_prime_vunmap		= drm_gem_cma_prime_vunmap,
+> -	.gem_prime_mmap			= drm_gem_cma_prime_mmap,
+> -	.gem_free_object_unlocked	= drm_gem_cma_free_object,
+> -	.gem_vm_ops			= &drm_gem_cma_vm_ops,
+> -	.dumb_create			= zynqmp_dpsub_dumb_create,
+> -	.dumb_destroy			= drm_gem_dumb_destroy,
+> +	DRM_GEM_CMA_DRIVER_OPS_VMAP_WITH_DUMB_CREATE(zynqmp_dpsub_dumb_create),
+
+The only effective change here is
+
+-	.gem_prime_import_sg_table	= drm_gem_cma_prime_import_sg_table,
+-	.gem_prime_mmap			= drm_gem_cma_prime_mmap,
++	.gem_prime_import_sg_table	= drm_gem_cma_prime_import_sg_table_vmap,
++	.gem_prime_mmap			= drm_gem_prime_mmap,
+
+The change is significant, and I have a hard time following the code to
+verify that it's correct, or if it's an undesired side effect. If it's
+correct, could the change be mentioned in the commit message, with at
+least a brief explanation of why this is correct, and what the
+consequences here ?
+
+>  
+>  	.fops				= &zynqmp_dpsub_drm_fops,
+>  
+
+-- 
+Regards,
+
+Laurent Pinchart
+_______________________________________________
+etnaviv mailing list
+etnaviv@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/etnaviv
