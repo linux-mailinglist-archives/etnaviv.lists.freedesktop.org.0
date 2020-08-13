@@ -2,42 +2,47 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C13F5240E4D
-	for <lists+etnaviv@lfdr.de>; Mon, 10 Aug 2020 21:13:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 604BC243602
+	for <lists+etnaviv@lfdr.de>; Thu, 13 Aug 2020 10:36:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F4956E188;
-	Mon, 10 Aug 2020 19:13:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 029DE6E1E8;
+	Thu, 13 Aug 2020 08:36:54 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C947B6E188;
- Mon, 10 Aug 2020 19:13:17 +0000 (UTC)
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
- [73.47.72.35])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id D7A44207FF;
- Mon, 10 Aug 2020 19:13:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1597086797;
- bh=YWc/jbFi07zz+Mf7kE85aUxzk4vmzQnuoEKGhyIPpeY=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=fYMdPdgkpZId1sZCA9Y+rK82JboL9S2o/A2figTNoky02j58XHBjvwkDuMQFHoWaD
- MdaCcmptkvemiqgISuOFSRa1EEmNE3aBInS4ubys9Eyu8QfjBXyK5ow+WslYrqnKi8
- Km5cEsMGU2bCPJT9UOooBgM57AARFXk0XIZP3LlE=
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 12/31] drm/etnaviv: fix ref count leak via
- pm_runtime_get_sync
-Date: Mon, 10 Aug 2020 15:12:40 -0400
-Message-Id: <20200810191259.3794858-12-sashal@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200810191259.3794858-1-sashal@kernel.org>
-References: <20200810191259.3794858-1-sashal@kernel.org>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB1296E1E8;
+ Thu, 13 Aug 2020 08:36:52 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 5A629AE35;
+ Thu, 13 Aug 2020 08:37:13 +0000 (UTC)
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: alexander.deucher@amd.com, christian.koenig@amd.com, airlied@linux.ie,
+ daniel@ffwll.ch, linux@armlinux.org.uk, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, l.stach@pengutronix.de, christian.gmeiner@gmail.com,
+ inki.dae@samsung.com, jy0922.shim@samsung.com, sw0312.kim@samsung.com,
+ kyungmin.park@samsung.com, kgene@kernel.org, krzk@kernel.org,
+ patrik.r.jakobsson@gmail.com, jani.nikula@linux.intel.com,
+ joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com,
+ chunkuang.hu@kernel.org, p.zabel@pengutronix.de, matthias.bgg@gmail.com,
+ robdclark@gmail.com, sean@poorly.run, bskeggs@redhat.com,
+ tomi.valkeinen@ti.com, eric@anholt.net, hjc@rock-chips.com,
+ heiko@sntech.de, thierry.reding@gmail.com, jonathanh@nvidia.com,
+ rodrigosiqueiramelo@gmail.com, hamohammed.sa@gmail.com,
+ oleksandr_andrushchenko@epam.com, hyun.kwon@xilinx.com,
+ laurent.pinchart@ideasonboard.com, michal.simek@xilinx.com,
+ sumit.semwal@linaro.org, evan.quan@amd.com, Hawking.Zhang@amd.com,
+ tianci.yin@amd.com, marek.olsak@amd.com, hdegoede@redhat.com,
+ andrey.grodzovsky@amd.com, Felix.Kuehling@amd.com, xinhui.pan@amd.com,
+ aaron.liu@amd.com, nirmoy.das@amd.com, chris@chris-wilson.co.uk,
+ matthew.auld@intel.com, abdiel.janulgue@linux.intel.com,
+ tvrtko.ursulin@linux.intel.com, andi.shyti@intel.com, sam@ravnborg.org,
+ miaoqinglang@huawei.com, emil.velikov@collabora.com
+Subject: [PATCH 00/20] Convert all remaining drivers to GEM object functions
+Date: Thu, 13 Aug 2020 10:36:24 +0200
+Message-Id: <20200813083644.31711-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,107 +54,120 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Lucas Stach <l.stach@pengutronix.de>,
- etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Navid Emamdoost <navid.emamdoost@gmail.com>
+Cc: linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, amd-gfx@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, nouveau@lists.freedesktop.org,
+ linux-tegra@vger.kernel.org, xen-devel@lists.xenproject.org,
+ freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-From: Navid Emamdoost <navid.emamdoost@gmail.com>
+The GEM and PRIME related callbacks in struct drm_driver are deprecated in
+favor of GEM object functions in struct drm_gem_object_funcs. This patchset
+converts the remaining drivers to object functions and removes most of the
+obsolete interfaces.
 
-[ Upstream commit c5d5a32ead1e3a61a07a1e59eb52a53e4a6b2a7f ]
+Patches #1 to #18 convert DRM drivers to GEM object functions, one by one.
+Each patch moves existing callbacks from struct drm_driver to an instance
+of struct drm_gem_object_funcs, and sets these funcs when the GEM object is
+initialized. The expection is .gem_prime_mmap. There are different ways of
+how drivers implement the callback, and moving it to GEM object functions
+requires a closer review for each.
 
-in etnaviv_gpu_submit, etnaviv_gpu_recover_hang, etnaviv_gpu_debugfs,
-and etnaviv_gpu_init the call to pm_runtime_get_sync increments the
-counter even in case of failure, leading to incorrect ref count.
-In case of failure, decrement the ref count before returning.
+Patch #19 converts xlnx to CMA helper macros. There's no apparent reason
+why the driver does the GEM setup on it's own. Using CMA helper macros
+adds GEM object functions implicitly.
 
-Signed-off-by: Navid Emamdoost <navid.emamdoost@gmail.com>
-Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 14 ++++++++++----
- 1 file changed, 10 insertions(+), 4 deletions(-)
+With most of the GEM and PRIME moved to GEM object functions, related code
+in struct drm_driver and in the DRM core/helpers is being removed by patch
+#20.
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-index 6a859e077ea02..f17fbe6ff7c74 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-@@ -694,7 +694,7 @@ int etnaviv_gpu_init(struct etnaviv_gpu *gpu)
- 	ret = pm_runtime_get_sync(gpu->dev);
- 	if (ret < 0) {
- 		dev_err(gpu->dev, "Failed to enable GPU power domain\n");
--		return ret;
-+		goto pm_put;
- 	}
- 
- 	etnaviv_hw_identify(gpu);
-@@ -808,6 +808,7 @@ int etnaviv_gpu_init(struct etnaviv_gpu *gpu)
- 	gpu->mmu = NULL;
- fail:
- 	pm_runtime_mark_last_busy(gpu->dev);
-+pm_put:
- 	pm_runtime_put_autosuspend(gpu->dev);
- 
- 	return ret;
-@@ -848,7 +849,7 @@ int etnaviv_gpu_debugfs(struct etnaviv_gpu *gpu, struct seq_file *m)
- 
- 	ret = pm_runtime_get_sync(gpu->dev);
- 	if (ret < 0)
--		return ret;
-+		goto pm_put;
- 
- 	dma_lo = gpu_read(gpu, VIVS_FE_DMA_LOW);
- 	dma_hi = gpu_read(gpu, VIVS_FE_DMA_HIGH);
-@@ -971,6 +972,7 @@ int etnaviv_gpu_debugfs(struct etnaviv_gpu *gpu, struct seq_file *m)
- 	ret = 0;
- 
- 	pm_runtime_mark_last_busy(gpu->dev);
-+pm_put:
- 	pm_runtime_put_autosuspend(gpu->dev);
- 
- 	return ret;
-@@ -985,7 +987,7 @@ void etnaviv_gpu_recover_hang(struct etnaviv_gpu *gpu)
- 	dev_err(gpu->dev, "recover hung GPU!\n");
- 
- 	if (pm_runtime_get_sync(gpu->dev) < 0)
--		return;
-+		goto pm_put;
- 
- 	mutex_lock(&gpu->lock);
- 
-@@ -1005,6 +1007,7 @@ void etnaviv_gpu_recover_hang(struct etnaviv_gpu *gpu)
- 
- 	mutex_unlock(&gpu->lock);
- 	pm_runtime_mark_last_busy(gpu->dev);
-+pm_put:
- 	pm_runtime_put_autosuspend(gpu->dev);
- }
- 
-@@ -1278,8 +1281,10 @@ struct dma_fence *etnaviv_gpu_submit(struct etnaviv_gem_submit *submit)
- 
- 	if (!submit->runtime_resumed) {
- 		ret = pm_runtime_get_sync(gpu->dev);
--		if (ret < 0)
-+		if (ret < 0) {
-+			pm_runtime_put_noidle(gpu->dev);
- 			return NULL;
-+		}
- 		submit->runtime_resumed = true;
- 	}
- 
-@@ -1296,6 +1301,7 @@ struct dma_fence *etnaviv_gpu_submit(struct etnaviv_gem_submit *submit)
- 	ret = event_alloc(gpu, nr_events, event);
- 	if (ret) {
- 		DRM_ERROR("no free events\n");
-+		pm_runtime_put_noidle(gpu->dev);
- 		return NULL;
- 	}
- 
--- 
-2.25.1
+Further testing is welcome. I tested the drivers for which I have HW
+available, which are gma500, i915, nouveau, radeon and vc4. The console,
+Weston and Xorg apparently work with the patches applied.
+
+Thomas Zimmermann (20):
+  drm/amdgpu: Introduce GEM object functions
+  drm/armada: Introduce GEM object functions
+  drm/etnaviv: Introduce GEM object functions
+  drm/exynos: Introduce GEM object functions
+  drm/gma500: Introduce GEM object functions
+  drm/i915: Introduce GEM object functions
+  drm/mediatek: Introduce GEM object functions
+  drm/msm: Introduce GEM object funcs
+  drm/nouveau: Introduce GEM object functions
+  drm/omapdrm: Introduce GEM object functions
+  drm/pl111: Introduce GEM object functions
+  drm/radeon: Introduce GEM object functions
+  drm/rockchip: Convert to drm_gem_object_funcs
+  drm/tegra: Introduce GEM object functions
+  drm/vc4: Introduce GEM object functions
+  drm/vgem: Introduce GEM object functions
+  drm/vkms: Introduce GEM object functions
+  drm/xen: Introduce GEM object functions
+  drm/xlnx: Initialize DRM driver instance with CMA helper macro
+  drm: Remove obsolete GEM and PRIME callbacks from struct drm_driver
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c       |  6 --
+ drivers/gpu/drm/amd/amdgpu/amdgpu_object.c    | 12 +++
+ drivers/gpu/drm/armada/armada_drv.c           |  3 -
+ drivers/gpu/drm/armada/armada_gem.c           | 12 ++-
+ drivers/gpu/drm/armada/armada_gem.h           |  2 -
+ drivers/gpu/drm/drm_gem.c                     | 35 ++------
+ drivers/gpu/drm/drm_gem_cma_helper.c          |  6 +-
+ drivers/gpu/drm/drm_prime.c                   | 17 ++--
+ drivers/gpu/drm/etnaviv/etnaviv_drv.c         | 13 ---
+ drivers/gpu/drm/etnaviv/etnaviv_drv.h         |  1 -
+ drivers/gpu/drm/etnaviv/etnaviv_gem.c         | 19 ++++-
+ drivers/gpu/drm/exynos/exynos_drm_drv.c       | 10 ---
+ drivers/gpu/drm/exynos/exynos_drm_gem.c       | 15 ++++
+ drivers/gpu/drm/gma500/framebuffer.c          |  2 +
+ drivers/gpu/drm/gma500/gem.c                  | 18 +++-
+ drivers/gpu/drm/gma500/gem.h                  |  3 +
+ drivers/gpu/drm/gma500/psb_drv.c              |  9 --
+ drivers/gpu/drm/gma500/psb_drv.h              |  2 -
+ drivers/gpu/drm/i915/gem/i915_gem_object.c    |  9 +-
+ drivers/gpu/drm/i915/i915_drv.c               | 10 ++-
+ drivers/gpu/drm/i915/i915_drv.h               |  1 +
+ .../gpu/drm/i915/selftests/mock_gem_device.c  |  3 -
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c        |  5 --
+ drivers/gpu/drm/mediatek/mtk_drm_gem.c        | 11 +++
+ drivers/gpu/drm/msm/msm_drv.c                 | 13 ---
+ drivers/gpu/drm/msm/msm_drv.h                 |  1 -
+ drivers/gpu/drm/msm/msm_gem.c                 | 19 ++++-
+ drivers/gpu/drm/nouveau/nouveau_drm.c         |  9 --
+ drivers/gpu/drm/nouveau/nouveau_gem.c         | 13 +++
+ drivers/gpu/drm/nouveau/nouveau_gem.h         |  2 +
+ drivers/gpu/drm/nouveau/nouveau_prime.c       |  2 +
+ drivers/gpu/drm/omapdrm/omap_drv.c            |  9 --
+ drivers/gpu/drm/omapdrm/omap_gem.c            | 16 +++-
+ drivers/gpu/drm/omapdrm/omap_gem.h            |  1 -
+ drivers/gpu/drm/pl111/pl111_drv.c             | 28 +++++-
+ drivers/gpu/drm/radeon/radeon_drv.c           | 23 +----
+ drivers/gpu/drm/radeon/radeon_object.c        | 26 ++++++
+ drivers/gpu/drm/rockchip/rockchip_drm_drv.c   |  5 --
+ drivers/gpu/drm/rockchip/rockchip_drm_gem.c   | 10 +++
+ drivers/gpu/drm/tegra/drm.c                   |  4 -
+ drivers/gpu/drm/tegra/gem.c                   |  8 ++
+ drivers/gpu/drm/vc4/vc4_bo.c                  | 21 ++++-
+ drivers/gpu/drm/vc4/vc4_drv.c                 | 12 ---
+ drivers/gpu/drm/vc4/vc4_drv.h                 |  1 -
+ drivers/gpu/drm/vgem/vgem_drv.c               | 21 +++--
+ drivers/gpu/drm/vkms/vkms_drv.c               |  8 --
+ drivers/gpu/drm/vkms/vkms_gem.c               | 13 +++
+ drivers/gpu/drm/xen/xen_drm_front.c           | 12 +--
+ drivers/gpu/drm/xen/xen_drm_front.h           |  2 +
+ drivers/gpu/drm/xen/xen_drm_front_gem.c       | 15 ++++
+ drivers/gpu/drm/xlnx/zynqmp_dpsub.c           | 14 +--
+ include/drm/drm_drv.h                         | 85 +------------------
+ 52 files changed, 311 insertions(+), 306 deletions(-)
+
+--
+2.28.0
 
 _______________________________________________
 etnaviv mailing list
