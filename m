@@ -2,19 +2,19 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FC8324366A
-	for <lists+etnaviv@lfdr.de>; Thu, 13 Aug 2020 10:37:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 050F3243667
+	for <lists+etnaviv@lfdr.de>; Thu, 13 Aug 2020 10:37:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E68976E9BB;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 02B8B6E9AB;
 	Thu, 13 Aug 2020 08:37:04 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6DFA66E98B;
- Thu, 13 Aug 2020 08:37:01 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F9006E9AB;
+ Thu, 13 Aug 2020 08:37:02 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 0DE75B59E;
+ by mx2.suse.de (Postfix) with ESMTP id E7006B595;
  Thu, 13 Aug 2020 08:37:22 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: alexander.deucher@amd.com, christian.koenig@amd.com, airlied@linux.ie,
@@ -38,9 +38,9 @@ To: alexander.deucher@amd.com, christian.koenig@amd.com, airlied@linux.ie,
  matthew.auld@intel.com, abdiel.janulgue@linux.intel.com,
  tvrtko.ursulin@linux.intel.com, andi.shyti@intel.com, sam@ravnborg.org,
  miaoqinglang@huawei.com, emil.velikov@collabora.com
-Subject: [PATCH 10/20] drm/omapdrm: Introduce GEM object functions
-Date: Thu, 13 Aug 2020 10:36:34 +0200
-Message-Id: <20200813083644.31711-11-tzimmermann@suse.de>
+Subject: [PATCH 11/20] drm/pl111: Introduce GEM object functions
+Date: Thu, 13 Aug 2020 10:36:35 +0200
+Message-Id: <20200813083644.31711-12-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200813083644.31711-1-tzimmermann@suse.de>
 References: <20200813083644.31711-1-tzimmermann@suse.de>
@@ -70,96 +70,65 @@ Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
 GEM object functions deprecate several similar callback interfaces in
 struct drm_driver. This patch replaces the per-driver callbacks with
-per-instance callbacks in omapdrm.
+per-instance callbacks in pl111. The only exception is gem_prime_mmap,
+which is non-trivial to convert.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/omapdrm/omap_drv.c |  9 ---------
- drivers/gpu/drm/omapdrm/omap_gem.c | 16 +++++++++++++++-
- drivers/gpu/drm/omapdrm/omap_gem.h |  1 -
- 3 files changed, 15 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/pl111/pl111_drv.c | 28 ++++++++++++++++++++++++----
+ 1 file changed, 24 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/omapdrm/omap_drv.c b/drivers/gpu/drm/omapdrm/omap_drv.c
-index 53d5e184ee77..2e598b8b72af 100644
---- a/drivers/gpu/drm/omapdrm/omap_drv.c
-+++ b/drivers/gpu/drm/omapdrm/omap_drv.c
-@@ -521,12 +521,6 @@ static int dev_open(struct drm_device *dev, struct drm_file *file)
- 	return 0;
+diff --git a/drivers/gpu/drm/pl111/pl111_drv.c b/drivers/gpu/drm/pl111/pl111_drv.c
+index 46b0d1c4a16c..00b605060336 100644
+--- a/drivers/gpu/drm/pl111/pl111_drv.c
++++ b/drivers/gpu/drm/pl111/pl111_drv.c
+@@ -211,6 +211,29 @@ pl111_gem_import_sg_table(struct drm_device *dev,
+ 	return drm_gem_cma_prime_import_sg_table(dev, attach, sgt);
  }
  
--static const struct vm_operations_struct omap_gem_vm_ops = {
--	.fault = omap_gem_fault,
--	.open = drm_gem_vm_open,
--	.close = drm_gem_vm_close,
--};
--
- static const struct file_operations omapdriver_fops = {
- 	.owner = THIS_MODULE,
- 	.open = drm_open,
-@@ -549,10 +543,7 @@ static struct drm_driver omap_drm_driver = {
- #endif
++static const struct drm_gem_object_funcs pl111_gem_object_funcs = {
++	.free = drm_gem_cma_free_object,
++	.get_sg_table = drm_gem_cma_prime_get_sg_table,
++	.vmap = drm_gem_cma_prime_vmap,
++	.vm_ops = &drm_gem_cma_vm_ops,
++};
++
++static struct drm_gem_object *
++pl111_gem_create_object(struct drm_device *dev, size_t size)
++{
++	static struct drm_gem_cma_object *cma_obj;
++	struct drm_gem_object *obj;
++
++	cma_obj = kzalloc(sizeof(*cma_obj), GFP_KERNEL);
++	if (!cma_obj)
++		return NULL;
++
++	obj = &cma_obj->base;
++	obj->funcs = &pl111_gem_object_funcs;
++
++	return obj;
++}
++
+ DEFINE_DRM_GEM_CMA_FOPS(drm_fops);
+ 
+ static struct drm_driver pl111_drm_driver = {
+@@ -224,15 +247,12 @@ static struct drm_driver pl111_drm_driver = {
+ 	.major = 1,
+ 	.minor = 0,
+ 	.patchlevel = 0,
++	.gem_create_object = pl111_gem_create_object,
+ 	.dumb_create = drm_gem_cma_dumb_create,
+-	.gem_free_object_unlocked = drm_gem_cma_free_object,
+-	.gem_vm_ops = &drm_gem_cma_vm_ops,
  	.prime_handle_to_fd = drm_gem_prime_handle_to_fd,
  	.prime_fd_to_handle = drm_gem_prime_fd_to_handle,
--	.gem_prime_export = omap_gem_prime_export,
- 	.gem_prime_import = omap_gem_prime_import,
--	.gem_free_object_unlocked = omap_gem_free_object,
--	.gem_vm_ops = &omap_gem_vm_ops,
- 	.dumb_create = omap_gem_dumb_create,
- 	.dumb_map_offset = omap_gem_dumb_map_offset,
- 	.ioctls = ioctls,
-diff --git a/drivers/gpu/drm/omapdrm/omap_gem.c b/drivers/gpu/drm/omapdrm/omap_gem.c
-index d0d12d5dd76c..d68dc63dea0a 100644
---- a/drivers/gpu/drm/omapdrm/omap_gem.c
-+++ b/drivers/gpu/drm/omapdrm/omap_gem.c
-@@ -487,7 +487,7 @@ static vm_fault_t omap_gem_fault_2d(struct drm_gem_object *obj,
-  * vma->vm_private_data points to the GEM object that is backing this
-  * mapping.
-  */
--vm_fault_t omap_gem_fault(struct vm_fault *vmf)
-+static vm_fault_t omap_gem_fault(struct vm_fault *vmf)
- {
- 	struct vm_area_struct *vma = vmf->vma;
- 	struct drm_gem_object *obj = vma->vm_private_data;
-@@ -1169,6 +1169,18 @@ static bool omap_gem_validate_flags(struct drm_device *dev, u32 flags)
- 	return true;
- }
+ 	.gem_prime_import_sg_table = pl111_gem_import_sg_table,
+-	.gem_prime_get_sg_table	= drm_gem_cma_prime_get_sg_table,
+ 	.gem_prime_mmap = drm_gem_cma_prime_mmap,
+-	.gem_prime_vmap = drm_gem_cma_prime_vmap,
  
-+static const struct vm_operations_struct omap_gem_vm_ops = {
-+	.fault = omap_gem_fault,
-+	.open = drm_gem_vm_open,
-+	.close = drm_gem_vm_close,
-+};
-+
-+static const struct drm_gem_object_funcs omap_gem_object_funcs = {
-+	.free = omap_gem_free_object,
-+	.export = omap_gem_prime_export,
-+	.vm_ops = &omap_gem_vm_ops,
-+};
-+
- /* GEM buffer object constructor */
- struct drm_gem_object *omap_gem_new(struct drm_device *dev,
- 		union omap_gem_size gsize, u32 flags)
-@@ -1236,6 +1248,8 @@ struct drm_gem_object *omap_gem_new(struct drm_device *dev,
- 		size = PAGE_ALIGN(gsize.bytes);
- 	}
- 
-+	obj->funcs = &omap_gem_object_funcs;
-+
- 	/* Initialize the GEM object. */
- 	if (!(flags & OMAP_BO_MEM_SHMEM)) {
- 		drm_gem_private_object_init(dev, obj, size);
-diff --git a/drivers/gpu/drm/omapdrm/omap_gem.h b/drivers/gpu/drm/omapdrm/omap_gem.h
-index 729b7812a815..9e6b5c8195d9 100644
---- a/drivers/gpu/drm/omapdrm/omap_gem.h
-+++ b/drivers/gpu/drm/omapdrm/omap_gem.h
-@@ -69,7 +69,6 @@ struct dma_buf *omap_gem_prime_export(struct drm_gem_object *obj, int flags);
- struct drm_gem_object *omap_gem_prime_import(struct drm_device *dev,
- 		struct dma_buf *buffer);
- 
--vm_fault_t omap_gem_fault(struct vm_fault *vmf);
- int omap_gem_roll(struct drm_gem_object *obj, u32 roll);
- void omap_gem_cpu_sync_page(struct drm_gem_object *obj, int pgoff);
- void omap_gem_dma_sync_buffer(struct drm_gem_object *obj,
+ #if defined(CONFIG_DEBUG_FS)
+ 	.debugfs_init = pl111_debugfs_init,
 -- 
 2.28.0
 
