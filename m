@@ -1,41 +1,50 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FB7F24FC3D
-	for <lists+etnaviv@lfdr.de>; Mon, 24 Aug 2020 13:05:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A787624FD04
+	for <lists+etnaviv@lfdr.de>; Mon, 24 Aug 2020 13:54:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E2CB6E1F3;
-	Mon, 24 Aug 2020 11:05:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2959889BA5;
+	Mon, 24 Aug 2020 11:54:58 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [85.220.165.71])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A15E6E1E8
- for <etnaviv@lists.freedesktop.org>; Mon, 24 Aug 2020 11:05:00 +0000 (UTC)
-Received: from [2001:67c:670:201:5054:ff:fe8d:eefb] (helo=localhost)
- by metis.ext.pengutronix.de with esmtps
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk
+ [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D82A689BA5
+ for <etnaviv@lists.freedesktop.org>; Mon, 24 Aug 2020 11:54:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+ MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+ Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+ List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=O0ghGm5L+2WoN6SjDvrmivUt079RCiVuAqMqQ4o7fNg=; b=NcSmPXPqDgNFdFVCwrel9mWRe
+ SJmIrrhGue9LyVFUKHm2hq7pQtMcAUkXlu7ko5Fj9UyzuWzZxaPQ2egSf58+A1lI84uQloFO3bU4d
+ LhRP1NVNB3l2aGjJPN9Etge3U5PO5afxCg2BytBuFwZmx+t3tC2/fvq8ulDA4EbJ97aY7W9ZoQuX6
+ dSu2w0is645d9mvOKN+JeH1/IurFaaqxK/e0VNBUEaYrgMD4XrZNhuKfVvFy2p06sLabrRKyGrFbm
+ Oi09TWbXs4c2nQI+7PnngEnM9V6EFri3qhdWtRFsfNtzp4N0izdyd3ZPjHHtFVnP0vl/ezu06iQ4s
+ ILUcPljJQ==;
+Received: from shell.armlinux.org.uk
+ ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:56530)
+ by pandora.armlinux.org.uk with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1kAAHW-0000RH-8m; Mon, 24 Aug 2020 13:04:54 +0200
-Message-ID: <25afd4892c3d73c247293a99a666192d3d40df10.camel@pengutronix.de>
-Subject: Re: [PATCH] drm/etnaviv: fix external abort seen on GC600 rev 0x19
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Russell King - ARM Linux admin <linux@armlinux.org.uk>, Christian
- Gmeiner <christian.gmeiner@gmail.com>
-Date: Mon, 24 Aug 2020 13:04:13 +0200
-In-Reply-To: <20200823191956.GH1551@shell.armlinux.org.uk>
-References: <20200821181731.94852-1-christian.gmeiner@gmail.com>
- <4dbee9c7-8a59-9250-ab13-394cbab689a8@jm0.eu>
- <CAH9NwWdLnwb0BiR6qAHKFexFm2NJkpHv7Z7YAdQ7fJBVxjGH4w@mail.gmail.com>
- <20200823191956.GH1551@shell.armlinux.org.uk>
-User-Agent: Evolution 3.36.5 (3.36.5-1.fc32) 
+ (envelope-from <linux@armlinux.org.uk>)
+ id 1kAB3v-0008VB-86; Mon, 24 Aug 2020 12:54:55 +0100
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.92)
+ (envelope-from <linux@shell.armlinux.org.uk>)
+ id 1kAB3t-0007O5-QS; Mon, 24 Aug 2020 12:54:53 +0100
+Date: Mon, 24 Aug 2020 12:54:53 +0100
+From: Russell King - ARM Linux admin <linux@armlinux.org.uk>
+To: Lucas Stach <l.stach@pengutronix.de>
+Subject: Re: [PATCH] drm/etnaviv: always start/stop scheduler in timeout
+ processing
+Message-ID: <20200824115453.GI1551@shell.armlinux.org.uk>
+References: <20200824110248.5998-1-l.stach@pengutronix.de>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
+Content-Disposition: inline
+In-Reply-To: <20200824110248.5998-1-l.stach@pengutronix.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,68 +56,88 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
- stable@vger.kernel.org, The etnaviv authors <etnaviv@lists.freedesktop.org>,
- DRI mailing list <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel@ffwll.ch>, "Ing. Josua Mayer" <josua.mayer@jm0.eu>
+Cc: kernel@pengutronix.de, Christian Gmeiner <christian.gmeiner@gmail.com>,
+ etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ patchwork-lst@pengutronix.de
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Hi Russell,
-
-Am Sonntag, den 23.08.2020, 20:19 +0100 schrieb Russell King - ARM Linux admin:
-> On Sun, Aug 23, 2020 at 09:10:25PM +0200, Christian Gmeiner wrote:
-> > Hi
-> > 
-> > > I have formally tested the patch with 5.7.10 - and it doesn't resolve
-> > > the issue - sadly :(
-> > > 
-> > > From my testing, the reads on
-> > > VIVS_HI_CHIP_PRODUCT_ID
-> > > VIVS_HI_CHIP_ECO_ID
-> > > need to be conditional - while
-> > > VIVS_HI_CHIP_CUSTOMER_ID
-> > > seems to be okay.
-> > > 
-> > 
-> > Uhh.. okay.. just send a V2 - thanks for testing :)
+On Mon, Aug 24, 2020 at 01:02:48PM +0200, Lucas Stach wrote:
+> The drm scheduler currently expects that the stop/start sequence is always
+> executed in the timeout handling, as the job at the head of the hardware
+> execution list is always removed from the ring mirror before the driver
+> function is called and only inserted back into the list when starting the
+> scheduler.
 > 
-> There is also something else going on with the GC600 - 5.4 worked fine,
-> 5.8 doesn't - my 2D Xorg driver gets stuck waiting on a BO after just
-> a couple of minutes.  Looking in debugfs, there's a whole load of BOs
-> that are listed as "active", yet the GPU is idle:
+> This adds some unnecessary overhead if the timeout handler determines
+> that the GPU is still executing jobs normally and just wished to extend
+> the timeout, but a better solution requires a major rearchitecture of the
+> scheduler, which is not applicable as a fix.
 > 
->    00020000: A  0 ( 7) 00000000 00000000 8294400
->    00010000: I  0 ( 1) 00000000 00000000 4096
->    00010000: I  0 ( 1) 00000000 00000000 4096
->    00010000: I  0 ( 1) 00000000 00000000 327680
->    00010000: A  0 ( 7) 00000000 00000000 8388608
->    00010000: I  0 ( 1) 00000000 00000000 8388608
->    00010000: I  0 ( 1) 00000000 00000000 8388608
->    00010000: A  0 ( 7) 00000000 00000000 8388608
->    00010000: A  0 ( 3) 00000000 00000000 8388608
->    00010000: A  0 ( 4) 00000000 00000000 8388608
->    00010000: A  0 ( 3) 00000000 00000000 8388608
->    00010000: A  0 ( 3) 00000000 00000000 8388608
->    00010000: A  0 ( 3) 00000000 00000000 8388608
-> ....
->    00010000: A  0 ( 3) 00000000 00000000 8388608
-> Total 38 objects, 293842944 bytes
+> Fixes: 135517d3565b drm/scheduler: Avoid accessing freed bad job.)
+> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+
+From a brief test, this seems to fix the problem, thanks.
+
+Tested-by: Russell King <rmk+kernel@armlinux.org.uk>
+
+> ---
+>  drivers/gpu/drm/etnaviv/etnaviv_sched.c | 11 ++++++-----
+>  1 file changed, 6 insertions(+), 5 deletions(-)
 > 
-> My guess is there's something up with the way a job completes that's
-> causing the BOs not to be marked inactive.  I haven't yet been able
-> to debug any further.
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sched.c b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+> index 4e3e95dce6d8..cd46c882269c 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+> @@ -89,12 +89,15 @@ static void etnaviv_sched_timedout_job(struct drm_sched_job *sched_job)
+>  	u32 dma_addr;
+>  	int change;
+>  
+> +	/* block scheduler */
+> +	drm_sched_stop(&gpu->sched, sched_job);
+> +
+>  	/*
+>  	 * If the GPU managed to complete this jobs fence, the timout is
+>  	 * spurious. Bail out.
+>  	 */
+>  	if (dma_fence_is_signaled(submit->out_fence))
+> -		return;
+> +		goto out_no_timeout;
+>  
+>  	/*
+>  	 * If the GPU is still making forward progress on the front-end (which
+> @@ -105,12 +108,9 @@ static void etnaviv_sched_timedout_job(struct drm_sched_job *sched_job)
+>  	change = dma_addr - gpu->hangcheck_dma_addr;
+>  	if (change < 0 || change > 16) {
+>  		gpu->hangcheck_dma_addr = dma_addr;
+> -		return;
+> +		goto out_no_timeout;
+>  	}
+>  
+> -	/* block scheduler */
+> -	drm_sched_stop(&gpu->sched, sched_job);
+> -
+>  	if(sched_job)
+>  		drm_sched_increase_karma(sched_job);
+>  
+> @@ -120,6 +120,7 @@ static void etnaviv_sched_timedout_job(struct drm_sched_job *sched_job)
+>  
+>  	drm_sched_resubmit_jobs(&gpu->sched);
+>  
+> +out_no_timeout:
+>  	/* restart scheduler after GPU is usable again */
+>  	drm_sched_start(&gpu->sched, true);
+>  }
+> -- 
+> 2.20.1
+> 
+> 
 
-The patch I just sent out should fix this issue. The DRM scheduler is
-doing some funny business which breaks our job done signalling if the
-GPU timeout has been hit, even if our timeout handler is just extending
-the timeout as the GPU is still working normally.
-
-Regards,
-Lucas
-
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
 _______________________________________________
 etnaviv mailing list
 etnaviv@lists.freedesktop.org
