@@ -1,79 +1,40 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0510125C686
-	for <lists+etnaviv@lfdr.de>; Thu,  3 Sep 2020 18:17:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BBBD325CFEF
+	for <lists+etnaviv@lfdr.de>; Fri,  4 Sep 2020 05:49:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB9C46E1F7;
-	Thu,  3 Sep 2020 16:17:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 39DBB6E21C;
+	Fri,  4 Sep 2020 03:49:55 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [207.211.31.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E00B6E1F7
- for <etnaviv@lists.freedesktop.org>; Thu,  3 Sep 2020 16:17:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599149845;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:mime-version:mime-version:
- content-type:content-type: content-transfer-encoding:content-transfer-encoding;
- bh=u3UKX1foVctwA0pjlmKCaupVmNxBUnqY8/QtNhjTAM4=;
- b=eP7GmeR8v0wiTpQF1JzM2w061TA+O9mkkvWIpdOuK04hEPmKcZilhyGoYcRc7jhI3Mn2Sm
- Y7ETs8UNUd7UdGq7xksQXDgIV+1Gm8Xi7AEZ/+1Cz+WdUj3E5IzA2+EilueBp4OG9lrEvH
- XQ2e4ftA9OZYFdVdNkry2sFanv4qwXo=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-17-LIcBYA1hO2Omc3oP6OPJog-1; Thu, 03 Sep 2020 12:16:16 -0400
-X-MC-Unique: LIcBYA1hO2Omc3oP6OPJog-1
-Received: by mail-qv1-f69.google.com with SMTP id y7so2095584qvj.11
- for <etnaviv@lists.freedesktop.org>; Thu, 03 Sep 2020 09:16:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:reply-to:to:date
- :organization:user-agent:mime-version:content-transfer-encoding;
- bh=u3UKX1foVctwA0pjlmKCaupVmNxBUnqY8/QtNhjTAM4=;
- b=oj40codMRKViJuJbNUkw69/XpelAG6GVfzSVwI610z0KvPyQhU6CjmjVJHaaQexuqm
- QN82BUbgoR6k7kM+uuz39yG5hK4dQxkOqXCtmFcuxUfxbLVaNGEKCKhMPjnK/sVD0mj0
- bs6CUrB3mMU4lEXcSHQPeZ554Re60+p6v6is+dNTrp70+rUxVct/kITTqCHSy3h0j8oe
- fhby+R3A0kPakAzO67SrnSMNXNri5qIO0fThwZqhMZkSUl519mIlVbn9CB4olWHojuuI
- OCDL/Jc83Q7EMfRb52pZ3AKRaniP/PdThio/Yz1/yajF4SzOKjKiD5RzafZzhZnIQytu
- 0pfA==
-X-Gm-Message-State: AOAM531IwVdspIkvve1VWTGHKE/xBtDzczHTsYixwRfToNA/vEcEXeUw
- ls9TYjhsc/xItVpCuAFN9GcxBLd44JnvCfQuN5LltCXWs7BcMstv7C6x9JBuRKniJPJgdkAS3A2
- dCPQKkFPcAawZyuRVxUnqzaaGVg==
-X-Received: by 2002:a37:4856:: with SMTP id v83mr3858199qka.213.1599149773620; 
- Thu, 03 Sep 2020 09:16:13 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwnfAdAK5CNCb5UmSVJq15cU0SizGC7Yx7dV8yC6nzLLK6R0zfayileCjx+GmqCX6TZawwcfg==
-X-Received: by 2002:a37:4856:: with SMTP id v83mr3858162qka.213.1599149773275; 
- Thu, 03 Sep 2020 09:16:13 -0700 (PDT)
-Received: from Whitewolf.lyude.net
- (pool-108-49-102-102.bstnma.fios.verizon.net. [108.49.102.102])
- by smtp.gmail.com with ESMTPSA id v14sm2295211qto.81.2020.09.03.09.16.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Sep 2020 09:16:12 -0700 (PDT)
-Message-ID: <a171fea35e5dab03873876e221ab15b74ab24d62.camel@redhat.com>
-Subject: [RESEND] Requests For Proposals for hosting XDC2021 are now open
-From: Lyude Paul <lyude@redhat.com>
-To: "events@lists.x.org" <events@lists.x.org>, 
- "xorg-devel@lists.freedesktop.org"
- <xorg-devel@lists.freedesktop.org>, "wayland-devel@lists.freedesktop.org"
- <wayland-devel@lists.freedesktop.org>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "mesa-dev@lists.freedesktop.org"
- <mesa-dev@lists.freedesktop.org>, "amd-gfx@lists.freedesktop.org"
- <amd-gfx@lists.freedesktop.org>, "etnaviv@lists.freedesktop.org"
- <etnaviv@lists.freedesktop.org>, "freedreno@lists.freedesktop.org"
- <freedreno@lists.freedesktop.org>, "nouveau@lists.freedesktop.org"
- <nouveau@lists.freedesktop.org>, "intel-gfx@lists.freedesktop.org"
- <intel-gfx@lists.freedesktop.org>
-Date: Thu, 03 Sep 2020 12:16:11 -0400
-Organization: Red Hat
-User-Agent: Evolution 3.36.5 (3.36.5-1.fc32)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 6A7216E8C9;
+ Tue,  1 Sep 2020 18:39:39 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 662D11FB;
+ Tue,  1 Sep 2020 11:39:38 -0700 (PDT)
+Received: from [10.57.40.122] (unknown [10.57.40.122])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D9C8F3F71F;
+ Tue,  1 Sep 2020 11:39:34 -0700 (PDT)
+Subject: Re: [PATCH v9 05/32] drm: etnaviv: fix common struct sg_table related
+ issues
+To: Marek Szyprowski <m.szyprowski@samsung.com>,
+ dri-devel@lists.freedesktop.org, iommu@lists.linux-foundation.org,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
+References: <20200826063316.23486-1-m.szyprowski@samsung.com>
+ <CGME20200826063530eucas1p16acb847d7da0ea734bef507688a76c5a@eucas1p1.samsung.com>
+ <20200826063316.23486-6-m.szyprowski@samsung.com>
+From: Robin Murphy <robin.murphy@arm.com>
+Message-ID: <57a23432-87f3-c6b3-0623-1ddd3c569e90@arm.com>
+Date: Tue, 1 Sep 2020 19:39:32 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
-X-Mimecast-Spam-Score: 0.001
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20200826063316.23486-6-m.szyprowski@samsung.com>
+Content-Language: en-GB
+X-Mailman-Approved-At: Fri, 04 Sep 2020 03:49:53 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,51 +46,135 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: lyude@redhat.com
-Content-Type: text/plain; charset="us-ascii"
+Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ David Airlie <airlied@linux.ie>, etnaviv@lists.freedesktop.org,
+ Daniel Vetter <daniel@ffwll.ch>, Christoph Hellwig <hch@lst.de>,
+ linux-arm-kernel@lists.infradead.org, Lucas Stach <l.stach@pengutronix.de>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-(Including a bunch more emails in the To: that got missed the first time)
+On 2020-08-26 07:32, Marek Szyprowski wrote:
+> The Documentation/DMA-API-HOWTO.txt states that the dma_map_sg() function
+> returns the number of the created entries in the DMA address space.
+> However the subsequent calls to the dma_sync_sg_for_{device,cpu}() and
+> dma_unmap_sg must be called with the original number of the entries
+> passed to the dma_map_sg().
+> 
+> struct sg_table is a common structure used for describing a non-contiguous
+> memory buffer, used commonly in the DRM and graphics subsystems. It
+> consists of a scatterlist with memory pages and DMA addresses (sgl entry),
+> as well as the number of scatterlist entries: CPU pages (orig_nents entry)
+> and DMA mapped pages (nents entry).
+> 
+> It turned out that it was a common mistake to misuse nents and orig_nents
+> entries, calling DMA-mapping functions with a wrong number of entries or
+> ignoring the number of mapped entries returned by the dma_map_sg()
+> function.
+> 
+> To avoid such issues, lets use a common dma-mapping wrappers operating
+> directly on the struct sg_table objects and use scatterlist page
+> iterators where possible. This, almost always, hides references to the
+> nents and orig_nents entries, making the code robust, easier to follow
+> and copy/paste safe.
+> 
+> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+> ---
+>   drivers/gpu/drm/etnaviv/etnaviv_gem.c | 12 +++++-------
+>   drivers/gpu/drm/etnaviv/etnaviv_mmu.c | 13 +++----------
+>   2 files changed, 8 insertions(+), 17 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+> index f06e19e7be04..eaf1949bc2e4 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+> @@ -27,7 +27,7 @@ static void etnaviv_gem_scatter_map(struct etnaviv_gem_object *etnaviv_obj)
+>   	 * because display controller, GPU, etc. are not coherent.
+>   	 */
+>   	if (etnaviv_obj->flags & ETNA_BO_CACHE_MASK)
+> -		dma_map_sg(dev->dev, sgt->sgl, sgt->nents, DMA_BIDIRECTIONAL);
+> +		dma_map_sgtable(dev->dev, sgt, DMA_BIDIRECTIONAL, 0);
+>   }
+>   
+>   static void etnaviv_gem_scatterlist_unmap(struct etnaviv_gem_object *etnaviv_obj)
+> @@ -51,7 +51,7 @@ static void etnaviv_gem_scatterlist_unmap(struct etnaviv_gem_object *etnaviv_obj
+>   	 * discard those writes.
+>   	 */
+>   	if (etnaviv_obj->flags & ETNA_BO_CACHE_MASK)
+> -		dma_unmap_sg(dev->dev, sgt->sgl, sgt->nents, DMA_BIDIRECTIONAL);
+> +		dma_unmap_sgtable(dev->dev, sgt, DMA_BIDIRECTIONAL, 0);
+>   }
+>   
+>   /* called with etnaviv_obj->lock held */
+> @@ -404,9 +404,8 @@ int etnaviv_gem_cpu_prep(struct drm_gem_object *obj, u32 op,
+>   	}
+>   
+>   	if (etnaviv_obj->flags & ETNA_BO_CACHED) {
+> -		dma_sync_sg_for_cpu(dev->dev, etnaviv_obj->sgt->sgl,
+> -				    etnaviv_obj->sgt->nents,
+> -				    etnaviv_op_to_dma_dir(op));
+> +		dma_sync_sgtable_for_cpu(dev->dev, etnaviv_obj->sgt,
+> +					 etnaviv_op_to_dma_dir(op));
+>   		etnaviv_obj->last_cpu_prep_op = op;
+>   	}
+>   
+> @@ -421,8 +420,7 @@ int etnaviv_gem_cpu_fini(struct drm_gem_object *obj)
+>   	if (etnaviv_obj->flags & ETNA_BO_CACHED) {
+>   		/* fini without a prep is almost certainly a userspace error */
+>   		WARN_ON(etnaviv_obj->last_cpu_prep_op == 0);
+> -		dma_sync_sg_for_device(dev->dev, etnaviv_obj->sgt->sgl,
+> -			etnaviv_obj->sgt->nents,
+> +		dma_sync_sgtable_for_device(dev->dev, etnaviv_obj->sgt,
+>   			etnaviv_op_to_dma_dir(etnaviv_obj->last_cpu_prep_op));
+>   		etnaviv_obj->last_cpu_prep_op = 0;
+>   	}
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_mmu.c b/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
+> index 3607d348c298..13b100553a0b 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
+> @@ -79,7 +79,7 @@ static int etnaviv_iommu_map(struct etnaviv_iommu_context *context, u32 iova,
+>   	if (!context || !sgt)
+>   		return -EINVAL;
+>   
+> -	for_each_sg(sgt->sgl, sg, sgt->nents, i) {
+> +	for_each_sgtable_dma_sg(sgt, sg, i) {
+>   		u32 pa = sg_dma_address(sg) - sg->offset;
+>   		size_t bytes = sg_dma_len(sg) + sg->offset;
+>   
+> @@ -95,14 +95,7 @@ static int etnaviv_iommu_map(struct etnaviv_iommu_context *context, u32 iova,
+>   	return 0;
+>   
+>   fail:
+> -	da = iova;
+> -
+> -	for_each_sg(sgt->sgl, sg, i, j) {
+> -		size_t bytes = sg_dma_len(sg) + sg->offset;
+> -
+> -		etnaviv_context_unmap(context, da, bytes);
+> -		da += bytes;
+> -	}
+> +	etnaviv_context_unmap(context, iova, da - iova);
 
-Hello everyone!
+I had to take a closer look to figure this out, but AFAICS it does 
+indeed work out as a simpler way of achieving the exact same result, and 
+in fact neatly mirrors how etnaviv_context_map() itself cleans up.
 
-The X.org board is soliciting proposals to host XDC in 2021. Since
-XDC2020 is being held virtually this year, we've decided to host in
-either North America or Europe. However, the board is open to other
-locations, especially if there's an interesting co-location with another
-conference.
+Reviewed-by: Robin Murphy <robin.murphy@arm.com>
 
-Of course though, due to the ongoing COVID-19 pandemic it's not yet
-clear whether or not it will be possible to host XDC2021 in person.
-Because of this, we would like to make it clear that sponsors should
-prepare for both the possibility of an in person conference, and the
-possibility of a virtual conference. We will work with organizers on
-coming up with a deadline for deciding whether or not we'll be going
-virtual, likely sometime around July.
-
-If you're considering hosting XDC, we've assembled a wiki page with
-what's generally expected and needed:
-
-https://www.x.org/wiki/Events/RFP/
-
-When submitting your proposal, please make sure to include at least the
-key information about the potential location in question, possible dates
-along with estimated costs. Proposals can be submitted to board at
-foundation.x.org until the deadline of November 1st. Additionally, an
-quirk early heads-up to the board if you're considering hosting would be
-appreciated, in case we need to adjust the schedule a bit. Also, earlier
-is better since there generally will be a bit of Q&A with organizers.
-
-And if you just have some questions about what organizing XDC entails,
-please feel free to chat with previous organizers, or someone from the
-board.
--- 
-Sincerely,
-      Lyude Paul (she/her)
-      Software Engineer at Red Hat
-
+>   	return ret;
+>   }
+>   
+> @@ -113,7 +106,7 @@ static void etnaviv_iommu_unmap(struct etnaviv_iommu_context *context, u32 iova,
+>   	unsigned int da = iova;
+>   	int i;
+>   
+> -	for_each_sg(sgt->sgl, sg, sgt->nents, i) {
+> +	for_each_sgtable_dma_sg(sgt, sg, i) {
+>   		size_t bytes = sg_dma_len(sg) + sg->offset;
+>   
+>   		etnaviv_context_unmap(context, da, bytes);
+> 
 _______________________________________________
 etnaviv mailing list
 etnaviv@lists.freedesktop.org
