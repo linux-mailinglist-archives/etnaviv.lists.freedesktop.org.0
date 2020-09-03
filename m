@@ -2,38 +2,31 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBBD325CFEF
+	by mail.lfdr.de (Postfix) with ESMTPS id 06F5125CFEE
 	for <lists+etnaviv@lfdr.de>; Fri,  4 Sep 2020 05:49:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 39DBB6E21C;
-	Fri,  4 Sep 2020 03:49:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C6C86E21B;
+	Fri,  4 Sep 2020 03:49:54 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 6A7216E8C9;
- Tue,  1 Sep 2020 18:39:39 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 363CD6E923;
+ Thu,  3 Sep 2020 20:40:29 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 662D11FB;
- Tue,  1 Sep 2020 11:39:38 -0700 (PDT)
-Received: from [10.57.40.122] (unknown [10.57.40.122])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D9C8F3F71F;
- Tue,  1 Sep 2020 11:39:34 -0700 (PDT)
-Subject: Re: [PATCH v9 05/32] drm: etnaviv: fix common struct sg_table related
- issues
-To: Marek Szyprowski <m.szyprowski@samsung.com>,
- dri-devel@lists.freedesktop.org, iommu@lists.linux-foundation.org,
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
-References: <20200826063316.23486-1-m.szyprowski@samsung.com>
- <CGME20200826063530eucas1p16acb847d7da0ea734bef507688a76c5a@eucas1p1.samsung.com>
- <20200826063316.23486-6-m.szyprowski@samsung.com>
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EC7291045;
+ Thu,  3 Sep 2020 13:40:28 -0700 (PDT)
+Received: from e121345-lin.cambridge.arm.com (e121345-lin.cambridge.arm.com
+ [10.1.196.37])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id BEF983F71F;
+ Thu,  3 Sep 2020 13:40:27 -0700 (PDT)
 From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <57a23432-87f3-c6b3-0623-1ddd3c569e90@arm.com>
-Date: Tue, 1 Sep 2020 19:39:32 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+To: l.stach@pengutronix.de, linux+etnaviv@armlinux.org.uk,
+ christian.gmeiner@gmail.com
+Subject: [PATCH] drm/etnaviv: Drop local dma_parms
+Date: Thu,  3 Sep 2020 21:40:23 +0100
+Message-Id: <360728864e7aae4b839877d0bc49109fcf8dd14e.1599165521.git.robin.murphy@arm.com>
+X-Mailer: git-send-email 2.28.0.dirty
 MIME-Version: 1.0
-In-Reply-To: <20200826063316.23486-6-m.szyprowski@samsung.com>
-Content-Language: en-GB
 X-Mailman-Approved-At: Fri, 04 Sep 2020 03:49:53 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -46,135 +39,58 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- David Airlie <airlied@linux.ie>, etnaviv@lists.freedesktop.org,
- Daniel Vetter <daniel@ffwll.ch>, Christoph Hellwig <hch@lst.de>,
- linux-arm-kernel@lists.infradead.org, Lucas Stach <l.stach@pengutronix.de>
+Cc: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-On 2020-08-26 07:32, Marek Szyprowski wrote:
-> The Documentation/DMA-API-HOWTO.txt states that the dma_map_sg() function
-> returns the number of the created entries in the DMA address space.
-> However the subsequent calls to the dma_sync_sg_for_{device,cpu}() and
-> dma_unmap_sg must be called with the original number of the entries
-> passed to the dma_map_sg().
-> 
-> struct sg_table is a common structure used for describing a non-contiguous
-> memory buffer, used commonly in the DRM and graphics subsystems. It
-> consists of a scatterlist with memory pages and DMA addresses (sgl entry),
-> as well as the number of scatterlist entries: CPU pages (orig_nents entry)
-> and DMA mapped pages (nents entry).
-> 
-> It turned out that it was a common mistake to misuse nents and orig_nents
-> entries, calling DMA-mapping functions with a wrong number of entries or
-> ignoring the number of mapped entries returned by the dma_map_sg()
-> function.
-> 
-> To avoid such issues, lets use a common dma-mapping wrappers operating
-> directly on the struct sg_table objects and use scatterlist page
-> iterators where possible. This, almost always, hides references to the
-> nents and orig_nents entries, making the code robust, easier to follow
-> and copy/paste safe.
-> 
-> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
-> ---
->   drivers/gpu/drm/etnaviv/etnaviv_gem.c | 12 +++++-------
->   drivers/gpu/drm/etnaviv/etnaviv_mmu.c | 13 +++----------
->   2 files changed, 8 insertions(+), 17 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-> index f06e19e7be04..eaf1949bc2e4 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-> @@ -27,7 +27,7 @@ static void etnaviv_gem_scatter_map(struct etnaviv_gem_object *etnaviv_obj)
->   	 * because display controller, GPU, etc. are not coherent.
->   	 */
->   	if (etnaviv_obj->flags & ETNA_BO_CACHE_MASK)
-> -		dma_map_sg(dev->dev, sgt->sgl, sgt->nents, DMA_BIDIRECTIONAL);
-> +		dma_map_sgtable(dev->dev, sgt, DMA_BIDIRECTIONAL, 0);
->   }
->   
->   static void etnaviv_gem_scatterlist_unmap(struct etnaviv_gem_object *etnaviv_obj)
-> @@ -51,7 +51,7 @@ static void etnaviv_gem_scatterlist_unmap(struct etnaviv_gem_object *etnaviv_obj
->   	 * discard those writes.
->   	 */
->   	if (etnaviv_obj->flags & ETNA_BO_CACHE_MASK)
-> -		dma_unmap_sg(dev->dev, sgt->sgl, sgt->nents, DMA_BIDIRECTIONAL);
-> +		dma_unmap_sgtable(dev->dev, sgt, DMA_BIDIRECTIONAL, 0);
->   }
->   
->   /* called with etnaviv_obj->lock held */
-> @@ -404,9 +404,8 @@ int etnaviv_gem_cpu_prep(struct drm_gem_object *obj, u32 op,
->   	}
->   
->   	if (etnaviv_obj->flags & ETNA_BO_CACHED) {
-> -		dma_sync_sg_for_cpu(dev->dev, etnaviv_obj->sgt->sgl,
-> -				    etnaviv_obj->sgt->nents,
-> -				    etnaviv_op_to_dma_dir(op));
-> +		dma_sync_sgtable_for_cpu(dev->dev, etnaviv_obj->sgt,
-> +					 etnaviv_op_to_dma_dir(op));
->   		etnaviv_obj->last_cpu_prep_op = op;
->   	}
->   
-> @@ -421,8 +420,7 @@ int etnaviv_gem_cpu_fini(struct drm_gem_object *obj)
->   	if (etnaviv_obj->flags & ETNA_BO_CACHED) {
->   		/* fini without a prep is almost certainly a userspace error */
->   		WARN_ON(etnaviv_obj->last_cpu_prep_op == 0);
-> -		dma_sync_sg_for_device(dev->dev, etnaviv_obj->sgt->sgl,
-> -			etnaviv_obj->sgt->nents,
-> +		dma_sync_sgtable_for_device(dev->dev, etnaviv_obj->sgt,
->   			etnaviv_op_to_dma_dir(etnaviv_obj->last_cpu_prep_op));
->   		etnaviv_obj->last_cpu_prep_op = 0;
->   	}
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_mmu.c b/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
-> index 3607d348c298..13b100553a0b 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
-> @@ -79,7 +79,7 @@ static int etnaviv_iommu_map(struct etnaviv_iommu_context *context, u32 iova,
->   	if (!context || !sgt)
->   		return -EINVAL;
->   
-> -	for_each_sg(sgt->sgl, sg, sgt->nents, i) {
-> +	for_each_sgtable_dma_sg(sgt, sg, i) {
->   		u32 pa = sg_dma_address(sg) - sg->offset;
->   		size_t bytes = sg_dma_len(sg) + sg->offset;
->   
-> @@ -95,14 +95,7 @@ static int etnaviv_iommu_map(struct etnaviv_iommu_context *context, u32 iova,
->   	return 0;
->   
->   fail:
-> -	da = iova;
-> -
-> -	for_each_sg(sgt->sgl, sg, i, j) {
-> -		size_t bytes = sg_dma_len(sg) + sg->offset;
-> -
-> -		etnaviv_context_unmap(context, da, bytes);
-> -		da += bytes;
-> -	}
-> +	etnaviv_context_unmap(context, iova, da - iova);
+Since commit 9495b7e92f71 ("driver core: platform: Initialize dma_parms
+for platform devices"), struct platform_device already provides a
+dma_parms structure, so we can save allocating another one.
 
-I had to take a closer look to figure this out, but AFAICS it does 
-indeed work out as a simpler way of achieving the exact same result, and 
-in fact neatly mirrors how etnaviv_context_map() itself cleans up.
+Signed-off-by: Robin Murphy <robin.murphy@arm.com>
+---
+ drivers/gpu/drm/etnaviv/etnaviv_drv.c | 3 ---
+ drivers/gpu/drm/etnaviv/etnaviv_drv.h | 1 -
+ 2 files changed, 4 deletions(-)
 
-Reviewed-by: Robin Murphy <robin.murphy@arm.com>
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+index a9a3afaef9a1..79b3bcd9f444 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+@@ -535,7 +535,6 @@ static int etnaviv_bind(struct device *dev)
+ 	}
+ 	drm->dev_private = priv;
+ 
+-	dev->dma_parms = &priv->dma_parms;
+ 	dma_set_max_seg_size(dev, SZ_2G);
+ 
+ 	mutex_init(&priv->gem_lock);
+@@ -585,8 +584,6 @@ static void etnaviv_unbind(struct device *dev)
+ 
+ 	component_unbind_all(dev, drm);
+ 
+-	dev->dma_parms = NULL;
+-
+ 	etnaviv_cmdbuf_suballoc_destroy(priv->cmdbuf_suballoc);
+ 
+ 	drm->dev_private = NULL;
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.h b/drivers/gpu/drm/etnaviv/etnaviv_drv.h
+index 4d8dc9236e5f..7db607817c0c 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_drv.h
++++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.h
+@@ -33,7 +33,6 @@ struct etnaviv_file_private {
+ 
+ struct etnaviv_drm_private {
+ 	int num_gpus;
+-	struct device_dma_parameters dma_parms;
+ 	struct etnaviv_gpu *gpu[ETNA_MAX_PIPES];
+ 	gfp_t shm_gfp_mask;
+ 
+-- 
+2.28.0.dirty
 
->   	return ret;
->   }
->   
-> @@ -113,7 +106,7 @@ static void etnaviv_iommu_unmap(struct etnaviv_iommu_context *context, u32 iova,
->   	unsigned int da = iova;
->   	int i;
->   
-> -	for_each_sg(sgt->sgl, sg, sgt->nents, i) {
-> +	for_each_sgtable_dma_sg(sgt, sg, i) {
->   		size_t bytes = sg_dma_len(sg) + sg->offset;
->   
->   		etnaviv_context_unmap(context, da, bytes);
-> 
 _______________________________________________
 etnaviv mailing list
 etnaviv@lists.freedesktop.org
