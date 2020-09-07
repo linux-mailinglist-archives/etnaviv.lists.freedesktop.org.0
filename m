@@ -1,80 +1,53 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17EEA25F34C
-	for <lists+etnaviv@lfdr.de>; Mon,  7 Sep 2020 08:39:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4748F25F3AB
+	for <lists+etnaviv@lfdr.de>; Mon,  7 Sep 2020 09:14:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8BDCB6E0E7;
-	Mon,  7 Sep 2020 06:39:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 16D0B6E0FA;
+	Mon,  7 Sep 2020 07:14:11 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [205.139.110.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 812626E0DE
- for <etnaviv@lists.freedesktop.org>; Mon,  7 Sep 2020 06:39:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599460751;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=eetlFRw0D/x8ec2NAwaNQj2c548Ry8s5O0p6d1F8FMM=;
- b=KjUPOTgoywztcwmRE0RPzfEZ1wHL1P8tjffINIjSYO/ekfkOwAOBCpvhc6KJbj0EQCY2pD
- fRikaccd0dTk4uWT2/C79vFPIfe0eRji7LkP6HGoFkzxjGz01uo0bR+YYiQP4BSWFy/ATW
- 8QkP7/r1tiTPeDui0WjWsWq0yhXZ1II=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-472-Im-pi5WkMveRzazWd9YxPQ-1; Mon, 07 Sep 2020 02:39:07 -0400
-X-MC-Unique: Im-pi5WkMveRzazWd9YxPQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6C6F2427FD;
- Mon,  7 Sep 2020 06:39:03 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-56.ams2.redhat.com
- [10.36.112.56])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 83EBB19C4F;
- Mon,  7 Sep 2020 06:39:02 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 9445C9A83; Mon,  7 Sep 2020 08:39:01 +0200 (CEST)
-Date: Mon, 7 Sep 2020 08:39:01 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: dri-devel@lists.freedesktop.org, christian.koenig@amd.com,
- Alex Deucher <alexander.deucher@amd.com>, David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Ben Skeggs <bskeggs@redhat.com>, Sandy Huang <hjc@rock-chips.com>,
- Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
- "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>,
- "moderated list:DRM DRIVERS FOR VIVANTE GPU IP"
- <etnaviv@lists.freedesktop.org>, 
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <freedreno@lists.freedesktop.org>,
- "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
- <nouveau@lists.freedesktop.org>, "moderated list:ARM/Rockchip SoC support"
- <linux-arm-kernel@lists.infradead.org>, 
- "open list:ARM/Rockchip SoC support" <linux-rockchip@lists.infradead.org>,
- "open list:DRM DRIVERS FOR NVIDIA TEGRA" <linux-tegra@vger.kernel.org>,
- "moderated list:DRM DRIVERS FOR XEN" <xen-devel@lists.xenproject.org>
-Subject: Re: [PATCH v2 1/2] drm: allow limiting the scatter list size.
-Message-ID: <20200907063901.atwjdxz7iqyra22h@sirius.home.kraxel.org>
+Received: from mail-oo1-xc44.google.com (mail-oo1-xc44.google.com
+ [IPv6:2607:f8b0:4864:20::c44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CAF016E118
+ for <etnaviv@lists.freedesktop.org>; Mon,  7 Sep 2020 07:14:09 +0000 (UTC)
+Received: by mail-oo1-xc44.google.com with SMTP id o20so776177ook.1
+ for <etnaviv@lists.freedesktop.org>; Mon, 07 Sep 2020 00:14:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=KVfAGFVhhH+3gKxWPx4EEt2i/99FDkLx011kDtsMF+I=;
+ b=Euxtu+trgjabIp7kfpqLzFQS+dE83z6NFR5B38p25hCsIskYQhJEXI8aDOFmjb9/rb
+ ajdQe4bmbBxWioDNhCAVb/QZqh3F00karTYzM2FazYTVvrVMLOroBXd2TBPPFA8thdy7
+ kAmoBHvDcK9wIivmZv2bC4v0rV5TvwkjuxeM4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=KVfAGFVhhH+3gKxWPx4EEt2i/99FDkLx011kDtsMF+I=;
+ b=PD3DbD/LeyaIbctqFTKXFWnm3+G2oxK7BH8EXP864yjpixGVqo2p52rXWCnOCfCb4K
+ TsGHip6PuGnvlwT0TLaO3gEkj6nV8uoan6FmD2DfqACK3zRa+OlqwqDkFkiEuQSfziJm
+ Dcme1XEin5X4yqn4X6w1TTv3AiBtyv0gpapPZWnSluVkC0IAYOQxzq41tbgQgDWVaH4C
+ sG3X2kZN2wT2fbmkSvV4E+bti+aApZkK6dufycXFhVIbn8a/J356msJCOkiLlr7rVB1i
+ vlZSaVjeRE1ntFQWKxfO/h2HVvj1kJZVM9mrJnk+7I3NM87FQxZ/enJ8GG0VePjdSiAY
+ wjgw==
+X-Gm-Message-State: AOAM533IoQTLlr7zdkqUXy8hNGK7dDzEFV4LcCYKDSKGDy8+ZCggqdkZ
+ E+20IaZbiG/whGf5fCNyLBVDu8iCr4VTbbK+HR/ESQ==
+X-Google-Smtp-Source: ABdhPJyDsSLWPXy8R9Ce8HIpecD+QM6t0+0yQYpXyChVzKDiPvzj0GbvH4ZECIfVS8TxI8k421NQRVJ+suYIajAm3/8=
+X-Received: by 2002:a4a:e98e:: with SMTP id s14mr13829467ood.28.1599462848946; 
+ Mon, 07 Sep 2020 00:14:08 -0700 (PDT)
+MIME-Version: 1.0
 References: <20200818092017.26290-1-kraxel@redhat.com>
  <20200818092017.26290-2-kraxel@redhat.com>
  <20200901074043.GT2352366@phenom.ffwll.local>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200901074043.GT2352366@phenom.ffwll.local>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+ <20200907063901.atwjdxz7iqyra22h@sirius.home.kraxel.org>
+In-Reply-To: <20200907063901.atwjdxz7iqyra22h@sirius.home.kraxel.org>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Mon, 7 Sep 2020 09:13:58 +0200
+Message-ID: <CAKMK7uFixrbxVoaF4-1hXvQcPySaaYRooQ=LKoivPALH-UCgbw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] drm: allow limiting the scatter list size.
+To: Gerd Hoffmann <kraxel@redhat.com>
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,95 +59,137 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
+Cc: =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
+ David Airlie <airlied@linux.ie>,
+ "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
+ <nouveau@lists.freedesktop.org>, dri-devel <dri-devel@lists.freedesktop.org>,
+ Sandy Huang <hjc@rock-chips.com>, Thierry Reding <thierry.reding@gmail.com>,
+ Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+ "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ "open list:ARM/Rockchip SoC support" <linux-rockchip@lists.infradead.org>,
+ Ben Skeggs <bskeggs@redhat.com>, Russell King <linux+etnaviv@armlinux.org.uk>,
+ "moderated list:DRM DRIVERS FOR XEN" <xen-devel@lists.xenproject.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ "moderated list:DRM DRIVERS FOR VIVANTE GPU IP"
+ <etnaviv@lists.freedesktop.org>, Maxime Ripard <mripard@kernel.org>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ "open list:DRM DRIVERS FOR NVIDIA TEGRA" <linux-tegra@vger.kernel.org>,
+ Sean Paul <sean@poorly.run>, "moderated list:ARM/Rockchip SoC support"
+ <linux-arm-kernel@lists.infradead.org>,
+ open list <linux-kernel@vger.kernel.org>, Rob Clark <robdclark@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <freedreno@lists.freedesktop.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Lucas Stach <l.stach@pengutronix.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-> > +	/**
-> > +	 * @max_segment:
-> > +	 *
-> > +	 * Max size for scatter list segments.  When unset the default
-> > +	 * (SCATTERLIST_MAX_SEGMENT) is used.
-> > +	 */
-> > +	size_t max_segment;
-> 
-> Is there no better place for this then "at the bottom"? drm_device is a
-> huge structure, piling stuff up randomly doesn't make it better :-)
+On Mon, Sep 7, 2020 at 8:39 AM Gerd Hoffmann <kraxel@redhat.com> wrote:
+>
+> > > +   /**
+> > > +    * @max_segment:
+> > > +    *
+> > > +    * Max size for scatter list segments.  When unset the default
+> > > +    * (SCATTERLIST_MAX_SEGMENT) is used.
+> > > +    */
+> > > +   size_t max_segment;
+> >
+> > Is there no better place for this then "at the bottom"? drm_device is a
+> > huge structure, piling stuff up randomly doesn't make it better :-)
+>
+> Moved next to the other gem fields for now (v3 posted).
+>
+> > I think ideally we'd have a gem substruct like we have on the modeset side
+> > at least.
+>
+> Phew, that'll be quite some churn in the tree.  And there aren't that many
+> gem-related fields in struct drm_device.
+>
+> So you are looking for something like below (header changes only)?
 
-Moved next to the other gem fields for now (v3 posted).
+Hm yeah it's a lot less than I thought. And yes I think that would be neat.
+-Daniel
 
-> I think ideally we'd have a gem substruct like we have on the modeset side
-> at least.
+>
+> take care,
+>   Gerd
+>
+> diff --git a/include/drm/drm_device.h b/include/drm/drm_device.h
+> index c455ef404ca6..950167ede98a 100644
+> --- a/include/drm/drm_device.h
+> +++ b/include/drm/drm_device.h
+> @@ -299,22 +299,8 @@ struct drm_device {
+>         /** @mode_config: Current mode config */
+>         struct drm_mode_config mode_config;
+>
+> -       /** @object_name_lock: GEM information */
+> -       struct mutex object_name_lock;
+> -
+> -       /** @object_name_idr: GEM information */
+> -       struct idr object_name_idr;
+> -
+> -       /** @vma_offset_manager: GEM information */
+> -       struct drm_vma_offset_manager *vma_offset_manager;
+> -
+> -       /**
+> -        * @max_segment:
+> -        *
+> -        * Max size for scatter list segments for GEM objects.  When
+> -        * unset the default (SCATTERLIST_MAX_SEGMENT) is used.
+> -        */
+> -       size_t max_segment;
+> +       /** @gem_config: Current GEM config */
+> +       struct drm_gem_config gem_config;
+>
+>         /** @vram_mm: VRAM MM memory manager */
+>         struct drm_vram_mm *vram_mm;
+> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
+> index 337a48321705..74129fb29fb8 100644
+> --- a/include/drm/drm_gem.h
+> +++ b/include/drm/drm_gem.h
+> @@ -39,6 +39,25 @@
+>
+>  #include <drm/drm_vma_manager.h>
+>
+> +struct drm_gem_config {
+> +       /** @object_name_lock: GEM information */
+> +       struct mutex object_name_lock;
+> +
+> +       /** @object_name_idr: GEM information */
+> +       struct idr object_name_idr;
+> +
+> +       /** @vma_offset_manager: GEM information */
+> +       struct drm_vma_offset_manager *vma_offset_manager;
+> +
+> +       /**
+> +        * @max_segment:
+> +        *
+> +        * Max size for scatter list segments for GEM objects.  When
+> +        * unset the default (SCATTERLIST_MAX_SEGMENT) is used.
+> +        */
+> +       size_t max_segment;
+> +};
+> +
+>  struct drm_gem_object;
+>
+>  /**
+>
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
-Phew, that'll be quite some churn in the tree.  And there aren't that many
-gem-related fields in struct drm_device.
 
-So you are looking for something like below (header changes only)?
 
-take care,
-  Gerd
-
-diff --git a/include/drm/drm_device.h b/include/drm/drm_device.h
-index c455ef404ca6..950167ede98a 100644
---- a/include/drm/drm_device.h
-+++ b/include/drm/drm_device.h
-@@ -299,22 +299,8 @@ struct drm_device {
- 	/** @mode_config: Current mode config */
- 	struct drm_mode_config mode_config;
- 
--	/** @object_name_lock: GEM information */
--	struct mutex object_name_lock;
--
--	/** @object_name_idr: GEM information */
--	struct idr object_name_idr;
--
--	/** @vma_offset_manager: GEM information */
--	struct drm_vma_offset_manager *vma_offset_manager;
--
--	/**
--	 * @max_segment:
--	 *
--	 * Max size for scatter list segments for GEM objects.  When
--	 * unset the default (SCATTERLIST_MAX_SEGMENT) is used.
--	 */
--	size_t max_segment;
-+	/** @gem_config: Current GEM config */
-+	struct drm_gem_config gem_config;
- 
- 	/** @vram_mm: VRAM MM memory manager */
- 	struct drm_vram_mm *vram_mm;
-diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
-index 337a48321705..74129fb29fb8 100644
---- a/include/drm/drm_gem.h
-+++ b/include/drm/drm_gem.h
-@@ -39,6 +39,25 @@
- 
- #include <drm/drm_vma_manager.h>
- 
-+struct drm_gem_config {
-+	/** @object_name_lock: GEM information */
-+	struct mutex object_name_lock;
-+
-+	/** @object_name_idr: GEM information */
-+	struct idr object_name_idr;
-+
-+	/** @vma_offset_manager: GEM information */
-+	struct drm_vma_offset_manager *vma_offset_manager;
-+
-+	/**
-+	 * @max_segment:
-+	 *
-+	 * Max size for scatter list segments for GEM objects.  When
-+	 * unset the default (SCATTERLIST_MAX_SEGMENT) is used.
-+	 */
-+	size_t max_segment;
-+};
-+
- struct drm_gem_object;
- 
- /**
-
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 etnaviv mailing list
 etnaviv@lists.freedesktop.org
