@@ -2,53 +2,52 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 328902698F0
-	for <lists+etnaviv@lfdr.de>; Tue, 15 Sep 2020 00:34:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89DC226991F
+	for <lists+etnaviv@lfdr.de>; Tue, 15 Sep 2020 00:44:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F61E6E7E6;
-	Mon, 14 Sep 2020 22:34:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 49D306E7EC;
+	Mon, 14 Sep 2020 22:44:13 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
 Received: from mail-io1-f67.google.com (mail-io1-f67.google.com
  [209.85.166.67])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DCC7A6E7DD;
- Mon, 14 Sep 2020 22:34:26 +0000 (UTC)
-Received: by mail-io1-f67.google.com with SMTP id z13so1904835iom.8;
- Mon, 14 Sep 2020 15:34:26 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7AE8E6E7E5;
+ Mon, 14 Sep 2020 22:44:12 +0000 (UTC)
+Received: by mail-io1-f67.google.com with SMTP id z25so1913384iol.10;
+ Mon, 14 Sep 2020 15:44:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=qawHL//JCsl3s+o/MBQptvseieD2pIXqGeERB4s68y0=;
- b=jGtJzf5c+PrQpK/zNEjvC0REZZIrlsrnRir7wguaZ7ORQaQcQTiMvBMvLSwtsRXG3a
- kpKekS5iWfYa+NTcjjZDosK+scNSuO1WrgX/SM2jjslF9RWy1E7l+thyvj370Weln3I/
- h9SO33cfVpp92vXAEexQL30e7T4+oNR/W4NPRv/W9ecG3T3+I9RSEe/FEc522ABlsyCX
- EsucQqjPuGXQZTQwFtreKP4o1wgkZyn68s3mLT787Ux1rqkuGEU88fPntnk+oev/6Sjw
- Fi60FDn/OfeTMauNrSyqrJhvHxZRB6xW2xadIpqUAEroz0p4T8FSR2eIvakPsOuoNKFy
- MFFw==
-X-Gm-Message-State: AOAM533IK9uJkMy3blj7c8i5VXI804YSv9QFnagxE160Uz9m6ur6qxJz
- /K4dPxuqrM9tfWA9cKCehg==
-X-Google-Smtp-Source: ABdhPJzIqAUlesX+PcK3HAo1XZVOGkzfK7XNe09zz72N2Yn2JpGtqmogpPHH5kwRGbL/iuCPfuI3Fw==
-X-Received: by 2002:a05:6638:22ba:: with SMTP id
- z26mr15372869jas.55.1600122866346; 
- Mon, 14 Sep 2020 15:34:26 -0700 (PDT)
+ bh=ylUrEEmYi1EaiuhHEqxtgMvlCDH6vw+JSMpMqyXXaxw=;
+ b=Cxa2SR5VxP3TPO8X/VSYLErIJEhPli89qNxarIN+zBVBHzqGwyuAWb4X5QJ6rHJ2Cz
+ ISfZ81Zr690bxVUl//IF9JS70ln9RVJNGClN3BvH2Y20L+VAP4Loi8FZmdktMdRUjxmz
+ Y/LtaL53T7FOQllW47LRHpL8uJTZprjI9HsI36rw4wjUW4gbyRN7VjdIbti1bVszoBqx
+ xaKsdgLzPO4xmVTu/mHsGEIc1wzgpE1kCu6NDoQXSgDipcMQqQ6hZi5mHUz3OiyVvDhH
+ 2ihWAW5v/C2FDGkZQhQORQNnjQ8J62KdyQgFj91UgloDWjW/vse6vkn2Wid2hz8lJnmX
+ Akqg==
+X-Gm-Message-State: AOAM533uc+xc0CkCRCDzanFPmiXdsZ9H+kzSIWWwh285nqrLu4HvofYU
+ SJEfWNQZYB3uPA0evl6xfA==
+X-Google-Smtp-Source: ABdhPJy0EiT7MplPn0+3By2fzZNnP/u2zfQZ44vJh5JI0TZD6SDZoEgp/wP3JFumGKjEqcEvAf3tFA==
+X-Received: by 2002:a02:11c2:: with SMTP id 185mr14783901jaf.35.1600123451958; 
+ Mon, 14 Sep 2020 15:44:11 -0700 (PDT)
 Received: from xps15 ([64.188.179.253])
- by smtp.gmail.com with ESMTPSA id w15sm7615180ilq.46.2020.09.14.15.34.22
+ by smtp.gmail.com with ESMTPSA id w15sm7629263ilq.46.2020.09.14.15.44.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Sep 2020 15:34:25 -0700 (PDT)
-Received: (nullmailer pid 388721 invoked by uid 1000);
- Mon, 14 Sep 2020 22:34:22 -0000
-Date: Mon, 14 Sep 2020 16:34:22 -0600
+ Mon, 14 Sep 2020 15:44:11 -0700 (PDT)
+Received: (nullmailer pid 404103 invoked by uid 1000);
+ Mon, 14 Sep 2020 22:44:07 -0000
+Date: Mon, 14 Sep 2020 16:44:07 -0600
 From: Rob Herring <robh@kernel.org>
 To: Krzysztof Kozlowski <krzk@kernel.org>
-Subject: Re: [PATCH 05/13] dt-bindings: gpu: vivante, gc: Remove trailing
- whitespace
-Message-ID: <20200914223422.GA388670@bogus>
+Subject: Re: [PATCH 06/13] dt-bindings: mfd: rohm,bd71837-pmic: Add common
+ properties
+Message-ID: <20200914224407.GA388924@bogus>
 References: <20200904145312.10960-1-krzk@kernel.org>
- <20200904145312.10960-6-krzk@kernel.org>
+ <20200904145312.10960-7-krzk@kernel.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200904145312.10960-6-krzk@kernel.org>
+In-Reply-To: <20200904145312.10960-7-krzk@kernel.org>
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,34 +59,64 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@linux.ie>, Sam Ravnborg <sam@ravnborg.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
+Cc: devicetree@vger.kernel.org, etnaviv@lists.freedesktop.org,
+ Fabio Estevam <festevam@gmail.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@linux.ie>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
  Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- etnaviv@lists.freedesktop.org, Christian Gmeiner <christian.gmeiner@gmail.com>,
- Rob Herring <robh+dt@kernel.org>, NXP Linux Team <linux-imx@nxp.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Li Yang <leoyang.li@nxp.com>, Christian Gmeiner <christian.gmeiner@gmail.com>,
+ NXP Linux Team <linux-imx@nxp.com>, Daniel Vetter <daniel@ffwll.ch>,
  Russell King <linux+etnaviv@armlinux.org.uk>,
- Robert Chiras <robert.chiras@nxp.com>, Shawn Guo <shawnguo@kernel.org>,
- Lee Jones <lee.jones@linaro.org>, Li Yang <leoyang.li@nxp.com>,
- Fabio Estevam <festevam@gmail.com>, linux-arm-kernel@lists.infradead.org,
- Lucas Stach <l.stach@pengutronix.de>
+ Robert Chiras <robert.chiras@nxp.com>, Lee Jones <lee.jones@linaro.org>,
+ linux-arm-kernel@lists.infradead.org, Lucas Stach <l.stach@pengutronix.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-On Fri, 04 Sep 2020 16:53:04 +0200, Krzysztof Kozlowski wrote:
-> Remove whitespace at the end of line.
+On Fri, Sep 04, 2020 at 04:53:05PM +0200, Krzysztof Kozlowski wrote:
+> Add common properties appearing in DTSes (clock-names,
+> clock-output-names) to fix dtbs_check warnings like:
+> 
+>   arch/arm64/boot/dts/freescale/imx8mq-librem5-r2.dt.yaml:
+>     pmic@4b: 'clock-names', 'clock-output-names', do not match any of the regexes: 'pinctrl-[0-9]+'
 > 
 > Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
 > ---
->  Documentation/devicetree/bindings/gpu/vivante,gc.yaml | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  .../devicetree/bindings/mfd/rohm,bd71837-pmic.yaml          | 6 ++++++
+>  1 file changed, 6 insertions(+)
 > 
+> diff --git a/Documentation/devicetree/bindings/mfd/rohm,bd71837-pmic.yaml b/Documentation/devicetree/bindings/mfd/rohm,bd71837-pmic.yaml
+> index 65018a019e1d..ecce0d5e3a95 100644
+> --- a/Documentation/devicetree/bindings/mfd/rohm,bd71837-pmic.yaml
+> +++ b/Documentation/devicetree/bindings/mfd/rohm,bd71837-pmic.yaml
+> @@ -32,9 +32,15 @@ properties:
+>    clocks:
+>      maxItems: 1
+>  
+> +  clock-names:
+> +    maxItems: 1
 
-Applied, thanks!
+Needs to define what the name is.
+
+> +
+>    "#clock-cells":
+>      const: 0
+>  
+> +  clock-output-names:
+> +    maxItems: 1
+
+Ideally this one too, but we've been more flexible on it.
+
+> +
+>  # The BD718x7 supports two different HW states as reset target states. States
+>  # are called as SNVS and READY. At READY state all the PMIC power outputs go
+>  # down and OTP is reload. At the SNVS state all other logic and external
+> -- 
+> 2.17.1
+> 
 _______________________________________________
 etnaviv mailing list
 etnaviv@lists.freedesktop.org
