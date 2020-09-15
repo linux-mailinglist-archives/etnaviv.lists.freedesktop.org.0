@@ -1,66 +1,112 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C84126DD1D
-	for <lists+etnaviv@lfdr.de>; Thu, 17 Sep 2020 15:49:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 481BC26DD1F
+	for <lists+etnaviv@lfdr.de>; Thu, 17 Sep 2020 15:49:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B591A6EC0D;
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7E216EC11;
 	Thu, 17 Sep 2020 13:49:11 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1EA636E0E8;
- Tue, 15 Sep 2020 16:15:00 +0000 (UTC)
-IronPort-SDR: 6ic9aYcZt9Nt136rVelO88SqUeOa9xkmbh0KagnNqg2vED77fde60vV4yOa3BMBsuVlwHNvSGK
- KbDuRV+PeIbg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9745"; a="156718783"
-X-IronPort-AV: E=Sophos;i="5.76,430,1592895600"; d="scan'208";a="156718783"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Sep 2020 09:14:55 -0700
-IronPort-SDR: 1NweJQ/LUpVMZGR2CNL7idgXNRkgQYlVvGnbjzV+v3epVrjgQ3OHB8LQ+g+ZsKRvdD4MQ7Rl1b
- B/J1ZOWPLOog==
-X-IronPort-AV: E=Sophos;i="5.76,430,1592895600"; d="scan'208";a="451484915"
-Received: from oshaham-mobl.ger.corp.intel.com (HELO [10.214.241.3])
- ([10.214.241.3])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Sep 2020 09:14:31 -0700
-Subject: Re: [PATCH v2 06/21] drm/i915: Introduce GEM object functions
-To: Thomas Zimmermann <tzimmermann@suse.de>, alexander.deucher@amd.com,
- christian.koenig@amd.com, airlied@linux.ie, daniel@ffwll.ch,
- linux@armlinux.org.uk, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, l.stach@pengutronix.de, christian.gmeiner@gmail.com,
- inki.dae@samsung.com, jy0922.shim@samsung.com, sw0312.kim@samsung.com,
- kyungmin.park@samsung.com, kgene@kernel.org, krzk@kernel.org,
- patrik.r.jakobsson@gmail.com, jani.nikula@linux.intel.com,
- joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com,
- chunkuang.hu@kernel.org, p.zabel@pengutronix.de, matthias.bgg@gmail.com,
- robdclark@gmail.com, sean@poorly.run, bskeggs@redhat.com,
- tomi.valkeinen@ti.com, eric@anholt.net, hjc@rock-chips.com, heiko@sntech.de,
- thierry.reding@gmail.com, jonathanh@nvidia.com,
- rodrigosiqueiramelo@gmail.com, hamohammed.sa@gmail.com,
- oleksandr_andrushchenko@epam.com, hyun.kwon@xilinx.com,
- laurent.pinchart@ideasonboard.com, michal.simek@xilinx.com,
- sumit.semwal@linaro.org, evan.quan@amd.com, Hawking.Zhang@amd.com,
- tianci.yin@amd.com, marek.olsak@amd.com, hdegoede@redhat.com,
- andrey.grodzovsky@amd.com, Felix.Kuehling@amd.com, xinhui.pan@amd.com,
- aaron.liu@amd.com, nirmoy.das@amd.com, chris@chris-wilson.co.uk,
- matthew.auld@intel.com, andi.shyti@intel.com, sam@ravnborg.org,
- miaoqinglang@huawei.com, emil.velikov@collabora.com
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2047.outbound.protection.outlook.com [40.107.93.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F1776E8D7;
+ Tue, 15 Sep 2020 18:39:15 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=RArpkZ/l/P0gBhyiVnFzlnK1+ltpu4x88FRuCdWtNwWkp98mExU2EARfU6VG5otrPM9YMztHQ/zNIMyLWyYeDSehv+5ddUu5QkXHHrPXqkcHNzmYi/ERU4FdoINvsO0vS4BwlbEdx7+wtX0wfgwsnyORrfNfHGuXiyS1GCBCOdPHP7YfyO9HbWENIeHr4NEhKRcC1qdLa1GgV9F9xiTcV35GTG9B98p17FI7Dcmdoy5O8kN2yk4QEPzW+msX7k0AmzfXVF4ub8AMUSXd/UHcD3pRDMGcul4U5uWl9czAi4Uclw9huD+9RW5oEjZtfYzlCedo3XonK4F5T9S6WNrTwA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4nIO+lhNFgioRkRyGhdB1I3Uj8gi/oxj23FCH5WSe8E=;
+ b=R8H8SkAXciLhrprBnQK3SHbWsJcLCXqoT+g20E1/ybgGhxqZtPiDOGOmY/LrTSxcpGB73tZW5v1PNPMcgwEzSZMJdunPyGyb+IohPUaPR8BO2oj2GZkHVfq647GrY3z9KniynTif8AVTOztHi1kEtPjQOLSScdWMVRNUP4xQLbCzGB+Kfj9GTwzzxOTbf1K+UAkqii38ibdb+kBBQr49WLJLJh8RjphzYqjDNYKUdZZhOGHIvovYgMzNgpj8qUJI3LwCXulrTIIc9F1n4FS+99hApKJrfmt6b9+AGfaSps5cJLpvUeMu5jyKWPcKjQLuB7YD69qLPjzISQqhD+zOhA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 149.199.60.83) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=xilinx.com;
+ dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
+ not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4nIO+lhNFgioRkRyGhdB1I3Uj8gi/oxj23FCH5WSe8E=;
+ b=Ft9IxLhrSyAZPH7YXskNwwHcjwsioZd1gYOVg7DJ49DbK3VXAIGTwQZq6Glqpt3+ujNcSgKehvmyZBDWmlOiekjX6vYBG7i/63A/aBX5gGzuEwyXfvt9wM1DbWvK0PScJ0JlBQD0msFJtI3bvUvSgDPCXYHOa2r5LaLrKnngICs=
+Received: from DM5PR06CA0035.namprd06.prod.outlook.com (2603:10b6:3:5d::21) by
+ MN2PR02MB6862.namprd02.prod.outlook.com (2603:10b6:208:1d4::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3370.16; Tue, 15 Sep
+ 2020 18:39:12 +0000
+Received: from CY1NAM02FT041.eop-nam02.prod.protection.outlook.com
+ (2603:10b6:3:5d:cafe::2b) by DM5PR06CA0035.outlook.office365.com
+ (2603:10b6:3:5d::21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3370.16 via Frontend
+ Transport; Tue, 15 Sep 2020 18:39:12 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.60.83)
+ smtp.mailfrom=xilinx.com; vger.kernel.org; dkim=none (message not signed)
+ header.d=none;vger.kernel.org; dmarc=bestguesspass action=none
+ header.from=xilinx.com;
+Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
+ 149.199.60.83 as permitted sender) receiver=protection.outlook.com;
+ client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
+Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
+ CY1NAM02FT041.mail.protection.outlook.com (10.152.74.156) with Microsoft SMTP
+ Server id 15.20.3370.16 via Frontend Transport; Tue, 15 Sep 2020 18:39:12
+ +0000
+Received: from [149.199.38.66] (port=33482 helo=smtp.xilinx.com)
+ by xsj-pvapsmtpgw01 with esmtp (Exim 4.90)
+ (envelope-from <hyun.kwon@xilinx.com>)
+ id 1kIFr8-00079j-0A; Tue, 15 Sep 2020 11:39:06 -0700
+Received: from [127.0.0.1] (helo=xsj-smtp-dlp2.xlnx.xilinx.com)
+ by smtp.xilinx.com with esmtp (Exim 4.63)
+ (envelope-from <hyun.kwon@xilinx.com>)
+ id 1kIFrD-0001kg-Qb; Tue, 15 Sep 2020 11:39:11 -0700
+Received: from xsj-pvapsmtp01 (smtp3.xilinx.com [149.199.38.66])
+ by xsj-smtp-dlp2.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id 08FId9Zt008885; 
+ Tue, 15 Sep 2020 11:39:09 -0700
+Received: from [172.19.75.82] (helo=xsjsycl40.xilinx.com)
+ by xsj-pvapsmtp01 with esmtp (Exim 4.63)
+ (envelope-from <hyun.kwon@xilinx.com>)
+ id 1kIFrB-0001kJ-AL; Tue, 15 Sep 2020 11:39:09 -0700
+Received: by xsjsycl40.xilinx.com (Postfix, from userid 13638)
+ id 491F2352CB5; Tue, 15 Sep 2020 11:39:09 -0700 (PDT)
+Date: Tue, 15 Sep 2020 11:39:09 -0700
+From: Hyun Kwon <hyun.kwon@xilinx.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH v2 20/21] drm/xlnx: Initialize DRM driver instance with
+ CMA helper macro
+Message-ID: <20200915183909.GA2471550@xilinx.com>
 References: <20200915145958.19993-1-tzimmermann@suse.de>
- <20200915145958.19993-7-tzimmermann@suse.de>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-Message-ID: <76e5eb2f-e324-8f56-866a-15b022abba8d@linux.intel.com>
-Date: Tue, 15 Sep 2020 17:14:27 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ <20200915145958.19993-21-tzimmermann@suse.de>
+ <20200915155346.GA26029@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-In-Reply-To: <20200915145958.19993-7-tzimmermann@suse.de>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <20200915155346.GA26029@pendragon.ideasonboard.com>
+X-RCIS-Action: ALLOW
+X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
+X-TM-AS-User-Approved-Sender: Yes;Yes
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 4c65fab7-7d10-4b9a-748b-08d859a6a3fb
+X-MS-TrafficTypeDiagnostic: MN2PR02MB6862:
+X-Microsoft-Antispam-PRVS: <MN2PR02MB686297B0A5D949DD63A5E1D5D6200@MN2PR02MB6862.namprd02.prod.outlook.com>
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-Oob-TLC-OOBClassifiers: OLM:157;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: azHD76tuOPuB48RIPJTmGE1GeguOaYooVgA1zfaOFcdq8MvHicW8zvBOOLEI7v5gvGiv/ru7NR+rNkmZPFHOALmKpoRinkan47/aYxnYbvK6VEwY/OAaIqXB9x/lZV06yan8U1lpw5LLFrWxbrNF7RDDiUXWcoZhlDIIqmoXRIxH2kk1gVeGVQxpil9Yqv5px4Xylh/WWh8og85pL+UeJMu8leYXUObrWsn3WgnSoYFYSTSbQFHNMLLNJCFl9A6QJq0jelg6HSpNYrgTXAMJxhf4AeNxHfvpX7fbhsxqChK+Uqg44tLfuYfzGP5FHI2EgX8VmfPRVNe+b1OAxcxv7BJf9nYTCE4oeoVql+sStizjqxSu/OZCr/zt8ApQWS/2m80VUw8QelAhhDh5SWCSKRUKgL4LYo9OHWt/g9Z7hOwMuPzuwZG8AKr0ULbHWlZB
+X-Forefront-Antispam-Report: CIP:149.199.60.83; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:xsj-pvapsmtpgw01; PTR:unknown-60-83.xilinx.com; CAT:NONE;
+ SFS:(346002)(136003)(39860400002)(376002)(396003)(46966005)(478600001)(36756003)(1076003)(6916009)(336012)(4326008)(186003)(26005)(6266002)(426003)(356005)(8936002)(83380400001)(2906002)(82740400003)(8676002)(82310400003)(7406005)(7366002)(7416002)(81166007)(70206006)(47076004)(966005)(70586007)(44832011)(42186006)(33656002)(316002)(2616005)(54906003)(5660300002);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Sep 2020 18:39:12.2114 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4c65fab7-7d10-4b9a-748b-08d859a6a3fb
+X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.60.83];
+ Helo=[xsj-pvapsmtpgw01]
+X-MS-Exchange-CrossTenant-AuthSource: CY1NAM02FT041.eop-nam02.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR02MB6862
 X-Mailman-Approved-At: Thu, 17 Sep 2020 13:49:10 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,144 +119,129 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
- linux-mediatek@lists.infradead.org, amd-gfx@lists.freedesktop.org,
- nouveau@lists.freedesktop.org, linux-tegra@vger.kernel.org,
- xen-devel@lists.xenproject.org, freedreno@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org
+Cc: "hamohammed.sa@gmail.com" <hamohammed.sa@gmail.com>,
+ "airlied@linux.ie" <airlied@linux.ie>,
+ "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "chris@chris-wilson.co.uk" <chris@chris-wilson.co.uk>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+ "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ "sam@ravnborg.org" <sam@ravnborg.org>,
+ "emil.velikov@collabora.com" <emil.velikov@collabora.com>,
+ "linux-samsung-soc@vger.kernel.org" <linux-samsung-soc@vger.kernel.org>,
+ "jy0922.shim@samsung.com" <jy0922.shim@samsung.com>,
+ "oleksandr_andrushchenko@epam.com" <oleksandr_andrushchenko@epam.com>,
+ "linux@armlinux.org.uk" <linux@armlinux.org.uk>,
+ "krzk@kernel.org" <krzk@kernel.org>,
+ "jonathanh@nvidia.com" <jonathanh@nvidia.com>,
+ "linux-rockchip@lists.infradead.org" <linux-rockchip@lists.infradead.org>,
+ "tomi.valkeinen@ti.com" <tomi.valkeinen@ti.com>,
+ Michal Simek <michals@xilinx.com>, "bskeggs@redhat.com" <bskeggs@redhat.com>,
+ "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
+ "marek.olsak@amd.com" <marek.olsak@amd.com>,
+ "matthew.auld@intel.com" <matthew.auld@intel.com>,
+ "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
+ "andi.shyti@intel.com" <andi.shyti@intel.com>,
+ "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "tianci.yin@amd.com" <tianci.yin@amd.com>,
+ "nirmoy.das@amd.com" <nirmoy.das@amd.com>,
+ "etnaviv@lists.freedesktop.org" <etnaviv@lists.freedesktop.org>,
+ "hdegoede@redhat.com" <hdegoede@redhat.com>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "rodrigo.vivi@intel.com" <rodrigo.vivi@intel.com>,
+ "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
+ "evan.quan@amd.com" <evan.quan@amd.com>, "sean@poorly.run" <sean@poorly.run>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ "tvrtko.ursulin@linux.intel.com" <tvrtko.ursulin@linux.intel.com>,
+ "rodrigosiqueiramelo@gmail.com" <rodrigosiqueiramelo@gmail.com>,
+ "aaron.liu@amd.com" <aaron.liu@amd.com>,
+ "Felix.Kuehling@amd.com" <Felix.Kuehling@amd.com>,
+ "xinhui.pan@amd.com" <xinhui.pan@amd.com>,
+ "sw0312.kim@samsung.com" <sw0312.kim@samsung.com>,
+ "hjc@rock-chips.com" <hjc@rock-chips.com>,
+ "kyungmin.park@samsung.com" <kyungmin.park@samsung.com>,
+ "miaoqinglang@huawei.com" <miaoqinglang@huawei.com>,
+ "kgene@kernel.org" <kgene@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ "alexander.deucher@amd.com" <alexander.deucher@amd.com>,
+ "freedreno@lists.freedesktop.org" <freedreno@lists.freedesktop.org>,
+ "christian.koenig@amd.com" <christian.koenig@amd.com>,
+ "Hawking.Zhang@amd.com" <Hawking.Zhang@amd.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
+Hi Tomas,
 
-On 15/09/2020 15:59, Thomas Zimmermann wrote:
-> GEM object functions deprecate several similar callback interfaces in
-> struct drm_driver. This patch replaces the per-driver callbacks with
-> per-instance callbacks in i915.
+Thanks for the patch.
+
+On Tue, Sep 15, 2020 at 08:53:46AM -0700, Laurent Pinchart wrote:
+> Hi Thomas,
 > 
-> v2:
-> 	* move object-function instance to i915_gem_object.c (Jani)
+> Thank you for the patch.
 > 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
->   drivers/gpu/drm/i915/gem/i915_gem_object.c    | 21 ++++++++++++++++---
->   drivers/gpu/drm/i915/gem/i915_gem_object.h    |  3 ---
->   drivers/gpu/drm/i915/i915_drv.c               |  4 ----
->   .../gpu/drm/i915/selftests/mock_gem_device.c  |  3 ---
->   4 files changed, 18 insertions(+), 13 deletions(-)
+> On Tue, Sep 15, 2020 at 04:59:57PM +0200, Thomas Zimmermann wrote:
+> > The xlnx driver uses CMA helpers with default callback functions.
+> > Initialize the driver structure with the rsp CMA helper macro. The
+> > driver is being converted to use GEM object functions as part of
+> > this change.
+> > 
+> > Two callbacks, .dumb_destroy and .gem_prime_import, were initialized
+> > to their default implementations, so they are just kept empty now.
+> > 
+> > v2:
+> > 	* initialize with DRM_GEM_CMA_DRIVER_OPS_WITH_DUMB_CREATE (Laurent)
+> > 
+> > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > 
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.c b/drivers/gpu/drm/i915/gem/i915_gem_object.c
-> index c8421fd9d2dc..3389ac972d16 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_object.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object.c
-> @@ -39,9 +39,18 @@ static struct i915_global_object {
->   	struct kmem_cache *slab_objects;
->   } global;
->   
-> +static const struct drm_gem_object_funcs i915_gem_object_funcs;
-> +
->   struct drm_i915_gem_object *i915_gem_object_alloc(void)
->   {
-> -	return kmem_cache_zalloc(global.slab_objects, GFP_KERNEL);
-> +	struct drm_i915_gem_object *obj;
-> +
-> +	obj = kmem_cache_zalloc(global.slab_objects, GFP_KERNEL);
-> +	if (!obj)
-> +		return NULL;
-> +	obj->base.funcs = &i915_gem_object_funcs;
-> +
-> +	return obj;
->   }
->   
->   void i915_gem_object_free(struct drm_i915_gem_object *obj)
-> @@ -101,7 +110,7 @@ void i915_gem_object_set_cache_coherency(struct drm_i915_gem_object *obj,
->   		!(obj->cache_coherent & I915_BO_CACHE_COHERENT_FOR_WRITE);
->   }
->   
-> -void i915_gem_close_object(struct drm_gem_object *gem, struct drm_file *file)
-> +static void i915_gem_close_object(struct drm_gem_object *gem, struct drm_file *file)
->   {
->   	struct drm_i915_gem_object *obj = to_intel_bo(gem);
->   	struct drm_i915_file_private *fpriv = file->driver_priv;
-> @@ -264,7 +273,7 @@ static void __i915_gem_free_work(struct work_struct *work)
->   	i915_gem_flush_free_objects(i915);
->   }
->   
-> -void i915_gem_free_object(struct drm_gem_object *gem_obj)
-> +static void i915_gem_free_object(struct drm_gem_object *gem_obj)
->   {
->   	struct drm_i915_gem_object *obj = to_intel_bo(gem_obj);
->   	struct drm_i915_private *i915 = to_i915(obj->base.dev);
-> @@ -403,6 +412,12 @@ int __init i915_global_objects_init(void)
->   	return 0;
->   }
->   
-> +static const struct drm_gem_object_funcs i915_gem_object_funcs = {
-> +	.free = i915_gem_free_object,
-> +	.close = i915_gem_close_object,
-> +	.export = i915_gem_prime_export,
-> +};
-> +
->   #if IS_ENABLED(CONFIG_DRM_I915_SELFTEST)
->   #include "selftests/huge_gem_object.c"
->   #include "selftests/huge_pages.c"
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-> index d46db8d8f38e..eaf3d4147be0 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-> @@ -38,9 +38,6 @@ void __i915_gem_object_release_shmem(struct drm_i915_gem_object *obj,
->   
->   int i915_gem_object_attach_phys(struct drm_i915_gem_object *obj, int align);
->   
-> -void i915_gem_close_object(struct drm_gem_object *gem, struct drm_file *file);
-> -void i915_gem_free_object(struct drm_gem_object *obj);
-> -
->   void i915_gem_flush_free_objects(struct drm_i915_private *i915);
->   
->   struct sg_table *
-> diff --git a/drivers/gpu/drm/i915/i915_drv.c b/drivers/gpu/drm/i915/i915_drv.c
-> index 94e00e450683..011a3fb41ece 100644
-> --- a/drivers/gpu/drm/i915/i915_drv.c
-> +++ b/drivers/gpu/drm/i915/i915_drv.c
-> @@ -1750,12 +1750,8 @@ static struct drm_driver driver = {
->   	.lastclose = i915_driver_lastclose,
->   	.postclose = i915_driver_postclose,
->   
-> -	.gem_close_object = i915_gem_close_object,
-> -	.gem_free_object_unlocked = i915_gem_free_object,
-> -
->   	.prime_handle_to_fd = drm_gem_prime_handle_to_fd,
->   	.prime_fd_to_handle = drm_gem_prime_fd_to_handle,
-> -	.gem_prime_export = i915_gem_prime_export,
->   	.gem_prime_import = i915_gem_prime_import,
->   
->   	.dumb_create = i915_gem_dumb_create,
-> diff --git a/drivers/gpu/drm/i915/selftests/mock_gem_device.c b/drivers/gpu/drm/i915/selftests/mock_gem_device.c
-> index f127e633f7ca..9244b5d6fb01 100644
-> --- a/drivers/gpu/drm/i915/selftests/mock_gem_device.c
-> +++ b/drivers/gpu/drm/i915/selftests/mock_gem_device.c
-> @@ -87,9 +87,6 @@ static struct drm_driver mock_driver = {
->   	.name = "mock",
->   	.driver_features = DRIVER_GEM,
->   	.release = mock_device_release,
-> -
-> -	.gem_close_object = i915_gem_close_object,
-> -	.gem_free_object_unlocked = i915_gem_free_object,
->   };
->   
->   static void release_dev(struct device *dev)
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > 
 
-Looks obviously fine.
+Reviewed-by: Hyun Kwon <hyun.kwon@xilinx.com>
 
-Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Thanks,
+-hyun
 
-Regards,
-
-Tvrtko
+> > ---
+> >  drivers/gpu/drm/xlnx/zynqmp_dpsub.c | 14 +-------------
+> >  1 file changed, 1 insertion(+), 13 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/xlnx/zynqmp_dpsub.c b/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
+> > index 8e69303aad3f..f3ffc3703a0e 100644
+> > --- a/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
+> > +++ b/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
+> > @@ -80,19 +80,7 @@ static struct drm_driver zynqmp_dpsub_drm_driver = {
+> >  	.driver_features		= DRIVER_MODESET | DRIVER_GEM |
+> >  					  DRIVER_ATOMIC,
+> >  
+> > -	.prime_handle_to_fd		= drm_gem_prime_handle_to_fd,
+> > -	.prime_fd_to_handle		= drm_gem_prime_fd_to_handle,
+> > -	.gem_prime_export		= drm_gem_prime_export,
+> > -	.gem_prime_import		= drm_gem_prime_import,
+> > -	.gem_prime_get_sg_table		= drm_gem_cma_prime_get_sg_table,
+> > -	.gem_prime_import_sg_table	= drm_gem_cma_prime_import_sg_table,
+> > -	.gem_prime_vmap			= drm_gem_cma_prime_vmap,
+> > -	.gem_prime_vunmap		= drm_gem_cma_prime_vunmap,
+> > -	.gem_prime_mmap			= drm_gem_cma_prime_mmap,
+> > -	.gem_free_object_unlocked	= drm_gem_cma_free_object,
+> > -	.gem_vm_ops			= &drm_gem_cma_vm_ops,
+> > -	.dumb_create			= zynqmp_dpsub_dumb_create,
+> > -	.dumb_destroy			= drm_gem_dumb_destroy,
+> > +	DRM_GEM_CMA_DRIVER_OPS_WITH_DUMB_CREATE(zynqmp_dpsub_dumb_create),
+> >  
+> >  	.fops				= &zynqmp_dpsub_drm_fops,
+> >  
+> 
+> -- 
+> Regards,
+> 
+> Laurent Pinchart
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 etnaviv mailing list
 etnaviv@lists.freedesktop.org
