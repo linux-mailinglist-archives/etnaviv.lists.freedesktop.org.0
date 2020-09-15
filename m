@@ -2,59 +2,89 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6EA426D9AD
-	for <lists+etnaviv@lfdr.de>; Thu, 17 Sep 2020 12:56:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3A1A26DD1C
+	for <lists+etnaviv@lfdr.de>; Thu, 17 Sep 2020 15:49:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 40C6B6EBB7;
-	Thu, 17 Sep 2020 10:56:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 764386EC09;
+	Thu, 17 Sep 2020 13:49:11 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F5366EBA8;
- Thu, 17 Sep 2020 10:56:25 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id z4so1565185wrr.4;
- Thu, 17 Sep 2020 03:56:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=T7o1O276VNvFCMXreEbeFlPYMFMj08O5QtDTtLf9+io=;
- b=QB6L5K889Bo72oCmXlPEd6RO0QFJaiOuUuQYNXSbkbKHLE0z4jthWl14REa3WCR0Bt
- 7IHiIFNeD/Ta+yo/4I3eoGqh6G9kDPeQAYogqalpiHtq8aE0N2vVL/nLfC8G7fyUISnI
- HqZvSuiNmgZzkTOCBFRSXTB+sPRscquK8BzaCBsBZW04/6qzVITT/XTRzNX58D5ubsqj
- EBCDdFzw/4/+qKJ5jqHMFDrIQ6SPZ7RFWRnZTqbCA2A8CuvrZLIiZY8CyMBMGu+cZPGz
- +Xk5dHOFs8kS9Gn7mKXA7wGo6jD27ynEwYEI2R76ZDPCy8bCgvVnpggr26rleQIwiHel
- X5Tg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=T7o1O276VNvFCMXreEbeFlPYMFMj08O5QtDTtLf9+io=;
- b=ludas7inWT5XonVRCOouClOZ7pdfDexkwaa4X9hnqWUimtkKW0XEVzA9a3CKrvOPO0
- xJPn2a7AOugCyJ+TaJPSWVGoDRga/qGZ7CwfqlvOvRNK2S+r4Hm5xdtle0LWtFs2mFAP
- gXAZVKQqWwroEHTY//DjwGDLC0Vtdc9sWlKRbIDqfShzDrAxu9pBkC1NbbfUuTZB3MV/
- WcLTDnW/2RlqDWLYm7LDLLGR5OC4pJrjqxyHU+NSznG1TJy0cgyWHbfEc5sVKJk6zAHz
- 2Zvrd546nTtW8J9EWAaP2KGeft7zPPSxVBDGonFaukvKdpF2Myo66E2HQihfalrxYgHf
- JWlQ==
-X-Gm-Message-State: AOAM532md0XZrUrrWmVgpQORMW7LzRcdczuaN25b0AJGBBGbhuAMNDQx
- v3lbiDtfhBSjaXhmR6hET78=
-X-Google-Smtp-Source: ABdhPJwg7nkwQTaRBQuWwl0RcZSkUXHrdUc9WYlLoauvclz9jtCse6f5SG7t61si5y3RH63KecEA/w==
-X-Received: by 2002:adf:e711:: with SMTP id c17mr32158269wrm.359.1600340183749; 
- Thu, 17 Sep 2020 03:56:23 -0700 (PDT)
-Received: from localhost ([217.111.27.204])
- by smtp.gmail.com with ESMTPSA id d83sm10820463wmf.23.2020.09.17.03.56.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Sep 2020 03:56:22 -0700 (PDT)
-Date: Thu, 17 Sep 2020 12:56:20 +0200
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v2 14/21] drm/tegra: Introduce GEM object functions
-Message-ID: <20200917105620.GK3515672@ulmo>
-References: <20200915145958.19993-1-tzimmermann@suse.de>
- <20200915145958.19993-15-tzimmermann@suse.de>
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com
+ (mail-db8eur05on2064.outbound.protection.outlook.com [40.107.20.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6FF276E83A;
+ Tue, 15 Sep 2020 06:34:53 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Q7GQyzvsPNdx6LkvGaKVXt9QOCCneCCO6CGO2NXRuu6vNIU8bsHJEY308yZHMt/vGI+4vvab4xmwz9CbkMMgqG73YzdsSlEv2F4Ujzz2QH4bGZrcJClaKxoE7wRDm3Zb0dfnkOoLo1GRgZ7BmBzv+YbEw71E5R/VEQmGlADnazbGqtnveI6+wjrBI7W/6fRLQN5OpSBEwMLBgaEAJzPdWNMZQxyijKGEoaMPV8mIYLoHj02sUMJ/7cy0F9X/pxFazn9X1uBJqXfReBpum72RQjMUgJHBLrPb3qmZdnneSAv9ywcm8lAaxoX2XIowl7Flyd3ZhUE486FBUyFf+Iib0A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rtEmsleJgEIRNZzMnaCYVOW16njlB/IOMQpWuiMnEMk=;
+ b=FOV0xAdTMtVqOLNYPzjzBbahOARuqnH8IAUiyZYcUyQy2dTisKZr9OqPOSGj2NLsuumNlvBMmFjXCRuAnxZ8x9m6E/cOife5H8hphs9vjx1iA9uwIDronlVo3xGvAS/5cAeK7lV17dSv6NT3zdQAajT6eGwn1xUQeCSuILkkdE96y38YKATw8qCn0rmjd0ajopeyFNpP8L3S4eZm3Bho9KaHGImJQj5IJOruDmpzeTrtQqwYHYp5+mQQYt5/DJ8Rxzff01CyCPz7R1pY2mhHuUv6OmvOYLLXL3ThBSGPXXlGJucSOrRXybqQRvUcXsMsgK7aP8Xg3L1hSLPce9pqWw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=fi.rohmeurope.com; dmarc=pass action=none
+ header.from=fi.rohmeurope.com; dkim=pass header.d=fi.rohmeurope.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=rohmsemiconductoreurope.onmicrosoft.com;
+ s=selector1-rohmsemiconductoreurope-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rtEmsleJgEIRNZzMnaCYVOW16njlB/IOMQpWuiMnEMk=;
+ b=fqzdWFrD7msgDu59mHpyv4VUnUFLMlqfoQweAHEPEUod3XYKHJ1M2L8o8Ev7fsYteLffj+AvNT/BAR/+v4z52jnMyBHe1ZnpNxwYQyNmQ9GT1+vC9UEDxvwAn/BPu93kjxCjiOvTTBVNDAwpuEFHyh69HfQSFlWzyYVjDYt5KGo=
+Received: from HE1PR03MB3162.eurprd03.prod.outlook.com (2603:10a6:7:55::20) by
+ HE1PR0301MB2476.eurprd03.prod.outlook.com (2603:10a6:3:6e::8) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3370.17; Tue, 15 Sep 2020 06:34:46 +0000
+Received: from HE1PR03MB3162.eurprd03.prod.outlook.com
+ ([fe80::88fd:1086:3253:3fcd]) by HE1PR03MB3162.eurprd03.prod.outlook.com
+ ([fe80::88fd:1086:3253:3fcd%7]) with mapi id 15.20.3370.019; Tue, 15 Sep 2020
+ 06:34:46 +0000
+From: "Vaittinen, Matti" <Matti.Vaittinen@fi.rohmeurope.com>
+To: "robh@kernel.org" <robh@kernel.org>, "krzk@kernel.org" <krzk@kernel.org>
+Subject: Re: [PATCH 06/13] dt-bindings: mfd: rohm,bd71837-pmic: Add common
+ properties
+Thread-Topic: [PATCH 06/13] dt-bindings: mfd: rohm,bd71837-pmic: Add common
+ properties
+Thread-Index: AQHWgss5NO4jUZlClkGJgvpiKmDktaloy4WAgACC0oA=
+Date: Tue, 15 Sep 2020 06:34:46 +0000
+Message-ID: <6bfa15383657ca38a28edac38b5e8adf891865e7.camel@fi.rohmeurope.com>
+References: <20200904145312.10960-1-krzk@kernel.org>
+ <20200904145312.10960-7-krzk@kernel.org> <20200914224407.GA388924@bogus>
+In-Reply-To: <20200914224407.GA388924@bogus>
+Accept-Language: fi-FI, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: kernel.org; dkim=none (message not signed)
+ header.d=none;kernel.org; dmarc=none action=none
+ header.from=fi.rohmeurope.com;
+x-originating-ip: [62.78.225.252]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: acabe237-61b4-4f6a-557a-08d859417018
+x-ms-traffictypediagnostic: HE1PR0301MB2476:
+x-microsoft-antispam-prvs: <HE1PR0301MB247688FA7E134421BFB3F3ABAD200@HE1PR0301MB2476.eurprd03.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: /YAPxcSeWyCsy4wHECLjJ2pw37qaccjSCvOwuO8fhzu/Sd/mIRLSnoTU2RvuTyulQAwFte9LKkf5TqYZyoQ87JUDc47yKeDI2zNZsqkmbBnVY0MhZ3STjg1Ao4y/vi3HPAY9etSeGiv6fpFVK4s0klSHRXsD1Jx/xX7aIygLAJraVdOD/mFrH1oS8mPGyH+m227vosWA7Ne69kjr2VxTrs98GH9iVt2AfXkBMoLlRMZ+Kid8xgn6m09vZTsYpsg+VwRdhyQOHRWQPV8sBGnQwlOne7hDnCZsuJJpQ1FJ4LYf7OO8wGDVjKbN6+QHiS+zhXMmLpohs+6jwGl1M29rCc9gUgPZOI8+aZHEmMMJcvX419S6SS0YVORVoCG9+JIn
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:HE1PR03MB3162.eurprd03.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(39850400004)(396003)(136003)(346002)(376002)(7416002)(2906002)(8676002)(316002)(478600001)(4326008)(110136005)(3450700001)(8936002)(54906003)(5660300002)(6512007)(2616005)(71200400001)(66446008)(26005)(6486002)(66556008)(64756008)(66476007)(76116006)(86362001)(83380400001)(6506007)(186003)(66946007)(142933001);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata: dTZoALMawbX/QMYRtZa6eXACzD8MfZdE/9QoLiFa9Zu7EWYtNmMs1oYWYKxl7KnY+X8Y402XPLhAegolNGaLmZWwPX+i8iHV3q7elwmkAz8W5HFT1mxuctsP2anrhcOFhYnxFp75oqI5lcXtl9dynAJ5h9c/5YrMCZOW+M2zx11Xs+PquuLz7ngvkfGHTqXcThnho5e9ut+iX1VOCXnyf71aoRLc6acyqqN2usFT05tHPq83wk+VCNpLtlda1cfF4UUmHCw1BT8B9ywRyI2NRB0DCD3XeD9/YWsn/39ncphqk7iyeZxet7O4nvRecAV4ZOTxiU+zyv11Dt2qlqMxbbwvKrC07ftE5az7ChYF9WcwLK1+4iIzYyoYeEdt1IbVXe4YOC40lXAxoseuajovytr7WBkG0BSU4Q9CRLYMhBKjQH1QR4k67PO5UYGLKb6BNR1vns4rj1pmIVJfLSewazKtC8m9eGsKVprCsgWPCcAstOSwTSHdKdkvuHvm3MY94SCIxvWjtizEOhDgZ9G4VlGZLERaq2TWePTz+a6rrM7GSGgp4HeH+VMXq4fSUgtZz/omj5A4r+NmZyJEzZSTT9aipIeKf7fbhR/CJCul+a9DH+okcR6I8ZUQ9VlawXarIi0SwOkLFXDz2PWbSIV5Yg==
+x-ms-exchange-transport-forked: True
+Content-ID: <2757F9EFDD17A84A9DE0B10B51F84A28@eurprd03.prod.outlook.com>
 MIME-Version: 1.0
-In-Reply-To: <20200915145958.19993-15-tzimmermann@suse.de>
-User-Agent: Mutt/1.14.6 (2020-07-11)
+X-OriginatorOrg: fi.rohmeurope.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: HE1PR03MB3162.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: acabe237-61b4-4f6a-557a-08d859417018
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Sep 2020 06:34:46.0634 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 94f2c475-a538-4112-b5dd-63f17273d67a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Fuqz2DEnV+bJWtDVa8vhjX2ilB3awswg7e6RZ8yYoOOi9VLp47GtY4gQQrARallq6bPck80//SJcO2rUV31bXNSYJAohcnMnp2mkzncyph6BO+Vp5GzbkrQM+yHE0BTJ
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: HE1PR0301MB2476
+X-Mailman-Approved-At: Thu, 17 Sep 2020 13:49:10 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,93 +96,103 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: hamohammed.sa@gmail.com, heiko@sntech.de, andrey.grodzovsky@amd.com,
- airlied@linux.ie, nouveau@lists.freedesktop.org,
- joonas.lahtinen@linux.intel.com, dri-devel@lists.freedesktop.org,
- michal.simek@xilinx.com, eric@anholt.net, nirmoy.das@amd.com,
- robdclark@gmail.com, krzk@kernel.org, sam@ravnborg.org,
- sumit.semwal@linaro.org, emil.velikov@collabora.com,
- linux-samsung-soc@vger.kernel.org, jy0922.shim@samsung.com,
- oleksandr_andrushchenko@epam.com, tomi.valkeinen@ti.com,
- linux-tegra@vger.kernel.org, linux@armlinux.org.uk,
- patrik.r.jakobsson@gmail.com, jonathanh@nvidia.com,
- linux-rockchip@lists.infradead.org, kgene@kernel.org, bskeggs@redhat.com,
- xen-devel@lists.xenproject.org, intel-gfx@lists.freedesktop.org,
- matthew.auld@intel.com, chunkuang.hu@kernel.org, andi.shyti@intel.com,
- daniel@ffwll.ch, linux-arm-msm@vger.kernel.org, marek.olsak@amd.com,
- tianci.yin@amd.com, maarten.lankhorst@linux.intel.com,
- etnaviv@lists.freedesktop.org, jani.nikula@linux.intel.com,
- inki.dae@samsung.com, hdegoede@redhat.com, christian.gmeiner@gmail.com,
- linux-mediatek@lists.infradead.org, mripard@kernel.org, rodrigo.vivi@intel.com,
- matthias.bgg@gmail.com, evan.quan@amd.com, sean@poorly.run,
- linux-arm-kernel@lists.infradead.org, tvrtko.ursulin@linux.intel.com,
- amd-gfx@lists.freedesktop.org, laurent.pinchart@ideasonboard.com,
- hyun.kwon@xilinx.com, rodrigosiqueiramelo@gmail.com, aaron.liu@amd.com,
- Felix.Kuehling@amd.com, xinhui.pan@amd.com, sw0312.kim@samsung.com,
- hjc@rock-chips.com, chris@chris-wilson.co.uk, kyungmin.park@samsung.com,
- miaoqinglang@huawei.com, p.zabel@pengutronix.de, alexander.deucher@amd.com,
- Hawking.Zhang@amd.com, freedreno@lists.freedesktop.org,
- christian.koenig@amd.com, l.stach@pengutronix.de
-Content-Type: multipart/mixed; boundary="===============1611954009=="
+Reply-To: "Vaittinen, Matti" <Matti.Vaittinen@fi.rohmeurope.com>
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "festevam@gmail.com" <festevam@gmail.com>,
+ "kernel@pengutronix.de" <kernel@pengutronix.de>,
+ "sam@ravnborg.org" <sam@ravnborg.org>, "airlied@linux.ie" <airlied@linux.ie>,
+ "lee.jones@linaro.org" <lee.jones@linaro.org>,
+ "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "etnaviv@lists.freedesktop.org" <etnaviv@lists.freedesktop.org>,
+ "christian.gmeiner@gmail.com" <christian.gmeiner@gmail.com>,
+ "linux-imx@nxp.com" <linux-imx@nxp.com>, "daniel@ffwll.ch" <daniel@ffwll.ch>,
+ "linux+etnaviv@armlinux.org.uk" <linux+etnaviv@armlinux.org.uk>,
+ "robert.chiras@nxp.com" <robert.chiras@nxp.com>,
+ "leoyang.li@nxp.com" <leoyang.li@nxp.com>,
+ "shawnguo@kernel.org" <shawnguo@kernel.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ "l.stach@pengutronix.de" <l.stach@pengutronix.de>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
 
---===============1611954009==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="NqNl6FRZtoRUn5bW"
-Content-Disposition: inline
+Hello All,
 
+On Mon, 2020-09-14 at 16:44 -0600, Rob Herring wrote:
+> On Fri, Sep 04, 2020 at 04:53:05PM +0200, Krzysztof Kozlowski wrote:
+> > Add common properties appearing in DTSes (clock-names,
+> > clock-output-names) to fix dtbs_check warnings like:
+> > 
+> >   arch/arm64/boot/dts/freescale/imx8mq-librem5-r2.dt.yaml:
+> >     pmic@4b: 'clock-names', 'clock-output-names', do not match any
+> > of the regexes: 'pinctrl-[0-9]+'
+> > 
+> > Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+> > ---
+> >  .../devicetree/bindings/mfd/rohm,bd71837-pmic.yaml          | 6
+> > ++++++
+> >  1 file changed, 6 insertions(+)
+> > 
+> > diff --git a/Documentation/devicetree/bindings/mfd/rohm,bd71837-
+> > pmic.yaml b/Documentation/devicetree/bindings/mfd/rohm,bd71837-
+> > pmic.yaml
+> > index 65018a019e1d..ecce0d5e3a95 100644
+> > --- a/Documentation/devicetree/bindings/mfd/rohm,bd71837-pmic.yaml
+> > +++ b/Documentation/devicetree/bindings/mfd/rohm,bd71837-pmic.yaml
+> > @@ -32,9 +32,15 @@ properties:
+> >    clocks:
+> >      maxItems: 1
+> >  
+> > +  clock-names:
+> > +    maxItems: 1
+> 
+> Needs to define what the name is.
 
---NqNl6FRZtoRUn5bW
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Someone once told me that "naming is hard".
+Do we have some good common convention for 32K oscillator input naming?
+Or should it just be dropped?
 
-On Tue, Sep 15, 2020 at 04:59:51PM +0200, Thomas Zimmermann wrote:
-> GEM object functions deprecate several similar callback interfaces in
-> struct drm_driver. This patch replaces the per-driver callbacks with
-> per-instance callbacks in tegra.
->=20
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
->  drivers/gpu/drm/tegra/drm.c | 4 ----
->  drivers/gpu/drm/tegra/gem.c | 8 ++++++++
->  2 files changed, 8 insertions(+), 4 deletions(-)
+> 
+> > +
+> >    "#clock-cells":
+> >      const: 0
+> >  
+> > +  clock-output-names:
+> > +    maxItems: 1
+> 
+> Ideally this one too, but we've been more flexible on it.
 
-Acked-by: Thierry Reding <treding@nvidia.com>
+Data-sheet for BD71837 uses pin name "C32k_OUT". So maybe this would be
+good?
 
---NqNl6FRZtoRUn5bW
-Content-Type: application/pgp-signature; name="signature.asc"
+BD71838 uses "bd71828-32k-out" . so we could also go with this same
+convention and use "bd71837-32k-out". Or - we could take a risk and
+*assume* typical use case for this clk (as this is typically used with
+i.MX8 I'd guess the 32k is used for RTC) and name it accordingly.
 
------BEGIN PGP SIGNATURE-----
+Br,
+	Matti Vaittinen
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl9jQNQACgkQ3SOs138+
-s6HfWQ//YmrWsVV1CJUAgb5t2QX4pCrujVRekVE/g1njlA/b4hb8UrTwixaZox4k
-Y6ALc4RAngHpnPoebK9HTtI7eQ6gV3NzTvOZN432iqInp8UuFdrqwY9hkRcS5ak9
-gNSHqMgl0BAkIdZ7VM5EWvVcbSkWsGbOR2uTx45m3hieqf80Jlyto/yqcH8yHm0Y
-dNhlRIxSS23lHF4c79jOtCPyJjF2DaErfz+qFiFLmdV60AjeCfl6LZZSuSNSbSNv
-Ht8OICXXHv9dKx6IbgyAAJIf77DsMDyXHzNC6YxoBH1c1X3JgEinuNaj8h+ZXxrT
-klWtayTZ15xforiBumJH+Zi23DA+95v6eigfHDVje5APtRHxDgdnNOhW6zRF049I
-powiLvCaS10xJVB7+4DlXmvdJTRaw8jNMcOYR0Yyg5fwrbkjkHyFsi2iQyzclBEJ
-KM5kjLzpgBQpaEgpsCqxY0TJ0/bU/VdL532UpAyCK7D9RxN8sdhfU7A4xuwwAeNP
-t63YCPEKs9kd0rKW4W6tUOEm9IeNiHL0CL55oYNDUNk0ddTtmdlQkFKSOfDbGBwe
-X3RtJeu0oG5S40RXucqy2J4BJO5tKcymjFb3xqjaCP8nDF3ozvgmq/Hu4+MWkeL7
-b/rNCCE8o02rDlLqOHqxccc+bQXs6tQBkwI0mESWxpdRfBPoyt8=
-=1YYz
------END PGP SIGNATURE-----
+--
+Matti Vaittinen, Linux device drivers
+ROHM Semiconductors, Finland
+SWDC
+Kiviharjunlenkki 1E
+90220 OULU
+FINLAND
 
---NqNl6FRZtoRUn5bW--
+~~~ "I don't think so," said Rene Descartes. Just then he vanished ~~~
 
---===============1611954009==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+Simon says - in Latin please.
+"non cogito me" dixit Rene Descarte, deinde evanescavit
+
+(Thanks for the translation Simon)
 
 _______________________________________________
 etnaviv mailing list
 etnaviv@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/etnaviv
-
---===============1611954009==--
