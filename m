@@ -2,39 +2,52 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EC4526A920
-	for <lists+etnaviv@lfdr.de>; Tue, 15 Sep 2020 17:55:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2ED926BD59
+	for <lists+etnaviv@lfdr.de>; Wed, 16 Sep 2020 08:38:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6674F6E11B;
-	Tue, 15 Sep 2020 15:55:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9DA0A6E992;
+	Wed, 16 Sep 2020 06:38:25 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 439396E109;
- Tue, 15 Sep 2020 15:55:11 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0FA56276;
- Tue, 15 Sep 2020 17:54:16 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1600185256;
- bh=XzPEATglwb8mJLD0DYu0V5mnVt9Rmyb4GFF3M0n1BQw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=k/TxRWDwAUeEA/mxOqDGy3dXpqZvHw1rgu/hfc6AZ+2kJHV8nY1aZQ1niwJxXM2on
- uMm8kF40aJQq8Y3LJa+B/xGzPCzryGwMdT5H5oWYJQ48rRZEb8n/CrAkn0VvMZEJAK
- zd/EMFYW53+dug8ySJGu6EPKXShM0dS8ZH8bQ3S8=
-Date: Tue, 15 Sep 2020 18:53:46 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v2 20/21] drm/xlnx: Initialize DRM driver instance with
- CMA helper macro
-Message-ID: <20200915155346.GA26029@pendragon.ideasonboard.com>
-References: <20200915145958.19993-1-tzimmermann@suse.de>
- <20200915145958.19993-21-tzimmermann@suse.de>
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+ [209.85.221.66])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7D10F6E992;
+ Wed, 16 Sep 2020 06:38:24 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id s12so5582553wrw.11;
+ Tue, 15 Sep 2020 23:38:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=OIJLGGGniVhQVtQMrqVCccoyI58LfU7rsBw2hzyYuuI=;
+ b=oU5oJFEMlTapmj1eWnqAWqrX7MbSACs/x591zt208RiV5P9ddLh4V1eRqiaou+swYD
+ kJJzX5p+dhHSunECdaFUSmMW1kpPD6Gs9GEov/Pt2JGxv2sFF+yjyjMLi2LFMVOxMdv8
+ Yrf3VrGJha4qH5xUHqnXyA1lyUcrhOXvrdqtnl02o6Bs5iRQV252kTYh3HAnUYmS2F86
+ YTJA5SW3R1RKxQVhlFY2Jd6a1lEKCNjS7LoRZwHtnPff7NtzFSSkK6YcmPMXFqVlh7Ue
+ iseJyk6Vnt66PKP54SXZShBy0J4IS0VJHU24LRP0wU1DebIkjiQLJ0T4mATs+d9trux5
+ AoTQ==
+X-Gm-Message-State: AOAM5334ec0plvV+IKsImTsqREIkZtFxTHtQyH12VGmvaHfdY6e1DO6Q
+ yKKFbMKGPcBjVdGlX9dhBB4=
+X-Google-Smtp-Source: ABdhPJyQlteL0N/pU4eGx+adqZwehoEnOdIRonAvDPv+rO2M8s8kM/CkVEgxf3jd4rBP/JE1VfY6cg==
+X-Received: by 2002:adf:f3c6:: with SMTP id g6mr27189618wrp.340.1600238303133; 
+ Tue, 15 Sep 2020 23:38:23 -0700 (PDT)
+Received: from kozik-lap ([194.230.155.124])
+ by smtp.googlemail.com with ESMTPSA id 18sm3308363wmj.28.2020.09.15.23.38.20
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Tue, 15 Sep 2020 23:38:22 -0700 (PDT)
+Date: Wed, 16 Sep 2020 08:38:19 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Shawn Guo <shawnguo@kernel.org>
+Subject: Re: [PATCH 03/13] dt-bindings: arm: fsl: Fix matching Purism Librem5
+ phones
+Message-ID: <20200916063819.GA6687@kozik-lap>
+References: <20200904145312.10960-1-krzk@kernel.org>
+ <20200904145312.10960-4-krzk@kernel.org>
+ <20200914223343.GA386301@bogus>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200915145958.19993-21-tzimmermann@suse.de>
+In-Reply-To: <20200914223343.GA386301@bogus>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,92 +59,52 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: hamohammed.sa@gmail.com, heiko@sntech.de, andrey.grodzovsky@amd.com,
- airlied@linux.ie, nouveau@lists.freedesktop.org,
- joonas.lahtinen@linux.intel.com, dri-devel@lists.freedesktop.org,
- michal.simek@xilinx.com, eric@anholt.net, thierry.reding@gmail.com,
- robdclark@gmail.com, krzk@kernel.org, sam@ravnborg.org,
- sumit.semwal@linaro.org, emil.velikov@collabora.com,
- linux-samsung-soc@vger.kernel.org, jy0922.shim@samsung.com,
- oleksandr_andrushchenko@epam.com, tomi.valkeinen@ti.com,
- linux-tegra@vger.kernel.org, linux@armlinux.org.uk,
- patrik.r.jakobsson@gmail.com, jonathanh@nvidia.com,
- linux-rockchip@lists.infradead.org, kgene@kernel.org, bskeggs@redhat.com,
- xen-devel@lists.xenproject.org, intel-gfx@lists.freedesktop.org,
- matthew.auld@intel.com, chunkuang.hu@kernel.org, andi.shyti@intel.com,
- daniel@ffwll.ch, linux-arm-msm@vger.kernel.org, marek.olsak@amd.com,
- tianci.yin@amd.com, maarten.lankhorst@linux.intel.com,
- etnaviv@lists.freedesktop.org, jani.nikula@linux.intel.com,
- inki.dae@samsung.com, hdegoede@redhat.com, christian.gmeiner@gmail.com,
- linux-mediatek@lists.infradead.org, mripard@kernel.org, rodrigo.vivi@intel.com,
- matthias.bgg@gmail.com, evan.quan@amd.com, sean@poorly.run,
- linux-arm-kernel@lists.infradead.org, tvrtko.ursulin@linux.intel.com,
- amd-gfx@lists.freedesktop.org, chris@chris-wilson.co.uk, hyun.kwon@xilinx.com,
- rodrigosiqueiramelo@gmail.com, aaron.liu@amd.com, Felix.Kuehling@amd.com,
- xinhui.pan@amd.com, sw0312.kim@samsung.com, hjc@rock-chips.com,
- miaoqinglang@huawei.com, kyungmin.park@samsung.com, nirmoy.das@amd.com,
- p.zabel@pengutronix.de, alexander.deucher@amd.com, Hawking.Zhang@amd.com,
- freedreno@lists.freedesktop.org, christian.koenig@amd.com,
- l.stach@pengutronix.de
+Cc: devicetree@vger.kernel.org, Fabio Estevam <festevam@gmail.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>, Rob Herring <robh@kernel.org>,
+ David Airlie <airlied@linux.ie>, Lee Jones <lee.jones@linaro.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+ etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Rob Herring <robh+dt@kernel.org>, NXP Linux Team <linux-imx@nxp.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Russell King <linux+etnaviv@armlinux.org.uk>,
+ Robert Chiras <robert.chiras@nxp.com>, Li Yang <leoyang.li@nxp.com>,
+ Sam Ravnborg <sam@ravnborg.org>, linux-arm-kernel@lists.infradead.org,
+ Lucas Stach <l.stach@pengutronix.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Hi Thomas,
-
-Thank you for the patch.
-
-On Tue, Sep 15, 2020 at 04:59:57PM +0200, Thomas Zimmermann wrote:
-> The xlnx driver uses CMA helpers with default callback functions.
-> Initialize the driver structure with the rsp CMA helper macro. The
-> driver is being converted to use GEM object functions as part of
-> this change.
+On Mon, Sep 14, 2020 at 04:33:43PM -0600, Rob Herring wrote:
+> On Fri, 04 Sep 2020 16:53:02 +0200, Krzysztof Kozlowski wrote:
+> > All Purism Librem5 phones have three compatibles so they need their own
+> > entry to fix dbts_check warnings like:
+> > 
+> >   arch/arm64/boot/dts/freescale/imx8mq-librem5-r2.dt.yaml: /:
+> >     compatible: ['purism,librem5r2', 'purism,librem5', 'fsl,imx8mq'] is not valid under any of the given schemas
+> > 
+> >   arch/arm64/boot/dts/freescale/imx8mq-librem5-r2.dt.yaml: /:
+> >     compatible: ['purism,librem5r2', 'purism,librem5', 'fsl,imx8mq'] is too long
+> > 
+> > Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+> > ---
+> >  Documentation/devicetree/bindings/arm/fsl.yaml | 10 ++++++++--
+> >  1 file changed, 8 insertions(+), 2 deletions(-)
+> > 
 > 
-> Two callbacks, .dumb_destroy and .gem_prime_import, were initialized
-> to their default implementations, so they are just kept empty now.
+> Reviewed-by: Rob Herring <robh@kernel.org>
 > 
-> v2:
-> 	* initialize with DRM_GEM_CMA_DRIVER_OPS_WITH_DUMB_CREATE (Laurent)
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> I expect Shawn to pick this one up as this file gets touched a fair 
+> amount.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Hi Shawn,
 
-> ---
->  drivers/gpu/drm/xlnx/zynqmp_dpsub.c | 14 +-------------
->  1 file changed, 1 insertion(+), 13 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/xlnx/zynqmp_dpsub.c b/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
-> index 8e69303aad3f..f3ffc3703a0e 100644
-> --- a/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
-> +++ b/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
-> @@ -80,19 +80,7 @@ static struct drm_driver zynqmp_dpsub_drm_driver = {
->  	.driver_features		= DRIVER_MODESET | DRIVER_GEM |
->  					  DRIVER_ATOMIC,
->  
-> -	.prime_handle_to_fd		= drm_gem_prime_handle_to_fd,
-> -	.prime_fd_to_handle		= drm_gem_prime_fd_to_handle,
-> -	.gem_prime_export		= drm_gem_prime_export,
-> -	.gem_prime_import		= drm_gem_prime_import,
-> -	.gem_prime_get_sg_table		= drm_gem_cma_prime_get_sg_table,
-> -	.gem_prime_import_sg_table	= drm_gem_cma_prime_import_sg_table,
-> -	.gem_prime_vmap			= drm_gem_cma_prime_vmap,
-> -	.gem_prime_vunmap		= drm_gem_cma_prime_vunmap,
-> -	.gem_prime_mmap			= drm_gem_cma_prime_mmap,
-> -	.gem_free_object_unlocked	= drm_gem_cma_free_object,
-> -	.gem_vm_ops			= &drm_gem_cma_vm_ops,
-> -	.dumb_create			= zynqmp_dpsub_dumb_create,
-> -	.dumb_destroy			= drm_gem_dumb_destroy,
-> +	DRM_GEM_CMA_DRIVER_OPS_WITH_DUMB_CREATE(zynqmp_dpsub_dumb_create),
->  
->  	.fops				= &zynqmp_dpsub_drm_fops,
->  
+Could you pick up this patch as well?
 
--- 
-Regards,
+Best regards,
+Krzysztof
 
-Laurent Pinchart
 _______________________________________________
 etnaviv mailing list
 etnaviv@lists.freedesktop.org
