@@ -1,58 +1,57 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE92126C229
-	for <lists+etnaviv@lfdr.de>; Wed, 16 Sep 2020 13:35:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 61B7126C261
+	for <lists+etnaviv@lfdr.de>; Wed, 16 Sep 2020 14:01:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 692348984C;
-	Wed, 16 Sep 2020 11:35:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5953A6E9BA;
+	Wed, 16 Sep 2020 12:01:36 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 62E0E8984C
- for <etnaviv@lists.freedesktop.org>; Wed, 16 Sep 2020 11:35:20 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id k18so2618671wmj.5
- for <etnaviv@lists.freedesktop.org>; Wed, 16 Sep 2020 04:35:20 -0700 (PDT)
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 27E946E9AE
+ for <etnaviv@lists.freedesktop.org>; Wed, 16 Sep 2020 12:01:35 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id y15so2746605wmi.0
+ for <etnaviv@lists.freedesktop.org>; Wed, 16 Sep 2020 05:01:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=DdTA+P9lRhC68qI4dpVtWpzlyCIniGzxdHE1O+Q7zUU=;
- b=VZm53vKzP2cW6qF7XV0KSRt5PPELHpk07zG//Mxa2CBTIBDdZdST/S+s0rdEQKVsZW
- gTZ1OWjoGqV/1N91UgOzFqec1vf3PElY/ngrFrKXGmjuOOcYrYiRpj5tf2Kdv9HG27Xk
- tCQbqYKzbNGq1n8DixVR/dUuMsm1DSxiACKH4=
+ bh=igBfcxeCtlQN5CLlSYPTKG81q+ycX2teEyiF94cMRWs=;
+ b=kXxeFKQt9X9g8aLTM+QgfFognrWsi7bbeKyXtbUa6Sw3vDhO1pk5GhyGWNAwFRiYV/
+ y3+Zb9FAd6+OgeWN2UBgXkLCkDAoTOIILHbMfIswZ+DjZ6vsfBBnkeLG6pdGQ2oE+uvl
+ +Byrs6EBHXRCTzlSe/2XCwaludcXLVt60J20Y=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=DdTA+P9lRhC68qI4dpVtWpzlyCIniGzxdHE1O+Q7zUU=;
- b=Qi1fH9CetnbJaa+IA8NEAJokgJkLwlo4r99T3jhFGOQxJwFAYatHm0APnpYWHc3veS
- zk61NbYi8YkrOF+J1CvAkl31wi+IJ/9JZwSTJErrcxedkWDIqbWmygEm/QfMYDJ0Brh/
- 0mIdfMPKpTCyD8YPw6n4PGGDPV+fuEwB8euW6qwGWwNrhvDiVe3+xpaYvE8p/vZ7/hbj
- fn/YVFlBcgqZfq62Da+B/tQOkhpThIqavwJGW614Ck6Z415firKLjv6vNPo0xzbOpZM4
- 2hlQVEkGIpLdJBnVn48QiCluSMTS4It6FMnfUqfEP6y3QRnH1BSz0N+zM9TYGDqGPTxp
- Ga7Q==
-X-Gm-Message-State: AOAM5313o8AxEOC8PX7/DUlhdc3NSRnIEadUrW/Qm3NNLW7RY+0h306y
- rBrlC/yOVI+RQ6ZlfQ23dSVYEA==
-X-Google-Smtp-Source: ABdhPJylkcOBbGgEGGZKZhaBAwyH9kqk9RFSGhRv17hk61GEhNulx96NJ9Vhx8cdjXcbwhCg7LMEDQ==
-X-Received: by 2002:a05:600c:2109:: with SMTP id
- u9mr3990398wml.147.1600256118887; 
- Wed, 16 Sep 2020 04:35:18 -0700 (PDT)
+ bh=igBfcxeCtlQN5CLlSYPTKG81q+ycX2teEyiF94cMRWs=;
+ b=L6PcW9tX0jp8kGtjQG4A/7d190pcfBx5cRc8gtTp6nkyF7TeJDg0xPdwpnsh6WUYL/
+ w+32CUvA1enu9YNpzHsgbxElQCQskrNTaa/Bi+kEDJKbnkKfDUijBsiaAQWtMa+LTMRJ
+ MDP7YOszd6EcTEo45avmmv4RwGm9oCQYzDPqRXv+91ows1411/F5jfM0B0rp7UqpjeTo
+ juOGe4rXFDAKhWSxf3SvuDeCQUx88zHYT8mJZHP5nlA/YDu8Gzkbr1r23bxLzt+89YBj
+ MrxgIIso58anBXuJeJdzep+fkuDQRIoMNA1zVC44shBoi54GkYJ+ORMZdVLCCGfOPjQn
+ TT0g==
+X-Gm-Message-State: AOAM532l0wWNA0se94GtlVxi8bTQhiV+4ZQfFhGA42RAuLLh9tIEn5BI
+ 6tfVXB8x4uRAOmAEW33S9CUPGQ==
+X-Google-Smtp-Source: ABdhPJzfc+smqAu2u0R++9ZZRUwUh0N8NfJRxHBrlnztnEgrnVKh20aLbXU2FBFNb/vMU9OQyVRfcw==
+X-Received: by 2002:a1c:1d08:: with SMTP id d8mr4572504wmd.78.1600257693715;
+ Wed, 16 Sep 2020 05:01:33 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id g14sm4163583wrv.25.2020.09.16.04.35.16
+ by smtp.gmail.com with ESMTPSA id x16sm31915068wrq.62.2020.09.16.05.01.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Sep 2020 04:35:18 -0700 (PDT)
-Date: Wed, 16 Sep 2020 13:35:14 +0200
+ Wed, 16 Sep 2020 05:01:32 -0700 (PDT)
+Date: Wed, 16 Sep 2020 14:01:29 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
 To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v2 07/21] drm/mediatek: Introduce GEM object functions
-Message-ID: <20200916113514.GK438822@phenom.ffwll.local>
+Subject: Re: [PATCH v2 08/21] drm/msm: Introduce GEM object funcs
+Message-ID: <20200916120129.GL438822@phenom.ffwll.local>
 References: <20200915145958.19993-1-tzimmermann@suse.de>
- <20200915145958.19993-8-tzimmermann@suse.de>
+ <20200915145958.19993-9-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200915145958.19993-8-tzimmermann@suse.de>
+In-Reply-To: <20200915145958.19993-9-tzimmermann@suse.de>
 X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -98,80 +97,116 @@ Content-Transfer-Encoding: 7bit
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-On Tue, Sep 15, 2020 at 04:59:44PM +0200, Thomas Zimmermann wrote:
+On Tue, Sep 15, 2020 at 04:59:45PM +0200, Thomas Zimmermann wrote:
 > GEM object functions deprecate several similar callback interfaces in
 > struct drm_driver. This patch replaces the per-driver callbacks with
-> per-instance callbacks in mediatek. The only exception is gem_prime_mmap,
+> per-instance callbacks in msm. The only exception is gem_prime_mmap,
 > which is non-trivial to convert.
 > 
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
->  drivers/gpu/drm/mediatek/mtk_drm_drv.c |  5 -----
->  drivers/gpu/drm/mediatek/mtk_drm_gem.c | 11 +++++++++++
->  2 files changed, 11 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> index 040a8f393fe2..2f8d0043fca7 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> @@ -301,18 +301,13 @@ struct drm_gem_object *mtk_drm_gem_prime_import(struct drm_device *dev,
->  static struct drm_driver mtk_drm_driver = {
->  	.driver_features = DRIVER_MODESET | DRIVER_GEM | DRIVER_ATOMIC,
->  
-> -	.gem_free_object_unlocked = mtk_drm_gem_free_object,
-> -	.gem_vm_ops = &drm_gem_cma_vm_ops,
->  	.dumb_create = mtk_drm_gem_dumb_create,
->  
->  	.prime_handle_to_fd = drm_gem_prime_handle_to_fd,
->  	.prime_fd_to_handle = drm_gem_prime_fd_to_handle,
->  	.gem_prime_import = mtk_drm_gem_prime_import,
-> -	.gem_prime_get_sg_table = mtk_gem_prime_get_sg_table,
->  	.gem_prime_import_sg_table = mtk_gem_prime_import_sg_table,
->  	.gem_prime_mmap = mtk_drm_gem_mmap_buf,
-> -	.gem_prime_vmap = mtk_drm_gem_prime_vmap,
-> -	.gem_prime_vunmap = mtk_drm_gem_prime_vunmap,
->  	.fops = &mtk_drm_fops,
->  
->  	.name = DRIVER_NAME,
-> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_gem.c b/drivers/gpu/drm/mediatek/mtk_drm_gem.c
-> index 6190cc3b7b0d..591b90410e4a 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_drm_gem.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_drm_gem.c
-> @@ -8,11 +8,20 @@
->  #include <drm/drm.h>
->  #include <drm/drm_device.h>
->  #include <drm/drm_gem.h>
-> +#include <drm/drm_gem_cma_helper.h>
->  #include <drm/drm_prime.h>
->  
->  #include "mtk_drm_drv.h"
->  #include "mtk_drm_gem.h"
->  
-> +static const struct drm_gem_object_funcs mtk_drm_gem_object_funcs = {
-> +	.free = mtk_drm_gem_free_object,
-> +	.get_sg_table = mtk_gem_prime_get_sg_table,
-> +	.vmap = mtk_drm_gem_prime_vmap,
-> +	.vunmap = mtk_drm_gem_prime_vunmap,
-> +	.vm_ops = &drm_gem_cma_vm_ops,
-> +};
-> +
->  static struct mtk_drm_gem_obj *mtk_drm_gem_init(struct drm_device *dev,
->  						unsigned long size)
->  {
-> @@ -25,6 +34,8 @@ static struct mtk_drm_gem_obj *mtk_drm_gem_init(struct drm_device *dev,
->  	if (!mtk_gem_obj)
->  		return ERR_PTR(-ENOMEM);
->  
-> +	mtk_gem_obj->base.funcs = &mtk_drm_gem_object_funcs;
-> +
->  	ret = drm_gem_object_init(dev, &mtk_gem_obj->base, size);
->  	if (ret < 0) {
->  		DRM_ERROR("failed to initialize gem object\n");
-> -- 
-> 2.28.0
 
 Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
+> ---
+>  drivers/gpu/drm/msm/msm_drv.c | 13 -------------
+>  drivers/gpu/drm/msm/msm_drv.h |  1 -
+>  drivers/gpu/drm/msm/msm_gem.c | 19 ++++++++++++++++++-
+>  3 files changed, 18 insertions(+), 15 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+> index 79333842f70a..5952767ea478 100644
+> --- a/drivers/gpu/drm/msm/msm_drv.c
+> +++ b/drivers/gpu/drm/msm/msm_drv.c
+> @@ -978,12 +978,6 @@ static const struct drm_ioctl_desc msm_ioctls[] = {
+>  	DRM_IOCTL_DEF_DRV(MSM_SUBMITQUEUE_QUERY, msm_ioctl_submitqueue_query, DRM_RENDER_ALLOW),
+>  };
+>  
+> -static const struct vm_operations_struct vm_ops = {
+> -	.fault = msm_gem_fault,
+> -	.open = drm_gem_vm_open,
+> -	.close = drm_gem_vm_close,
+> -};
+> -
+>  static const struct file_operations fops = {
+>  	.owner              = THIS_MODULE,
+>  	.open               = drm_open,
+> @@ -1009,18 +1003,11 @@ static struct drm_driver msm_driver = {
+>  	.irq_preinstall     = msm_irq_preinstall,
+>  	.irq_postinstall    = msm_irq_postinstall,
+>  	.irq_uninstall      = msm_irq_uninstall,
+> -	.gem_free_object_unlocked = msm_gem_free_object,
+> -	.gem_vm_ops         = &vm_ops,
+>  	.dumb_create        = msm_gem_dumb_create,
+>  	.dumb_map_offset    = msm_gem_dumb_map_offset,
+>  	.prime_handle_to_fd = drm_gem_prime_handle_to_fd,
+>  	.prime_fd_to_handle = drm_gem_prime_fd_to_handle,
+> -	.gem_prime_pin      = msm_gem_prime_pin,
+> -	.gem_prime_unpin    = msm_gem_prime_unpin,
+> -	.gem_prime_get_sg_table = msm_gem_prime_get_sg_table,
+>  	.gem_prime_import_sg_table = msm_gem_prime_import_sg_table,
+> -	.gem_prime_vmap     = msm_gem_prime_vmap,
+> -	.gem_prime_vunmap   = msm_gem_prime_vunmap,
+>  	.gem_prime_mmap     = msm_gem_prime_mmap,
+>  #ifdef CONFIG_DEBUG_FS
+>  	.debugfs_init       = msm_debugfs_init,
+> diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
+> index af259b0573ea..7bcea10be81f 100644
+> --- a/drivers/gpu/drm/msm/msm_drv.h
+> +++ b/drivers/gpu/drm/msm/msm_drv.h
+> @@ -269,7 +269,6 @@ void msm_gem_shrinker_cleanup(struct drm_device *dev);
+>  int msm_gem_mmap_obj(struct drm_gem_object *obj,
+>  			struct vm_area_struct *vma);
+>  int msm_gem_mmap(struct file *filp, struct vm_area_struct *vma);
+> -vm_fault_t msm_gem_fault(struct vm_fault *vmf);
+>  uint64_t msm_gem_mmap_offset(struct drm_gem_object *obj);
+>  int msm_gem_get_iova(struct drm_gem_object *obj,
+>  		struct msm_gem_address_space *aspace, uint64_t *iova);
+> diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
+> index b4553caaa196..de915ff6f4b4 100644
+> --- a/drivers/gpu/drm/msm/msm_gem.c
+> +++ b/drivers/gpu/drm/msm/msm_gem.c
+> @@ -247,7 +247,7 @@ int msm_gem_mmap(struct file *filp, struct vm_area_struct *vma)
+>  	return msm_gem_mmap_obj(vma->vm_private_data, vma);
+>  }
+>  
+> -vm_fault_t msm_gem_fault(struct vm_fault *vmf)
+> +static vm_fault_t msm_gem_fault(struct vm_fault *vmf)
+>  {
+>  	struct vm_area_struct *vma = vmf->vma;
+>  	struct drm_gem_object *obj = vma->vm_private_data;
+> @@ -994,6 +994,22 @@ int msm_gem_new_handle(struct drm_device *dev, struct drm_file *file,
+>  	return ret;
+>  }
+>  
+> +static const struct vm_operations_struct vm_ops = {
+> +	.fault = msm_gem_fault,
+> +	.open = drm_gem_vm_open,
+> +	.close = drm_gem_vm_close,
+> +};
+> +
+> +static const struct drm_gem_object_funcs msm_gem_object_funcs = {
+> +	.free = msm_gem_free_object,
+> +	.pin = msm_gem_prime_pin,
+> +	.unpin = msm_gem_prime_unpin,
+> +	.get_sg_table = msm_gem_prime_get_sg_table,
+> +	.vmap = msm_gem_prime_vmap,
+> +	.vunmap = msm_gem_prime_vunmap,
+> +	.vm_ops = &vm_ops,
+> +};
+> +
+>  static int msm_gem_new_impl(struct drm_device *dev,
+>  		uint32_t size, uint32_t flags,
+>  		struct drm_gem_object **obj)
+> @@ -1024,6 +1040,7 @@ static int msm_gem_new_impl(struct drm_device *dev,
+>  	INIT_LIST_HEAD(&msm_obj->vmas);
+>  
+>  	*obj = &msm_obj->base;
+> +	(*obj)->funcs = &msm_gem_object_funcs;
+>  
+>  	return 0;
+>  }
+> -- 
+> 2.28.0
 > 
 
 -- 
