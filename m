@@ -1,57 +1,58 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABAB726C270
-	for <lists+etnaviv@lfdr.de>; Wed, 16 Sep 2020 14:04:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6946B26C279
+	for <lists+etnaviv@lfdr.de>; Wed, 16 Sep 2020 14:07:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 47C276E9BB;
-	Wed, 16 Sep 2020 12:04:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 030196E9BA;
+	Wed, 16 Sep 2020 12:07:40 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
 Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
  [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6FD2B6E9E2
- for <etnaviv@lists.freedesktop.org>; Wed, 16 Sep 2020 12:04:30 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id s12so6598101wrw.11
- for <etnaviv@lists.freedesktop.org>; Wed, 16 Sep 2020 05:04:30 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 653436E9E2
+ for <etnaviv@lists.freedesktop.org>; Wed, 16 Sep 2020 12:07:39 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id k15so6632764wrn.10
+ for <etnaviv@lists.freedesktop.org>; Wed, 16 Sep 2020 05:07:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=96pn97vudIqUOy40qtVSGKAMicUxOYMMyH8l1R/+468=;
- b=FINC2LpmrXDkMJm5Mgra7waQhpVoOUvOK/XivYRsgqJPi1t7MwreTsEe5qPaJMSnnc
- bGLtUyOPhYe9Fwl6sFIaVos0Od9CqjRDqHzdWl2Mik+v6ih5KJgBn7LXGOWKxnCdsRrY
- i97BOGnSpY1lJ1zlegmw5oCEcpE/Q74wyRPDU=
+ bh=MGCPV3gxMGzqEc3cNJPEYSeaflc+Izh53Gg+hbi1Nhw=;
+ b=D8Cn+LnzRzcwcAFRiK+P1SGw66Mhbu0VayIxxEwp3/Ke3uFcgTtEyg2O2TchfbyaU1
+ /t1Jed/k7t8UhbtyHLBWwi9QGEEtHwtsdBVK0+CssfY95ypMsX9PNDgpg6PAhXIZmBww
+ EM4H0+Gc3gntNd2KUdiNeLGf+3Tz2z1yDgJeU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=96pn97vudIqUOy40qtVSGKAMicUxOYMMyH8l1R/+468=;
- b=kfKzGhZkDSd/v4u8W7Z8W7Nhqu+WYoaBiKxjeefcZekNsFSQu6pg8uh2Vq8GB9ZrYP
- CH8EtUIxr+7hOWWmPHdcGEj5qOW5RpsYlBx5gM9YBIhhUs8jxw4WbUcVDGHzWcjT8r68
- tX23n5/P/3rv5xvaBKxBDOshMF48IxeFfUMoA+DUPQ64jZRdmvRDiMuo0VYy7QKgyTiO
- 7xAf3UZOjSwjwzbAnt2y9W9LX1nCx2s91Pc8CMsH0qAaSrsrAC6mI2jVo0i91f0F3Vke
- rcBVFFJDR+eg2oCOLz4p58eD9NKtOWVsgadNMTDcIx/PZhZOz7HxukOWr9/zJfxj+IYK
- KbMg==
-X-Gm-Message-State: AOAM530l74gi+3ZG0LsSNVumVSWrob+2S+hBPAWy0wcQWZUozeoyRYvt
- 0Pn2sSa4LJt0PefkUiqDrZGERg==
-X-Google-Smtp-Source: ABdhPJzFyWPidEyBuJrzSJ1sZ5B58ttVLzyD39jTNflICGMYf35qmzZyXrhAzHarWd23ksw0UuQHDw==
-X-Received: by 2002:adf:ef4f:: with SMTP id c15mr3019661wrp.390.1600257868941; 
- Wed, 16 Sep 2020 05:04:28 -0700 (PDT)
+ bh=MGCPV3gxMGzqEc3cNJPEYSeaflc+Izh53Gg+hbi1Nhw=;
+ b=hRRg15ApskjrIgCmmxGo7l+RlYYvZmWDsrZMekmTlaC122oZaFY90vxOdnTrloLkyc
+ nikud0MxOh1mEYj3S3TST9T2E7Cw7mH6nvRiMEIEp7bN7w52+Matqn+eAo41BHbwHT7O
+ 0brMh4B/spUFINZWSHxcvkl9g7DtqVxACHPTSZkqD9c5gU3Dkjddhy9Bu1y9Pmlz0XG/
+ YF/sJ16sE5KtyItQU0r6Yeo1BjCYMbDrpBrFVjcThiymg+foZwZSbkpse6TPtJSI1JAx
+ 0aygcf5SnV5hrzEyfEW5rnq2TcP0x6iP7aiWpQi23Vm0nZldC//BCFmVOrvVc6kwNQxu
+ uBTw==
+X-Gm-Message-State: AOAM5327C/bCO5krhHy0N0ekjkjp7CZ9RQvW6HEZz+Vh3OYF5/+RYIKJ
+ TXF4rGz7Y3yyA1/R3rqSQE3/Eg==
+X-Google-Smtp-Source: ABdhPJwrWIpLSYf41av9bZsrjEfrlf4lf8//RpX+N0WUgXGOZN7ZDB+gPcHHEGIp6RA3wivQd9OHbQ==
+X-Received: by 2002:a05:6000:1152:: with SMTP id
+ d18mr26158129wrx.173.1600258057971; 
+ Wed, 16 Sep 2020 05:07:37 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id z11sm33234891wru.88.2020.09.16.05.04.26
+ by smtp.gmail.com with ESMTPSA id y2sm4834552wmg.23.2020.09.16.05.07.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Sep 2020 05:04:27 -0700 (PDT)
-Date: Wed, 16 Sep 2020 14:04:24 +0200
+ Wed, 16 Sep 2020 05:07:36 -0700 (PDT)
+Date: Wed, 16 Sep 2020 14:07:33 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
 To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v2 09/21] drm/nouveau: Introduce GEM object functions
-Message-ID: <20200916120424.GM438822@phenom.ffwll.local>
+Subject: Re: [PATCH v2 13/21] drm/rockchip: Convert to drm_gem_object_funcs
+Message-ID: <20200916120733.GN438822@phenom.ffwll.local>
 References: <20200915145958.19993-1-tzimmermann@suse.de>
- <20200915145958.19993-10-tzimmermann@suse.de>
+ <20200915145958.19993-14-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200915145958.19993-10-tzimmermann@suse.de>
+In-Reply-To: <20200915145958.19993-14-tzimmermann@suse.de>
 X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -97,103 +98,68 @@ Content-Transfer-Encoding: 7bit
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-On Tue, Sep 15, 2020 at 04:59:46PM +0200, Thomas Zimmermann wrote:
+On Tue, Sep 15, 2020 at 04:59:50PM +0200, Thomas Zimmermann wrote:
 > GEM object functions deprecate several similar callback interfaces in
 > struct drm_driver. This patch replaces the per-driver callbacks with
-> per-instance callbacks in nouveau.
+> per-instance callbacks in rockchip. The only exception is gem_prime_mmap,
+> which is non-trivial to convert.
 > 
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-Hm ttm and gem mmap world still quite disjoint ... Anyway that's an
-entirely different thing.
-
 Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
 > ---
->  drivers/gpu/drm/nouveau/nouveau_drm.c   |  9 ---------
->  drivers/gpu/drm/nouveau/nouveau_gem.c   | 13 +++++++++++++
->  drivers/gpu/drm/nouveau/nouveau_gem.h   |  2 ++
->  drivers/gpu/drm/nouveau/nouveau_prime.c |  2 ++
->  4 files changed, 17 insertions(+), 9 deletions(-)
+>  drivers/gpu/drm/rockchip/rockchip_drm_drv.c |  5 -----
+>  drivers/gpu/drm/rockchip/rockchip_drm_gem.c | 10 ++++++++++
+>  2 files changed, 10 insertions(+), 5 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_drm.c b/drivers/gpu/drm/nouveau/nouveau_drm.c
-> index 42fc5c813a9b..72640bca1617 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_drm.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_drm.c
-> @@ -1207,16 +1207,7 @@ driver_stub = {
->  
->  	.prime_handle_to_fd = drm_gem_prime_handle_to_fd,
->  	.prime_fd_to_handle = drm_gem_prime_fd_to_handle,
-> -	.gem_prime_pin = nouveau_gem_prime_pin,
-> -	.gem_prime_unpin = nouveau_gem_prime_unpin,
-> -	.gem_prime_get_sg_table = nouveau_gem_prime_get_sg_table,
->  	.gem_prime_import_sg_table = nouveau_gem_prime_import_sg_table,
-> -	.gem_prime_vmap = nouveau_gem_prime_vmap,
-> -	.gem_prime_vunmap = nouveau_gem_prime_vunmap,
-> -
-> -	.gem_free_object_unlocked = nouveau_gem_object_del,
-> -	.gem_open_object = nouveau_gem_object_open,
-> -	.gem_close_object = nouveau_gem_object_close,
->  
->  	.dumb_create = nouveau_display_dumb_create,
->  	.dumb_map_offset = nouveau_display_dumb_map_offset,
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_gem.c b/drivers/gpu/drm/nouveau/nouveau_gem.c
-> index 89adadf4706b..28e0cbb00876 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_gem.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_gem.c
-> @@ -169,6 +169,17 @@ nouveau_gem_object_close(struct drm_gem_object *gem, struct drm_file *file_priv)
->  	ttm_bo_unreserve(&nvbo->bo);
+> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_drv.c b/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
+> index 0f3eb392fe39..b7654f5e4225 100644
+> --- a/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
+> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
+> @@ -212,15 +212,10 @@ static const struct file_operations rockchip_drm_driver_fops = {
+>  static struct drm_driver rockchip_drm_driver = {
+>  	.driver_features	= DRIVER_MODESET | DRIVER_GEM | DRIVER_ATOMIC,
+>  	.lastclose		= drm_fb_helper_lastclose,
+> -	.gem_vm_ops		= &drm_gem_cma_vm_ops,
+> -	.gem_free_object_unlocked = rockchip_gem_free_object,
+>  	.dumb_create		= rockchip_gem_dumb_create,
+>  	.prime_handle_to_fd	= drm_gem_prime_handle_to_fd,
+>  	.prime_fd_to_handle	= drm_gem_prime_fd_to_handle,
+> -	.gem_prime_get_sg_table	= rockchip_gem_prime_get_sg_table,
+>  	.gem_prime_import_sg_table	= rockchip_gem_prime_import_sg_table,
+> -	.gem_prime_vmap		= rockchip_gem_prime_vmap,
+> -	.gem_prime_vunmap	= rockchip_gem_prime_vunmap,
+>  	.gem_prime_mmap		= rockchip_gem_mmap_buf,
+>  	.fops			= &rockchip_drm_driver_fops,
+>  	.name	= DRIVER_NAME,
+> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_gem.c b/drivers/gpu/drm/rockchip/rockchip_drm_gem.c
+> index 0055d86576f7..bddc7d99efe3 100644
+> --- a/drivers/gpu/drm/rockchip/rockchip_drm_gem.c
+> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_gem.c
+> @@ -296,6 +296,14 @@ static void rockchip_gem_release_object(struct rockchip_gem_object *rk_obj)
+>  	kfree(rk_obj);
 >  }
 >  
-> +const struct drm_gem_object_funcs nouveau_gem_object_funcs = {
-> +	.free = nouveau_gem_object_del,
-> +	.open = nouveau_gem_object_open,
-> +	.close = nouveau_gem_object_close,
-> +	.pin = nouveau_gem_prime_pin,
-> +	.unpin = nouveau_gem_prime_unpin,
-> +	.get_sg_table = nouveau_gem_prime_get_sg_table,
-> +	.vmap = nouveau_gem_prime_vmap,
-> +	.vunmap = nouveau_gem_prime_vunmap,
+> +static const struct drm_gem_object_funcs rockchip_gem_object_funcs = {
+> +	.free = rockchip_gem_free_object,
+> +	.get_sg_table = rockchip_gem_prime_get_sg_table,
+> +	.vmap = rockchip_gem_prime_vmap,
+> +	.vunmap	= rockchip_gem_prime_vunmap,
+> +	.vm_ops = &drm_gem_cma_vm_ops,
 > +};
 > +
->  int
->  nouveau_gem_new(struct nouveau_cli *cli, u64 size, int align, uint32_t domain,
->  		uint32_t tile_mode, uint32_t tile_flags,
-> @@ -186,6 +197,8 @@ nouveau_gem_new(struct nouveau_cli *cli, u64 size, int align, uint32_t domain,
->  	if (IS_ERR(nvbo))
->  		return PTR_ERR(nvbo);
->  
-> +	nvbo->bo.base.funcs = &nouveau_gem_object_funcs;
-> +
->  	/* Initialize the embedded gem-object. We return a single gem-reference
->  	 * to the caller, instead of a normal nouveau_bo ttm reference. */
->  	ret = drm_gem_object_init(drm->dev, &nvbo->bo.base, size);
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_gem.h b/drivers/gpu/drm/nouveau/nouveau_gem.h
-> index 978e07591990..b35c180322e2 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_gem.h
-> +++ b/drivers/gpu/drm/nouveau/nouveau_gem.h
-> @@ -5,6 +5,8 @@
->  #include "nouveau_drv.h"
->  #include "nouveau_bo.h"
->  
-> +extern const struct drm_gem_object_funcs nouveau_gem_object_funcs;
-> +
->  static inline struct nouveau_bo *
->  nouveau_gem_object(struct drm_gem_object *gem)
+>  static struct rockchip_gem_object *
+>  	rockchip_gem_alloc_object(struct drm_device *drm, unsigned int size)
 >  {
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_prime.c b/drivers/gpu/drm/nouveau/nouveau_prime.c
-> index b2ecb91f8ddc..a8264aebf3d4 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_prime.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_prime.c
-> @@ -77,6 +77,8 @@ struct drm_gem_object *nouveau_gem_prime_import_sg_table(struct drm_device *dev,
+> @@ -310,6 +318,8 @@ static struct rockchip_gem_object *
 >  
->  	nvbo->valid_domains = NOUVEAU_GEM_DOMAIN_GART;
+>  	obj = &rk_obj->base;
 >  
-> +	nvbo->bo.base.funcs = &nouveau_gem_object_funcs;
+> +	obj->funcs = &rockchip_gem_object_funcs;
 > +
->  	/* Initialize the embedded gem-object. We return a single gem-reference
->  	 * to the caller, instead of a normal nouveau_bo ttm reference. */
->  	ret = drm_gem_object_init(dev, &nvbo->bo.base, size);
+>  	drm_gem_object_init(drm, obj, size);
+>  
+>  	return rk_obj;
 > -- 
 > 2.28.0
 > 
