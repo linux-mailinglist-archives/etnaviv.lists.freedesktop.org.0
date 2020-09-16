@@ -2,31 +2,58 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00F3626C1DF
-	for <lists+etnaviv@lfdr.de>; Wed, 16 Sep 2020 12:48:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F8A926C205
+	for <lists+etnaviv@lfdr.de>; Wed, 16 Sep 2020 13:21:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 123CE6E39E;
-	Wed, 16 Sep 2020 10:48:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA8546E9AD;
+	Wed, 16 Sep 2020 11:21:44 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 751D4895E1;
- Wed, 16 Sep 2020 10:48:27 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 51681ACB8;
- Wed, 16 Sep 2020 10:48:41 +0000 (UTC)
-Subject: Re: [PATCH 0/3] dma-buf: Flag vmap'ed memory as system or I/O memory
-To: Daniel Vetter <daniel@ffwll.ch>
-References: <20200914112521.1327-1-tzimmermann@suse.de>
- <20200916093756.GC438822@phenom.ffwll.local>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <0378c326-28c6-371e-45d2-8b81ccbda84f@suse.de>
-Date: Wed, 16 Sep 2020 12:48:20 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5CEEA6E9A5
+ for <etnaviv@lists.freedesktop.org>; Wed, 16 Sep 2020 11:21:43 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id l9so2587236wme.3
+ for <etnaviv@lists.freedesktop.org>; Wed, 16 Sep 2020 04:21:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=mUOAFu1Sstz+Y84HDrSYqg/SYf7AQiwgyxkdfcX2QWQ=;
+ b=dNYt3KSmP2zoajuEOcpSRwKjslSpbjWRZP10ZdmvUDBODfNwzvcZciCjx0cVSGnRP/
+ JUZRa+hP31+BJN/M1t7m9Ls/tiT5od6BnRGoXiiAJTdUcoTfR5J6SoK2kCHBNgd6JM9c
+ NsxYbB5nxATvUhunbEGd6bVQp6IDhaI5uBozM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=mUOAFu1Sstz+Y84HDrSYqg/SYf7AQiwgyxkdfcX2QWQ=;
+ b=NcsBqNcxqklmI3uFjiCuyeQ9EPqQarc7Arkzl/Mxr8UdACr1BjqyOluvEO6FhUeZsH
+ M16XwRY5cO1LCEI/lrlsz0yRSEQdTegmewChb0yUzwTvbajeeEJKUHcRd8RLuJwHkYv8
+ nb+9KwhaulwKkPm+Xt4BkUvd+mbcKt7ZrYfD95uP0ujPSQ7BLNO/4YSKm/1RroW7reDu
+ vB9Q4lcI/5CwfnmPEAuTbS9qhXwZ11uyKA/JWcw/CkAY7H4iBm+VQzfiVZiJMzg1iVGO
+ cOy4eb3HOguBXc+44yD6E0L2Ju+zcqmzIiXPlJdH+dYVf7xoflZF18ozdZnfKtqhoHM5
+ 2Czw==
+X-Gm-Message-State: AOAM532voB+T4eLoB7DPurAhWniWRmARLCGGxjB5UY3HsWErj8nqVhGs
+ /KGBBy+/5yCNzNLppTc7RL8YGg==
+X-Google-Smtp-Source: ABdhPJxN4KFdG0OXvpCuI3UQDQSjm9d9naSAnHnzOZnbaecNO0ofucAiEdpaLFF0vBOBWzg3E9jOYA==
+X-Received: by 2002:a05:600c:414e:: with SMTP id
+ h14mr4127600wmm.2.1600255301791; 
+ Wed, 16 Sep 2020 04:21:41 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id q186sm4894705wma.45.2020.09.16.04.21.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 16 Sep 2020 04:21:40 -0700 (PDT)
+Date: Wed, 16 Sep 2020 13:21:36 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v2 03/21] drm/etnaviv: Introduce GEM object functions
+Message-ID: <20200916112136.GG438822@phenom.ffwll.local>
+References: <20200915145958.19993-1-tzimmermann@suse.de>
+ <20200915145958.19993-4-tzimmermann@suse.de>
 MIME-Version: 1.0
-In-Reply-To: <20200916093756.GC438822@phenom.ffwll.local>
+Content-Disposition: inline
+In-Reply-To: <20200915145958.19993-4-tzimmermann@suse.de>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -38,220 +65,154 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: christian.koenig@amd.com, airlied@linux.ie, joonas.lahtinen@linux.intel.com,
- mark.cave-ayland@ilande.co.uk, dri-devel@lists.freedesktop.org,
- chris@chris-wilson.co.uk, thierry.reding@gmail.com, kraxel@redhat.com,
- sparclinux@vger.kernel.org, sam@ravnborg.org, sumit.semwal@linaro.org,
- m.szyprowski@samsung.com, jonathanh@nvidia.com, matthew.auld@intel.com,
- linux+etnaviv@armlinux.org.uk, linux-media@vger.kernel.org, pawel@osciak.com,
- intel-gfx@lists.freedesktop.org, maarten.lankhorst@linux.intel.com,
- etnaviv@lists.freedesktop.org, jani.nikula@linux.intel.com,
- linaro-mm-sig@lists.linaro.org, christian.gmeiner@gmail.com,
- thomas.hellstrom@intel.com, mripard@kernel.org, rodrigo.vivi@intel.com,
- linux-tegra@vger.kernel.org, mchehab@kernel.org, tfiga@chromium.org,
- kyungmin.park@samsung.com, davem@davemloft.net, l.stach@pengutronix.de
-Content-Type: multipart/mixed; boundary="===============0189530375=="
+Cc: hamohammed.sa@gmail.com, heiko@sntech.de, andrey.grodzovsky@amd.com,
+ airlied@linux.ie, nouveau@lists.freedesktop.org,
+ joonas.lahtinen@linux.intel.com, dri-devel@lists.freedesktop.org,
+ michal.simek@xilinx.com, eric@anholt.net, thierry.reding@gmail.com,
+ robdclark@gmail.com, krzk@kernel.org, sam@ravnborg.org,
+ sumit.semwal@linaro.org, emil.velikov@collabora.com,
+ linux-samsung-soc@vger.kernel.org, jy0922.shim@samsung.com,
+ oleksandr_andrushchenko@epam.com, tomi.valkeinen@ti.com,
+ linux-tegra@vger.kernel.org, linux@armlinux.org.uk,
+ patrik.r.jakobsson@gmail.com, jonathanh@nvidia.com,
+ linux-rockchip@lists.infradead.org, kgene@kernel.org, bskeggs@redhat.com,
+ xen-devel@lists.xenproject.org, miaoqinglang@huawei.com,
+ intel-gfx@lists.freedesktop.org, matthew.auld@intel.com,
+ chunkuang.hu@kernel.org, andi.shyti@intel.com, daniel@ffwll.ch,
+ linux-arm-msm@vger.kernel.org, marek.olsak@amd.com, tianci.yin@amd.com,
+ maarten.lankhorst@linux.intel.com, etnaviv@lists.freedesktop.org,
+ jani.nikula@linux.intel.com, inki.dae@samsung.com, hdegoede@redhat.com,
+ christian.gmeiner@gmail.com, linux-mediatek@lists.infradead.org,
+ mripard@kernel.org, rodrigo.vivi@intel.com, matthias.bgg@gmail.com,
+ evan.quan@amd.com, sean@poorly.run, linux-arm-kernel@lists.infradead.org,
+ tvrtko.ursulin@linux.intel.com, amd-gfx@lists.freedesktop.org,
+ laurent.pinchart@ideasonboard.com, hyun.kwon@xilinx.com,
+ rodrigosiqueiramelo@gmail.com, aaron.liu@amd.com, Felix.Kuehling@amd.com,
+ xinhui.pan@amd.com, sw0312.kim@samsung.com, hjc@rock-chips.com,
+ chris@chris-wilson.co.uk, kyungmin.park@samsung.com, nirmoy.das@amd.com,
+ p.zabel@pengutronix.de, alexander.deucher@amd.com, Hawking.Zhang@amd.com,
+ freedreno@lists.freedesktop.org, christian.koenig@amd.com,
+ l.stach@pengutronix.de
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0189530375==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="nXQByYxsytT3RDWIpPfpjMpdHlcFFxi2X"
+On Tue, Sep 15, 2020 at 04:59:40PM +0200, Thomas Zimmermann wrote:
+> GEM object functions deprecate several similar callback interfaces in
+> struct drm_driver. This patch replaces the per-driver callbacks with
+> per-instance callbacks in etnaviv. The only exception is gem_prime_mmap,
+> which is non-trivial to convert.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>  drivers/gpu/drm/etnaviv/etnaviv_drv.c | 13 -------------
+>  drivers/gpu/drm/etnaviv/etnaviv_drv.h |  1 -
+>  drivers/gpu/drm/etnaviv/etnaviv_gem.c | 19 ++++++++++++++++++-
+>  3 files changed, 18 insertions(+), 15 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> index a9a3afaef9a1..aa270b79e585 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> @@ -468,12 +468,6 @@ static const struct drm_ioctl_desc etnaviv_ioctls[] = {
+>  	ETNA_IOCTL(PM_QUERY_SIG, pm_query_sig, DRM_RENDER_ALLOW),
+>  };
+>  
+> -static const struct vm_operations_struct vm_ops = {
+> -	.fault = etnaviv_gem_fault,
+> -	.open = drm_gem_vm_open,
+> -	.close = drm_gem_vm_close,
+> -};
+> -
+>  static const struct file_operations fops = {
+>  	.owner              = THIS_MODULE,
+>  	.open               = drm_open,
+> @@ -490,16 +484,9 @@ static struct drm_driver etnaviv_drm_driver = {
+>  	.driver_features    = DRIVER_GEM | DRIVER_RENDER,
+>  	.open               = etnaviv_open,
+>  	.postclose           = etnaviv_postclose,
+> -	.gem_free_object_unlocked = etnaviv_gem_free_object,
+> -	.gem_vm_ops         = &vm_ops,
+>  	.prime_handle_to_fd = drm_gem_prime_handle_to_fd,
+>  	.prime_fd_to_handle = drm_gem_prime_fd_to_handle,
+> -	.gem_prime_pin      = etnaviv_gem_prime_pin,
+> -	.gem_prime_unpin    = etnaviv_gem_prime_unpin,
+> -	.gem_prime_get_sg_table = etnaviv_gem_prime_get_sg_table,
+>  	.gem_prime_import_sg_table = etnaviv_gem_prime_import_sg_table,
+> -	.gem_prime_vmap     = etnaviv_gem_prime_vmap,
+> -	.gem_prime_vunmap   = etnaviv_gem_prime_vunmap,
+>  	.gem_prime_mmap     = etnaviv_gem_prime_mmap,
+>  #ifdef CONFIG_DEBUG_FS
+>  	.debugfs_init       = etnaviv_debugfs_init,
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.h b/drivers/gpu/drm/etnaviv/etnaviv_drv.h
+> index 4d8dc9236e5f..914f0867ff71 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.h
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.h
+> @@ -49,7 +49,6 @@ int etnaviv_ioctl_gem_submit(struct drm_device *dev, void *data,
+>  		struct drm_file *file);
+>  
+>  int etnaviv_gem_mmap(struct file *filp, struct vm_area_struct *vma);
+> -vm_fault_t etnaviv_gem_fault(struct vm_fault *vmf);
+>  int etnaviv_gem_mmap_offset(struct drm_gem_object *obj, u64 *offset);
+>  struct sg_table *etnaviv_gem_prime_get_sg_table(struct drm_gem_object *obj);
+>  void *etnaviv_gem_prime_vmap(struct drm_gem_object *obj);
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+> index ea19f1d27275..312e9d58d5a7 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+> @@ -171,7 +171,7 @@ int etnaviv_gem_mmap(struct file *filp, struct vm_area_struct *vma)
+>  	return obj->ops->mmap(obj, vma);
+>  }
+>  
+> -vm_fault_t etnaviv_gem_fault(struct vm_fault *vmf)
+> +static vm_fault_t etnaviv_gem_fault(struct vm_fault *vmf)
+>  {
+>  	struct vm_area_struct *vma = vmf->vma;
+>  	struct drm_gem_object *obj = vma->vm_private_data;
+> @@ -561,6 +561,22 @@ void etnaviv_gem_obj_add(struct drm_device *dev, struct drm_gem_object *obj)
+>  	mutex_unlock(&priv->gem_lock);
+>  }
+>  
+> +static const struct vm_operations_struct vm_ops = {
+> +	.fault = etnaviv_gem_fault,
+> +	.open = drm_gem_vm_open,
+> +	.close = drm_gem_vm_close,
+> +};
+> +
+> +static const struct drm_gem_object_funcs etnaviv_gem_object_funcs = {
+> +	.free = etnaviv_gem_free_object,
+> +	.pin = etnaviv_gem_prime_pin,
+> +	.unpin = etnaviv_gem_prime_unpin,
+> +	.get_sg_table = etnaviv_gem_prime_get_sg_table,
+> +	.vmap = etnaviv_gem_prime_vmap,
+> +	.vunmap = etnaviv_gem_prime_vunmap,
+> +	.vm_ops = &vm_ops,
+> +};
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---nXQByYxsytT3RDWIpPfpjMpdHlcFFxi2X
-Content-Type: multipart/mixed; boundary="rFu7oUdlsvVBgdrFy5db9ZOzCXnP1tChn";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Daniel Vetter <daniel@ffwll.ch>
-Cc: sumit.semwal@linaro.org, christian.koenig@amd.com, airlied@linux.ie,
- sam@ravnborg.org, mark.cave-ayland@ilande.co.uk, kraxel@redhat.com,
- davem@davemloft.net, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- l.stach@pengutronix.de, linux+etnaviv@armlinux.org.uk,
- christian.gmeiner@gmail.com, jani.nikula@linux.intel.com,
- joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com,
- thierry.reding@gmail.com, jonathanh@nvidia.com, pawel@osciak.com,
- m.szyprowski@samsung.com, kyungmin.park@samsung.com, tfiga@chromium.org,
- mchehab@kernel.org, chris@chris-wilson.co.uk, matthew.auld@intel.com,
- thomas.hellstrom@intel.com, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- etnaviv@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- linux-tegra@vger.kernel.org, sparclinux@vger.kernel.org
-Message-ID: <0378c326-28c6-371e-45d2-8b81ccbda84f@suse.de>
-Subject: Re: [PATCH 0/3] dma-buf: Flag vmap'ed memory as system or I/O memory
-References: <20200914112521.1327-1-tzimmermann@suse.de>
- <20200916093756.GC438822@phenom.ffwll.local>
-In-Reply-To: <20200916093756.GC438822@phenom.ffwll.local>
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
---rFu7oUdlsvVBgdrFy5db9ZOzCXnP1tChn
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+> +
+>  static int etnaviv_gem_new_impl(struct drm_device *dev, u32 size, u32 flags,
+>  	const struct etnaviv_gem_ops *ops, struct drm_gem_object **obj)
+>  {
+> @@ -595,6 +611,7 @@ static int etnaviv_gem_new_impl(struct drm_device *dev, u32 size, u32 flags,
+>  	INIT_LIST_HEAD(&etnaviv_obj->vram_list);
+>  
+>  	*obj = &etnaviv_obj->base;
+> +	(*obj)->funcs = &etnaviv_gem_object_funcs;
+>  
+>  	return 0;
+>  }
+> -- 
+> 2.28.0
+> 
 
-Hi
-
-Am 16.09.20 um 11:37 schrieb Daniel Vetter:
-> On Mon, Sep 14, 2020 at 01:25:18PM +0200, Thomas Zimmermann wrote:
->> Dma-buf provides vmap() and vunmap() for retrieving and releasing mapp=
-ings
->> of dma-buf memory in kernel address space. The functions operate with =
-plain
->> addresses and the assumption is that the memory can be accessed with l=
-oad
->> and store operations. This is not the case on some architectures (e.g.=
-,
->> sparc64) where I/O memory can only be accessed with dedicated instruct=
-ions.
->>
->> This patchset introduces struct dma_buf_map, which contains the addres=
-s of
->> a buffer and a flag that tells whether system- or I/O-memory instructi=
-ons
->> are required.
->>
->> Some background: updating the DRM framebuffer console on sparc64 makes=
- the
->> kernel panic. This is because the framebuffer memory cannot be accesse=
-d with
->> system-memory instructions. We currently employ a workaround in DRM to=
-
->> address this specific problem. [1]
->>
->> To resolve the problem, we'd like to address it at the most common poi=
-nt,
->> which is the dma-buf framework. The dma-buf mapping ideally knows if I=
-/O
->> instructions are required and exports this information to it's users. =
-The
->> new structure struct dma_buf_map stores the buffer address and a flag =
-that
->> signals I/O memory. Affected users of the buffer (e.g., drivers, frame=
-works)
->> can then access the memory accordingly.
->>
->> This patchset only introduces struct dma_buf_map, and updates struct d=
-ma_buf
->> and it's interfaces. Further patches can update dma-buf users. For exa=
-mple,
->> there's a prototype patchset for DRM that fixes the framebuffer proble=
-m. [2]
->>
->> Further work: TTM, one of DRM's memory managers, already exports an
->> is_iomem flag of its own. It could later be switched over to exporting=
- struct
->> dma_buf_map, thus simplifying some code. Several DRM drivers expect th=
-eir
->> fbdev console to operate on I/O memory. These could possibly be switch=
-ed over
->> to the generic fbdev emulation, as soon as the generic code uses struc=
-t
->> dma_buf_map.
->>
->> [1] https://lore.kernel.org/dri-devel/20200725191012.GA434957@ravnborg=
-=2Eorg/
->> [2] https://lore.kernel.org/dri-devel/20200806085239.4606-1-tzimmerman=
-n@suse.de/
->=20
-> lgtm, imo ready to convert the follow-up patches over to this. But I th=
-ink
-> would be good to get at least some ack from the ttm side for the overal=
-l
-> plan.
-
-Yup, it would be nice if TTM could had out these types automatically.
-Then all TTM-based drivers would automatically support it.
-
->=20
-> Also, I think we should put all the various helpers (writel/readl, mems=
-et,
-> memcpy, whatever else) into the dma-buf-map.h helper, so that most code=
-
-> using this can just treat it as an abstract pointer type and never look=
-
-> underneath it.
-
-We have some framebuffer helpers that rely on pointer arithmetic, so
-we'd need that too. No big deal wrt code, but I was worried about the
-overhead. If a loop goes over framebuffer memory, there's an if/else
-branch for each access to the memory buffer.
-
-Best regards
-Thomas
-
-> -Daniel
->=20
->>
->> Thomas Zimmermann (3):
->>   dma-buf: Add struct dma-buf-map for storing struct dma_buf.vaddr_ptr=
-
->>   dma-buf: Use struct dma_buf_map in dma_buf_vmap() interfaces
->>   dma-buf: Use struct dma_buf_map in dma_buf_vunmap() interfaces
->>
->>  Documentation/driver-api/dma-buf.rst          |   3 +
->>  drivers/dma-buf/dma-buf.c                     |  40 +++---
->>  drivers/gpu/drm/drm_gem_cma_helper.c          |  16 ++-
->>  drivers/gpu/drm/drm_gem_shmem_helper.c        |  17 ++-
->>  drivers/gpu/drm/drm_prime.c                   |  14 +-
->>  drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c   |  13 +-
->>  drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c    |  13 +-
->>  .../drm/i915/gem/selftests/i915_gem_dmabuf.c  |  18 ++-
->>  drivers/gpu/drm/tegra/gem.c                   |  23 ++--
->>  .../common/videobuf2/videobuf2-dma-contig.c   |  17 ++-
->>  .../media/common/videobuf2/videobuf2-dma-sg.c |  19 ++-
->>  .../common/videobuf2/videobuf2-vmalloc.c      |  21 ++-
->>  include/drm/drm_prime.h                       |   5 +-
->>  include/linux/dma-buf-map.h                   | 126 +++++++++++++++++=
-+
->>  include/linux/dma-buf.h                       |  11 +-
->>  15 files changed, 274 insertions(+), 82 deletions(-)
->>  create mode 100644 include/linux/dma-buf-map.h
->>
->> --
->> 2.28.0
->>
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---rFu7oUdlsvVBgdrFy5db9ZOzCXnP1tChn--
-
---nXQByYxsytT3RDWIpPfpjMpdHlcFFxi2X
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl9h7XQUHHR6aW1tZXJt
-YW5uQHN1c2UuZGUACgkQaA3BHVMLeiO/9wf/YTfsgACOA4S0NTMPaK76RpqD2Mv7
-pLgoUTnS7ZL4trmmywOzMJc43P+y+N5PhsrLr+sBZEQINyKFnhKNscimba1v+PGq
-TtdYT7hrWHK6ibqSV7syhQSpfU9KBsklVz53e8IRYdh2tlZb283wTpJTVVCSFki8
-3AWp/1MaHIeYyw3zVIb8IeOFX38n+inYRjkZJT2HkJpJcnN/kF8H4+jbvSohKb3M
-KiSfa6veeJy5GghcGPnWMUlyEHBHTNzwYvaAN1OBwQ6FYlUGwRJxBK/bnad/nQoB
-KTBcINOvBktCbw0KZBzO76jd0nnrBtS55CruHNRwnP3jAlmkXADHvBbvOg==
-=kvDb
------END PGP SIGNATURE-----
-
---nXQByYxsytT3RDWIpPfpjMpdHlcFFxi2X--
-
---===============0189530375==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 etnaviv mailing list
 etnaviv@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/etnaviv
-
---===============0189530375==--
