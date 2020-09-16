@@ -2,57 +2,58 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B127D26C28E
-	for <lists+etnaviv@lfdr.de>; Wed, 16 Sep 2020 14:12:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7257826C2AB
+	for <lists+etnaviv@lfdr.de>; Wed, 16 Sep 2020 14:24:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D0D76E9BB;
-	Wed, 16 Sep 2020 12:12:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B2C7E6E9FC;
+	Wed, 16 Sep 2020 12:24:12 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
 Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
  [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 51DB56E9F0
- for <etnaviv@lists.freedesktop.org>; Wed, 16 Sep 2020 12:12:33 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id w5so6652545wrp.8
- for <etnaviv@lists.freedesktop.org>; Wed, 16 Sep 2020 05:12:33 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA36C6E9F9
+ for <etnaviv@lists.freedesktop.org>; Wed, 16 Sep 2020 12:24:10 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id o5so6634040wrn.13
+ for <etnaviv@lists.freedesktop.org>; Wed, 16 Sep 2020 05:24:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=itNXmFdMkNkQp3lHL/OJ5AcdmW1+okFU4aWmXEltLlc=;
- b=M6hUrq8QnZbt+aKfTDSq26HEyFNrYuP2HAJiDkomFv+4HnnSNSvxvmkLmUlxzgR8Oh
- z0/j8eOzaBLylUfbjVkzUk131lj0C5XE1wCJw6QjqeXtlr67LuBEJeHd84dnajE3kg89
- QpGbTiaFpSq+a+louYXz3VWxqRqBXNIpOtTr8=
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=l8kjoyfFJu+D8mOuRZf0tG7/TCcNZBbZs3fWorKgkQY=;
+ b=J/liHQ0EIWObpZg3n9l2Grq7i/9Ph0+zlI5egK9nl/jkr5rSDSqoqJ3L9BfGE0YrBg
+ 6YLOylfP0g+FHwlZTGgqH0B+/2Ka8VT6sAEvX5RqiCvrH6SQouNOXlyxrkC0jgRqfSXt
+ qU0s4WO4LgkrsYnfAuEj5ABJpMn1ygWLFQn/E=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=itNXmFdMkNkQp3lHL/OJ5AcdmW1+okFU4aWmXEltLlc=;
- b=WcqTEWYnlQqWUAxVD0/m9N0C5V6T2NPLE3oEgmGfZ5H3NTOjdXOo8LJlLh+MzXlg7V
- TQo+Dst/BbahEGxknISLaeEf9h+QcwsSHJhpJ5Zx89z0Ny/+NiVkAZJZmAx3VF8fYgEP
- HA2jaHsPVbN4078JHZOY6xT0xfPhp55y7tVBpR+b6G4NaHoqTbxc3NERaTH9j9L4VcSw
- RIkfZk+yP+LcL9GNpRorxQ/NXF8XMa0m++7QuuXI44xeM9UZ3y6c8sARvg0jpjlvIs4E
- djCCHMukay36g7QqVr18+r+mY30l0pQ2yfBT2KnEhtW8MPFnTEa4s5orKyOG9OTS+S6y
- vOBg==
-X-Gm-Message-State: AOAM531a8YnYspWu/mrVaIzXlIM83yoTS1uDe/yAX20kd6XXKIhcxYx7
- YZ4kE80r/nDk9ZJlskefQGFqQA==
-X-Google-Smtp-Source: ABdhPJxhqPDuFIdXZ7UpAyfPvyJzXM7skKWYcYO2TLvYTOFJkwo2eTLqSfF4H8O0ExKKcPyVPZjC1Q==
-X-Received: by 2002:a5d:574a:: with SMTP id q10mr4163098wrw.127.1600258351712; 
- Wed, 16 Sep 2020 05:12:31 -0700 (PDT)
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=l8kjoyfFJu+D8mOuRZf0tG7/TCcNZBbZs3fWorKgkQY=;
+ b=HME2FtJt/V1jpAigXeXIcU9hyfJ6i4D9DipL6Fw5f1xDVxRoH/3s4XI6j3/UhvTzep
+ kxo7XXPzFjEmdwC4gcrOsYaftcKyVDducixxzC4Hh8DWOwRKyxBDZfYfcK/EzrJVbwGp
+ E+5/6Lmt5KFNtK1+uB52oe5RHwlQdvQ3J4Ot2fkTavkm55Mv3iIGnFlhJMHpxPdoVGmb
+ 1FrWo1/5xru0p1Lc6Jv/JfIdL+zOUCBtZxa4z74GrgnI52uXBRn3JoXRBb/6whmikeD8
+ Qyq4ufSLZZoTaZ5++mpXjALqhxhtFpvEik4ELszkSHME6zE4PblGmPAT1dT9uLO/1HwV
+ rtBA==
+X-Gm-Message-State: AOAM531kdS16D4QllYexY+WuaxRgVxKP7lbLCSgCG9/Tkrm/UdKa887T
+ swmM3dv2tnn7o2iZxYyQU5VZaA==
+X-Google-Smtp-Source: ABdhPJxyu4DwSY4BIVWxJ6Hc2i1yJDRluPIhg3ID8mT2aS2WZiy2nGaJoOjxR85EDt24rNjWMu8++w==
+X-Received: by 2002:adf:e80b:: with SMTP id o11mr24212577wrm.118.1600259049514; 
+ Wed, 16 Sep 2020 05:24:09 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id z15sm32021991wrv.94.2020.09.16.05.12.28
+ by smtp.gmail.com with ESMTPSA id 10sm5165242wmi.37.2020.09.16.05.24.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Sep 2020 05:12:30 -0700 (PDT)
-Date: Wed, 16 Sep 2020 14:12:27 +0200
+ Wed, 16 Sep 2020 05:24:08 -0700 (PDT)
+Date: Wed, 16 Sep 2020 14:24:05 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
 To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v2 21/21] drm: Remove obsolete GEM and PRIME callbacks
- from struct drm_driver
-Message-ID: <20200916121227.GP438822@phenom.ffwll.local>
-References: <20200915145958.19993-1-tzimmermann@suse.de>
- <20200915145958.19993-22-tzimmermann@suse.de>
+Subject: Re: [PATCH 0/3] dma-buf: Flag vmap'ed memory as system or I/O memory
+Message-ID: <20200916122405.GQ438822@phenom.ffwll.local>
+References: <20200914112521.1327-1-tzimmermann@suse.de>
+ <20200916093756.GC438822@phenom.ffwll.local>
+ <0378c326-28c6-371e-45d2-8b81ccbda84f@suse.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200915145958.19993-22-tzimmermann@suse.de>
+In-Reply-To: <0378c326-28c6-371e-45d2-8b81ccbda84f@suse.de>
 X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,428 +66,180 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: hamohammed.sa@gmail.com, heiko@sntech.de, andrey.grodzovsky@amd.com,
- airlied@linux.ie, nouveau@lists.freedesktop.org,
- joonas.lahtinen@linux.intel.com, dri-devel@lists.freedesktop.org,
- michal.simek@xilinx.com, eric@anholt.net, thierry.reding@gmail.com,
- robdclark@gmail.com, krzk@kernel.org, sam@ravnborg.org,
- sumit.semwal@linaro.org, emil.velikov@collabora.com,
- linux-samsung-soc@vger.kernel.org, jy0922.shim@samsung.com,
- oleksandr_andrushchenko@epam.com, tomi.valkeinen@ti.com,
- linux-tegra@vger.kernel.org, linux@armlinux.org.uk,
- patrik.r.jakobsson@gmail.com, jonathanh@nvidia.com,
- linux-rockchip@lists.infradead.org, kgene@kernel.org, bskeggs@redhat.com,
- xen-devel@lists.xenproject.org, miaoqinglang@huawei.com,
- intel-gfx@lists.freedesktop.org, matthew.auld@intel.com,
- chunkuang.hu@kernel.org, andi.shyti@intel.com, daniel@ffwll.ch,
- linux-arm-msm@vger.kernel.org, marek.olsak@amd.com, tianci.yin@amd.com,
- maarten.lankhorst@linux.intel.com, etnaviv@lists.freedesktop.org,
- jani.nikula@linux.intel.com, inki.dae@samsung.com, hdegoede@redhat.com,
- christian.gmeiner@gmail.com, linux-mediatek@lists.infradead.org,
- mripard@kernel.org, rodrigo.vivi@intel.com, matthias.bgg@gmail.com,
- evan.quan@amd.com, sean@poorly.run, linux-arm-kernel@lists.infradead.org,
- tvrtko.ursulin@linux.intel.com, amd-gfx@lists.freedesktop.org,
- laurent.pinchart@ideasonboard.com, hyun.kwon@xilinx.com,
- rodrigosiqueiramelo@gmail.com, aaron.liu@amd.com, Felix.Kuehling@amd.com,
- xinhui.pan@amd.com, sw0312.kim@samsung.com, hjc@rock-chips.com,
- chris@chris-wilson.co.uk, kyungmin.park@samsung.com, nirmoy.das@amd.com,
- p.zabel@pengutronix.de, alexander.deucher@amd.com, Hawking.Zhang@amd.com,
- freedreno@lists.freedesktop.org, christian.koenig@amd.com,
- l.stach@pengutronix.de
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: christian.koenig@amd.com, airlied@linux.ie, joonas.lahtinen@linux.intel.com,
+ mark.cave-ayland@ilande.co.uk, dri-devel@lists.freedesktop.org,
+ chris@chris-wilson.co.uk, thierry.reding@gmail.com, kraxel@redhat.com,
+ sparclinux@vger.kernel.org, sam@ravnborg.org, sumit.semwal@linaro.org,
+ m.szyprowski@samsung.com, jonathanh@nvidia.com, matthew.auld@intel.com,
+ linux+etnaviv@armlinux.org.uk, linux-media@vger.kernel.org, pawel@osciak.com,
+ intel-gfx@lists.freedesktop.org, maarten.lankhorst@linux.intel.com,
+ etnaviv@lists.freedesktop.org, jani.nikula@linux.intel.com,
+ linaro-mm-sig@lists.linaro.org, christian.gmeiner@gmail.com,
+ thomas.hellstrom@intel.com, mripard@kernel.org, rodrigo.vivi@intel.com,
+ linux-tegra@vger.kernel.org, mchehab@kernel.org, tfiga@chromium.org,
+ kyungmin.park@samsung.com, Daniel Vetter <daniel@ffwll.ch>,
+ davem@davemloft.net, l.stach@pengutronix.de
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-On Tue, Sep 15, 2020 at 04:59:58PM +0200, Thomas Zimmermann wrote:
-> Several GEM and PRIME callbacks have been deprecated in favor of
-> per-instance GEM object functions. Remove the callbacks as they are
-> now unused. The only exception is .gem_prime_mmap, which is still
-> in use by several drivers.
-> 
-> What is also gone is gem_vm_ops in struct drm_driver. All drivers now
-> use struct drm_gem_object_funcs.vm_ops instead.
-> 
-> While at it, the patch also improves error handling around calls
-> to .free and .get_sg_table callbacks.
-> 
-> v2:
-> 	* update related TODO item (Sam)
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+On Wed, Sep 16, 2020 at 12:48:20PM +0200, Thomas Zimmermann wrote:
+> Hi
+> =
 
-Nice work!
+> Am 16.09.20 um 11:37 schrieb Daniel Vetter:
+> > On Mon, Sep 14, 2020 at 01:25:18PM +0200, Thomas Zimmermann wrote:
+> >> Dma-buf provides vmap() and vunmap() for retrieving and releasing mapp=
+ings
+> >> of dma-buf memory in kernel address space. The functions operate with =
+plain
+> >> addresses and the assumption is that the memory can be accessed with l=
+oad
+> >> and store operations. This is not the case on some architectures (e.g.,
+> >> sparc64) where I/O memory can only be accessed with dedicated instruct=
+ions.
+> >>
+> >> This patchset introduces struct dma_buf_map, which contains the addres=
+s of
+> >> a buffer and a flag that tells whether system- or I/O-memory instructi=
+ons
+> >> are required.
+> >>
+> >> Some background: updating the DRM framebuffer console on sparc64 makes=
+ the
+> >> kernel panic. This is because the framebuffer memory cannot be accesse=
+d with
+> >> system-memory instructions. We currently employ a workaround in DRM to
+> >> address this specific problem. [1]
+> >>
+> >> To resolve the problem, we'd like to address it at the most common poi=
+nt,
+> >> which is the dma-buf framework. The dma-buf mapping ideally knows if I=
+/O
+> >> instructions are required and exports this information to it's users. =
+The
+> >> new structure struct dma_buf_map stores the buffer address and a flag =
+that
+> >> signals I/O memory. Affected users of the buffer (e.g., drivers, frame=
+works)
+> >> can then access the memory accordingly.
+> >>
+> >> This patchset only introduces struct dma_buf_map, and updates struct d=
+ma_buf
+> >> and it's interfaces. Further patches can update dma-buf users. For exa=
+mple,
+> >> there's a prototype patchset for DRM that fixes the framebuffer proble=
+m. [2]
+> >>
+> >> Further work: TTM, one of DRM's memory managers, already exports an
+> >> is_iomem flag of its own. It could later be switched over to exporting=
+ struct
+> >> dma_buf_map, thus simplifying some code. Several DRM drivers expect th=
+eir
+> >> fbdev console to operate on I/O memory. These could possibly be switch=
+ed over
+> >> to the generic fbdev emulation, as soon as the generic code uses struct
+> >> dma_buf_map.
+> >>
+> >> [1] https://lore.kernel.org/dri-devel/20200725191012.GA434957@ravnborg=
+.org/
+> >> [2] https://lore.kernel.org/dri-devel/20200806085239.4606-1-tzimmerman=
+n@suse.de/
+> > =
 
-Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> > lgtm, imo ready to convert the follow-up patches over to this. But I th=
+ink
+> > would be good to get at least some ack from the ttm side for the overall
+> > plan.
+> =
 
-> ---
->  Documentation/gpu/todo.rst           |  7 +--
->  drivers/gpu/drm/drm_gem.c            | 35 +++---------
->  drivers/gpu/drm/drm_gem_cma_helper.c |  6 +-
->  drivers/gpu/drm/drm_prime.c          | 17 +++---
->  include/drm/drm_drv.h                | 85 ++--------------------------
->  5 files changed, 25 insertions(+), 125 deletions(-)
-> 
-> diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-> index b0ea17da8ff6..0fc6bc222392 100644
-> --- a/Documentation/gpu/todo.rst
-> +++ b/Documentation/gpu/todo.rst
-> @@ -289,11 +289,8 @@ struct drm_gem_object_funcs
->  ---------------------------
->  
->  GEM objects can now have a function table instead of having the callbacks on the
-> -DRM driver struct. This is now the preferred way and drivers can be moved over.
-> -
-> -We also need a 2nd version of the CMA define that doesn't require the
-> -vmapping to be present (different hook for prime importing). Plus this needs to
-> -be rolled out to all drivers using their own implementations, too.
-> +DRM driver struct. This is now the preferred way. Callbacks in drivers have been
-> +converted, except for struct drm_driver.gem_prime_mmap.
->  
->  Level: Intermediate
->  
-> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-> index 19d73868490e..96945bed8291 100644
-> --- a/drivers/gpu/drm/drm_gem.c
-> +++ b/drivers/gpu/drm/drm_gem.c
-> @@ -247,12 +247,9 @@ drm_gem_object_release_handle(int id, void *ptr, void *data)
->  {
->  	struct drm_file *file_priv = data;
->  	struct drm_gem_object *obj = ptr;
-> -	struct drm_device *dev = obj->dev;
->  
->  	if (obj->funcs && obj->funcs->close)
->  		obj->funcs->close(obj, file_priv);
-> -	else if (dev->driver->gem_close_object)
-> -		dev->driver->gem_close_object(obj, file_priv);
->  
->  	drm_gem_remove_prime_handles(obj, file_priv);
->  	drm_vma_node_revoke(&obj->vma_node, file_priv);
-> @@ -407,10 +404,6 @@ drm_gem_handle_create_tail(struct drm_file *file_priv,
->  		ret = obj->funcs->open(obj, file_priv);
->  		if (ret)
->  			goto err_revoke;
-> -	} else if (dev->driver->gem_open_object) {
-> -		ret = dev->driver->gem_open_object(obj, file_priv);
-> -		if (ret)
-> -			goto err_revoke;
->  	}
->  
->  	*handlep = handle;
-> @@ -982,12 +975,11 @@ drm_gem_object_free(struct kref *kref)
->  {
->  	struct drm_gem_object *obj =
->  		container_of(kref, struct drm_gem_object, refcount);
-> -	struct drm_device *dev = obj->dev;
->  
-> -	if (obj->funcs)
-> -		obj->funcs->free(obj);
-> -	else if (dev->driver->gem_free_object_unlocked)
-> -		dev->driver->gem_free_object_unlocked(obj);
-> +	if (drm_WARN_ON_ONCE(obj->dev, !obj->funcs || !obj->funcs->free))
-> +		return;
-> +
-> +	obj->funcs->free(obj);
->  }
->  EXPORT_SYMBOL(drm_gem_object_free);
->  
-> @@ -1049,9 +1041,9 @@ EXPORT_SYMBOL(drm_gem_vm_close);
->   * @obj_size: the object size to be mapped, in bytes
->   * @vma: VMA for the area to be mapped
->   *
-> - * Set up the VMA to prepare mapping of the GEM object using the gem_vm_ops
-> - * provided by the driver. Depending on their requirements, drivers can either
-> - * provide a fault handler in their gem_vm_ops (in which case any accesses to
-> + * Set up the VMA to prepare mapping of the GEM object using the GEM object's
-> + * vm_ops. Depending on their requirements, GEM objects can either
-> + * provide a fault handler in their vm_ops (in which case any accesses to
->   * the object will be trapped, to perform migration, GTT binding, surface
->   * register allocation, or performance monitoring), or mmap the buffer memory
->   * synchronously after calling drm_gem_mmap_obj.
-> @@ -1065,12 +1057,11 @@ EXPORT_SYMBOL(drm_gem_vm_close);
->   * callers must verify access restrictions before calling this helper.
->   *
->   * Return 0 or success or -EINVAL if the object size is smaller than the VMA
-> - * size, or if no gem_vm_ops are provided.
-> + * size, or if no vm_ops are provided.
->   */
->  int drm_gem_mmap_obj(struct drm_gem_object *obj, unsigned long obj_size,
->  		     struct vm_area_struct *vma)
->  {
-> -	struct drm_device *dev = obj->dev;
->  	int ret;
->  
->  	/* Check for valid size. */
-> @@ -1095,8 +1086,6 @@ int drm_gem_mmap_obj(struct drm_gem_object *obj, unsigned long obj_size,
->  	} else {
->  		if (obj->funcs && obj->funcs->vm_ops)
->  			vma->vm_ops = obj->funcs->vm_ops;
-> -		else if (dev->driver->gem_vm_ops)
-> -			vma->vm_ops = dev->driver->gem_vm_ops;
->  		else {
->  			drm_gem_object_put(obj);
->  			return -EINVAL;
-> @@ -1206,8 +1195,6 @@ int drm_gem_pin(struct drm_gem_object *obj)
->  {
->  	if (obj->funcs && obj->funcs->pin)
->  		return obj->funcs->pin(obj);
-> -	else if (obj->dev->driver->gem_prime_pin)
-> -		return obj->dev->driver->gem_prime_pin(obj);
->  	else
->  		return 0;
->  }
-> @@ -1216,8 +1203,6 @@ void drm_gem_unpin(struct drm_gem_object *obj)
->  {
->  	if (obj->funcs && obj->funcs->unpin)
->  		obj->funcs->unpin(obj);
-> -	else if (obj->dev->driver->gem_prime_unpin)
-> -		obj->dev->driver->gem_prime_unpin(obj);
->  }
->  
->  void *drm_gem_vmap(struct drm_gem_object *obj)
-> @@ -1226,8 +1211,6 @@ void *drm_gem_vmap(struct drm_gem_object *obj)
->  
->  	if (obj->funcs && obj->funcs->vmap)
->  		vaddr = obj->funcs->vmap(obj);
-> -	else if (obj->dev->driver->gem_prime_vmap)
-> -		vaddr = obj->dev->driver->gem_prime_vmap(obj);
->  	else
->  		vaddr = ERR_PTR(-EOPNOTSUPP);
->  
-> @@ -1244,8 +1227,6 @@ void drm_gem_vunmap(struct drm_gem_object *obj, void *vaddr)
->  
->  	if (obj->funcs && obj->funcs->vunmap)
->  		obj->funcs->vunmap(obj, vaddr);
-> -	else if (obj->dev->driver->gem_prime_vunmap)
-> -		obj->dev->driver->gem_prime_vunmap(obj, vaddr);
->  }
->  
->  /**
-> diff --git a/drivers/gpu/drm/drm_gem_cma_helper.c b/drivers/gpu/drm/drm_gem_cma_helper.c
-> index 822edeadbab3..209202257cc2 100644
-> --- a/drivers/gpu/drm/drm_gem_cma_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_cma_helper.c
-> @@ -419,7 +419,7 @@ EXPORT_SYMBOL(drm_gem_cma_print_info);
->   *
->   * This function exports a scatter/gather table suitable for PRIME usage by
->   * calling the standard DMA mapping API. Drivers using the CMA helpers should
-> - * set this as their &drm_driver.gem_prime_get_sg_table callback.
-> + * set this as their &drm_gem_object_funcs.get_sg_table callback.
->   *
->   * Returns:
->   * A pointer to the scatter/gather table of pinned pages or NULL on failure.
-> @@ -542,7 +542,7 @@ EXPORT_SYMBOL_GPL(drm_gem_cma_prime_mmap);
->   * virtual address space. Since the CMA buffers are already mapped into the
->   * kernel virtual address space this simply returns the cached virtual
->   * address. Drivers using the CMA helpers should set this as their DRM
-> - * driver's &drm_driver.gem_prime_vmap callback.
-> + * driver's &drm_gem_object_funcs.vmap callback.
->   *
->   * Returns:
->   * The kernel virtual address of the CMA GEM object's backing store.
-> @@ -564,7 +564,7 @@ EXPORT_SYMBOL_GPL(drm_gem_cma_prime_vmap);
->   * This function removes a buffer exported via DRM PRIME from the kernel's
->   * virtual address space. This is a no-op because CMA buffers cannot be
->   * unmapped from kernel space. Drivers using the CMA helpers should set this
-> - * as their &drm_driver.gem_prime_vunmap callback.
-> + * as their &drm_gem_object_funcs.vunmap callback.
->   */
->  void drm_gem_cma_prime_vunmap(struct drm_gem_object *obj, void *vaddr)
->  {
-> diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
-> index 8a6a3c99b7d8..1cffb004d3c8 100644
-> --- a/drivers/gpu/drm/drm_prime.c
-> +++ b/drivers/gpu/drm/drm_prime.c
-> @@ -386,10 +386,6 @@ static struct dma_buf *export_and_register_object(struct drm_device *dev,
->  
->  	if (obj->funcs && obj->funcs->export)
->  		dmabuf = obj->funcs->export(obj, flags);
-> -	else if (dev->driver->gem_prime_export)
-> -		dmabuf = dev->driver->gem_prime_export(obj, flags);
-> -	else
-> -		dmabuf = drm_gem_prime_export(obj, flags);
->  	if (IS_ERR(dmabuf)) {
->  		/* normally the created dma-buf takes ownership of the ref,
->  		 * but if that fails then drop the ref
-> @@ -419,7 +415,7 @@ static struct dma_buf *export_and_register_object(struct drm_device *dev,
->   * This is the PRIME export function which must be used mandatorily by GEM
->   * drivers to ensure correct lifetime management of the underlying GEM object.
->   * The actual exporting from GEM object to a dma-buf is done through the
-> - * &drm_driver.gem_prime_export driver callback.
-> + * &drm_gem_object_funcs.export callback.
->   */
->  int drm_gem_prime_handle_to_fd(struct drm_device *dev,
->  			       struct drm_file *file_priv, uint32_t handle,
-> @@ -616,15 +612,18 @@ struct sg_table *drm_gem_map_dma_buf(struct dma_buf_attachment *attach,
->  				     enum dma_data_direction dir)
->  {
->  	struct drm_gem_object *obj = attach->dmabuf->priv;
-> -	struct sg_table *sgt;
-> +	struct sg_table *sgt = NULL;
->  
->  	if (WARN_ON(dir == DMA_NONE))
->  		return ERR_PTR(-EINVAL);
->  
-> -	if (obj->funcs)
-> +	if (obj->funcs && obj->funcs->get_sg_table)
->  		sgt = obj->funcs->get_sg_table(obj);
-> -	else
-> -		sgt = obj->dev->driver->gem_prime_get_sg_table(obj);
-> +
-> +	if (!sgt)
-> +		return ERR_PTR(-EINVAL);
-> +	else if (IS_ERR(sgt))
-> +		return sgt;
->  
->  	if (!dma_map_sg_attrs(attach->dev, sgt->sgl, sgt->nents, dir,
->  			      DMA_ATTR_SKIP_CPU_SYNC)) {
-> diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
-> index 9b11a2f0babc..240b0eab8018 100644
-> --- a/include/drm/drm_drv.h
-> +++ b/include/drm/drm_drv.h
-> @@ -36,10 +36,12 @@ struct drm_file;
->  struct drm_gem_object;
->  struct drm_master;
->  struct drm_minor;
-> +struct dma_buf;
->  struct dma_buf_attachment;
->  struct drm_display_mode;
->  struct drm_mode_create_dumb;
->  struct drm_printer;
-> +struct sg_table;
->  
->  /**
->   * enum drm_driver_feature - feature flags
-> @@ -326,32 +328,6 @@ struct drm_driver {
->  	 */
->  	void (*debugfs_init)(struct drm_minor *minor);
->  
-> -	/**
-> -	 * @gem_free_object_unlocked: deconstructor for drm_gem_objects
-> -	 *
-> -	 * This is deprecated and should not be used by new drivers. Use
-> -	 * &drm_gem_object_funcs.free instead.
-> -	 */
-> -	void (*gem_free_object_unlocked) (struct drm_gem_object *obj);
-> -
-> -	/**
-> -	 * @gem_open_object:
-> -	 *
-> -	 * This callback is deprecated in favour of &drm_gem_object_funcs.open.
-> -	 *
-> -	 * Driver hook called upon gem handle creation
-> -	 */
-> -	int (*gem_open_object) (struct drm_gem_object *, struct drm_file *);
-> -
-> -	/**
-> -	 * @gem_close_object:
-> -	 *
-> -	 * This callback is deprecated in favour of &drm_gem_object_funcs.close.
-> -	 *
-> -	 * Driver hook called upon gem handle release
-> -	 */
-> -	void (*gem_close_object) (struct drm_gem_object *, struct drm_file *);
-> -
->  	/**
->  	 * @gem_create_object: constructor for gem objects
->  	 *
-> @@ -360,6 +336,7 @@ struct drm_driver {
->  	 */
->  	struct drm_gem_object *(*gem_create_object)(struct drm_device *dev,
->  						    size_t size);
-> +
->  	/**
->  	 * @prime_handle_to_fd:
->  	 *
-> @@ -382,14 +359,7 @@ struct drm_driver {
->  	 */
->  	int (*prime_fd_to_handle)(struct drm_device *dev, struct drm_file *file_priv,
->  				int prime_fd, uint32_t *handle);
-> -	/**
-> -	 * @gem_prime_export:
-> -	 *
-> -	 * Export hook for GEM drivers. Deprecated in favour of
-> -	 * &drm_gem_object_funcs.export.
-> -	 */
-> -	struct dma_buf * (*gem_prime_export)(struct drm_gem_object *obj,
-> -					     int flags);
-> +
->  	/**
->  	 * @gem_prime_import:
->  	 *
-> @@ -399,29 +369,6 @@ struct drm_driver {
->  	 */
->  	struct drm_gem_object * (*gem_prime_import)(struct drm_device *dev,
->  				struct dma_buf *dma_buf);
-> -
-> -	/**
-> -	 * @gem_prime_pin:
-> -	 *
-> -	 * Deprecated hook in favour of &drm_gem_object_funcs.pin.
-> -	 */
-> -	int (*gem_prime_pin)(struct drm_gem_object *obj);
-> -
-> -	/**
-> -	 * @gem_prime_unpin:
-> -	 *
-> -	 * Deprecated hook in favour of &drm_gem_object_funcs.unpin.
-> -	 */
-> -	void (*gem_prime_unpin)(struct drm_gem_object *obj);
-> -
-> -
-> -	/**
-> -	 * @gem_prime_get_sg_table:
-> -	 *
-> -	 * Deprecated hook in favour of &drm_gem_object_funcs.get_sg_table.
-> -	 */
-> -	struct sg_table *(*gem_prime_get_sg_table)(struct drm_gem_object *obj);
-> -
->  	/**
->  	 * @gem_prime_import_sg_table:
->  	 *
-> @@ -432,22 +379,6 @@ struct drm_driver {
->  				struct drm_device *dev,
->  				struct dma_buf_attachment *attach,
->  				struct sg_table *sgt);
-> -	/**
-> -	 * @gem_prime_vmap:
-> -	 *
-> -	 * Deprecated vmap hook for GEM drivers. Please use
-> -	 * &drm_gem_object_funcs.vmap instead.
-> -	 */
-> -	void *(*gem_prime_vmap)(struct drm_gem_object *obj);
-> -
-> -	/**
-> -	 * @gem_prime_vunmap:
-> -	 *
-> -	 * Deprecated vunmap hook for GEM drivers. Please use
-> -	 * &drm_gem_object_funcs.vunmap instead.
-> -	 */
-> -	void (*gem_prime_vunmap)(struct drm_gem_object *obj, void *vaddr);
-> -
->  	/**
->  	 * @gem_prime_mmap:
->  	 *
-> @@ -522,14 +453,6 @@ struct drm_driver {
->  			    struct drm_device *dev,
->  			    uint32_t handle);
->  
-> -	/**
-> -	 * @gem_vm_ops: Driver private ops for this object
-> -	 *
-> -	 * For GEM drivers this is deprecated in favour of
-> -	 * &drm_gem_object_funcs.vm_ops.
-> -	 */
-> -	const struct vm_operations_struct *gem_vm_ops;
-> -
->  	/** @major: driver major number */
->  	int major;
->  	/** @minor: driver minor number */
-> -- 
-> 2.28.0
-> 
+> Yup, it would be nice if TTM could had out these types automatically.
+> Then all TTM-based drivers would automatically support it.
+> =
 
--- 
+> > =
+
+> > Also, I think we should put all the various helpers (writel/readl, mems=
+et,
+> > memcpy, whatever else) into the dma-buf-map.h helper, so that most code
+> > using this can just treat it as an abstract pointer type and never look
+> > underneath it.
+> =
+
+> We have some framebuffer helpers that rely on pointer arithmetic, so
+> we'd need that too. No big deal wrt code, but I was worried about the
+> overhead. If a loop goes over framebuffer memory, there's an if/else
+> branch for each access to the memory buffer.
+
+If we make all the helpers static inline, then the compiler should be able
+to see that dma_buf_map.is_iomem is always the same, and produced really
+optimized code for it by pulling that check out from all the loops.
+
+So should only result in somewhat verbose code of having to call
+dma_buf_map pointer arthimetic helpers, but not in bad generated code.
+Still worth double-checking I think, since e.g. on x86 the generated code
+should be the same for both cases (but maybe the compiler doesn't see
+through the inline asm to realize that, so we might end up with 2 copies).
+-Daniel
+
+
+> =
+
+> Best regards
+> Thomas
+> =
+
+> > -Daniel
+> > =
+
+> >>
+> >> Thomas Zimmermann (3):
+> >>   dma-buf: Add struct dma-buf-map for storing struct dma_buf.vaddr_ptr
+> >>   dma-buf: Use struct dma_buf_map in dma_buf_vmap() interfaces
+> >>   dma-buf: Use struct dma_buf_map in dma_buf_vunmap() interfaces
+> >>
+> >>  Documentation/driver-api/dma-buf.rst          |   3 +
+> >>  drivers/dma-buf/dma-buf.c                     |  40 +++---
+> >>  drivers/gpu/drm/drm_gem_cma_helper.c          |  16 ++-
+> >>  drivers/gpu/drm/drm_gem_shmem_helper.c        |  17 ++-
+> >>  drivers/gpu/drm/drm_prime.c                   |  14 +-
+> >>  drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c   |  13 +-
+> >>  drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c    |  13 +-
+> >>  .../drm/i915/gem/selftests/i915_gem_dmabuf.c  |  18 ++-
+> >>  drivers/gpu/drm/tegra/gem.c                   |  23 ++--
+> >>  .../common/videobuf2/videobuf2-dma-contig.c   |  17 ++-
+> >>  .../media/common/videobuf2/videobuf2-dma-sg.c |  19 ++-
+> >>  .../common/videobuf2/videobuf2-vmalloc.c      |  21 ++-
+> >>  include/drm/drm_prime.h                       |   5 +-
+> >>  include/linux/dma-buf-map.h                   | 126 ++++++++++++++++++
+> >>  include/linux/dma-buf.h                       |  11 +-
+> >>  15 files changed, 274 insertions(+), 82 deletions(-)
+> >>  create mode 100644 include/linux/dma-buf-map.h
+> >>
+> >> --
+> >> 2.28.0
+> >>
+> > =
+
+> =
+
+> -- =
+
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Maxfeldstr. 5, 90409 N=FCrnberg, Germany
+> (HRB 36809, AG N=FCrnberg)
+> Gesch=E4ftsf=FChrer: Felix Imend=F6rffer
+> =
+
+
+
+
+
+-- =
+
 Daniel Vetter
 Software Engineer, Intel Corporation
 http://blog.ffwll.ch
