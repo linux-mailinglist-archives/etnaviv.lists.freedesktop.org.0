@@ -1,23 +1,22 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0460B26D427
-	for <lists+etnaviv@lfdr.de>; Thu, 17 Sep 2020 09:05:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1010D26D4DA
+	for <lists+etnaviv@lfdr.de>; Thu, 17 Sep 2020 09:40:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B70D86E184;
-	Thu, 17 Sep 2020 07:05:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 586546E186;
+	Thu, 17 Sep 2020 07:40:37 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A61A46E12F;
- Thu, 17 Sep 2020 07:05:26 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 19ED46E186;
+ Thu, 17 Sep 2020 07:40:36 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 552D0AEF5;
- Thu, 17 Sep 2020 07:05:40 +0000 (UTC)
-Subject: Re: [PATCH v2 00/21] Convert all remaining drivers to GEM object
- functions
+ by mx2.suse.de (Postfix) with ESMTP id C72DEAB5C;
+ Thu, 17 Sep 2020 07:40:49 +0000 (UTC)
+Subject: Re: [PATCH v2 01/21] drm/amdgpu: Introduce GEM object functions
 To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
  alexander.deucher@amd.com, airlied@linux.ie, daniel@ffwll.ch,
  linux@armlinux.org.uk, maarten.lankhorst@linux.intel.com,
@@ -41,14 +40,15 @@ To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
  andi.shyti@intel.com, sam@ravnborg.org, miaoqinglang@huawei.com,
  emil.velikov@collabora.com
 References: <20200915145958.19993-1-tzimmermann@suse.de>
- <b527fde4-b456-6683-4a9e-0f7dcf1525be@amd.com>
+ <20200915145958.19993-2-tzimmermann@suse.de>
+ <835ba167-3576-1af6-5421-552075588796@amd.com>
 From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <94b4d32e-92f2-cc29-1d59-b9b10b814220@suse.de>
-Date: Thu, 17 Sep 2020 09:05:19 +0200
+Message-ID: <41eebda8-bf90-7b5c-8af2-e96b8fd0cea2@suse.de>
+Date: Thu, 17 Sep 2020 09:40:28 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <b527fde4-b456-6683-4a9e-0f7dcf1525be@amd.com>
+In-Reply-To: <835ba167-3576-1af6-5421-552075588796@amd.com>
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,19 +67,19 @@ Cc: linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
  nouveau@lists.freedesktop.org, linux-tegra@vger.kernel.org,
  xen-devel@lists.xenproject.org, freedreno@lists.freedesktop.org,
  linux-arm-kernel@lists.infradead.org
-Content-Type: multipart/mixed; boundary="===============0259899083=="
+Content-Type: multipart/mixed; boundary="===============2016425378=="
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0259899083==
+--===============2016425378==
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="IlbjXZFzpa1bxN3Foosb3hob3NomxLQSR"
+ boundary="ZR47F2it7RqvbT2snhj2Q3AXTit7yD8k0"
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---IlbjXZFzpa1bxN3Foosb3hob3NomxLQSR
-Content-Type: multipart/mixed; boundary="MOeMuup4o07wOcrSIw7xNuGzkQ7VfpmEx";
+--ZR47F2it7RqvbT2snhj2Q3AXTit7yD8k0
+Content-Type: multipart/mixed; boundary="mXx6VnsL56rJiBRNYFJpJY6lkuO91DGub";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
@@ -104,37 +104,205 @@ To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
  matthew.auld@intel.com, tvrtko.ursulin@linux.intel.com,
  andi.shyti@intel.com, sam@ravnborg.org, miaoqinglang@huawei.com,
  emil.velikov@collabora.com
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- etnaviv@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org,
- xen-devel@lists.xenproject.org
-Message-ID: <94b4d32e-92f2-cc29-1d59-b9b10b814220@suse.de>
-Subject: Re: [PATCH v2 00/21] Convert all remaining drivers to GEM object
- functions
+Cc: linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, amd-gfx@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+ xen-devel@lists.xenproject.org, freedreno@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org
+Message-ID: <41eebda8-bf90-7b5c-8af2-e96b8fd0cea2@suse.de>
+Subject: Re: [PATCH v2 01/21] drm/amdgpu: Introduce GEM object functions
 References: <20200915145958.19993-1-tzimmermann@suse.de>
- <b527fde4-b456-6683-4a9e-0f7dcf1525be@amd.com>
-In-Reply-To: <b527fde4-b456-6683-4a9e-0f7dcf1525be@amd.com>
+ <20200915145958.19993-2-tzimmermann@suse.de>
+ <835ba167-3576-1af6-5421-552075588796@amd.com>
+In-Reply-To: <835ba167-3576-1af6-5421-552075588796@amd.com>
 
---MOeMuup4o07wOcrSIw7xNuGzkQ7VfpmEx
+--mXx6VnsL56rJiBRNYFJpJY6lkuO91DGub
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
 Hi
 
-Am 15.09.20 um 17:25 schrieb Christian K=C3=B6nig:
-> Added my rb to the amdgpu and radeon patches.
->=20
-> Should we pick those up through the amd branches or do you want to push=
+Am 15.09.20 um 17:05 schrieb Christian K=C3=B6nig:
+> Am 15.09.20 um 16:59 schrieb Thomas Zimmermann:
+>> GEM object functions deprecate several similar callback interfaces in
+>> struct drm_driver. This patch replaces the per-driver callbacks with
+>> per-instance callbacks in amdgpu. The only exception is gem_prime_mmap=
+,
+>> which is non-trivial to convert.
+>>
+>> v2:
+>> =C2=A0=C2=A0=C2=A0=C2=A0* move object-function instance to amdgpu_gem.=
+c (Christian)
+>> =C2=A0=C2=A0=C2=A0=C2=A0* set callbacks in amdgpu_gem_object_create() =
+(Christian)
+>>
+>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> ---
+>> =C2=A0 drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c=C2=A0=C2=A0=C2=A0 |=C2=A0=
+ 6 ------
+>> =C2=A0 drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c=C2=A0=C2=A0=C2=A0 | 23 =
++++++++++++++++++-----
+>> =C2=A0 drivers/gpu/drm/amd/amdgpu/amdgpu_gem.h=C2=A0=C2=A0=C2=A0 |=C2=A0=
+ 5 -----
+>> =C2=A0 drivers/gpu/drm/amd/amdgpu/amdgpu_object.c |=C2=A0 1 +
+>> =C2=A0 4 files changed, 19 insertions(+), 16 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+>> index 6edde2b9e402..840ca8f9c1e1 100644
+>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+>> @@ -1505,19 +1505,13 @@ static struct drm_driver kms_driver =3D {
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .lastclose =3D amdgpu_driver_lastclose_=
+kms,
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .irq_handler =3D amdgpu_irq_handler,
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .ioctls =3D amdgpu_ioctls_kms,
+>> -=C2=A0=C2=A0=C2=A0 .gem_free_object_unlocked =3D amdgpu_gem_object_fr=
+ee,
+>> -=C2=A0=C2=A0=C2=A0 .gem_open_object =3D amdgpu_gem_object_open,
+>> -=C2=A0=C2=A0=C2=A0 .gem_close_object =3D amdgpu_gem_object_close,
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .dumb_create =3D amdgpu_mode_dumb_creat=
+e,
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .dumb_map_offset =3D amdgpu_mode_dumb_m=
+map,
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .fops =3D &amdgpu_driver_kms_fops,
+>> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .prime_handle_to_fd =3D drm_gem_=
+prime_handle_to_fd,
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .prime_fd_to_handle =3D drm_gem_prime_f=
+d_to_handle,
+>> -=C2=A0=C2=A0=C2=A0 .gem_prime_export =3D amdgpu_gem_prime_export,
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .gem_prime_import =3D amdgpu_gem_prime_=
+import,
+>> -=C2=A0=C2=A0=C2=A0 .gem_prime_vmap =3D amdgpu_gem_prime_vmap,
+>> -=C2=A0=C2=A0=C2=A0 .gem_prime_vunmap =3D amdgpu_gem_prime_vunmap,
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .gem_prime_mmap =3D amdgpu_gem_prime_mm=
+ap,
+>> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .name =3D DRIVER_NAME,
+>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+>> index aa7f230c71bf..aeecd5dc3ce4 100644
+>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+>> @@ -36,9 +36,12 @@
+>> =C2=A0 =C2=A0 #include "amdgpu.h"
+>> =C2=A0 #include "amdgpu_display.h"
+>> +#include "amdgpu_dma_buf.h"
+>> =C2=A0 #include "amdgpu_xgmi.h"
+>> =C2=A0 -void amdgpu_gem_object_free(struct drm_gem_object *gobj)
+>> +static const struct drm_gem_object_funcs amdgpu_gem_object_funcs;
+>> +
+>> +static void amdgpu_gem_object_free(struct drm_gem_object *gobj)
+>> =C2=A0 {
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct amdgpu_bo *robj =3D gem_to_amdgp=
+u_bo(gobj);
+>> =C2=A0 @@ -87,6 +90,7 @@ int amdgpu_gem_object_create(struct amdgpu_de=
+vice
+>> *adev, unsigned long size,
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return r;
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 *obj =3D &bo->tbo.base;
+>> +=C2=A0=C2=A0=C2=A0 (*obj)->funcs =3D &amdgpu_gem_object_funcs;
+>> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 0;
+>> =C2=A0 }
+>> @@ -119,8 +123,8 @@ void amdgpu_gem_force_release(struct amdgpu_device=
 
-> everything to drm-misc-next?
->=20
-> I think the later since this should result in much merge clash.
+>> *adev)
+>> =C2=A0=C2=A0 * Call from drm_gem_handle_create which appear in both ne=
+w and open
+>> ioctl
+>> =C2=A0=C2=A0 * case.
+>> =C2=A0=C2=A0 */
+>> -int amdgpu_gem_object_open(struct drm_gem_object *obj,
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 struct drm_file *file_priv)
+>> +static int amdgpu_gem_object_open(struct drm_gem_object *obj,
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct drm_file *file_priv)
+>> =C2=A0 {
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct amdgpu_bo *abo =3D gem_to_amdgpu=
+_bo(obj);
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct amdgpu_device *adev =3D amdgpu_t=
+tm_adev(abo->tbo.bdev);
+>> @@ -152,8 +156,8 @@ int amdgpu_gem_object_open(struct drm_gem_object
+>> *obj,
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 0;
+>> =C2=A0 }
+>> =C2=A0 -void amdgpu_gem_object_close(struct drm_gem_object *obj,
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct drm_file *file_priv)
+>> +static void amdgpu_gem_object_close(struct drm_gem_object *obj,
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct drm_file *file_priv)=
 
-Yes, preferable, I'd merge it all through drm-misc.
+>> =C2=A0 {
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct amdgpu_bo *bo =3D gem_to_amdgpu_=
+bo(obj);
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct amdgpu_device *adev =3D amdgpu_t=
+tm_adev(bo->tbo.bdev);
+>> @@ -211,6 +215,15 @@ void amdgpu_gem_object_close(struct
+>> drm_gem_object *obj,
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ttm_eu_backoff_reservation(&ticket, &li=
+st);
+>> =C2=A0 }
+>> =C2=A0 +static const struct drm_gem_object_funcs amdgpu_gem_object_fun=
+cs =3D {
+>> +=C2=A0=C2=A0=C2=A0 .free =3D amdgpu_gem_object_free,
+>> +=C2=A0=C2=A0=C2=A0 .open =3D amdgpu_gem_object_open,
+>> +=C2=A0=C2=A0=C2=A0 .close =3D amdgpu_gem_object_close,
+>> +=C2=A0=C2=A0=C2=A0 .export =3D amdgpu_gem_prime_export,
+>> +=C2=A0=C2=A0=C2=A0 .vmap =3D amdgpu_gem_prime_vmap,
+>> +=C2=A0=C2=A0=C2=A0 .vunmap =3D amdgpu_gem_prime_vunmap,
+>> +};
+>> +
+>> =C2=A0 /*
+>> =C2=A0=C2=A0 * GEM ioctls.
+>> =C2=A0=C2=A0 */
+>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.h
+>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.h
+>> index e0f025dd1b14..637bf51dbf06 100644
+>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.h
+>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.h
+>> @@ -33,11 +33,6 @@
+>> =C2=A0 #define AMDGPU_GEM_DOMAIN_MAX=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 0x3
+>> =C2=A0 #define gem_to_amdgpu_bo(gobj) container_of((gobj), struct
+>> amdgpu_bo, tbo.base)
+>> =C2=A0 -void amdgpu_gem_object_free(struct drm_gem_object *obj);
+>> -int amdgpu_gem_object_open(struct drm_gem_object *obj,
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 struct drm_file *file_priv);
+>> -void amdgpu_gem_object_close(struct drm_gem_object *obj,
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 struct drm_file *file_priv);
+>> =C2=A0 unsigned long amdgpu_gem_timeout(uint64_t timeout_ns);
+>> =C2=A0 =C2=A0 /*
+>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+>> index ac043baac05d..c4e82a8fa53f 100644
+>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+>> @@ -561,6 +561,7 @@ static int amdgpu_bo_do_create(struct
+>> amdgpu_device *adev,
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bo =3D kzalloc(sizeof(struct amdgpu_bo)=
+, GFP_KERNEL);
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (bo =3D=3D NULL)
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return -ENOMEM;=
+
+>> +
+>=20
+> The newline is not unrelated.
+>=20
+> Apart from that the patch is Reviewed-by: Christian K=C3=B6nig
+> <christian.koenig@amd.com>.
+>=20
+> But I think we need some smoke testing of it.
+
+I gave it a try on the HW/drivers that I listed in the cover letter.
+Appears to be working there. There was a bug reported by CI that will be
+fixed in the next iteration.
 
 Best regards
 Thomas
@@ -142,213 +310,16 @@ Thomas
 >=20
 > Christian.
 >=20
-> Am 15.09.20 um 16:59 schrieb Thomas Zimmermann:
->> The GEM and PRIME related callbacks in struct drm_driver are
->> deprecated in
->> favor of GEM object functions in struct drm_gem_object_funcs. This
->> patchset
->> converts the remaining drivers to object functions and removes most of=
-
->> the
->> obsolete interfaces.
->>
->> Patches #1 to #16 and #18 to #19 convert DRM drivers to GEM object
->> functions,
->> one by one. Each patch moves existing callbacks from struct drm_driver=
-
->> to an
->> instance of struct drm_gem_object_funcs, and sets these funcs when the=
-
->> GEM
->> object is initialized. The expection is .gem_prime_mmap. There are
->> different
->> ways of how drivers implement the callback, and moving it to GEM objec=
-t
->> functions requires a closer review for each.
->>
->> Patch #17 fixes virtgpu to use GEM object functions where possible. Th=
-e
->> driver recently introduced a function for one of the deprecated
->> callbacks.
->>
->> Patch #20 converts xlnx to CMA helper macros. There's no apparent reas=
-on
->> why the driver does the GEM setup on it's own. Using CMA helper macros=
-
->> adds GEM object functions implicitly.
->>
->> With most of the GEM and PRIME moved to GEM object functions, related
->> code
->> in struct drm_driver and in the DRM core/helpers is being removed by
->> patch
->> #21.
->>
->> Further testing is welcome. I tested the drivers for which I have HW
->> available. These are gma500, i915, nouveau, radeon and vc4. The consol=
-e,
->> Weston and Xorg apparently work with the patches applied.
->>
->> v2:
->> =C2=A0=C2=A0=C2=A0=C2=A0* moved code in amdgpu and radeon
->> =C2=A0=C2=A0=C2=A0=C2=A0* made several functions static in various dri=
-vers
->> =C2=A0=C2=A0=C2=A0=C2=A0* updated TODO-list item
->> =C2=A0=C2=A0=C2=A0=C2=A0* fix virtgpu
->>
->> Thomas Zimmermann (21):
->> =C2=A0=C2=A0 drm/amdgpu: Introduce GEM object functions
->> =C2=A0=C2=A0 drm/armada: Introduce GEM object functions
->> =C2=A0=C2=A0 drm/etnaviv: Introduce GEM object functions
->> =C2=A0=C2=A0 drm/exynos: Introduce GEM object functions
->> =C2=A0=C2=A0 drm/gma500: Introduce GEM object functions
->> =C2=A0=C2=A0 drm/i915: Introduce GEM object functions
->> =C2=A0=C2=A0 drm/mediatek: Introduce GEM object functions
->> =C2=A0=C2=A0 drm/msm: Introduce GEM object funcs
->> =C2=A0=C2=A0 drm/nouveau: Introduce GEM object functions
->> =C2=A0=C2=A0 drm/omapdrm: Introduce GEM object functions
->> =C2=A0=C2=A0 drm/pl111: Introduce GEM object functions
->> =C2=A0=C2=A0 drm/radeon: Introduce GEM object functions
->> =C2=A0=C2=A0 drm/rockchip: Convert to drm_gem_object_funcs
->> =C2=A0=C2=A0 drm/tegra: Introduce GEM object functions
->> =C2=A0=C2=A0 drm/vc4: Introduce GEM object functions
->> =C2=A0=C2=A0 drm/vgem: Introduce GEM object functions
->> =C2=A0=C2=A0 drm/virtgpu: Set PRIME export function in struct drm_gem_=
-object_funcs
->> =C2=A0=C2=A0 drm/vkms: Introduce GEM object functions
->> =C2=A0=C2=A0 drm/xen: Introduce GEM object functions
->> =C2=A0=C2=A0 drm/xlnx: Initialize DRM driver instance with CMA helper =
-macro
->> =C2=A0=C2=A0 drm: Remove obsolete GEM and PRIME callbacks from struct =
-drm_driver
->>
->> =C2=A0 Documentation/gpu/todo.rst=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- |=C2=A0 7 +-
->> =C2=A0 drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 |=C2=A0 6 --
->> =C2=A0 drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 | 23 +++--
->> =C2=A0 drivers/gpu/drm/amd/amdgpu/amdgpu_gem.h=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 |=C2=A0 5 --
->> =C2=A0 drivers/gpu/drm/amd/amdgpu/amdgpu_object.c=C2=A0=C2=A0=C2=A0 |=C2=
-=A0 1 +
->> =C2=A0 drivers/gpu/drm/armada/armada_drv.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 3 -
->> =C2=A0 drivers/gpu/drm/armada/armada_gem.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 12 ++-
->> =C2=A0 drivers/gpu/drm/armada/armada_gem.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 2 -
->> =C2=A0 drivers/gpu/drm/drm_gem.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 | 35 ++------
->> =C2=A0 drivers/gpu/drm/drm_gem_cma_helper.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 6 +-
->> =C2=A0 drivers/gpu/drm/drm_prime.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
-| 17 ++--
->> =C2=A0 drivers/gpu/drm/etnaviv/etnaviv_drv.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 | 13 ---
->> =C2=A0 drivers/gpu/drm/etnaviv/etnaviv_drv.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 1 -
->> =C2=A0 drivers/gpu/drm/etnaviv/etnaviv_gem.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 | 19 ++++-
->> =C2=A0 drivers/gpu/drm/exynos/exynos_drm_drv.c=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 | 10 ---
->> =C2=A0 drivers/gpu/drm/exynos/exynos_drm_gem.c=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 | 15 ++++
->> =C2=A0 drivers/gpu/drm/gma500/framebuffer.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 2 +
->> =C2=A0 drivers/gpu/drm/gma500/gem.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 18 +=
-++-
->> =C2=A0 drivers/gpu/drm/gma500/gem.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=
- 3 +
->> =C2=A0 drivers/gpu/drm/gma500/psb_drv.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 9 --
->> =C2=A0 drivers/gpu/drm/gma500/psb_drv.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 2 -
->> =C2=A0 drivers/gpu/drm/i915/gem/i915_gem_object.c=C2=A0=C2=A0=C2=A0 | =
-21 ++++-
->> =C2=A0 drivers/gpu/drm/i915/gem/i915_gem_object.h=C2=A0=C2=A0=C2=A0 |=C2=
-=A0 3 -
->> =C2=A0 drivers/gpu/drm/i915/i915_drv.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 4 -
->> =C2=A0 .../gpu/drm/i915/selftests/mock_gem_device.c=C2=A0 |=C2=A0 3 -
->> =C2=A0 drivers/gpu/drm/mediatek/mtk_drm_drv.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 |=C2=A0 5 --
->> =C2=A0 drivers/gpu/drm/mediatek/mtk_drm_gem.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 | 11 +++
->> =C2=A0 drivers/gpu/drm/msm/msm_drv.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 13 ---
->> =C2=A0 drivers/gpu/drm/msm/msm_drv.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 1 -
->> =C2=A0 drivers/gpu/drm/msm/msm_gem.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 19 ++++-
->> =C2=A0 drivers/gpu/drm/nouveau/nouveau_drm.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 9 --
->> =C2=A0 drivers/gpu/drm/nouveau/nouveau_gem.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 | 13 +++
->> =C2=A0 drivers/gpu/drm/nouveau/nouveau_gem.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 2 +
->> =C2=A0 drivers/gpu/drm/nouveau/nouveau_prime.c=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 |=C2=A0 2 +
->> =C2=A0 drivers/gpu/drm/omapdrm/omap_drv.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 9 --
->> =C2=A0 drivers/gpu/drm/omapdrm/omap_gem.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 18 +++-
->> =C2=A0 drivers/gpu/drm/omapdrm/omap_gem.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 2 -
->> =C2=A0 drivers/gpu/drm/pl111/pl111_drv.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 5 +-
->> =C2=A0 drivers/gpu/drm/radeon/radeon_drv.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 23 +----
->> =C2=A0 drivers/gpu/drm/radeon/radeon_gem.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 31 ++++++-
->> =C2=A0 drivers/gpu/drm/rockchip/rockchip_drm_drv.c=C2=A0=C2=A0 |=C2=A0=
- 5 --
->> =C2=A0 drivers/gpu/drm/rockchip/rockchip_drm_gem.c=C2=A0=C2=A0 | 10 ++=
-+
->> =C2=A0 drivers/gpu/drm/tegra/drm.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
-|=C2=A0 4 -
->> =C2=A0 drivers/gpu/drm/tegra/gem.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
-|=C2=A0 8 ++
->> =C2=A0 drivers/gpu/drm/vc4/vc4_bo.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 21 +=
-+++-
->> =C2=A0 drivers/gpu/drm/vc4/vc4_drv.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 12 ---
->> =C2=A0 drivers/gpu/drm/vc4/vc4_drv.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 1 -
->> =C2=A0 drivers/gpu/drm/vgem/vgem_drv.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 21 +++--
->> =C2=A0 drivers/gpu/drm/virtio/virtgpu_drv.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 1 -
->> =C2=A0 drivers/gpu/drm/virtio/virtgpu_object.c=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 |=C2=A0 1 +
->> =C2=A0 drivers/gpu/drm/vkms/vkms_drv.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 8 --
->> =C2=A0 drivers/gpu/drm/vkms/vkms_gem.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 13 +++
->> =C2=A0 drivers/gpu/drm/xen/xen_drm_front.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 44 ++++------
->> =C2=A0 drivers/gpu/drm/xen/xen_drm_front.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 2 +
->> =C2=A0 drivers/gpu/drm/xen/xen_drm_front_gem.c=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 | 15 ++++
->> =C2=A0 drivers/gpu/drm/xlnx/zynqmp_dpsub.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 14 +--
->> =C2=A0 include/drm/drm_drv.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 85 +------------------
->> =C2=A0 57 files changed, 319 insertions(+), 349 deletions(-)
->>
->> --=20
->> 2.28.0
->>
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm_gem_private_object_init(adev_to_drm=
+(adev), &bo->tbo.base,
+>> size);
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 INIT_LIST_HEAD(&bo->shadow_list);
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bo->vm_bo =3D NULL;
 >=20
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
 --=20
 Thomas Zimmermann
@@ -359,28 +330,28 @@ Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
 Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
 
---MOeMuup4o07wOcrSIw7xNuGzkQ7VfpmEx--
+--mXx6VnsL56rJiBRNYFJpJY6lkuO91DGub--
 
---IlbjXZFzpa1bxN3Foosb3hob3NomxLQSR
+--ZR47F2it7RqvbT2snhj2Q3AXTit7yD8k0
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl9jCrIUHHR6aW1tZXJt
-YW5uQHN1c2UuZGUACgkQaA3BHVMLeiNzVwf+LuvZqcvZRWJqBwD/EReZk8QEdB4C
-gFkyqltsHWaQRxf+it2Dp14i6FxEXB7E3aVwF5jPAdikNLapTbkD9Y/2xPJQr+MR
-GJLLPZPYWT8OMyj5OitKkx0wGAHp+CZTn/GXhI7YyECfs2Jdwy7ZPJ4FpzCgB4Dy
-btJKCeubADE1QK+I9K2E2dYATQP5BDfqZsBLXrTF+Lu4ZzqYLGAyM04KIlou4XNS
-I4MWAApxCCZloSTMlpYYOH3hyupIlLwCnmSvIlrAa2gUGPGzy82UmH/7lPMlFRIR
-1bYU5b70s8vx4bS0brsRnZhYfmGewk+4sIcsneQfbRHKw459wJ4h46CbrA==
-=kk1b
+iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl9jEuwUHHR6aW1tZXJt
+YW5uQHN1c2UuZGUACgkQaA3BHVMLeiPyiggAh/BO7SFe5ZVkcBfrX0+omcib+uvq
+wUfAVwNVPgP4GrDtDXLr4zKuk59o62DKt31reEMSrNQm0ZVv4oYlt9YTXUIBc0fb
+Kfg1G/YdZEH4gl6Xnb1Y6bhK0lFKESQonYcCM20uUfgcfhIL71bxo6IQzNkLLXNl
+Gvbkj8qnJhHFWO8PunW5ufHbKHG+ywye5TnGplv1ubKtNKZuIbC+3zb7gf/+ysCT
++8ttQ5BqdlF1Mc31bYqBTR0GwyfdofspCeDjdA6jDGN3Wq2Be+Y/E6/Pt7ANwWn8
++pRLfFQYnt1aj5BKBvxQ4zLmOtqu3DJtik5oXtau5wp3407kMunsBYib0A==
+=Cl71
 -----END PGP SIGNATURE-----
 
---IlbjXZFzpa1bxN3Foosb3hob3NomxLQSR--
+--ZR47F2it7RqvbT2snhj2Q3AXTit7yD8k0--
 
---===============0259899083==
+--===============2016425378==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -391,4 +362,4 @@ etnaviv mailing list
 etnaviv@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/etnaviv
 
---===============0259899083==--
+--===============2016425378==--
