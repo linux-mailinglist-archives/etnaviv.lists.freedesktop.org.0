@@ -1,43 +1,53 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E51B271D18
-	for <lists+etnaviv@lfdr.de>; Mon, 21 Sep 2020 10:07:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 88581272409
+	for <lists+etnaviv@lfdr.de>; Mon, 21 Sep 2020 14:41:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD76B6E24E;
-	Mon, 21 Sep 2020 08:07:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4FB236E27F;
+	Mon, 21 Sep 2020 12:41:38 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from fanzine.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F0EC6E245;
- Mon, 21 Sep 2020 08:07:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
- s=20170329; 
- h=MIME-Version:Content-Type:Date:Cc:To:From:Subject:Message-ID;
- bh=fDLgJXux/jRKs3pMveWM95iw4736sPWZKd6xbDbBR1s=; 
- b=AFg8rJ8mI4p77lFEAjmTestdzWgZC5/suP0QGy767a/qDRvNU7q+RO25W/I1ct3Zg47ZkLyWudVChe0aYu0a6/tbiBrdfWbtChwBDnsTI+7NNqrhihhrJPA2sTWcEnMxa+SAcDiffJHhmXVsz1Xnw4idJFm15VMMI14AMxWfu3tExRijvGkVBc93VJ9SUrqe+D4yYQtqJin4KwB7HqXuobv86zOrSNd1kUOYmt2JrpuCkE2zT59sM87fZuSMbWGp+5EnlAlSg9J+FT4FBlI93BaDEtQ/OoMafesYmnmQyyP4GZAcJK4atCzp4fwCpdxMKamwEXfiwuf6U2XeAWhHkw==;
-Received: from 11.red-79-157-245.dynamicip.rima-tde.net ([79.157.245.11]
- helo=fourier) by fanzine.igalia.com with esmtpsa 
- (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
- id 1kKGqq-0002IQ-OO; Mon, 21 Sep 2020 10:07:08 +0200
-Message-ID: <4eaa69879014a406424b9702dd6574a305f4c98e.camel@igalia.com>
-Subject: XDC 2020 feedback and comments
-From: Samuel Iglesias =?ISO-8859-1?Q?Gons=E1lvez?= <siglesias@igalia.com>
-To: "events@lists.x.org" <events@lists.x.org>, 
- "xorg-devel@lists.freedesktop.org"
- <xorg-devel@lists.freedesktop.org>, "wayland-devel@lists.freedesktop.org"
- <wayland-devel@lists.freedesktop.org>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "mesa-dev@lists.freedesktop.org"
- <mesa-dev@lists.freedesktop.org>, "amd-gfx@lists.freedesktop.org"
- <amd-gfx@lists.freedesktop.org>, "etnaviv@lists.freedesktop.org"
- <etnaviv@lists.freedesktop.org>, "freedreno@lists.freedesktop.org"
- <freedreno@lists.freedesktop.org>, "nouveau@lists.freedesktop.org"
- <nouveau@lists.freedesktop.org>, "intel-gfx@lists.freedesktop.org"
- <intel-gfx@lists.freedesktop.org>
-Date: Mon, 21 Sep 2020 10:03:32 +0200
-User-Agent: Evolution 3.36.4-2 
+Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com
+ [IPv6:2a00:1450:4864:20::234])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A5B489D4B;
+ Mon, 21 Sep 2020 12:41:37 +0000 (UTC)
+Received: by mail-lj1-x234.google.com with SMTP id y4so10944243ljk.8;
+ Mon, 21 Sep 2020 05:41:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=BVEVDz8/h8Cio7/Afbst/YZ+fxiVgc3gkfyUGdSiHz4=;
+ b=J+2c+k7vKCaxG38o6rs3iahzsPYrEgpKMCHtKM6Q+rHbPWsLBIvpbQn4eKEFw+CEgd
+ Y9pcGhzLagagh0bLe1IiBlxThS9eECmgImVSeuE0YqrdPHb1GoYIeeKYIVKDYSG1gICd
+ fHrYA2A2ERI3iIxApyyIirait/u+UUExezh4hOLRVd2/uJwRS7QHA6jsL/ryuwMisIxm
+ 3gonDC97mrKHLTMYuugbtWBgVBsbvTJwBI/9KDuW2Pz+RhoZch4AiojpTXZ/NjbIFq+Q
+ fYZXZ0pPlnmjl8SCb/rAqTTSIl8/gNaX6C94CZEklcJrNVvIYOzrEEgFOms+XguDlugn
+ jKeA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=BVEVDz8/h8Cio7/Afbst/YZ+fxiVgc3gkfyUGdSiHz4=;
+ b=JeKJQpGKuflGZWspMjKU41uYq+0R2appUfPymF4Yee2HDjrBHxdIvL3OTmy0IUB0og
+ 8B/l7zCToUfNRSsUVbJf3SV+hw+GVu7xhFM2TVETbtS+M6H+jCw/3jcNHIapTlrYUQXn
+ ZsVqWX0L/Lg+feDMaI6VWiAwBrhDzsWcD6U0HxqF9SFvYJxoeUmy1JGnn+YEs3Euscf/
+ sO4Ibk36GM9DmVLd8KPzr5ZLgs5MPLwLxngAEJCjxAnp5UYRt4zCN/+zG5blz0N2oANG
+ eeZXGkvOvHPsIiZJjNyb1mK06UcWc57VI2aXhEVZC0Wfx3r0sbbKfpr9Dsr/W+4CiZgN
+ 3t9A==
+X-Gm-Message-State: AOAM532XpylAWvZaVmcWg9kkhESSymhw0BbYIjuTLSVZx0Q+PLdye2Ea
+ 4hZ9zF4UvQkdJGEqQen3TShiApDQRU8KtUHo8Rk=
+X-Google-Smtp-Source: ABdhPJwEZrClRPIH9vx8ftIHbXAHKg+40uvixJ8hU+c8XQdOLf87/Ai9P4oAa4hLLNh2pQiauiijkI8CirOSt6T60u8=
+X-Received: by 2002:a2e:b4ca:: with SMTP id r10mr16438436ljm.452.1600692095580; 
+ Mon, 21 Sep 2020 05:41:35 -0700 (PDT)
 MIME-Version: 1.0
+From: Fabio Estevam <festevam@gmail.com>
+Date: Mon, 21 Sep 2020 09:41:24 -0300
+Message-ID: <CAOMZO5C=XTOepsy7NJqS8DsL=9h0PvE8VyMSad4Jc-u89ccO_A@mail.gmail.com>
+Subject: Etnaviv: eglCreateWindowSurface fails with glmark2
+To: Lucas Stach <l.stach@pengutronix.de>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>, 
+ Russell King - ARM Linux <linux@armlinux.org.uk>,
+ The etnaviv authors <etnaviv@lists.freedesktop.org>
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,80 +59,61 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: "board@foundation.x.org" <board@foundation.x.org>
-Content-Type: multipart/mixed; boundary="===============0487111294=="
+Cc: ML mesa-dev <mesa-dev@lists.freedesktop.org>,
+ Adam Ford <aford173@gmail.com>, Chris Healy <cphealy@gmail.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
+Hi,
 
---===============0487111294==
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-evhoVZFKP3ts0eEigqE1"
+I am trying to run glmark2 and I am getting the following error on an
+imx6qp-sabresd with kernel 5.8.4:
 
+# glmark2-es2-drm -d
+Debug: Using Udev to detect the right DRM node to use
+Debug: Looking for the main GPU DRM node...
+Debug: Not found!
+Debug: Looking for a concrete GPU DRM node...
+Debug: Success!
+Debug: Trying to use the DRM node /dev/dri/card0
+Debug: Success!
+Debug: Using eglGetPlatformDisplayEXT()
+Debug: Got 6 suitable EGLConfigs:
+Debug:
+Debug:     cfg buf  rgb  colorbuffer dp st config native support surface sample
+Debug:      id  sz  lum  r  g  b  a  th cl caveat render  visid    type  buf ns
+Debug: ------------------------------------------------------------------------
+Debug:     0x2  32  rgb 10 10 10  2  16  0   None   true0x30334241
+0x4   0  0
+Debug:     0xa  32  rgb  8  8  8  8  16  0   None   true0x34325241
+0x4   0  0
+Debug:     0x3  32  rgb 10 10 10  2  24  0   None   true0x30334241
+0x4   0  0
+Debug:     0xb  32  rgb  8  8  8  8  24  0   None   true0x34325241
+0x4   0  0
+Debug:     0x4  32  rgb 10 10 10  2  24  8   None   true0x30334241
+0x4   0  0
+Debug:     0xc  32  rgb  8  8  8  8  24  8   None   true0x34325241
+0x4   0  0
+Debug:
+Debug: Best EGLConfig ID: 0x3
+Error: eglCreateWindowSurface failed with error: 0x3009
+Error: eglCreateWindowSurface failed with error: 0x3009
+Error: CanvasGeneric: Invalid EGL state
+Error: main: Could not initialize canvas
 
---=-evhoVZFKP3ts0eEigqE1
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+kmscube runs without issues.
 
-Hi all,
+glmark2-es2-drm used to work fine with older kernel/Mesa versions.
 
-Huge thanks again to the entire team from Intel, for their great work
-organizing XDC 2020, our first virtual conference!
+Does anyone have any ideas?
 
-As usual we're looking for feedback on both XDC itself, and the CFP
-process and program selection. Both about what was great and should be
-kept for next year's edition, and where there's room for improvement.
+Thanks,
 
-The board does keep some notes, for those interested in what we have
-already:
-
-- XDC notes for prospective organizers:=20
-https://www.x.org/wiki/Events/RFP/
-
-- CFP notes: https://www.x.org/wiki/Events/PapersCommittee/
-
-If you want to send in your comments in private, please send them to
-the X.org Foundation board: board@foundation.x.org
-
-Cheers,
-
-Sam
-
---=-evhoVZFKP3ts0eEigqE1
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEQP+ZAvaXWkfuKXiEf/S6MvF9w0MFAl9oXlQACgkQf/S6MvF9
-w0PiNA/+Jj6uBmncvTzk2d85o0AkBPwReXMxso8OY4eO3wIF5OZxU9SlNUguRAKL
-o+1G26DR76H8CmbClqFlGdQAisyABN3TsHrfPiHvjAw+DQajktptD6zFgUH2PBhj
-KqceS/Fm/1Glcy4CJoQjo44e4XR03wDV4of93y/J6PKvxxk809EvRIC/PTbaSE7M
-CRJTZsCLJCr6C9JQtTg5VoQW9QAcruNq7PLZuDsOqM7lGeObupRQjCUd62DA4Qtq
-CR1LIqCkp8A6fdyQBJNljgNz46bexvg+8z1rrPsE6BhQco9hFsU70fUQK1JXTIGl
-s97bqNaO0kt0C0pgId452l9OfjCJMOzNJJktlMQMQE++j8ZrM7lNf03clzWfUy3s
-MHF7XjrGKqfOZU04zd302BCS9YawmNAc7rchOwFCVe9BtHoGZvkms0CrcoRgu63s
-tSNijUyPnVeHodlObtltZ2JRi8WgaBctMOmuEVGkhR57GF9vnv6rOcPVnVBUwOs9
-zdXepyalMddJ3xSnM6mvpQWMFcley1uuBVgdv5JkMPEOFHEbfXSFYP1oIICpRwDM
-ulcIniZpFNZ97ztElEoPvHnswoelUvKWpyln4uQ+Vx1G/S429CknqWKtl+Hfz468
-sA6n1lrT+1VVAtHoeLrZDpeinMlwTxj9f7XZlZ+ANeRul5C6FIY=
-=iiSO
------END PGP SIGNATURE-----
-
---=-evhoVZFKP3ts0eEigqE1--
-
-
---===============0487111294==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+Fabio Estevam
 _______________________________________________
 etnaviv mailing list
 etnaviv@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/etnaviv
-
---===============0487111294==--
-
