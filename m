@@ -1,60 +1,43 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C43D626DD64
-	for <lists+etnaviv@lfdr.de>; Thu, 17 Sep 2020 16:02:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E51B271D18
+	for <lists+etnaviv@lfdr.de>; Mon, 21 Sep 2020 10:07:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 91E8F6EC16;
-	Thu, 17 Sep 2020 14:02:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD76B6E24E;
+	Mon, 21 Sep 2020 08:07:19 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BDAC06E290;
- Thu, 17 Sep 2020 14:01:59 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id a9so2188261wmm.2;
- Thu, 17 Sep 2020 07:01:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=lBUrIOfg3+mq8ad85tbb7EImBFZIDC/tVRBXQ4hE1ik=;
- b=DNZiBZAKqypMSqQJoyD2IPrVpqiI3ikdcnRtqSUtglPbT/8APSdwaP78S9dCceWhaB
- CUFzh+i3SYFxQjgJQYQXA+eAyv74bC7KPueFL/Gfi5sPNtWoyu6oeH0LQkpIWYJSX21y
- rV7VkyxfFYten7MOhzm3Bz7i04GYai5m0PJD8/+pat7mIsmnFKD4UKKCCUMZ01zZFTbO
- PKJYwiwHEuO6KO353OHy/LaLG0eDM48NEvTlWgc4GQY7VXvipXO0S4rEEhbCyvprEr3R
- BIuNCJjy1NTGULEvR1fAoX12DfpViAnvzecyOpIl9S6AtbE1NSwC4GsSGoUx0L019NSL
- oeQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=lBUrIOfg3+mq8ad85tbb7EImBFZIDC/tVRBXQ4hE1ik=;
- b=NbZFwZV05Gcfe6hLL6STlm/2ehiyQ6RZ9PVThNJ/uIVUFT46NvEA1aEGWhIJ+TOwpH
- NmQVlzkJvRCSwcn4J4QDhWL5hXpH1N50c7H9q56wfKvDG99XYFvsRuX290zRteKRVyHd
- zKfqDpX69CYEJA20V1DyvQgpNDQkBSfayhsmQ/oilPM5E8qxTejwY/+dMmV4U9IVOg4I
- Ohdp1/KhZYB2SdiY+ejP84C7XP87N+6uBrMKlq6EVvyUu8C9ZdqLac1Sp++9wm2WBp+v
- /9oujqCU6za1QL/zAruyTvPDJi30BltY3wtwgo19BNh7MTKNt7WVaHjC+6+Ovb8MRqqb
- Gfeg==
-X-Gm-Message-State: AOAM533AXcNXQW7ApH+6IAjksQgjdtk09Gipq/dgQ8OQ7Ii8X6T29Bbj
- Sn52e46T7ouiCjlCKAsNMaQ=
-X-Google-Smtp-Source: ABdhPJwVFsi9VyC5N2zDyjQYYSf7iQdzkgcW/plJduCk7Y3eMkitDq4/6m+bqkSKVjF1esIZWne4iA==
-X-Received: by 2002:a1c:ba0b:: with SMTP id k11mr10119624wmf.20.1600351318328; 
- Thu, 17 Sep 2020 07:01:58 -0700 (PDT)
-Received: from smtp.gmail.com (a95-92-181-29.cpe.netcabo.pt. [95.92.181.29])
- by smtp.gmail.com with ESMTPSA id z14sm37316830wrh.14.2020.09.17.07.01.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Sep 2020 07:01:57 -0700 (PDT)
-Date: Thu, 17 Sep 2020 11:01:48 -0300
-From: Melissa Wen <melissa.srw@gmail.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v2 16/21] drm/vgem: Introduce GEM object functions
-Message-ID: <20200917140148.orpdihcctrr5upxg@smtp.gmail.com>
-References: <20200915145958.19993-1-tzimmermann@suse.de>
- <20200915145958.19993-17-tzimmermann@suse.de>
+Received: from fanzine.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F0EC6E245;
+ Mon, 21 Sep 2020 08:07:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+ s=20170329; 
+ h=MIME-Version:Content-Type:Date:Cc:To:From:Subject:Message-ID;
+ bh=fDLgJXux/jRKs3pMveWM95iw4736sPWZKd6xbDbBR1s=; 
+ b=AFg8rJ8mI4p77lFEAjmTestdzWgZC5/suP0QGy767a/qDRvNU7q+RO25W/I1ct3Zg47ZkLyWudVChe0aYu0a6/tbiBrdfWbtChwBDnsTI+7NNqrhihhrJPA2sTWcEnMxa+SAcDiffJHhmXVsz1Xnw4idJFm15VMMI14AMxWfu3tExRijvGkVBc93VJ9SUrqe+D4yYQtqJin4KwB7HqXuobv86zOrSNd1kUOYmt2JrpuCkE2zT59sM87fZuSMbWGp+5EnlAlSg9J+FT4FBlI93BaDEtQ/OoMafesYmnmQyyP4GZAcJK4atCzp4fwCpdxMKamwEXfiwuf6U2XeAWhHkw==;
+Received: from 11.red-79-157-245.dynamicip.rima-tde.net ([79.157.245.11]
+ helo=fourier) by fanzine.igalia.com with esmtpsa 
+ (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
+ id 1kKGqq-0002IQ-OO; Mon, 21 Sep 2020 10:07:08 +0200
+Message-ID: <4eaa69879014a406424b9702dd6574a305f4c98e.camel@igalia.com>
+Subject: XDC 2020 feedback and comments
+From: Samuel Iglesias =?ISO-8859-1?Q?Gons=E1lvez?= <siglesias@igalia.com>
+To: "events@lists.x.org" <events@lists.x.org>, 
+ "xorg-devel@lists.freedesktop.org"
+ <xorg-devel@lists.freedesktop.org>, "wayland-devel@lists.freedesktop.org"
+ <wayland-devel@lists.freedesktop.org>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>, "mesa-dev@lists.freedesktop.org"
+ <mesa-dev@lists.freedesktop.org>, "amd-gfx@lists.freedesktop.org"
+ <amd-gfx@lists.freedesktop.org>, "etnaviv@lists.freedesktop.org"
+ <etnaviv@lists.freedesktop.org>, "freedreno@lists.freedesktop.org"
+ <freedreno@lists.freedesktop.org>, "nouveau@lists.freedesktop.org"
+ <nouveau@lists.freedesktop.org>, "intel-gfx@lists.freedesktop.org"
+ <intel-gfx@lists.freedesktop.org>
+Date: Mon, 21 Sep 2020 10:03:32 +0200
+User-Agent: Evolution 3.36.4-2 
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200915145958.19993-17-tzimmermann@suse.de>
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,129 +49,80 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: hamohammed.sa@gmail.com, heiko@sntech.de, andrey.grodzovsky@amd.com,
- airlied@linux.ie, nouveau@lists.freedesktop.org,
- joonas.lahtinen@linux.intel.com, dri-devel@lists.freedesktop.org,
- michal.simek@xilinx.com, eric@anholt.net, thierry.reding@gmail.com,
- robdclark@gmail.com, krzk@kernel.org, sam@ravnborg.org,
- sumit.semwal@linaro.org, emil.velikov@collabora.com,
- linux-samsung-soc@vger.kernel.org, jy0922.shim@samsung.com,
- oleksandr_andrushchenko@epam.com, tomi.valkeinen@ti.com,
- linux-tegra@vger.kernel.org, linux@armlinux.org.uk,
- patrik.r.jakobsson@gmail.com, jonathanh@nvidia.com,
- linux-rockchip@lists.infradead.org, kgene@kernel.org, bskeggs@redhat.com,
- xen-devel@lists.xenproject.org, miaoqinglang@huawei.com,
- intel-gfx@lists.freedesktop.org, matthew.auld@intel.com,
- chunkuang.hu@kernel.org, andi.shyti@intel.com, daniel@ffwll.ch,
- linux-arm-msm@vger.kernel.org, marek.olsak@amd.com, tianci.yin@amd.com,
- maarten.lankhorst@linux.intel.com, etnaviv@lists.freedesktop.org,
- jani.nikula@linux.intel.com, inki.dae@samsung.com, hdegoede@redhat.com,
- christian.gmeiner@gmail.com, linux-mediatek@lists.infradead.org,
- mripard@kernel.org, rodrigo.vivi@intel.com, matthias.bgg@gmail.com,
- evan.quan@amd.com, sean@poorly.run, linux-arm-kernel@lists.infradead.org,
- tvrtko.ursulin@linux.intel.com, amd-gfx@lists.freedesktop.org,
- laurent.pinchart@ideasonboard.com, hyun.kwon@xilinx.com,
- rodrigosiqueiramelo@gmail.com, aaron.liu@amd.com, Felix.Kuehling@amd.com,
- xinhui.pan@amd.com, sw0312.kim@samsung.com, hjc@rock-chips.com,
- chris@chris-wilson.co.uk, kyungmin.park@samsung.com, nirmoy.das@amd.com,
- p.zabel@pengutronix.de, alexander.deucher@amd.com, Hawking.Zhang@amd.com,
- freedreno@lists.freedesktop.org, christian.koenig@amd.com,
- l.stach@pengutronix.de
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: "board@foundation.x.org" <board@foundation.x.org>
+Content-Type: multipart/mixed; boundary="===============0487111294=="
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Hi Thomas,
 
-On 09/15, Thomas Zimmermann wrote:
-> GEM object functions deprecate several similar callback interfaces in
-> struct drm_driver. This patch replaces the per-driver callbacks with
-> per-instance callbacks in vgem. The only exception is gem_prime_mmap,
-> which is non-trivial to convert.
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+--===============0487111294==
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-evhoVZFKP3ts0eEigqE1"
 
-Thanks here again.
 
-This drv file is little tumultuous to me.
-I mean, I took a while to sort functions in my head.
+--=-evhoVZFKP3ts0eEigqE1
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-However, finally, I got it, and the change looks good.
+Hi all,
 
-Reviewed-by: Melissa Wen <melissa.srw@gmail.com>
+Huge thanks again to the entire team from Intel, for their great work
+organizing XDC 2020, our first virtual conference!
 
-> ---
->  drivers/gpu/drm/vgem/vgem_drv.c | 21 ++++++++++++++-------
->  1 file changed, 14 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/vgem/vgem_drv.c b/drivers/gpu/drm/vgem/vgem_drv.c
-> index cb884c890065..fa54a6d1403d 100644
-> --- a/drivers/gpu/drm/vgem/vgem_drv.c
-> +++ b/drivers/gpu/drm/vgem/vgem_drv.c
-> @@ -50,6 +50,8 @@
->  #define DRIVER_MAJOR	1
->  #define DRIVER_MINOR	0
->  
-> +static const struct drm_gem_object_funcs vgem_gem_object_funcs;
-> +
->  static struct vgem_device {
->  	struct drm_device drm;
->  	struct platform_device *platform;
-> @@ -167,6 +169,8 @@ static struct drm_vgem_gem_object *__vgem_gem_create(struct drm_device *dev,
->  	if (!obj)
->  		return ERR_PTR(-ENOMEM);
->  
-> +	obj->base.funcs = &vgem_gem_object_funcs;
-> +
->  	ret = drm_gem_object_init(dev, &obj->base, roundup(size, PAGE_SIZE));
->  	if (ret) {
->  		kfree(obj);
-> @@ -401,12 +405,20 @@ static int vgem_prime_mmap(struct drm_gem_object *obj,
->  	return 0;
->  }
->  
-> +static const struct drm_gem_object_funcs vgem_gem_object_funcs = {
-> +	.free = vgem_gem_free_object,
-> +	.pin = vgem_prime_pin,
-> +	.unpin = vgem_prime_unpin,
-> +	.get_sg_table = vgem_prime_get_sg_table,
-> +	.vmap = vgem_prime_vmap,
-> +	.vunmap = vgem_prime_vunmap,
-> +	.vm_ops = &vgem_gem_vm_ops,
-> +};
-> +
->  static struct drm_driver vgem_driver = {
->  	.driver_features		= DRIVER_GEM | DRIVER_RENDER,
->  	.open				= vgem_open,
->  	.postclose			= vgem_postclose,
-> -	.gem_free_object_unlocked	= vgem_gem_free_object,
-> -	.gem_vm_ops			= &vgem_gem_vm_ops,
->  	.ioctls				= vgem_ioctls,
->  	.num_ioctls 			= ARRAY_SIZE(vgem_ioctls),
->  	.fops				= &vgem_driver_fops,
-> @@ -415,13 +427,8 @@ static struct drm_driver vgem_driver = {
->  
->  	.prime_handle_to_fd = drm_gem_prime_handle_to_fd,
->  	.prime_fd_to_handle = drm_gem_prime_fd_to_handle,
-> -	.gem_prime_pin = vgem_prime_pin,
-> -	.gem_prime_unpin = vgem_prime_unpin,
->  	.gem_prime_import = vgem_prime_import,
->  	.gem_prime_import_sg_table = vgem_prime_import_sg_table,
-> -	.gem_prime_get_sg_table = vgem_prime_get_sg_table,
-> -	.gem_prime_vmap = vgem_prime_vmap,
-> -	.gem_prime_vunmap = vgem_prime_vunmap,
->  	.gem_prime_mmap = vgem_prime_mmap,
->  
->  	.name	= DRIVER_NAME,
-> -- 
-> 2.28.0
-> 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+As usual we're looking for feedback on both XDC itself, and the CFP
+process and program selection. Both about what was great and should be
+kept for next year's edition, and where there's room for improvement.
+
+The board does keep some notes, for those interested in what we have
+already:
+
+- XDC notes for prospective organizers:=20
+https://www.x.org/wiki/Events/RFP/
+
+- CFP notes: https://www.x.org/wiki/Events/PapersCommittee/
+
+If you want to send in your comments in private, please send them to
+the X.org Foundation board: board@foundation.x.org
+
+Cheers,
+
+Sam
+
+--=-evhoVZFKP3ts0eEigqE1
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEQP+ZAvaXWkfuKXiEf/S6MvF9w0MFAl9oXlQACgkQf/S6MvF9
+w0PiNA/+Jj6uBmncvTzk2d85o0AkBPwReXMxso8OY4eO3wIF5OZxU9SlNUguRAKL
+o+1G26DR76H8CmbClqFlGdQAisyABN3TsHrfPiHvjAw+DQajktptD6zFgUH2PBhj
+KqceS/Fm/1Glcy4CJoQjo44e4XR03wDV4of93y/J6PKvxxk809EvRIC/PTbaSE7M
+CRJTZsCLJCr6C9JQtTg5VoQW9QAcruNq7PLZuDsOqM7lGeObupRQjCUd62DA4Qtq
+CR1LIqCkp8A6fdyQBJNljgNz46bexvg+8z1rrPsE6BhQco9hFsU70fUQK1JXTIGl
+s97bqNaO0kt0C0pgId452l9OfjCJMOzNJJktlMQMQE++j8ZrM7lNf03clzWfUy3s
+MHF7XjrGKqfOZU04zd302BCS9YawmNAc7rchOwFCVe9BtHoGZvkms0CrcoRgu63s
+tSNijUyPnVeHodlObtltZ2JRi8WgaBctMOmuEVGkhR57GF9vnv6rOcPVnVBUwOs9
+zdXepyalMddJ3xSnM6mvpQWMFcley1uuBVgdv5JkMPEOFHEbfXSFYP1oIICpRwDM
+ulcIniZpFNZ97ztElEoPvHnswoelUvKWpyln4uQ+Vx1G/S429CknqWKtl+Hfz468
+sA6n1lrT+1VVAtHoeLrZDpeinMlwTxj9f7XZlZ+ANeRul5C6FIY=
+=iiSO
+-----END PGP SIGNATURE-----
+
+--=-evhoVZFKP3ts0eEigqE1--
+
+
+--===============0487111294==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 etnaviv mailing list
 etnaviv@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/etnaviv
+
+--===============0487111294==--
+
