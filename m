@@ -2,40 +2,102 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63FA62757FB
-	for <lists+etnaviv@lfdr.de>; Wed, 23 Sep 2020 14:32:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21FEC2759E9
+	for <lists+etnaviv@lfdr.de>; Wed, 23 Sep 2020 16:27:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F315A6E9AE;
-	Wed, 23 Sep 2020 12:32:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE5B46E2C7;
+	Wed, 23 Sep 2020 14:27:21 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C9ACE6E99B;
- Wed, 23 Sep 2020 12:32:11 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 80963B0EA;
- Wed, 23 Sep 2020 12:32:47 +0000 (UTC)
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: sumit.semwal@linaro.org, christian.koenig@amd.com, afd@ti.com,
- corbet@lwn.net, benjamin.gaignard@linaro.org, lmark@codeaurora.org,
- labbott@redhat.com, Brian.Starkey@arm.com, john.stultz@linaro.org,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@linux.ie,
- daniel@ffwll.ch, l.stach@pengutronix.de, linux+etnaviv@armlinux.org.uk,
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam08on2061.outbound.protection.outlook.com [40.107.102.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE7136E199;
+ Wed, 23 Sep 2020 14:27:20 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=H1X//5P65KqsdPzbuufxsTymxR68wjTKsLp73vcs8JkRTmS4sD7v+ouChOu3kVFQb/VA+NihzPp7O8ik4uieEtPhaEhxBpkXFhMlJam7LqXm01F3xDbpd5EmxPfjmZSk5I607NX0vuN8Y+RBbPpVZQN6ysRznqP8srI/RzBCEwrLkRgIsySodgHM2mkpZNuZsMHbVwj9YPRv6OGEGdQLmJwwZcAVo4NqR37eGW7WFgrwmc+q0U8cUbmCYMqoAb45xnvUsaP5t8deeWWiEcu1DcTs51u9XvZ+WnclP4S8/2iiNgUCzZPNCvlduUrS/6wtLeEgdrrYsi1vkaWIZUaSNg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=AaXYH/XK1LbUCphlMNfz9ZzJLkhCWtBAomROCVZiT4c=;
+ b=SkEa0WgINmHLMa4022IIl3VJhDX6p3PxH9Dr4LWBcStEMZ3K0pzNiFvGtZI6sZqpXv5QPg1/GTwD102KLTUIhJW/n+H+nHGKQnqYC7eqkELaCF7WqlUD90NeIxyf1JGC2IBcuuUBrDLFyUn6NwNEQ7eiW4I2DWDH99QK1tZTkuA08s175eFI8wW1U/LdcGGPltsBJUXCFiEmnQFjfzBc91OMPK4r4Z0ISx5CpCHlhLuNy/OlYlU059z51LSSRVTJJet3YcJmUwbdnfSqKRIhQ5rDwvyzgP5upbQo1IxS/AcKok2Pb+G/Pv4i9GRpRXnvBWChCeG3Mqg2d3oerBUsjQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=AaXYH/XK1LbUCphlMNfz9ZzJLkhCWtBAomROCVZiT4c=;
+ b=TXWYWObNqhuXzw7jBV3RLFZcJdSnwVijYNL7ID4oW/IOHSROihJyoVckfWXTZBNvv9yfyYWQiVMeECc/TIsoOZzh9d1hq4IYV8T4UcX6nQuShu0Rr9dmSeid7hrDOK1/jHqnhn1a8PVdWuwShoWXx7eGwwslnq3LnUVxyLXH2Ow=
+Authentication-Results: vger.kernel.org; dkim=none (message not signed)
+ header.d=none;vger.kernel.org; dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
+ by MN2PR12MB4549.namprd12.prod.outlook.com (2603:10b6:208:268::15)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3391.19; Wed, 23 Sep
+ 2020 14:27:16 +0000
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::f8f7:7403:1c92:3a60]) by MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::f8f7:7403:1c92:3a60%6]) with mapi id 15.20.3412.022; Wed, 23 Sep 2020
+ 14:27:16 +0000
+Subject: Re: [PATCH v2 1/3] dma-buf: Add struct dma-buf-map for storing struct
+ dma_buf.vaddr_ptr
+To: Thomas Zimmermann <tzimmermann@suse.de>, sumit.semwal@linaro.org,
+ afd@ti.com, corbet@lwn.net, benjamin.gaignard@linaro.org,
+ lmark@codeaurora.org, labbott@redhat.com, Brian.Starkey@arm.com,
+ john.stultz@linaro.org, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, airlied@linux.ie, daniel@ffwll.ch,
+ l.stach@pengutronix.de, linux+etnaviv@armlinux.org.uk,
  christian.gmeiner@gmail.com, jani.nikula@linux.intel.com,
  joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com,
  thierry.reding@gmail.com, jonathanh@nvidia.com, pawel@osciak.com,
  m.szyprowski@samsung.com, kyungmin.park@samsung.com, tfiga@chromium.org,
  mchehab@kernel.org, matthew.auld@intel.com, robin.murphy@arm.com,
  thomas.hellstrom@intel.com, sam@ravnborg.org, kraxel@redhat.com
-Subject: [PATCH v2 3/3] dma-buf: Use struct dma_buf_map in dma_buf_vunmap()
- interfaces
-Date: Wed, 23 Sep 2020 14:32:05 +0200
-Message-Id: <20200923123205.30671-4-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20200923123205.30671-1-tzimmermann@suse.de>
 References: <20200923123205.30671-1-tzimmermann@suse.de>
+ <20200923123205.30671-2-tzimmermann@suse.de>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <fa595f8a-3360-dc9f-2b85-0cdda28da3e5@amd.com>
+Date: Wed, 23 Sep 2020 16:27:04 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <20200923123205.30671-2-tzimmermann@suse.de>
+Content-Language: en-US
+X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
+X-ClientProxiedBy: AM0PR10CA0004.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:208:17c::14) To MN2PR12MB3775.namprd12.prod.outlook.com
+ (2603:10b6:208:159::19)
 MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
+ (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by
+ AM0PR10CA0004.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:17c::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3412.21 via Frontend
+ Transport; Wed, 23 Sep 2020 14:27:09 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: c661b9fd-a0e8-4f63-dd7d-08d85fccc53e
+X-MS-TrafficTypeDiagnostic: MN2PR12MB4549:
+X-Microsoft-Antispam-PRVS: <MN2PR12MB4549F3F5D665B5651028330383380@MN2PR12MB4549.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: kPugTbrBBSNXya66m+Lb5EUXaR5uGbOCRf0waWV5tTuc6SQR/yC4GxduCMP6eo59vwAG4q7BzWXWdc8AQMOJXSIp6BNk1CoFsALyhQDFno2knBd+KKfIVezoz1iYzj3UCI/VJheKPxYfQoTYZor3/mUijzE8wOrXXmTwe+eH/c8qGfTtvdURZ6BKVbTs18T+8nvfif70WBbVOnr5XowWhUdZozXshHUulmb32lJkcIxlI3cYG3F8pzOo4eZtlAaHdej1PefrWZ6TNOdcy2OZ3xegxKkjQSi309Zkqmp767ZiGglHsaOATVY2YUjLgQNAWSKwFb23Stcvy2031qDWxoooJ8FF8UZonmu6auk2T4oefMwbt9GKTwvL5gG/+NfRZi0GeTXz50wNlqQH22sS7QlgkzEZOakqj6tGB7YW+AjGs0cETV9z272MQZlTT4KnoxEFxmnVez1Wj38XCwRTqQiaqrWZEdPk78IISmFjVKAI1YRat/IOleiu1IVYlER5TsPKf+Aki1qpRUwv0WtgvA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(39860400002)(346002)(376002)(396003)(136003)(66574015)(8936002)(52116002)(66476007)(316002)(7406005)(7416002)(66556008)(66946007)(4326008)(8676002)(478600001)(6666004)(6486002)(966005)(16526019)(2616005)(186003)(36756003)(2906002)(45080400002)(31686004)(5660300002)(86362001)(83380400001)(31696002)(921003)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: UmuEnI9s+zF65p6wRtgZ4ObO4hvZZtLdgF9+yEYIOthYnduYIIU3x1PwdgTD68d8FGXDth2gIl9TBsUrpJQUbz1xRgcCPUJO/kI7rtDBxSlFxmZwHKDY3bjfxHtD3Q2YP+soAjXRweTEEXEVzHNgt31WfOK0ga1lFHvmkfh6wQyxywCHafE6Mt4QeDBQEAWF3NbIi/pVX0oAuKU8mhTrUUVXIfKvCiRNSqSOJrHjipZfssmbvzk+BDyiH7SnghtZxN34HkMbtkCBsJYUjwW4ZJR23AoiV0T2RKzHqkowvRPJ/64N1GXbbYNtJGE6g/+4xLnU8XW75bHDYjlIEDEAMpOpBVnGsLJGZSxXFuKAnyN/LY/e7oc5M/VNHCeqooxTizxZRa3MlWKOTsz1A3xWnSHQLVaRQilbszJ10Z/sCC4qcEWUnk3zrET5+o1nOcx01imiIpOUD8gkRzPhUMMCTMtkOqeayjusSJjD2A8HZSXjxsxilcOorpRDJTDbnbxmNfWpZ2fS2pVeBLG/nLu4vEUohSbrn5sGD7xOdpkaYWQto9HHxMwmo2oezj5v3IVkrBwz5MUjfIqicwB7Mm5zu9xCsKMXzn8bFMjQU6RIu5BcsZfm0ohi17hVBNk9+h9V8GPejQukk1JhWVmsrXEZm8aOQEkUAdRPmwdUItYpGwtna4UBVwjuboYe9BrM5ZrJFy9Furacakao4/Mt/JgMow==
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c661b9fd-a0e8-4f63-dd7d-08d85fccc53e
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Sep 2020 14:27:16.5011 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: frsM6rtND0ARZimtYaNIwLddoVbGfdgpQq/EHmoSu6l+JR/c/peobcBZdxuy1/TE
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4549
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,427 +111,144 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
 Cc: linux-doc@vger.kernel.org, intel-gfx@lists.freedesktop.org,
  etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, Thomas Zimmermann <tzimmermann@suse.de>,
- linux-tegra@vger.kernel.org, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+ linaro-mm-sig@lists.linaro.org, linux-tegra@vger.kernel.org,
+ linux-media@vger.kernel.org
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-This patch updates dma_buf_vunmap() and dma-buf's vunmap callback to
-use struct dma_buf_map. The interfaces used to receive a buffer address.
-This address is now given in an instance of the structure.
-
-Users of the functions are updated accordingly. This is only an interface
-change. It is currently expected that dma-buf memory can be accessed with
-system memory load/store operations.
-
-v2:
-	* include dma-buf-heaps and i915 selftests (kernel test robot)
-	* initialize cma_obj before using it in drm_gem_cma_free_object()
-	  (kernel test robot)
-
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Acked-by: Sumit Semwal <sumit.semwal@linaro.org>
----
- drivers/dma-buf/dma-buf.c                     |  8 ++---
- drivers/dma-buf/heaps/heap-helpers.c          |  2 +-
- drivers/gpu/drm/drm_gem_cma_helper.c          |  9 +++---
- drivers/gpu/drm/drm_gem_shmem_helper.c        |  3 +-
- drivers/gpu/drm/drm_prime.c                   |  6 ++--
- drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c   |  5 +--
- drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c    |  2 +-
- .../drm/i915/gem/selftests/i915_gem_dmabuf.c  |  6 ++--
- .../gpu/drm/i915/gem/selftests/mock_dmabuf.c  |  4 +--
- drivers/gpu/drm/tegra/gem.c                   |  5 +--
- .../common/videobuf2/videobuf2-dma-contig.c   |  3 +-
- .../media/common/videobuf2/videobuf2-dma-sg.c |  3 +-
- .../common/videobuf2/videobuf2-vmalloc.c      |  6 ++--
- include/drm/drm_prime.h                       |  2 +-
- include/linux/dma-buf-map.h                   | 32 +++++++++++++++++--
- include/linux/dma-buf.h                       |  4 +--
- 16 files changed, 66 insertions(+), 34 deletions(-)
-
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index 61bd24d21b38..a6ba4d598f0e 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -1236,21 +1236,21 @@ EXPORT_SYMBOL_GPL(dma_buf_vmap);
- /**
-  * dma_buf_vunmap - Unmap a vmap obtained by dma_buf_vmap.
-  * @dmabuf:	[in]	buffer to vunmap
-- * @vaddr:	[in]	vmap to vunmap
-+ * @map:	[in]	vmap pointer to vunmap
-  */
--void dma_buf_vunmap(struct dma_buf *dmabuf, void *vaddr)
-+void dma_buf_vunmap(struct dma_buf *dmabuf, struct dma_buf_map *map)
- {
- 	if (WARN_ON(!dmabuf))
- 		return;
- 
- 	BUG_ON(dma_buf_map_is_null(&dmabuf->vmap_ptr));
- 	BUG_ON(dmabuf->vmapping_counter == 0);
--	BUG_ON(!dma_buf_map_is_vaddr(&dmabuf->vmap_ptr, vaddr));
-+	BUG_ON(!dma_buf_map_is_equal(&dmabuf->vmap_ptr, map));
- 
- 	mutex_lock(&dmabuf->lock);
- 	if (--dmabuf->vmapping_counter == 0) {
- 		if (dmabuf->ops->vunmap)
--			dmabuf->ops->vunmap(dmabuf, vaddr);
-+			dmabuf->ops->vunmap(dmabuf, map);
- 		dma_buf_map_clear(&dmabuf->vmap_ptr);
- 	}
- 	mutex_unlock(&dmabuf->lock);
-diff --git a/drivers/dma-buf/heaps/heap-helpers.c b/drivers/dma-buf/heaps/heap-helpers.c
-index aeb9e100f339..fcf4ce3e2cbb 100644
---- a/drivers/dma-buf/heaps/heap-helpers.c
-+++ b/drivers/dma-buf/heaps/heap-helpers.c
-@@ -251,7 +251,7 @@ static int dma_heap_dma_buf_vmap(struct dma_buf *dmabuf, struct dma_buf_map *map
- 	return 0;
- }
- 
--static void dma_heap_dma_buf_vunmap(struct dma_buf *dmabuf, void *vaddr)
-+static void dma_heap_dma_buf_vunmap(struct dma_buf *dmabuf, struct dma_buf_map *map)
- {
- 	struct heap_helper_buffer *buffer = dmabuf->priv;
- 
-diff --git a/drivers/gpu/drm/drm_gem_cma_helper.c b/drivers/gpu/drm/drm_gem_cma_helper.c
-index 1ece73fd3fe9..1059acdde519 100644
---- a/drivers/gpu/drm/drm_gem_cma_helper.c
-+++ b/drivers/gpu/drm/drm_gem_cma_helper.c
-@@ -175,13 +175,12 @@ drm_gem_cma_create_with_handle(struct drm_file *file_priv,
-  */
- void drm_gem_cma_free_object(struct drm_gem_object *gem_obj)
- {
--	struct drm_gem_cma_object *cma_obj;
--
--	cma_obj = to_drm_gem_cma_obj(gem_obj);
-+	struct drm_gem_cma_object *cma_obj = to_drm_gem_cma_obj(gem_obj);
-+	struct dma_buf_map map = DMA_BUF_MAP_INIT_VADDR(cma_obj->vaddr);
- 
- 	if (gem_obj->import_attach) {
- 		if (cma_obj->vaddr)
--			dma_buf_vunmap(gem_obj->import_attach->dmabuf, cma_obj->vaddr);
-+			dma_buf_vunmap(gem_obj->import_attach->dmabuf, &map);
- 		drm_prime_gem_destroy(gem_obj, cma_obj->sgt);
- 	} else if (cma_obj->vaddr) {
- 		dma_free_wc(gem_obj->dev->dev, cma_obj->base.size,
-@@ -628,7 +627,7 @@ drm_gem_cma_prime_import_sg_table_vmap(struct drm_device *dev,
- 
- 	obj = drm_gem_cma_prime_import_sg_table(dev, attach, sgt);
- 	if (IS_ERR(obj)) {
--		dma_buf_vunmap(attach->dmabuf, map.vaddr);
-+		dma_buf_vunmap(attach->dmabuf, &map);
- 		return obj;
- 	}
- 
-diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
-index 6328cfbb828e..fb11df7aced5 100644
---- a/drivers/gpu/drm/drm_gem_shmem_helper.c
-+++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-@@ -337,6 +337,7 @@ EXPORT_SYMBOL(drm_gem_shmem_vmap);
- static void drm_gem_shmem_vunmap_locked(struct drm_gem_shmem_object *shmem)
- {
- 	struct drm_gem_object *obj = &shmem->base;
-+	struct dma_buf_map map = DMA_BUF_MAP_INIT_VADDR(shmem->vaddr);
- 
- 	if (WARN_ON_ONCE(!shmem->vmap_use_count))
- 		return;
-@@ -345,7 +346,7 @@ static void drm_gem_shmem_vunmap_locked(struct drm_gem_shmem_object *shmem)
- 		return;
- 
- 	if (obj->import_attach)
--		dma_buf_vunmap(obj->import_attach->dmabuf, shmem->vaddr);
-+		dma_buf_vunmap(obj->import_attach->dmabuf, &map);
- 	else
- 		vunmap(shmem->vaddr);
- 
-diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
-index 2b3fd01867e4..dfa774c303b6 100644
---- a/drivers/gpu/drm/drm_prime.c
-+++ b/drivers/gpu/drm/drm_prime.c
-@@ -687,16 +687,16 @@ EXPORT_SYMBOL(drm_gem_dmabuf_vmap);
- /**
-  * drm_gem_dmabuf_vunmap - dma_buf vunmap implementation for GEM
-  * @dma_buf: buffer to be unmapped
-- * @vaddr: the virtual address of the buffer
-+ * @map: the virtual address of the buffer
-  *
-  * Releases a kernel virtual mapping. This can be used as the
-  * &dma_buf_ops.vunmap callback. Calls into &drm_gem_object_funcs.vunmap for device specific handling.
-  */
--void drm_gem_dmabuf_vunmap(struct dma_buf *dma_buf, void *vaddr)
-+void drm_gem_dmabuf_vunmap(struct dma_buf *dma_buf, struct dma_buf_map *map)
- {
- 	struct drm_gem_object *obj = dma_buf->priv;
- 
--	drm_gem_vunmap(obj, vaddr);
-+	drm_gem_vunmap(obj, map->vaddr);
- }
- EXPORT_SYMBOL(drm_gem_dmabuf_vunmap);
- 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
-index 80a9fc143bbb..135fbff6fecf 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
-@@ -70,9 +70,10 @@ void etnaviv_gem_prime_unpin(struct drm_gem_object *obj)
- 
- static void etnaviv_gem_prime_release(struct etnaviv_gem_object *etnaviv_obj)
- {
-+	struct dma_buf_map map = DMA_BUF_MAP_INIT_VADDR(etnaviv_obj->vaddr);
-+
- 	if (etnaviv_obj->vaddr)
--		dma_buf_vunmap(etnaviv_obj->base.import_attach->dmabuf,
--			       etnaviv_obj->vaddr);
-+		dma_buf_vunmap(etnaviv_obj->base.import_attach->dmabuf, &map);
- 
- 	/* Don't drop the pages for imported dmabuf, as they are not
- 	 * ours, just free the array we allocated:
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
-index 6ee8f2cfd8c1..0dd477e56573 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
-@@ -91,7 +91,7 @@ static int i915_gem_dmabuf_vmap(struct dma_buf *dma_buf, struct dma_buf_map *map
- 	return 0;
- }
- 
--static void i915_gem_dmabuf_vunmap(struct dma_buf *dma_buf, void *vaddr)
-+static void i915_gem_dmabuf_vunmap(struct dma_buf *dma_buf, struct dma_buf_map *map)
- {
- 	struct drm_i915_gem_object *obj = dma_buf_to_obj(dma_buf);
- 
-diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c
-index f79ebc5329b7..0b4d19729e1f 100644
---- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c
-+++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c
-@@ -152,7 +152,7 @@ static int igt_dmabuf_import(void *arg)
- 
- 	err = 0;
- out_dma_map:
--	dma_buf_vunmap(dmabuf, dma_map);
-+	dma_buf_vunmap(dmabuf, &map);
- out_obj:
- 	i915_gem_object_put(obj);
- out_dmabuf:
-@@ -182,7 +182,7 @@ static int igt_dmabuf_import_ownership(void *arg)
- 	}
- 
- 	memset(ptr, 0xc5, PAGE_SIZE);
--	dma_buf_vunmap(dmabuf, ptr);
-+	dma_buf_vunmap(dmabuf, &map);
- 
- 	obj = to_intel_bo(i915_gem_prime_import(&i915->drm, dmabuf));
- 	if (IS_ERR(obj)) {
-@@ -250,7 +250,7 @@ static int igt_dmabuf_export_vmap(void *arg)
- 	memset(ptr, 0xc5, dmabuf->size);
- 
- 	err = 0;
--	dma_buf_vunmap(dmabuf, ptr);
-+	dma_buf_vunmap(dmabuf, &map);
- out:
- 	dma_buf_put(dmabuf);
- 	return err;
-diff --git a/drivers/gpu/drm/i915/gem/selftests/mock_dmabuf.c b/drivers/gpu/drm/i915/gem/selftests/mock_dmabuf.c
-index becd9fb95d58..2855d11c7a51 100644
---- a/drivers/gpu/drm/i915/gem/selftests/mock_dmabuf.c
-+++ b/drivers/gpu/drm/i915/gem/selftests/mock_dmabuf.c
-@@ -74,11 +74,11 @@ static int mock_dmabuf_vmap(struct dma_buf *dma_buf, struct dma_buf_map *map)
- 	return 0;
- }
- 
--static void mock_dmabuf_vunmap(struct dma_buf *dma_buf, void *vaddr)
-+static void mock_dmabuf_vunmap(struct dma_buf *dma_buf, struct dma_buf_map *map)
- {
- 	struct mock_dmabuf *mock = to_mock(dma_buf);
- 
--	vm_unmap_ram(vaddr, mock->npages);
-+	vm_unmap_ram(map->vaddr, mock->npages);
- }
- 
- static int mock_dmabuf_mmap(struct dma_buf *dma_buf, struct vm_area_struct *vma)
-diff --git a/drivers/gpu/drm/tegra/gem.c b/drivers/gpu/drm/tegra/gem.c
-index 6f04d7855f95..8637bdff189c 100644
---- a/drivers/gpu/drm/tegra/gem.c
-+++ b/drivers/gpu/drm/tegra/gem.c
-@@ -149,11 +149,12 @@ static void *tegra_bo_mmap(struct host1x_bo *bo)
- static void tegra_bo_munmap(struct host1x_bo *bo, void *addr)
- {
- 	struct tegra_bo *obj = host1x_to_tegra_bo(bo);
-+	struct dma_buf_map map = DMA_BUF_MAP_INIT_VADDR(addr);
- 
- 	if (obj->vaddr)
- 		return;
- 	else if (obj->gem.import_attach)
--		dma_buf_vunmap(obj->gem.import_attach->dmabuf, addr);
-+		dma_buf_vunmap(obj->gem.import_attach->dmabuf, &map);
- 	else
- 		vunmap(addr);
- }
-@@ -648,7 +649,7 @@ static int tegra_gem_prime_vmap(struct dma_buf *buf, struct dma_buf_map *map)
- 	return 0;
- }
- 
--static void tegra_gem_prime_vunmap(struct dma_buf *buf, void *vaddr)
-+static void tegra_gem_prime_vunmap(struct dma_buf *buf, struct dma_buf_map *map)
- {
- }
- 
-diff --git a/drivers/media/common/videobuf2/videobuf2-dma-contig.c b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
-index 11428287bdf3..a1eb8279b113 100644
---- a/drivers/media/common/videobuf2/videobuf2-dma-contig.c
-+++ b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
-@@ -648,6 +648,7 @@ static void vb2_dc_unmap_dmabuf(void *mem_priv)
- {
- 	struct vb2_dc_buf *buf = mem_priv;
- 	struct sg_table *sgt = buf->dma_sgt;
-+	struct dma_buf_map map = DMA_BUF_MAP_INIT_VADDR(buf->vaddr);
- 
- 	if (WARN_ON(!buf->db_attach)) {
- 		pr_err("trying to unpin a not attached buffer\n");
-@@ -660,7 +661,7 @@ static void vb2_dc_unmap_dmabuf(void *mem_priv)
- 	}
- 
- 	if (buf->vaddr) {
--		dma_buf_vunmap(buf->db_attach->dmabuf, buf->vaddr);
-+		dma_buf_vunmap(buf->db_attach->dmabuf, &map);
- 		buf->vaddr = NULL;
- 	}
- 	dma_buf_unmap_attachment(buf->db_attach, sgt, buf->dma_dir);
-diff --git a/drivers/media/common/videobuf2/videobuf2-dma-sg.c b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-index c51170e9c1b9..d5157e903e27 100644
---- a/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-+++ b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-@@ -580,6 +580,7 @@ static void vb2_dma_sg_unmap_dmabuf(void *mem_priv)
- {
- 	struct vb2_dma_sg_buf *buf = mem_priv;
- 	struct sg_table *sgt = buf->dma_sgt;
-+	struct dma_buf_map map = DMA_BUF_MAP_INIT_VADDR(buf->vaddr);
- 
- 	if (WARN_ON(!buf->db_attach)) {
- 		pr_err("trying to unpin a not attached buffer\n");
-@@ -592,7 +593,7 @@ static void vb2_dma_sg_unmap_dmabuf(void *mem_priv)
- 	}
- 
- 	if (buf->vaddr) {
--		dma_buf_vunmap(buf->db_attach->dmabuf, buf->vaddr);
-+		dma_buf_vunmap(buf->db_attach->dmabuf, &map);
- 		buf->vaddr = NULL;
- 	}
- 	dma_buf_unmap_attachment(buf->db_attach, sgt, buf->dma_dir);
-diff --git a/drivers/media/common/videobuf2/videobuf2-vmalloc.c b/drivers/media/common/videobuf2/videobuf2-vmalloc.c
-index 7b68e2379c65..11ba0eb1315b 100644
---- a/drivers/media/common/videobuf2/videobuf2-vmalloc.c
-+++ b/drivers/media/common/videobuf2/videobuf2-vmalloc.c
-@@ -390,17 +390,19 @@ static int vb2_vmalloc_map_dmabuf(void *mem_priv)
- static void vb2_vmalloc_unmap_dmabuf(void *mem_priv)
- {
- 	struct vb2_vmalloc_buf *buf = mem_priv;
-+	struct dma_buf_map map = DMA_BUF_MAP_INIT_VADDR(buf->vaddr);
- 
--	dma_buf_vunmap(buf->dbuf, buf->vaddr);
-+	dma_buf_vunmap(buf->dbuf, &map);
- 	buf->vaddr = NULL;
- }
- 
- static void vb2_vmalloc_detach_dmabuf(void *mem_priv)
- {
- 	struct vb2_vmalloc_buf *buf = mem_priv;
-+	struct dma_buf_map map = DMA_BUF_MAP_INIT_VADDR(buf->vaddr);
- 
- 	if (buf->vaddr)
--		dma_buf_vunmap(buf->dbuf, buf->vaddr);
-+		dma_buf_vunmap(buf->dbuf, &map);
- 
- 	kfree(buf);
- }
-diff --git a/include/drm/drm_prime.h b/include/drm/drm_prime.h
-index 5125f84c28f6..0991a47a1567 100644
---- a/include/drm/drm_prime.h
-+++ b/include/drm/drm_prime.h
-@@ -84,7 +84,7 @@ void drm_gem_unmap_dma_buf(struct dma_buf_attachment *attach,
- 			   struct sg_table *sgt,
- 			   enum dma_data_direction dir);
- int drm_gem_dmabuf_vmap(struct dma_buf *dma_buf, struct dma_buf_map *map);
--void drm_gem_dmabuf_vunmap(struct dma_buf *dma_buf, void *vaddr);
-+void drm_gem_dmabuf_vunmap(struct dma_buf *dma_buf, struct dma_buf_map *map);
- 
- int drm_gem_prime_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma);
- int drm_gem_dmabuf_mmap(struct dma_buf *dma_buf, struct vm_area_struct *vma);
-diff --git a/include/linux/dma-buf-map.h b/include/linux/dma-buf-map.h
-index 6b4f6e0e8b5d..303e1363b221 100644
---- a/include/linux/dma-buf-map.h
-+++ b/include/linux/dma-buf-map.h
-@@ -28,6 +28,16 @@ struct dma_buf_map {
- 	bool is_iomem;
- };
- 
-+/**
-+ * DMA_BUF_MAP_INIT_VADDR - Initializes struct dma_buf_map to an address in system memory
-+ * @vaddr:	A system-memory address
-+ */
-+#define DMA_BUF_MAP_INIT_VADDR(vaddr_) \
-+	{ \
-+		.vaddr = (vaddr_), \
-+		.is_iomem = false, \
-+	}
-+
- /**
-  * dma_buf_map_set_vaddr - Sets a dma-buf mapping structure to an address in system memory
-  * @map:	The dma-buf mapping structure
-@@ -41,10 +51,26 @@ static inline void dma_buf_map_set_vaddr(struct dma_buf_map *map, void *vaddr)
- 	map->is_iomem = false;
- }
- 
--/* API transition helper */
--static inline bool dma_buf_map_is_vaddr(const struct dma_buf_map *map, const void *vaddr)
-+/**
-+ * dma_buf_map_is_equal - Compares two dma-buf mapping structures for equality
-+ * @lhs:	The dma-buf mapping structure
-+ * @rhs:	A dma-buf mapping structure to compare with
-+ *
-+ * Two dma-buf mapping structures are equal if they both refer to the same type of memory
-+ * and to the same address within that memory.
-+ *
-+ * Returns:
-+ * True is both structures are equal, or false otherwise.
-+ */
-+static inline bool dma_buf_map_is_equal(const struct dma_buf_map *lhs,
-+					const struct dma_buf_map *rhs)
- {
--	return !map->is_iomem && (map->vaddr == vaddr);
-+	if (lhs->is_iomem != rhs->is_iomem)
-+		return false;
-+	else if (lhs->is_iomem)
-+		return lhs->vaddr_iomem == rhs->vaddr_iomem;
-+	else
-+		return lhs->vaddr == rhs->vaddr;
- }
- 
- /**
-diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-index 7237997cfa38..cf77cc15f4ba 100644
---- a/include/linux/dma-buf.h
-+++ b/include/linux/dma-buf.h
-@@ -267,7 +267,7 @@ struct dma_buf_ops {
- 	int (*mmap)(struct dma_buf *, struct vm_area_struct *vma);
- 
- 	int (*vmap)(struct dma_buf *dmabuf, struct dma_buf_map *map);
--	void (*vunmap)(struct dma_buf *, void *vaddr);
-+	void (*vunmap)(struct dma_buf *dmabuf, struct dma_buf_map *map);
- };
- 
- /**
-@@ -504,5 +504,5 @@ int dma_buf_end_cpu_access(struct dma_buf *dma_buf,
- int dma_buf_mmap(struct dma_buf *, struct vm_area_struct *,
- 		 unsigned long);
- int dma_buf_vmap(struct dma_buf *dmabuf, struct dma_buf_map *map);
--void dma_buf_vunmap(struct dma_buf *dmabuf, void *vaddr);
-+void dma_buf_vunmap(struct dma_buf *dmabuf, struct dma_buf_map *map);
- #endif /* __DMA_BUF_H__ */
--- 
-2.28.0
-
-_______________________________________________
-etnaviv mailing list
-etnaviv@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/etnaviv
+QW0gMjMuMDkuMjAgdW0gMTQ6MzIgc2NocmllYiBUaG9tYXMgWmltbWVybWFubjoKPiBUaGUgbmV3
+IHR5cGUgc3RydWN0IGRtYV9idWZfbWFwIHJlcHJlc2VudHMgYSBtYXBwaW5nIG9mIGRtYS1idWYg
+bWVtb3J5Cj4gaW50byBrZXJuZWwgc3BhY2UuIEl0IGNvbnRhaW5zIGEgZmxhZywgaXNfaW9tZW0s
+IHRoYXQgc2lnbmFscyB1c2VycyB0bwo+IGFjY2VzcyB0aGUgbWFwcGVkIG1lbW9yeSB3aXRoIEkv
+TyBvcGVyYXRpb25zIGluc3RlYWQgb2YgcmVndWxhciBsb2Fkcwo+IGFuZCBzdG9yZXMuCj4KPiBJ
+dCB3YXMgYXNzdW1lZCB0aGF0IERNQSBidWZmZXIgbWVtb3J5IGNhbiBiZSBhY2Nlc3NlZCB3aXRo
+IHJlZ3VsYXIgbG9hZAo+IGFuZCBzdG9yZSBvcGVyYXRpb25zLiBTb21lIGFyY2hpdGVjdHVyZXMs
+IHN1Y2ggYXMgc3BhcmM2NCwgcmVxdWlyZSB0aGUKPiB1c2Ugb2YgSS9PIG9wZXJhdGlvbnMgdG8g
+YWNjZXNzIGRtYS1tYXAgYnVmZmVycyB0aGF0IGFyZSBsb2NhdGVkIGluIEkvTwo+IG1lbW9yeS4g
+UHJvdmlkaW5nIHN0cnVjdCBkbWFfYnVmX21hcCBhbGxvd3MgZHJpdmVycyB0byBpbXBsZW1lbnQg
+dGhpcy4KPiBUaGlzIHdhcyBzcGVjaWZpY2FsbHkgYSBwcm9ibGVtIHdoZW4gcmVmcmVzaGluZyB0
+aGUgZ3JhcGhpY3MgZnJhbWVidWZmZXIKPiBvbiBzdWNoIHN5c3RlbXMuIFsxXQo+Cj4gQXMgdGhl
+IGZpcnN0IHN0ZXAsIHN0cnVjdCBkbWFfYnVmIHN0b3JlcyBhbiBpbnN0YW5jZSBvZiBzdHJ1Y3Qg
+ZG1hX2J1Zl9tYXAKPiBpbnRlcm5hbGx5LiBBZnRlcndhcmRzLCBkbWEtYnVmJ3Mgdm1hcCBhbmQg
+dnVubWFwIGludGVyZmFjZXMgYXJlIGJlCj4gY29udmVydGVkLiBGaW5hbGx5LCBhZmZlY3RlZCBk
+cml2ZXJzIGNhbiBiZSBmaXhlZC4KPgo+IFsxXSBodHRwczovL25hbTExLnNhZmVsaW5rcy5wcm90
+ZWN0aW9uLm91dGxvb2suY29tLz91cmw9aHR0cHMlM0ElMkYlMkZsb3JlLmtlcm5lbC5vcmclMkZk
+cmktZGV2ZWwlMkYyMDIwMDcyNTE5MTAxMi5HQTQzNDk1NyU0MHJhdm5ib3JnLm9yZyUyRiZhbXA7
+ZGF0YT0wMiU3QzAxJTdDY2hyaXN0aWFuLmtvZW5pZyU0MGFtZC5jb20lN0M1NDQ4NmI5NjgyNjU0
+ZjM5NTBiODA4ZDg1ZmJjYjFkMyU3QzNkZDg5NjFmZTQ4ODRlNjA4ZTExYTgyZDk5NGUxODNkJTdD
+MCU3QzAlN0M2MzczNjQ2MTEzMzgxNTMyMDkmYW1wO3NkYXRhPSUyQlptN3Q4T2Nna0l4blklMkZk
+WlNMaFNiS0M3dDF5NFZXNWxJTkZLd0NRdjNBJTNEJmFtcDtyZXNlcnZlZD0wCgpPbmx5IHR3byBu
+aXQgcGlja3MgYmVsb3csIGFwYXJ0IGZyb20gdGhhdCBSZXZpZXdlZC1ieTogQ2hyaXN0aWFuIEvD
+tm5pZyAKPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KCj4KPiBTaWduZWQtb2ZmLWJ5OiBUaG9t
+YXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4KPiBBY2tlZC1ieTogU3VtaXQgU2Vt
+d2FsIDxzdW1pdC5zZW13YWxAbGluYXJvLm9yZz4KPiAtLS0KPiAgIERvY3VtZW50YXRpb24vZHJp
+dmVyLWFwaS9kbWEtYnVmLnJzdCB8ICAzICsKPiAgIGRyaXZlcnMvZG1hLWJ1Zi9kbWEtYnVmLmMg
+ICAgICAgICAgICB8IDE0ICsrLS0tCj4gICBpbmNsdWRlL2xpbnV4L2RtYS1idWYtbWFwLmggICAg
+ICAgICAgfCA4NyArKysrKysrKysrKysrKysrKysrKysrKysrKysrCj4gICBpbmNsdWRlL2xpbnV4
+L2RtYS1idWYuaCAgICAgICAgICAgICAgfCAgMyArLQo+ICAgNCBmaWxlcyBjaGFuZ2VkLCA5OSBp
+bnNlcnRpb25zKCspLCA4IGRlbGV0aW9ucygtKQo+ICAgY3JlYXRlIG1vZGUgMTAwNjQ0IGluY2x1
+ZGUvbGludXgvZG1hLWJ1Zi1tYXAuaAo+Cj4gZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vZHJp
+dmVyLWFwaS9kbWEtYnVmLnJzdCBiL0RvY3VtZW50YXRpb24vZHJpdmVyLWFwaS9kbWEtYnVmLnJz
+dAo+IGluZGV4IDEzZWEwY2MwYTNmYS4uMzI0NGM2MDBhOWExIDEwMDY0NAo+IC0tLSBhL0RvY3Vt
+ZW50YXRpb24vZHJpdmVyLWFwaS9kbWEtYnVmLnJzdAo+ICsrKyBiL0RvY3VtZW50YXRpb24vZHJp
+dmVyLWFwaS9kbWEtYnVmLnJzdAo+IEBAIC0xMTUsNiArMTE1LDkgQEAgS2VybmVsIEZ1bmN0aW9u
+cyBhbmQgU3RydWN0dXJlcyBSZWZlcmVuY2UKPiAgIC4uIGtlcm5lbC1kb2M6OiBpbmNsdWRlL2xp
+bnV4L2RtYS1idWYuaAo+ICAgICAgOmludGVybmFsOgo+ICAgCj4gKy4uIGtlcm5lbC1kb2M6OiBp
+bmNsdWRlL2xpbnV4L2RtYS1idWYtbWFwLmgKPiArICAgOmludGVybmFsOgo+ICsKPiAgIFJlc2Vy
+dmF0aW9uIE9iamVjdHMKPiAgIC0tLS0tLS0tLS0tLS0tLS0tLS0KPiAgIAo+IGRpZmYgLS1naXQg
+YS9kcml2ZXJzL2RtYS1idWYvZG1hLWJ1Zi5jIGIvZHJpdmVycy9kbWEtYnVmL2RtYS1idWYuYwo+
+IGluZGV4IDU4NTY0ZDgyYTNhMi4uNWU4NDljYTI0MWEwIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMv
+ZG1hLWJ1Zi9kbWEtYnVmLmMKPiArKysgYi9kcml2ZXJzL2RtYS1idWYvZG1hLWJ1Zi5jCj4gQEAg
+LTEyMDcsMTIgKzEyMDcsMTIgQEAgdm9pZCAqZG1hX2J1Zl92bWFwKHN0cnVjdCBkbWFfYnVmICpk
+bWFidWYpCj4gICAJbXV0ZXhfbG9jaygmZG1hYnVmLT5sb2NrKTsKPiAgIAlpZiAoZG1hYnVmLT52
+bWFwcGluZ19jb3VudGVyKSB7Cj4gICAJCWRtYWJ1Zi0+dm1hcHBpbmdfY291bnRlcisrOwo+IC0J
+CUJVR19PTighZG1hYnVmLT52bWFwX3B0cik7Cj4gLQkJcHRyID0gZG1hYnVmLT52bWFwX3B0cjsK
+PiArCQlCVUdfT04oZG1hX2J1Zl9tYXBfaXNfbnVsbCgmZG1hYnVmLT52bWFwX3B0cikpOwo+ICsJ
+CXB0ciA9IGRtYWJ1Zi0+dm1hcF9wdHIudmFkZHI7Cj4gICAJCWdvdG8gb3V0X3VubG9jazsKPiAg
+IAl9Cj4gICAKPiAtCUJVR19PTihkbWFidWYtPnZtYXBfcHRyKTsKPiArCUJVR19PTihkbWFfYnVm
+X21hcF9pc19zZXQoJmRtYWJ1Zi0+dm1hcF9wdHIpKTsKPiAgIAo+ICAgCXB0ciA9IGRtYWJ1Zi0+
+b3BzLT52bWFwKGRtYWJ1Zik7Cj4gICAJaWYgKFdBUk5fT05fT05DRShJU19FUlIocHRyKSkpCj4g
+QEAgLTEyMjAsNyArMTIyMCw3IEBAIHZvaWQgKmRtYV9idWZfdm1hcChzdHJ1Y3QgZG1hX2J1ZiAq
+ZG1hYnVmKQo+ICAgCWlmICghcHRyKQo+ICAgCQlnb3RvIG91dF91bmxvY2s7Cj4gICAKPiAtCWRt
+YWJ1Zi0+dm1hcF9wdHIgPSBwdHI7Cj4gKwlkbWFidWYtPnZtYXBfcHRyLnZhZGRyID0gcHRyOwo+
+ICAgCWRtYWJ1Zi0+dm1hcHBpbmdfY291bnRlciA9IDE7Cj4gICAKPiAgIG91dF91bmxvY2s6Cj4g
+QEAgLTEyMzksMTUgKzEyMzksMTUgQEAgdm9pZCBkbWFfYnVmX3Z1bm1hcChzdHJ1Y3QgZG1hX2J1
+ZiAqZG1hYnVmLCB2b2lkICp2YWRkcikKPiAgIAlpZiAoV0FSTl9PTighZG1hYnVmKSkKPiAgIAkJ
+cmV0dXJuOwo+ICAgCj4gLQlCVUdfT04oIWRtYWJ1Zi0+dm1hcF9wdHIpOwo+ICsJQlVHX09OKGRt
+YV9idWZfbWFwX2lzX251bGwoJmRtYWJ1Zi0+dm1hcF9wdHIpKTsKPiAgIAlCVUdfT04oZG1hYnVm
+LT52bWFwcGluZ19jb3VudGVyID09IDApOwo+IC0JQlVHX09OKGRtYWJ1Zi0+dm1hcF9wdHIgIT0g
+dmFkZHIpOwo+ICsJQlVHX09OKCFkbWFfYnVmX21hcF9pc192YWRkcigmZG1hYnVmLT52bWFwX3B0
+ciwgdmFkZHIpKTsKPiAgIAo+ICAgCW11dGV4X2xvY2soJmRtYWJ1Zi0+bG9jayk7Cj4gICAJaWYg
+KC0tZG1hYnVmLT52bWFwcGluZ19jb3VudGVyID09IDApIHsKPiAgIAkJaWYgKGRtYWJ1Zi0+b3Bz
+LT52dW5tYXApCj4gICAJCQlkbWFidWYtPm9wcy0+dnVubWFwKGRtYWJ1ZiwgdmFkZHIpOwo+IC0J
+CWRtYWJ1Zi0+dm1hcF9wdHIgPSBOVUxMOwo+ICsJCWRtYV9idWZfbWFwX2NsZWFyKCZkbWFidWYt
+PnZtYXBfcHRyKTsKPiAgIAl9Cj4gICAJbXV0ZXhfdW5sb2NrKCZkbWFidWYtPmxvY2spOwo+ICAg
+fQo+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2xpbnV4L2RtYS1idWYtbWFwLmggYi9pbmNsdWRlL2xp
+bnV4L2RtYS1idWYtbWFwLmgKPiBuZXcgZmlsZSBtb2RlIDEwMDY0NAo+IGluZGV4IDAwMDAwMDAw
+MDAwMC4uZDRiMWJiM2NjNGIwCj4gLS0tIC9kZXYvbnVsbAo+ICsrKyBiL2luY2x1ZGUvbGludXgv
+ZG1hLWJ1Zi1tYXAuaAo+IEBAIC0wLDAgKzEsODcgQEAKPiArLyogU1BEWC1MaWNlbnNlLUlkZW50
+aWZpZXI6IEdQTC0yLjAtb25seSAqLwo+ICsvKgo+ICsgKiBQb2ludGVyIHRvIGRtYS1idWYtbWFw
+cGVkIG1lbW9yeSwgcGx1cyBoZWxwZXJzLgo+ICsgKi8KPiArCj4gKyNpZm5kZWYgX19ETUFfQlVG
+X01BUF9IX18KPiArI2RlZmluZSBfX0RNQV9CVUZfTUFQX0hfXwo+ICsKPiArI2luY2x1ZGUgPGxp
+bnV4L2lvLmg+Cj4gKwo+ICsvKioKPiArICogc3RydWN0IGRtYV9idWZfbWFwIC0gUG9pbnRlciB0
+byB2bWFwJ2VkIGRtYS1idWYgbWVtb3J5Lgo+ICsgKiBAdmFkZHJfaW9tZW06CVRoZSBidWZmZXIn
+cyBhZGRyZXNzIGlmIGluIEkvTyBtZW1vcnkKPiArICogQHZhZGRyOgkJVGhlIGJ1ZmZlcidzIGFk
+ZHJlc3MgaWYgaW4gc3lzdGVtIG1lbW9yeQo+ICsgKiBAaXNfaW9tZW06CQlUcnVlIGlmIHRoZSBk
+bWEtYnVmIG1lbW9yeSBpcyBsb2NhdGVkIGluIEkvTwo+ICsgKgkJCW1lbW9yeSwgb3IgZmFsc2Ug
+b3RoZXJ3aXNlLgo+ICsgKgo+ICsgKiBDYWxsaW5nIGRtYS1idWYncyB2bWFwIG9wZXJhdGlvbiBy
+ZXR1cm5zIGEgcG9pbnRlciB0byB0aGUgYnVmZmVyLgo+ICsgKiBEZXBlbmRpbmcgb24gdGhlIGxv
+Y2F0aW9uIG9mIHRoZSBidWZmZXIsIHVzZXJzIG1heSBoYXZlIHRvIGFjY2VzcyBpdAo+ICsgKiB3
+aXRoIEkvTyBvcGVyYXRpb25zIG9yIG1lbW9yeSBsb2FkL3N0b3JlIG9wZXJhdGlvbnMuIHN0cnVj
+dCBkbWFfYnVmX21hcAo+ICsgKiBzdG9yZXMgdGhlIGJ1ZmZlciBhZGRyZXNzIGFuZCBhIGZsYWcg
+dGhhdCBzaWduYWxzIHRoZSByZXF1aXJlZCBhY2Nlc3MuCj4gKyAqLwo+ICtzdHJ1Y3QgZG1hX2J1
+Zl9tYXAgewo+ICsJdW5pb24gewo+ICsJCXZvaWQgX19pb21lbSAqdmFkZHJfaW9tZW07Cj4gKwkJ
+dm9pZCAqdmFkZHI7Cj4gKwl9Owo+ICsJYm9vbCBpc19pb21lbTsKPiArfTsKPiArCj4gKy8qIEFQ
+SSB0cmFuc2l0aW9uIGhlbHBlciAqLwo+ICtzdGF0aWMgaW5saW5lIGJvb2wgZG1hX2J1Zl9tYXBf
+aXNfdmFkZHIoY29uc3Qgc3RydWN0IGRtYV9idWZfbWFwICptYXAsIGNvbnN0IHZvaWQgKnZhZGRy
+KQo+ICt7Cj4gKwlyZXR1cm4gIW1hcC0+aXNfaW9tZW0gJiYgKG1hcC0+dmFkZHIgPT0gdmFkZHIp
+Owo+ICt9Cj4gKwo+ICsvKioKPiArICogZG1hX2J1Zl9tYXBfaXNfbnVsbCAtIFRlc3RzIGZvciBh
+IGRtYS1idWYgbWFwcGluZyB0byBiZSBOVUxMCj4gKyAqIEBtYXA6CVRoZSBkbWEtYnVmIG1hcHBp
+bmcgc3RydWN0dXJlCj4gKyAqCj4gKyAqIERlcGVuZGluZyBvbiB0aGUgc3RhdGUgb2Ygc3RydWN0
+IGRtYV9idWZfbWFwLmlzX2lvbWVtLCB0ZXN0cyBpZiB0aGUKPiArICogbWFwcGluZyBpcyBOVUxM
+Lgo+ICsgKgo+ICsgKiBSZXR1cm5zOgo+ICsgKiBUcnVlIGlmIHRoZSBtYXBwaW5nIGlzIE5VTEws
+IG9yIGZhbHNlIG90aGVyd2lzZS4KPiArICovCj4gK3N0YXRpYyBpbmxpbmUgYm9vbCBkbWFfYnVm
+X21hcF9pc19udWxsKGNvbnN0IHN0cnVjdCBkbWFfYnVmX21hcCAqbWFwKQo+ICt7Cj4gKwlpZiAo
+bWFwLT5pc19pb21lbSkKPiArCQlyZXR1cm4gbWFwLT52YWRkcl9pb21lbSA9PSBOVUxMOwo+ICsJ
+cmV0dXJuIG1hcC0+dmFkZHIgPT0gTlVMTDsKClRoaXMgbG9va3MgbGlrZSBvdmVya2lsbCBzaW5j
+ZSBib3RoIHBvaW50ZXJzIGFyZSBwYXJ0IG9mIHRoZSBzYW1lIHVuaW9uLgoKSSBzdWdnZXN0IHRv
+IHRlc3Qgb25seSBvbmUgYW5kIGFkZCBhIGNvbW1lbnQuCgo+ICt9Cj4gKwo+ICsvKioKPiArICog
+ZG1hX2J1Zl9tYXBfaXNfc2V0IC0gVGVzdHMgaXMgdGhlIGRtYS1idWYgbWFwcGluZyBoYXMgYmVl
+biBzZXQKPiArICogQG1hcDoJVGhlIGRtYS1idWYgbWFwcGluZyBzdHJ1Y3R1cmUKPiArICoKPiAr
+ICogRGVwZW5kaW5nIG9uIHRoZSBzdGF0ZSBvZiBzdHJ1Y3QgZG1hX2J1Zl9tYXAuaXNfaW9tZW0s
+IHRlc3RzIGlmIHRoZQo+ICsgKiBtYXBwaW5nIGhhcyBiZWVuIHNldC4KPiArICoKPiArICogUmV0
+dXJuczoKPiArICogVHJ1ZSBpZiB0aGUgbWFwcGluZyBpcyBiZWVuIHNldCwgb3IgZmFsc2Ugb3Ro
+ZXJ3aXNlLgo+ICsgKi8KPiArc3RhdGljIGlubGluZSBib29sIGRtYV9idWZfbWFwX2lzX3NldChj
+b25zdCBzdHJ1Y3QgZG1hX2J1Zl9tYXAgKm1hcCkKPiArewo+ICsJcmV0dXJuICFkbWFfYnVmX21h
+cF9pc19udWxsKG1hcCk7Cj4gK30KPiArCj4gKy8qKgo+ICsgKiBkbWFfYnVmX21hcF9jbGVhciAt
+IENsZWFycyBhIGRtYS1idWYgbWFwcGluZyBzdHJ1Y3R1cmUKPiArICogQG1hcDoJVGhlIGRtYS1i
+dWYgbWFwcGluZyBzdHJ1Y3R1cmUKPiArICoKPiArICogQ2xlYXJzIGFsbCBmaWVsZHMgdG8gemVy
+bzsgaW5jbHVkaW5nIHN0cnVjdCBkbWFfYnVmX21hcC5pc19pb21lbS4gU28KPiArICogbWFwcGlu
+ZyBzdHJ1Y3R1cmVzIHRoYXQgd2VyZSBzZXQgdG8gcG9pbnQgdG8gSS9PIG1lbW9yeSBhcmUgcmVz
+ZXQgZm9yCj4gKyAqIHN5c3RlbSBtZW1vcnkuIFBvaW50ZXJzIGFyZSBjbGVhcmVkIHRvIE5VTEwu
+IFRoaXMgaXMgdGhlIGRlZmF1bHQuCj4gKyAqLwo+ICtzdGF0aWMgaW5saW5lIHZvaWQgZG1hX2J1
+Zl9tYXBfY2xlYXIoc3RydWN0IGRtYV9idWZfbWFwICptYXApCj4gK3sKPiArCWlmIChtYXAtPmlz
+X2lvbWVtKSB7Cj4gKwkJbWFwLT52YWRkcl9pb21lbSA9IE5VTEw7Cj4gKwkJbWFwLT5pc19pb21l
+bSA9IGZhbHNlOwo+ICsJfSBlbHNlIHsKPiArCQltYXAtPnZhZGRyID0gTlVMTDsKPiArCX0KCk1h
+eWJlIGp1c3QgdXNlIG1lbXNldCgpIG9uIHRoZSBzdHJ1Y3R1cmUuCgpDaHJpc3RpYW4uCgo+ICt9
+Cj4gKwo+ICsjZW5kaWYgLyogX19ETUFfQlVGX01BUF9IX18gKi8KPiBkaWZmIC0tZ2l0IGEvaW5j
+bHVkZS9saW51eC9kbWEtYnVmLmggYi9pbmNsdWRlL2xpbnV4L2RtYS1idWYuaAo+IGluZGV4IDk1
+N2IzOThkMzBlNS4uZmNjMmRkZmI2ZDE4IDEwMDY0NAo+IC0tLSBhL2luY2x1ZGUvbGludXgvZG1h
+LWJ1Zi5oCj4gKysrIGIvaW5jbHVkZS9saW51eC9kbWEtYnVmLmgKPiBAQCAtMTMsNiArMTMsNyBA
+QAo+ICAgI2lmbmRlZiBfX0RNQV9CVUZfSF9fCj4gICAjZGVmaW5lIF9fRE1BX0JVRl9IX18KPiAg
+IAo+ICsjaW5jbHVkZSA8bGludXgvZG1hLWJ1Zi1tYXAuaD4KPiAgICNpbmNsdWRlIDxsaW51eC9m
+aWxlLmg+Cj4gICAjaW5jbHVkZSA8bGludXgvZXJyLmg+Cj4gICAjaW5jbHVkZSA8bGludXgvc2Nh
+dHRlcmxpc3QuaD4KPiBAQCAtMzA5LDcgKzMxMCw3IEBAIHN0cnVjdCBkbWFfYnVmIHsKPiAgIAlj
+b25zdCBzdHJ1Y3QgZG1hX2J1Zl9vcHMgKm9wczsKPiAgIAlzdHJ1Y3QgbXV0ZXggbG9jazsKPiAg
+IAl1bnNpZ25lZCB2bWFwcGluZ19jb3VudGVyOwo+IC0Jdm9pZCAqdm1hcF9wdHI7Cj4gKwlzdHJ1
+Y3QgZG1hX2J1Zl9tYXAgdm1hcF9wdHI7Cj4gICAJY29uc3QgY2hhciAqZXhwX25hbWU7Cj4gICAJ
+Y29uc3QgY2hhciAqbmFtZTsKPiAgIAlzcGlubG9ja190IG5hbWVfbG9jazsKCl9fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmV0bmF2aXYgbWFpbGluZyBsaXN0
+CmV0bmF2aXZAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnL21haWxtYW4vbGlzdGluZm8vZXRuYXZpdgo=
