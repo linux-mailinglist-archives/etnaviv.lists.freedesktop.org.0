@@ -1,21 +1,21 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAD9C275609
-	for <lists+etnaviv@lfdr.de>; Wed, 23 Sep 2020 12:22:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F34AF27561C
+	for <lists+etnaviv@lfdr.de>; Wed, 23 Sep 2020 12:23:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 159056E965;
-	Wed, 23 Sep 2020 10:22:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A01776E951;
+	Wed, 23 Sep 2020 10:22:30 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5904D6E940;
- Wed, 23 Sep 2020 10:22:20 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5684A6E96C;
+ Wed, 23 Sep 2020 10:22:21 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 26F23B288;
- Wed, 23 Sep 2020 10:22:56 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 1D620B27A;
+ Wed, 23 Sep 2020 10:22:57 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: alexander.deucher@amd.com, christian.koenig@amd.com, airlied@linux.ie,
  daniel@ffwll.ch, linux@armlinux.org.uk, maarten.lankhorst@linux.intel.com,
@@ -40,10 +40,9 @@ To: alexander.deucher@amd.com, christian.koenig@amd.com, airlied@linux.ie,
  emil.velikov@collabora.com, laurentiu.palcu@oss.nxp.com,
  shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
  festevam@gmail.com, linux-imx@nxp.com
-Subject: [PATCH v3 18/22] drm/virtgpu: Set PRIME export function in struct
- drm_gem_object_funcs
-Date: Wed, 23 Sep 2020 12:21:55 +0200
-Message-Id: <20200923102159.24084-19-tzimmermann@suse.de>
+Subject: [PATCH v3 19/22] drm/vkms: Introduce GEM object functions
+Date: Wed, 23 Sep 2020 12:21:56 +0200
+Message-Id: <20200923102159.24084-20-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200923102159.24084-1-tzimmermann@suse.de>
 References: <20200923102159.24084-1-tzimmermann@suse.de>
@@ -61,7 +60,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
 Cc: linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
  intel-gfx@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, Melissa Wen <melissa.srw@gmail.com>,
  linux-rockchip@lists.infradead.org, linux-mediatek@lists.infradead.org,
  amd-gfx@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
  nouveau@lists.freedesktop.org, linux-tegra@vger.kernel.org,
@@ -73,40 +72,73 @@ Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
 GEM object functions deprecate several similar callback interfaces in
-struct drm_driver. This patch replaces virtgpu's per-driver PRIME export
-function with a per-object function.
+struct drm_driver. This patch replaces the per-driver callbacks with
+per-instance callbacks in vkms.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Reviewed-by: Melissa Wen <melissa.srw@gmail.com>
 ---
- drivers/gpu/drm/virtio/virtgpu_drv.c    | 1 -
- drivers/gpu/drm/virtio/virtgpu_object.c | 1 +
- 2 files changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/vkms/vkms_drv.c |  8 --------
+ drivers/gpu/drm/vkms/vkms_gem.c | 13 +++++++++++++
+ 2 files changed, 13 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.c b/drivers/gpu/drm/virtio/virtgpu_drv.c
-index b039f493bda9..1f8d6ed11d21 100644
---- a/drivers/gpu/drm/virtio/virtgpu_drv.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_drv.c
-@@ -203,7 +203,6 @@ static struct drm_driver driver = {
- 	.prime_handle_to_fd = drm_gem_prime_handle_to_fd,
- 	.prime_fd_to_handle = drm_gem_prime_fd_to_handle,
- 	.gem_prime_mmap = drm_gem_prime_mmap,
--	.gem_prime_export = virtgpu_gem_prime_export,
- 	.gem_prime_import = virtgpu_gem_prime_import,
- 	.gem_prime_import_sg_table = virtgpu_gem_prime_import_sg_table,
+diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
+index cb0b6230c22c..726801ab44d4 100644
+--- a/drivers/gpu/drm/vkms/vkms_drv.c
++++ b/drivers/gpu/drm/vkms/vkms_drv.c
+@@ -51,12 +51,6 @@ static const struct file_operations vkms_driver_fops = {
+ 	.release	= drm_release,
+ };
  
-diff --git a/drivers/gpu/drm/virtio/virtgpu_object.c b/drivers/gpu/drm/virtio/virtgpu_object.c
-index 00d6b95e259d..42560afc3875 100644
---- a/drivers/gpu/drm/virtio/virtgpu_object.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_object.c
-@@ -107,6 +107,7 @@ static const struct drm_gem_object_funcs virtio_gpu_shmem_funcs = {
- 	.close = virtio_gpu_gem_object_close,
+-static const struct vm_operations_struct vkms_gem_vm_ops = {
+-	.fault = vkms_gem_fault,
+-	.open = drm_gem_vm_open,
+-	.close = drm_gem_vm_close,
+-};
+-
+ static void vkms_release(struct drm_device *dev)
+ {
+ 	struct vkms_device *vkms = container_of(dev, struct vkms_device, drm);
+@@ -98,8 +92,6 @@ static struct drm_driver vkms_driver = {
+ 	.release		= vkms_release,
+ 	.fops			= &vkms_driver_fops,
+ 	.dumb_create		= vkms_dumb_create,
+-	.gem_vm_ops		= &vkms_gem_vm_ops,
+-	.gem_free_object_unlocked = vkms_gem_free_object,
+ 	.prime_fd_to_handle	= drm_gem_prime_fd_to_handle,
+ 	.gem_prime_import_sg_table = vkms_prime_import_sg_table,
  
- 	.print_info = drm_gem_shmem_print_info,
-+	.export = virtgpu_gem_prime_export,
- 	.pin = drm_gem_shmem_pin,
- 	.unpin = drm_gem_shmem_unpin,
- 	.get_sg_table = drm_gem_shmem_get_sg_table,
+diff --git a/drivers/gpu/drm/vkms/vkms_gem.c b/drivers/gpu/drm/vkms/vkms_gem.c
+index a017fc59905e..19a0e260a4df 100644
+--- a/drivers/gpu/drm/vkms/vkms_gem.c
++++ b/drivers/gpu/drm/vkms/vkms_gem.c
+@@ -7,6 +7,17 @@
+ 
+ #include "vkms_drv.h"
+ 
++static const struct vm_operations_struct vkms_gem_vm_ops = {
++	.fault = vkms_gem_fault,
++	.open = drm_gem_vm_open,
++	.close = drm_gem_vm_close,
++};
++
++static const struct drm_gem_object_funcs vkms_gem_object_funcs = {
++	.free = vkms_gem_free_object,
++	.vm_ops = &vkms_gem_vm_ops,
++};
++
+ static struct vkms_gem_object *__vkms_gem_create(struct drm_device *dev,
+ 						 u64 size)
+ {
+@@ -17,6 +28,8 @@ static struct vkms_gem_object *__vkms_gem_create(struct drm_device *dev,
+ 	if (!obj)
+ 		return ERR_PTR(-ENOMEM);
+ 
++	obj->gem.funcs = &vkms_gem_object_funcs;
++
+ 	size = roundup(size, PAGE_SIZE);
+ 	ret = drm_gem_object_init(dev, &obj->gem, size);
+ 	if (ret) {
 -- 
 2.28.0
 
