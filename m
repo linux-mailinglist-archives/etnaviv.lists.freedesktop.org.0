@@ -1,38 +1,59 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74CB8279773
-	for <lists+etnaviv@lfdr.de>; Sat, 26 Sep 2020 09:13:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F02F12797C1
+	for <lists+etnaviv@lfdr.de>; Sat, 26 Sep 2020 10:08:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B16FB6EDB4;
-	Sat, 26 Sep 2020 07:13:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 581516E16F;
+	Sat, 26 Sep 2020 08:08:49 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5BFC36EDA9;
- Sat, 26 Sep 2020 07:13:46 +0000 (UTC)
-Received: from ravnborg.org (unknown [188.228.123.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 25FB6200E6;
- Sat, 26 Sep 2020 09:13:35 +0200 (CEST)
-Date: Sat, 26 Sep 2020 09:13:34 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
+ [IPv6:2a00:1450:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 78A036E08A
+ for <etnaviv@lists.freedesktop.org>; Fri, 25 Sep 2020 18:57:23 +0000 (UTC)
+Received: by mail-wr1-x444.google.com with SMTP id z4so4809065wrr.4
+ for <etnaviv@lists.freedesktop.org>; Fri, 25 Sep 2020 11:57:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=kt10/F2kcNigvJv3MHb/KIAmOU9k1DQ04CJDICU2o4s=;
+ b=QTx6r5IlMJgqdfwJqok4Oloopf1e2dZXk3B0aDmwbL6ioYYkzCGrMSpDnP8j6NNV3l
+ yBz4zT5KFJwmp5I9Db949916H/gFIZcgBe/1kzt/5tyHir7LeNSMfejEwXrKPMEOLkyg
+ j1kARuv3rn07sUE3TxMaZtRIYj7ioUiQOKjyU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=kt10/F2kcNigvJv3MHb/KIAmOU9k1DQ04CJDICU2o4s=;
+ b=EpQlv3rpPJxfJp4vWPr6ZsB/3UFSMqaap4LDtiuHRRLLhPXSeaese9/0UNuNmXiL1P
+ 9HUeZILUOUqZw2pJiBr8jm63NSesZ5ScBjpkT5EcU9r/COe8IBkocibr3KnG3+4z2xT/
+ 1aC6zf8RQ4BpxU+ANyyFhUTWGqlDinJ81ykQO7zVtmyu7v3+STj4Nqf4QSik0YKoSzoz
+ f7U575i8h+IPM6fwWDKwRnojZQb/PpuUp4VGlC7dlxTsMbVZ9YlBYRYjStQCm53Iv0Xn
+ ArEMHLK4v/Xf9DxyXAFOgi1ePoqB9Hq73oOLg+UMzJXjP+hzmoWT+YBEiP0zhZ047Dt6
+ ikbw==
+X-Gm-Message-State: AOAM533BCKGglEMMjWgl7hofhasZknWdQt6x2BAL1PLqc057TKuy8zKF
+ ANBeXqF/oNABzusc1xnK0s5uew==
+X-Google-Smtp-Source: ABdhPJwlnbyLQnA0JGmqU4U9R8tlABeEj0Cg/d1CLNatanhXkzrWE7eBAspLFZGWY/+anA8OvMidfQ==
+X-Received: by 2002:adf:f5c1:: with SMTP id k1mr6445083wrp.271.1601060242019; 
+ Fri, 25 Sep 2020 11:57:22 -0700 (PDT)
+Received: from chromium.org (216.131.76.34.bc.googleusercontent.com.
+ [34.76.131.216])
+ by smtp.gmail.com with ESMTPSA id p1sm25001wma.0.2020.09.25.11.57.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 25 Sep 2020 11:57:21 -0700 (PDT)
+Date: Fri, 25 Sep 2020 18:57:19 +0000
+From: Tomasz Figa <tfiga@chromium.org>
 To: Thomas Zimmermann <tzimmermann@suse.de>
 Subject: Re: [PATCH v3 0/4] dma-buf: Flag vmap'ed memory as system or I/O
  memory
-Message-ID: <20200926071334.GA42915@ravnborg.org>
+Message-ID: <20200925185719.GD3607091@chromium.org>
 References: <20200925115601.23955-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Disposition: inline
 In-Reply-To: <20200925115601.23955-1-tzimmermann@suse.de>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=CaYmGojl c=1 sm=1 tr=0
- a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=kj9zAlcOel0A:10 a=VwQbUJbxAAAA:8 a=7gkXJVJtAAAA:8
- a=VHCyA-Zl7a4LrUxzt10A:9 a=MWUCcgKsKLDUXRMs:21 a=VnMhorO1uwyDQjeY:21
- a=CjuIK1q_8ugA:10 a=AjGcO6oz07-iQ99wixmX:22 a=E9Po1WZjFZOl8hwRPBS3:22
+X-Mailman-Approved-At: Sat, 26 Sep 2020 08:08:48 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,7 +67,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
 Cc: christian.koenig@amd.com, airlied@linux.ie, joonas.lahtinen@linux.intel.com,
  dri-devel@lists.freedesktop.org, thierry.reding@gmail.com, kraxel@redhat.com,
- benjamin.gaignard@linaro.org, tfiga@chromium.org, sumit.semwal@linaro.org,
+ benjamin.gaignard@linaro.org, sam@ravnborg.org, sumit.semwal@linaro.org,
  m.szyprowski@samsung.com, arnd@arndb.de, corbet@lwn.net,
  linux-doc@vger.kernel.org, jonathanh@nvidia.com, matthew.auld@intel.com,
  linux+etnaviv@armlinux.org.uk, labbott@redhat.com, linux-media@vger.kernel.org,
@@ -63,9 +84,7 @@ Content-Transfer-Encoding: 7bit
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Hi Thomas.
-
-Sorry for chiming in late here, have been offline for a while.
+Hi Thomas,
 
 On Fri, Sep 25, 2020 at 01:55:57PM +0200, Thomas Zimmermann wrote:
 > Dma-buf provides vmap() and vunmap() for retriving and releasing mappings
@@ -77,39 +96,7 @@ On Fri, Sep 25, 2020 at 01:55:57PM +0200, Thomas Zimmermann wrote:
 > This patchset introduces struct dma_buf_map, which contains the address of
 > a buffer and a flag that tells whether system- or I/O-memory instructions
 > are required.
-
-The whole idea with a struct that can represent both a pointer to system
-memory and io memory is very nice.
-dma-buf is one user of this but we may/will see other users. So the
-naming seems of as this should be a concept independent of dma-buf.
-
-And then the struct definition and all the helpers should be moved away
-from dma-buf.
-
-Maybe something like this:
-
-struct simap {
-       union {
-               void __iomem *vaddr_iomem;
-               void *vaddr;
-       };
-       bool is_iomem;
-};
-
-Where simap is a shorthand for system_iomem_map
-And it could al be stuffed into a include/linux/simap.h file.
-
-Not totally sold on the simap name - but wanted to come up with
-something.
-
-With this approach users do not have to pull in dma-buf to use it and
-users will not confuse that this is only for dma-buf usage.
-
-I am sorry for being late with the feedback.
-
-	Sam
-
-
+> 
 > Some background: updating the DRM framebuffer console on sparc64 makes the
 > kernel panic. This is because the framebuffer memory cannot be accessed with
 > system-memory instructions. We currently employ a workaround in DRM to
@@ -172,9 +159,13 @@ I am sorry for being late with the feedback.
 >  include/linux/dma-buf.h                       |  11 +-
 >  18 files changed, 372 insertions(+), 94 deletions(-)
 >  create mode 100644 include/linux/dma-buf-map.h
-> 
-> --
-> 2.28.0
+
+For drivers/media/common/videobuf2 changes:
+
+Acked-by: Tomasz Figa <tfiga@chromium.org>
+
+Best regards,
+Tomasz
 _______________________________________________
 etnaviv mailing list
 etnaviv@lists.freedesktop.org
