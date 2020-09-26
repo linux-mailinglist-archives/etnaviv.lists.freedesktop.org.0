@@ -1,41 +1,38 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13B4A278666
-	for <lists+etnaviv@lfdr.de>; Fri, 25 Sep 2020 13:56:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 74CB8279773
+	for <lists+etnaviv@lfdr.de>; Sat, 26 Sep 2020 09:13:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F3576ECAB;
-	Fri, 25 Sep 2020 11:56:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B16FB6EDB4;
+	Sat, 26 Sep 2020 07:13:47 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F7306EC9D;
- Fri, 25 Sep 2020 11:56:08 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 9EFF8AF4D;
- Fri, 25 Sep 2020 11:56:06 +0000 (UTC)
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: sumit.semwal@linaro.org, christian.koenig@amd.com, afd@ti.com,
- corbet@lwn.net, benjamin.gaignard@linaro.org, lmark@codeaurora.org,
- labbott@redhat.com, Brian.Starkey@arm.com, john.stultz@linaro.org,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@linux.ie,
- daniel@ffwll.ch, l.stach@pengutronix.de, linux+etnaviv@armlinux.org.uk,
- christian.gmeiner@gmail.com, jani.nikula@linux.intel.com,
- joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com,
- thierry.reding@gmail.com, jonathanh@nvidia.com, pawel@osciak.com,
- m.szyprowski@samsung.com, kyungmin.park@samsung.com, tfiga@chromium.org,
- mchehab@kernel.org, matthew.auld@intel.com, robin.murphy@arm.com,
- thomas.hellstrom@intel.com, sam@ravnborg.org, kraxel@redhat.com,
- arnd@arndb.de, gregkh@linuxfoundation.org
-Subject: [PATCH v3 4/4] dma-buf: Document struct dma_buf_map
-Date: Fri, 25 Sep 2020 13:56:01 +0200
-Message-Id: <20200925115601.23955-5-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20200925115601.23955-1-tzimmermann@suse.de>
+Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5BFC36EDA9;
+ Sat, 26 Sep 2020 07:13:46 +0000 (UTC)
+Received: from ravnborg.org (unknown [188.228.123.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk3.altibox.net (Postfix) with ESMTPS id 25FB6200E6;
+ Sat, 26 Sep 2020 09:13:35 +0200 (CEST)
+Date: Sat, 26 Sep 2020 09:13:34 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v3 0/4] dma-buf: Flag vmap'ed memory as system or I/O
+ memory
+Message-ID: <20200926071334.GA42915@ravnborg.org>
 References: <20200925115601.23955-1-tzimmermann@suse.de>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200925115601.23955-1-tzimmermann@suse.de>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=CaYmGojl c=1 sm=1 tr=0
+ a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
+ a=kj9zAlcOel0A:10 a=VwQbUJbxAAAA:8 a=7gkXJVJtAAAA:8
+ a=VHCyA-Zl7a4LrUxzt10A:9 a=MWUCcgKsKLDUXRMs:21 a=VnMhorO1uwyDQjeY:21
+ a=CjuIK1q_8ugA:10 a=AjGcO6oz07-iQ99wixmX:22 a=E9Po1WZjFZOl8hwRPBS3:22
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,96 +44,138 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-doc@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- intel-gfx@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-tegra@vger.kernel.org,
- linux-media@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: christian.koenig@amd.com, airlied@linux.ie, joonas.lahtinen@linux.intel.com,
+ dri-devel@lists.freedesktop.org, thierry.reding@gmail.com, kraxel@redhat.com,
+ benjamin.gaignard@linaro.org, tfiga@chromium.org, sumit.semwal@linaro.org,
+ m.szyprowski@samsung.com, arnd@arndb.de, corbet@lwn.net,
+ linux-doc@vger.kernel.org, jonathanh@nvidia.com, matthew.auld@intel.com,
+ linux+etnaviv@armlinux.org.uk, labbott@redhat.com, linux-media@vger.kernel.org,
+ pawel@osciak.com, intel-gfx@lists.freedesktop.org,
+ maarten.lankhorst@linux.intel.com, etnaviv@lists.freedesktop.org,
+ jani.nikula@linux.intel.com, linaro-mm-sig@lists.linaro.org,
+ christian.gmeiner@gmail.com, thomas.hellstrom@intel.com,
+ john.stultz@linaro.org, mripard@kernel.org, rodrigo.vivi@intel.com,
+ linux-tegra@vger.kernel.org, mchehab@kernel.org, gregkh@linuxfoundation.org,
+ lmark@codeaurora.org, afd@ti.com, kyungmin.park@samsung.com, daniel@ffwll.ch,
+ robin.murphy@arm.com, Brian.Starkey@arm.com, l.stach@pengutronix.de
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-VGhpcyBwYXRjaCBhZGRzIHN0cnVjdCBkbWFfYnVmX21hcCBhbmQgaXRzIGhlbHBlcnMgdG8gdGhl
-IGRvY3VtZW50YXRpb24uIEEKc2hvcnQgdHV0b3JpYWwgaXMgaW5jbHVkZWQuCgp2MzoKCSogdXBk
-YXRlIGRvY3VtZW50YXRpb24gaW4gYSBzZXBhcmF0ZSBwYXRjaAoJKiBleHBhbmQgZG9jcyAoRGFu
-aWVsKQoJKiBjYXJyeS1vdmVyIGFja3MgZnJvbSBwYXRjaCAxCgpTaWduZWQtb2ZmLWJ5OiBUaG9t
-YXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4KUmV2aWV3ZWQtYnk6IENocmlzdGlh
-biBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KUmV2aWV3ZWQtYnk6IERhbmllbCBW
-ZXR0ZXIgPGRhbmllbC52ZXR0ZXJAZmZ3bGwuY2g+CkFja2VkLWJ5OiBTdW1pdCBTZW13YWwgPHN1
-bWl0LnNlbXdhbEBsaW5hcm8ub3JnPgotLS0KIERvY3VtZW50YXRpb24vZHJpdmVyLWFwaS9kbWEt
-YnVmLnJzdCB8ICA5ICsrKysKIGluY2x1ZGUvbGludXgvZG1hLWJ1Zi1tYXAuaCAgICAgICAgICB8
-IDcyICsrKysrKysrKysrKysrKysrKysrKysrKysrKysKIDIgZmlsZXMgY2hhbmdlZCwgODEgaW5z
-ZXJ0aW9ucygrKQoKZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vZHJpdmVyLWFwaS9kbWEtYnVm
-LnJzdCBiL0RvY3VtZW50YXRpb24vZHJpdmVyLWFwaS9kbWEtYnVmLnJzdAppbmRleCAxM2VhMGNj
-MGEzZmEuLjZkYmNjNDcxNGIwYiAxMDA2NDQKLS0tIGEvRG9jdW1lbnRhdGlvbi9kcml2ZXItYXBp
-L2RtYS1idWYucnN0CisrKyBiL0RvY3VtZW50YXRpb24vZHJpdmVyLWFwaS9kbWEtYnVmLnJzdApA
-QCAtMTE1LDYgKzExNSwxNSBAQCBLZXJuZWwgRnVuY3Rpb25zIGFuZCBTdHJ1Y3R1cmVzIFJlZmVy
-ZW5jZQogLi4ga2VybmVsLWRvYzo6IGluY2x1ZGUvbGludXgvZG1hLWJ1Zi5oCiAgICA6aW50ZXJu
-YWw6CiAKK0J1ZmZlciBNYXBwaW5nIEhlbHBlcnMKK35+fn5+fn5+fn5+fn5+fn5+fn5+fn4KKwor
-Li4ga2VybmVsLWRvYzo6IGluY2x1ZGUvbGludXgvZG1hLWJ1Zi1tYXAuaAorICAgOmRvYzogb3Zl
-cnZpZXcKKworLi4ga2VybmVsLWRvYzo6IGluY2x1ZGUvbGludXgvZG1hLWJ1Zi1tYXAuaAorICAg
-OmludGVybmFsOgorCiBSZXNlcnZhdGlvbiBPYmplY3RzCiAtLS0tLS0tLS0tLS0tLS0tLS0tCiAK
-ZGlmZiAtLWdpdCBhL2luY2x1ZGUvbGludXgvZG1hLWJ1Zi1tYXAuaCBiL2luY2x1ZGUvbGludXgv
-ZG1hLWJ1Zi1tYXAuaAppbmRleCBjMTczYTRhYmY0YmEuLmZkMWFiYTU0NWZkZiAxMDA2NDQKLS0t
-IGEvaW5jbHVkZS9saW51eC9kbWEtYnVmLW1hcC5oCisrKyBiL2luY2x1ZGUvbGludXgvZG1hLWJ1
-Zi1tYXAuaApAQCAtOCw2ICs4LDc4IEBACiAKICNpbmNsdWRlIDxsaW51eC9pby5oPgogCisvKioK
-KyAqIERPQzogb3ZlcnZpZXcKKyAqCisgKiBDYWxsaW5nIGRtYS1idWYncyB2bWFwIG9wZXJhdGlv
-biByZXR1cm5zIGEgcG9pbnRlciB0byB0aGUgYnVmZmVyJ3MgbWVtb3J5LgorICogRGVwZW5kaW5n
-IG9uIHRoZSBsb2NhdGlvbiBvZiB0aGUgYnVmZmVyLCB1c2VycyBtYXkgaGF2ZSB0byBhY2Nlc3Mg
-aXQgd2l0aAorICogSS9PIG9wZXJhdGlvbnMgb3IgbWVtb3J5IGxvYWQvc3RvcmUgb3BlcmF0aW9u
-cy4gRm9yIGV4YW1wbGUsIGNvcHlpbmcgdG8KKyAqIHN5c3RlbSBtZW1vcnkgY291bGQgYmUgZG9u
-ZSB3aXRoIG1lbWNweSgpLCBjb3B5aW5nIHRvIEkvTyBtZW1vcnkgd291bGQgYmUKKyAqIGRvbmUg
-d2l0aCBtZW1jcHlfdG9pbygpLgorICoKKyAqIC4uIGNvZGUtYmxvY2s6OiBjCisgKgorICoJdm9p
-ZCAqdmFkZHIgPSAuLi47IC8vIHBvaW50ZXIgdG8gc3lzdGVtIG1lbW9yeQorICoJbWVtY3B5KHZh
-ZGRyLCBzcmMsIGxlbik7CisgKgorICoJdm9pZCAqdmFkZHJfaW9tZW0gPSAuLi47IC8vIHBvaW50
-ZXIgdG8gSS9PIG1lbW9yeQorICoJbWVtY3B5X3RvaW8odmFkZHIsIF9pb21lbSwgc3JjLCBsZW4p
-OworICoKKyAqIFdoZW4gdXNpbmcgZG1hLWJ1ZidzIHZtYXAgb3BlcmF0aW9uLCB0aGUgcmV0dXJu
-ZWQgcG9pbnRlciBpcyBlbmNvZGVkIGFzCisgKiA6Yzp0eXBlOmBzdHJ1Y3QgZG1hX2J1Zl9tYXAg
-PGRtYV9idWZfbWFwPmAuCisgKiA6Yzp0eXBlOmBzdHJ1Y3QgZG1hX2J1Zl9tYXAgPGRtYV9idWZf
-bWFwPmAgc3RvcmVzIHRoZSBidWZmZXIncyBhZGRyZXNzIGluCisgKiBzeXN0ZW0gb3IgSS9PIG1l
-bW9yeSBhbmQgYSBmbGFnIHRoYXQgc2lnbmFscyB0aGUgcmVxdWlyZWQgbWV0aG9kIG9mCisgKiBh
-Y2Nlc3NpbmcgdGhlIGJ1ZmZlci4gVXNlIHRoZSByZXR1cm5lZCBpbnN0YW5jZSBhbmQgdGhlIGhl
-bHBlciBmdW5jdGlvbnMKKyAqIHRvIGFjY2VzcyB0aGUgYnVmZmVyJ3MgbWVtb3J5IGluIHRoZSBj
-b3JyZWN0IHdheS4KKyAqCisgKiBPcGVuLWNvZGluZyBhY2Nlc3MgdG8gOmM6dHlwZTpgc3RydWN0
-IGRtYV9idWZfbWFwIDxkbWFfYnVmX21hcD5gIGlzCisgKiBjb25zaWRlcmVkIGJhZCBzdHlsZS4g
-UmF0aGVyIHRoZW4gYWNjZXNzaW5nIGl0cyBmaWVsZHMgZGlyZWN0bHksIHVzZSBvbmUKKyAqIG9m
-IHRoZSBwcm92aWRlZCBoZWxwZXIgZnVuY3Rpb25zLCBvciBpbXBsZW1lbnQgeW91ciBvd24uIEZv
-ciBleGFtcGxlLAorICogaW5zdGFuY2VzIG9mIDpjOnR5cGU6YHN0cnVjdCBkbWFfYnVmX21hcCA8
-ZG1hX2J1Zl9tYXA+YCBjYW4gYmUgaW5pdGlhbGl6ZWQKKyAqIHN0YXRpY2FsbHkgd2l0aCBETUFf
-QlVGX01BUF9JTklUX1ZBRERSKCksIG9yIGF0IHJ1bnRpbWUgd2l0aAorICogZG1hX2J1Zl9tYXBf
-c2V0X3ZhZGRyKCkuIFRoZXNlIGhlbHBlcnMgd2lsbCBzZXQgYW4gYWRkcmVzcyBpbiBzeXN0ZW0g
-bWVtb3J5LgorICoKKyAqIC4uIGNvZGUtYmxvY2s6OiBjCisgKgorICoJc3RydWN0IGRtYV9idWZf
-bWFwIG1hcCA9IERNQV9CVUZfTUFQX0lOSVRfVkFERFIoMHhkZWFkYmVhZik7CisgKgorICoJZG1h
-X2J1Zl9tYXBfc2V0X3ZhZGRyKCZtYXAuIDB4ZGVhZGJlYWYpOworICoKKyAqIFRlc3QgaWYgYSBt
-YXBwaW5nIGlzIHZhbGlkIHdpdGggZWl0aGVyIGRtYV9idWZfbWFwX2lzX3NldCgpIG9yCisgKiBk
-bWFfYnVmX21hcF9pc19udWxsKCkuCisgKgorICogLi4gY29kZS1ibG9jazo6IGMKKyAqCisgKglp
-ZiAoZG1hX2J1Zl9tYXBfaXNfc2V0KCZtYXApICE9IGRtYV9idWZfbWFwX2lzX251bGwoJm1hcCkp
-CisgKgkJLy8gYWx3YXlzIHRydWUKKyAqCisgKiBJbnN0YW5jZXMgb2YgOmM6dHlwZTpgc3RydWN0
-IGRtYV9idWZfbWFwIDxkbWFfYnVmX21hcD5gIGNhbiBiZSBjb21wYXJlZAorICogZm9yIGVxdWFs
-aXR5IHdpdGggZG1hX2J1Zl9tYXBfaXNfZXF1YWwoKS4gTWFwcGluZ3MgdGhlIHBvaW50IHRvIGRp
-ZmZlcmVudAorICogbWVtb3J5IHNwYWNlcywgc3lzdGVtIG9yIEkvTywgYXJlIG5ldmVyIGVxdWFs
-LiBUaGF0J3MgZXZlbiB0cnVlIGlmIGJvdGgKKyAqIHNwYWNlcyBhcmUgbG9jYXRlZCBpbiB0aGUg
-c2FtZSBhZGRyZXNzIHNwYWNlLCBib3RoIG1hcHBpbmdzIGNvbnRhaW4gdGhlCisgKiBzYW1lIGFk
-ZHJlc3MgdmFsdWUsIG9yIGJvdGggbWFwcGluZ3MgcmVmZXIgdG8gTlVMTC4KKyAqCisgKiAuLiBj
-b2RlLWJsb2NrOjogYworICoKKyAqCXN0cnVjdCBkbWFfYnVmX21hcCBzeXNfbWFwOyAvLyByZWZl
-cnMgdG8gc3lzdGVtIG1lbW9yeQorICoJc3RydWN0IGRtYV9idWZfbWFwIGlvX21hcDsgLy8gcmVm
-ZXJzIHRvIEkvTyBtZW1vcnkKKyAqCisgKglpZiAoZG1hX2J1Zl9tYXBfaXNfZXF1YWwoJnN5c19t
-YXAsICZpb19tYXApKQorICoJCS8vIGFsd2F5cyBmYWxzZQorICoKKyAqIEluc3RhbmNlcyBvZiBz
-dHJ1Y3QgZG1hX2J1Zl9tYXAgZG8gbm90IGhhdmUgdG8gYmUgY2xlYW5lZCB1cCwgYnV0CisgKiBj
-YW4gYmUgY2xlYXJlZCB0byBOVUxMIHdpdGggZG1hX2J1Zl9tYXBfY2xlYXIoKS4gQ2xlYXJlZCBt
-YXBwaW5ncworICogYWx3YXlzIHJlZmVyIHRvIHN5c3RlbSBtZW1vcnkuCisgKgorICogVGhlIHR5
-cGUgOmM6dHlwZTpgc3RydWN0IGRtYV9idWZfbWFwIDxkbWFfYnVmX21hcD5gIGFuZCBpdHMgaGVs
-cGVycyBhcmUKKyAqIGFjdHVhbGx5IGluZGVwZW5kZW50IGZyb20gdGhlIGRtYS1idWYgaW5mcmFz
-dHJ1Y3R1cmUuIFdoZW4gc2hhcmluZyBidWZmZXJzCisgKiBhbW9uZyBkZXZpY2VzLCBkcml2ZXJz
-IGhhdmUgdG8ga25vdyB0aGUgbG9jYXRpb24gb2YgdGhlIG1lbW9yeSB0byBhY2Nlc3MKKyAqIHRo
-ZSBidWZmZXJzIGluIGEgc2FmZSB3YXkuIDpjOnR5cGU6YHN0cnVjdCBkbWFfYnVmX21hcCA8ZG1h
-X2J1Zl9tYXA+YAorICogc29sdmVzIHRoaXMgcHJvYmxlbSBmb3IgZG1hLWJ1ZiBhbmQgaXRzIHVz
-ZXJzLiBJZiBvdGhlciBkcml2ZXJzIG9yCisgKiBzdWItc3lzdGVtcyByZXF1aXJlIHNpbWlsYXIg
-ZnVuY3Rpb25hbGl0eSwgdGhlIHR5cGUgY291bGQgYmUgZ2VuZXJhbGl6ZWQKKyAqIGFuZCBtb3Zl
-ZCB0byBhIG1vcmUgcHJvbWluZW50IGhlYWRlciBmaWxlLgorICovCisKIC8qKgogICogc3RydWN0
-IGRtYV9idWZfbWFwIC0gUG9pbnRlciB0byB2bWFwJ2VkIGRtYS1idWYgbWVtb3J5LgogICogQHZh
-ZGRyX2lvbWVtOglUaGUgYnVmZmVyJ3MgYWRkcmVzcyBpZiBpbiBJL08gbWVtb3J5Ci0tIAoyLjI4
-LjAKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmV0bmF2
-aXYgbWFpbGluZyBsaXN0CmV0bmF2aXZAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZXRuYXZpdgo=
+Hi Thomas.
+
+Sorry for chiming in late here, have been offline for a while.
+
+On Fri, Sep 25, 2020 at 01:55:57PM +0200, Thomas Zimmermann wrote:
+> Dma-buf provides vmap() and vunmap() for retriving and releasing mappings
+> of dma-buf memory in kernel address space. The functions operate with plain
+> addresses and the assumption is that the memory can be accessed with load
+> and store operations. This is not the case on some architectures (e.g.,
+> sparc64) where I/O memory can only be accessed with dedicated instructions.
+> 
+> This patchset introduces struct dma_buf_map, which contains the address of
+> a buffer and a flag that tells whether system- or I/O-memory instructions
+> are required.
+
+The whole idea with a struct that can represent both a pointer to system
+memory and io memory is very nice.
+dma-buf is one user of this but we may/will see other users. So the
+naming seems of as this should be a concept independent of dma-buf.
+
+And then the struct definition and all the helpers should be moved away
+from dma-buf.
+
+Maybe something like this:
+
+struct simap {
+       union {
+               void __iomem *vaddr_iomem;
+               void *vaddr;
+       };
+       bool is_iomem;
+};
+
+Where simap is a shorthand for system_iomem_map
+And it could al be stuffed into a include/linux/simap.h file.
+
+Not totally sold on the simap name - but wanted to come up with
+something.
+
+With this approach users do not have to pull in dma-buf to use it and
+users will not confuse that this is only for dma-buf usage.
+
+I am sorry for being late with the feedback.
+
+	Sam
+
+
+> Some background: updating the DRM framebuffer console on sparc64 makes the
+> kernel panic. This is because the framebuffer memory cannot be accessed with
+> system-memory instructions. We currently employ a workaround in DRM to
+> address this specific problem. [1]
+> 
+> To resolve the problem, we'd like to address it at the most common point,
+> which is the dma-buf framework. The dma-buf mapping ideally knows if I/O
+> instructions are required and exports this information to it's users. The
+> new structure struct dma_buf_map stores the buffer address and a flag that
+> signals I/O memory. Affected users of the buffer (e.g., drivers, frameworks)
+> can then access the memory accordingly.
+> 
+> This patchset only introduces struct dma_buf_map, and updates struct dma_buf
+> and it's interfaces. Further patches can update dma-buf users. For example,
+> there's a prototype patchset for DRM that fixes the framebuffer problem. [2]
+> 
+> Further work: TTM, one of DRM's memory managers, already exports an
+> is_iomem flag of its own. It could later be switched over to exporting struct
+> dma_buf_map, thus simplifying some code. Several DRM drivers expect their
+> fbdev console to operate on I/O memory. These could possibly be switched over
+> to the generic fbdev emulation, as soon as the generic code uses struct
+> dma_buf_map.
+> 
+> v3:
+> 	* update fastrpc driver (kernel test robot)
+> 	* expand documentation (Daniel)
+> 	* move documentation into separate patch
+> v2:
+> 	* always clear map parameter in dma_buf_vmap() (Daniel)
+> 	* include dma-buf-heaps and i915 selftests (kernel test robot)
+> 	* initialize cma_obj before using it in drm_gem_cma_free_object()
+> 	  (kernel test robot)
+> 
+> [1] https://lore.kernel.org/dri-devel/20200725191012.GA434957@ravnborg.org/
+> [2] https://lore.kernel.org/dri-devel/20200806085239.4606-1-tzimmermann@suse.de/
+> 
+> Thomas Zimmermann (4):
+>   dma-buf: Add struct dma-buf-map for storing struct dma_buf.vaddr_ptr
+>   dma-buf: Use struct dma_buf_map in dma_buf_vmap() interfaces
+>   dma-buf: Use struct dma_buf_map in dma_buf_vunmap() interfaces
+>   dma-buf: Document struct dma_buf_map
+> 
+>  Documentation/driver-api/dma-buf.rst          |   9 +
+>  drivers/dma-buf/dma-buf.c                     |  42 ++--
+>  drivers/dma-buf/heaps/heap-helpers.c          |  10 +-
+>  drivers/gpu/drm/drm_gem_cma_helper.c          |  20 +-
+>  drivers/gpu/drm/drm_gem_shmem_helper.c        |  17 +-
+>  drivers/gpu/drm/drm_prime.c                   |  15 +-
+>  drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c   |  13 +-
+>  drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c    |  13 +-
+>  .../drm/i915/gem/selftests/i915_gem_dmabuf.c  |  18 +-
+>  .../gpu/drm/i915/gem/selftests/mock_dmabuf.c  |  14 +-
+>  drivers/gpu/drm/tegra/gem.c                   |  23 ++-
+>  .../common/videobuf2/videobuf2-dma-contig.c   |  17 +-
+>  .../media/common/videobuf2/videobuf2-dma-sg.c |  19 +-
+>  .../common/videobuf2/videobuf2-vmalloc.c      |  21 +-
+>  drivers/misc/fastrpc.c                        |   6 +-
+>  include/drm/drm_prime.h                       |   5 +-
+>  include/linux/dma-buf-map.h                   | 193 ++++++++++++++++++
+>  include/linux/dma-buf.h                       |  11 +-
+>  18 files changed, 372 insertions(+), 94 deletions(-)
+>  create mode 100644 include/linux/dma-buf-map.h
+> 
+> --
+> 2.28.0
+_______________________________________________
+etnaviv mailing list
+etnaviv@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/etnaviv
