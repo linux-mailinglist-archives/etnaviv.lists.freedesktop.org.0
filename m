@@ -1,64 +1,59 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A49F281228
-	for <lists+etnaviv@lfdr.de>; Fri,  2 Oct 2020 14:21:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CCB5F281398
+	for <lists+etnaviv@lfdr.de>; Fri,  2 Oct 2020 15:02:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D3A4E6E12D;
-	Fri,  2 Oct 2020 12:21:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66F976E967;
+	Fri,  2 Oct 2020 13:02:50 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-oi1-x241.google.com (mail-oi1-x241.google.com
- [IPv6:2607:f8b0:4864:20::241])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 587256E93F
- for <etnaviv@lists.freedesktop.org>; Fri,  2 Oct 2020 12:21:50 +0000 (UTC)
-Received: by mail-oi1-x241.google.com with SMTP id l85so1014433oih.10
- for <etnaviv@lists.freedesktop.org>; Fri, 02 Oct 2020 05:21:50 -0700 (PDT)
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 337596E96F
+ for <etnaviv@lists.freedesktop.org>; Fri,  2 Oct 2020 13:02:49 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id j2so1747770wrx.7
+ for <etnaviv@lists.freedesktop.org>; Fri, 02 Oct 2020 06:02:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=nq01YQB/Ez2vk6AHKtzJbl9d7KNOzLFVdp79wE51CO8=;
- b=J12pA5IJOFyOzjsDJPKdd6yyPZIZfVAEncJfiqCeIoXA7GJuyjOTP3zk36pG4sXCDo
- BOHRSyus9vk6/D/9OKVWSYZ/rY3ITRY7ycjHPZy2rk4H1c6WIH6oGLrJESrODULrP2i2
- GziR9uC9x/6das0oQJVqKJFpyGG1FXcoaBc90=
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=ZH0UeM3EQaOgODg8f5u4JykkLSw99ZDNsJ/LGTxMsA4=;
+ b=WSBqSLyS29Z73Uw9yIPiz/9uRVkqEBxNG1QIwgn3TSiO6xBXzzZJJTJk50brQ+OXzd
+ fSMJxFF9myx78gyhhKm1yfd4C7i1NYeRrSM/KjfbXaMMpDidKEXo7wDmgFOk4+iCYmSU
+ 4OgQVgIvy9pVPEW4ohUlXRKTIO1C9dyOG8rls=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=nq01YQB/Ez2vk6AHKtzJbl9d7KNOzLFVdp79wE51CO8=;
- b=Y5YektZXVzt6ndFvcWDn6z27FIVsWkJQVKLUtGzAjTICNuvL/vpr3zcXLX97LUqSkp
- pMzC0+cMApeB4dWTZVG8zlRoVaIM/8AFKEcn5lIt7Y8Phw8QcjjepBd3t+4KZLvGgWOe
- aghw3Ix+f+UJg/C0TNse7vARQAAUcAr838bRRjU31Mffq5D+9ZKkuDnrsuKacSMq3N1g
- EuUxMGXjYQN0ZR6D1at3fJscEH97Ix94Tnh/oZZMza4NXPg1XHSZOMcZIMmKnDrlf4gN
- 4L67Vt/SYzvCroW7sqpO3VRaEUNZg8IkgDDDTq92c3sclEZHklnEc6oOqVN5Bhr1bEi1
- sMeQ==
-X-Gm-Message-State: AOAM531ZhUHgCqn2hebPmF1YrJ5rEV/O2lg0PipZ8coInOI14JQnNBi5
- cRq7e2iDOSvwHlfAnYdKUbMDk5+g7/a2b2ChxqhlhA==
-X-Google-Smtp-Source: ABdhPJz13UBI/oM9lY3EXtCelg6/RnKqvJM+aoU58aNwPxLtuE8ga2NpAfnpgTIovLJFzgeyQpyPKfJaWsGFjW9eTPc=
-X-Received: by 2002:a05:6808:206:: with SMTP id
- l6mr1062489oie.128.1601641309381; 
- Fri, 02 Oct 2020 05:21:49 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200929151437.19717-1-tzimmermann@suse.de>
- <20200929151437.19717-3-tzimmermann@suse.de>
- <8fad0114-064a-4ed5-c21d-d1b4294de0a1@amd.com>
- <2614314a-81f7-4722-c400-68d90e48e09a@suse.de>
- <8a84f62b-33f3-f44c-52af-c859a0e0d1fb@gmail.com>
- <07972ada-9135-3743-a86b-487f610c509f@suse.de>
- <b569b7e3-68f0-edcc-c8f4-170e9042d348@gmail.com>
- <20200930094712.GW438822@phenom.ffwll.local>
- <8479d0aa-3826-4f37-0109-55daca515793@amd.com>
- <CAKMK7uH0U36NG8w98i0x6HVGeogiwnYDRiKquLW-8znLa7-0yg@mail.gmail.com>
- <20201002095830.GH438822@phenom.ffwll.local>
- <f6dcba12-8be8-b867-ac9b-a1ba50567fca@gmail.com>
-In-Reply-To: <f6dcba12-8be8-b867-ac9b-a1ba50567fca@gmail.com>
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=ZH0UeM3EQaOgODg8f5u4JykkLSw99ZDNsJ/LGTxMsA4=;
+ b=oYNF7OhQN2VXs+CBCbGq4UvcuiejhiyIMhqxQWo1RnIjoM6X8Ruf74ReWUXs2IEb0Z
+ 6OvYuH40HyZAnCqcMTCjCkUwPVadrG8R6DCnEHSFcWKbTh/cFLuw7koM5K8QKXCclr3E
+ +o4Tqo6a3fMlxjXsgAIGPQeTunRQ4YZdMYjwnPeuIz3k2XyvFZzBsrNgxp2YZeXS39OP
+ pvqjUuR+pTI6e7sXz53Hu1wCRBAzJvuwLhHT4nyB1keTC2u+R5/FGrcTYjYJPuc+7XQi
+ Q6ILmiWZqZHNlwnyeSUFLKESn0Gq17mt92mZhizJExH8KPlSVCHozYzFLydfn+yHZ1Re
+ OEBg==
+X-Gm-Message-State: AOAM533e7AY5akrw6jykJX2H68OXI6lu2asRWAUse4Cyhlz2yih9goOF
+ EgX6nxbveFzJD5o7FytiB1bVNg==
+X-Google-Smtp-Source: ABdhPJwks2N4hhijJnxG0wAKt0M+00xtLsCvcKckl9YRlXeiIrk80ur/Elt/HK8bvnXgk8veVkRL2g==
+X-Received: by 2002:adf:ec90:: with SMTP id z16mr2811904wrn.145.1601643766914; 
+ Fri, 02 Oct 2020 06:02:46 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id v17sm1807477wrc.23.2020.10.02.06.02.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 02 Oct 2020 06:02:45 -0700 (PDT)
+Date: Fri, 2 Oct 2020 15:02:42 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-Date: Fri, 2 Oct 2020 14:21:38 +0200
-Message-ID: <CAKMK7uHMU9X_V_gHmnVB=Jabb_p-01MQcQ4bZAnN1Sk1JMqkKg@mail.gmail.com>
-Subject: Re: [PATCH v3 2/7] drm/ttm: Add ttm_kmap_obj_to_dma_buf_map() for
- type conversion
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v3 3/7] drm/gem: Use struct dma_buf_map in GEM vmap ops
+ and convert GEM backends
+Message-ID: <20201002130242.GJ438822@phenom.ffwll.local>
+References: <20200929151437.19717-1-tzimmermann@suse.de>
+ <20200929151437.19717-4-tzimmermann@suse.de>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200929151437.19717-4-tzimmermann@suse.de>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,261 +65,1769 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
- Dave Airlie <airlied@linux.ie>, Nouveau Dev <nouveau@lists.freedesktop.org>,
- Linus Walleij <linus.walleij@linaro.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, "Wilson,
- Chris" <chris@chris-wilson.co.uk>, Melissa Wen <melissa.srw@gmail.com>,
- "Anholt, Eric" <eric@anholt.net>, Huang Rui <ray.huang@amd.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Qiang Yu <yuq825@gmail.com>,
- Sam Ravnborg <sam@ravnborg.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- Emil Velikov <emil.velikov@collabora.com>, Rob Herring <robh@kernel.org>,
- linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
- Joonyoung Shim <jy0922.shim@samsung.com>, lima@lists.freedesktop.org,
- Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
- Krzysztof Kozlowski <krzk@kernel.org>, Steven Price <steven.price@arm.com>,
- "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
- Luben Tuikov <luben.tuikov@amd.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- "open list:DRM DRIVER FOR QXL VIRTUAL GPU" <spice-devel@lists.freedesktop.org>,
- Ben Skeggs <bskeggs@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- The etnaviv authors <etnaviv@lists.freedesktop.org>,
- Maxime Ripard <mripard@kernel.org>, Inki Dae <inki.dae@samsung.com>,
- Hans de Goede <hdegoede@redhat.com>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- "moderated list:DRM DRIVERS FOR XEN" <xen-devel@lists.xenproject.org>,
- "open list:VIRTIO CORE, NET..." <virtualization@lists.linux-foundation.org>,
- Sean Paul <sean@poorly.run>, apaneers@amd.com,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Seung-Woo Kim <sw0312.kim@samsung.com>, Sandy Huang <hjc@rock-chips.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Qinglang Miao <miaoqinglang@huawei.com>, Kukjin Kim <kgene@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Alex Deucher <alexander.deucher@amd.com>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
- Lucas Stach <l.stach@pengutronix.de>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: luben.tuikov@amd.com, heiko@sntech.de, airlied@linux.ie,
+ nouveau@lists.freedesktop.org, linus.walleij@linaro.org,
+ dri-devel@lists.freedesktop.org, chris@chris-wilson.co.uk,
+ melissa.srw@gmail.com, eric@anholt.net, ray.huang@amd.com, kraxel@redhat.com,
+ sam@ravnborg.org, sumit.semwal@linaro.org, emil.velikov@collabora.com,
+ robh@kernel.org, linux-samsung-soc@vger.kernel.org, jy0922.shim@samsung.com,
+ lima@lists.freedesktop.org, oleksandr_andrushchenko@epam.com, krzk@kernel.org,
+ steven.price@arm.com, linux-rockchip@lists.infradead.org, kgene@kernel.org,
+ bskeggs@redhat.com, linux+etnaviv@armlinux.org.uk,
+ spice-devel@lists.freedesktop.org, alyssa.rosenzweig@collabora.com,
+ maarten.lankhorst@linux.intel.com, etnaviv@lists.freedesktop.org,
+ mripard@kernel.org, inki.dae@samsung.com, hdegoede@redhat.com,
+ christian.gmeiner@gmail.com, xen-devel@lists.xenproject.org,
+ virtualization@lists.linux-foundation.org, sean@poorly.run, apaneers@amd.com,
+ linux-arm-kernel@lists.infradead.org, linaro-mm-sig@lists.linaro.org,
+ amd-gfx@lists.freedesktop.org, tomeu.vizoso@collabora.com,
+ sw0312.kim@samsung.com, hjc@rock-chips.com, kyungmin.park@samsung.com,
+ miaoqinglang@huawei.com, yuq825@gmail.com, daniel@ffwll.ch,
+ alexander.deucher@amd.com, linux-media@vger.kernel.org,
+ christian.koenig@amd.com, l.stach@pengutronix.de
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBPY3QgMiwgMjAyMCBhdCAxOjMwIFBNIENocmlzdGlhbiBLw7ZuaWcKPGNrb2VuaWcu
-bGVpY2h0enVtZXJrZW5AZ21haWwuY29tPiB3cm90ZToKPgo+IEFtIDAyLjEwLjIwIHVtIDExOjU4
-IHNjaHJpZWIgRGFuaWVsIFZldHRlcjoKPiA+IE9uIFdlZCwgU2VwIDMwLCAyMDIwIGF0IDAyOjUx
-OjQ2UE0gKzAyMDAsIERhbmllbCBWZXR0ZXIgd3JvdGU6Cj4gPj4gT24gV2VkLCBTZXAgMzAsIDIw
-MjAgYXQgMjozNCBQTSBDaHJpc3RpYW4gS8O2bmlnCj4gPj4gPGNocmlzdGlhbi5rb2VuaWdAYW1k
-LmNvbT4gd3JvdGU6Cj4gPj4+IEFtIDMwLjA5LjIwIHVtIDExOjQ3IHNjaHJpZWIgRGFuaWVsIFZl
-dHRlcjoKPiA+Pj4+IE9uIFdlZCwgU2VwIDMwLCAyMDIwIGF0IDEwOjM0OjMxQU0gKzAyMDAsIENo
-cmlzdGlhbiBLw7ZuaWcgd3JvdGU6Cj4gPj4+Pj4gQW0gMzAuMDkuMjAgdW0gMTA6MTkgc2Nocmll
-YiBUaG9tYXMgWmltbWVybWFubjoKPiA+Pj4+Pj4gSGkKPiA+Pj4+Pj4KPiA+Pj4+Pj4gQW0gMzAu
-MDkuMjAgdW0gMTA6MDUgc2NocmllYiBDaHJpc3RpYW4gS8O2bmlnOgo+ID4+Pj4+Pj4gQW0gMjku
-MDkuMjAgdW0gMTk6NDkgc2NocmllYiBUaG9tYXMgWmltbWVybWFubjoKPiA+Pj4+Pj4+PiBIaSBD
-aHJpc3RpYW4KPiA+Pj4+Pj4+Pgo+ID4+Pj4+Pj4+IEFtIDI5LjA5LjIwIHVtIDE3OjM1IHNjaHJp
-ZWIgQ2hyaXN0aWFuIEvDtm5pZzoKPiA+Pj4+Pj4+Pj4gQW0gMjkuMDkuMjAgdW0gMTc6MTQgc2No
-cmllYiBUaG9tYXMgWmltbWVybWFubjoKPiA+Pj4+Pj4+Pj4+IFRoZSBuZXcgaGVscGVyIHR0bV9r
-bWFwX29ial90b19kbWFfYnVmKCkgZXh0cmFjdHMgYWRkcmVzcyBhbmQgbG9jYXRpb24KPiA+Pj4+
-Pj4+Pj4+IGZyb20gYW5kIGluc3RhbmNlIG9mIFRUTSdzIGttYXBfb2JqIGFuZCBpbml0aWFsaXpl
-cyBzdHJ1Y3QgZG1hX2J1Zl9tYXAKPiA+Pj4+Pj4+Pj4+IHdpdGggdGhlc2UgdmFsdWVzLiBIZWxw
-ZnVsIGZvciBUVE0tYmFzZWQgZHJpdmVycy4KPiA+Pj4+Pj4+Pj4gV2UgY291bGQgY29tcGxldGVs
-eSBkcm9wIHRoYXQgaWYgd2UgdXNlIHRoZSBzYW1lIHN0cnVjdHVyZSBpbnNpZGUgVFRNIGFzCj4g
-Pj4+Pj4+Pj4+IHdlbGwuCj4gPj4+Pj4+Pj4+Cj4gPj4+Pj4+Pj4+IEFkZGl0aW9uYWwgdG8gdGhh
-dCB3aGljaCBkcml2ZXIgaXMgZ29pbmcgdG8gdXNlIHRoaXM/Cj4gPj4+Pj4+Pj4gQXMgRGFuaWVs
-IG1lbnRpb25lZCwgaXQncyBpbiBwYXRjaCAzLiBUaGUgVFRNLWJhc2VkIGRyaXZlcnMgd2lsbAo+
-ID4+Pj4+Pj4+IHJldHJpZXZlIHRoZSBwb2ludGVyIHZpYSB0aGlzIGZ1bmN0aW9uLgo+ID4+Pj4+
-Pj4+Cj4gPj4+Pj4+Pj4gSSBkbyB3YW50IHRvIHNlZSBhbGwgdGhhdCBiZWluZyBtb3JlIHRpZ2h0
-bHkgaW50ZWdyYXRlZCBpbnRvIFRUTSwgYnV0Cj4gPj4+Pj4+Pj4gbm90IGluIHRoaXMgc2VyaWVz
-LiBUaGlzIG9uZSBpcyBhYm91dCBmaXhpbmcgdGhlIGJvY2hzLW9uLXNwYXJjNjQKPiA+Pj4+Pj4+
-PiBwcm9ibGVtIGZvciBnb29kLiBQYXRjaCA3IGFkZHMgYW4gdXBkYXRlIHRvIFRUTSB0byB0aGUg
-RFJNIFRPRE8gbGlzdC4KPiA+Pj4+Pj4+IEkgc2hvdWxkIGhhdmUgYXNrZWQgd2hpY2ggZHJpdmVy
-IHlvdSB0cnkgdG8gZml4IGhlcmUgOikKPiA+Pj4+Pj4+Cj4gPj4+Pj4+PiBJbiB0aGlzIGNhc2Ug
-anVzdCBrZWVwIHRoZSBmdW5jdGlvbiBpbnNpZGUgYm9jaHMgYW5kIG9ubHkgZml4IGl0IHRoZXJl
-Lgo+ID4+Pj4+Pj4KPiA+Pj4+Pj4+IEFsbCBvdGhlciBkcml2ZXJzIGNhbiBiZSBmaXhlZCB3aGVu
-IHdlIGdlbmVyYWxseSBwdW1wIHRoaXMgdGhyb3VnaCBUVE0uCj4gPj4+Pj4+IERpZCB5b3UgdGFr
-ZSBhIGxvb2sgYXQgcGF0Y2ggMz8gVGhpcyBmdW5jdGlvbiB3aWxsIGJlIHVzZWQgYnkgVlJBTQo+
-ID4+Pj4+PiBoZWxwZXJzLCBub3V2ZWF1LCByYWRlb24sIGFtZGdwdSBhbmQgcXhsLiBJZiB3ZSBk
-b24ndCBwdXQgaXQgaGVyZSwgd2UKPiA+Pj4+Pj4gaGF2ZSB0byBkdXBsaWNhdGUgdGhlIGZ1bmN0
-aW9uYWxpdHkgaW4gZWFjaCBpZiB0aGVzZSBkcml2ZXJzLiBCb2Nocwo+ID4+Pj4+PiBpdHNlbGYg
-dXNlcyBWUkFNIGhlbHBlcnMgYW5kIGRvZXNuJ3QgdG91Y2ggdGhlIGZ1bmN0aW9uIGRpcmVjdGx5
-Lgo+ID4+Pj4+IEFoLCBvayBjYW4gd2UgaGF2ZSB0aGF0IHRoZW4gb25seSBpbiB0aGUgVlJBTSBo
-ZWxwZXJzPwo+ID4+Pj4+Cj4gPj4+Pj4gQWx0ZXJuYXRpdmUgeW91IGNvdWxkIGdvIGFoZWFkIGFu
-ZCB1c2UgZG1hX2J1Zl9tYXAgaW4gdHRtX2JvX2ttYXBfb2JqCj4gPj4+Pj4gZGlyZWN0bHkgYW5k
-IGRyb3AgdGhlIGhhY2sgd2l0aCB0aGUgVFRNX0JPX01BUF9JT01FTV9NQVNLLgo+ID4+Pj4+Cj4g
-Pj4+Pj4gV2hhdCBJIHdhbnQgdG8gYXZvaWQgaXMgdG8gaGF2ZSBhbm90aGVyIGNvbnZlcnNpb24g
-ZnVuY3Rpb24gaW4gVFRNIGJlY2F1c2UKPiA+Pj4+PiB3aGF0IGhhcHBlbnMgaGVyZSBpcyB0aGF0
-IHdlIGFscmVhZHkgY29udmVydCBmcm9tIHR0bV9idXNfcGxhY2VtZW50IHRvCj4gPj4+Pj4gdHRt
-X2JvX2ttYXBfb2JqIGFuZCB0aGVuIHRvIGRtYV9idWZfbWFwLgo+ID4+Pj4gSG0gSSdtIG5vdCBy
-ZWFsbHkgc2VlaW5nIGhvdyB0aGF0IGhlbHBzIHdpdGggYSBncmFkdWFsIGNvbnZlcnNpb24gb2YK
-PiA+Pj4+IGV2ZXJ5dGhpbmcgb3ZlciB0byBkbWFfYnVmX21hcCBhbmQgYXNzb3J0ZWQgaGVscGVy
-cyBmb3IgYWNjZXNzPyBUaGVyZSdzCj4gPj4+PiB0b28gbWFueSBwbGFjZXMgaW4gdHRtIGRyaXZl
-cnMgd2hlcmUgaXNfaW9tZW0gYW5kIHJlbGF0ZWQgc3R1ZmYgaXMgdXNlZCB0bwo+ID4+Pj4gYmUg
-YWJsZSB0byBjb252ZXJ0IGl0IGFsbCBpbiBvbmUgZ28uIEFuIGludGVybWVkaWF0ZSBzdGF0ZSB3
-aXRoIGEgYnVuY2ggb2YKPiA+Pj4+IGNvbnZlcnNpb25zIHNlZW1zIGZhaXJseSB1bmF2b2lkYWJs
-ZSB0byBtZS4KPiA+Pj4gRmFpciBlbm91Z2guIEkgd291bGQganVzdCBoYXZlIHN0YXJ0ZWQgYm90
-dG9tIHVwIGFuZCBub3QgdG9wIGRvd24uCj4gPj4+Cj4gPj4+IEFueXdheSBmZWVsIGZyZWUgdG8g
-Z28gYWhlYWQgd2l0aCB0aGlzIGFwcHJvYWNoIGFzIGxvbmcgYXMgd2UgY2FuIHJlbW92ZQo+ID4+
-PiB0aGUgbmV3IGZ1bmN0aW9uIGFnYWluIHdoZW4gd2UgY2xlYW4gdGhhdCBzdHVmZiB1cCBmb3Ig
-Z29vZC4KPiA+PiBZZWFoIEkgZ3Vlc3MgYm90dG9tIHVwIHdvdWxkIG1ha2UgbW9yZSBzZW5zZSBh
-cyBhIHJlZmFjdG9yaW5nLiBCdXQgdGhlCj4gPj4gbWFpbiBtb3RpdmF0aW9uIHRvIGxhbmQgdGhp
-cyBoZXJlIGlzIHRvIGZpeCB0aGUgX19tbWlvIHZzIG5vcm1hbAo+ID4+IG1lbW9yeSBjb25mdXNp
-b24gaW4gdGhlIGZiZGV2IGVtdWxhdGlvbiBoZWxwZXJzIGZvciBzcGFyYyAoYW5kCj4gPj4gYW55
-dGhpbmcgZWxzZSB0aGF0IG5lZWRzIHRoaXMpLiBIZW5jZSB0aGUgdG9wIGRvd24gYXBwcm9hY2gg
-Zm9yCj4gPj4gcm9sbGluZyB0aGlzIG91dC4KPiA+IE9rIEkgc3RhcnRlZCByZXZpZXdpbmcgdGhp
-cyBhIGJpdCBtb3JlIGluLWRlcHRoLCBhbmQgSSB0aGluayB0aGlzIGlzIGEgYml0Cj4gPiB0b28g
-bXVjaCBvZiBhIGRlLXRvdXIuCj4gPgo+ID4gTG9va2luZyB0aHJvdWdoIGFsbCB0aGUgY2FsbGVy
-cyBvZiB0dG1fYm9fa21hcCBhbG1vc3QgZXZlcnlvbmUgbWFwcyB0aGUKPiA+IGVudGlyZSBvYmpl
-Y3QuIE9ubHkgdm13Z2Z4IHVzZXMgdG8gbWFwIGxlc3MgdGhhbiB0aGF0LiBBbHNvLCBldmVyeW9u
-ZSBqdXN0Cj4gPiBpbW1lZGlhdGVseSBmb2xsb3dzIHVwIHdpdGggY29udmVydGluZyB0aGF0IGZ1
-bGwgb2JqZWN0IG1hcCBpbnRvIGEKPiA+IHBvaW50ZXIuCj4gPgo+ID4gU28gSSB0aGluayB3aGF0
-IHdlIHJlYWxseSB3YW50IGhlcmUgaXM6Cj4gPiAtIG5ldyBmdW5jdGlvbgo+ID4KPiA+IGludCB0
-dG1fYm9fdm1hcChzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3QgKmJvLCBzdHJ1Y3QgZG1hX2J1Zl9t
-YXAgKm1hcCk7Cj4gPgo+ID4gICAgX3ZtYXAgbmFtZSBzaW5jZSB0aGF0J3MgY29uc2lzdGVudCB3
-aXRoIGJvdGggZG1hX2J1ZiBmdW5jdGlvbnMgYW5kCj4gPiAgICB3aGF0J3MgdXN1YWxseSB1c2Vk
-IHRvIGltcGxlbWVudCB0aGlzLiBPdXRzaWRlIG9mIHRoZSB0dG0gd29ybGQga21hcAo+ID4gICAg
-dXN1YWxseSBqdXN0IG1lYW5zIHNpbmdsZS1wYWdlIG1hcHBpbmdzIHVzaW5nIGttYXAoKSBvciBp
-dCdzIGlvbWVtCj4gPiAgICBzaWJsaW5nIGlvX21hcHBpbmdfbWFwKiBzbyByYXRoZXIgY29uZnVz
-aW5nIG5hbWUgZm9yIGEgZnVuY3Rpb24gd2hpY2gKPiA+ICAgIHVzdWFsbHkgaXMganVzdCB1c2Vk
-IHRvIHNldCB1cCBhIHZtYXAgb2YgdGhlIGVudGlyZSBidWZmZXIuCj4gPgo+ID4gLSBhIGhlbHBl
-ciB3aGljaCBjYW4gYmUgdXNlZCBmb3IgdGhlIGRybV9nZW1fb2JqZWN0X2Z1bmNzIHZtYXAvdnVu
-bWFwCj4gPiAgICBmdW5jdGlvbnMgZm9yIGFsbCB0dG0gZHJpdmVycy4gV2Ugc2hvdWxkIGJlIGFi
-bGUgdG8gbWFrZSB0aGlzIGZ1bGx5Cj4gPiAgICBnZW5lcmljIGJlY2F1c2UgYSkgd2Ugbm93IGhh
-dmUgZG1hX2J1Zl9tYXAgYW5kIGIpIGRybV9nZW1fb2JqZWN0IGlzCj4gPiAgICBlbWJlZGRlZCBp
-biB0aGUgdHRtX2JvLCBzbyB3ZSBjYW4gdXBjYXN0IGZvciBldmVyeW9uZSB3aG8ncyBib3RoIGEg
-dHRtCj4gPiAgICBhbmQgZ2VtIGRyaXZlci4KPiA+Cj4gPiAgICBUaGlzIGlzIG1heWJlIGEgZ29v
-ZCBmb2xsb3ctdXAsIHNpbmNlIGl0IHNob3VsZCBhbGxvdyB1cyB0byBkaXRjaCBxdWl0ZQo+ID4g
-ICAgYSBiaXQgb2YgdGhlIHZyYW0gaGVscGVyIGNvZGUgZm9yIHRoaXMgbW9yZSBnZW5lcmljIHN0
-dWZmLiBJIGFsc28gbWlnaHQKPiA+ICAgIGhhdmUgbWlzc2VkIHNvbWUgc3BlY2lhbC1jYXNlcyBo
-ZXJlLCBidXQgZnJvbSBhIHF1aWNrIGxvb2sgZXZlcnl0aGluZwo+ID4gICAganVzdCBwaW5zIHRo
-ZSBidWZmZXIgdG8gdGhlIGN1cnJlbnQgbG9jYXRpb24gYW5kIHRoYXQncyBpdC4KPiA+Cj4gPiAg
-ICBBbHNvIHRoaXMgb2J2aW91c2x5IHJlcXVpcmVzIENocmlzdGlhbidzIGdlbmVyaWMgdHRtX2Jv
-X3BpbiByZXdvcmsKPiA+ICAgIGZpcnN0Lgo+ID4KPiA+IC0gcm9sbCB0aGUgYWJvdmUgb3V0IHRv
-IGRyaXZlcnMuCj4gPgo+ID4gQ2hyaXN0aWFuL1Rob21hcywgdGhvdWdodHMgb24gdGhpcz8KPgo+
-IENhbGxpbmcgdGhpcyB2bWFwIGluc3RlYWQgb2Yga21hcCBjZXJ0YWlubHkgbWFrZXMgc2Vuc2Uu
-Cj4KPiBOb3QgMTAwJSBzdXJlIGFib3V0IHRoZSBnZW5lcmljIGhlbHBlcnMsIGJ1dCBpdCBzb3Vu
-ZHMgbGlrZSB0aGlzIHNob3VsZAo+IGluZGVlZCBsb29rIHJhdGhlciBjbGVhbiBpbiB0aGUgZW5k
-LgoKWWVhaCBnZW5lcmljIGhlbHBlciBpcyBwcm9iYWJseSBiZXR0ZXIgbGVmdCBmb3IgYSBsYXRl
-ciBzdGVwLCBhZnRlcgp3ZSd2ZSByb2xsZWQgb3V0IHR0bV9ib192bWFwIG91dCBldmVyeXdoZXJl
-LgotRGFuaWVsCgo+Cj4gQ2hyaXN0aWFuLgo+Cj4gPgo+ID4gSSB0aGluayBmb3IgdGhlIGltbWVk
-aWF0ZSBuZWVkIG9mIHJvbGxpbmcgdGhpcyBvdXQgZm9yIHZyYW0gaGVscGVycyBhbmQKPiA+IGZi
-ZGV2IGNvZGUgd2Ugc2hvdWxkIGJlIGFibGUgdG8gZG8gdGhpcywgYnV0IGp1c3QgcG9zdHBvbmUg
-dGhlIGRyaXZlciB3aWRlCj4gPiByb2xsLW91dCBmb3Igbm93Lgo+ID4KPiA+IENoZWVycywgRGFu
-aWVsCj4gPgo+ID4+IC1EYW5pZWwKPiA+Pgo+ID4+PiBDaHJpc3RpYW4uCj4gPj4+Cj4gPj4+PiAt
-RGFuaWVsCj4gPj4+Pgo+ID4+Pj4+IFRoYW5rcywKPiA+Pj4+PiBDaHJpc3RpYW4uCj4gPj4+Pj4K
-PiA+Pj4+Pj4gQmVzdCByZWdhcmRzCj4gPj4+Pj4+IFRob21hcwo+ID4+Pj4+Pgo+ID4+Pj4+Pj4g
-UmVnYXJkcywKPiA+Pj4+Pj4+IENocmlzdGlhbi4KPiA+Pj4+Pj4+Cj4gPj4+Pj4+Pj4gQmVzdCBy
-ZWdhcmRzCj4gPj4+Pj4+Pj4gVGhvbWFzCj4gPj4+Pj4+Pj4KPiA+Pj4+Pj4+Pj4gUmVnYXJkcywK
-PiA+Pj4+Pj4+Pj4gQ2hyaXN0aWFuLgo+ID4+Pj4+Pj4+Pgo+ID4+Pj4+Pj4+Pj4gU2lnbmVkLW9m
-Zi1ieTogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+Cj4gPj4+Pj4+Pj4+
-PiAtLS0KPiA+Pj4+Pj4+Pj4+ICAgICAgaW5jbHVkZS9kcm0vdHRtL3R0bV9ib19hcGkuaCB8IDI0
-ICsrKysrKysrKysrKysrKysrKysrKysrKwo+ID4+Pj4+Pj4+Pj4gICAgICBpbmNsdWRlL2xpbnV4
-L2RtYS1idWYtbWFwLmggIHwgMjAgKysrKysrKysrKysrKysrKysrKysKPiA+Pj4+Pj4+Pj4+ICAg
-ICAgMiBmaWxlcyBjaGFuZ2VkLCA0NCBpbnNlcnRpb25zKCspCj4gPj4+Pj4+Pj4+Pgo+ID4+Pj4+
-Pj4+Pj4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvZHJtL3R0bS90dG1fYm9fYXBpLmggYi9pbmNsdWRl
-L2RybS90dG0vdHRtX2JvX2FwaS5oCj4gPj4+Pj4+Pj4+PiBpbmRleCBjOTZhMjVkNTcxYzguLjYy
-ZDg5ZjA1YTgwMSAxMDA2NDQKPiA+Pj4+Pj4+Pj4+IC0tLSBhL2luY2x1ZGUvZHJtL3R0bS90dG1f
-Ym9fYXBpLmgKPiA+Pj4+Pj4+Pj4+ICsrKyBiL2luY2x1ZGUvZHJtL3R0bS90dG1fYm9fYXBpLmgK
-PiA+Pj4+Pj4+Pj4+IEBAIC0zNCw2ICszNCw3IEBACj4gPj4+Pj4+Pj4+PiAgICAgICNpbmNsdWRl
-IDxkcm0vZHJtX2dlbS5oPgo+ID4+Pj4+Pj4+Pj4gICAgICAjaW5jbHVkZSA8ZHJtL2RybV9oYXNo
-dGFiLmg+Cj4gPj4+Pj4+Pj4+PiAgICAgICNpbmNsdWRlIDxkcm0vZHJtX3ZtYV9tYW5hZ2VyLmg+
-Cj4gPj4+Pj4+Pj4+PiArI2luY2x1ZGUgPGxpbnV4L2RtYS1idWYtbWFwLmg+Cj4gPj4+Pj4+Pj4+
-PiAgICAgICNpbmNsdWRlIDxsaW51eC9rcmVmLmg+Cj4gPj4+Pj4+Pj4+PiAgICAgICNpbmNsdWRl
-IDxsaW51eC9saXN0Lmg+Cj4gPj4+Pj4+Pj4+PiAgICAgICNpbmNsdWRlIDxsaW51eC93YWl0Lmg+
-Cj4gPj4+Pj4+Pj4+PiBAQCAtNDg2LDYgKzQ4NywyOSBAQCBzdGF0aWMgaW5saW5lIHZvaWQgKnR0
-bV9rbWFwX29ial92aXJ0dWFsKHN0cnVjdAo+ID4+Pj4+Pj4+Pj4gdHRtX2JvX2ttYXBfb2JqICpt
-YXAsCj4gPj4+Pj4+Pj4+PiAgICAgICAgICByZXR1cm4gbWFwLT52aXJ0dWFsOwo+ID4+Pj4+Pj4+
-Pj4gICAgICB9Cj4gPj4+Pj4+Pj4+PiAgICAgICsvKioKPiA+Pj4+Pj4+Pj4+ICsgKiB0dG1fa21h
-cF9vYmpfdG9fZG1hX2J1Zl9tYXAKPiA+Pj4+Pj4+Pj4+ICsgKgo+ID4+Pj4+Pj4+Pj4gKyAqIEBr
-bWFwOiBBIHN0cnVjdCB0dG1fYm9fa21hcF9vYmogcmV0dXJuZWQgZnJvbSB0dG1fYm9fa21hcC4K
-PiA+Pj4+Pj4+Pj4+ICsgKiBAbWFwOiBSZXR1cm5zIHRoZSBtYXBwaW5nIGFzIHN0cnVjdCBkbWFf
-YnVmX21hcAo+ID4+Pj4+Pj4+Pj4gKyAqCj4gPj4+Pj4+Pj4+PiArICogQ29udmVydHMgc3RydWN0
-IHR0bV9ib19rbWFwX29iaiB0byBzdHJ1Y3QgZG1hX2J1Zl9tYXAuIElmIHRoZSBtZW1vcnkKPiA+
-Pj4+Pj4+Pj4+ICsgKiBpcyBub3QgbWFwcGVkLCB0aGUgcmV0dXJuZWQgbWFwcGluZyBpcyBpbml0
-aWFsaXplZCB0byBOVUxMLgo+ID4+Pj4+Pj4+Pj4gKyAqLwo+ID4+Pj4+Pj4+Pj4gK3N0YXRpYyBp
-bmxpbmUgdm9pZCB0dG1fa21hcF9vYmpfdG9fZG1hX2J1Zl9tYXAoc3RydWN0IHR0bV9ib19rbWFw
-X29iago+ID4+Pj4+Pj4+Pj4gKmttYXAsCj4gPj4+Pj4+Pj4+PiArICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgc3RydWN0IGRtYV9idWZfbWFwICptYXApCj4gPj4+Pj4+Pj4+PiArewo+ID4+Pj4+
-Pj4+Pj4gKyAgICBib29sIGlzX2lvbWVtOwo+ID4+Pj4+Pj4+Pj4gKyAgICB2b2lkICp2YWRkciA9
-IHR0bV9rbWFwX29ial92aXJ0dWFsKGttYXAsICZpc19pb21lbSk7Cj4gPj4+Pj4+Pj4+PiArCj4g
-Pj4+Pj4+Pj4+PiArICAgIGlmICghdmFkZHIpCj4gPj4+Pj4+Pj4+PiArICAgICAgICBkbWFfYnVm
-X21hcF9jbGVhcihtYXApOwo+ID4+Pj4+Pj4+Pj4gKyAgICBlbHNlIGlmIChpc19pb21lbSkKPiA+
-Pj4+Pj4+Pj4+ICsgICAgICAgIGRtYV9idWZfbWFwX3NldF92YWRkcl9pb21lbShtYXAsICh2b2lk
-IF9fZm9yY2UgX19pb21lbSAqKXZhZGRyKTsKPiA+Pj4+Pj4+Pj4+ICsgICAgZWxzZQo+ID4+Pj4+
-Pj4+Pj4gKyAgICAgICAgZG1hX2J1Zl9tYXBfc2V0X3ZhZGRyKG1hcCwgdmFkZHIpOwo+ID4+Pj4+
-Pj4+Pj4gK30KPiA+Pj4+Pj4+Pj4+ICsKPiA+Pj4+Pj4+Pj4+ICAgICAgLyoqCj4gPj4+Pj4+Pj4+
-PiAgICAgICAqIHR0bV9ib19rbWFwCj4gPj4+Pj4+Pj4+PiAgICAgICAqCj4gPj4+Pj4+Pj4+PiBk
-aWZmIC0tZ2l0IGEvaW5jbHVkZS9saW51eC9kbWEtYnVmLW1hcC5oIGIvaW5jbHVkZS9saW51eC9k
-bWEtYnVmLW1hcC5oCj4gPj4+Pj4+Pj4+PiBpbmRleCBmZDFhYmE1NDVmZGYuLjJlOGJiZWNiNTA5
-MSAxMDA2NDQKPiA+Pj4+Pj4+Pj4+IC0tLSBhL2luY2x1ZGUvbGludXgvZG1hLWJ1Zi1tYXAuaAo+
-ID4+Pj4+Pj4+Pj4gKysrIGIvaW5jbHVkZS9saW51eC9kbWEtYnVmLW1hcC5oCj4gPj4+Pj4+Pj4+
-PiBAQCAtNDUsNiArNDUsMTIgQEAKPiA+Pj4+Pj4+Pj4+ICAgICAgICoKPiA+Pj4+Pj4+Pj4+ICAg
-ICAgICogICAgZG1hX2J1Zl9tYXBfc2V0X3ZhZGRyKCZtYXAuIDB4ZGVhZGJlYWYpOwo+ID4+Pj4+
-Pj4+Pj4gICAgICAgKgo+ID4+Pj4+Pj4+Pj4gKyAqIFRvIHNldCBhbiBhZGRyZXNzIGluIEkvTyBt
-ZW1vcnksIHVzZSBkbWFfYnVmX21hcF9zZXRfdmFkZHJfaW9tZW0oKS4KPiA+Pj4+Pj4+Pj4+ICsg
-Kgo+ID4+Pj4+Pj4+Pj4gKyAqIC4uIGNvZGUtYmxvY2s6OiBjCj4gPj4+Pj4+Pj4+PiArICoKPiA+
-Pj4+Pj4+Pj4+ICsgKiAgICBkbWFfYnVmX21hcF9zZXRfdmFkZHJfaW9tZW0oJm1hcC4gMHhkZWFk
-YmVhZik7Cj4gPj4+Pj4+Pj4+PiArICoKPiA+Pj4+Pj4+Pj4+ICAgICAgICogVGVzdCBpZiBhIG1h
-cHBpbmcgaXMgdmFsaWQgd2l0aCBlaXRoZXIgZG1hX2J1Zl9tYXBfaXNfc2V0KCkgb3IKPiA+Pj4+
-Pj4+Pj4+ICAgICAgICogZG1hX2J1Zl9tYXBfaXNfbnVsbCgpLgo+ID4+Pj4+Pj4+Pj4gICAgICAg
-Kgo+ID4+Pj4+Pj4+Pj4gQEAgLTExOCw2ICsxMjQsMjAgQEAgc3RhdGljIGlubGluZSB2b2lkIGRt
-YV9idWZfbWFwX3NldF92YWRkcihzdHJ1Y3QKPiA+Pj4+Pj4+Pj4+IGRtYV9idWZfbWFwICptYXAs
-IHZvaWQgKnZhZGRyKQo+ID4+Pj4+Pj4+Pj4gICAgICAgICAgbWFwLT5pc19pb21lbSA9IGZhbHNl
-Owo+ID4+Pj4+Pj4+Pj4gICAgICB9Cj4gPj4+Pj4+Pj4+PiAgICAgICsvKioKPiA+Pj4+Pj4+Pj4+
-ICsgKiBkbWFfYnVmX21hcF9zZXRfdmFkZHJfaW9tZW0gLSBTZXRzIGEgZG1hLWJ1ZiBtYXBwaW5n
-IHN0cnVjdHVyZSB0bwo+ID4+Pj4+Pj4+Pj4gYW4gYWRkcmVzcyBpbiBJL08gbWVtb3J5Cj4gPj4+
-Pj4+Pj4+PiArICogQG1hcDogICAgICAgIFRoZSBkbWEtYnVmIG1hcHBpbmcgc3RydWN0dXJlCj4g
-Pj4+Pj4+Pj4+PiArICogQHZhZGRyX2lvbWVtOiAgICBBbiBJL08tbWVtb3J5IGFkZHJlc3MKPiA+
-Pj4+Pj4+Pj4+ICsgKgo+ID4+Pj4+Pj4+Pj4gKyAqIFNldHMgdGhlIGFkZHJlc3MgYW5kIHRoZSBJ
-L08tbWVtb3J5IGZsYWcuCj4gPj4+Pj4+Pj4+PiArICovCj4gPj4+Pj4+Pj4+PiArc3RhdGljIGlu
-bGluZSB2b2lkIGRtYV9idWZfbWFwX3NldF92YWRkcl9pb21lbShzdHJ1Y3QgZG1hX2J1Zl9tYXAg
-Km1hcCwKPiA+Pj4+Pj4+Pj4+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICB2b2lkIF9faW9t
-ZW0gKnZhZGRyX2lvbWVtKQo+ID4+Pj4+Pj4+Pj4gK3sKPiA+Pj4+Pj4+Pj4+ICsgICAgbWFwLT52
-YWRkcl9pb21lbSA9IHZhZGRyX2lvbWVtOwo+ID4+Pj4+Pj4+Pj4gKyAgICBtYXAtPmlzX2lvbWVt
-ID0gdHJ1ZTsKPiA+Pj4+Pj4+Pj4+ICt9Cj4gPj4+Pj4+Pj4+PiArCj4gPj4+Pj4+Pj4+PiAgICAg
-IC8qKgo+ID4+Pj4+Pj4+Pj4gICAgICAgKiBkbWFfYnVmX21hcF9pc19lcXVhbCAtIENvbXBhcmVz
-IHR3byBkbWEtYnVmIG1hcHBpbmcgc3RydWN0dXJlcwo+ID4+Pj4+Pj4+Pj4gZm9yIGVxdWFsaXR5
-Cj4gPj4+Pj4+Pj4+PiAgICAgICAqIEBsaHM6ICAgIFRoZSBkbWEtYnVmIG1hcHBpbmcgc3RydWN0
-dXJlCj4gPj4+Pj4+Pj4+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fCj4gPj4+Pj4+Pj4+IGRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKPiA+Pj4+Pj4+Pj4gZHJp
-LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+ID4+Pj4+Pj4+PiBodHRwczovL25hbTExLnNh
-ZmVsaW5rcy5wcm90ZWN0aW9uLm91dGxvb2suY29tLz91cmw9aHR0cHMlM0ElMkYlMkZsaXN0cy5m
-cmVlZGVza3RvcC5vcmclMkZtYWlsbWFuJTJGbGlzdGluZm8lMkZkcmktZGV2ZWwmYW1wO2RhdGE9
-MDIlN0MwMSU3Q2NocmlzdGlhbi5rb2VuaWclNDBhbWQuY29tJTdDNDcyYzNkNjU1YTYxNDExZGVi
-NjcwOGQ4NjUyNWQxYjglN0MzZGQ4OTYxZmU0ODg0ZTYwOGUxMWE4MmQ5OTRlMTgzZCU3QzAlN0Mw
-JTdDNjM3MzcwNTYwNDM4OTY1MDEzJmFtcDtzZGF0YT1IZEhPQSUyRjFWY0lYJTJGN1l0ZllUaUFx
-WUV2dzdBZyUyRlMlMkJ4UzVWd0pLT3Y1eTAlM0QmYW1wO3Jlc2VydmVkPTAKPiA+Pj4+Pj4+PiBf
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+ID4+Pj4+Pj4+
-IGFtZC1nZnggbWFpbGluZyBsaXN0Cj4gPj4+Pj4+Pj4gYW1kLWdmeEBsaXN0cy5mcmVlZGVza3Rv
-cC5vcmcKPiA+Pj4+Pj4+PiBodHRwczovL25hbTExLnNhZmVsaW5rcy5wcm90ZWN0aW9uLm91dGxv
-b2suY29tLz91cmw9aHR0cHMlM0ElMkYlMkZsaXN0cy5mcmVlZGVza3RvcC5vcmclMkZtYWlsbWFu
-JTJGbGlzdGluZm8lMkZhbWQtZ2Z4JmFtcDtkYXRhPTAyJTdDMDElN0NjaHJpc3RpYW4ua29lbmln
-JTQwYW1kLmNvbSU3QzQ3MmMzZDY1NWE2MTQxMWRlYjY3MDhkODY1MjVkMWI4JTdDM2RkODk2MWZl
-NDg4NGU2MDhlMTFhODJkOTk0ZTE4M2QlN0MwJTdDMCU3QzYzNzM3MDU2MDQzODk2NTAxMyZhbXA7
-c2RhdGE9SCUyQjVIS0NzVHJrc1JWMkV5RWlGR1NUeVM3OWpzV0NtSmltU01vSll1c3g4JTNEJmFt
-cDtyZXNlcnZlZD0wCj4gPj4+Pj4+PiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fXwo+ID4+Pj4+Pj4gZHJpLWRldmVsIG1haWxpbmcgbGlzdAo+ID4+Pj4+Pj4g
-ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+ID4+Pj4+Pj4gaHR0cHM6Ly9uYW0xMS5z
-YWZlbGlua3MucHJvdGVjdGlvbi5vdXRsb29rLmNvbS8/dXJsPWh0dHBzJTNBJTJGJTJGbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnJTJGbWFpbG1hbiUyRmxpc3RpbmZvJTJGZHJpLWRldmVsJmFtcDtkYXRh
-PTAyJTdDMDElN0NjaHJpc3RpYW4ua29lbmlnJTQwYW1kLmNvbSU3QzQ3MmMzZDY1NWE2MTQxMWRl
-YjY3MDhkODY1MjVkMWI4JTdDM2RkODk2MWZlNDg4NGU2MDhlMTFhODJkOTk0ZTE4M2QlN0MwJTdD
-MCU3QzYzNzM3MDU2MDQzODk2NTAxMyZhbXA7c2RhdGE9SGRIT0ElMkYxVmNJWCUyRjdZdGZZVGlB
-cVlFdnc3QWclMkZTJTJCeFM1VndKS092NXkwJTNEJmFtcDtyZXNlcnZlZD0wCj4gPj4+Pj4+Pgo+
-ID4+Pj4+PiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+
-ID4+Pj4+PiBhbWQtZ2Z4IG1haWxpbmcgbGlzdAo+ID4+Pj4+PiBhbWQtZ2Z4QGxpc3RzLmZyZWVk
-ZXNrdG9wLm9yZwo+ID4+Pj4+PiBodHRwczovL25hbTExLnNhZmVsaW5rcy5wcm90ZWN0aW9uLm91
-dGxvb2suY29tLz91cmw9aHR0cHMlM0ElMkYlMkZsaXN0cy5mcmVlZGVza3RvcC5vcmclMkZtYWls
-bWFuJTJGbGlzdGluZm8lMkZhbWQtZ2Z4JmFtcDtkYXRhPTAyJTdDMDElN0NjaHJpc3RpYW4ua29l
-bmlnJTQwYW1kLmNvbSU3QzQ3MmMzZDY1NWE2MTQxMWRlYjY3MDhkODY1MjVkMWI4JTdDM2RkODk2
-MWZlNDg4NGU2MDhlMTFhODJkOTk0ZTE4M2QlN0MwJTdDMCU3QzYzNzM3MDU2MDQzODk2NTAxMyZh
-bXA7c2RhdGE9SCUyQjVIS0NzVHJrc1JWMkV5RWlGR1NUeVM3OWpzV0NtSmltU01vSll1c3g4JTNE
-JmFtcDtyZXNlcnZlZD0wCj4gPj4KPiA+PiAtLQo+ID4+IERhbmllbCBWZXR0ZXIKPiA+PiBTb2Z0
-d2FyZSBFbmdpbmVlciwgSW50ZWwgQ29ycG9yYXRpb24KPiA+PiBodHRwOi8vYmxvZy5mZndsbC5j
-aAo+CgoKLS0gCkRhbmllbCBWZXR0ZXIKU29mdHdhcmUgRW5naW5lZXIsIEludGVsIENvcnBvcmF0
-aW9uCmh0dHA6Ly9ibG9nLmZmd2xsLmNoCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fCmV0bmF2aXYgbWFpbGluZyBsaXN0CmV0bmF2aXZAbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8v
-ZXRuYXZpdgo=
+On Tue, Sep 29, 2020 at 05:14:33PM +0200, Thomas Zimmermann wrote:
+> This patch replaces the vmap/vunmap's use of raw pointers in GEM object
+> functions with instances of struct dma_buf_map. GEM backends are
+> converted as well.
+> 
+> For most GEM backends, this simply change the returned type. GEM VRAM
+> helpers are also updated to indicate whether the returned framebuffer
+> address is in system or I/O memory.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c | 14 ++--
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.h |  4 +-
+>  drivers/gpu/drm/ast/ast_cursor.c            | 29 +++----
+>  drivers/gpu/drm/ast/ast_drv.h               |  7 +-
+>  drivers/gpu/drm/drm_gem.c                   | 22 ++---
+>  drivers/gpu/drm/drm_gem_cma_helper.c        | 14 ++--
+>  drivers/gpu/drm/drm_gem_shmem_helper.c      | 48 ++++++-----
+>  drivers/gpu/drm/drm_gem_vram_helper.c       | 90 +++++++++++----------
+>  drivers/gpu/drm/etnaviv/etnaviv_drv.h       |  4 +-
+>  drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c | 11 ++-
+>  drivers/gpu/drm/exynos/exynos_drm_gem.c     |  6 +-
+>  drivers/gpu/drm/exynos/exynos_drm_gem.h     |  4 +-
+>  drivers/gpu/drm/lima/lima_gem.c             |  6 +-
+>  drivers/gpu/drm/lima/lima_sched.c           | 11 ++-
+>  drivers/gpu/drm/mgag200/mgag200_mode.c      | 12 +--
+>  drivers/gpu/drm/nouveau/nouveau_gem.h       |  4 +-
+>  drivers/gpu/drm/nouveau/nouveau_prime.c     |  9 ++-
+>  drivers/gpu/drm/panfrost/panfrost_perfcnt.c | 14 ++--
+>  drivers/gpu/drm/qxl/qxl_display.c           | 13 +--
+>  drivers/gpu/drm/qxl/qxl_draw.c              | 16 ++--
+>  drivers/gpu/drm/qxl/qxl_drv.h               |  8 +-
+>  drivers/gpu/drm/qxl/qxl_object.c            | 23 +++---
+>  drivers/gpu/drm/qxl/qxl_object.h            |  2 +-
+>  drivers/gpu/drm/qxl/qxl_prime.c             | 12 +--
+>  drivers/gpu/drm/radeon/radeon_gem.c         |  4 +-
+>  drivers/gpu/drm/radeon/radeon_prime.c       |  9 ++-
+>  drivers/gpu/drm/rockchip/rockchip_drm_gem.c | 22 +++--
+>  drivers/gpu/drm/rockchip/rockchip_drm_gem.h |  4 +-
+>  drivers/gpu/drm/tiny/cirrus.c               | 10 ++-
+>  drivers/gpu/drm/tiny/gm12u320.c             | 10 ++-
+>  drivers/gpu/drm/udl/udl_modeset.c           |  8 +-
+>  drivers/gpu/drm/vboxvideo/vbox_mode.c       | 11 ++-
+>  drivers/gpu/drm/vc4/vc4_bo.c                |  6 +-
+>  drivers/gpu/drm/vc4/vc4_drv.h               |  2 +-
+>  drivers/gpu/drm/vgem/vgem_drv.c             | 16 ++--
+>  drivers/gpu/drm/xen/xen_drm_front_gem.c     | 18 +++--
+>  drivers/gpu/drm/xen/xen_drm_front_gem.h     |  6 +-
+>  include/drm/drm_gem.h                       |  5 +-
+>  include/drm/drm_gem_cma_helper.h            |  4 +-
+>  include/drm/drm_gem_shmem_helper.h          |  4 +-
+>  include/drm/drm_gem_vram_helper.h           |  4 +-
+>  41 files changed, 304 insertions(+), 222 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
+> index 5b465ab774d1..de7d0cfe1b93 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
+> @@ -44,13 +44,14 @@
+>  /**
+>   * amdgpu_gem_prime_vmap - &dma_buf_ops.vmap implementation
+>   * @obj: GEM BO
+> + * @map: The virtual address of the mapping.
+>   *
+>   * Sets up an in-kernel virtual mapping of the BO's memory.
+>   *
+>   * Returns:
+> - * The virtual address of the mapping or an error pointer.
+> + * 0 on success, or a negative errno code otherwise.
+>   */
+> -void *amdgpu_gem_prime_vmap(struct drm_gem_object *obj)
+> +int amdgpu_gem_prime_vmap(struct drm_gem_object *obj, struct dma_buf_map *map)
+>  {
+>  	struct amdgpu_bo *bo = gem_to_amdgpu_bo(obj);
+>  	int ret;
+> @@ -58,19 +59,20 @@ void *amdgpu_gem_prime_vmap(struct drm_gem_object *obj)
+>  	ret = ttm_bo_kmap(&bo->tbo, 0, bo->tbo.num_pages,
+>  			  &bo->dma_buf_vmap);
+>  	if (ret)
+> -		return ERR_PTR(ret);
+> +		return ret;
+> +	ttm_kmap_obj_to_dma_buf_map(&bo->dma_buf_vmap, map);
+
+I guess with the ttm_bo_vmap idea all the ttm changes here will look a bit
+different.
+
+>  
+> -	return bo->dma_buf_vmap.virtual;
+> +	return 0;
+>  }
+>  
+>  /**
+>   * amdgpu_gem_prime_vunmap - &dma_buf_ops.vunmap implementation
+>   * @obj: GEM BO
+> - * @vaddr: Virtual address (unused)
+> + * @map: Virtual address (unused)
+>   *
+>   * Tears down the in-kernel virtual mapping of the BO's memory.
+>   */
+> -void amdgpu_gem_prime_vunmap(struct drm_gem_object *obj, void *vaddr)
+> +void amdgpu_gem_prime_vunmap(struct drm_gem_object *obj, struct dma_buf_map *map)
+>  {
+>  	struct amdgpu_bo *bo = gem_to_amdgpu_bo(obj);
+>  
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.h
+> index 2c5c84a06bb9..622642793064 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.h
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.h
+> @@ -31,8 +31,8 @@ struct drm_gem_object *amdgpu_gem_prime_import(struct drm_device *dev,
+>  					    struct dma_buf *dma_buf);
+>  bool amdgpu_dmabuf_is_xgmi_accessible(struct amdgpu_device *adev,
+>  				      struct amdgpu_bo *bo);
+> -void *amdgpu_gem_prime_vmap(struct drm_gem_object *obj);
+> -void amdgpu_gem_prime_vunmap(struct drm_gem_object *obj, void *vaddr);
+> +int amdgpu_gem_prime_vmap(struct drm_gem_object *obj, struct dma_buf_map *map);
+> +void amdgpu_gem_prime_vunmap(struct drm_gem_object *obj, struct dma_buf_map *map);
+>  int amdgpu_gem_prime_mmap(struct drm_gem_object *obj,
+>  			  struct vm_area_struct *vma);
+>  
+> diff --git a/drivers/gpu/drm/ast/ast_cursor.c b/drivers/gpu/drm/ast/ast_cursor.c
+> index e0f4613918ad..459a3774e4e1 100644
+> --- a/drivers/gpu/drm/ast/ast_cursor.c
+> +++ b/drivers/gpu/drm/ast/ast_cursor.c
+> @@ -39,7 +39,7 @@ static void ast_cursor_fini(struct ast_private *ast)
+>  
+>  	for (i = 0; i < ARRAY_SIZE(ast->cursor.gbo); ++i) {
+>  		gbo = ast->cursor.gbo[i];
+> -		drm_gem_vram_vunmap(gbo, ast->cursor.vaddr[i]);
+> +		drm_gem_vram_vunmap(gbo, &ast->cursor.map[i]);
+>  		drm_gem_vram_unpin(gbo);
+>  		drm_gem_vram_put(gbo);
+>  	}
+> @@ -60,7 +60,7 @@ int ast_cursor_init(struct ast_private *ast)
+>  	struct drm_device *dev = &ast->base;
+>  	size_t size, i;
+>  	struct drm_gem_vram_object *gbo;
+> -	void __iomem *vaddr;
+> +	struct dma_buf_map map;
+>  	int ret;
+>  
+>  	size = roundup(AST_HWC_SIZE + AST_HWC_SIGNATURE_SIZE, PAGE_SIZE);
+> @@ -77,16 +77,15 @@ int ast_cursor_init(struct ast_private *ast)
+>  			drm_gem_vram_put(gbo);
+>  			goto err_drm_gem_vram_put;
+>  		}
+> -		vaddr = drm_gem_vram_vmap(gbo);
+> -		if (IS_ERR(vaddr)) {
+> -			ret = PTR_ERR(vaddr);
+> +		ret = drm_gem_vram_vmap(gbo, &map);
+> +		if (ret) {
+>  			drm_gem_vram_unpin(gbo);
+>  			drm_gem_vram_put(gbo);
+>  			goto err_drm_gem_vram_put;
+>  		}
+>  
+>  		ast->cursor.gbo[i] = gbo;
+> -		ast->cursor.vaddr[i] = vaddr;
+> +		ast->cursor.map[i] = map;
+>  	}
+>  
+>  	return drmm_add_action_or_reset(dev, ast_cursor_release, NULL);
+> @@ -95,7 +94,7 @@ int ast_cursor_init(struct ast_private *ast)
+>  	while (i) {
+>  		--i;
+>  		gbo = ast->cursor.gbo[i];
+> -		drm_gem_vram_vunmap(gbo, ast->cursor.vaddr[i]);
+> +		drm_gem_vram_vunmap(gbo, &ast->cursor.map[i]);
+>  		drm_gem_vram_unpin(gbo);
+>  		drm_gem_vram_put(gbo);
+>  	}
+> @@ -170,8 +169,8 @@ int ast_cursor_blit(struct ast_private *ast, struct drm_framebuffer *fb)
+>  {
+>  	struct drm_device *dev = &ast->base;
+>  	struct drm_gem_vram_object *gbo;
+> +	struct dma_buf_map map;
+>  	int ret;
+> -	void *src;
+>  	void __iomem *dst;
+>  
+>  	if (drm_WARN_ON_ONCE(dev, fb->width > AST_MAX_HWC_WIDTH) ||
+> @@ -183,18 +182,16 @@ int ast_cursor_blit(struct ast_private *ast, struct drm_framebuffer *fb)
+>  	ret = drm_gem_vram_pin(gbo, 0);
+>  	if (ret)
+>  		return ret;
+> -	src = drm_gem_vram_vmap(gbo);
+> -	if (IS_ERR(src)) {
+> -		ret = PTR_ERR(src);
+> +	ret = drm_gem_vram_vmap(gbo, &map);
+> +	if (ret)
+>  		goto err_drm_gem_vram_unpin;
+> -	}
+>  
+> -	dst = ast->cursor.vaddr[ast->cursor.next_index];
+> +	dst = ast->cursor.map[ast->cursor.next_index].vaddr_iomem;
+>  
+>  	/* do data transfer to cursor BO */
+> -	update_cursor_image(dst, src, fb->width, fb->height);
+> +	update_cursor_image(dst, map.vaddr, fb->width, fb->height);
+
+I don't think digging around in the pointer is a good idea, imo this
+should get a 
+
+	/* TODO: Use mapping abstraction properly */
+
+or similar. Same for all the other usage for map.vaddr added to drivers
+below (the stuff in helpers that the next patches will change again I
+think you can leave as-is, it'll go away).
+
+I'm also wondering whether we should prefix all members of struct
+dma_buf_map with _ to make it clear they shouldn't be touched, so
+map._vaddr and map._is_iomem.
+
+Also todo.rst entry for all these, there's a lot from looking throught
+this patch.
+
+>  
+> -	drm_gem_vram_vunmap(gbo, src);
+> +	drm_gem_vram_vunmap(gbo, &map);
+>  	drm_gem_vram_unpin(gbo);
+>  
+>  	return 0;
+> @@ -257,7 +254,7 @@ void ast_cursor_show(struct ast_private *ast, int x, int y,
+>  	u8 __iomem *sig;
+>  	u8 jreg;
+>  
+> -	dst = ast->cursor.vaddr[ast->cursor.next_index];
+> +	dst = ast->cursor.map[ast->cursor.next_index].vaddr;
+>  
+>  	sig = dst + AST_HWC_SIZE;
+>  	writel(x, sig + AST_HWC_SIGNATURE_X);
+> diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
+> index 467049ca8430..f963141dd851 100644
+> --- a/drivers/gpu/drm/ast/ast_drv.h
+> +++ b/drivers/gpu/drm/ast/ast_drv.h
+> @@ -28,10 +28,11 @@
+>  #ifndef __AST_DRV_H__
+>  #define __AST_DRV_H__
+>  
+> -#include <linux/types.h>
+> -#include <linux/io.h>
+> +#include <linux/dma-buf-map.h>
+>  #include <linux/i2c.h>
+>  #include <linux/i2c-algo-bit.h>
+> +#include <linux/io.h>
+> +#include <linux/types.h>
+>  
+>  #include <drm/drm_connector.h>
+>  #include <drm/drm_crtc.h>
+> @@ -131,7 +132,7 @@ struct ast_private {
+>  
+>  	struct {
+>  		struct drm_gem_vram_object *gbo[AST_DEFAULT_HWC_NUM];
+> -		void __iomem *vaddr[AST_DEFAULT_HWC_NUM];
+> +		struct dma_buf_map map[AST_DEFAULT_HWC_NUM];
+>  		unsigned int next_index;
+>  	} cursor;
+>  
+> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+> index 1da67d34e55d..0c4a66dea5c2 100644
+> --- a/drivers/gpu/drm/drm_gem.c
+> +++ b/drivers/gpu/drm/drm_gem.c
+> @@ -1207,26 +1207,30 @@ void drm_gem_unpin(struct drm_gem_object *obj)
+>  
+>  void *drm_gem_vmap(struct drm_gem_object *obj)
+>  {
+> -	void *vaddr;
+> +	struct dma_buf_map map;
+> +	int ret;
+>  
+> -	if (obj->funcs->vmap)
+> -		vaddr = obj->funcs->vmap(obj);
+> -	else
+> -		vaddr = ERR_PTR(-EOPNOTSUPP);
+> +	if (!obj->funcs->vmap) {
+> +		return ERR_PTR(-EOPNOTSUPP);
+>  
+> -	if (!vaddr)
+> -		vaddr = ERR_PTR(-ENOMEM);
+> +	ret = obj->funcs->vmap(obj, &map);
+> +	if (ret)
+> +		return ERR_PTR(ret);
+> +	else if (dma_buf_map_is_null(&map))
+> +		return ERR_PTR(-ENOMEM);
+>  
+> -	return vaddr;
+> +	return map.vaddr;
+>  }
+>  
+>  void drm_gem_vunmap(struct drm_gem_object *obj, void *vaddr)
+>  {
+> +	struct dma_buf_map map = DMA_BUF_MAP_INIT_VADDR(vaddr);
+> +
+>  	if (!vaddr)
+>  		return;
+>  
+>  	if (obj->funcs->vunmap)
+> -		obj->funcs->vunmap(obj, vaddr);
+> +		obj->funcs->vunmap(obj, &map);
+>  }
+>  
+>  /**
+> diff --git a/drivers/gpu/drm/drm_gem_cma_helper.c b/drivers/gpu/drm/drm_gem_cma_helper.c
+> index 2165633c9b9e..e87cd36518d3 100644
+> --- a/drivers/gpu/drm/drm_gem_cma_helper.c
+> +++ b/drivers/gpu/drm/drm_gem_cma_helper.c
+> @@ -519,6 +519,8 @@ EXPORT_SYMBOL_GPL(drm_gem_cma_prime_mmap);
+>   * drm_gem_cma_prime_vmap - map a CMA GEM object into the kernel's virtual
+>   *     address space
+>   * @obj: GEM object
+> + * @map: Returns the kernel virtual address of the CMA GEM object's backing
+> + *       store.
+>   *
+>   * This function maps a buffer exported via DRM PRIME into the kernel's
+>   * virtual address space. Since the CMA buffers are already mapped into the
+> @@ -527,13 +529,15 @@ EXPORT_SYMBOL_GPL(drm_gem_cma_prime_mmap);
+>   * driver's &drm_gem_object_funcs.vmap callback.
+>   *
+>   * Returns:
+> - * The kernel virtual address of the CMA GEM object's backing store.
+> + * 0 on success, or a negative error code otherwise.
+>   */
+> -void *drm_gem_cma_prime_vmap(struct drm_gem_object *obj)
+> +int drm_gem_cma_prime_vmap(struct drm_gem_object *obj, struct dma_buf_map *map)
+>  {
+>  	struct drm_gem_cma_object *cma_obj = to_drm_gem_cma_obj(obj);
+>  
+> -	return cma_obj->vaddr;
+> +	dma_buf_map_set_vaddr(map, cma_obj->vaddr);
+> +
+> +	return 0;
+>  }
+>  EXPORT_SYMBOL_GPL(drm_gem_cma_prime_vmap);
+>  
+> @@ -541,14 +545,14 @@ EXPORT_SYMBOL_GPL(drm_gem_cma_prime_vmap);
+>   * drm_gem_cma_prime_vunmap - unmap a CMA GEM object from the kernel's virtual
+>   *     address space
+>   * @obj: GEM object
+> - * @vaddr: kernel virtual address where the CMA GEM object was mapped
+> + * @map: Kernel virtual address where the CMA GEM object was mapped
+>   *
+>   * This function removes a buffer exported via DRM PRIME from the kernel's
+>   * virtual address space. This is a no-op because CMA buffers cannot be
+>   * unmapped from kernel space. Drivers using the CMA helpers should set this
+>   * as their &drm_gem_object_funcs.vunmap callback.
+>   */
+> -void drm_gem_cma_prime_vunmap(struct drm_gem_object *obj, void *vaddr)
+> +void drm_gem_cma_prime_vunmap(struct drm_gem_object *obj, struct dma_buf_map *map)
+>  {
+>  	/* Nothing to do */
+>  }
+> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> index fb11df7aced5..5553f58f68f3 100644
+> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
+> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> @@ -258,19 +258,25 @@ void drm_gem_shmem_unpin(struct drm_gem_object *obj)
+>  }
+>  EXPORT_SYMBOL(drm_gem_shmem_unpin);
+>  
+> -static void *drm_gem_shmem_vmap_locked(struct drm_gem_shmem_object *shmem)
+> +static int drm_gem_shmem_vmap_locked(struct drm_gem_shmem_object *shmem, struct dma_buf_map *map)
+>  {
+>  	struct drm_gem_object *obj = &shmem->base;
+> -	struct dma_buf_map map;
+>  	int ret = 0;
+>  
+> -	if (shmem->vmap_use_count++ > 0)
+> -		return shmem->vaddr;
+> +	if (shmem->vmap_use_count++ > 0) {
+> +		dma_buf_map_set_vaddr(map, shmem->vaddr);
+> +		return 0;
+> +	}
+>  
+>  	if (obj->import_attach) {
+> -		ret = dma_buf_vmap(obj->import_attach->dmabuf, &map);
+> -		if (!ret)
+> -			shmem->vaddr = map.vaddr;
+> +		ret = dma_buf_vmap(obj->import_attach->dmabuf, map);
+> +		if (!ret) {
+> +			if (WARN_ON(map->is_iomem)) {
+> +				ret = -EIO;
+> +				goto err_put_pages;
+> +			}
+> +			shmem->vaddr = map->vaddr;
+> +		}
+>  	} else {
+>  		pgprot_t prot = PAGE_KERNEL;
+>  
+> @@ -284,6 +290,8 @@ static void *drm_gem_shmem_vmap_locked(struct drm_gem_shmem_object *shmem)
+>  				    VM_MAP, prot);
+>  		if (!shmem->vaddr)
+>  			ret = -ENOMEM;
+> +		else
+> +			dma_buf_map_set_vaddr(map, shmem->vaddr);
+>  	}
+>  
+>  	if (ret) {
+> @@ -291,7 +299,7 @@ static void *drm_gem_shmem_vmap_locked(struct drm_gem_shmem_object *shmem)
+>  		goto err_put_pages;
+>  	}
+>  
+> -	return shmem->vaddr;
+> +	return 0;
+>  
+>  err_put_pages:
+>  	if (!obj->import_attach)
+> @@ -299,12 +307,14 @@ static void *drm_gem_shmem_vmap_locked(struct drm_gem_shmem_object *shmem)
+>  err_zero_use:
+>  	shmem->vmap_use_count = 0;
+>  
+> -	return ERR_PTR(ret);
+> +	return ret;
+>  }
+>  
+>  /*
+>   * drm_gem_shmem_vmap - Create a virtual mapping for a shmem GEM object
+>   * @shmem: shmem GEM object
+> + * @map: Returns the kernel virtual address of the SHMEM GEM object's backing
+> + *       store.
+>   *
+>   * This function makes sure that a contiguous kernel virtual address mapping
+>   * exists for the buffer backing the shmem GEM object.
+> @@ -318,26 +328,25 @@ static void *drm_gem_shmem_vmap_locked(struct drm_gem_shmem_object *shmem)
+>   * Returns:
+>   * 0 on success or a negative error code on failure.
+>   */
+> -void *drm_gem_shmem_vmap(struct drm_gem_object *obj)
+> +int drm_gem_shmem_vmap(struct drm_gem_object *obj, struct dma_buf_map *map)
+>  {
+>  	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
+> -	void *vaddr;
+>  	int ret;
+>  
+>  	ret = mutex_lock_interruptible(&shmem->vmap_lock);
+>  	if (ret)
+> -		return ERR_PTR(ret);
+> -	vaddr = drm_gem_shmem_vmap_locked(shmem);
+> +		return ret;
+> +	ret = drm_gem_shmem_vmap_locked(shmem, map);
+>  	mutex_unlock(&shmem->vmap_lock);
+>  
+> -	return vaddr;
+> +	return ret;
+>  }
+>  EXPORT_SYMBOL(drm_gem_shmem_vmap);
+>  
+> -static void drm_gem_shmem_vunmap_locked(struct drm_gem_shmem_object *shmem)
+> +static void drm_gem_shmem_vunmap_locked(struct drm_gem_shmem_object *shmem,
+> +					struct dma_buf_map *map)
+>  {
+>  	struct drm_gem_object *obj = &shmem->base;
+> -	struct dma_buf_map map = DMA_BUF_MAP_INIT_VADDR(shmem->vaddr);
+>  
+>  	if (WARN_ON_ONCE(!shmem->vmap_use_count))
+>  		return;
+> @@ -346,7 +355,7 @@ static void drm_gem_shmem_vunmap_locked(struct drm_gem_shmem_object *shmem)
+>  		return;
+>  
+>  	if (obj->import_attach)
+> -		dma_buf_vunmap(obj->import_attach->dmabuf, &map);
+> +		dma_buf_vunmap(obj->import_attach->dmabuf, map);
+>  	else
+>  		vunmap(shmem->vaddr);
+>  
+> @@ -357,6 +366,7 @@ static void drm_gem_shmem_vunmap_locked(struct drm_gem_shmem_object *shmem)
+>  /*
+>   * drm_gem_shmem_vunmap - Unmap a virtual mapping fo a shmem GEM object
+>   * @shmem: shmem GEM object
+> + * @map: Kernel virtual address where the SHMEM GEM object was mapped
+>   *
+>   * This function cleans up a kernel virtual address mapping acquired by
+>   * drm_gem_shmem_vmap(). The mapping is only removed when the use count drops to
+> @@ -366,12 +376,12 @@ static void drm_gem_shmem_vunmap_locked(struct drm_gem_shmem_object *shmem)
+>   * also be called by drivers directly, in which case it will hide the
+>   * differences between dma-buf imported and natively allocated objects.
+>   */
+> -void drm_gem_shmem_vunmap(struct drm_gem_object *obj, void *vaddr)
+> +void drm_gem_shmem_vunmap(struct drm_gem_object *obj, struct dma_buf_map *map)
+>  {
+>  	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
+>  
+>  	mutex_lock(&shmem->vmap_lock);
+> -	drm_gem_shmem_vunmap_locked(shmem);
+> +	drm_gem_shmem_vunmap_locked(shmem, map);
+>  	mutex_unlock(&shmem->vmap_lock);
+>  }
+>  EXPORT_SYMBOL(drm_gem_shmem_vunmap);
+> diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_gem_vram_helper.c
+> index 256b346664f2..6a5b932e0d06 100644
+> --- a/drivers/gpu/drm/drm_gem_vram_helper.c
+> +++ b/drivers/gpu/drm/drm_gem_vram_helper.c
+> @@ -1,5 +1,6 @@
+>  // SPDX-License-Identifier: GPL-2.0-or-later
+>  
+> +#include <linux/dma-buf-map.h>
+>  #include <linux/module.h>
+>  
+>  #include <drm/drm_debugfs.h>
+> @@ -382,11 +383,11 @@ int drm_gem_vram_unpin(struct drm_gem_vram_object *gbo)
+>  }
+>  EXPORT_SYMBOL(drm_gem_vram_unpin);
+>  
+> -static void *drm_gem_vram_kmap_locked(struct drm_gem_vram_object *gbo)
+> +static int drm_gem_vram_kmap_locked(struct drm_gem_vram_object *gbo,
+> +				    struct dma_buf_map *map)
+>  {
+>  	int ret;
+>  	struct ttm_bo_kmap_obj *kmap = &gbo->kmap;
+> -	bool is_iomem;
+>  
+>  	if (gbo->kmap_use_count > 0)
+>  		goto out;
+> @@ -396,17 +397,30 @@ static void *drm_gem_vram_kmap_locked(struct drm_gem_vram_object *gbo)
+>  
+>  	ret = ttm_bo_kmap(&gbo->bo, 0, gbo->bo.num_pages, kmap);
+>  	if (ret)
+> -		return ERR_PTR(ret);
+> +		return ret;
+>  
+>  out:
+> -	if (!kmap->virtual)
+> -		return NULL; /* not mapped; don't increment ref */
+> +	if (!kmap->virtual) {
+> +		dma_buf_map_clear(map);
+> +		return 0; /* not mapped; don't increment ref */
+> +	}
+>  	++gbo->kmap_use_count;
+> -	return ttm_kmap_obj_virtual(kmap, &is_iomem);
+> +	ttm_kmap_obj_to_dma_buf_map(kmap, map);
+> +	return 0;
+>  }
+>  
+> -static void drm_gem_vram_kunmap_locked(struct drm_gem_vram_object *gbo)
+> +static void drm_gem_vram_kunmap_locked(struct drm_gem_vram_object *gbo,
+> +				       struct dma_buf_map *map)
+>  {
+> +	struct drm_device *dev = gbo->bo.base.dev;
+> +	struct ttm_bo_kmap_obj *kmap = &gbo->kmap;
+> +	struct dma_buf_map kmap_map;
+> +
+> +	ttm_kmap_obj_to_dma_buf_map(kmap, &kmap_map);
+> +
+> +	if (drm_WARN_ON_ONCE(dev, !dma_buf_map_is_equal(&kmap_map, map)))
+> +		return; /* BUG: map not mapped from this BO */
+> +
+>  	if (WARN_ON_ONCE(!gbo->kmap_use_count))
+>  		return;
+>  	if (--gbo->kmap_use_count > 0)
+> @@ -423,7 +437,9 @@ static void drm_gem_vram_kunmap_locked(struct drm_gem_vram_object *gbo)
+>  /**
+>   * drm_gem_vram_vmap() - Pins and maps a GEM VRAM object into kernel address
+>   *                       space
+> - * @gbo:	The GEM VRAM object to map
+> + * @gbo: The GEM VRAM object to map
+> + * @map: Returns the kernel virtual address of the VRAM GEM object's backing
+> + *       store.
+>   *
+>   * The vmap function pins a GEM VRAM object to its current location, either
+>   * system or video memory, and maps its buffer into kernel address space.
+> @@ -432,48 +448,44 @@ static void drm_gem_vram_kunmap_locked(struct drm_gem_vram_object *gbo)
+>   * unmap and unpin the GEM VRAM object.
+>   *
+>   * Returns:
+> - * The buffer's virtual address on success, or
+> - * an ERR_PTR()-encoded error code otherwise.
+> + * 0 on success, or a negative error code otherwise.
+>   */
+> -void *drm_gem_vram_vmap(struct drm_gem_vram_object *gbo)
+> +int drm_gem_vram_vmap(struct drm_gem_vram_object *gbo, struct dma_buf_map *map)
+>  {
+>  	int ret;
+> -	void *base;
+>  
+>  	ret = ttm_bo_reserve(&gbo->bo, true, false, NULL);
+>  	if (ret)
+> -		return ERR_PTR(ret);
+> +		return ret;
+>  
+>  	ret = drm_gem_vram_pin_locked(gbo, 0);
+>  	if (ret)
+>  		goto err_ttm_bo_unreserve;
+> -	base = drm_gem_vram_kmap_locked(gbo);
+> -	if (IS_ERR(base)) {
+> -		ret = PTR_ERR(base);
+> +	ret = drm_gem_vram_kmap_locked(gbo, map);
+> +	if (ret)
+>  		goto err_drm_gem_vram_unpin_locked;
+> -	}
+>  
+>  	ttm_bo_unreserve(&gbo->bo);
+>  
+> -	return base;
+> +	return 0;
+>  
+>  err_drm_gem_vram_unpin_locked:
+>  	drm_gem_vram_unpin_locked(gbo);
+>  err_ttm_bo_unreserve:
+>  	ttm_bo_unreserve(&gbo->bo);
+> -	return ERR_PTR(ret);
+> +	return ret;
+>  }
+>  EXPORT_SYMBOL(drm_gem_vram_vmap);
+>  
+>  /**
+>   * drm_gem_vram_vunmap() - Unmaps and unpins a GEM VRAM object
+> - * @gbo:	The GEM VRAM object to unmap
+> - * @vaddr:	The mapping's base address as returned by drm_gem_vram_vmap()
+> + * @gbo: The GEM VRAM object to unmap
+> + * @map: Kernel virtual address where the VRAM GEM object was mapped
+>   *
+>   * A call to drm_gem_vram_vunmap() unmaps and unpins a GEM VRAM buffer. See
+>   * the documentation for drm_gem_vram_vmap() for more information.
+>   */
+> -void drm_gem_vram_vunmap(struct drm_gem_vram_object *gbo, void *vaddr)
+> +void drm_gem_vram_vunmap(struct drm_gem_vram_object *gbo, struct dma_buf_map *map)
+>  {
+>  	int ret;
+>  
+> @@ -481,7 +493,7 @@ void drm_gem_vram_vunmap(struct drm_gem_vram_object *gbo, void *vaddr)
+>  	if (WARN_ONCE(ret, "ttm_bo_reserve_failed(): ret=%d\n", ret))
+>  		return;
+>  
+> -	drm_gem_vram_kunmap_locked(gbo);
+> +	drm_gem_vram_kunmap_locked(gbo, map);
+>  	drm_gem_vram_unpin_locked(gbo);
+>  
+>  	ttm_bo_unreserve(&gbo->bo);
+> @@ -829,37 +841,33 @@ static void drm_gem_vram_object_unpin(struct drm_gem_object *gem)
+>  }
+>  
+>  /**
+> - * drm_gem_vram_object_vmap() - \
+> -	Implements &struct drm_gem_object_funcs.vmap
+> - * @gem:	The GEM object to map
+> + * drm_gem_vram_object_vmap() -
+> + *	Implements &struct drm_gem_object_funcs.vmap
+> + * @gem: The GEM object to map
+> + * @map: Returns the kernel virtual address of the VRAM GEM object's backing
+> + *       store.
+>   *
+>   * Returns:
+> - * The buffers virtual address on success, or
+> - * NULL otherwise.
+> + * 0 on success, or a negative error code otherwise.
+>   */
+> -static void *drm_gem_vram_object_vmap(struct drm_gem_object *gem)
+> +static int drm_gem_vram_object_vmap(struct drm_gem_object *gem, struct dma_buf_map *map)
+>  {
+>  	struct drm_gem_vram_object *gbo = drm_gem_vram_of_gem(gem);
+> -	void *base;
+>  
+> -	base = drm_gem_vram_vmap(gbo);
+> -	if (IS_ERR(base))
+> -		return NULL;
+> -	return base;
+> +	return drm_gem_vram_vmap(gbo, map);
+>  }
+>  
+>  /**
+> - * drm_gem_vram_object_vunmap() - \
+> -	Implements &struct drm_gem_object_funcs.vunmap
+> - * @gem:	The GEM object to unmap
+> - * @vaddr:	The mapping's base address
+> + * drm_gem_vram_object_vunmap() -
+> + *	Implements &struct drm_gem_object_funcs.vunmap
+> + * @gem: The GEM object to unmap
+> + * @map: Kernel virtual address where the VRAM GEM object was mapped
+>   */
+> -static void drm_gem_vram_object_vunmap(struct drm_gem_object *gem,
+> -				       void *vaddr)
+> +static void drm_gem_vram_object_vunmap(struct drm_gem_object *gem, struct dma_buf_map *map)
+>  {
+>  	struct drm_gem_vram_object *gbo = drm_gem_vram_of_gem(gem);
+>  
+> -	drm_gem_vram_vunmap(gbo, vaddr);
+> +	drm_gem_vram_vunmap(gbo, map);
+>  }
+>  
+>  /*
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.h b/drivers/gpu/drm/etnaviv/etnaviv_drv.h
+> index 914f0867ff71..3d1eb8065fce 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.h
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.h
+> @@ -51,8 +51,8 @@ int etnaviv_ioctl_gem_submit(struct drm_device *dev, void *data,
+>  int etnaviv_gem_mmap(struct file *filp, struct vm_area_struct *vma);
+>  int etnaviv_gem_mmap_offset(struct drm_gem_object *obj, u64 *offset);
+>  struct sg_table *etnaviv_gem_prime_get_sg_table(struct drm_gem_object *obj);
+> -void *etnaviv_gem_prime_vmap(struct drm_gem_object *obj);
+> -void etnaviv_gem_prime_vunmap(struct drm_gem_object *obj, void *vaddr);
+> +int etnaviv_gem_prime_vmap(struct drm_gem_object *obj, struct dma_buf_map *map);
+> +void etnaviv_gem_prime_vunmap(struct drm_gem_object *obj, struct dma_buf_map *map);
+>  int etnaviv_gem_prime_mmap(struct drm_gem_object *obj,
+>  			   struct vm_area_struct *vma);
+>  struct drm_gem_object *etnaviv_gem_prime_import_sg_table(struct drm_device *dev,
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
+> index 135fbff6fecf..36c03e287e29 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
+> @@ -22,12 +22,17 @@ struct sg_table *etnaviv_gem_prime_get_sg_table(struct drm_gem_object *obj)
+>  	return drm_prime_pages_to_sg(obj->dev, etnaviv_obj->pages, npages);
+>  }
+>  
+> -void *etnaviv_gem_prime_vmap(struct drm_gem_object *obj)
+> +int etnaviv_gem_prime_vmap(struct drm_gem_object *obj, struct dma_buf_map *map)
+>  {
+> -	return etnaviv_gem_vmap(obj);
+> +	void *vaddr = etnaviv_gem_vmap(obj);
+> +	if (!vaddr)
+> +		return -ENOMEM;
+> +	dma_buf_map_set_vaddr(map, vaddr);
+> +
+> +	return 0;
+>  }
+>  
+> -void etnaviv_gem_prime_vunmap(struct drm_gem_object *obj, void *vaddr)
+> +void etnaviv_gem_prime_vunmap(struct drm_gem_object *obj, struct dma_buf_map *map)
+>  {
+>  	/* TODO msm_gem_vunmap() */
+>  }
+> diff --git a/drivers/gpu/drm/exynos/exynos_drm_gem.c b/drivers/gpu/drm/exynos/exynos_drm_gem.c
+> index e7a6eb96f692..2c74e06669fa 100644
+> --- a/drivers/gpu/drm/exynos/exynos_drm_gem.c
+> +++ b/drivers/gpu/drm/exynos/exynos_drm_gem.c
+> @@ -471,12 +471,12 @@ exynos_drm_gem_prime_import_sg_table(struct drm_device *dev,
+>  	return &exynos_gem->base;
+>  }
+>  
+> -void *exynos_drm_gem_prime_vmap(struct drm_gem_object *obj)
+> +int exynos_drm_gem_prime_vmap(struct drm_gem_object *obj, struct dma_buf_map *map)
+>  {
+> -	return NULL;
+> +	return -ENOMEM;
+>  }
+>  
+> -void exynos_drm_gem_prime_vunmap(struct drm_gem_object *obj, void *vaddr)
+> +void exynos_drm_gem_prime_vunmap(struct drm_gem_object *obj, struct dma_buf_map *map)
+>  {
+>  	/* Nothing to do */
+>  }
+
+Might want to just start out with a patch to delete these. We don't keep
+dummy functions around generally.
+
+> diff --git a/drivers/gpu/drm/exynos/exynos_drm_gem.h b/drivers/gpu/drm/exynos/exynos_drm_gem.h
+> index 74e926abeff0..ecfd048fd91d 100644
+> --- a/drivers/gpu/drm/exynos/exynos_drm_gem.h
+> +++ b/drivers/gpu/drm/exynos/exynos_drm_gem.h
+> @@ -107,8 +107,8 @@ struct drm_gem_object *
+>  exynos_drm_gem_prime_import_sg_table(struct drm_device *dev,
+>  				     struct dma_buf_attachment *attach,
+>  				     struct sg_table *sgt);
+> -void *exynos_drm_gem_prime_vmap(struct drm_gem_object *obj);
+> -void exynos_drm_gem_prime_vunmap(struct drm_gem_object *obj, void *vaddr);
+> +int exynos_drm_gem_prime_vmap(struct drm_gem_object *obj, struct dma_buf_map *map);
+> +void exynos_drm_gem_prime_vunmap(struct drm_gem_object *obj, struct dma_buf_map *map);
+>  int exynos_drm_gem_prime_mmap(struct drm_gem_object *obj,
+>  			      struct vm_area_struct *vma);
+>  
+> diff --git a/drivers/gpu/drm/lima/lima_gem.c b/drivers/gpu/drm/lima/lima_gem.c
+> index 11223fe348df..832e5280a6ed 100644
+> --- a/drivers/gpu/drm/lima/lima_gem.c
+> +++ b/drivers/gpu/drm/lima/lima_gem.c
+> @@ -182,14 +182,14 @@ static int lima_gem_pin(struct drm_gem_object *obj)
+>  	return drm_gem_shmem_pin(obj);
+>  }
+>  
+> -static void *lima_gem_vmap(struct drm_gem_object *obj)
+> +static int lima_gem_vmap(struct drm_gem_object *obj, struct dma_buf_map *map)
+>  {
+>  	struct lima_bo *bo = to_lima_bo(obj);
+>  
+>  	if (bo->heap_size)
+> -		return ERR_PTR(-EINVAL);
+> +		return -EINVAL;
+>  
+> -	return drm_gem_shmem_vmap(obj);
+> +	return drm_gem_shmem_vmap(obj, map);
+>  }
+>  
+>  static int lima_gem_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma)
+> diff --git a/drivers/gpu/drm/lima/lima_sched.c b/drivers/gpu/drm/lima/lima_sched.c
+> index dc6df9e9a40d..a070a85f8f36 100644
+> --- a/drivers/gpu/drm/lima/lima_sched.c
+> +++ b/drivers/gpu/drm/lima/lima_sched.c
+> @@ -1,6 +1,7 @@
+>  // SPDX-License-Identifier: GPL-2.0 OR MIT
+>  /* Copyright 2017-2019 Qiang Yu <yuq825@gmail.com> */
+>  
+> +#include <linux/dma-buf-map.h>
+>  #include <linux/kthread.h>
+>  #include <linux/slab.h>
+>  #include <linux/vmalloc.h>
+> @@ -303,6 +304,8 @@ static void lima_sched_build_error_task_list(struct lima_sched_task *task)
+>  	struct lima_dump_chunk_buffer *buffer_chunk;
+>  	u32 size, task_size, mem_size;
+>  	int i;
+> +	struct dma_buf_map map;
+> +	int ret;
+>  
+>  	mutex_lock(&dev->error_task_list_lock);
+>  
+> @@ -388,15 +391,15 @@ static void lima_sched_build_error_task_list(struct lima_sched_task *task)
+>  		} else {
+>  			buffer_chunk->size = lima_bo_size(bo);
+>  
+> -			data = drm_gem_shmem_vmap(&bo->base.base);
+> -			if (IS_ERR_OR_NULL(data)) {
+> +			ret = drm_gem_shmem_vmap(&bo->base.base, &map);
+> +			if (ret) {
+>  				kvfree(et);
+>  				goto out;
+>  			}
+>  
+> -			memcpy(buffer_chunk + 1, data, buffer_chunk->size);
+> +			memcpy(buffer_chunk + 1, map.vaddr, buffer_chunk->size);
+>  
+> -			drm_gem_shmem_vunmap(&bo->base.base, data);
+> +			drm_gem_shmem_vunmap(&bo->base.base, &map);
+>  		}
+>  
+>  		buffer_chunk = (void *)(buffer_chunk + 1) + buffer_chunk->size;
+> diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c b/drivers/gpu/drm/mgag200/mgag200_mode.c
+> index 38672f9e5c4f..ae4c8cb33fae 100644
+> --- a/drivers/gpu/drm/mgag200/mgag200_mode.c
+> +++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
+> @@ -9,6 +9,7 @@
+>   */
+>  
+>  #include <linux/delay.h>
+> +#include <linux/dma-buf-map.h>
+>  
+>  #include <drm/drm_atomic_helper.h>
+>  #include <drm/drm_atomic_state_helper.h>
+> @@ -1556,15 +1557,16 @@ mgag200_handle_damage(struct mga_device *mdev, struct drm_framebuffer *fb,
+>  		      struct drm_rect *clip)
+>  {
+>  	struct drm_device *dev = &mdev->base;
+> -	void *vmap;
+> +	struct dma_buf_map map;
+> +	int ret;
+>  
+> -	vmap = drm_gem_shmem_vmap(fb->obj[0]);
+> -	if (drm_WARN_ON(dev, !vmap))
+> +	ret = drm_gem_shmem_vmap(fb->obj[0], &map);
+> +	if (drm_WARN_ON(dev, ret))
+>  		return; /* BUG: SHMEM BO should always be vmapped */
+>  
+> -	drm_fb_memcpy_dstclip(mdev->vram, vmap, fb, clip);
+> +	drm_fb_memcpy_dstclip(mdev->vram, map.vaddr, fb, clip);
+>  
+> -	drm_gem_shmem_vunmap(fb->obj[0], vmap);
+> +	drm_gem_shmem_vunmap(fb->obj[0], &map);
+>  
+>  	/* Always scanout image at VRAM offset 0 */
+>  	mgag200_set_startadd(mdev, (u32)0);
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_gem.h b/drivers/gpu/drm/nouveau/nouveau_gem.h
+> index b35c180322e2..e780b6b1763d 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_gem.h
+> +++ b/drivers/gpu/drm/nouveau/nouveau_gem.h
+> @@ -37,7 +37,7 @@ extern void nouveau_gem_prime_unpin(struct drm_gem_object *);
+>  extern struct sg_table *nouveau_gem_prime_get_sg_table(struct drm_gem_object *);
+>  extern struct drm_gem_object *nouveau_gem_prime_import_sg_table(
+>  	struct drm_device *, struct dma_buf_attachment *, struct sg_table *);
+> -extern void *nouveau_gem_prime_vmap(struct drm_gem_object *);
+> -extern void nouveau_gem_prime_vunmap(struct drm_gem_object *, void *);
+> +extern int nouveau_gem_prime_vmap(struct drm_gem_object *obj, struct dma_buf_map *map);
+> +extern void nouveau_gem_prime_vunmap(struct drm_gem_object *obj, struct dma_buf_map *map);
+>  
+>  #endif
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_prime.c b/drivers/gpu/drm/nouveau/nouveau_prime.c
+> index a8264aebf3d4..75e973a5675a 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_prime.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_prime.c
+> @@ -35,7 +35,7 @@ struct sg_table *nouveau_gem_prime_get_sg_table(struct drm_gem_object *obj)
+>  	return drm_prime_pages_to_sg(obj->dev, nvbo->bo.ttm->pages, npages);
+>  }
+>  
+> -void *nouveau_gem_prime_vmap(struct drm_gem_object *obj)
+> +int nouveau_gem_prime_vmap(struct drm_gem_object *obj, struct dma_buf_map *map)
+>  {
+>  	struct nouveau_bo *nvbo = nouveau_gem_object(obj);
+>  	int ret;
+> @@ -43,12 +43,13 @@ void *nouveau_gem_prime_vmap(struct drm_gem_object *obj)
+>  	ret = ttm_bo_kmap(&nvbo->bo, 0, nvbo->bo.num_pages,
+>  			  &nvbo->dma_buf_vmap);
+>  	if (ret)
+> -		return ERR_PTR(ret);
+> +		return ret;
+> +	ttm_kmap_obj_to_dma_buf_map(&nvbo->dma_buf_vmap, map);
+>  
+> -	return nvbo->dma_buf_vmap.virtual;
+> +	return 0;
+>  }
+>  
+> -void nouveau_gem_prime_vunmap(struct drm_gem_object *obj, void *vaddr)
+> +void nouveau_gem_prime_vunmap(struct drm_gem_object *obj, struct dma_buf_map *map)
+>  {
+>  	struct nouveau_bo *nvbo = nouveau_gem_object(obj);
+>  
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_perfcnt.c b/drivers/gpu/drm/panfrost/panfrost_perfcnt.c
+> index fdbc8d949135..5ab03d605f57 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_perfcnt.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_perfcnt.c
+> @@ -5,6 +5,7 @@
+>  #include <drm/drm_gem_shmem_helper.h>
+>  #include <drm/panfrost_drm.h>
+>  #include <linux/completion.h>
+> +#include <linux/dma-buf-map.h>
+>  #include <linux/iopoll.h>
+>  #include <linux/pm_runtime.h>
+>  #include <linux/slab.h>
+> @@ -72,6 +73,7 @@ static int panfrost_perfcnt_enable_locked(struct panfrost_device *pfdev,
+>  {
+>  	struct panfrost_file_priv *user = file_priv->driver_priv;
+>  	struct panfrost_perfcnt *perfcnt = pfdev->perfcnt;
+> +	struct dma_buf_map map;
+>  	struct drm_gem_shmem_object *bo;
+>  	u32 cfg, as;
+>  	int ret;
+> @@ -103,11 +105,10 @@ static int panfrost_perfcnt_enable_locked(struct panfrost_device *pfdev,
+>  		goto err_close_bo;
+>  	}
+>  
+> -	perfcnt->buf = drm_gem_shmem_vmap(&bo->base);
+> -	if (IS_ERR(perfcnt->buf)) {
+> -		ret = PTR_ERR(perfcnt->buf);
+> +	ret = drm_gem_shmem_vmap(&bo->base, &map);
+> +	if (ret)
+>  		goto err_put_mapping;
+> -	}
+> +	perfcnt->buf = map.vaddr;
+>  
+>  	/*
+>  	 * Invalidate the cache and clear the counters to start from a fresh
+> @@ -163,7 +164,7 @@ static int panfrost_perfcnt_enable_locked(struct panfrost_device *pfdev,
+>  	return 0;
+>  
+>  err_vunmap:
+> -	drm_gem_shmem_vunmap(&bo->base, perfcnt->buf);
+> +	drm_gem_shmem_vunmap(&bo->base, &map);
+>  err_put_mapping:
+>  	panfrost_gem_mapping_put(perfcnt->mapping);
+>  err_close_bo:
+> @@ -180,6 +181,7 @@ static int panfrost_perfcnt_disable_locked(struct panfrost_device *pfdev,
+>  {
+>  	struct panfrost_file_priv *user = file_priv->driver_priv;
+>  	struct panfrost_perfcnt *perfcnt = pfdev->perfcnt;
+> +	struct dma_buf_map map = DMA_BUF_MAP_INIT_VADDR(perfcnt->buf);
+>  
+>  	if (user != perfcnt->user)
+>  		return -EINVAL;
+> @@ -192,7 +194,7 @@ static int panfrost_perfcnt_disable_locked(struct panfrost_device *pfdev,
+>  		  GPU_PERFCNT_CFG_MODE(GPU_PERFCNT_CFG_MODE_OFF));
+>  
+>  	perfcnt->user = NULL;
+> -	drm_gem_shmem_vunmap(&perfcnt->mapping->obj->base.base, perfcnt->buf);
+> +	drm_gem_shmem_vunmap(&perfcnt->mapping->obj->base.base, &map);
+>  	perfcnt->buf = NULL;
+>  	panfrost_gem_close(&perfcnt->mapping->obj->base.base, file_priv);
+>  	panfrost_mmu_as_put(pfdev, perfcnt->mapping->mmu);
+> diff --git a/drivers/gpu/drm/qxl/qxl_display.c b/drivers/gpu/drm/qxl/qxl_display.c
+> index 6063f3a15329..ed0d22fa0161 100644
+> --- a/drivers/gpu/drm/qxl/qxl_display.c
+> +++ b/drivers/gpu/drm/qxl/qxl_display.c
+> @@ -25,6 +25,7 @@
+>  
+>  #include <linux/crc32.h>
+>  #include <linux/delay.h>
+> +#include <linux/dma-buf-map.h>
+>  
+>  #include <drm/drm_drv.h>
+>  #include <drm/drm_atomic.h>
+> @@ -581,7 +582,8 @@ static void qxl_cursor_atomic_update(struct drm_plane *plane,
+>  	struct drm_gem_object *obj;
+>  	struct qxl_bo *cursor_bo = NULL, *user_bo = NULL, *old_cursor_bo = NULL;
+>  	int ret;
+> -	void *user_ptr;
+> +	struct dma_buf_map user_map;
+> +	struct dma_buf_map cursor_map;
+>  	int size = 64*64*4;
+>  
+>  	ret = qxl_alloc_release_reserved(qdev, sizeof(*cmd),
+> @@ -595,7 +597,7 @@ static void qxl_cursor_atomic_update(struct drm_plane *plane,
+>  		user_bo = gem_to_qxl_bo(obj);
+>  
+>  		/* pinning is done in the prepare/cleanup framevbuffer */
+> -		ret = qxl_bo_kmap(user_bo, &user_ptr);
+> +		ret = qxl_bo_kmap(user_bo, &user_map);
+>  		if (ret)
+>  			goto out_free_release;
+>  
+> @@ -613,7 +615,7 @@ static void qxl_cursor_atomic_update(struct drm_plane *plane,
+>  		if (ret)
+>  			goto out_unpin;
+>  
+> -		ret = qxl_bo_kmap(cursor_bo, (void **)&cursor);
+> +		ret = qxl_bo_kmap(cursor_bo, &cursor_map);
+>  		if (ret)
+>  			goto out_backoff;
+>  
+> @@ -627,7 +629,7 @@ static void qxl_cursor_atomic_update(struct drm_plane *plane,
+>  		cursor->chunk.next_chunk = 0;
+>  		cursor->chunk.prev_chunk = 0;
+>  		cursor->chunk.data_size = size;
+> -		memcpy(cursor->chunk.data, user_ptr, size);
+> +		memcpy(cursor->chunk.data, user_map.vaddr, size);
+>  		qxl_bo_kunmap(cursor_bo);
+>  		qxl_bo_kunmap(user_bo);
+>  
+> @@ -1138,6 +1140,7 @@ int qxl_create_monitors_object(struct qxl_device *qdev)
+>  {
+>  	int ret;
+>  	struct drm_gem_object *gobj;
+> +	struct dma_buf_map map;
+>  	int monitors_config_size = sizeof(struct qxl_monitors_config) +
+>  		qxl_num_crtc * sizeof(struct qxl_head);
+>  
+> @@ -1154,7 +1157,7 @@ int qxl_create_monitors_object(struct qxl_device *qdev)
+>  	if (ret)
+>  		return ret;
+>  
+> -	qxl_bo_kmap(qdev->monitors_config_bo, NULL);
+> +	qxl_bo_kmap(qdev->monitors_config_bo, &map);
+>  
+>  	qdev->monitors_config = qdev->monitors_config_bo->kptr;
+>  	qdev->ram_header->monitors_config =
+> diff --git a/drivers/gpu/drm/qxl/qxl_draw.c b/drivers/gpu/drm/qxl/qxl_draw.c
+> index 3599db096973..1bf4f465ecf4 100644
+> --- a/drivers/gpu/drm/qxl/qxl_draw.c
+> +++ b/drivers/gpu/drm/qxl/qxl_draw.c
+> @@ -20,6 +20,8 @@
+>   * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+>   */
+>  
+> +#include <linux/dma-buf-map.h>
+> +
+>  #include <drm/drm_fourcc.h>
+>  
+>  #include "qxl_drv.h"
+> @@ -42,13 +44,15 @@ static struct qxl_rect *drawable_set_clipping(struct qxl_device *qdev,
+>  					      unsigned int num_clips,
+>  					      struct qxl_bo *clips_bo)
+>  {
+> +	struct dma_buf_map map;
+>  	struct qxl_clip_rects *dev_clips;
+>  	int ret;
+>  
+> -	ret = qxl_bo_kmap(clips_bo, (void **)&dev_clips);
+> -	if (ret) {
+> +	ret = qxl_bo_kmap(clips_bo, &map);
+> +	if (ret)
+>  		return NULL;
+> -	}
+> +
+> +	dev_clips = map.vaddr;
+>  	dev_clips->num_rects = num_clips;
+>  	dev_clips->chunk.next_chunk = 0;
+>  	dev_clips->chunk.prev_chunk = 0;
+> @@ -142,7 +146,7 @@ void qxl_draw_dirty_fb(struct qxl_device *qdev,
+>  	int stride = fb->pitches[0];
+>  	/* depth is not actually interesting, we don't mask with it */
+>  	int depth = fb->format->cpp[0] * 8;
+> -	uint8_t *surface_base;
+> +	struct dma_buf_map surface_map;
+>  	struct qxl_release *release;
+>  	struct qxl_bo *clips_bo;
+>  	struct qxl_drm_image *dimage;
+> @@ -197,11 +201,11 @@ void qxl_draw_dirty_fb(struct qxl_device *qdev,
+>  	if (ret)
+>  		goto out_release_backoff;
+>  
+> -	ret = qxl_bo_kmap(bo, (void **)&surface_base);
+> +	ret = qxl_bo_kmap(bo, &surface_map);
+>  	if (ret)
+>  		goto out_release_backoff;
+>  
+> -	ret = qxl_image_init(qdev, release, dimage, surface_base,
+> +	ret = qxl_image_init(qdev, release, dimage, surface_map.vaddr,
+>  			     left - dumb_shadow_offset,
+>  			     top, width, height, depth, stride);
+>  	qxl_bo_kunmap(bo);
+> diff --git a/drivers/gpu/drm/qxl/qxl_drv.h b/drivers/gpu/drm/qxl/qxl_drv.h
+> index 3602e8b34189..a9e9da4f4605 100644
+> --- a/drivers/gpu/drm/qxl/qxl_drv.h
+> +++ b/drivers/gpu/drm/qxl/qxl_drv.h
+> @@ -50,6 +50,8 @@
+>  
+>  #include "qxl_dev.h"
+>  
+> +struct dma_buf_map;
+> +
+>  #define DRIVER_AUTHOR		"Dave Airlie"
+>  
+>  #define DRIVER_NAME		"qxl"
+> @@ -335,7 +337,6 @@ int qxl_gem_object_open(struct drm_gem_object *obj, struct drm_file *file_priv);
+>  void qxl_gem_object_close(struct drm_gem_object *obj,
+>  			  struct drm_file *file_priv);
+>  void qxl_bo_force_delete(struct qxl_device *qdev);
+> -int qxl_bo_kmap(struct qxl_bo *bo, void **ptr);
+>  
+>  /* qxl_dumb.c */
+>  int qxl_mode_dumb_create(struct drm_file *file_priv,
+> @@ -445,8 +446,9 @@ struct sg_table *qxl_gem_prime_get_sg_table(struct drm_gem_object *obj);
+>  struct drm_gem_object *qxl_gem_prime_import_sg_table(
+>  	struct drm_device *dev, struct dma_buf_attachment *attach,
+>  	struct sg_table *sgt);
+> -void *qxl_gem_prime_vmap(struct drm_gem_object *obj);
+> -void qxl_gem_prime_vunmap(struct drm_gem_object *obj, void *vaddr);
+> +int qxl_gem_prime_vmap(struct drm_gem_object *obj, struct dma_buf_map *map);
+> +void qxl_gem_prime_vunmap(struct drm_gem_object *obj,
+> +			  struct dma_buf_map *map);
+>  int qxl_gem_prime_mmap(struct drm_gem_object *obj,
+>  				struct vm_area_struct *vma);
+>  
+> diff --git a/drivers/gpu/drm/qxl/qxl_object.c b/drivers/gpu/drm/qxl/qxl_object.c
+> index d3635e3e3267..2d8ae3b10b1c 100644
+> --- a/drivers/gpu/drm/qxl/qxl_object.c
+> +++ b/drivers/gpu/drm/qxl/qxl_object.c
+> @@ -23,10 +23,12 @@
+>   *          Alon Levy
+>   */
+>  
+> +#include <linux/dma-buf-map.h>
+> +#include <linux/io-mapping.h>
+> +
+>  #include "qxl_drv.h"
+>  #include "qxl_object.h"
+>  
+> -#include <linux/io-mapping.h>
+>  static void qxl_ttm_bo_destroy(struct ttm_buffer_object *tbo)
+>  {
+>  	struct qxl_bo *bo;
+> @@ -150,24 +152,22 @@ int qxl_bo_create(struct qxl_device *qdev,
+>  	return 0;
+>  }
+>  
+> -int qxl_bo_kmap(struct qxl_bo *bo, void **ptr)
+> +int qxl_bo_kmap(struct qxl_bo *bo, struct dma_buf_map *map)
+>  {
+> -	bool is_iomem;
+>  	int r;
+>  
+>  	if (bo->kptr) {
+> -		if (ptr)
+> -			*ptr = bo->kptr;
+>  		bo->map_count++;
+> -		return 0;
+> +		goto out;
+>  	}
+>  	r = ttm_bo_kmap(&bo->tbo, 0, bo->tbo.num_pages, &bo->kmap);
+>  	if (r)
+>  		return r;
+> -	bo->kptr = ttm_kmap_obj_virtual(&bo->kmap, &is_iomem);
+> -	if (ptr)
+> -		*ptr = bo->kptr;
+>  	bo->map_count = 1;
+> +	bo->kptr = bo->kmap.virtual;
+> +
+> +out:
+> +	ttm_kmap_obj_to_dma_buf_map(&bo->kmap, map);
+>  	return 0;
+>  }
+>  
+> @@ -178,6 +178,7 @@ void *qxl_bo_kmap_atomic_page(struct qxl_device *qdev,
+>  	void *rptr;
+>  	int ret;
+>  	struct io_mapping *map;
+> +	struct dma_buf_map bo_map;
+>  
+>  	if (bo->tbo.mem.mem_type == TTM_PL_VRAM)
+>  		map = qdev->vram_mapping;
+> @@ -194,11 +195,11 @@ void *qxl_bo_kmap_atomic_page(struct qxl_device *qdev,
+
+Uh, this fallback is wild. Not exactly sure this is a good idea or
+anything, but also it's here already :-)
+
+>  		return rptr;
+>  	}
+>  
+> -	ret = qxl_bo_kmap(bo, &rptr);
+> +	ret = qxl_bo_kmap(bo, &bo_map);
+>  	if (ret)
+>  		return NULL;
+>  
+> -	rptr += page_offset * PAGE_SIZE;
+> +	rptr = bo_map.vaddr + page_offset * PAGE_SIZE;
+>  	return rptr;
+>  }
+>  
+> diff --git a/drivers/gpu/drm/qxl/qxl_object.h b/drivers/gpu/drm/qxl/qxl_object.h
+> index 09a5c818324d..ebf24c9d2bf2 100644
+> --- a/drivers/gpu/drm/qxl/qxl_object.h
+> +++ b/drivers/gpu/drm/qxl/qxl_object.h
+> @@ -63,7 +63,7 @@ extern int qxl_bo_create(struct qxl_device *qdev,
+>  			 bool kernel, bool pinned, u32 domain,
+>  			 struct qxl_surface *surf,
+>  			 struct qxl_bo **bo_ptr);
+> -extern int qxl_bo_kmap(struct qxl_bo *bo, void **ptr);
+> +extern int qxl_bo_kmap(struct qxl_bo *bo, struct dma_buf_map *map);
+>  extern void qxl_bo_kunmap(struct qxl_bo *bo);
+>  void *qxl_bo_kmap_atomic_page(struct qxl_device *qdev, struct qxl_bo *bo, int page_offset);
+>  void qxl_bo_kunmap_atomic_page(struct qxl_device *qdev, struct qxl_bo *bo, void *map);
+> diff --git a/drivers/gpu/drm/qxl/qxl_prime.c b/drivers/gpu/drm/qxl/qxl_prime.c
+> index 7d3816fca5a8..4aa949799446 100644
+> --- a/drivers/gpu/drm/qxl/qxl_prime.c
+> +++ b/drivers/gpu/drm/qxl/qxl_prime.c
+> @@ -54,20 +54,20 @@ struct drm_gem_object *qxl_gem_prime_import_sg_table(
+>  	return ERR_PTR(-ENOSYS);
+>  }
+>  
+> -void *qxl_gem_prime_vmap(struct drm_gem_object *obj)
+> +int qxl_gem_prime_vmap(struct drm_gem_object *obj, struct dma_buf_map *map)
+>  {
+>  	struct qxl_bo *bo = gem_to_qxl_bo(obj);
+> -	void *ptr;
+>  	int ret;
+>  
+> -	ret = qxl_bo_kmap(bo, &ptr);
+> +	ret = qxl_bo_kmap(bo, map);
+>  	if (ret < 0)
+> -		return ERR_PTR(ret);
+> +		return ret;
+>  
+> -	return ptr;
+> +	return 0;
+>  }
+>  
+> -void qxl_gem_prime_vunmap(struct drm_gem_object *obj, void *vaddr)
+> +void qxl_gem_prime_vunmap(struct drm_gem_object *obj,
+> +			  struct dma_buf_map *map)
+>  {
+>  	struct qxl_bo *bo = gem_to_qxl_bo(obj);
+>  
+> diff --git a/drivers/gpu/drm/radeon/radeon_gem.c b/drivers/gpu/drm/radeon/radeon_gem.c
+> index 0ccd7213e41f..ac51517bdfcd 100644
+> --- a/drivers/gpu/drm/radeon/radeon_gem.c
+> +++ b/drivers/gpu/drm/radeon/radeon_gem.c
+> @@ -40,8 +40,8 @@ struct dma_buf *radeon_gem_prime_export(struct drm_gem_object *gobj,
+>  struct sg_table *radeon_gem_prime_get_sg_table(struct drm_gem_object *obj);
+>  int radeon_gem_prime_pin(struct drm_gem_object *obj);
+>  void radeon_gem_prime_unpin(struct drm_gem_object *obj);
+> -void *radeon_gem_prime_vmap(struct drm_gem_object *obj);
+> -void radeon_gem_prime_vunmap(struct drm_gem_object *obj, void *vaddr);
+> +int radeon_gem_prime_vmap(struct drm_gem_object *obj, struct dma_buf_map *map);
+> +void radeon_gem_prime_vunmap(struct drm_gem_object *obj, struct dma_buf_map *map);
+>  
+>  static const struct drm_gem_object_funcs radeon_gem_object_funcs;
+>  
+> diff --git a/drivers/gpu/drm/radeon/radeon_prime.c b/drivers/gpu/drm/radeon/radeon_prime.c
+> index b9de0e51c0be..a1a358de5448 100644
+> --- a/drivers/gpu/drm/radeon/radeon_prime.c
+> +++ b/drivers/gpu/drm/radeon/radeon_prime.c
+> @@ -39,7 +39,7 @@ struct sg_table *radeon_gem_prime_get_sg_table(struct drm_gem_object *obj)
+>  	return drm_prime_pages_to_sg(obj->dev, bo->tbo.ttm->pages, npages);
+>  }
+>  
+> -void *radeon_gem_prime_vmap(struct drm_gem_object *obj)
+> +int radeon_gem_prime_vmap(struct drm_gem_object *obj, struct dma_buf_map *map)
+>  {
+>  	struct radeon_bo *bo = gem_to_radeon_bo(obj);
+>  	int ret;
+> @@ -47,12 +47,13 @@ void *radeon_gem_prime_vmap(struct drm_gem_object *obj)
+>  	ret = ttm_bo_kmap(&bo->tbo, 0, bo->tbo.num_pages,
+>  			  &bo->dma_buf_vmap);
+>  	if (ret)
+> -		return ERR_PTR(ret);
+> +		return ret;
+> +	ttm_kmap_obj_to_dma_buf_map(&bo->dma_buf_vmap, map);
+>  
+> -	return bo->dma_buf_vmap.virtual;
+> +	return 0;
+>  }
+>  
+> -void radeon_gem_prime_vunmap(struct drm_gem_object *obj, void *vaddr)
+> +void radeon_gem_prime_vunmap(struct drm_gem_object *obj, struct dma_buf_map *map)
+>  {
+>  	struct radeon_bo *bo = gem_to_radeon_bo(obj);
+>  
+> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_gem.c b/drivers/gpu/drm/rockchip/rockchip_drm_gem.c
+> index 7d5ebb10323b..7971f57436dd 100644
+> --- a/drivers/gpu/drm/rockchip/rockchip_drm_gem.c
+> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_gem.c
+> @@ -532,26 +532,32 @@ rockchip_gem_prime_import_sg_table(struct drm_device *drm,
+>  	return ERR_PTR(ret);
+>  }
+>  
+> -void *rockchip_gem_prime_vmap(struct drm_gem_object *obj)
+> +int rockchip_gem_prime_vmap(struct drm_gem_object *obj, struct dma_buf_map *map)
+>  {
+>  	struct rockchip_gem_object *rk_obj = to_rockchip_obj(obj);
+>  
+> -	if (rk_obj->pages)
+> -		return vmap(rk_obj->pages, rk_obj->num_pages, VM_MAP,
+> -			    pgprot_writecombine(PAGE_KERNEL));
+> +	if (rk_obj->pages) {
+> +		void *vaddr = vmap(rk_obj->pages, rk_obj->num_pages, VM_MAP,
+> +				  pgprot_writecombine(PAGE_KERNEL));
+> +		if (!vaddr)
+> +			return -ENOMEM;
+> +		dma_buf_map_set_vaddr(map, vaddr);
+> +		return 0;
+> +	}
+>  
+>  	if (rk_obj->dma_attrs & DMA_ATTR_NO_KERNEL_MAPPING)
+> -		return NULL;
+> +		return -ENOMEM;
+> +	dma_buf_map_set_vaddr(map, rk_obj->kvaddr);
+>  
+> -	return rk_obj->kvaddr;
+> +	return 0;
+>  }
+>  
+> -void rockchip_gem_prime_vunmap(struct drm_gem_object *obj, void *vaddr)
+> +void rockchip_gem_prime_vunmap(struct drm_gem_object *obj, struct dma_buf_map *map)
+>  {
+>  	struct rockchip_gem_object *rk_obj = to_rockchip_obj(obj);
+>  
+>  	if (rk_obj->pages) {
+> -		vunmap(vaddr);
+> +		vunmap(map->vaddr);
+>  		return;
+>  	}
+>  
+> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_gem.h b/drivers/gpu/drm/rockchip/rockchip_drm_gem.h
+> index 7ffc541bea07..5a70a56cd406 100644
+> --- a/drivers/gpu/drm/rockchip/rockchip_drm_gem.h
+> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_gem.h
+> @@ -31,8 +31,8 @@ struct drm_gem_object *
+>  rockchip_gem_prime_import_sg_table(struct drm_device *dev,
+>  				   struct dma_buf_attachment *attach,
+>  				   struct sg_table *sg);
+> -void *rockchip_gem_prime_vmap(struct drm_gem_object *obj);
+> -void rockchip_gem_prime_vunmap(struct drm_gem_object *obj, void *vaddr);
+> +int rockchip_gem_prime_vmap(struct drm_gem_object *obj, struct dma_buf_map *map);
+> +void rockchip_gem_prime_vunmap(struct drm_gem_object *obj, struct dma_buf_map *map);
+>  
+>  /* drm driver mmap file operations */
+>  int rockchip_gem_mmap(struct file *filp, struct vm_area_struct *vma);
+> diff --git a/drivers/gpu/drm/tiny/cirrus.c b/drivers/gpu/drm/tiny/cirrus.c
+> index 744a8e337e41..6dc013f4b236 100644
+> --- a/drivers/gpu/drm/tiny/cirrus.c
+> +++ b/drivers/gpu/drm/tiny/cirrus.c
+> @@ -17,6 +17,7 @@
+>   */
+>  
+>  #include <linux/console.h>
+> +#include <linux/dma-buf-map.h>
+>  #include <linux/module.h>
+>  #include <linux/pci.h>
+>  
+> @@ -314,6 +315,7 @@ static int cirrus_fb_blit_rect(struct drm_framebuffer *fb,
+>  			       struct drm_rect *rect)
+>  {
+>  	struct cirrus_device *cirrus = to_cirrus(fb->dev);
+> +	struct dma_buf_map map;
+>  	void *vmap;
+>  	int idx, ret;
+>  
+> @@ -321,10 +323,10 @@ static int cirrus_fb_blit_rect(struct drm_framebuffer *fb,
+>  	if (!drm_dev_enter(&cirrus->dev, &idx))
+>  		goto out;
+>  
+> -	ret = -ENOMEM;
+> -	vmap = drm_gem_shmem_vmap(fb->obj[0]);
+> -	if (!vmap)
+> +	ret = drm_gem_shmem_vmap(fb->obj[0], &map);
+> +	if (ret)
+>  		goto out_dev_exit;
+> +	vmap = map.vaddr;
+>  
+>  	if (cirrus->cpp == fb->format->cpp[0])
+>  		drm_fb_memcpy_dstclip(cirrus->vram,
+> @@ -343,7 +345,7 @@ static int cirrus_fb_blit_rect(struct drm_framebuffer *fb,
+>  	else
+>  		WARN_ON_ONCE("cpp mismatch");
+>  
+> -	drm_gem_shmem_vunmap(fb->obj[0], vmap);
+> +	drm_gem_shmem_vunmap(fb->obj[0], &map);
+>  	ret = 0;
+>  
+>  out_dev_exit:
+> diff --git a/drivers/gpu/drm/tiny/gm12u320.c b/drivers/gpu/drm/tiny/gm12u320.c
+> index cc397671f689..5865027a1667 100644
+> --- a/drivers/gpu/drm/tiny/gm12u320.c
+> +++ b/drivers/gpu/drm/tiny/gm12u320.c
+> @@ -248,6 +248,7 @@ static void gm12u320_copy_fb_to_blocks(struct gm12u320_device *gm12u320)
+>  {
+>  	int block, dst_offset, len, remain, ret, x1, x2, y1, y2;
+>  	struct drm_framebuffer *fb;
+> +	struct dma_buf_map map;
+>  	void *vaddr;
+>  	u8 *src;
+>  
+> @@ -262,11 +263,12 @@ static void gm12u320_copy_fb_to_blocks(struct gm12u320_device *gm12u320)
+>  	y1 = gm12u320->fb_update.rect.y1;
+>  	y2 = gm12u320->fb_update.rect.y2;
+>  
+> -	vaddr = drm_gem_shmem_vmap(fb->obj[0]);
+> -	if (IS_ERR(vaddr)) {
+> -		GM12U320_ERR("failed to vmap fb: %ld\n", PTR_ERR(vaddr));
+> +	ret = drm_gem_shmem_vmap(fb->obj[0], &map);
+> +	if (ret) {
+> +		GM12U320_ERR("failed to vmap fb: %d\n", ret);
+>  		goto put_fb;
+>  	}
+> +	vaddr = map.vaddr;
+>  
+>  	if (fb->obj[0]->import_attach) {
+>  		ret = dma_buf_begin_cpu_access(
+> @@ -318,7 +320,7 @@ static void gm12u320_copy_fb_to_blocks(struct gm12u320_device *gm12u320)
+>  			GM12U320_ERR("dma_buf_end_cpu_access err: %d\n", ret);
+>  	}
+>  vunmap:
+> -	drm_gem_shmem_vunmap(fb->obj[0], vaddr);
+> +	drm_gem_shmem_vunmap(fb->obj[0], &map);
+>  put_fb:
+>  	drm_framebuffer_put(fb);
+>  	gm12u320->fb_update.fb = NULL;
+> diff --git a/drivers/gpu/drm/udl/udl_modeset.c b/drivers/gpu/drm/udl/udl_modeset.c
+> index fef43f4e3bac..9c8ace1aa647 100644
+> --- a/drivers/gpu/drm/udl/udl_modeset.c
+> +++ b/drivers/gpu/drm/udl/udl_modeset.c
+> @@ -276,6 +276,7 @@ static int udl_handle_damage(struct drm_framebuffer *fb, int x, int y,
+>  	struct urb *urb;
+>  	struct drm_rect clip;
+>  	int log_bpp;
+> +	struct dma_buf_map map;
+>  	void *vaddr;
+>  
+>  	ret = udl_log_cpp(fb->format->cpp[0]);
+> @@ -296,11 +297,12 @@ static int udl_handle_damage(struct drm_framebuffer *fb, int x, int y,
+>  			return ret;
+>  	}
+>  
+> -	vaddr = drm_gem_shmem_vmap(fb->obj[0]);
+> -	if (IS_ERR(vaddr)) {
+> +	ret = drm_gem_shmem_vmap(fb->obj[0], &map);
+> +	if (ret) {
+>  		DRM_ERROR("failed to vmap fb\n");
+>  		goto out_dma_buf_end_cpu_access;
+>  	}
+> +	vaddr = map.vaddr;
+>  
+>  	urb = udl_get_urb(dev);
+>  	if (!urb)
+> @@ -333,7 +335,7 @@ static int udl_handle_damage(struct drm_framebuffer *fb, int x, int y,
+>  	ret = 0;
+>  
+>  out_drm_gem_shmem_vunmap:
+> -	drm_gem_shmem_vunmap(fb->obj[0], vaddr);
+> +	drm_gem_shmem_vunmap(fb->obj[0], &map);
+>  out_dma_buf_end_cpu_access:
+>  	if (import_attach) {
+>  		tmp_ret = dma_buf_end_cpu_access(import_attach->dmabuf,
+> diff --git a/drivers/gpu/drm/vboxvideo/vbox_mode.c b/drivers/gpu/drm/vboxvideo/vbox_mode.c
+> index 4fcc0a542b8a..6040b9ec747f 100644
+> --- a/drivers/gpu/drm/vboxvideo/vbox_mode.c
+> +++ b/drivers/gpu/drm/vboxvideo/vbox_mode.c
+> @@ -9,6 +9,8 @@
+>   *          Michael Thayer <michael.thayer@oracle.com,
+>   *          Hans de Goede <hdegoede@redhat.com>
+>   */
+> +
+> +#include <linux/dma-buf-map.h>
+>  #include <linux/export.h>
+>  
+>  #include <drm/drm_atomic.h>
+> @@ -384,6 +386,8 @@ static void vbox_cursor_atomic_update(struct drm_plane *plane,
+>  	u32 height = plane->state->crtc_h;
+>  	size_t data_size, mask_size;
+>  	u32 flags;
+> +	struct dma_buf_map map;
+> +	int ret;
+>  	u8 *src;
+>  
+>  	/*
+> @@ -397,8 +401,8 @@ static void vbox_cursor_atomic_update(struct drm_plane *plane,
+>  
+>  	vbox_crtc->cursor_enabled = true;
+>  
+> -	src = drm_gem_vram_vmap(gbo);
+> -	if (IS_ERR(src)) {
+> +	ret = drm_gem_vram_vmap(gbo, &map);
+> +	if (ret) {
+>  		/*
+>  		 * BUG: we should have pinned the BO in prepare_fb().
+>  		 */
+> @@ -406,6 +410,7 @@ static void vbox_cursor_atomic_update(struct drm_plane *plane,
+>  		DRM_WARN("Could not map cursor bo, skipping update\n");
+>  		return;
+>  	}
+
+I don't think digging around in the pointer is a good idea, imo this
+should get a 
+
+	/* FIXME: Use mapping abstraction properly */
+
+or similar.
+
+> +	src = map.vaddr;
+>  
+>  	/*
+>  	 * The mask must be calculated based on the alpha
+> @@ -416,7 +421,7 @@ static void vbox_cursor_atomic_update(struct drm_plane *plane,
+>  	data_size = width * height * 4 + mask_size;
+>  
+>  	copy_cursor_image(src, vbox->cursor_data, width, height, mask_size);
+> -	drm_gem_vram_vunmap(gbo, src);
+> +	drm_gem_vram_vunmap(gbo, &map);
+>  
+>  	flags = VBOX_MOUSE_POINTER_VISIBLE | VBOX_MOUSE_POINTER_SHAPE |
+>  		VBOX_MOUSE_POINTER_ALPHA;
+> diff --git a/drivers/gpu/drm/vc4/vc4_bo.c b/drivers/gpu/drm/vc4/vc4_bo.c
+> index f432278173cd..250266fb437e 100644
+> --- a/drivers/gpu/drm/vc4/vc4_bo.c
+> +++ b/drivers/gpu/drm/vc4/vc4_bo.c
+> @@ -786,16 +786,16 @@ int vc4_prime_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma)
+>  	return drm_gem_cma_prime_mmap(obj, vma);
+>  }
+>  
+> -void *vc4_prime_vmap(struct drm_gem_object *obj)
+> +int vc4_prime_vmap(struct drm_gem_object *obj, struct dma_buf_map *map)
+>  {
+>  	struct vc4_bo *bo = to_vc4_bo(obj);
+>  
+>  	if (bo->validated_shader) {
+>  		DRM_DEBUG("mmaping of shader BOs not allowed.\n");
+> -		return ERR_PTR(-EINVAL);
+> +		return -EINVAL;
+>  	}
+>  
+> -	return drm_gem_cma_prime_vmap(obj);
+> +	return drm_gem_cma_prime_vmap(obj, map);
+>  }
+>  
+>  struct drm_gem_object *
+> diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
+> index a22478a35199..6af453c84777 100644
+> --- a/drivers/gpu/drm/vc4/vc4_drv.h
+> +++ b/drivers/gpu/drm/vc4/vc4_drv.h
+> @@ -804,7 +804,7 @@ int vc4_prime_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma);
+>  struct drm_gem_object *vc4_prime_import_sg_table(struct drm_device *dev,
+>  						 struct dma_buf_attachment *attach,
+>  						 struct sg_table *sgt);
+> -void *vc4_prime_vmap(struct drm_gem_object *obj);
+> +int vc4_prime_vmap(struct drm_gem_object *obj, struct dma_buf_map *map);
+>  int vc4_bo_cache_init(struct drm_device *dev);
+>  void vc4_bo_cache_destroy(struct drm_device *dev);
+>  int vc4_bo_inc_usecnt(struct vc4_bo *bo);
+> diff --git a/drivers/gpu/drm/vgem/vgem_drv.c b/drivers/gpu/drm/vgem/vgem_drv.c
+> index fa54a6d1403d..b2aa26e1e4a2 100644
+> --- a/drivers/gpu/drm/vgem/vgem_drv.c
+> +++ b/drivers/gpu/drm/vgem/vgem_drv.c
+> @@ -361,24 +361,30 @@ static struct drm_gem_object *vgem_prime_import_sg_table(struct drm_device *dev,
+>  	return &obj->base;
+>  }
+>  
+> -static void *vgem_prime_vmap(struct drm_gem_object *obj)
+> +static int vgem_prime_vmap(struct drm_gem_object *obj, struct dma_buf_map *map)
+>  {
+>  	struct drm_vgem_gem_object *bo = to_vgem_bo(obj);
+>  	long n_pages = obj->size >> PAGE_SHIFT;
+>  	struct page **pages;
+> +	void *vaddr;
+>  
+>  	pages = vgem_pin_pages(bo);
+>  	if (IS_ERR(pages))
+> -		return NULL;
+> +		return PTR_ERR(pages);
+> +
+> +	vaddr = vmap(pages, n_pages, 0, pgprot_writecombine(PAGE_KERNEL));
+> +	if (!vaddr)
+> +		return -ENOMEM;
+> +	dma_buf_map_set_vaddr(map, vaddr);
+>  
+> -	return vmap(pages, n_pages, 0, pgprot_writecombine(PAGE_KERNEL));
+> +	return 0;
+>  }
+>  
+> -static void vgem_prime_vunmap(struct drm_gem_object *obj, void *vaddr)
+> +static void vgem_prime_vunmap(struct drm_gem_object *obj, struct dma_buf_map *map)
+>  {
+>  	struct drm_vgem_gem_object *bo = to_vgem_bo(obj);
+>  
+> -	vunmap(vaddr);
+> +	vunmap(map->vaddr);
+>  	vgem_unpin_pages(bo);
+>  }
+>  
+> diff --git a/drivers/gpu/drm/xen/xen_drm_front_gem.c b/drivers/gpu/drm/xen/xen_drm_front_gem.c
+> index 4f34ef34ba60..74db5a840bed 100644
+> --- a/drivers/gpu/drm/xen/xen_drm_front_gem.c
+> +++ b/drivers/gpu/drm/xen/xen_drm_front_gem.c
+> @@ -290,22 +290,28 @@ int xen_drm_front_gem_mmap(struct file *filp, struct vm_area_struct *vma)
+>  	return gem_mmap_obj(xen_obj, vma);
+>  }
+>  
+> -void *xen_drm_front_gem_prime_vmap(struct drm_gem_object *gem_obj)
+> +int xen_drm_front_gem_prime_vmap(struct drm_gem_object *gem_obj, struct dma_buf_map *map)
+>  {
+>  	struct xen_gem_object *xen_obj = to_xen_gem_obj(gem_obj);
+> +	void *vaddr;
+>  
+>  	if (!xen_obj->pages)
+> -		return NULL;
+> +		return -ENOMEM;
+>  
+>  	/* Please see comment in gem_mmap_obj on mapping and attributes. */
+> -	return vmap(xen_obj->pages, xen_obj->num_pages,
+> -		    VM_MAP, PAGE_KERNEL);
+> +	vaddr = vmap(xen_obj->pages, xen_obj->num_pages,
+> +		     VM_MAP, PAGE_KERNEL);
+> +	if (!vaddr)
+> +		return -ENOMEM;
+> +	dma_buf_map_set_vaddr(map, vaddr);
+> +
+> +	return 0;
+>  }
+>  
+>  void xen_drm_front_gem_prime_vunmap(struct drm_gem_object *gem_obj,
+> -				    void *vaddr)
+> +				    struct dma_buf_map *map)
+>  {
+> -	vunmap(vaddr);
+> +	vunmap(map->vaddr);
+>  }
+>  
+>  int xen_drm_front_gem_prime_mmap(struct drm_gem_object *gem_obj,
+> diff --git a/drivers/gpu/drm/xen/xen_drm_front_gem.h b/drivers/gpu/drm/xen/xen_drm_front_gem.h
+> index a39675fa31b2..a4e67d0a149c 100644
+> --- a/drivers/gpu/drm/xen/xen_drm_front_gem.h
+> +++ b/drivers/gpu/drm/xen/xen_drm_front_gem.h
+> @@ -12,6 +12,7 @@
+>  #define __XEN_DRM_FRONT_GEM_H
+>  
+>  struct dma_buf_attachment;
+> +struct dma_buf_map;
+>  struct drm_device;
+>  struct drm_gem_object;
+>  struct file;
+> @@ -34,10 +35,11 @@ void xen_drm_front_gem_free_object_unlocked(struct drm_gem_object *gem_obj);
+>  
+>  int xen_drm_front_gem_mmap(struct file *filp, struct vm_area_struct *vma);
+>  
+> -void *xen_drm_front_gem_prime_vmap(struct drm_gem_object *gem_obj);
+> +int xen_drm_front_gem_prime_vmap(struct drm_gem_object *gem_obj,
+> +				 struct dma_buf_map *map);
+>  
+>  void xen_drm_front_gem_prime_vunmap(struct drm_gem_object *gem_obj,
+> -				    void *vaddr);
+> +				    struct dma_buf_map *map);
+>  
+>  int xen_drm_front_gem_prime_mmap(struct drm_gem_object *gem_obj,
+>  				 struct vm_area_struct *vma);
+> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
+> index c38dd35da00b..5e6daa1c982f 100644
+> --- a/include/drm/drm_gem.h
+> +++ b/include/drm/drm_gem.h
+> @@ -39,6 +39,7 @@
+>  
+>  #include <drm/drm_vma_manager.h>
+>  
+> +struct dma_buf_map;
+>  struct drm_gem_object;
+>  
+>  /**
+> @@ -138,7 +139,7 @@ struct drm_gem_object_funcs {
+>  	 *
+>  	 * This callback is optional.
+>  	 */
+> -	void *(*vmap)(struct drm_gem_object *obj);
+> +	int (*vmap)(struct drm_gem_object *obj, struct dma_buf_map *map);
+>  
+>  	/**
+>  	 * @vunmap:
+> @@ -148,7 +149,7 @@ struct drm_gem_object_funcs {
+>  	 *
+>  	 * This callback is optional.
+>  	 */
+> -	void (*vunmap)(struct drm_gem_object *obj, void *vaddr);
+> +	void (*vunmap)(struct drm_gem_object *obj, struct dma_buf_map *map);
+>  
+>  	/**
+>  	 * @mmap:
+> diff --git a/include/drm/drm_gem_cma_helper.h b/include/drm/drm_gem_cma_helper.h
+> index 2bfa2502607a..34a7f72879c5 100644
+> --- a/include/drm/drm_gem_cma_helper.h
+> +++ b/include/drm/drm_gem_cma_helper.h
+> @@ -103,8 +103,8 @@ drm_gem_cma_prime_import_sg_table(struct drm_device *dev,
+>  				  struct sg_table *sgt);
+>  int drm_gem_cma_prime_mmap(struct drm_gem_object *obj,
+>  			   struct vm_area_struct *vma);
+> -void *drm_gem_cma_prime_vmap(struct drm_gem_object *obj);
+> -void drm_gem_cma_prime_vunmap(struct drm_gem_object *obj, void *vaddr);
+> +int drm_gem_cma_prime_vmap(struct drm_gem_object *obj, struct dma_buf_map *map);
+> +void drm_gem_cma_prime_vunmap(struct drm_gem_object *obj, struct dma_buf_map *map);
+>  
+>  struct drm_gem_object *
+>  drm_gem_cma_create_object_default_funcs(struct drm_device *dev, size_t size);
+> diff --git a/include/drm/drm_gem_shmem_helper.h b/include/drm/drm_gem_shmem_helper.h
+> index 5381f0c8cf6f..3449a0353fe0 100644
+> --- a/include/drm/drm_gem_shmem_helper.h
+> +++ b/include/drm/drm_gem_shmem_helper.h
+> @@ -113,8 +113,8 @@ int drm_gem_shmem_get_pages(struct drm_gem_shmem_object *shmem);
+>  void drm_gem_shmem_put_pages(struct drm_gem_shmem_object *shmem);
+>  int drm_gem_shmem_pin(struct drm_gem_object *obj);
+>  void drm_gem_shmem_unpin(struct drm_gem_object *obj);
+> -void *drm_gem_shmem_vmap(struct drm_gem_object *obj);
+> -void drm_gem_shmem_vunmap(struct drm_gem_object *obj, void *vaddr);
+> +int drm_gem_shmem_vmap(struct drm_gem_object *obj, struct dma_buf_map *map);
+> +void drm_gem_shmem_vunmap(struct drm_gem_object *obj, struct dma_buf_map *map);
+>  
+>  int drm_gem_shmem_madvise(struct drm_gem_object *obj, int madv);
+>  
+> diff --git a/include/drm/drm_gem_vram_helper.h b/include/drm/drm_gem_vram_helper.h
+> index 128f88174d32..0c43b8f17ee9 100644
+> --- a/include/drm/drm_gem_vram_helper.h
+> +++ b/include/drm/drm_gem_vram_helper.h
+> @@ -97,8 +97,8 @@ u64 drm_gem_vram_mmap_offset(struct drm_gem_vram_object *gbo);
+>  s64 drm_gem_vram_offset(struct drm_gem_vram_object *gbo);
+>  int drm_gem_vram_pin(struct drm_gem_vram_object *gbo, unsigned long pl_flag);
+>  int drm_gem_vram_unpin(struct drm_gem_vram_object *gbo);
+> -void *drm_gem_vram_vmap(struct drm_gem_vram_object *gbo);
+> -void drm_gem_vram_vunmap(struct drm_gem_vram_object *gbo, void *vaddr);
+> +int drm_gem_vram_vmap(struct drm_gem_vram_object *gbo, struct dma_buf_map *map);
+> +void drm_gem_vram_vunmap(struct drm_gem_vram_object *gbo, struct dma_buf_map *map);
+>  
+>  int drm_gem_vram_fill_create_dumb(struct drm_file *file,
+>  				  struct drm_device *dev,
+> -- 
+> 2.28.0
+
+Bit a big patch, I can't think of a way to split it up either.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+etnaviv mailing list
+etnaviv@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/etnaviv
