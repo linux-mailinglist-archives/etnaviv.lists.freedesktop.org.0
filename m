@@ -1,59 +1,46 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95B19281B08
-	for <lists+etnaviv@lfdr.de>; Fri,  2 Oct 2020 20:46:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7160A2848CC
+	for <lists+etnaviv@lfdr.de>; Tue,  6 Oct 2020 10:48:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 237BE6E9C6;
-	Fri,  2 Oct 2020 18:46:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 68D6C89C51;
+	Tue,  6 Oct 2020 08:48:19 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3DCE96E9C6
- for <etnaviv@lists.freedesktop.org>; Fri,  2 Oct 2020 18:46:01 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id j2so2862564wrx.7
- for <etnaviv@lists.freedesktop.org>; Fri, 02 Oct 2020 11:46:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=cqLPfUuqb60ZIVoOQ31hnraU/Ifr39O5/ULDkN9IWmw=;
- b=LhoHpieZ6b1yu3Bgv5UVyYwE5gEJCucfXpQtCsua7dxm7nPU5GPxUoM22UNQQ6v2CK
- k0Y2QqxCtl6jlPSAgvR23+rIu6KvQsYlEl3KTS7hhk4KmBbGsS7srplNima8l2683HV3
- M+RegCjSI+WIRGmRnHJIv+DYHNTbkSdc4/ZqA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=cqLPfUuqb60ZIVoOQ31hnraU/Ifr39O5/ULDkN9IWmw=;
- b=AUBXMaeL9aeY3pkT9Dnx9TCl1LO8j9s4/H7t4P0Qzf0CPKd+l/WiPOWI7aBOiOeBWc
- sKYEOz+sILQtPLBAa4F+exQghNx3r4wk+k5zpAodaJDu9i0xJ/2tl8MrG8o9xgUpbctZ
- OopBu/Ffw02Z0zjpvUICXns/gSaMzLGn4qYSlboNtgJXquiqNOw3+hPsE3iMuBW1IaA8
- fPwP23PCCE+uimNTng9TSYlU1iq9gwg8H3G0cGzfu2kBk4a7BvsovXlau7ezc5PYk6gZ
- gddSjRSVYvxQycDihSGm2E53UAs1txQKupu+Y8J3HqhgcS4IlfRtXwWwZaTxOaYYNwA9
- XfeQ==
-X-Gm-Message-State: AOAM532aC57SfYmWwztC7drhLBvP0RL1iXfSmtuOpX3Ch9auURkJBLte
- VzlTVwm4xs+3GzZLHyRUEN1ETw==
-X-Google-Smtp-Source: ABdhPJzgHPhBsD8FZtMDQrfMIjGL4qmZj/8xNAuAHXm+0qz5n2h6pVB3S7OCKNZbK4qjctoXq1cGGA==
-X-Received: by 2002:a5d:40cd:: with SMTP id b13mr4528517wrq.297.1601664359823; 
- Fri, 02 Oct 2020 11:45:59 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id n2sm2937452wma.29.2020.10.02.11.45.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 02 Oct 2020 11:45:57 -0700 (PDT)
-Date: Fri, 2 Oct 2020 20:45:54 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v3 7/7] drm/todo: Update entries around struct dma_buf_map
-Message-ID: <20201002184554.GN438822@phenom.ffwll.local>
-References: <20200929151437.19717-1-tzimmermann@suse.de>
- <20200929151437.19717-8-tzimmermann@suse.de>
+Received: from fanzine.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3DFB88913B;
+ Tue,  6 Oct 2020 08:48:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+ s=20170329; 
+ h=MIME-Version:Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID;
+ bh=B6IlmCjekqif+t616Ax228HYiFyy1jBul9azecGXGdU=; 
+ b=geZKcgdaXju0bL8gRGOeUyvkSMBYsw+tzWrb2nldtRplQlj96kTyLTzKGWzVLBDvg3Vv3DuvC7t3x7LRJisRpV05u2vagDLVV/Qfluc2YoeteExiYTJlj+4hJZrGk/M0km8hQ911sN1+MKqfth/5BTpVRr6yEBZgWk03/rPn9TvD895jFTHmqthkwD2t1hob4rMGgbe/sRpG0XkGXBWoLZ2WpxjFlEr2zROlcPj+IEyAvdcjTZGtn6ayTL36IlgoHwKYWcoM2sbvTgEyIs9KqAeNKU63fQOuXKJjKCVxxIFMGOdURWZ7lorJwn1O3SmT/PgAYJBnv2P4pqs4VNa8iw==;
+Received: from 11.red-79-157-245.dynamicip.rima-tde.net ([79.157.245.11]
+ helo=fourier) by fanzine.igalia.com with esmtpsa 
+ (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
+ id 1kPidq-0005Cc-Uk; Tue, 06 Oct 2020 10:48:15 +0200
+Message-ID: <ee5153f7dc037ab96aff6795c5514da3fea3af94.camel@igalia.com>
+Subject: Re: [Freedreno] [RESEND] Requests For Proposals for hosting XDC2021
+ are now open
+From: Samuel Iglesias =?ISO-8859-1?Q?Gons=E1lvez?= <siglesias@igalia.com>
+To: "members@x.org" <members@x.org>, "events@lists.x.org"
+ <events@lists.x.org>,  "xorg-devel@lists.freedesktop.org"
+ <xorg-devel@lists.freedesktop.org>, "wayland-devel@lists.freedesktop.org"
+ <wayland-devel@lists.freedesktop.org>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>, "mesa-dev@lists.freedesktop.org"
+ <mesa-dev@lists.freedesktop.org>, "amd-gfx@lists.freedesktop.org"
+ <amd-gfx@lists.freedesktop.org>, "etnaviv@lists.freedesktop.org"
+ <etnaviv@lists.freedesktop.org>, "freedreno@lists.freedesktop.org"
+ <freedreno@lists.freedesktop.org>, "nouveau@lists.freedesktop.org"
+ <nouveau@lists.freedesktop.org>, "intel-gfx@lists.freedesktop.org"
+ <intel-gfx@lists.freedesktop.org>
+Date: Tue, 06 Oct 2020 10:48:04 +0200
+In-Reply-To: <a171fea35e5dab03873876e221ab15b74ab24d62.camel@redhat.com>
+References: <a171fea35e5dab03873876e221ab15b74ab24d62.camel@redhat.com>
+User-Agent: Evolution 3.36.5 (3.36.5-1.fc32) 
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200929151437.19717-8-tzimmermann@suse.de>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,114 +52,107 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: luben.tuikov@amd.com, heiko@sntech.de, airlied@linux.ie,
- nouveau@lists.freedesktop.org, linus.walleij@linaro.org,
- dri-devel@lists.freedesktop.org, chris@chris-wilson.co.uk,
- melissa.srw@gmail.com, eric@anholt.net, ray.huang@amd.com, kraxel@redhat.com,
- sam@ravnborg.org, sumit.semwal@linaro.org, emil.velikov@collabora.com,
- robh@kernel.org, linux-samsung-soc@vger.kernel.org, jy0922.shim@samsung.com,
- lima@lists.freedesktop.org, oleksandr_andrushchenko@epam.com, krzk@kernel.org,
- steven.price@arm.com, linux-rockchip@lists.infradead.org, kgene@kernel.org,
- bskeggs@redhat.com, linux+etnaviv@armlinux.org.uk,
- spice-devel@lists.freedesktop.org, alyssa.rosenzweig@collabora.com,
- maarten.lankhorst@linux.intel.com, etnaviv@lists.freedesktop.org,
- mripard@kernel.org, inki.dae@samsung.com, hdegoede@redhat.com,
- christian.gmeiner@gmail.com, xen-devel@lists.xenproject.org,
- virtualization@lists.linux-foundation.org, sean@poorly.run, apaneers@amd.com,
- linux-arm-kernel@lists.infradead.org, linaro-mm-sig@lists.linaro.org,
- amd-gfx@lists.freedesktop.org, tomeu.vizoso@collabora.com,
- sw0312.kim@samsung.com, hjc@rock-chips.com, kyungmin.park@samsung.com,
- miaoqinglang@huawei.com, yuq825@gmail.com, daniel@ffwll.ch,
- alexander.deucher@amd.com, linux-media@vger.kernel.org,
- christian.koenig@amd.com, l.stach@pengutronix.de
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: "X.Org Foundation Board" <board@foundation.x.org>
+Content-Type: multipart/mixed; boundary="===============1598866659=="
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-On Tue, Sep 29, 2020 at 05:14:37PM +0200, Thomas Zimmermann wrote:
-> Instances of struct dma_buf_map should be useful throughout DRM's
-> memory management code. Furthermore, several drivers can now use
-> generic fbdev emulation.
-> =
 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-
-Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
-> ---
->  Documentation/gpu/todo.rst | 24 ++++++++++++++++++++++--
->  1 file changed, 22 insertions(+), 2 deletions(-)
-> =
-
-> diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-> index 3751ac976c3e..023626c1837b 100644
-> --- a/Documentation/gpu/todo.rst
-> +++ b/Documentation/gpu/todo.rst
-> @@ -197,8 +197,10 @@ Convert drivers to use drm_fbdev_generic_setup()
->  ------------------------------------------------
->  =
-
->  Most drivers can use drm_fbdev_generic_setup(). Driver have to implement
-> -atomic modesetting and GEM vmap support. Current generic fbdev emulation
-> -expects the framebuffer in system memory (or system-like memory).
-> +atomic modesetting and GEM vmap support. Historically, generic fbdev emu=
-lation
-> +expected the framebuffer in system memory or system-like memory. By empl=
-oying
-> +struct dma_buf_map, drivers with frambuffers in I/O memory can be suppor=
-ted
-> +as well.
->  =
-
->  Contact: Maintainer of the driver you plan to convert
->  =
-
-> @@ -446,6 +448,24 @@ Contact: Ville Syrj=E4l=E4, Daniel Vetter
->  =
-
->  Level: Intermediate
->  =
-
-> +Use struct dma_buf_map throughout codebase
-> +------------------------------------------
-> +
-> +Pointers to shared device memory are stored in struct dma_buf_map. Each
-> +instance knows whether it refers to system or I/O memory. Most of the DR=
-M-wide
-> +interface have been converted to use struct dma_buf_map, but implementat=
-ions
-> +often still use raw pointers.
-> +
-> +The task is to use struct dma_buf_map where it makes sense.
-> +
-> +* Memory managers should use struct dma_buf_map for dma-buf-imported buf=
-fers.
-> +* TTM might benefit from using struct dma_buf_map internally.
-> +* Framebuffer copying and blitting helpers should operate on struct dma_=
-buf_map.
-> +
-> +Contact: Thomas Zimmermann <tzimmermann@suse.de>, Christian K=F6nig, Dan=
-iel Vetter
-> +
-> +Level: Intermediate
-> +
->  =
-
->  Core refactorings
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> -- =
-
-> 2.28.0
-> =
+--===============1598866659==
+Content-Type: multipart/signed; micalg="pgp-sha256";
+	protocol="application/pgp-signature"; boundary="=-i8Rt81kDKlWriGrdIRjk"
 
 
--- =
+--=-i8Rt81kDKlWriGrdIRjk
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Deadline is November 1st, just in a few weeks!
+
+Don't forget to submit your XDC 2021 proposal to board@foundation.x.org
+.
+
+Sam
+
+On Thu, 2020-09-03 at 12:16 -0400, Lyude Paul wrote:
+> (Including a bunch more emails in the To: that got missed the first
+> time)
+>=20
+> Hello everyone!
+>=20
+> The X.org board is soliciting proposals to host XDC in 2021. Since
+> XDC2020 is being held virtually this year, we've decided to host in
+> either North America or Europe. However, the board is open to other
+> locations, especially if there's an interesting co-location with
+> another
+> conference.
+>=20
+> Of course though, due to the ongoing COVID-19 pandemic it's not yet
+> clear whether or not it will be possible to host XDC2021 in person.
+> Because of this, we would like to make it clear that sponsors should
+> prepare for both the possibility of an in person conference, and the
+> possibility of a virtual conference. We will work with organizers on
+> coming up with a deadline for deciding whether or not we'll be going
+> virtual, likely sometime around July.
+>=20
+> If you're considering hosting XDC, we've assembled a wiki page with
+> what's generally expected and needed:
+>=20
+> https://www.x.org/wiki/Events/RFP/
+>=20
+> When submitting your proposal, please make sure to include at least
+> the
+> key information about the potential location in question, possible
+> dates
+> along with estimated costs. Proposals can be submitted to board at
+> foundation.x.org until the deadline of November 1st. Additionally, an
+> quirk early heads-up to the board if you're considering hosting would
+> be
+> appreciated, in case we need to adjust the schedule a bit. Also,
+> earlier
+> is better since there generally will be a bit of Q&A with organizers.
+>=20
+> And if you just have some questions about what organizing XDC
+> entails,
+> please feel free to chat with previous organizers, or someone from
+> the
+> board.
+
+--=-i8Rt81kDKlWriGrdIRjk
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEQP+ZAvaXWkfuKXiEf/S6MvF9w0MFAl98L0QACgkQf/S6MvF9
+w0MB5Q//ZfxA9TMZbNgz2V21T4oNCgQg7w3bkzftP1l10UHVSfnpbz3mKGctMm6K
+csjdcmQgVJ6n4gs2VlDGhluukN5hMnBQPe+py1Oyu7SmBYyB6TjhjExHGnd/TX1j
+G/KqpyAnXCZOE1JzuK4u4fmLenGbzqywXgciRuWria6QxG0z06K+8yjZMMk3C1Dv
+O0dRGMt7SLzXwojjWSZQqsY50wBeafdfsP5l1encOn8/KEqSIhf2fnnrKhdt24UT
+8Sravrz1bN0MaCEVFqA51Vq5/RxgA/VY8+VVP+fXRdJdvoJzozlTr7Oj1OtIz9KC
+2aJp+BzV9zlVyPyEOe9aFJUeCUpa8PulNSi6Yuoy6l8Bbqu1KqdGC8rOT2A2eFHo
+yIxHkXDBr+PTb59k6tXzCL6usuUgNFcExnJxIjEJ1XZLscm5hq2aGb9EzeiSYPVE
+Y+W0/x5EyoIGzd1owJQM1GqrXnDqcyNiSAqi/6J7Gae8FS4k4qTg8nRu6wxzYNnt
+aJ4ZuOplyLrFAnP+Wz1b80S/i5kl6sVpopytFMp3biLTXg6z1FfnCKiF1u9SrHYM
+P7c4WS8L3aWrOLh0eZI2Q1Lfiu8EPeAWk4Dkt6gBkjdHbDmKuOZnLgm7rStu4gWm
+th2pTohkIOJtv2QRJ1ysnK5QaR1294jB+fUfLN+PultZiPunLEA=
+=4OiG
+-----END PGP SIGNATURE-----
+
+--=-i8Rt81kDKlWriGrdIRjk--
+
+
+--===============1598866659==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 etnaviv mailing list
 etnaviv@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/etnaviv
+
+--===============1598866659==--
+
