@@ -2,24 +2,44 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BFCF285F90
-	for <lists+etnaviv@lfdr.de>; Wed,  7 Oct 2020 14:57:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85E5C285FD5
+	for <lists+etnaviv@lfdr.de>; Wed,  7 Oct 2020 15:10:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE8876E8D8;
-	Wed,  7 Oct 2020 12:57:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3BF6E6E8E7;
+	Wed,  7 Oct 2020 13:10:56 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 285896E8D5;
- Wed,  7 Oct 2020 12:57:30 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 7E8B3B1FA;
- Wed,  7 Oct 2020 12:57:28 +0000 (UTC)
-Subject: Re: [PATCH v3 2/7] drm/ttm: Add ttm_kmap_obj_to_dma_buf_map() for
- type conversion
-To: Daniel Vetter <daniel@ffwll.ch>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com
+ [IPv6:2607:f8b0:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 66CC16E8E4
+ for <etnaviv@lists.freedesktop.org>; Wed,  7 Oct 2020 13:10:54 +0000 (UTC)
+Received: by mail-ot1-x343.google.com with SMTP id d28so2153284ote.1
+ for <etnaviv@lists.freedesktop.org>; Wed, 07 Oct 2020 06:10:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=VsnMtwduK/eaPh8sh7OsPT0FyDBA9ykxTycTmfoK7FE=;
+ b=XQw1QLYfR9qfW8B6CzTH9HNbjUoNQ7c7owK49oNl3ZGAyaYgsZRW8NsymAZNFvWa6v
+ Pu2B9/m31WiqNmGwbeYXwkQZ64u4W7gA0XbGls83scZYTIzLPHrVLDuVDkcKBiYS2P+J
+ IUNoJl08qFhoGCgQeLpdMq8KOGzN/FBJiPLz4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=VsnMtwduK/eaPh8sh7OsPT0FyDBA9ykxTycTmfoK7FE=;
+ b=ERUI3GDxJ12V8nqQh7C2b5CxkTPeAkgA//gARQA3xJSVzW1a39Z2XNobJzBOhp5tPA
+ nnm88kC3cnSawPchdUOhe6thSRYRVbyzouYEA3p/3lyugca2tyFWm3UQrx70u+pHg1XH
+ 5EsODfAxMG4O6qIdkBfcqlLZtSul4WW3V/BS+siAmjQjak13VZkJhKrKBi7f7mXPfRSc
+ 1g13Hd+e9OrlIbdKB/2+boRySaQABKMQtWZ2UThm7aFd2ngJ65Z14JqLR5YhwRAJgn9f
+ vIr31xG3VrNqFESFJ5zi40MNJcZ6yEVJTR95/7Li2SbnpO/WwvRSFfdDY2t1PaJxSocr
+ G7fg==
+X-Gm-Message-State: AOAM533Jwr/2cJko0IIXzGnukW/fMux4d2tbqFULjvYsmsKD0RPDSVq2
+ I+hSn49jFMzsmutJHhSuYzCGv3YeLQJm5yaT4L3FJg==
+X-Google-Smtp-Source: ABdhPJz2fU3vfrmM8BVWXG8zDyJNA8JBNVY8njvMFhcKMWXmRriQUSCDo6MUx7uQxHr2lmvyhiUCEX/nBDzmPgvF+Z4=
+X-Received: by 2002:a05:6830:1e56:: with SMTP id
+ e22mr1739852otj.303.1602076253502; 
+ Wed, 07 Oct 2020 06:10:53 -0700 (PDT)
+MIME-Version: 1.0
 References: <20200929151437.19717-1-tzimmermann@suse.de>
  <20200929151437.19717-3-tzimmermann@suse.de>
  <8fad0114-064a-4ed5-c21d-d1b4294de0a1@amd.com>
@@ -31,13 +51,14 @@ References: <20200929151437.19717-1-tzimmermann@suse.de>
  <8479d0aa-3826-4f37-0109-55daca515793@amd.com>
  <CAKMK7uH0U36NG8w98i0x6HVGeogiwnYDRiKquLW-8znLa7-0yg@mail.gmail.com>
  <20201002095830.GH438822@phenom.ffwll.local>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <5bf40546-8da9-1649-22da-a982f1e8d9c3@suse.de>
-Date: Wed, 7 Oct 2020 14:57:23 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
-MIME-Version: 1.0
-In-Reply-To: <20201002095830.GH438822@phenom.ffwll.local>
+ <5bf40546-8da9-1649-22da-a982f1e8d9c3@suse.de>
+In-Reply-To: <5bf40546-8da9-1649-22da-a982f1e8d9c3@suse.de>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Wed, 7 Oct 2020 15:10:41 +0200
+Message-ID: <CAKMK7uEu0vwiG9Uz0_Ysyus0ZAF-1HNxvPZjcG3xZS=gkKgJLw@mail.gmail.com>
+Subject: Re: [PATCH v3 2/7] drm/ttm: Add ttm_kmap_obj_to_dma_buf_map() for
+ type conversion
+To: Thomas Zimmermann <tzimmermann@suse.de>
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,7 +71,7 @@ List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
 Cc: Luben Tuikov <luben.tuikov@amd.com>,
- =?UTF-8?Q?Heiko_St=c3=bcbner?= <heiko@sntech.de>,
+ =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
  Dave Airlie <airlied@linux.ie>, Nouveau Dev <nouveau@lists.freedesktop.org>,
  Linus Walleij <linus.walleij@linaro.org>,
  dri-devel <dri-devel@lists.freedesktop.org>, "Wilson,
@@ -86,446 +107,236 @@ Cc: Luben Tuikov <luben.tuikov@amd.com>,
  Qinglang Miao <miaoqinglang@huawei.com>, Qiang Yu <yuq825@gmail.com>,
  Alex Deucher <alexander.deucher@amd.com>,
  "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
  Lucas Stach <l.stach@pengutronix.de>
-Content-Type: multipart/mixed; boundary="===============1260282381=="
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1260282381==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="A04G9t256jlYlZevsaZFScYx8JwBsN4Kq"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---A04G9t256jlYlZevsaZFScYx8JwBsN4Kq
-Content-Type: multipart/mixed; boundary="eO0KkNElTwku9CAInc7DmPRt4uql8oe3b";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Daniel Vetter <daniel@ffwll.ch>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Dave Airlie <airlied@linux.ie>,
- Sam Ravnborg <sam@ravnborg.org>, Alex Deucher <alexander.deucher@amd.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- Inki Dae <inki.dae@samsung.com>, Joonyoung Shim <jy0922.shim@samsung.com>,
- Seung-Woo Kim <sw0312.kim@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>, Kukjin Kim <kgene@kernel.org>,
- Krzysztof Kozlowski <krzk@kernel.org>, Qiang Yu <yuq825@gmail.com>,
- Ben Skeggs <bskeggs@redhat.com>, Rob Herring <robh@kernel.org>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Steven Price <steven.price@arm.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=c3=bcbner?=
- <heiko@sntech.de>, Hans de Goede <hdegoede@redhat.com>,
- Sean Paul <sean@poorly.run>, "Anholt, Eric" <eric@anholt.net>,
- Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
- Huang Rui <ray.huang@amd.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- Emil Velikov <emil.velikov@collabora.com>,
- Luben Tuikov <luben.tuikov@amd.com>, apaneers@amd.com,
- Linus Walleij <linus.walleij@linaro.org>, Melissa Wen
- <melissa.srw@gmail.com>, "Wilson, Chris" <chris@chris-wilson.co.uk>,
- Qinglang Miao <miaoqinglang@huawei.com>,
- linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
- lima@lists.freedesktop.org, Nouveau Dev <nouveau@lists.freedesktop.org>,
- The etnaviv authors <etnaviv@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- "open list:VIRTIO CORE, NET..." <virtualization@lists.linux-foundation.org>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK"
- <linaro-mm-sig@lists.linaro.org>,
- "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- "open list:DRM DRIVER FOR QXL VIRTUAL GPU"
- <spice-devel@lists.freedesktop.org>,
- "moderated list:DRM DRIVERS FOR XEN" <xen-devel@lists.xenproject.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
-Message-ID: <5bf40546-8da9-1649-22da-a982f1e8d9c3@suse.de>
-Subject: Re: [PATCH v3 2/7] drm/ttm: Add ttm_kmap_obj_to_dma_buf_map() for
- type conversion
-References: <20200929151437.19717-1-tzimmermann@suse.de>
- <20200929151437.19717-3-tzimmermann@suse.de>
- <8fad0114-064a-4ed5-c21d-d1b4294de0a1@amd.com>
- <2614314a-81f7-4722-c400-68d90e48e09a@suse.de>
- <8a84f62b-33f3-f44c-52af-c859a0e0d1fb@gmail.com>
- <07972ada-9135-3743-a86b-487f610c509f@suse.de>
- <b569b7e3-68f0-edcc-c8f4-170e9042d348@gmail.com>
- <20200930094712.GW438822@phenom.ffwll.local>
- <8479d0aa-3826-4f37-0109-55daca515793@amd.com>
- <CAKMK7uH0U36NG8w98i0x6HVGeogiwnYDRiKquLW-8znLa7-0yg@mail.gmail.com>
- <20201002095830.GH438822@phenom.ffwll.local>
-In-Reply-To: <20201002095830.GH438822@phenom.ffwll.local>
-
---eO0KkNElTwku9CAInc7DmPRt4uql8oe3b
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Hi
-
-Am 02.10.20 um 11:58 schrieb Daniel Vetter:
-> On Wed, Sep 30, 2020 at 02:51:46PM +0200, Daniel Vetter wrote:
->> On Wed, Sep 30, 2020 at 2:34 PM Christian K=C3=B6nig
->> <christian.koenig@amd.com> wrote:
->>>
->>> Am 30.09.20 um 11:47 schrieb Daniel Vetter:
->>>> On Wed, Sep 30, 2020 at 10:34:31AM +0200, Christian K=C3=B6nig wrote=
-:
->>>>> Am 30.09.20 um 10:19 schrieb Thomas Zimmermann:
->>>>>> Hi
->>>>>>
->>>>>> Am 30.09.20 um 10:05 schrieb Christian K=C3=B6nig:
->>>>>>> Am 29.09.20 um 19:49 schrieb Thomas Zimmermann:
->>>>>>>> Hi Christian
->>>>>>>>
->>>>>>>> Am 29.09.20 um 17:35 schrieb Christian K=C3=B6nig:
->>>>>>>>> Am 29.09.20 um 17:14 schrieb Thomas Zimmermann:
->>>>>>>>>> The new helper ttm_kmap_obj_to_dma_buf() extracts address and =
-location
->>>>>>>>>> from and instance of TTM's kmap_obj and initializes struct dma=
-_buf_map
->>>>>>>>>> with these values. Helpful for TTM-based drivers.
->>>>>>>>> We could completely drop that if we use the same structure insi=
-de TTM as
->>>>>>>>> well.
->>>>>>>>>
->>>>>>>>> Additional to that which driver is going to use this?
->>>>>>>> As Daniel mentioned, it's in patch 3. The TTM-based drivers will=
-
->>>>>>>> retrieve the pointer via this function.
->>>>>>>>
->>>>>>>> I do want to see all that being more tightly integrated into TTM=
-, but
->>>>>>>> not in this series. This one is about fixing the bochs-on-sparc6=
-4
->>>>>>>> problem for good. Patch 7 adds an update to TTM to the DRM TODO =
-list.
->>>>>>> I should have asked which driver you try to fix here :)
->>>>>>>
->>>>>>> In this case just keep the function inside bochs and only fix it =
-there.
->>>>>>>
->>>>>>> All other drivers can be fixed when we generally pump this throug=
-h TTM.
->>>>>> Did you take a look at patch 3? This function will be used by VRAM=
-
->>>>>> helpers, nouveau, radeon, amdgpu and qxl. If we don't put it here,=
- we
->>>>>> have to duplicate the functionality in each if these drivers. Boch=
-s
->>>>>> itself uses VRAM helpers and doesn't touch the function directly.
->>>>> Ah, ok can we have that then only in the VRAM helpers?
->>>>>
->>>>> Alternative you could go ahead and use dma_buf_map in ttm_bo_kmap_o=
-bj
->>>>> directly and drop the hack with the TTM_BO_MAP_IOMEM_MASK.
->>>>>
->>>>> What I want to avoid is to have another conversion function in TTM =
-because
->>>>> what happens here is that we already convert from ttm_bus_placement=
- to
->>>>> ttm_bo_kmap_obj and then to dma_buf_map.
->>>> Hm I'm not really seeing how that helps with a gradual conversion of=
-
->>>> everything over to dma_buf_map and assorted helpers for access? Ther=
-e's
->>>> too many places in ttm drivers where is_iomem and related stuff is u=
-sed to
->>>> be able to convert it all in one go. An intermediate state with a bu=
-nch of
->>>> conversions seems fairly unavoidable to me.
->>>
->>> Fair enough. I would just have started bottom up and not top down.
->>>
->>> Anyway feel free to go ahead with this approach as long as we can rem=
-ove
->>> the new function again when we clean that stuff up for good.
->>
->> Yeah I guess bottom up would make more sense as a refactoring. But the=
-
->> main motivation to land this here is to fix the __mmio vs normal
->> memory confusion in the fbdev emulation helpers for sparc (and
->> anything else that needs this). Hence the top down approach for
->> rolling this out.
->=20
-> Ok I started reviewing this a bit more in-depth, and I think this is a =
-bit
-> too much of a de-tour.
->=20
-> Looking through all the callers of ttm_bo_kmap almost everyone maps the=
-
-> entire object. Only vmwgfx uses to map less than that. Also, everyone j=
-ust
-> immediately follows up with converting that full object map into a
-> pointer.
->=20
-> So I think what we really want here is:
-> - new function
->=20
-> int ttm_bo_vmap(struct ttm_buffer_object *bo, struct dma_buf_map *map);=
-
->=20
->   _vmap name since that's consistent with both dma_buf functions and
->   what's usually used to implement this. Outside of the ttm world kmap
->   usually just means single-page mappings using kmap() or it's iomem
->   sibling io_mapping_map* so rather confusing name for a function which=
-
->   usually is just used to set up a vmap of the entire buffer.
->=20
-> - a helper which can be used for the drm_gem_object_funcs vmap/vunmap
->   functions for all ttm drivers. We should be able to make this fully
->   generic because a) we now have dma_buf_map and b) drm_gem_object is
->   embedded in the ttm_bo, so we can upcast for everyone who's both a tt=
-m
->   and gem driver.
->=20
->   This is maybe a good follow-up, since it should allow us to ditch qui=
-te
->   a bit of the vram helper code for this more generic stuff. I also mig=
-ht
->   have missed some special-cases here, but from a quick look everything=
-
->   just pins the buffer to the current location and that's it.
->=20
->   Also this obviously requires Christian's generic ttm_bo_pin rework
->   first.
->=20
-> - roll the above out to drivers.
->=20
-> Christian/Thomas, thoughts on this?
-
-I agree on the goals, but what is the immediate objective here?
-
-Adding ttm_bo_vmap() does not work out easily, as struct ttm_bo_kmap_obj
-is a central part of the internals of TTM. struct ttm_bo_kmap_obj has
-more internal state that struct dma_buf_map, so they are not easily
-convertible either. What you propose seems to require a reimplementation
-of the existing ttm_bo_kmap() code. That is it's own patch series.
-
-I'd rather go with some variant of the existing patch and add
-ttm_bo_vmap() in a follow-up.
-
-Best regards
-Thomas
-
->=20
-> I think for the immediate need of rolling this out for vram helpers and=
-
-> fbdev code we should be able to do this, but just postpone the driver w=
-ide
-> roll-out for now.
->=20
-> Cheers, Daniel
->=20
->> -Daniel
->>
->>>
->>> Christian.
->>>
->>>> -Daniel
->>>>
->>>>> Thanks,
->>>>> Christian.
->>>>>
->>>>>> Best regards
->>>>>> Thomas
->>>>>>
->>>>>>> Regards,
->>>>>>> Christian.
->>>>>>>
->>>>>>>> Best regards
->>>>>>>> Thomas
->>>>>>>>
->>>>>>>>> Regards,
->>>>>>>>> Christian.
->>>>>>>>>
->>>>>>>>>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->>>>>>>>>> ---
->>>>>>>>>>     include/drm/ttm/ttm_bo_api.h | 24 ++++++++++++++++++++++++=
-
->>>>>>>>>>     include/linux/dma-buf-map.h  | 20 ++++++++++++++++++++
->>>>>>>>>>     2 files changed, 44 insertions(+)
->>>>>>>>>>
->>>>>>>>>> diff --git a/include/drm/ttm/ttm_bo_api.h b/include/drm/ttm/tt=
-m_bo_api.h
->>>>>>>>>> index c96a25d571c8..62d89f05a801 100644
->>>>>>>>>> --- a/include/drm/ttm/ttm_bo_api.h
->>>>>>>>>> +++ b/include/drm/ttm/ttm_bo_api.h
->>>>>>>>>> @@ -34,6 +34,7 @@
->>>>>>>>>>     #include <drm/drm_gem.h>
->>>>>>>>>>     #include <drm/drm_hashtab.h>
->>>>>>>>>>     #include <drm/drm_vma_manager.h>
->>>>>>>>>> +#include <linux/dma-buf-map.h>
->>>>>>>>>>     #include <linux/kref.h>
->>>>>>>>>>     #include <linux/list.h>
->>>>>>>>>>     #include <linux/wait.h>
->>>>>>>>>> @@ -486,6 +487,29 @@ static inline void *ttm_kmap_obj_virtual(=
-struct
->>>>>>>>>> ttm_bo_kmap_obj *map,
->>>>>>>>>>         return map->virtual;
->>>>>>>>>>     }
->>>>>>>>>>     +/**
->>>>>>>>>> + * ttm_kmap_obj_to_dma_buf_map
->>>>>>>>>> + *
->>>>>>>>>> + * @kmap: A struct ttm_bo_kmap_obj returned from ttm_bo_kmap.=
-
->>>>>>>>>> + * @map: Returns the mapping as struct dma_buf_map
->>>>>>>>>> + *
->>>>>>>>>> + * Converts struct ttm_bo_kmap_obj to struct dma_buf_map. If =
-the memory
->>>>>>>>>> + * is not mapped, the returned mapping is initialized to NULL=
-=2E
->>>>>>>>>> + */
->>>>>>>>>> +static inline void ttm_kmap_obj_to_dma_buf_map(struct ttm_bo_=
-kmap_obj
->>>>>>>>>> *kmap,
->>>>>>>>>> +                           struct dma_buf_map *map)
->>>>>>>>>> +{
->>>>>>>>>> +    bool is_iomem;
->>>>>>>>>> +    void *vaddr =3D ttm_kmap_obj_virtual(kmap, &is_iomem);
->>>>>>>>>> +
->>>>>>>>>> +    if (!vaddr)
->>>>>>>>>> +        dma_buf_map_clear(map);
->>>>>>>>>> +    else if (is_iomem)
->>>>>>>>>> +        dma_buf_map_set_vaddr_iomem(map, (void __force __iome=
-m *)vaddr);
->>>>>>>>>> +    else
->>>>>>>>>> +        dma_buf_map_set_vaddr(map, vaddr);
->>>>>>>>>> +}
->>>>>>>>>> +
->>>>>>>>>>     /**
->>>>>>>>>>      * ttm_bo_kmap
->>>>>>>>>>      *
->>>>>>>>>> diff --git a/include/linux/dma-buf-map.h b/include/linux/dma-b=
-uf-map.h
->>>>>>>>>> index fd1aba545fdf..2e8bbecb5091 100644
->>>>>>>>>> --- a/include/linux/dma-buf-map.h
->>>>>>>>>> +++ b/include/linux/dma-buf-map.h
->>>>>>>>>> @@ -45,6 +45,12 @@
->>>>>>>>>>      *
->>>>>>>>>>      *    dma_buf_map_set_vaddr(&map. 0xdeadbeaf);
->>>>>>>>>>      *
->>>>>>>>>> + * To set an address in I/O memory, use dma_buf_map_set_vaddr=
-_iomem().
->>>>>>>>>> + *
->>>>>>>>>> + * .. code-block:: c
->>>>>>>>>> + *
->>>>>>>>>> + *    dma_buf_map_set_vaddr_iomem(&map. 0xdeadbeaf);
->>>>>>>>>> + *
->>>>>>>>>>      * Test if a mapping is valid with either dma_buf_map_is_s=
-et() or
->>>>>>>>>>      * dma_buf_map_is_null().
->>>>>>>>>>      *
->>>>>>>>>> @@ -118,6 +124,20 @@ static inline void dma_buf_map_set_vaddr(=
-struct
->>>>>>>>>> dma_buf_map *map, void *vaddr)
->>>>>>>>>>         map->is_iomem =3D false;
->>>>>>>>>>     }
->>>>>>>>>>     +/**
->>>>>>>>>> + * dma_buf_map_set_vaddr_iomem - Sets a dma-buf mapping struc=
-ture to
->>>>>>>>>> an address in I/O memory
->>>>>>>>>> + * @map:        The dma-buf mapping structure
->>>>>>>>>> + * @vaddr_iomem:    An I/O-memory address
->>>>>>>>>> + *
->>>>>>>>>> + * Sets the address and the I/O-memory flag.
->>>>>>>>>> + */
->>>>>>>>>> +static inline void dma_buf_map_set_vaddr_iomem(struct dma_buf=
-_map *map,
->>>>>>>>>> +                           void __iomem *vaddr_iomem)
->>>>>>>>>> +{
->>>>>>>>>> +    map->vaddr_iomem =3D vaddr_iomem;
->>>>>>>>>> +    map->is_iomem =3D true;
->>>>>>>>>> +}
->>>>>>>>>> +
->>>>>>>>>>     /**
->>>>>>>>>>      * dma_buf_map_is_equal - Compares two dma-buf mapping str=
-uctures
->>>>>>>>>> for equality
->>>>>>>>>>      * @lhs:    The dma-buf mapping structure
->>>>>>>>> _______________________________________________
->>>>>>>>> dri-devel mailing list
->>>>>>>>> dri-devel@lists.freedesktop.org
->>>>>>>>> https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%=
-2F%2Flists.freedesktop.org%2Fmailman%2Flistinfo%2Fdri-devel&amp;data=3D02=
-%7C01%7Cchristian.koenig%40amd.com%7C472c3d655a61411deb6708d86525d1b8%7C3=
-dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637370560438965013&amp;sdata=3D=
-HdHOA%2F1VcIX%2F7YtfYTiAqYEvw7Ag%2FS%2BxS5VwJKOv5y0%3D&amp;reserved=3D0
->>>>>>>> _______________________________________________
->>>>>>>> amd-gfx mailing list
->>>>>>>> amd-gfx@lists.freedesktop.org
->>>>>>>> https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2=
-F%2Flists.freedesktop.org%2Fmailman%2Flistinfo%2Famd-gfx&amp;data=3D02%7C=
-01%7Cchristian.koenig%40amd.com%7C472c3d655a61411deb6708d86525d1b8%7C3dd8=
-961fe4884e608e11a82d994e183d%7C0%7C0%7C637370560438965013&amp;sdata=3DH%2=
-B5HKCsTrksRV2EyEiFGSTyS79jsWCmJimSMoJYusx8%3D&amp;reserved=3D0
->>>>>>> _______________________________________________
->>>>>>> dri-devel mailing list
->>>>>>> dri-devel@lists.freedesktop.org
->>>>>>> https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F=
-%2Flists.freedesktop.org%2Fmailman%2Flistinfo%2Fdri-devel&amp;data=3D02%7=
-C01%7Cchristian.koenig%40amd.com%7C472c3d655a61411deb6708d86525d1b8%7C3dd=
-8961fe4884e608e11a82d994e183d%7C0%7C0%7C637370560438965013&amp;sdata=3DHd=
-HOA%2F1VcIX%2F7YtfYTiAqYEvw7Ag%2FS%2BxS5VwJKOv5y0%3D&amp;reserved=3D0
->>>>>>>
->>>>>> _______________________________________________
->>>>>> amd-gfx mailing list
->>>>>> amd-gfx@lists.freedesktop.org
->>>>>> https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%=
-2Flists.freedesktop.org%2Fmailman%2Flistinfo%2Famd-gfx&amp;data=3D02%7C01=
-%7Cchristian.koenig%40amd.com%7C472c3d655a61411deb6708d86525d1b8%7C3dd896=
-1fe4884e608e11a82d994e183d%7C0%7C0%7C637370560438965013&amp;sdata=3DH%2B5=
-HKCsTrksRV2EyEiFGSTyS79jsWCmJimSMoJYusx8%3D&amp;reserved=3D0
->>>
->>
->>
->> --=20
->> Daniel Vetter
->> Software Engineer, Intel Corporation
->> http://blog.ffwll.ch
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---eO0KkNElTwku9CAInc7DmPRt4uql8oe3b--
-
---A04G9t256jlYlZevsaZFScYx8JwBsN4Kq
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl99uzYUHHR6aW1tZXJt
-YW5uQHN1c2UuZGUACgkQaA3BHVMLeiPFlAf/dShA6MXCEFDqVh7Q2aekDDfCOwKP
-86fkrX8xWfiHNET9AoewUP7K9m5+iArIbwelpHBUNV2q7EUKG8xVuK5S55bz6xxq
-3vSlROkD+JZvgovXr5BuGyfn2Wfh9XI9+rs3+OtERgtJfNhjEpNok5rukvNAoFzG
-ePSAUBcIN7Ezb5O93zT45pI5YwQYe9ZyFiLVztXAZ67edwZbZN8NBp5OrnAhP8Po
-57jSeNoEnzwhVF7+V+tgRYYA8y7Bz7VNTbqaJoEBvqDhQQsrt0KLshFG9NQY/srf
-/fO1NoHVLPTajZPPYmd9F/2xDImwGoZF2MDLL30AFoRRynTMiWtqixUpJQ==
-=sTNF
------END PGP SIGNATURE-----
-
---A04G9t256jlYlZevsaZFScYx8JwBsN4Kq--
-
---===============1260282381==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-etnaviv mailing list
-etnaviv@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/etnaviv
-
---===============1260282381==--
+T24gV2VkLCBPY3QgNywgMjAyMCBhdCAyOjU3IFBNIFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVy
+bWFubkBzdXNlLmRlPiB3cm90ZToKPgo+IEhpCj4KPiBBbSAwMi4xMC4yMCB1bSAxMTo1OCBzY2hy
+aWViIERhbmllbCBWZXR0ZXI6Cj4gPiBPbiBXZWQsIFNlcCAzMCwgMjAyMCBhdCAwMjo1MTo0NlBN
+ICswMjAwLCBEYW5pZWwgVmV0dGVyIHdyb3RlOgo+ID4+IE9uIFdlZCwgU2VwIDMwLCAyMDIwIGF0
+IDI6MzQgUE0gQ2hyaXN0aWFuIEvDtm5pZwo+ID4+IDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+
+IHdyb3RlOgo+ID4+Pgo+ID4+PiBBbSAzMC4wOS4yMCB1bSAxMTo0NyBzY2hyaWViIERhbmllbCBW
+ZXR0ZXI6Cj4gPj4+PiBPbiBXZWQsIFNlcCAzMCwgMjAyMCBhdCAxMDozNDozMUFNICswMjAwLCBD
+aHJpc3RpYW4gS8O2bmlnIHdyb3RlOgo+ID4+Pj4+IEFtIDMwLjA5LjIwIHVtIDEwOjE5IHNjaHJp
+ZWIgVGhvbWFzIFppbW1lcm1hbm46Cj4gPj4+Pj4+IEhpCj4gPj4+Pj4+Cj4gPj4+Pj4+IEFtIDMw
+LjA5LjIwIHVtIDEwOjA1IHNjaHJpZWIgQ2hyaXN0aWFuIEvDtm5pZzoKPiA+Pj4+Pj4+IEFtIDI5
+LjA5LjIwIHVtIDE5OjQ5IHNjaHJpZWIgVGhvbWFzIFppbW1lcm1hbm46Cj4gPj4+Pj4+Pj4gSGkg
+Q2hyaXN0aWFuCj4gPj4+Pj4+Pj4KPiA+Pj4+Pj4+PiBBbSAyOS4wOS4yMCB1bSAxNzozNSBzY2hy
+aWViIENocmlzdGlhbiBLw7ZuaWc6Cj4gPj4+Pj4+Pj4+IEFtIDI5LjA5LjIwIHVtIDE3OjE0IHNj
+aHJpZWIgVGhvbWFzIFppbW1lcm1hbm46Cj4gPj4+Pj4+Pj4+PiBUaGUgbmV3IGhlbHBlciB0dG1f
+a21hcF9vYmpfdG9fZG1hX2J1ZigpIGV4dHJhY3RzIGFkZHJlc3MgYW5kIGxvY2F0aW9uCj4gPj4+
+Pj4+Pj4+PiBmcm9tIGFuZCBpbnN0YW5jZSBvZiBUVE0ncyBrbWFwX29iaiBhbmQgaW5pdGlhbGl6
+ZXMgc3RydWN0IGRtYV9idWZfbWFwCj4gPj4+Pj4+Pj4+PiB3aXRoIHRoZXNlIHZhbHVlcy4gSGVs
+cGZ1bCBmb3IgVFRNLWJhc2VkIGRyaXZlcnMuCj4gPj4+Pj4+Pj4+IFdlIGNvdWxkIGNvbXBsZXRl
+bHkgZHJvcCB0aGF0IGlmIHdlIHVzZSB0aGUgc2FtZSBzdHJ1Y3R1cmUgaW5zaWRlIFRUTSBhcwo+
+ID4+Pj4+Pj4+PiB3ZWxsLgo+ID4+Pj4+Pj4+Pgo+ID4+Pj4+Pj4+PiBBZGRpdGlvbmFsIHRvIHRo
+YXQgd2hpY2ggZHJpdmVyIGlzIGdvaW5nIHRvIHVzZSB0aGlzPwo+ID4+Pj4+Pj4+IEFzIERhbmll
+bCBtZW50aW9uZWQsIGl0J3MgaW4gcGF0Y2ggMy4gVGhlIFRUTS1iYXNlZCBkcml2ZXJzIHdpbGwK
+PiA+Pj4+Pj4+PiByZXRyaWV2ZSB0aGUgcG9pbnRlciB2aWEgdGhpcyBmdW5jdGlvbi4KPiA+Pj4+
+Pj4+Pgo+ID4+Pj4+Pj4+IEkgZG8gd2FudCB0byBzZWUgYWxsIHRoYXQgYmVpbmcgbW9yZSB0aWdo
+dGx5IGludGVncmF0ZWQgaW50byBUVE0sIGJ1dAo+ID4+Pj4+Pj4+IG5vdCBpbiB0aGlzIHNlcmll
+cy4gVGhpcyBvbmUgaXMgYWJvdXQgZml4aW5nIHRoZSBib2Nocy1vbi1zcGFyYzY0Cj4gPj4+Pj4+
+Pj4gcHJvYmxlbSBmb3IgZ29vZC4gUGF0Y2ggNyBhZGRzIGFuIHVwZGF0ZSB0byBUVE0gdG8gdGhl
+IERSTSBUT0RPIGxpc3QuCj4gPj4+Pj4+PiBJIHNob3VsZCBoYXZlIGFza2VkIHdoaWNoIGRyaXZl
+ciB5b3UgdHJ5IHRvIGZpeCBoZXJlIDopCj4gPj4+Pj4+Pgo+ID4+Pj4+Pj4gSW4gdGhpcyBjYXNl
+IGp1c3Qga2VlcCB0aGUgZnVuY3Rpb24gaW5zaWRlIGJvY2hzIGFuZCBvbmx5IGZpeCBpdCB0aGVy
+ZS4KPiA+Pj4+Pj4+Cj4gPj4+Pj4+PiBBbGwgb3RoZXIgZHJpdmVycyBjYW4gYmUgZml4ZWQgd2hl
+biB3ZSBnZW5lcmFsbHkgcHVtcCB0aGlzIHRocm91Z2ggVFRNLgo+ID4+Pj4+PiBEaWQgeW91IHRh
+a2UgYSBsb29rIGF0IHBhdGNoIDM/IFRoaXMgZnVuY3Rpb24gd2lsbCBiZSB1c2VkIGJ5IFZSQU0K
+PiA+Pj4+Pj4gaGVscGVycywgbm91dmVhdSwgcmFkZW9uLCBhbWRncHUgYW5kIHF4bC4gSWYgd2Ug
+ZG9uJ3QgcHV0IGl0IGhlcmUsIHdlCj4gPj4+Pj4+IGhhdmUgdG8gZHVwbGljYXRlIHRoZSBmdW5j
+dGlvbmFsaXR5IGluIGVhY2ggaWYgdGhlc2UgZHJpdmVycy4gQm9jaHMKPiA+Pj4+Pj4gaXRzZWxm
+IHVzZXMgVlJBTSBoZWxwZXJzIGFuZCBkb2Vzbid0IHRvdWNoIHRoZSBmdW5jdGlvbiBkaXJlY3Rs
+eS4KPiA+Pj4+PiBBaCwgb2sgY2FuIHdlIGhhdmUgdGhhdCB0aGVuIG9ubHkgaW4gdGhlIFZSQU0g
+aGVscGVycz8KPiA+Pj4+Pgo+ID4+Pj4+IEFsdGVybmF0aXZlIHlvdSBjb3VsZCBnbyBhaGVhZCBh
+bmQgdXNlIGRtYV9idWZfbWFwIGluIHR0bV9ib19rbWFwX29iago+ID4+Pj4+IGRpcmVjdGx5IGFu
+ZCBkcm9wIHRoZSBoYWNrIHdpdGggdGhlIFRUTV9CT19NQVBfSU9NRU1fTUFTSy4KPiA+Pj4+Pgo+
+ID4+Pj4+IFdoYXQgSSB3YW50IHRvIGF2b2lkIGlzIHRvIGhhdmUgYW5vdGhlciBjb252ZXJzaW9u
+IGZ1bmN0aW9uIGluIFRUTSBiZWNhdXNlCj4gPj4+Pj4gd2hhdCBoYXBwZW5zIGhlcmUgaXMgdGhh
+dCB3ZSBhbHJlYWR5IGNvbnZlcnQgZnJvbSB0dG1fYnVzX3BsYWNlbWVudCB0bwo+ID4+Pj4+IHR0
+bV9ib19rbWFwX29iaiBhbmQgdGhlbiB0byBkbWFfYnVmX21hcC4KPiA+Pj4+IEhtIEknbSBub3Qg
+cmVhbGx5IHNlZWluZyBob3cgdGhhdCBoZWxwcyB3aXRoIGEgZ3JhZHVhbCBjb252ZXJzaW9uIG9m
+Cj4gPj4+PiBldmVyeXRoaW5nIG92ZXIgdG8gZG1hX2J1Zl9tYXAgYW5kIGFzc29ydGVkIGhlbHBl
+cnMgZm9yIGFjY2Vzcz8gVGhlcmUncwo+ID4+Pj4gdG9vIG1hbnkgcGxhY2VzIGluIHR0bSBkcml2
+ZXJzIHdoZXJlIGlzX2lvbWVtIGFuZCByZWxhdGVkIHN0dWZmIGlzIHVzZWQgdG8KPiA+Pj4+IGJl
+IGFibGUgdG8gY29udmVydCBpdCBhbGwgaW4gb25lIGdvLiBBbiBpbnRlcm1lZGlhdGUgc3RhdGUg
+d2l0aCBhIGJ1bmNoIG9mCj4gPj4+PiBjb252ZXJzaW9ucyBzZWVtcyBmYWlybHkgdW5hdm9pZGFi
+bGUgdG8gbWUuCj4gPj4+Cj4gPj4+IEZhaXIgZW5vdWdoLiBJIHdvdWxkIGp1c3QgaGF2ZSBzdGFy
+dGVkIGJvdHRvbSB1cCBhbmQgbm90IHRvcCBkb3duLgo+ID4+Pgo+ID4+PiBBbnl3YXkgZmVlbCBm
+cmVlIHRvIGdvIGFoZWFkIHdpdGggdGhpcyBhcHByb2FjaCBhcyBsb25nIGFzIHdlIGNhbiByZW1v
+dmUKPiA+Pj4gdGhlIG5ldyBmdW5jdGlvbiBhZ2FpbiB3aGVuIHdlIGNsZWFuIHRoYXQgc3R1ZmYg
+dXAgZm9yIGdvb2QuCj4gPj4KPiA+PiBZZWFoIEkgZ3Vlc3MgYm90dG9tIHVwIHdvdWxkIG1ha2Ug
+bW9yZSBzZW5zZSBhcyBhIHJlZmFjdG9yaW5nLiBCdXQgdGhlCj4gPj4gbWFpbiBtb3RpdmF0aW9u
+IHRvIGxhbmQgdGhpcyBoZXJlIGlzIHRvIGZpeCB0aGUgX19tbWlvIHZzIG5vcm1hbAo+ID4+IG1l
+bW9yeSBjb25mdXNpb24gaW4gdGhlIGZiZGV2IGVtdWxhdGlvbiBoZWxwZXJzIGZvciBzcGFyYyAo
+YW5kCj4gPj4gYW55dGhpbmcgZWxzZSB0aGF0IG5lZWRzIHRoaXMpLiBIZW5jZSB0aGUgdG9wIGRv
+d24gYXBwcm9hY2ggZm9yCj4gPj4gcm9sbGluZyB0aGlzIG91dC4KPiA+Cj4gPiBPayBJIHN0YXJ0
+ZWQgcmV2aWV3aW5nIHRoaXMgYSBiaXQgbW9yZSBpbi1kZXB0aCwgYW5kIEkgdGhpbmsgdGhpcyBp
+cyBhIGJpdAo+ID4gdG9vIG11Y2ggb2YgYSBkZS10b3VyLgo+ID4KPiA+IExvb2tpbmcgdGhyb3Vn
+aCBhbGwgdGhlIGNhbGxlcnMgb2YgdHRtX2JvX2ttYXAgYWxtb3N0IGV2ZXJ5b25lIG1hcHMgdGhl
+Cj4gPiBlbnRpcmUgb2JqZWN0LiBPbmx5IHZtd2dmeCB1c2VzIHRvIG1hcCBsZXNzIHRoYW4gdGhh
+dC4gQWxzbywgZXZlcnlvbmUganVzdAo+ID4gaW1tZWRpYXRlbHkgZm9sbG93cyB1cCB3aXRoIGNv
+bnZlcnRpbmcgdGhhdCBmdWxsIG9iamVjdCBtYXAgaW50byBhCj4gPiBwb2ludGVyLgo+ID4KPiA+
+IFNvIEkgdGhpbmsgd2hhdCB3ZSByZWFsbHkgd2FudCBoZXJlIGlzOgo+ID4gLSBuZXcgZnVuY3Rp
+b24KPiA+Cj4gPiBpbnQgdHRtX2JvX3ZtYXAoc3RydWN0IHR0bV9idWZmZXJfb2JqZWN0ICpibywg
+c3RydWN0IGRtYV9idWZfbWFwICptYXApOwo+ID4KPiA+ICAgX3ZtYXAgbmFtZSBzaW5jZSB0aGF0
+J3MgY29uc2lzdGVudCB3aXRoIGJvdGggZG1hX2J1ZiBmdW5jdGlvbnMgYW5kCj4gPiAgIHdoYXQn
+cyB1c3VhbGx5IHVzZWQgdG8gaW1wbGVtZW50IHRoaXMuIE91dHNpZGUgb2YgdGhlIHR0bSB3b3Js
+ZCBrbWFwCj4gPiAgIHVzdWFsbHkganVzdCBtZWFucyBzaW5nbGUtcGFnZSBtYXBwaW5ncyB1c2lu
+ZyBrbWFwKCkgb3IgaXQncyBpb21lbQo+ID4gICBzaWJsaW5nIGlvX21hcHBpbmdfbWFwKiBzbyBy
+YXRoZXIgY29uZnVzaW5nIG5hbWUgZm9yIGEgZnVuY3Rpb24gd2hpY2gKPiA+ICAgdXN1YWxseSBp
+cyBqdXN0IHVzZWQgdG8gc2V0IHVwIGEgdm1hcCBvZiB0aGUgZW50aXJlIGJ1ZmZlci4KPiA+Cj4g
+PiAtIGEgaGVscGVyIHdoaWNoIGNhbiBiZSB1c2VkIGZvciB0aGUgZHJtX2dlbV9vYmplY3RfZnVu
+Y3Mgdm1hcC92dW5tYXAKPiA+ICAgZnVuY3Rpb25zIGZvciBhbGwgdHRtIGRyaXZlcnMuIFdlIHNo
+b3VsZCBiZSBhYmxlIHRvIG1ha2UgdGhpcyBmdWxseQo+ID4gICBnZW5lcmljIGJlY2F1c2UgYSkg
+d2Ugbm93IGhhdmUgZG1hX2J1Zl9tYXAgYW5kIGIpIGRybV9nZW1fb2JqZWN0IGlzCj4gPiAgIGVt
+YmVkZGVkIGluIHRoZSB0dG1fYm8sIHNvIHdlIGNhbiB1cGNhc3QgZm9yIGV2ZXJ5b25lIHdobydz
+IGJvdGggYSB0dG0KPiA+ICAgYW5kIGdlbSBkcml2ZXIuCj4gPgo+ID4gICBUaGlzIGlzIG1heWJl
+IGEgZ29vZCBmb2xsb3ctdXAsIHNpbmNlIGl0IHNob3VsZCBhbGxvdyB1cyB0byBkaXRjaCBxdWl0
+ZQo+ID4gICBhIGJpdCBvZiB0aGUgdnJhbSBoZWxwZXIgY29kZSBmb3IgdGhpcyBtb3JlIGdlbmVy
+aWMgc3R1ZmYuIEkgYWxzbyBtaWdodAo+ID4gICBoYXZlIG1pc3NlZCBzb21lIHNwZWNpYWwtY2Fz
+ZXMgaGVyZSwgYnV0IGZyb20gYSBxdWljayBsb29rIGV2ZXJ5dGhpbmcKPiA+ICAganVzdCBwaW5z
+IHRoZSBidWZmZXIgdG8gdGhlIGN1cnJlbnQgbG9jYXRpb24gYW5kIHRoYXQncyBpdC4KPiA+Cj4g
+PiAgIEFsc28gdGhpcyBvYnZpb3VzbHkgcmVxdWlyZXMgQ2hyaXN0aWFuJ3MgZ2VuZXJpYyB0dG1f
+Ym9fcGluIHJld29yawo+ID4gICBmaXJzdC4KPiA+Cj4gPiAtIHJvbGwgdGhlIGFib3ZlIG91dCB0
+byBkcml2ZXJzLgo+ID4KPiA+IENocmlzdGlhbi9UaG9tYXMsIHRob3VnaHRzIG9uIHRoaXM/Cj4K
+PiBJIGFncmVlIG9uIHRoZSBnb2FscywgYnV0IHdoYXQgaXMgdGhlIGltbWVkaWF0ZSBvYmplY3Rp
+dmUgaGVyZT8KPgo+IEFkZGluZyB0dG1fYm9fdm1hcCgpIGRvZXMgbm90IHdvcmsgb3V0IGVhc2ls
+eSwgYXMgc3RydWN0IHR0bV9ib19rbWFwX29iago+IGlzIGEgY2VudHJhbCBwYXJ0IG9mIHRoZSBp
+bnRlcm5hbHMgb2YgVFRNLiBzdHJ1Y3QgdHRtX2JvX2ttYXBfb2JqIGhhcwo+IG1vcmUgaW50ZXJu
+YWwgc3RhdGUgdGhhdCBzdHJ1Y3QgZG1hX2J1Zl9tYXAsIHNvIHRoZXkgYXJlIG5vdCBlYXNpbHkK
+PiBjb252ZXJ0aWJsZSBlaXRoZXIuIFdoYXQgeW91IHByb3Bvc2Ugc2VlbXMgdG8gcmVxdWlyZSBh
+IHJlaW1wbGVtZW50YXRpb24KPiBvZiB0aGUgZXhpc3RpbmcgdHRtX2JvX2ttYXAoKSBjb2RlLiBU
+aGF0IGlzIGl0J3Mgb3duIHBhdGNoIHNlcmllcy4KPgo+IEknZCByYXRoZXIgZ28gd2l0aCBzb21l
+IHZhcmlhbnQgb2YgdGhlIGV4aXN0aW5nIHBhdGNoIGFuZCBhZGQKPiB0dG1fYm9fdm1hcCgpIGlu
+IGEgZm9sbG93LXVwLgoKdHRtX2JvX3ZtYXAgd291bGQgc2ltcGx5IHdyYXAgd2hhdCB5b3UgY3Vy
+cmVudGx5IG9wZW4tY29kZSBhcwp0dG1fYm9fa21hcCArIHR0bV9rbWFwX29ial90b19kbWFfYnVm
+X21hcC4gUmVtb3ZpbmcgdHRtX2ttYXBfb2JqIHdvdWxkCmJlIGEgbXVjaCBsYXRlciBzdGVwLiBX
+aHkgZG8geW91IHRoaW5rIGFkZGluZyB0dG1fYm9fdm1hcCBpcyBub3QKcG9zc2libGU/Ci1EYW5p
+ZWwKCgo+IEJlc3QgcmVnYXJkcwo+IFRob21hcwo+Cj4gPgo+ID4gSSB0aGluayBmb3IgdGhlIGlt
+bWVkaWF0ZSBuZWVkIG9mIHJvbGxpbmcgdGhpcyBvdXQgZm9yIHZyYW0gaGVscGVycyBhbmQKPiA+
+IGZiZGV2IGNvZGUgd2Ugc2hvdWxkIGJlIGFibGUgdG8gZG8gdGhpcywgYnV0IGp1c3QgcG9zdHBv
+bmUgdGhlIGRyaXZlciB3aWRlCj4gPiByb2xsLW91dCBmb3Igbm93Lgo+ID4KPiA+IENoZWVycywg
+RGFuaWVsCj4gPgo+ID4+IC1EYW5pZWwKPiA+Pgo+ID4+Pgo+ID4+PiBDaHJpc3RpYW4uCj4gPj4+
+Cj4gPj4+PiAtRGFuaWVsCj4gPj4+Pgo+ID4+Pj4+IFRoYW5rcywKPiA+Pj4+PiBDaHJpc3RpYW4u
+Cj4gPj4+Pj4KPiA+Pj4+Pj4gQmVzdCByZWdhcmRzCj4gPj4+Pj4+IFRob21hcwo+ID4+Pj4+Pgo+
+ID4+Pj4+Pj4gUmVnYXJkcywKPiA+Pj4+Pj4+IENocmlzdGlhbi4KPiA+Pj4+Pj4+Cj4gPj4+Pj4+
+Pj4gQmVzdCByZWdhcmRzCj4gPj4+Pj4+Pj4gVGhvbWFzCj4gPj4+Pj4+Pj4KPiA+Pj4+Pj4+Pj4g
+UmVnYXJkcywKPiA+Pj4+Pj4+Pj4gQ2hyaXN0aWFuLgo+ID4+Pj4+Pj4+Pgo+ID4+Pj4+Pj4+Pj4g
+U2lnbmVkLW9mZi1ieTogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+Cj4g
+Pj4+Pj4+Pj4+PiAtLS0KPiA+Pj4+Pj4+Pj4+ICAgICBpbmNsdWRlL2RybS90dG0vdHRtX2JvX2Fw
+aS5oIHwgMjQgKysrKysrKysrKysrKysrKysrKysrKysrCj4gPj4+Pj4+Pj4+PiAgICAgaW5jbHVk
+ZS9saW51eC9kbWEtYnVmLW1hcC5oICB8IDIwICsrKysrKysrKysrKysrKysrKysrCj4gPj4+Pj4+
+Pj4+PiAgICAgMiBmaWxlcyBjaGFuZ2VkLCA0NCBpbnNlcnRpb25zKCspCj4gPj4+Pj4+Pj4+Pgo+
+ID4+Pj4+Pj4+Pj4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvZHJtL3R0bS90dG1fYm9fYXBpLmggYi9p
+bmNsdWRlL2RybS90dG0vdHRtX2JvX2FwaS5oCj4gPj4+Pj4+Pj4+PiBpbmRleCBjOTZhMjVkNTcx
+YzguLjYyZDg5ZjA1YTgwMSAxMDA2NDQKPiA+Pj4+Pj4+Pj4+IC0tLSBhL2luY2x1ZGUvZHJtL3R0
+bS90dG1fYm9fYXBpLmgKPiA+Pj4+Pj4+Pj4+ICsrKyBiL2luY2x1ZGUvZHJtL3R0bS90dG1fYm9f
+YXBpLmgKPiA+Pj4+Pj4+Pj4+IEBAIC0zNCw2ICszNCw3IEBACj4gPj4+Pj4+Pj4+PiAgICAgI2lu
+Y2x1ZGUgPGRybS9kcm1fZ2VtLmg+Cj4gPj4+Pj4+Pj4+PiAgICAgI2luY2x1ZGUgPGRybS9kcm1f
+aGFzaHRhYi5oPgo+ID4+Pj4+Pj4+Pj4gICAgICNpbmNsdWRlIDxkcm0vZHJtX3ZtYV9tYW5hZ2Vy
+Lmg+Cj4gPj4+Pj4+Pj4+PiArI2luY2x1ZGUgPGxpbnV4L2RtYS1idWYtbWFwLmg+Cj4gPj4+Pj4+
+Pj4+PiAgICAgI2luY2x1ZGUgPGxpbnV4L2tyZWYuaD4KPiA+Pj4+Pj4+Pj4+ICAgICAjaW5jbHVk
+ZSA8bGludXgvbGlzdC5oPgo+ID4+Pj4+Pj4+Pj4gICAgICNpbmNsdWRlIDxsaW51eC93YWl0Lmg+
+Cj4gPj4+Pj4+Pj4+PiBAQCAtNDg2LDYgKzQ4NywyOSBAQCBzdGF0aWMgaW5saW5lIHZvaWQgKnR0
+bV9rbWFwX29ial92aXJ0dWFsKHN0cnVjdAo+ID4+Pj4+Pj4+Pj4gdHRtX2JvX2ttYXBfb2JqICpt
+YXAsCj4gPj4+Pj4+Pj4+PiAgICAgICAgIHJldHVybiBtYXAtPnZpcnR1YWw7Cj4gPj4+Pj4+Pj4+
+PiAgICAgfQo+ID4+Pj4+Pj4+Pj4gICAgICsvKioKPiA+Pj4+Pj4+Pj4+ICsgKiB0dG1fa21hcF9v
+YmpfdG9fZG1hX2J1Zl9tYXAKPiA+Pj4+Pj4+Pj4+ICsgKgo+ID4+Pj4+Pj4+Pj4gKyAqIEBrbWFw
+OiBBIHN0cnVjdCB0dG1fYm9fa21hcF9vYmogcmV0dXJuZWQgZnJvbSB0dG1fYm9fa21hcC4KPiA+
+Pj4+Pj4+Pj4+ICsgKiBAbWFwOiBSZXR1cm5zIHRoZSBtYXBwaW5nIGFzIHN0cnVjdCBkbWFfYnVm
+X21hcAo+ID4+Pj4+Pj4+Pj4gKyAqCj4gPj4+Pj4+Pj4+PiArICogQ29udmVydHMgc3RydWN0IHR0
+bV9ib19rbWFwX29iaiB0byBzdHJ1Y3QgZG1hX2J1Zl9tYXAuIElmIHRoZSBtZW1vcnkKPiA+Pj4+
+Pj4+Pj4+ICsgKiBpcyBub3QgbWFwcGVkLCB0aGUgcmV0dXJuZWQgbWFwcGluZyBpcyBpbml0aWFs
+aXplZCB0byBOVUxMLgo+ID4+Pj4+Pj4+Pj4gKyAqLwo+ID4+Pj4+Pj4+Pj4gK3N0YXRpYyBpbmxp
+bmUgdm9pZCB0dG1fa21hcF9vYmpfdG9fZG1hX2J1Zl9tYXAoc3RydWN0IHR0bV9ib19rbWFwX29i
+ago+ID4+Pj4+Pj4+Pj4gKmttYXAsCj4gPj4+Pj4+Pj4+PiArICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgc3RydWN0IGRtYV9idWZfbWFwICptYXApCj4gPj4+Pj4+Pj4+PiArewo+ID4+Pj4+Pj4+
+Pj4gKyAgICBib29sIGlzX2lvbWVtOwo+ID4+Pj4+Pj4+Pj4gKyAgICB2b2lkICp2YWRkciA9IHR0
+bV9rbWFwX29ial92aXJ0dWFsKGttYXAsICZpc19pb21lbSk7Cj4gPj4+Pj4+Pj4+PiArCj4gPj4+
+Pj4+Pj4+PiArICAgIGlmICghdmFkZHIpCj4gPj4+Pj4+Pj4+PiArICAgICAgICBkbWFfYnVmX21h
+cF9jbGVhcihtYXApOwo+ID4+Pj4+Pj4+Pj4gKyAgICBlbHNlIGlmIChpc19pb21lbSkKPiA+Pj4+
+Pj4+Pj4+ICsgICAgICAgIGRtYV9idWZfbWFwX3NldF92YWRkcl9pb21lbShtYXAsICh2b2lkIF9f
+Zm9yY2UgX19pb21lbSAqKXZhZGRyKTsKPiA+Pj4+Pj4+Pj4+ICsgICAgZWxzZQo+ID4+Pj4+Pj4+
+Pj4gKyAgICAgICAgZG1hX2J1Zl9tYXBfc2V0X3ZhZGRyKG1hcCwgdmFkZHIpOwo+ID4+Pj4+Pj4+
+Pj4gK30KPiA+Pj4+Pj4+Pj4+ICsKPiA+Pj4+Pj4+Pj4+ICAgICAvKioKPiA+Pj4+Pj4+Pj4+ICAg
+ICAgKiB0dG1fYm9fa21hcAo+ID4+Pj4+Pj4+Pj4gICAgICAqCj4gPj4+Pj4+Pj4+PiBkaWZmIC0t
+Z2l0IGEvaW5jbHVkZS9saW51eC9kbWEtYnVmLW1hcC5oIGIvaW5jbHVkZS9saW51eC9kbWEtYnVm
+LW1hcC5oCj4gPj4+Pj4+Pj4+PiBpbmRleCBmZDFhYmE1NDVmZGYuLjJlOGJiZWNiNTA5MSAxMDA2
+NDQKPiA+Pj4+Pj4+Pj4+IC0tLSBhL2luY2x1ZGUvbGludXgvZG1hLWJ1Zi1tYXAuaAo+ID4+Pj4+
+Pj4+Pj4gKysrIGIvaW5jbHVkZS9saW51eC9kbWEtYnVmLW1hcC5oCj4gPj4+Pj4+Pj4+PiBAQCAt
+NDUsNiArNDUsMTIgQEAKPiA+Pj4+Pj4+Pj4+ICAgICAgKgo+ID4+Pj4+Pj4+Pj4gICAgICAqICAg
+IGRtYV9idWZfbWFwX3NldF92YWRkcigmbWFwLiAweGRlYWRiZWFmKTsKPiA+Pj4+Pj4+Pj4+ICAg
+ICAgKgo+ID4+Pj4+Pj4+Pj4gKyAqIFRvIHNldCBhbiBhZGRyZXNzIGluIEkvTyBtZW1vcnksIHVz
+ZSBkbWFfYnVmX21hcF9zZXRfdmFkZHJfaW9tZW0oKS4KPiA+Pj4+Pj4+Pj4+ICsgKgo+ID4+Pj4+
+Pj4+Pj4gKyAqIC4uIGNvZGUtYmxvY2s6OiBjCj4gPj4+Pj4+Pj4+PiArICoKPiA+Pj4+Pj4+Pj4+
+ICsgKiAgICBkbWFfYnVmX21hcF9zZXRfdmFkZHJfaW9tZW0oJm1hcC4gMHhkZWFkYmVhZik7Cj4g
+Pj4+Pj4+Pj4+PiArICoKPiA+Pj4+Pj4+Pj4+ICAgICAgKiBUZXN0IGlmIGEgbWFwcGluZyBpcyB2
+YWxpZCB3aXRoIGVpdGhlciBkbWFfYnVmX21hcF9pc19zZXQoKSBvcgo+ID4+Pj4+Pj4+Pj4gICAg
+ICAqIGRtYV9idWZfbWFwX2lzX251bGwoKS4KPiA+Pj4+Pj4+Pj4+ICAgICAgKgo+ID4+Pj4+Pj4+
+Pj4gQEAgLTExOCw2ICsxMjQsMjAgQEAgc3RhdGljIGlubGluZSB2b2lkIGRtYV9idWZfbWFwX3Nl
+dF92YWRkcihzdHJ1Y3QKPiA+Pj4+Pj4+Pj4+IGRtYV9idWZfbWFwICptYXAsIHZvaWQgKnZhZGRy
+KQo+ID4+Pj4+Pj4+Pj4gICAgICAgICBtYXAtPmlzX2lvbWVtID0gZmFsc2U7Cj4gPj4+Pj4+Pj4+
+PiAgICAgfQo+ID4+Pj4+Pj4+Pj4gICAgICsvKioKPiA+Pj4+Pj4+Pj4+ICsgKiBkbWFfYnVmX21h
+cF9zZXRfdmFkZHJfaW9tZW0gLSBTZXRzIGEgZG1hLWJ1ZiBtYXBwaW5nIHN0cnVjdHVyZSB0bwo+
+ID4+Pj4+Pj4+Pj4gYW4gYWRkcmVzcyBpbiBJL08gbWVtb3J5Cj4gPj4+Pj4+Pj4+PiArICogQG1h
+cDogICAgICAgIFRoZSBkbWEtYnVmIG1hcHBpbmcgc3RydWN0dXJlCj4gPj4+Pj4+Pj4+PiArICog
+QHZhZGRyX2lvbWVtOiAgICBBbiBJL08tbWVtb3J5IGFkZHJlc3MKPiA+Pj4+Pj4+Pj4+ICsgKgo+
+ID4+Pj4+Pj4+Pj4gKyAqIFNldHMgdGhlIGFkZHJlc3MgYW5kIHRoZSBJL08tbWVtb3J5IGZsYWcu
+Cj4gPj4+Pj4+Pj4+PiArICovCj4gPj4+Pj4+Pj4+PiArc3RhdGljIGlubGluZSB2b2lkIGRtYV9i
+dWZfbWFwX3NldF92YWRkcl9pb21lbShzdHJ1Y3QgZG1hX2J1Zl9tYXAgKm1hcCwKPiA+Pj4+Pj4+
+Pj4+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICB2b2lkIF9faW9tZW0gKnZhZGRyX2lvbWVt
+KQo+ID4+Pj4+Pj4+Pj4gK3sKPiA+Pj4+Pj4+Pj4+ICsgICAgbWFwLT52YWRkcl9pb21lbSA9IHZh
+ZGRyX2lvbWVtOwo+ID4+Pj4+Pj4+Pj4gKyAgICBtYXAtPmlzX2lvbWVtID0gdHJ1ZTsKPiA+Pj4+
+Pj4+Pj4+ICt9Cj4gPj4+Pj4+Pj4+PiArCj4gPj4+Pj4+Pj4+PiAgICAgLyoqCj4gPj4+Pj4+Pj4+
+PiAgICAgICogZG1hX2J1Zl9tYXBfaXNfZXF1YWwgLSBDb21wYXJlcyB0d28gZG1hLWJ1ZiBtYXBw
+aW5nIHN0cnVjdHVyZXMKPiA+Pj4+Pj4+Pj4+IGZvciBlcXVhbGl0eQo+ID4+Pj4+Pj4+Pj4gICAg
+ICAqIEBsaHM6ICAgIFRoZSBkbWEtYnVmIG1hcHBpbmcgc3RydWN0dXJlCj4gPj4+Pj4+Pj4+IF9f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCj4gPj4+Pj4+Pj4+
+IGRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKPiA+Pj4+Pj4+Pj4gZHJpLWRldmVsQGxpc3RzLmZyZWVk
+ZXNrdG9wLm9yZwo+ID4+Pj4+Pj4+PiBodHRwczovL25hbTExLnNhZmVsaW5rcy5wcm90ZWN0aW9u
+Lm91dGxvb2suY29tLz91cmw9aHR0cHMlM0ElMkYlMkZsaXN0cy5mcmVlZGVza3RvcC5vcmclMkZt
+YWlsbWFuJTJGbGlzdGluZm8lMkZkcmktZGV2ZWwmYW1wO2RhdGE9MDIlN0MwMSU3Q2NocmlzdGlh
+bi5rb2VuaWclNDBhbWQuY29tJTdDNDcyYzNkNjU1YTYxNDExZGViNjcwOGQ4NjUyNWQxYjglN0Mz
+ZGQ4OTYxZmU0ODg0ZTYwOGUxMWE4MmQ5OTRlMTgzZCU3QzAlN0MwJTdDNjM3MzcwNTYwNDM4OTY1
+MDEzJmFtcDtzZGF0YT1IZEhPQSUyRjFWY0lYJTJGN1l0ZllUaUFxWUV2dzdBZyUyRlMlMkJ4UzVW
+d0pLT3Y1eTAlM0QmYW1wO3Jlc2VydmVkPTAKPiA+Pj4+Pj4+PiBfX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+ID4+Pj4+Pj4+IGFtZC1nZnggbWFpbGluZyBs
+aXN0Cj4gPj4+Pj4+Pj4gYW1kLWdmeEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiA+Pj4+Pj4+PiBo
+dHRwczovL25hbTExLnNhZmVsaW5rcy5wcm90ZWN0aW9uLm91dGxvb2suY29tLz91cmw9aHR0cHMl
+M0ElMkYlMkZsaXN0cy5mcmVlZGVza3RvcC5vcmclMkZtYWlsbWFuJTJGbGlzdGluZm8lMkZhbWQt
+Z2Z4JmFtcDtkYXRhPTAyJTdDMDElN0NjaHJpc3RpYW4ua29lbmlnJTQwYW1kLmNvbSU3QzQ3MmMz
+ZDY1NWE2MTQxMWRlYjY3MDhkODY1MjVkMWI4JTdDM2RkODk2MWZlNDg4NGU2MDhlMTFhODJkOTk0
+ZTE4M2QlN0MwJTdDMCU3QzYzNzM3MDU2MDQzODk2NTAxMyZhbXA7c2RhdGE9SCUyQjVIS0NzVHJr
+c1JWMkV5RWlGR1NUeVM3OWpzV0NtSmltU01vSll1c3g4JTNEJmFtcDtyZXNlcnZlZD0wCj4gPj4+
+Pj4+PiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+ID4+
+Pj4+Pj4gZHJpLWRldmVsIG1haWxpbmcgbGlzdAo+ID4+Pj4+Pj4gZHJpLWRldmVsQGxpc3RzLmZy
+ZWVkZXNrdG9wLm9yZwo+ID4+Pj4+Pj4gaHR0cHM6Ly9uYW0xMS5zYWZlbGlua3MucHJvdGVjdGlv
+bi5vdXRsb29rLmNvbS8/dXJsPWh0dHBzJTNBJTJGJTJGbGlzdHMuZnJlZWRlc2t0b3Aub3JnJTJG
+bWFpbG1hbiUyRmxpc3RpbmZvJTJGZHJpLWRldmVsJmFtcDtkYXRhPTAyJTdDMDElN0NjaHJpc3Rp
+YW4ua29lbmlnJTQwYW1kLmNvbSU3QzQ3MmMzZDY1NWE2MTQxMWRlYjY3MDhkODY1MjVkMWI4JTdD
+M2RkODk2MWZlNDg4NGU2MDhlMTFhODJkOTk0ZTE4M2QlN0MwJTdDMCU3QzYzNzM3MDU2MDQzODk2
+NTAxMyZhbXA7c2RhdGE9SGRIT0ElMkYxVmNJWCUyRjdZdGZZVGlBcVlFdnc3QWclMkZTJTJCeFM1
+VndKS092NXkwJTNEJmFtcDtyZXNlcnZlZD0wCj4gPj4+Pj4+Pgo+ID4+Pj4+PiBfX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+ID4+Pj4+PiBhbWQtZ2Z4IG1h
+aWxpbmcgbGlzdAo+ID4+Pj4+PiBhbWQtZ2Z4QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+ID4+Pj4+
+PiBodHRwczovL25hbTExLnNhZmVsaW5rcy5wcm90ZWN0aW9uLm91dGxvb2suY29tLz91cmw9aHR0
+cHMlM0ElMkYlMkZsaXN0cy5mcmVlZGVza3RvcC5vcmclMkZtYWlsbWFuJTJGbGlzdGluZm8lMkZh
+bWQtZ2Z4JmFtcDtkYXRhPTAyJTdDMDElN0NjaHJpc3RpYW4ua29lbmlnJTQwYW1kLmNvbSU3QzQ3
+MmMzZDY1NWE2MTQxMWRlYjY3MDhkODY1MjVkMWI4JTdDM2RkODk2MWZlNDg4NGU2MDhlMTFhODJk
+OTk0ZTE4M2QlN0MwJTdDMCU3QzYzNzM3MDU2MDQzODk2NTAxMyZhbXA7c2RhdGE9SCUyQjVIS0Nz
+VHJrc1JWMkV5RWlGR1NUeVM3OWpzV0NtSmltU01vSll1c3g4JTNEJmFtcDtyZXNlcnZlZD0wCj4g
+Pj4+Cj4gPj4KPiA+Pgo+ID4+IC0tCj4gPj4gRGFuaWVsIFZldHRlcgo+ID4+IFNvZnR3YXJlIEVu
+Z2luZWVyLCBJbnRlbCBDb3Jwb3JhdGlvbgo+ID4+IGh0dHA6Ly9ibG9nLmZmd2xsLmNoCj4gPgo+
+Cj4gLS0KPiBUaG9tYXMgWmltbWVybWFubgo+IEdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXIKPiBT
+VVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgKPiBNYXhmZWxkc3RyLiA1LCA5MDQw
+OSBOw7xybmJlcmcsIEdlcm1hbnkKPiAoSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpCj4gR2VzY2jD
+pGZ0c2bDvGhyZXI6IEZlbGl4IEltZW5kw7ZyZmZlcgo+CgoKLS0gCkRhbmllbCBWZXR0ZXIKU29m
+dHdhcmUgRW5naW5lZXIsIEludGVsIENvcnBvcmF0aW9uCmh0dHA6Ly9ibG9nLmZmd2xsLmNoCl9f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmV0bmF2aXYgbWFp
+bGluZyBsaXN0CmV0bmF2aXZAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJl
+ZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZXRuYXZpdgo=
