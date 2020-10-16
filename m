@@ -2,32 +2,37 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD67629041D
-	for <lists+etnaviv@lfdr.de>; Fri, 16 Oct 2020 13:34:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E46B2904AC
+	for <lists+etnaviv@lfdr.de>; Fri, 16 Oct 2020 14:04:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8651E6EDC5;
-	Fri, 16 Oct 2020 11:34:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 009476EDD6;
+	Fri, 16 Oct 2020 12:03:59 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0ADAD6EDC5;
- Fri, 16 Oct 2020 11:34:44 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 936D2AD7C;
- Fri, 16 Oct 2020 11:34:42 +0000 (UTC)
-Date: Fri, 16 Oct 2020 13:34:40 +0200
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Sam Ravnborg <sam@ravnborg.org>
+Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DDE636EDD3;
+ Fri, 16 Oct 2020 12:03:56 +0000 (UTC)
+Received: from ravnborg.org (unknown [188.228.123.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk4.altibox.net (Postfix) with ESMTPS id 5DD27806BD;
+ Fri, 16 Oct 2020 14:03:49 +0200 (CEST)
+Date: Fri, 16 Oct 2020 14:03:47 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
 Subject: Re: [PATCH v4 10/10] drm/fb_helper: Support framebuffers in I/O memory
-Message-ID: <20201016133440.65cadb6d@linux-uq9g>
-In-Reply-To: <20201016105854.GB1042954@ravnborg.org>
+Message-ID: <20201016120347.GB1125266@ravnborg.org>
 References: <20201015123806.32416-1-tzimmermann@suse.de>
  <20201015123806.32416-11-tzimmermann@suse.de>
- <20201016105854.GB1042954@ravnborg.org>
-Organization: SUSE Software Solutions Germany GmbH
-X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-suse-linux-gnu)
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20201015123806.32416-11-tzimmermann@suse.de>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=fu7ymmwf c=1 sm=1 tr=0
+ a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
+ a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8 a=NqsBjqOBP8_30qnptSgA:9
+ a=FLTdSUe5Or9RI9Du:21 a=FeamgQ_8eGC75rZP:21 a=CjuIK1q_8ugA:10
+ a=qfUslh1TxfEA:10 a=E9Po1WZjFZOl8hwRPBS3:22
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -39,282 +44,429 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, nouveau@lists.freedesktop.org,
+Cc: luben.tuikov@amd.com, heiko@sntech.de, airlied@linux.ie,
+ nouveau@lists.freedesktop.org, linus.walleij@linaro.org,
  dri-devel@lists.freedesktop.org, chris@chris-wilson.co.uk,
- melissa.srw@gmail.com, ray.huang@amd.com, kraxel@redhat.com, yuq825@gmail.com,
- emil.velikov@collabora.com, linux-samsung-soc@vger.kernel.org,
- jy0922.shim@samsung.com, lima@lists.freedesktop.org,
- oleksandr_andrushchenko@epam.com, krzk@kernel.org, steven.price@arm.com,
- linux-rockchip@lists.infradead.org, luben.tuikov@amd.com,
+ melissa.srw@gmail.com, eric@anholt.net, ray.huang@amd.com, kraxel@redhat.com,
+ sumit.semwal@linaro.org, emil.velikov@collabora.com, robh@kernel.org,
+ linux-samsung-soc@vger.kernel.org, jy0922.shim@samsung.com,
+ lima@lists.freedesktop.org, oleksandr_andrushchenko@epam.com, krzk@kernel.org,
+ steven.price@arm.com, linux-rockchip@lists.infradead.org, kgene@kernel.org,
  alyssa.rosenzweig@collabora.com, linux+etnaviv@armlinux.org.uk,
  spice-devel@lists.freedesktop.org, bskeggs@redhat.com,
- etnaviv@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- hdegoede@redhat.com, xen-devel@lists.xenproject.org,
+ maarten.lankhorst@linux.intel.com, etnaviv@lists.freedesktop.org,
+ mripard@kernel.org, inki.dae@samsung.com, hdegoede@redhat.com,
+ christian.gmeiner@gmail.com, xen-devel@lists.xenproject.org,
  virtualization@lists.linux-foundation.org, sean@poorly.run, apaneers@amd.com,
- linux-arm-kernel@lists.infradead.org, amd-gfx@lists.freedesktop.org,
- tomeu.vizoso@collabora.com, sw0312.kim@samsung.com, hjc@rock-chips.com,
- kyungmin.park@samsung.com, miaoqinglang@huawei.com, kgene@kernel.org,
+ linux-arm-kernel@lists.infradead.org, linaro-mm-sig@lists.linaro.org,
+ amd-gfx@lists.freedesktop.org, tomeu.vizoso@collabora.com,
+ sw0312.kim@samsung.com, hjc@rock-chips.com, kyungmin.park@samsung.com,
+ miaoqinglang@huawei.com, yuq825@gmail.com, daniel@ffwll.ch,
  alexander.deucher@amd.com, linux-media@vger.kernel.org,
- christian.koenig@amd.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ christian.koenig@amd.com, l.stach@pengutronix.de
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-SGkKCk9uIEZyaSwgMTYgT2N0IDIwMjAgMTI6NTg6NTQgKzAyMDAgU2FtIFJhdm5ib3JnIDxzYW1A
-cmF2bmJvcmcub3JnPiB3cm90ZToKCj4gSGkgVGhvbWFzLgo+IAo+IE9uIFRodSwgT2N0IDE1LCAy
-MDIwIGF0IDAyOjM4OjA2UE0gKzAyMDAsIFRob21hcyBaaW1tZXJtYW5uIHdyb3RlOgo+ID4gQXQg
-bGVhc3Qgc3BhcmM2NCByZXF1aXJlcyBJL08tc3BlY2lmaWMgYWNjZXNzIHRvIGZyYW1lYnVmZmVy
-cy4gVGhpcwo+ID4gcGF0Y2ggdXBkYXRlcyB0aGUgZmJkZXYgY29uc29sZSBhY2NvcmRpbmdseS4K
-PiA+IAo+ID4gRm9yIGRyaXZlcnMgd2l0aCBkaXJlY3QgYWNjZXNzIHRvIHRoZSBmcmFtZWJ1ZmZl
-ciBtZW1vcnksIHRoZSBjYWxsYmFjawo+ID4gZnVuY3Rpb25zIGluIHN0cnVjdCBmYl9vcHMgdGVz
-dCBmb3IgdGhlIHR5cGUgb2YgbWVtb3J5IGFuZCBjYWxsIHRoZSByc3AKPiA+IGZiX3N5c18gb2Yg
-ZmJfY2ZiXyBmdW5jdGlvbnMuCj4gPiAKPiA+IEZvciBkcml2ZXJzIHRoYXQgZW1wbG95IGEgc2hh
-ZG93IGJ1ZmZlciwgZmJkZXYncyBibGl0IGZ1bmN0aW9uIHJldHJpZXZlcwo+ID4gdGhlIGZyYW1l
-YnVmZmVyIGFkZHJlc3MgYXMgc3RydWN0IGRtYV9idWZfbWFwLCBhbmQgdXNlcyBkbWFfYnVmX21h
-cAo+ID4gaW50ZXJmYWNlcyB0byBhY2Nlc3MgdGhlIGJ1ZmZlci4KPiA+IAo+ID4gVGhlIGJvY2hz
-IGRyaXZlciBvbiBzcGFyYzY0IHVzZXMgYSB3b3JrYXJvdW5kIHRvIGZsYWcgdGhlIGZyYW1lYnVm
-ZmVyIGFzCj4gPiBJL08gbWVtb3J5IGFuZCBhdm9pZCBhIEhXIGV4Y2VwdGlvbi4gV2l0aCB0aGUg
-aW50cm9kdWN0aW9uIG9mIHN0cnVjdAo+ID4gZG1hX2J1Zl9tYXAsIHRoaXMgaXMgbm90IHJlcXVp
-cmVkIGFueSBsb25nZXIuIFRoZSBwYXRjaCByZW1vdmVzIHRoZSByc3AKPiA+IGNvZGUgZnJvbSBi
-b3RoLCBib2NocyBhbmQgZmJkZXYuCj4gPiAKPiA+IHY0Ogo+ID4gCSogbW92ZSBkbWFfYnVmX21h
-cCBjaGFuZ2VzIGludG8gc2VwYXJhdGUgcGF0Y2ggKERhbmllbCkKPiA+IAkqIFRPRE8gbGlzdDog
-Y29tbWVudCBvbiBmYmRldiB1cGRhdGVzIChEYW5pZWwpCj4gCj4gSSBoYXZlIGJlZW4gb2ZmbGlu
-ZSBmb3IgYSB3aGlsZSBzbyBoYXZlIG5vdCBmb2xsb3dlZCBhbGwgdGhlIHRocmVhZHMgb24KPiB0
-aGlzLiBTbyBtYXkgY29tbWVudHMgYmVsb3cgbWF5IHdlbGwgYmUgYWRkcmVzc2VkIGJ1dCBJIGZh
-aWxlZCB0byBzZWUKPiBpdC4KPiAKPiBJZiB0aGUgcG9pbnQgYWJvdXQgZmJfc3luYyBpcyBhbHJl
-YWR5IGFkZHJlc3NlZC9jb25zaWRlcmVkIHRoZW46Cj4gUmV2aWV3ZWQtYnk6IFNhbSBSYXZuYm9y
-ZyA8c2FtQHJhdm5ib3JnLm9yZz4KCkl0IGhhcyBub3QgYmVlbiBicm91Z2h0IHVwIHlldC4gU2Vl
-IGJlbG93LgoKPiAKPiAKPiA+IFNpZ25lZC1vZmYtYnk6IFRob21hcyBaaW1tZXJtYW5uIDx0emlt
-bWVybWFubkBzdXNlLmRlPgo+ID4gLS0tCj4gPiAgRG9jdW1lbnRhdGlvbi9ncHUvdG9kby5yc3Qg
-ICAgICAgIHwgIDE5ICsrLQo+ID4gIGRyaXZlcnMvZ3B1L2RybS9ib2Nocy9ib2Noc19rbXMuYyB8
-ICAgMSAtCj4gPiAgZHJpdmVycy9ncHUvZHJtL2RybV9mYl9oZWxwZXIuYyAgIHwgMjE3ICsrKysr
-KysrKysrKysrKysrKysrKysrKysrKystLQo+ID4gIGluY2x1ZGUvZHJtL2RybV9tb2RlX2NvbmZp
-Zy5oICAgICB8ICAxMiAtLQo+ID4gIDQgZmlsZXMgY2hhbmdlZCwgMjIwIGluc2VydGlvbnMoKyks
-IDI5IGRlbGV0aW9ucygtKQo+ID4gCj4gPiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9ncHUv
-dG9kby5yc3QgYi9Eb2N1bWVudGF0aW9uL2dwdS90b2RvLnJzdAo+ID4gaW5kZXggN2U2ZmMzYzA0
-YWRkLi42MzhiN2Y3MDQzMzkgMTAwNjQ0Cj4gPiAtLS0gYS9Eb2N1bWVudGF0aW9uL2dwdS90b2Rv
-LnJzdAo+ID4gKysrIGIvRG9jdW1lbnRhdGlvbi9ncHUvdG9kby5yc3QKPiA+IEBAIC0xOTcsMTMg
-KzE5NywyOCBAQCBDb252ZXJ0IGRyaXZlcnMgdG8gdXNlIGRybV9mYmRldl9nZW5lcmljX3NldHVw
-KCkKPiA+ICAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0K
-PiA+ICAKPiA+ICBNb3N0IGRyaXZlcnMgY2FuIHVzZSBkcm1fZmJkZXZfZ2VuZXJpY19zZXR1cCgp
-LiBEcml2ZXIgaGF2ZSB0byBpbXBsZW1lbnQKPiA+IC1hdG9taWMgbW9kZXNldHRpbmcgYW5kIEdF
-TSB2bWFwIHN1cHBvcnQuIEN1cnJlbnQgZ2VuZXJpYyBmYmRldiBlbXVsYXRpb24KPiA+IC1leHBl
-Y3RzIHRoZSBmcmFtZWJ1ZmZlciBpbiBzeXN0ZW0gbWVtb3J5IChvciBzeXN0ZW0tbGlrZSBtZW1v
-cnkpLgo+ID4gK2F0b21pYyBtb2Rlc2V0dGluZyBhbmQgR0VNIHZtYXAgc3VwcG9ydC4gSGlzdG9y
-aWNhbGx5LCBnZW5lcmljIGZiZGV2Cj4gPiBlbXVsYXRpb24gK2V4cGVjdGVkIHRoZSBmcmFtZWJ1
-ZmZlciBpbiBzeXN0ZW0gbWVtb3J5IG9yIHN5c3RlbS1saWtlCj4gPiBtZW1vcnkuIEJ5IGVtcGxv
-eWluZyArc3RydWN0IGRtYV9idWZfbWFwLCBkcml2ZXJzIHdpdGggZnJhbWJ1ZmZlcnMgaW4gSS9P
-Cj4gPiBtZW1vcnkgY2FuIGJlIHN1cHBvcnRlZCArYXMgd2VsbC4KPiA+ICAKPiA+ICBDb250YWN0
-OiBNYWludGFpbmVyIG9mIHRoZSBkcml2ZXIgeW91IHBsYW4gdG8gY29udmVydAo+ID4gIAo+ID4g
-IExldmVsOiBJbnRlcm1lZGlhdGUKPiA+ICAKPiA+ICtSZWltcGxlbWVudCBmdW5jdGlvbnMgaW4g
-ZHJtX2ZiZGV2X2ZiX29wcyB3aXRob3V0IGZiZGV2Cj4gPiArLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQo+ID4gKwo+ID4gK0EgbnVtYmVyIG9m
-IGNhbGxiYWNrIGZ1bmN0aW9ucyBpbiBkcm1fZmJkZXZfZmJfb3BzIGNvdWxkIGJlbmVmaXQgZnJv
-bQo+ID4gK2JlaW5nIHJld3JpdHRlbiB3aXRob3V0IGRlcGVuZGVuY2llcyBvbiB0aGUgZmJkZXYg
-bW9kdWxlLiBTb21lIG9mIHRoZQo+ID4gK2hlbHBlcnMgY291bGQgZnVydGhlciBiZW5lZml0IGZy
-b20gdXNpbmcgc3RydWN0IGRtYV9idWZfbWFwIGluc3RlYWQgb2YKPiA+ICtyYXcgcG9pbnRlcnMu
-Cj4gPiArCj4gPiArQ29udGFjdDogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2Uu
-ZGU+LCBEYW5pZWwgVmV0dGVyCj4gPiArCj4gPiArTGV2ZWw6IEFkdmFuY2VkCj4gPiArCj4gPiAr
-Cj4gPiAgZHJtX2ZyYW1lYnVmZmVyX2Z1bmNzIGFuZCBkcm1fbW9kZV9jb25maWdfZnVuY3MuZmJf
-Y3JlYXRlIGNsZWFudXAKPiA+ICAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQo+ID4gIAo+ID4gZGlmZiAtLWdpdCBhL2RyaXZl
-cnMvZ3B1L2RybS9ib2Nocy9ib2Noc19rbXMuYwo+ID4gYi9kcml2ZXJzL2dwdS9kcm0vYm9jaHMv
-Ym9jaHNfa21zLmMgaW5kZXggMTNkMGQwNGM0NDU3Li44NTMwODFkMTg2ZDUKPiA+IDEwMDY0NCAt
-LS0gYS9kcml2ZXJzL2dwdS9kcm0vYm9jaHMvYm9jaHNfa21zLmMKPiA+ICsrKyBiL2RyaXZlcnMv
-Z3B1L2RybS9ib2Nocy9ib2Noc19rbXMuYwo+ID4gQEAgLTE1MSw3ICsxNTEsNiBAQCBpbnQgYm9j
-aHNfa21zX2luaXQoc3RydWN0IGJvY2hzX2RldmljZSAqYm9jaHMpCj4gPiAgCWJvY2hzLT5kZXYt
-Pm1vZGVfY29uZmlnLnByZWZlcnJlZF9kZXB0aCA9IDI0Owo+ID4gIAlib2Nocy0+ZGV2LT5tb2Rl
-X2NvbmZpZy5wcmVmZXJfc2hhZG93ID0gMDsKPiA+ICAJYm9jaHMtPmRldi0+bW9kZV9jb25maWcu
-cHJlZmVyX3NoYWRvd19mYmRldiA9IDE7Cj4gPiAtCWJvY2hzLT5kZXYtPm1vZGVfY29uZmlnLmZi
-ZGV2X3VzZV9pb21lbSA9IHRydWU7Cj4gPiAgCWJvY2hzLT5kZXYtPm1vZGVfY29uZmlnLnF1aXJr
-X2FkZGZiX3ByZWZlcl9ob3N0X2J5dGVfb3JkZXIgPQo+ID4gdHJ1ZTsgCj4gPiAgCWJvY2hzLT5k
-ZXYtPm1vZGVfY29uZmlnLmZ1bmNzID0gJmJvY2hzX21vZGVfZnVuY3M7Cj4gR29vZCB0byBzZWUg
-dGhpcyB3b3JrYXJvdW5kIGdvbmUgYWdhaW4hCj4gCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9n
-cHUvZHJtL2RybV9mYl9oZWxwZXIuYwo+ID4gYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2ZiX2hlbHBl
-ci5jIGluZGV4IDYyMTJjZDdjZGUxZC4uNDYyYjBjMTMwZWJiIDEwMDY0NAo+ID4gLS0tIGEvZHJp
-dmVycy9ncHUvZHJtL2RybV9mYl9oZWxwZXIuYwo+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2Ry
-bV9mYl9oZWxwZXIuYwo+ID4gQEAgLTM3MiwyNCArMzcyLDIyIEBAIHN0YXRpYyB2b2lkIGRybV9m
-Yl9oZWxwZXJfcmVzdW1lX3dvcmtlcihzdHJ1Y3QKPiA+IHdvcmtfc3RydWN0ICp3b3JrKSB9Cj4g
-PiAgCj4gPiAgc3RhdGljIHZvaWQgZHJtX2ZiX2hlbHBlcl9kaXJ0eV9ibGl0X3JlYWwoc3RydWN0
-IGRybV9mYl9oZWxwZXIKPiA+ICpmYl9oZWxwZXIsCj4gPiAtCQkJCQkgIHN0cnVjdCBkcm1fY2xp
-cF9yZWN0ICpjbGlwKQo+ID4gKwkJCQkJICBzdHJ1Y3QgZHJtX2NsaXBfcmVjdCAqY2xpcCwKPiA+
-ICsJCQkJCSAgc3RydWN0IGRtYV9idWZfbWFwICpkc3QpCj4gPiAgewo+ID4gIAlzdHJ1Y3QgZHJt
-X2ZyYW1lYnVmZmVyICpmYiA9IGZiX2hlbHBlci0+ZmI7Cj4gPiAgCXVuc2lnbmVkIGludCBjcHAg
-PSBmYi0+Zm9ybWF0LT5jcHBbMF07Cj4gPiAgCXNpemVfdCBvZmZzZXQgPSBjbGlwLT55MSAqIGZi
-LT5waXRjaGVzWzBdICsgY2xpcC0+eDEgKiBjcHA7Cj4gPiAgCXZvaWQgKnNyYyA9IGZiX2hlbHBl
-ci0+ZmJkZXYtPnNjcmVlbl9idWZmZXIgKyBvZmZzZXQ7Cj4gPiAtCXZvaWQgKmRzdCA9IGZiX2hl
-bHBlci0+YnVmZmVyLT5tYXAudmFkZHIgKyBvZmZzZXQ7Cj4gPiAgCXNpemVfdCBsZW4gPSAoY2xp
-cC0+eDIgLSBjbGlwLT54MSkgKiBjcHA7Cj4gPiAgCXVuc2lnbmVkIGludCB5Owo+ID4gIAo+ID4g
-LQlmb3IgKHkgPSBjbGlwLT55MTsgeSA8IGNsaXAtPnkyOyB5KyspIHsKPiA+IC0JCWlmICghZmJf
-aGVscGVyLT5kZXYtPm1vZGVfY29uZmlnLmZiZGV2X3VzZV9pb21lbSkKPiA+IC0JCQltZW1jcHko
-ZHN0LCBzcmMsIGxlbik7Cj4gPiAtCQllbHNlCj4gPiAtCQkJbWVtY3B5X3RvaW8oKHZvaWQgX19p
-b21lbSAqKWRzdCwgc3JjLCBsZW4pOwo+ID4gKwlkbWFfYnVmX21hcF9pbmNyKGRzdCwgb2Zmc2V0
-KTsgLyogZ28gdG8gZmlyc3QgcGl4ZWwgd2l0aGluIGNsaXAKPiA+IHJlY3QgKi8gCj4gPiArCWZv
-ciAoeSA9IGNsaXAtPnkxOyB5IDwgY2xpcC0+eTI7IHkrKykgewo+ID4gKwkJZG1hX2J1Zl9tYXBf
-bWVtY3B5X3RvKGRzdCwgc3JjLCBsZW4pOwo+ID4gKwkJZG1hX2J1Zl9tYXBfaW5jcihkc3QsIGZi
-LT5waXRjaGVzWzBdKTsKPiA+ICAJCXNyYyArPSBmYi0+cGl0Y2hlc1swXTsKPiA+IC0JCWRzdCAr
-PSBmYi0+cGl0Y2hlc1swXTsKPiA+ICAJfQo+ID4gIH0KPiA+ICAKPiA+IEBAIC00MTcsOCArNDE1
-LDkgQEAgc3RhdGljIHZvaWQgZHJtX2ZiX2hlbHBlcl9kaXJ0eV93b3JrKHN0cnVjdAo+ID4gd29y
-a19zdHJ1Y3QgKndvcmspIHJldCA9IGRybV9jbGllbnRfYnVmZmVyX3ZtYXAoaGVscGVyLT5idWZm
-ZXIsICZtYXApOwo+ID4gIAkJCWlmIChyZXQpCj4gPiAgCQkJCXJldHVybjsKPiA+IC0JCQlkcm1f
-ZmJfaGVscGVyX2RpcnR5X2JsaXRfcmVhbChoZWxwZXIsCj4gPiAmY2xpcF9jb3B5KTsKPiA+ICsJ
-CQlkcm1fZmJfaGVscGVyX2RpcnR5X2JsaXRfcmVhbChoZWxwZXIsCj4gPiAmY2xpcF9jb3B5LCAm
-bWFwKTsgfQo+ID4gKwo+ID4gIAkJaWYgKGhlbHBlci0+ZmItPmZ1bmNzLT5kaXJ0eSkKPiA+ICAJ
-CQloZWxwZXItPmZiLT5mdW5jcy0+ZGlydHkoaGVscGVyLT5mYiwgTlVMTCwgMCwgMCwKPiA+ICAJ
-CQkJCQkgJmNsaXBfY29weSwgMSk7Cj4gPiBAQCAtNzU1LDYgKzc1NCwxMzYgQEAgdm9pZCBkcm1f
-ZmJfaGVscGVyX3N5c19pbWFnZWJsaXQoc3RydWN0IGZiX2luZm8KPiA+ICppbmZvLCB9Cj4gPiAg
-RVhQT1JUX1NZTUJPTChkcm1fZmJfaGVscGVyX3N5c19pbWFnZWJsaXQpOwo+ID4gIAo+IFNvIGZh
-ciBldmVyeXRoaW5nIGxvb2tzIGdvb2QuCj4gCj4gPiArc3RhdGljIHNzaXplX3QgZHJtX2ZiX2hl
-bHBlcl9jZmJfcmVhZChzdHJ1Y3QgZmJfaW5mbyAqaW5mbywgY2hhciBfX3VzZXIKPiA+ICpidWYs
-Cj4gPiArCQkJCSAgICAgIHNpemVfdCBjb3VudCwgbG9mZl90ICpwcG9zKQo+ID4gK3sKPiA+ICsJ
-dW5zaWduZWQgbG9uZyBwID0gKnBwb3M7Cj4gPiArCXU4ICpkc3Q7Cj4gPiArCXU4IF9faW9tZW0g
-KnNyYzsKPiA+ICsJaW50IGMsIGVyciA9IDA7Cj4gPiArCXVuc2lnbmVkIGxvbmcgdG90YWxfc2l6
-ZTsKPiA+ICsJdW5zaWduZWQgbG9uZyBhbGxvY19zaXplOwo+ID4gKwlzc2l6ZV90IHJldCA9IDA7
-Cj4gPiArCj4gPiArCWlmIChpbmZvLT5zdGF0ZSAhPSBGQklORk9fU1RBVEVfUlVOTklORykKPiA+
-ICsJCXJldHVybiAtRVBFUk07Cj4gPiArCj4gPiArCXRvdGFsX3NpemUgPSBpbmZvLT5zY3JlZW5f
-c2l6ZTsKPiA+ICsKPiA+ICsJaWYgKHRvdGFsX3NpemUgPT0gMCkKPiA+ICsJCXRvdGFsX3NpemUg
-PSBpbmZvLT5maXguc21lbV9sZW47Cj4gPiArCj4gPiArCWlmIChwID49IHRvdGFsX3NpemUpCj4g
-PiArCQlyZXR1cm4gMDsKPiA+ICsKPiA+ICsJaWYgKGNvdW50ID49IHRvdGFsX3NpemUpCj4gPiAr
-CQljb3VudCA9IHRvdGFsX3NpemU7Cj4gPiArCj4gPiArCWlmIChjb3VudCArIHAgPiB0b3RhbF9z
-aXplKQo+ID4gKwkJY291bnQgPSB0b3RhbF9zaXplIC0gcDsKPiA+ICsKPiA+ICsJc3JjID0gKHU4
-IF9faW9tZW0gKikoaW5mby0+c2NyZWVuX2Jhc2UgKyBwKTsKPiBzY3JlZW5fYmFzZSBpcyBhIGNo
-YXIgX19pb21lbSAqIC0gc28gdGhpcyBjYXN0IGxvb2tzIHNlbWkgcmVkdW5kYW50LgoKSSB0b29r
-IHRoZSBiYXNpYyBjb2RlIGZyb20gZmJkZXYuIE1heWJlIHRoZXJlJ3MgYSByZWFzb24gZm9yIHRo
-ZSBjYXNlLApvdGhlcndpc2UgSSdsbCByZW1vdmUgaXQuCgo+IAo+ID4gKwo+ID4gKwlhbGxvY19z
-aXplID0gbWluKGNvdW50LCBQQUdFX1NJWkUpOwo+ID4gKwo+ID4gKwlkc3QgPSBrbWFsbG9jKGFs
-bG9jX3NpemUsIEdGUF9LRVJORUwpOwo+ID4gKwlpZiAoIWRzdCkKPiA+ICsJCXJldHVybiAtRU5P
-TUVNOwo+ID4gKwo+IFNhbWUgY29tbWVudCBhcyBiZWxvdyBhYm91dCBmYl9zeW5jLgo+IAo+IAo+
-ID4gKwl3aGlsZSAoY291bnQpIHsKPiA+ICsJCWMgPSBtaW4oY291bnQsIGFsbG9jX3NpemUpOwo+
-ID4gKwo+ID4gKwkJbWVtY3B5X2Zyb21pbyhkc3QsIHNyYywgYyk7Cj4gPiArCQlpZiAoY29weV90
-b191c2VyKGJ1ZiwgZHN0LCBjKSkgewo+ID4gKwkJCWVyciA9IC1FRkFVTFQ7Cj4gPiArCQkJYnJl
-YWs7Cj4gPiArCQl9Cj4gPiArCj4gPiArCQlzcmMgKz0gYzsKPiA+ICsJCSpwcG9zICs9IGM7Cj4g
-PiArCQlidWYgKz0gYzsKPiA+ICsJCXJldCArPSBjOwo+ID4gKwkJY291bnQgLT0gYzsKPiA+ICsJ
-fQo+ID4gKwo+ID4gKwlrZnJlZShkc3QpOwo+ID4gKwo+ID4gKwlpZiAoZXJyKQo+ID4gKwkJcmV0
-dXJuIGVycjsKPiA+ICsKPiA+ICsJcmV0dXJuIHJldDsKPiA+ICt9Cj4gPiArCj4gPiArc3RhdGlj
-IHNzaXplX3QgZHJtX2ZiX2hlbHBlcl9jZmJfd3JpdGUoc3RydWN0IGZiX2luZm8gKmluZm8sIGNv
-bnN0IGNoYXIKPiA+IF9fdXNlciAqYnVmLAo+ID4gKwkJCQkgICAgICAgc2l6ZV90IGNvdW50LCBs
-b2ZmX3QgKnBwb3MpCj4gPiArewo+ID4gKwl1bnNpZ25lZCBsb25nIHAgPSAqcHBvczsKPiA+ICsJ
-dTggKnNyYzsKPiA+ICsJdTggX19pb21lbSAqZHN0Owo+ID4gKwlpbnQgYywgZXJyID0gMDsKPiA+
-ICsJdW5zaWduZWQgbG9uZyB0b3RhbF9zaXplOwo+ID4gKwl1bnNpZ25lZCBsb25nIGFsbG9jX3Np
-emU7Cj4gPiArCXNzaXplX3QgcmV0ID0gMDsKPiA+ICsKPiA+ICsJaWYgKGluZm8tPnN0YXRlICE9
-IEZCSU5GT19TVEFURV9SVU5OSU5HKQo+ID4gKwkJcmV0dXJuIC1FUEVSTTsKPiA+ICsKPiA+ICsJ
-dG90YWxfc2l6ZSA9IGluZm8tPnNjcmVlbl9zaXplOwo+ID4gKwo+ID4gKwlpZiAodG90YWxfc2l6
-ZSA9PSAwKQo+ID4gKwkJdG90YWxfc2l6ZSA9IGluZm8tPmZpeC5zbWVtX2xlbjsKPiA+ICsKPiA+
-ICsJaWYgKHAgPiB0b3RhbF9zaXplKQo+ID4gKwkJcmV0dXJuIC1FRkJJRzsKPiA+ICsKPiA+ICsJ
-aWYgKGNvdW50ID4gdG90YWxfc2l6ZSkgewo+ID4gKwkJZXJyID0gLUVGQklHOwo+ID4gKwkJY291
-bnQgPSB0b3RhbF9zaXplOwo+ID4gKwl9Cj4gPiArCj4gPiArCWlmIChjb3VudCArIHAgPiB0b3Rh
-bF9zaXplKSB7Cj4gPiArCQkvKgo+ID4gKwkJICogVGhlIGZyYW1lYnVmZmVyIGlzIHRvbyBzbWFs
-bC4gV2UgZG8gdGhlCj4gPiArCQkgKiBjb3B5IG9wZXJhdGlvbiwgYnV0IHJldHVybiBhbiBlcnJv
-ciBjb2RlCj4gPiArCQkgKiBhZnRlcndhcmRzLiBUYWtlbiBmcm9tIGZiZGV2Lgo+ID4gKwkJICov
-Cj4gPiArCQlpZiAoIWVycikKPiA+ICsJCQllcnIgPSAtRU5PU1BDOwo+ID4gKwkJY291bnQgPSB0
-b3RhbF9zaXplIC0gcDsKPiA+ICsJfQo+ID4gKwo+ID4gKwlhbGxvY19zaXplID0gbWluKGNvdW50
-LCBQQUdFX1NJWkUpOwo+ID4gKwo+ID4gKwlzcmMgPSBrbWFsbG9jKGFsbG9jX3NpemUsIEdGUF9L
-RVJORUwpOwo+ID4gKwlpZiAoIXNyYykKPiA+ICsJCXJldHVybiAtRU5PTUVNOwo+ID4gKwo+ID4g
-Kwlkc3QgPSAodTggX19pb21lbSAqKShpbmZvLT5zY3JlZW5fYmFzZSArIHApOwo+ID4gKwo+IAo+
-IFRoZSBmYmRldiB2YXJpYW50IGNhbGwgdGhlIGZiX3N5bmMgY2FsbGJhY2sgaGVyZS4KPiBub3Zl
-YXUgYW5kIGdtYTUwMCBpbXBsbWVudHMgdGhlIGZiX3N5bmMgY2FsbGJhY2sgLSBidXQgbm8tb25l
-IGVsc2UuCgpUaGVzZSBkcml2ZXJzIGltcGxlbWVudCBzb21lIGZvcm0gb2YgSFcgYWNjZWxlcmF0
-aW9uLiBJZiB0aGV5IGhhdmUgYSBIVwpibGl0L2RyYXcvZXRjIG9wIHF1ZXVlZCB1cCwgdGhleSBo
-YXZlIHRvIHdhaXQgZm9yIGl0IHRvIGNvbXBsZXRlLiBPdGhlcndpc2UsCnRoZSBjb3BpZWQgbWVt
-b3J5IHdvdWxkIGNvbnRhaW4gYW4gb2xkIHN0YXRlLiBUaGUgZmJfc3luYyBhY3RzIGFzIHRoZSBm
-ZW5jZS4KCkZiZGV2IG9ubHkgdXNlcyBzb2Z0d2FyZSBjb3B5aW5nLCBzbyB0aGUgZmJfc3luYyBp
-cyBub3QgcmVxdWlyZWQuCgpGcm9tIHdoYXQgSSBoZWFyZCwgdGhlIEhXIGFjY2VsZXJhdGlvbiBp
-cyBub3QgdXNlZnVsIG9uIG1vZGVybiBtYWNoaW5lcy4gSQpob3BlIHRvIGNvbnZlcnQgbW9yZSBk
-cml2ZXJzIHRvIGdlbmVyaWMgZmJkZXYgYWZ0ZXIgdGhlc2UgcGF0Y2hlcyBmb3IKSS9PLW1lbW9y
-eSBzdXBwb3J0IGhhdmUgYmVlbiBtZXJnZWQuCgo+IAo+IAo+ID4gKwl3aGlsZSAoY291bnQpIHsK
-PiA+ICsJCWMgPSBtaW4oY291bnQsIGFsbG9jX3NpemUpOwo+ID4gKwo+ID4gKwkJaWYgKGNvcHlf
-ZnJvbV91c2VyKHNyYywgYnVmLCBjKSkgewo+ID4gKwkJCWVyciA9IC1FRkFVTFQ7Cj4gPiArCQkJ
-YnJlYWs7Cj4gPiArCQl9Cj4gPiArCQltZW1jcHlfdG9pbyhkc3QsIHNyYywgYyk7Cj4gV2hlbiB3
-ZSByZXdyaXRlIHRoaXMgcGFydCB0byB1c2UgZG1hX2J1Zl9tYXBfbWVtY3B5X3RvKCkgdGhlbiB3
-ZSBjYW4KPiBtZXJnZSB0aGUgdHdvIHZhcmlhbnRzIG9mIGhlbHBlcl97c3lzLGNmYn1fcmVhZCgp
-Pwo+IFdoaWNoIGlzIHBhcnQgb2YgdGhlIHRvZG8gLSBzbyBPSwoKSSdtIG5vdCBzdXJlIGlmIGRt
-YV9idWZfbWFwIGlzIGEgZ29vZCBmaXQgaGVyZS4gVGhlIEkvTy1tZW1vcnkgZnVuY3Rpb24gZG9l
-cwphbiBhZGRpdGlvbmFsIGNvcHkgYmV0d2VlbiBzeXN0ZW0gbWVtb3J5IGFuZCBJL08gbWVtb3J5
-LiBPZiBjb3Vyc2UsIHRoZSB0b3AKYW5kIGJvdHRvbSBvZiBib3RoIGZ1bmN0aW9ucyBhcmUgc2lt
-aWxhciBhbmQgY291bGQgcHJvYmFibHkgYmUgc2hhcmVkLgoKQmVzdCByZWdhcmRzClRob21hcwoK
-PiA+ICsKPiA+ICsJCWRzdCArPSBjOwo+ID4gKwkJKnBwb3MgKz0gYzsKPiA+ICsJCWJ1ZiArPSBj
-Owo+ID4gKwkJcmV0ICs9IGM7Cj4gPiArCQljb3VudCAtPSBjOwo+ID4gKwl9Cj4gPiArCj4gPiAr
-CWtmcmVlKHNyYyk7Cj4gPiArCj4gPiArCWlmIChlcnIpCj4gPiArCQlyZXR1cm4gZXJyOwo+ID4g
-Kwo+ID4gKwlyZXR1cm4gcmV0Owo+ID4gK30KPiA+ICsKPiA+ICAvKioKPiA+ICAgKiBkcm1fZmJf
-aGVscGVyX2NmYl9maWxscmVjdCAtIHdyYXBwZXIgYXJvdW5kIGNmYl9maWxscmVjdAo+ID4gICAq
-IEBpbmZvOiBmYmRldiByZWdpc3RlcmVkIGJ5IHRoZSBoZWxwZXIKPiA+IEBAIC0yMDI3LDYgKzIx
-NTYsNjYgQEAgc3RhdGljIGludCBkcm1fZmJkZXZfZmJfbW1hcChzdHJ1Y3QgZmJfaW5mbyAqaW5m
-bywKPiA+IHN0cnVjdCB2bV9hcmVhX3N0cnVjdCAqdm1hKSByZXR1cm4gLUVOT0RFVjsKPiA+ICB9
-Cj4gPiAgCj4gPiArc3RhdGljIHNzaXplX3QgZHJtX2ZiZGV2X2ZiX3JlYWQoc3RydWN0IGZiX2lu
-Zm8gKmluZm8sIGNoYXIgX191c2VyICpidWYsCj4gPiArCQkJCSBzaXplX3QgY291bnQsIGxvZmZf
-dCAqcHBvcykKPiA+ICt7Cj4gPiArCXN0cnVjdCBkcm1fZmJfaGVscGVyICpmYl9oZWxwZXIgPSBp
-bmZvLT5wYXI7Cj4gPiArCXN0cnVjdCBkcm1fY2xpZW50X2J1ZmZlciAqYnVmZmVyID0gZmJfaGVs
-cGVyLT5idWZmZXI7Cj4gPiArCj4gPiArCWlmIChkcm1fZmJkZXZfdXNlX3NoYWRvd19mYihmYl9o
-ZWxwZXIpIHx8ICFidWZmZXItPm1hcC5pc19pb21lbSkKPiA+ICsJCXJldHVybiBkcm1fZmJfaGVs
-cGVyX3N5c19yZWFkKGluZm8sIGJ1ZiwgY291bnQsIHBwb3MpOwo+ID4gKwllbHNlCj4gPiArCQly
-ZXR1cm4gZHJtX2ZiX2hlbHBlcl9jZmJfcmVhZChpbmZvLCBidWYsIGNvdW50LCBwcG9zKTsKPiA+
-ICt9Cj4gPiArCj4gPiArc3RhdGljIHNzaXplX3QgZHJtX2ZiZGV2X2ZiX3dyaXRlKHN0cnVjdCBm
-Yl9pbmZvICppbmZvLCBjb25zdCBjaGFyCj4gPiBfX3VzZXIgKmJ1ZiwKPiA+ICsJCQkJICBzaXpl
-X3QgY291bnQsIGxvZmZfdCAqcHBvcykKPiA+ICt7Cj4gPiArCXN0cnVjdCBkcm1fZmJfaGVscGVy
-ICpmYl9oZWxwZXIgPSBpbmZvLT5wYXI7Cj4gPiArCXN0cnVjdCBkcm1fY2xpZW50X2J1ZmZlciAq
-YnVmZmVyID0gZmJfaGVscGVyLT5idWZmZXI7Cj4gPiArCj4gPiArCWlmIChkcm1fZmJkZXZfdXNl
-X3NoYWRvd19mYihmYl9oZWxwZXIpIHx8ICFidWZmZXItPm1hcC5pc19pb21lbSkKPiA+ICsJCXJl
-dHVybiBkcm1fZmJfaGVscGVyX3N5c193cml0ZShpbmZvLCBidWYsIGNvdW50LCBwcG9zKTsKPiA+
-ICsJZWxzZQo+ID4gKwkJcmV0dXJuIGRybV9mYl9oZWxwZXJfY2ZiX3dyaXRlKGluZm8sIGJ1Ziwg
-Y291bnQsIHBwb3MpOwo+ID4gK30KPiA+ICsKPiA+ICtzdGF0aWMgdm9pZCBkcm1fZmJkZXZfZmJf
-ZmlsbHJlY3Qoc3RydWN0IGZiX2luZm8gKmluZm8sCj4gPiArCQkJCSAgY29uc3Qgc3RydWN0IGZi
-X2ZpbGxyZWN0ICpyZWN0KQo+ID4gK3sKPiA+ICsJc3RydWN0IGRybV9mYl9oZWxwZXIgKmZiX2hl
-bHBlciA9IGluZm8tPnBhcjsKPiA+ICsJc3RydWN0IGRybV9jbGllbnRfYnVmZmVyICpidWZmZXIg
-PSBmYl9oZWxwZXItPmJ1ZmZlcjsKPiA+ICsKPiA+ICsJaWYgKGRybV9mYmRldl91c2Vfc2hhZG93
-X2ZiKGZiX2hlbHBlcikgfHwgIWJ1ZmZlci0+bWFwLmlzX2lvbWVtKQo+ID4gKwkJZHJtX2ZiX2hl
-bHBlcl9zeXNfZmlsbHJlY3QoaW5mbywgcmVjdCk7Cj4gPiArCWVsc2UKPiA+ICsJCWRybV9mYl9o
-ZWxwZXJfY2ZiX2ZpbGxyZWN0KGluZm8sIHJlY3QpOwo+ID4gK30KPiA+ICsKPiA+ICtzdGF0aWMg
-dm9pZCBkcm1fZmJkZXZfZmJfY29weWFyZWEoc3RydWN0IGZiX2luZm8gKmluZm8sCj4gPiArCQkJ
-CSAgY29uc3Qgc3RydWN0IGZiX2NvcHlhcmVhICphcmVhKQo+ID4gK3sKPiA+ICsJc3RydWN0IGRy
-bV9mYl9oZWxwZXIgKmZiX2hlbHBlciA9IGluZm8tPnBhcjsKPiA+ICsJc3RydWN0IGRybV9jbGll
-bnRfYnVmZmVyICpidWZmZXIgPSBmYl9oZWxwZXItPmJ1ZmZlcjsKPiA+ICsKPiA+ICsJaWYgKGRy
-bV9mYmRldl91c2Vfc2hhZG93X2ZiKGZiX2hlbHBlcikgfHwgIWJ1ZmZlci0+bWFwLmlzX2lvbWVt
-KQo+ID4gKwkJZHJtX2ZiX2hlbHBlcl9zeXNfY29weWFyZWEoaW5mbywgYXJlYSk7Cj4gPiArCWVs
-c2UKPiA+ICsJCWRybV9mYl9oZWxwZXJfY2ZiX2NvcHlhcmVhKGluZm8sIGFyZWEpOwo+ID4gK30K
-PiA+ICsKPiA+ICtzdGF0aWMgdm9pZCBkcm1fZmJkZXZfZmJfaW1hZ2VibGl0KHN0cnVjdCBmYl9p
-bmZvICppbmZvLAo+ID4gKwkJCQkgICBjb25zdCBzdHJ1Y3QgZmJfaW1hZ2UgKmltYWdlKQo+ID4g
-K3sKPiA+ICsJc3RydWN0IGRybV9mYl9oZWxwZXIgKmZiX2hlbHBlciA9IGluZm8tPnBhcjsKPiA+
-ICsJc3RydWN0IGRybV9jbGllbnRfYnVmZmVyICpidWZmZXIgPSBmYl9oZWxwZXItPmJ1ZmZlcjsK
-PiA+ICsKPiA+ICsJaWYgKGRybV9mYmRldl91c2Vfc2hhZG93X2ZiKGZiX2hlbHBlcikgfHwgIWJ1
-ZmZlci0+bWFwLmlzX2lvbWVtKQo+ID4gKwkJZHJtX2ZiX2hlbHBlcl9zeXNfaW1hZ2VibGl0KGlu
-Zm8sIGltYWdlKTsKPiA+ICsJZWxzZQo+ID4gKwkJZHJtX2ZiX2hlbHBlcl9jZmJfaW1hZ2VibGl0
-KGluZm8sIGltYWdlKTsKPiA+ICt9Cj4gPiArCj4gPiAgc3RhdGljIGNvbnN0IHN0cnVjdCBmYl9v
-cHMgZHJtX2ZiZGV2X2ZiX29wcyA9IHsKPiA+ICAJLm93bmVyCQk9IFRISVNfTU9EVUxFLAo+ID4g
-IAlEUk1fRkJfSEVMUEVSX0RFRkFVTFRfT1BTLAo+ID4gQEAgLTIwMzQsMTEgKzIyMjMsMTEgQEAg
-c3RhdGljIGNvbnN0IHN0cnVjdCBmYl9vcHMgZHJtX2ZiZGV2X2ZiX29wcyA9IHsKPiA+ICAJLmZi
-X3JlbGVhc2UJPSBkcm1fZmJkZXZfZmJfcmVsZWFzZSwKPiA+ICAJLmZiX2Rlc3Ryb3kJPSBkcm1f
-ZmJkZXZfZmJfZGVzdHJveSwKPiA+ICAJLmZiX21tYXAJPSBkcm1fZmJkZXZfZmJfbW1hcCwKPiA+
-IC0JLmZiX3JlYWQJPSBkcm1fZmJfaGVscGVyX3N5c19yZWFkLAo+ID4gLQkuZmJfd3JpdGUJPSBk
-cm1fZmJfaGVscGVyX3N5c193cml0ZSwKPiA+IC0JLmZiX2ZpbGxyZWN0CT0gZHJtX2ZiX2hlbHBl
-cl9zeXNfZmlsbHJlY3QsCj4gPiAtCS5mYl9jb3B5YXJlYQk9IGRybV9mYl9oZWxwZXJfc3lzX2Nv
-cHlhcmVhLAo+ID4gLQkuZmJfaW1hZ2VibGl0CT0gZHJtX2ZiX2hlbHBlcl9zeXNfaW1hZ2VibGl0
-LAo+ID4gKwkuZmJfcmVhZAk9IGRybV9mYmRldl9mYl9yZWFkLAo+ID4gKwkuZmJfd3JpdGUJPSBk
-cm1fZmJkZXZfZmJfd3JpdGUsCj4gPiArCS5mYl9maWxscmVjdAk9IGRybV9mYmRldl9mYl9maWxs
-cmVjdCwKPiA+ICsJLmZiX2NvcHlhcmVhCT0gZHJtX2ZiZGV2X2ZiX2NvcHlhcmVhLAo+ID4gKwku
-ZmJfaW1hZ2VibGl0CT0gZHJtX2ZiZGV2X2ZiX2ltYWdlYmxpdCwKPiA+ICB9Owo+ID4gIAo+ID4g
-IHN0YXRpYyBzdHJ1Y3QgZmJfZGVmZXJyZWRfaW8gZHJtX2ZiZGV2X2RlZmlvID0gewo+ID4gZGlm
-ZiAtLWdpdCBhL2luY2x1ZGUvZHJtL2RybV9tb2RlX2NvbmZpZy5oIGIvaW5jbHVkZS9kcm0vZHJt
-X21vZGVfY29uZmlnLmgKPiA+IGluZGV4IDVmZmJiNGVkNWIzNS4uYWI0MjRkZGQ3NjY1IDEwMDY0
-NAo+ID4gLS0tIGEvaW5jbHVkZS9kcm0vZHJtX21vZGVfY29uZmlnLmgKPiA+ICsrKyBiL2luY2x1
-ZGUvZHJtL2RybV9tb2RlX2NvbmZpZy5oCj4gPiBAQCAtODc3LDE4ICs4NzcsNiBAQCBzdHJ1Y3Qg
-ZHJtX21vZGVfY29uZmlnIHsKPiA+ICAJICovCj4gPiAgCWJvb2wgcHJlZmVyX3NoYWRvd19mYmRl
-djsKPiA+ICAKPiA+IC0JLyoqCj4gPiAtCSAqIEBmYmRldl91c2VfaW9tZW06Cj4gPiAtCSAqCj4g
-PiAtCSAqIFNldCB0byB0cnVlIGlmIGZyYW1lYnVmZmVyIHJlc2lkZSBpbiBpb21lbS4KPiA+IC0J
-ICogV2hlbiBzZXQgdG8gdHJ1ZSBtZW1jcHlfdG9pbygpIGlzIHVzZWQgd2hlbiBjb3B5aW5nIHRo
-ZQo+ID4gZnJhbWVidWZmZXIgaW4KPiA+IC0JICogZHJtX2ZiX2hlbHBlci5kcm1fZmJfaGVscGVy
-X2RpcnR5X2JsaXRfcmVhbCgpLgo+ID4gLQkgKgo+ID4gLQkgKiBGSVhNRTogVGhpcyBzaG91bGQg
-YmUgcmVwbGFjZWQgd2l0aCBhIHBlci1tYXBwaW5nIGlzX2lvbWVtCj4gPiAtCSAqIGZsYWcgKGxp
-a2UgdHRtIGRvZXMpLCBhbmQgdGhlbiB1c2VkIGV2ZXJ5d2hlcmUgaW4gZmJkZXYgY29kZS4KPiA+
-IC0JICovCj4gPiAtCWJvb2wgZmJkZXZfdXNlX2lvbWVtOwo+ID4gLQo+ID4gIAkvKioKPiA+ICAJ
-ICogQHF1aXJrX2FkZGZiX3ByZWZlcl94YmdyXzMwYnBwOgo+ID4gIAkgKgo+ID4gLS0gCj4gPiAy
-LjI4LjAKPiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+
-IGRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKPiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-Cj4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2
-ZWwKCgoKLS0gClRob21hcyBaaW1tZXJtYW5uCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXIKU1VT
-RSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJICk1heGZlbGRzdHIuIDUsIDkwNDA5IE7D
-vHJuYmVyZywgR2VybWFueQooSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpCkdlc2Now6RmdHNmw7xo
-cmVyOiBGZWxpeCBJbWVuZMO2cmZmZXIKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX18KZXRuYXZpdiBtYWlsaW5nIGxpc3QKZXRuYXZpdkBsaXN0cy5mcmVlZGVz
-a3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9l
-dG5hdml2Cg==
+Hi Thomas.
+
+On Thu, Oct 15, 2020 at 02:38:06PM +0200, Thomas Zimmermann wrote:
+> At least sparc64 requires I/O-specific access to framebuffers. This
+> patch updates the fbdev console accordingly.
+> 
+> For drivers with direct access to the framebuffer memory, the callback
+> functions in struct fb_ops test for the type of memory and call the rsp
+> fb_sys_ of fb_cfb_ functions.
+> 
+> For drivers that employ a shadow buffer, fbdev's blit function retrieves
+> the framebuffer address as struct dma_buf_map, and uses dma_buf_map
+> interfaces to access the buffer.
+> 
+> The bochs driver on sparc64 uses a workaround to flag the framebuffer as
+> I/O memory and avoid a HW exception. With the introduction of struct
+> dma_buf_map, this is not required any longer. The patch removes the rsp
+> code from both, bochs and fbdev.
+> 
+> v4:
+> 	* move dma_buf_map changes into separate patch (Daniel)
+> 	* TODO list: comment on fbdev updates (Daniel)
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+
+The original workaround fixed it so we could run qemu with the
+-nographic option.
+
+So I went ahead and tried to run quemu version:
+v5.0.0-1970-g0b100c8e72-dirty.
+And with the BOCHS driver built-in.
+
+With the following command line:
+qemu-system-sparc64 -m 512 -kernel vmlinux -append console=ttyS0 -nographic
+
+Behaviour was the same before and after applying this patch.
+(panic due to VFS: Unable to mount root fs on unknown-block(0,0))
+So I consider it fixed for real now and not just a workaround.
+
+I also tested with:
+qemu-system-sparc64 -m 512 -kernel vmlinux -append console=ttyS0 -serial stdio
+
+and it worked in both cases too.
+
+All the comments above so future-me have an easier time finding how to
+reproduce.
+
+Tested-by: Sam Ravnborg <sam@ravnborg.org>
+
+	Sam
+
+> ---
+>  Documentation/gpu/todo.rst        |  19 ++-
+>  drivers/gpu/drm/bochs/bochs_kms.c |   1 -
+>  drivers/gpu/drm/drm_fb_helper.c   | 217 ++++++++++++++++++++++++++++--
+>  include/drm/drm_mode_config.h     |  12 --
+>  4 files changed, 220 insertions(+), 29 deletions(-)
+> 
+> diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
+> index 7e6fc3c04add..638b7f704339 100644
+> --- a/Documentation/gpu/todo.rst
+> +++ b/Documentation/gpu/todo.rst
+> @@ -197,13 +197,28 @@ Convert drivers to use drm_fbdev_generic_setup()
+>  ------------------------------------------------
+>  
+>  Most drivers can use drm_fbdev_generic_setup(). Driver have to implement
+> -atomic modesetting and GEM vmap support. Current generic fbdev emulation
+> -expects the framebuffer in system memory (or system-like memory).
+> +atomic modesetting and GEM vmap support. Historically, generic fbdev emulation
+> +expected the framebuffer in system memory or system-like memory. By employing
+> +struct dma_buf_map, drivers with frambuffers in I/O memory can be supported
+> +as well.
+>  
+>  Contact: Maintainer of the driver you plan to convert
+>  
+>  Level: Intermediate
+>  
+> +Reimplement functions in drm_fbdev_fb_ops without fbdev
+> +-------------------------------------------------------
+> +
+> +A number of callback functions in drm_fbdev_fb_ops could benefit from
+> +being rewritten without dependencies on the fbdev module. Some of the
+> +helpers could further benefit from using struct dma_buf_map instead of
+> +raw pointers.
+> +
+> +Contact: Thomas Zimmermann <tzimmermann@suse.de>, Daniel Vetter
+> +
+> +Level: Advanced
+> +
+> +
+>  drm_framebuffer_funcs and drm_mode_config_funcs.fb_create cleanup
+>  -----------------------------------------------------------------
+>  
+> diff --git a/drivers/gpu/drm/bochs/bochs_kms.c b/drivers/gpu/drm/bochs/bochs_kms.c
+> index 13d0d04c4457..853081d186d5 100644
+> --- a/drivers/gpu/drm/bochs/bochs_kms.c
+> +++ b/drivers/gpu/drm/bochs/bochs_kms.c
+> @@ -151,7 +151,6 @@ int bochs_kms_init(struct bochs_device *bochs)
+>  	bochs->dev->mode_config.preferred_depth = 24;
+>  	bochs->dev->mode_config.prefer_shadow = 0;
+>  	bochs->dev->mode_config.prefer_shadow_fbdev = 1;
+> -	bochs->dev->mode_config.fbdev_use_iomem = true;
+>  	bochs->dev->mode_config.quirk_addfb_prefer_host_byte_order = true;
+>  
+>  	bochs->dev->mode_config.funcs = &bochs_mode_funcs;
+> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
+> index 6212cd7cde1d..462b0c130ebb 100644
+> --- a/drivers/gpu/drm/drm_fb_helper.c
+> +++ b/drivers/gpu/drm/drm_fb_helper.c
+> @@ -372,24 +372,22 @@ static void drm_fb_helper_resume_worker(struct work_struct *work)
+>  }
+>  
+>  static void drm_fb_helper_dirty_blit_real(struct drm_fb_helper *fb_helper,
+> -					  struct drm_clip_rect *clip)
+> +					  struct drm_clip_rect *clip,
+> +					  struct dma_buf_map *dst)
+>  {
+>  	struct drm_framebuffer *fb = fb_helper->fb;
+>  	unsigned int cpp = fb->format->cpp[0];
+>  	size_t offset = clip->y1 * fb->pitches[0] + clip->x1 * cpp;
+>  	void *src = fb_helper->fbdev->screen_buffer + offset;
+> -	void *dst = fb_helper->buffer->map.vaddr + offset;
+>  	size_t len = (clip->x2 - clip->x1) * cpp;
+>  	unsigned int y;
+>  
+> -	for (y = clip->y1; y < clip->y2; y++) {
+> -		if (!fb_helper->dev->mode_config.fbdev_use_iomem)
+> -			memcpy(dst, src, len);
+> -		else
+> -			memcpy_toio((void __iomem *)dst, src, len);
+> +	dma_buf_map_incr(dst, offset); /* go to first pixel within clip rect */
+>  
+> +	for (y = clip->y1; y < clip->y2; y++) {
+> +		dma_buf_map_memcpy_to(dst, src, len);
+> +		dma_buf_map_incr(dst, fb->pitches[0]);
+>  		src += fb->pitches[0];
+> -		dst += fb->pitches[0];
+>  	}
+>  }
+>  
+> @@ -417,8 +415,9 @@ static void drm_fb_helper_dirty_work(struct work_struct *work)
+>  			ret = drm_client_buffer_vmap(helper->buffer, &map);
+>  			if (ret)
+>  				return;
+> -			drm_fb_helper_dirty_blit_real(helper, &clip_copy);
+> +			drm_fb_helper_dirty_blit_real(helper, &clip_copy, &map);
+>  		}
+> +
+>  		if (helper->fb->funcs->dirty)
+>  			helper->fb->funcs->dirty(helper->fb, NULL, 0, 0,
+>  						 &clip_copy, 1);
+> @@ -755,6 +754,136 @@ void drm_fb_helper_sys_imageblit(struct fb_info *info,
+>  }
+>  EXPORT_SYMBOL(drm_fb_helper_sys_imageblit);
+>  
+> +static ssize_t drm_fb_helper_cfb_read(struct fb_info *info, char __user *buf,
+> +				      size_t count, loff_t *ppos)
+> +{
+> +	unsigned long p = *ppos;
+> +	u8 *dst;
+> +	u8 __iomem *src;
+> +	int c, err = 0;
+> +	unsigned long total_size;
+> +	unsigned long alloc_size;
+> +	ssize_t ret = 0;
+> +
+> +	if (info->state != FBINFO_STATE_RUNNING)
+> +		return -EPERM;
+> +
+> +	total_size = info->screen_size;
+> +
+> +	if (total_size == 0)
+> +		total_size = info->fix.smem_len;
+> +
+> +	if (p >= total_size)
+> +		return 0;
+> +
+> +	if (count >= total_size)
+> +		count = total_size;
+> +
+> +	if (count + p > total_size)
+> +		count = total_size - p;
+> +
+> +	src = (u8 __iomem *)(info->screen_base + p);
+> +
+> +	alloc_size = min(count, PAGE_SIZE);
+> +
+> +	dst = kmalloc(alloc_size, GFP_KERNEL);
+> +	if (!dst)
+> +		return -ENOMEM;
+> +
+> +	while (count) {
+> +		c = min(count, alloc_size);
+> +
+> +		memcpy_fromio(dst, src, c);
+> +		if (copy_to_user(buf, dst, c)) {
+> +			err = -EFAULT;
+> +			break;
+> +		}
+> +
+> +		src += c;
+> +		*ppos += c;
+> +		buf += c;
+> +		ret += c;
+> +		count -= c;
+> +	}
+> +
+> +	kfree(dst);
+> +
+> +	if (err)
+> +		return err;
+> +
+> +	return ret;
+> +}
+> +
+> +static ssize_t drm_fb_helper_cfb_write(struct fb_info *info, const char __user *buf,
+> +				       size_t count, loff_t *ppos)
+> +{
+> +	unsigned long p = *ppos;
+> +	u8 *src;
+> +	u8 __iomem *dst;
+> +	int c, err = 0;
+> +	unsigned long total_size;
+> +	unsigned long alloc_size;
+> +	ssize_t ret = 0;
+> +
+> +	if (info->state != FBINFO_STATE_RUNNING)
+> +		return -EPERM;
+> +
+> +	total_size = info->screen_size;
+> +
+> +	if (total_size == 0)
+> +		total_size = info->fix.smem_len;
+> +
+> +	if (p > total_size)
+> +		return -EFBIG;
+> +
+> +	if (count > total_size) {
+> +		err = -EFBIG;
+> +		count = total_size;
+> +	}
+> +
+> +	if (count + p > total_size) {
+> +		/*
+> +		 * The framebuffer is too small. We do the
+> +		 * copy operation, but return an error code
+> +		 * afterwards. Taken from fbdev.
+> +		 */
+> +		if (!err)
+> +			err = -ENOSPC;
+> +		count = total_size - p;
+> +	}
+> +
+> +	alloc_size = min(count, PAGE_SIZE);
+> +
+> +	src = kmalloc(alloc_size, GFP_KERNEL);
+> +	if (!src)
+> +		return -ENOMEM;
+> +
+> +	dst = (u8 __iomem *)(info->screen_base + p);
+> +
+> +	while (count) {
+> +		c = min(count, alloc_size);
+> +
+> +		if (copy_from_user(src, buf, c)) {
+> +			err = -EFAULT;
+> +			break;
+> +		}
+> +		memcpy_toio(dst, src, c);
+> +
+> +		dst += c;
+> +		*ppos += c;
+> +		buf += c;
+> +		ret += c;
+> +		count -= c;
+> +	}
+> +
+> +	kfree(src);
+> +
+> +	if (err)
+> +		return err;
+> +
+> +	return ret;
+> +}
+> +
+>  /**
+>   * drm_fb_helper_cfb_fillrect - wrapper around cfb_fillrect
+>   * @info: fbdev registered by the helper
+> @@ -2027,6 +2156,66 @@ static int drm_fbdev_fb_mmap(struct fb_info *info, struct vm_area_struct *vma)
+>  		return -ENODEV;
+>  }
+>  
+> +static ssize_t drm_fbdev_fb_read(struct fb_info *info, char __user *buf,
+> +				 size_t count, loff_t *ppos)
+> +{
+> +	struct drm_fb_helper *fb_helper = info->par;
+> +	struct drm_client_buffer *buffer = fb_helper->buffer;
+> +
+> +	if (drm_fbdev_use_shadow_fb(fb_helper) || !buffer->map.is_iomem)
+> +		return drm_fb_helper_sys_read(info, buf, count, ppos);
+> +	else
+> +		return drm_fb_helper_cfb_read(info, buf, count, ppos);
+> +}
+> +
+> +static ssize_t drm_fbdev_fb_write(struct fb_info *info, const char __user *buf,
+> +				  size_t count, loff_t *ppos)
+> +{
+> +	struct drm_fb_helper *fb_helper = info->par;
+> +	struct drm_client_buffer *buffer = fb_helper->buffer;
+> +
+> +	if (drm_fbdev_use_shadow_fb(fb_helper) || !buffer->map.is_iomem)
+> +		return drm_fb_helper_sys_write(info, buf, count, ppos);
+> +	else
+> +		return drm_fb_helper_cfb_write(info, buf, count, ppos);
+> +}
+> +
+> +static void drm_fbdev_fb_fillrect(struct fb_info *info,
+> +				  const struct fb_fillrect *rect)
+> +{
+> +	struct drm_fb_helper *fb_helper = info->par;
+> +	struct drm_client_buffer *buffer = fb_helper->buffer;
+> +
+> +	if (drm_fbdev_use_shadow_fb(fb_helper) || !buffer->map.is_iomem)
+> +		drm_fb_helper_sys_fillrect(info, rect);
+> +	else
+> +		drm_fb_helper_cfb_fillrect(info, rect);
+> +}
+> +
+> +static void drm_fbdev_fb_copyarea(struct fb_info *info,
+> +				  const struct fb_copyarea *area)
+> +{
+> +	struct drm_fb_helper *fb_helper = info->par;
+> +	struct drm_client_buffer *buffer = fb_helper->buffer;
+> +
+> +	if (drm_fbdev_use_shadow_fb(fb_helper) || !buffer->map.is_iomem)
+> +		drm_fb_helper_sys_copyarea(info, area);
+> +	else
+> +		drm_fb_helper_cfb_copyarea(info, area);
+> +}
+> +
+> +static void drm_fbdev_fb_imageblit(struct fb_info *info,
+> +				   const struct fb_image *image)
+> +{
+> +	struct drm_fb_helper *fb_helper = info->par;
+> +	struct drm_client_buffer *buffer = fb_helper->buffer;
+> +
+> +	if (drm_fbdev_use_shadow_fb(fb_helper) || !buffer->map.is_iomem)
+> +		drm_fb_helper_sys_imageblit(info, image);
+> +	else
+> +		drm_fb_helper_cfb_imageblit(info, image);
+> +}
+> +
+>  static const struct fb_ops drm_fbdev_fb_ops = {
+>  	.owner		= THIS_MODULE,
+>  	DRM_FB_HELPER_DEFAULT_OPS,
+> @@ -2034,11 +2223,11 @@ static const struct fb_ops drm_fbdev_fb_ops = {
+>  	.fb_release	= drm_fbdev_fb_release,
+>  	.fb_destroy	= drm_fbdev_fb_destroy,
+>  	.fb_mmap	= drm_fbdev_fb_mmap,
+> -	.fb_read	= drm_fb_helper_sys_read,
+> -	.fb_write	= drm_fb_helper_sys_write,
+> -	.fb_fillrect	= drm_fb_helper_sys_fillrect,
+> -	.fb_copyarea	= drm_fb_helper_sys_copyarea,
+> -	.fb_imageblit	= drm_fb_helper_sys_imageblit,
+> +	.fb_read	= drm_fbdev_fb_read,
+> +	.fb_write	= drm_fbdev_fb_write,
+> +	.fb_fillrect	= drm_fbdev_fb_fillrect,
+> +	.fb_copyarea	= drm_fbdev_fb_copyarea,
+> +	.fb_imageblit	= drm_fbdev_fb_imageblit,
+>  };
+>  
+>  static struct fb_deferred_io drm_fbdev_defio = {
+> diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
+> index 5ffbb4ed5b35..ab424ddd7665 100644
+> --- a/include/drm/drm_mode_config.h
+> +++ b/include/drm/drm_mode_config.h
+> @@ -877,18 +877,6 @@ struct drm_mode_config {
+>  	 */
+>  	bool prefer_shadow_fbdev;
+>  
+> -	/**
+> -	 * @fbdev_use_iomem:
+> -	 *
+> -	 * Set to true if framebuffer reside in iomem.
+> -	 * When set to true memcpy_toio() is used when copying the framebuffer in
+> -	 * drm_fb_helper.drm_fb_helper_dirty_blit_real().
+> -	 *
+> -	 * FIXME: This should be replaced with a per-mapping is_iomem
+> -	 * flag (like ttm does), and then used everywhere in fbdev code.
+> -	 */
+> -	bool fbdev_use_iomem;
+> -
+>  	/**
+>  	 * @quirk_addfb_prefer_xbgr_30bpp:
+>  	 *
+> -- 
+> 2.28.0
+_______________________________________________
+etnaviv mailing list
+etnaviv@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/etnaviv
