@@ -2,62 +2,55 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 437DC292ABC
-	for <lists+etnaviv@lfdr.de>; Mon, 19 Oct 2020 17:46:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABAF7292ACF
+	for <lists+etnaviv@lfdr.de>; Mon, 19 Oct 2020 17:48:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C8A266EA04;
-	Mon, 19 Oct 2020 15:46:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 688876EA06;
+	Mon, 19 Oct 2020 15:48:42 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 257A66EA07
- for <etnaviv@lists.freedesktop.org>; Mon, 19 Oct 2020 15:46:48 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id e17so217924wru.12
- for <etnaviv@lists.freedesktop.org>; Mon, 19 Oct 2020 08:46:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=HO1NWy71VB/XmKCrtzy6L4ESvVEPBzXrL3scn+Up8bc=;
- b=UC61EvUAH1ghGWvhgPIvwb0tJKvmN85XcCXlrZCX7WhPqQ5Kal9er+D9EGMj6Qy1Mw
- fLsBXywmZ7A82r1QjiPvCD/FrGiVsWYE0GJST415xH593KKFVZRAlHpTMAzkBzgOwrUv
- csDczr2hma4nlAuIXgtB1TgmwV8Q0Ey3gd2fI=
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com
+ [IPv6:2a00:1450:4864:20::62c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA2DB6EA06
+ for <etnaviv@lists.freedesktop.org>; Mon, 19 Oct 2020 15:48:40 +0000 (UTC)
+Received: by mail-ej1-x62c.google.com with SMTP id md26so14549186ejb.10
+ for <etnaviv@lists.freedesktop.org>; Mon, 19 Oct 2020 08:48:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gateworks-com.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=UE4y2VbqK1/Zi0QNxFnIQE/Bv6a9dZOvirWXzxycJiY=;
+ b=rRyzICPb/dSxgTjOFKkCXxEh0Yto5+rmlMwYGOx9J0yGyurbmteVZJnJeidvfSueSF
+ 4A7fSHKewWXd6tO/23TwHGNbmKBkFesDJVpf3Kv4Pvi65iBK5JHi9GmGQTqhyECyYT0T
+ /IzC8WQTDvjTsRiLFnPrP36AiWi55+MWXCxY0WGdS0YcnJaVXMxMrzJ7ZwD6cbwt0r06
+ SggFF3pRx4r3I9LnpqGI/Gc6NxphjSPkB6Jl8IxdyAgmZyV3FAhzsHm/yKwHJu2MuwWi
+ ITJVqqjnvooPTmoHn9Rh/nqGrVpi/CQFXyuUtTMSpQCjOC5Y5lenQO94Z1ylUmZkEqh5
+ l7QA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=HO1NWy71VB/XmKCrtzy6L4ESvVEPBzXrL3scn+Up8bc=;
- b=nSgfgB5hRwTSTVFihsiBqz+92GFHK04rjjpAsH844Z7wFb2uZMACk4k/PuiGWtYdxX
- tY2aTvpAgf0aNJsh9XFi6whWbaM5ZlBMTD06xDqyatk24mxVLcPjTFb5zJ/jla/SBxir
- 5mYLvZB9OI8QcZHQtJxyxGyPluAeVHf/pT+7TsQ2LpOeoM4/aCCE03H67sblB95UqLCy
- JzE0Lr1MpUhDdmbxpa11XGQkzd37yyOTiqId687agA9cESqX9DYH3Wu8ZpzjWImeGWeF
- L14cubqIl2UV8hlxd8tOafg/tpFYQBH9JrIS2bXieI2V5lbJyxGfUqtlrEJ5bc5JXc5f
- bVTQ==
-X-Gm-Message-State: AOAM5317cJk8412e65t3Y23rkTtGHGwUUFijL0DTfdFwE8M3x159p7yU
- WefkLh5xX+4BLB3cffMckQyazQ==
-X-Google-Smtp-Source: ABdhPJw3AhcfVn5Ol/2itQNrpLAPMvDH8DFfv/LdwaotJFWGF+wLGszDKhZ9OSoAyWYoQMAHgXYlBQ==
-X-Received: by 2002:adf:ea4d:: with SMTP id j13mr121871wrn.345.1603122406591; 
- Mon, 19 Oct 2020 08:46:46 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id s11sm138139wrm.56.2020.10.19.08.46.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Oct 2020 08:46:45 -0700 (PDT)
-Date: Mon, 19 Oct 2020 17:46:42 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Subject: Re: [PATCH v4 05/10] drm/ttm: Add vmap/vunmap to TTM and TTM GEM
- helpers
-Message-ID: <20201019154642.GF401619@phenom.ffwll.local>
-References: <20201015123806.32416-1-tzimmermann@suse.de>
- <20201015123806.32416-6-tzimmermann@suse.de>
- <935d5771-5645-62a6-849c-31e286db1e30@amd.com>
- <87c7c342-88dc-9a36-31f7-dae6edd34626@suse.de>
- <9236f51c-c1fa-dadc-c7cc-d9d0c09251d1@amd.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=UE4y2VbqK1/Zi0QNxFnIQE/Bv6a9dZOvirWXzxycJiY=;
+ b=F+9oTOpehIaStakGdSErN3CuykP5OCr5Dggfw39gOmRIn4vggCP0cth/tqVd+J8mAB
+ LCG7BzaI/WR5WCo+jSHtqGf3bN+5KrgPA8DrxDWXS9cxG9JXYmWjasyhdbX0i6kiMdef
+ wIkMFDDvraHjT2J2LMaORBGcZ4ZCW8DT4EkH5aw9tKo2HGIIqnTzaEMmtYOBJCJSd/7T
+ DFQDY7p9BS+vg8fz8skA6CtkVF+6LXHSW0Q5V9iFBsInk6tOAsXLzcX7/ZjT+FIcMgeR
+ rtcP6c/XZAyATDfgB8YaQCh1Jbnz/bvuU4aLYF0smE2kJT9Is0oTdPrDj9qbJrHWDv5+
+ Bj5A==
+X-Gm-Message-State: AOAM5305fn3LWcN9VggQKJw2MMw4lzXH/h/06tgWG11G71wGg8+vrnf8
+ qzutDzlufOIEEvVAUgfNo6Hgb2rDCdFOZ891L+ystA==
+X-Google-Smtp-Source: ABdhPJzXx3y0gFv9CdomfhOU4V44ogGEUIqibLuxdd5+A1WUgTNOj2EyFsPkyVpcKSmxXn+CD4E59XSY1d75X0yOJng=
+X-Received: by 2002:a17:906:cc53:: with SMTP id
+ mm19mr502534ejb.514.1603122519389; 
+ Mon, 19 Oct 2020 08:48:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <9236f51c-c1fa-dadc-c7cc-d9d0c09251d1@amd.com>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+References: <CAJ+vNU1M=GxceoURX+SffkQHSxVr3fKUxwysbZmU1-jAu0YY_A@mail.gmail.com>
+ <CAH9NwWc-qCopDNYe64788Ei_JCQvZAV6BrXguYcvFBOBp-YgvQ@mail.gmail.com>
+In-Reply-To: <CAH9NwWc-qCopDNYe64788Ei_JCQvZAV6BrXguYcvFBOBp-YgvQ@mail.gmail.com>
+From: Tim Harvey <tharvey@gateworks.com>
+Date: Mon, 19 Oct 2020 08:48:26 -0700
+Message-ID: <CAJ+vNU20sriZK8DjtqDCCwoAzUhQKf3b4VuYaDDr0=FwC3H74A@mail.gmail.com>
+Subject: Re: OpenCL on etnaviv?
+To: Christian Gmeiner <christian.gmeiner@gmail.com>
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,320 +62,75 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: luben.tuikov@amd.com, heiko@sntech.de, airlied@linux.ie,
- nouveau@lists.freedesktop.org, linus.walleij@linaro.org,
- dri-devel@lists.freedesktop.org, chris@chris-wilson.co.uk,
- melissa.srw@gmail.com, eric@anholt.net, ray.huang@amd.com, kraxel@redhat.com,
- sam@ravnborg.org, sumit.semwal@linaro.org, emil.velikov@collabora.com,
- robh@kernel.org, linux-samsung-soc@vger.kernel.org, jy0922.shim@samsung.com,
- lima@lists.freedesktop.org, oleksandr_andrushchenko@epam.com, krzk@kernel.org,
- steven.price@arm.com, linux-rockchip@lists.infradead.org, kgene@kernel.org,
- bskeggs@redhat.com, linux+etnaviv@armlinux.org.uk,
- xen-devel@lists.xenproject.org, alyssa.rosenzweig@collabora.com,
- daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
- etnaviv@lists.freedesktop.org, mripard@kernel.org, inki.dae@samsung.com,
- hdegoede@redhat.com, christian.gmeiner@gmail.com,
- spice-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
- sean@poorly.run, apaneers@amd.com, linux-arm-kernel@lists.infradead.org,
- linaro-mm-sig@lists.linaro.org, amd-gfx@lists.freedesktop.org,
- tomeu.vizoso@collabora.com, sw0312.kim@samsung.com, hjc@rock-chips.com,
- kyungmin.park@samsung.com, miaoqinglang@huawei.com, yuq825@gmail.com,
- Thomas Zimmermann <tzimmermann@suse.de>, alexander.deucher@amd.com,
- linux-media@vger.kernel.org, l.stach@pengutronix.de
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: The etnaviv authors <etnaviv@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-On Mon, Oct 19, 2020 at 11:45:05AM +0200, Christian K=F6nig wrote:
-> Hi Thomas,
-> =
+On Mon, Oct 19, 2020 at 6:12 AM Christian Gmeiner
+<christian.gmeiner@gmail.com> wrote:
+>
+> Hi Tim
+>
+> >
+> > Could anyone explain if OpenCL can run with etnaviv? I'm also not
+> > quite understanding if OpenCL has specific hardware requirements. I
+> > have users that I support wanting to run OpenCL on an IMX8M and am
+> > finding that NXP states the IMX8MM doesn't support OpenCL (yet the
+> > IMX8MN does)  and I'm trying to understand if that is a technical
+> > issue or just simply that they won't support it through their closed
+> > Vivante driver.
+> >
+>
+> On the etnaviv side OpenCL is possible but nothing has done in that
+> direction and
+> needs work to get it up and running. Hardware wise it should work on GPUs with
+> SSBOs and Images support. Intuitively it should work on most Vivante GPUs. Also
+> you might have a look https://en.wikipedia.org/wiki/Vivante_Corporation
+>
 
-> [SNIP]
-> > > >  =A0 +int ttm_bo_vmap(struct ttm_buffer_object *bo, struct dma_buf_=
-map *map)
-> > > > +{
-> > > > +=A0=A0=A0 struct ttm_resource *mem =3D &bo->mem;
-> > > > +=A0=A0=A0 int ret;
-> > > > +
-> > > > +=A0=A0=A0 ret =3D ttm_mem_io_reserve(bo->bdev, mem);
-> > > > +=A0=A0=A0 if (ret)
-> > > > +=A0=A0=A0=A0=A0=A0=A0 return ret;
-> > > > +
-> > > > +=A0=A0=A0 if (mem->bus.is_iomem) {
-> > > > +=A0=A0=A0=A0=A0=A0=A0 void __iomem *vaddr_iomem;
-> > > > +=A0=A0=A0=A0=A0=A0=A0 unsigned long size =3D bo->num_pages << PAGE=
-_SHIFT;
-> > > Please use uint64_t here and make sure to cast bo->num_pages before
-> > > shifting.
-> > I thought the rule of thumb is to use u64 in source code. Yet TTM only
-> > uses uint*_t types. Is there anything special about TTM?
-> =
+Christian,
 
-> My last status is that you can use both and my personal preference is to =
-use
-> the uint*_t types because they are part of a higher level standard.
+Thanks - this is very helpful. I found some info about what a Shader
+Storage Buffer Object (SSBO) is but I haven't managed to find what you
+mean by Images support. I'm also not clear how to tell what Vivante
+GPU's have this support. The wikipedia page doesn't go into detail on
+SSBO's and Images support. Where do you typically find this info?
 
-Yeah the only hard rule is that in uapi headers you need to use the __u64
-and similar typedefs, to avoid cluttering the namespace for unrelated
-stuff in userspace.
+What led me to post this question was NXP stating that the IMX8MM does
+not support OpenCL or Vulkan whereas the other IMX8M's (IMX8MN,
+IMX8MP, and IMX8MQ) do. I wasn't clear if it was a limitation in what
+NXP offers through the Vivante driver or if this was a technical
+limit. It would appear that it is likely both but more so a technical
+limit.
 
-In the kernel c99 types are perfectly fine, and I think slowly on the
-rise.
--Daniel
+> > I suppose for my own education I also have the same question about
+> > Vulkan. Is there specific GPU hardware requirements for that? My
+> > understanding is that things like OpenCL and Vulkan are just software
+> > API's to tap into the hardware units.
+> >
+>
+> I am a big vulkan newbie but I think the baseline for vulkan is ES 3.1. So any
+> GPU where we can support ES 3.1 could also be driven by the Vulkan API.
+>
 
-> =
+The IMX8MM has a GC NanoUltra (1 shader) supporting OpenGL ES 2.0 and
+a GC502L for 2D from what I can find. So if the baseline is ES 3.1
+there would never be any hope for Vulkan on that. I'm assuming the
+GLES API's are implemented in hardware and not some sort of
+abstraction layer.
 
-> > > We have an unit tests of allocating a 8GB BO and that should work on a
-> > > 32bit machine as well :)
-> > > =
+> But the Vulkan road for etnaviv is even longer one. I think gles 3.0 is more
+> important at the moment. So do not expect anything in that area in the near and
+> far future.
 
-> > > > +
-> > > > +=A0=A0=A0=A0=A0=A0=A0 if (mem->bus.addr)
-> > > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 vaddr_iomem =3D (void *)(((u8 *)=
-mem->bus.addr));
-> > I after reading the patch again, I realized that this is the
-> > 'ttm_bo_map_premapped' case and it's missing from _vunmap(). I see two
-> > options here: ignore this case in _vunmap(), or do an ioremap()
-> > unconditionally. Which one is preferable?
-> =
+Meaning that entaviv currently supports GLES 2.0 and work is being
+done to improve that support to GLES 3.0?
 
-> ioremap would be very very bad, so we should just do nothing.
-> =
+Best Regards,
 
-> Thanks,
-> Christian.
-> =
-
-> > =
-
-> > Best regards
-> > Thomas
-> > =
-
-> > > > +=A0=A0=A0=A0=A0=A0=A0 else if (mem->placement & TTM_PL_FLAG_WC)
-> > > I've just nuked the TTM_PL_FLAG_WC flag in drm-misc-next. There is a =
-new
-> > > mem->bus.caching enum as replacement.
-> > > =
-
-> > > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 vaddr_iomem =3D ioremap_wc(mem->=
-bus.offset, size);
-> > > > +=A0=A0=A0=A0=A0=A0=A0 else
-> > > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 vaddr_iomem =3D ioremap(mem->bus=
-.offset, size);
-> > > > +
-> > > > +=A0=A0=A0=A0=A0=A0=A0 if (!vaddr_iomem)
-> > > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 return -ENOMEM;
-> > > > +
-> > > > +=A0=A0=A0=A0=A0=A0=A0 dma_buf_map_set_vaddr_iomem(map, vaddr_iomem=
-);
-> > > > +
-> > > > +=A0=A0=A0 } else {
-> > > > +=A0=A0=A0=A0=A0=A0=A0 struct ttm_operation_ctx ctx =3D {
-> > > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 .interruptible =3D false,
-> > > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 .no_wait_gpu =3D false
-> > > > +=A0=A0=A0=A0=A0=A0=A0 };
-> > > > +=A0=A0=A0=A0=A0=A0=A0 struct ttm_tt *ttm =3D bo->ttm;
-> > > > +=A0=A0=A0=A0=A0=A0=A0 pgprot_t prot;
-> > > > +=A0=A0=A0=A0=A0=A0=A0 void *vaddr;
-> > > > +
-> > > > +=A0=A0=A0=A0=A0=A0=A0 BUG_ON(!ttm);
-> > > I think we can drop this, populate will just crash badly anyway.
-> > > =
-
-> > > > +
-> > > > +=A0=A0=A0=A0=A0=A0=A0 ret =3D ttm_tt_populate(bo->bdev, ttm, &ctx);
-> > > > +=A0=A0=A0=A0=A0=A0=A0 if (ret)
-> > > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 return ret;
-> > > > +
-> > > > +=A0=A0=A0=A0=A0=A0=A0 /*
-> > > > +=A0=A0=A0=A0=A0=A0=A0=A0 * We need to use vmap to get the desired =
-page protection
-> > > > +=A0=A0=A0=A0=A0=A0=A0=A0 * or to make the buffer object look conti=
-guous.
-> > > > +=A0=A0=A0=A0=A0=A0=A0=A0 */
-> > > > +=A0=A0=A0=A0=A0=A0=A0 prot =3D ttm_io_prot(mem->placement, PAGE_KE=
-RNEL);
-> > > The calling convention has changed on drm-misc-next as well, but shou=
-ld
-> > > be trivial to adapt.
-> > > =
-
-> > > Regards,
-> > > Christian.
-> > > =
-
-> > > > +=A0=A0=A0=A0=A0=A0=A0 vaddr =3D vmap(ttm->pages, bo->num_pages, 0,=
- prot);
-> > > > +=A0=A0=A0=A0=A0=A0=A0 if (!vaddr)
-> > > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 return -ENOMEM;
-> > > > +
-> > > > +=A0=A0=A0=A0=A0=A0=A0 dma_buf_map_set_vaddr(map, vaddr);
-> > > > +=A0=A0=A0 }
-> > > > +
-> > > > +=A0=A0=A0 return 0;
-> > > > +}
-> > > > +EXPORT_SYMBOL(ttm_bo_vmap);
-> > > > +
-> > > > +void ttm_bo_vunmap(struct ttm_buffer_object *bo, struct dma_buf_map
-> > > > *map)
-> > > > +{
-> > > > +=A0=A0=A0 if (dma_buf_map_is_null(map))
-> > > > +=A0=A0=A0=A0=A0=A0=A0 return;
-> > > > +
-> > > > +=A0=A0=A0 if (map->is_iomem)
-> > > > +=A0=A0=A0=A0=A0=A0=A0 iounmap(map->vaddr_iomem);
-> > > > +=A0=A0=A0 else
-> > > > +=A0=A0=A0=A0=A0=A0=A0 vunmap(map->vaddr);
-> > > > +=A0=A0=A0 dma_buf_map_clear(map);
-> > > > +
-> > > > +=A0=A0=A0 ttm_mem_io_free(bo->bdev, &bo->mem);
-> > > > +}
-> > > > +EXPORT_SYMBOL(ttm_bo_vunmap);
-> > > > +
-> > > >  =A0 static int ttm_bo_wait_free_node(struct ttm_buffer_object *bo,
-> > > >  =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 bool dst_us=
-e_tt)
-> > > >  =A0 {
-> > > > diff --git a/include/drm/drm_gem_ttm_helper.h
-> > > > b/include/drm/drm_gem_ttm_helper.h
-> > > > index 118cef76f84f..7c6d874910b8 100644
-> > > > --- a/include/drm/drm_gem_ttm_helper.h
-> > > > +++ b/include/drm/drm_gem_ttm_helper.h
-> > > > @@ -10,11 +10,17 @@
-> > > >  =A0 #include <drm/ttm/ttm_bo_api.h>
-> > > >  =A0 #include <drm/ttm/ttm_bo_driver.h>
-> > > >  =A0 +struct dma_buf_map;
-> > > > +
-> > > >  =A0 #define drm_gem_ttm_of_gem(gem_obj) \
-> > > >  =A0=A0=A0=A0=A0 container_of(gem_obj, struct ttm_buffer_object, ba=
-se)
-> > > >  =A0 =A0 void drm_gem_ttm_print_info(struct drm_printer *p, unsigne=
-d int
-> > > > indent,
-> > > >  =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 const struct d=
-rm_gem_object *gem);
-> > > > +int drm_gem_ttm_vmap(struct drm_gem_object *gem,
-> > > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 struct dma_buf_map *map);
-> > > > +void drm_gem_ttm_vunmap(struct drm_gem_object *gem,
-> > > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 struct dma_buf_map *map);
-> > > >  =A0 int drm_gem_ttm_mmap(struct drm_gem_object *gem,
-> > > >  =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 struct vm_area_struct *=
-vma);
-> > > >  =A0 diff --git a/include/drm/ttm/ttm_bo_api.h
-> > > > b/include/drm/ttm/ttm_bo_api.h
-> > > > index 37102e45e496..2c59a785374c 100644
-> > > > --- a/include/drm/ttm/ttm_bo_api.h
-> > > > +++ b/include/drm/ttm/ttm_bo_api.h
-> > > > @@ -48,6 +48,8 @@ struct ttm_bo_global;
-> > > >  =A0 =A0 struct ttm_bo_device;
-> > > >  =A0 +struct dma_buf_map;
-> > > > +
-> > > >  =A0 struct drm_mm_node;
-> > > >  =A0 =A0 struct ttm_placement;
-> > > > @@ -494,6 +496,32 @@ int ttm_bo_kmap(struct ttm_buffer_object *bo,
-> > > > unsigned long start_page,
-> > > >  =A0=A0 */
-> > > >  =A0 void ttm_bo_kunmap(struct ttm_bo_kmap_obj *map);
-> > > >  =A0 +/**
-> > > > + * ttm_bo_vmap
-> > > > + *
-> > > > + * @bo: The buffer object.
-> > > > + * @map: pointer to a struct dma_buf_map representing the map.
-> > > > + *
-> > > > + * Sets up a kernel virtual mapping, using ioremap or vmap to the
-> > > > + * data in the buffer object. The parameter @map returns the virtu=
-al
-> > > > + * address as struct dma_buf_map. Unmap the buffer with ttm_bo_vun=
-map().
-> > > > + *
-> > > > + * Returns
-> > > > + * -ENOMEM: Out of memory.
-> > > > + * -EINVAL: Invalid range.
-> > > > + */
-> > > > +int ttm_bo_vmap(struct ttm_buffer_object *bo, struct dma_buf_map *=
-map);
-> > > > +
-> > > > +/**
-> > > > + * ttm_bo_vunmap
-> > > > + *
-> > > > + * @bo: The buffer object.
-> > > > + * @map: Object describing the map to unmap.
-> > > > + *
-> > > > + * Unmaps a kernel map set up by ttm_bo_vmap().
-> > > > + */
-> > > > +void ttm_bo_vunmap(struct ttm_buffer_object *bo, struct dma_buf_map
-> > > > *map);
-> > > > +
-> > > >  =A0 /**
-> > > >  =A0=A0 * ttm_bo_mmap_obj - mmap memory backed by a ttm buffer obje=
-ct.
-> > > >  =A0=A0 *
-> > > > diff --git a/include/linux/dma-buf-map.h b/include/linux/dma-buf-ma=
-p.h
-> > > > index fd1aba545fdf..2e8bbecb5091 100644
-> > > > --- a/include/linux/dma-buf-map.h
-> > > > +++ b/include/linux/dma-buf-map.h
-> > > > @@ -45,6 +45,12 @@
-> > > >  =A0=A0 *
-> > > >  =A0=A0 *=A0=A0=A0 dma_buf_map_set_vaddr(&map. 0xdeadbeaf);
-> > > >  =A0=A0 *
-> > > > + * To set an address in I/O memory, use dma_buf_map_set_vaddr_iome=
-m().
-> > > > + *
-> > > > + * .. code-block:: c
-> > > > + *
-> > > > + *=A0=A0=A0 dma_buf_map_set_vaddr_iomem(&map. 0xdeadbeaf);
-> > > > + *
-> > > >  =A0=A0 * Test if a mapping is valid with either dma_buf_map_is_set=
-() or
-> > > >  =A0=A0 * dma_buf_map_is_null().
-> > > >  =A0=A0 *
-> > > > @@ -118,6 +124,20 @@ static inline void dma_buf_map_set_vaddr(struct
-> > > > dma_buf_map *map, void *vaddr)
-> > > >  =A0=A0=A0=A0=A0 map->is_iomem =3D false;
-> > > >  =A0 }
-> > > >  =A0 +/**
-> > > > + * dma_buf_map_set_vaddr_iomem - Sets a dma-buf mapping structure =
-to
-> > > > an address in I/O memory
-> > > > + * @map:=A0=A0=A0=A0=A0=A0=A0 The dma-buf mapping structure
-> > > > + * @vaddr_iomem:=A0=A0=A0 An I/O-memory address
-> > > > + *
-> > > > + * Sets the address and the I/O-memory flag.
-> > > > + */
-> > > > +static inline void dma_buf_map_set_vaddr_iomem(struct dma_buf_map =
-*map,
-> > > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0 void __iomem *vaddr_iomem)
-> > > > +{
-> > > > +=A0=A0=A0 map->vaddr_iomem =3D vaddr_iomem;
-> > > > +=A0=A0=A0 map->is_iomem =3D true;
-> > > > +}
-> > > > +
-> > > >  =A0 /**
-> > > >  =A0=A0 * dma_buf_map_is_equal - Compares two dma-buf mapping struc=
-tures
-> > > > for equality
-> > > >  =A0=A0 * @lhs:=A0=A0=A0 The dma-buf mapping structure
-> > > _______________________________________________
-> > > dri-devel mailing list
-> > > dri-devel@lists.freedesktop.org
-> > > https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fl=
-ists.freedesktop.org%2Fmailman%2Flistinfo%2Fdri-devel&amp;data=3D04%7C01%7C=
-christian.koenig%40amd.com%7C07bc68af3c6440b5be8d08d8740e9b32%7C3dd8961fe48=
-84e608e11a82d994e183d%7C0%7C0%7C637386953433558595%7CUnknown%7CTWFpbGZsb3d8=
-eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&a=
-mp;sdata=3DRlGCmjzyZERvqfnl4kA1bEHez5bkLf3F9OlKi2ybDAM%3D&amp;reserved=3D0
-> =
-
-
--- =
-
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Tim
 _______________________________________________
 etnaviv mailing list
 etnaviv@lists.freedesktop.org
