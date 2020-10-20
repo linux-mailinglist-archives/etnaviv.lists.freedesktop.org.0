@@ -1,56 +1,41 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABAF7292ACF
-	for <lists+etnaviv@lfdr.de>; Mon, 19 Oct 2020 17:48:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A88CD293B34
+	for <lists+etnaviv@lfdr.de>; Tue, 20 Oct 2020 14:21:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 688876EA06;
-	Mon, 19 Oct 2020 15:48:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B9AAB6EC77;
+	Tue, 20 Oct 2020 12:20:55 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com
- [IPv6:2a00:1450:4864:20::62c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA2DB6EA06
- for <etnaviv@lists.freedesktop.org>; Mon, 19 Oct 2020 15:48:40 +0000 (UTC)
-Received: by mail-ej1-x62c.google.com with SMTP id md26so14549186ejb.10
- for <etnaviv@lists.freedesktop.org>; Mon, 19 Oct 2020 08:48:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gateworks-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=UE4y2VbqK1/Zi0QNxFnIQE/Bv6a9dZOvirWXzxycJiY=;
- b=rRyzICPb/dSxgTjOFKkCXxEh0Yto5+rmlMwYGOx9J0yGyurbmteVZJnJeidvfSueSF
- 4A7fSHKewWXd6tO/23TwHGNbmKBkFesDJVpf3Kv4Pvi65iBK5JHi9GmGQTqhyECyYT0T
- /IzC8WQTDvjTsRiLFnPrP36AiWi55+MWXCxY0WGdS0YcnJaVXMxMrzJ7ZwD6cbwt0r06
- SggFF3pRx4r3I9LnpqGI/Gc6NxphjSPkB6Jl8IxdyAgmZyV3FAhzsHm/yKwHJu2MuwWi
- ITJVqqjnvooPTmoHn9Rh/nqGrVpi/CQFXyuUtTMSpQCjOC5Y5lenQO94Z1ylUmZkEqh5
- l7QA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=UE4y2VbqK1/Zi0QNxFnIQE/Bv6a9dZOvirWXzxycJiY=;
- b=F+9oTOpehIaStakGdSErN3CuykP5OCr5Dggfw39gOmRIn4vggCP0cth/tqVd+J8mAB
- LCG7BzaI/WR5WCo+jSHtqGf3bN+5KrgPA8DrxDWXS9cxG9JXYmWjasyhdbX0i6kiMdef
- wIkMFDDvraHjT2J2LMaORBGcZ4ZCW8DT4EkH5aw9tKo2HGIIqnTzaEMmtYOBJCJSd/7T
- DFQDY7p9BS+vg8fz8skA6CtkVF+6LXHSW0Q5V9iFBsInk6tOAsXLzcX7/ZjT+FIcMgeR
- rtcP6c/XZAyATDfgB8YaQCh1Jbnz/bvuU4aLYF0smE2kJT9Is0oTdPrDj9qbJrHWDv5+
- Bj5A==
-X-Gm-Message-State: AOAM5305fn3LWcN9VggQKJw2MMw4lzXH/h/06tgWG11G71wGg8+vrnf8
- qzutDzlufOIEEvVAUgfNo6Hgb2rDCdFOZ891L+ystA==
-X-Google-Smtp-Source: ABdhPJzXx3y0gFv9CdomfhOU4V44ogGEUIqibLuxdd5+A1WUgTNOj2EyFsPkyVpcKSmxXn+CD4E59XSY1d75X0yOJng=
-X-Received: by 2002:a17:906:cc53:: with SMTP id
- mm19mr502534ejb.514.1603122519389; 
- Mon, 19 Oct 2020 08:48:39 -0700 (PDT)
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 11C466EC63;
+ Tue, 20 Oct 2020 12:20:54 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id E929FB1C6;
+ Tue, 20 Oct 2020 12:20:51 +0000 (UTC)
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@linux.ie,
+ daniel@ffwll.ch, sam@ravnborg.org, alexander.deucher@amd.com,
+ christian.koenig@amd.com, kraxel@redhat.com, l.stach@pengutronix.de,
+ linux+etnaviv@armlinux.org.uk, christian.gmeiner@gmail.com,
+ inki.dae@samsung.com, jy0922.shim@samsung.com, sw0312.kim@samsung.com,
+ kyungmin.park@samsung.com, kgene@kernel.org, krzk@kernel.org,
+ yuq825@gmail.com, bskeggs@redhat.com, robh@kernel.org,
+ tomeu.vizoso@collabora.com, steven.price@arm.com,
+ alyssa.rosenzweig@collabora.com, hjc@rock-chips.com, heiko@sntech.de,
+ hdegoede@redhat.com, sean@poorly.run, eric@anholt.net,
+ oleksandr_andrushchenko@epam.com, ray.huang@amd.com,
+ sumit.semwal@linaro.org, emil.velikov@collabora.com, luben.tuikov@amd.com,
+ apaneers@amd.com, linus.walleij@linaro.org, melissa.srw@gmail.com,
+ chris@chris-wilson.co.uk, miaoqinglang@huawei.com
+Subject: [PATCH v5 00/10] Support GEM object mappings from I/O memory
+Date: Tue, 20 Oct 2020 14:20:36 +0200
+Message-Id: <20201020122046.31167-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-References: <CAJ+vNU1M=GxceoURX+SffkQHSxVr3fKUxwysbZmU1-jAu0YY_A@mail.gmail.com>
- <CAH9NwWc-qCopDNYe64788Ei_JCQvZAV6BrXguYcvFBOBp-YgvQ@mail.gmail.com>
-In-Reply-To: <CAH9NwWc-qCopDNYe64788Ei_JCQvZAV6BrXguYcvFBOBp-YgvQ@mail.gmail.com>
-From: Tim Harvey <tharvey@gateworks.com>
-Date: Mon, 19 Oct 2020 08:48:26 -0700
-Message-ID: <CAJ+vNU20sriZK8DjtqDCCwoAzUhQKf3b4VuYaDDr0=FwC3H74A@mail.gmail.com>
-Subject: Re: OpenCL on etnaviv?
-To: Christian Gmeiner <christian.gmeiner@gmail.com>
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,75 +47,143 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: The etnaviv authors <etnaviv@lists.freedesktop.org>
+Cc: linux-samsung-soc@vger.kernel.org, lima@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
+ linaro-mm-sig@lists.linaro.org, linux-rockchip@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ xen-devel@lists.xenproject.org, spice-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-On Mon, Oct 19, 2020 at 6:12 AM Christian Gmeiner
-<christian.gmeiner@gmail.com> wrote:
->
-> Hi Tim
->
-> >
-> > Could anyone explain if OpenCL can run with etnaviv? I'm also not
-> > quite understanding if OpenCL has specific hardware requirements. I
-> > have users that I support wanting to run OpenCL on an IMX8M and am
-> > finding that NXP states the IMX8MM doesn't support OpenCL (yet the
-> > IMX8MN does)  and I'm trying to understand if that is a technical
-> > issue or just simply that they won't support it through their closed
-> > Vivante driver.
-> >
->
-> On the etnaviv side OpenCL is possible but nothing has done in that
-> direction and
-> needs work to get it up and running. Hardware wise it should work on GPUs with
-> SSBOs and Images support. Intuitively it should work on most Vivante GPUs. Also
-> you might have a look https://en.wikipedia.org/wiki/Vivante_Corporation
->
+DRM's fbdev console uses regular load and store operations to update
+framebuffer memory. The bochs driver on sparc64 requires the use of
+I/O-specific load and store operations. We have a workaround, but need
+a long-term solution to the problem.
 
-Christian,
+This patchset changes GEM's vmap/vunmap interfaces to forward pointers
+of type struct dma_buf_map and updates the generic fbdev emulation to
+use them correctly. This enables I/O-memory operations on all framebuffers
+that require and support them.
 
-Thanks - this is very helpful. I found some info about what a Shader
-Storage Buffer Object (SSBO) is but I haven't managed to find what you
-mean by Images support. I'm also not clear how to tell what Vivante
-GPU's have this support. The wikipedia page doesn't go into detail on
-SSBO's and Images support. Where do you typically find this info?
+Patches #1 to #4 prepare VRAM helpers and drivers.
 
-What led me to post this question was NXP stating that the IMX8MM does
-not support OpenCL or Vulkan whereas the other IMX8M's (IMX8MN,
-IMX8MP, and IMX8MQ) do. I wasn't clear if it was a limitation in what
-NXP offers through the Vivante driver or if this was a technical
-limit. It would appear that it is likely both but more so a technical
-limit.
+Next is the update of the GEM vmap functions. Patch #5 adds vmap and vunmap
+that is usable with TTM-based GEM drivers, and patch #6 updates GEM's
+vmap/vunmap callback to forward instances of type struct dma_buf_map. While
+the patch touches many files throughout the DRM modules, the applied changes
+are mostly trivial interface fixes. Several TTM-based GEM drivers now use
+the new vmap code. Patch #7 updates GEM's internal vmap/vunmap functions to
+forward struct dma_buf_map.
 
-> > I suppose for my own education I also have the same question about
-> > Vulkan. Is there specific GPU hardware requirements for that? My
-> > understanding is that things like OpenCL and Vulkan are just software
-> > API's to tap into the hardware units.
-> >
->
-> I am a big vulkan newbie but I think the baseline for vulkan is ES 3.1. So any
-> GPU where we can support ES 3.1 could also be driven by the Vulkan API.
->
+With struct dma_buf_map propagated through the layers, patches #8 to #10
+convert DRM clients and generic fbdev emulation to use it. Updating the
+fbdev framebuffer will select the correct functions, either for system or
+I/O memory.
 
-The IMX8MM has a GC NanoUltra (1 shader) supporting OpenGL ES 2.0 and
-a GC502L for 2D from what I can find. So if the baseline is ES 3.1
-there would never be any hope for Vulkan on that. I'm assuming the
-GLES API's are implemented in hardware and not some sort of
-abstraction layer.
+v5:
+	* rebase onto latest TTM changes (Chrsitian)
+	* support TTM premapped memory correctly (Christian)
+	* implement fb_read/fb_write internally (Sam, Daniel)
+	* cleanups
+v4:
+	* provide TTM vmap/vunmap plus GEM helpers and convert drivers
+	  over (Christian, Daniel)
+	* remove several empty functions
+	* more TODOs and documentation (Daniel)
+v3:
+	* recreate the whole patchset on top of struct dma_buf_map
+v2:
+	* RFC patchset
 
-> But the Vulkan road for etnaviv is even longer one. I think gles 3.0 is more
-> important at the moment. So do not expect anything in that area in the near and
-> far future.
 
-Meaning that entaviv currently supports GLES 2.0 and work is being
-done to improve that support to GLES 3.0?
+Thomas Zimmermann (10):
+  drm/vram-helper: Remove invariant parameters from internal kmap
+    function
+  drm/cma-helper: Remove empty drm_gem_cma_prime_vunmap()
+  drm/etnaviv: Remove empty etnaviv_gem_prime_vunmap()
+  drm/exynos: Remove empty exynos_drm_gem_prime_{vmap,vunmap}()
+  drm/ttm: Add vmap/vunmap to TTM and TTM GEM helpers
+  drm/gem: Use struct dma_buf_map in GEM vmap ops and convert GEM
+    backends
+  drm/gem: Update internal GEM vmap/vunmap interfaces to use struct
+    dma_buf_map
+  drm/gem: Store client buffer mappings as struct dma_buf_map
+  dma-buf-map: Add memcpy and pointer-increment interfaces
+  drm/fb_helper: Support framebuffers in I/O memory
 
-Best Regards,
+ Documentation/gpu/todo.rst                  |  37 ++-
+ drivers/gpu/drm/Kconfig                     |   2 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c |  36 ---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.h |   2 -
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c     |   5 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_object.h  |   1 -
+ drivers/gpu/drm/ast/ast_cursor.c            |  27 +--
+ drivers/gpu/drm/ast/ast_drv.h               |   7 +-
+ drivers/gpu/drm/bochs/bochs_kms.c           |   1 -
+ drivers/gpu/drm/drm_client.c                |  38 +--
+ drivers/gpu/drm/drm_fb_helper.c             | 248 ++++++++++++++++++--
+ drivers/gpu/drm/drm_gem.c                   |  29 ++-
+ drivers/gpu/drm/drm_gem_cma_helper.c        |  27 +--
+ drivers/gpu/drm/drm_gem_shmem_helper.c      |  48 ++--
+ drivers/gpu/drm/drm_gem_ttm_helper.c        |  38 +++
+ drivers/gpu/drm/drm_gem_vram_helper.c       | 117 +++++----
+ drivers/gpu/drm/drm_internal.h              |   5 +-
+ drivers/gpu/drm/drm_prime.c                 |  14 +-
+ drivers/gpu/drm/etnaviv/etnaviv_drv.h       |   3 +-
+ drivers/gpu/drm/etnaviv/etnaviv_gem.c       |   1 -
+ drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c |  12 +-
+ drivers/gpu/drm/exynos/exynos_drm_gem.c     |  12 -
+ drivers/gpu/drm/exynos/exynos_drm_gem.h     |   2 -
+ drivers/gpu/drm/lima/lima_gem.c             |   6 +-
+ drivers/gpu/drm/lima/lima_sched.c           |  11 +-
+ drivers/gpu/drm/mgag200/mgag200_mode.c      |  10 +-
+ drivers/gpu/drm/nouveau/Kconfig             |   1 +
+ drivers/gpu/drm/nouveau/nouveau_bo.h        |   2 -
+ drivers/gpu/drm/nouveau/nouveau_gem.c       |   6 +-
+ drivers/gpu/drm/nouveau/nouveau_gem.h       |   2 -
+ drivers/gpu/drm/nouveau/nouveau_prime.c     |  20 --
+ drivers/gpu/drm/panfrost/panfrost_perfcnt.c |  14 +-
+ drivers/gpu/drm/qxl/qxl_display.c           |  11 +-
+ drivers/gpu/drm/qxl/qxl_draw.c              |  14 +-
+ drivers/gpu/drm/qxl/qxl_drv.h               |  11 +-
+ drivers/gpu/drm/qxl/qxl_object.c            |  31 ++-
+ drivers/gpu/drm/qxl/qxl_object.h            |   2 +-
+ drivers/gpu/drm/qxl/qxl_prime.c             |  12 +-
+ drivers/gpu/drm/radeon/radeon.h             |   1 -
+ drivers/gpu/drm/radeon/radeon_gem.c         |   7 +-
+ drivers/gpu/drm/radeon/radeon_prime.c       |  20 --
+ drivers/gpu/drm/rockchip/rockchip_drm_gem.c |  22 +-
+ drivers/gpu/drm/rockchip/rockchip_drm_gem.h |   4 +-
+ drivers/gpu/drm/tiny/cirrus.c               |  10 +-
+ drivers/gpu/drm/tiny/gm12u320.c             |  10 +-
+ drivers/gpu/drm/ttm/ttm_bo_util.c           |  72 ++++++
+ drivers/gpu/drm/udl/udl_modeset.c           |   8 +-
+ drivers/gpu/drm/vboxvideo/vbox_mode.c       |  11 +-
+ drivers/gpu/drm/vc4/vc4_bo.c                |   7 +-
+ drivers/gpu/drm/vc4/vc4_drv.h               |   2 +-
+ drivers/gpu/drm/vgem/vgem_drv.c             |  16 +-
+ drivers/gpu/drm/vkms/vkms_plane.c           |  15 +-
+ drivers/gpu/drm/vkms/vkms_writeback.c       |  22 +-
+ drivers/gpu/drm/xen/xen_drm_front_gem.c     |  18 +-
+ drivers/gpu/drm/xen/xen_drm_front_gem.h     |   6 +-
+ include/drm/drm_client.h                    |   7 +-
+ include/drm/drm_gem.h                       |   5 +-
+ include/drm/drm_gem_cma_helper.h            |   3 +-
+ include/drm/drm_gem_shmem_helper.h          |   4 +-
+ include/drm/drm_gem_ttm_helper.h            |   6 +
+ include/drm/drm_gem_vram_helper.h           |  14 +-
+ include/drm/drm_mode_config.h               |  12 -
+ include/drm/ttm/ttm_bo_api.h                |  28 +++
+ include/linux/dma-buf-map.h                 |  93 +++++++-
+ 64 files changed, 852 insertions(+), 436 deletions(-)
 
-Tim
+-- 
+2.28.0
+
 _______________________________________________
 etnaviv mailing list
 etnaviv@lists.freedesktop.org
