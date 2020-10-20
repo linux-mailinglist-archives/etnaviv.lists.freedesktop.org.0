@@ -2,42 +2,43 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62785293B5D
-	for <lists+etnaviv@lfdr.de>; Tue, 20 Oct 2020 14:21:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2655A293CE8
+	for <lists+etnaviv@lfdr.de>; Tue, 20 Oct 2020 15:06:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BC516ECBC;
-	Tue, 20 Oct 2020 12:21:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE8D26EC8E;
+	Tue, 20 Oct 2020 13:06:03 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF6B76EC8C;
- Tue, 20 Oct 2020 12:20:57 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 7D68DB1FF;
- Tue, 20 Oct 2020 12:20:56 +0000 (UTC)
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@linux.ie,
- daniel@ffwll.ch, sam@ravnborg.org, alexander.deucher@amd.com,
- christian.koenig@amd.com, kraxel@redhat.com, l.stach@pengutronix.de,
- linux+etnaviv@armlinux.org.uk, christian.gmeiner@gmail.com,
- inki.dae@samsung.com, jy0922.shim@samsung.com, sw0312.kim@samsung.com,
- kyungmin.park@samsung.com, kgene@kernel.org, krzk@kernel.org,
- yuq825@gmail.com, bskeggs@redhat.com, robh@kernel.org,
- tomeu.vizoso@collabora.com, steven.price@arm.com,
- alyssa.rosenzweig@collabora.com, hjc@rock-chips.com, heiko@sntech.de,
- hdegoede@redhat.com, sean@poorly.run, eric@anholt.net,
- oleksandr_andrushchenko@epam.com, ray.huang@amd.com,
- sumit.semwal@linaro.org, emil.velikov@collabora.com, luben.tuikov@amd.com,
- apaneers@amd.com, linus.walleij@linaro.org, melissa.srw@gmail.com,
- chris@chris-wilson.co.uk, miaoqinglang@huawei.com
-Subject: [PATCH v5 10/10] drm/fb_helper: Support framebuffers in I/O memory
-Date: Tue, 20 Oct 2020 14:20:46 +0200
-Message-Id: <20201020122046.31167-11-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20201020122046.31167-1-tzimmermann@suse.de>
-References: <20201020122046.31167-1-tzimmermann@suse.de>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 92D1B6EC8E
+ for <etnaviv@lists.freedesktop.org>; Tue, 20 Oct 2020 13:06:02 +0000 (UTC)
+Received: from lupine.hi.pengutronix.de
+ ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <p.zabel@pengutronix.de>)
+ id 1kUrKy-00055Y-L8; Tue, 20 Oct 2020 15:06:00 +0200
+Received: from pza by lupine with local (Exim 4.92)
+ (envelope-from <p.zabel@pengutronix.de>)
+ id 1kUrKx-0006ML-S0; Tue, 20 Oct 2020 15:05:59 +0200
+Message-ID: <f16bb0da4b28dfaf179052ddd0fbf27a4f75a4dd.camel@pengutronix.de>
+Subject: Re: OpenCL on etnaviv?
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: Tim Harvey <tharvey@gateworks.com>, Christian Gmeiner
+ <christian.gmeiner@gmail.com>
+Date: Tue, 20 Oct 2020 15:05:59 +0200
+In-Reply-To: <CAJ+vNU20sriZK8DjtqDCCwoAzUhQKf3b4VuYaDDr0=FwC3H74A@mail.gmail.com>
+References: <CAJ+vNU1M=GxceoURX+SffkQHSxVr3fKUxwysbZmU1-jAu0YY_A@mail.gmail.com>
+ <CAH9NwWc-qCopDNYe64788Ei_JCQvZAV6BrXguYcvFBOBp-YgvQ@mail.gmail.com>
+ <CAJ+vNU20sriZK8DjtqDCCwoAzUhQKf3b4VuYaDDr0=FwC3H74A@mail.gmail.com>
+User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
+X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,393 +50,80 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc@vger.kernel.org, lima@lists.freedesktop.org,
- nouveau@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
- linaro-mm-sig@lists.linaro.org, linux-rockchip@lists.infradead.org,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- xen-devel@lists.xenproject.org, spice-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Cc: The etnaviv authors <etnaviv@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-At least sparc64 requires I/O-specific access to framebuffers. This
-patch updates the fbdev console accordingly.
+Hi,
 
-For drivers with direct access to the framebuffer memory, the callback
-functions in struct fb_ops test for the type of memory and call the rsp
-fb_sys_ of fb_cfb_ functions. Read and write operations are implemented
-internally by DRM's fbdev helper.
+On Mon, 2020-10-19 at 08:48 -0700, Tim Harvey wrote:
+> On Mon, Oct 19, 2020 at 6:12 AM Christian Gmeiner
+> <christian.gmeiner@gmail.com> wrote:
+> > Hi Tim
+> > 
+> > > Could anyone explain if OpenCL can run with etnaviv? I'm also not
+> > > quite understanding if OpenCL has specific hardware requirements. I
+> > > have users that I support wanting to run OpenCL on an IMX8M and am
+> > > finding that NXP states the IMX8MM doesn't support OpenCL (yet the
+> > > IMX8MN does)  and I'm trying to understand if that is a technical
+> > > issue or just simply that they won't support it through their closed
+> > > Vivante driver.
+> > > 
+> > 
+> > On the etnaviv side OpenCL is possible but nothing has done in that
+> > direction and
+> > needs work to get it up and running. Hardware wise it should work on GPUs with
+> > SSBOs and Images support. Intuitively it should work on most Vivante GPUs. Also
+> > you might have a look https://en.wikipedia.org/wiki/Vivante_Corporation
+> > 
+> 
+> Christian,
+> 
+> Thanks - this is very helpful. I found some info about what a Shader
+> Storage Buffer Object (SSBO) is but I haven't managed to find what you
+> mean by Images support. I'm also not clear how to tell what Vivante
+> GPU's have this support. The wikipedia page doesn't go into detail on
+> SSBO's and Images support. Where do you typically find this info?
 
-For drivers that employ a shadow buffer, fbdev's blit function retrieves
-the framebuffer address as struct dma_buf_map, and uses dma_buf_map
-interfaces to access the buffer.
+The i.MX Graphics Users Guide [1], chapter 5.3.9 "Using buffers instead
+of images" makes it look like image support (support for
+read/write_image* OpenCL functions) is always emulated in the shaders.
 
-The bochs driver on sparc64 uses a workaround to flag the framebuffer as
-I/O memory and avoid a HW exception. With the introduction of struct
-dma_buf_map, this is not required any longer. The patch removes the rsp
-code from both, bochs and fbdev.
+[1] https://www.nxp.com/docs/en/user-guide/i.MX_Graphics_User%27s_Guide_Linux.pdf
 
-v5:
-	* implement fb_read/fb_write internally (Daniel, Sam)
-v4:
-	* move dma_buf_map changes into separate patch (Daniel)
-	* TODO list: comment on fbdev updates (Daniel)
+> What led me to post this question was NXP stating that the IMX8MM does
+> not support OpenCL or Vulkan whereas the other IMX8M's (IMX8MN,
+> IMX8MP, and IMX8MQ) do. I wasn't clear if it was a limitation in what
+> NXP offers through the Vivante driver or if this was a technical
+> limit. It would appear that it is likely both but more so a technical
+> limit.
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Tested-by: Sam Ravnborg <sam@ravnborg.org>
----
- Documentation/gpu/todo.rst        |  19 ++-
- drivers/gpu/drm/bochs/bochs_kms.c |   1 -
- drivers/gpu/drm/drm_fb_helper.c   | 227 ++++++++++++++++++++++++++++--
- include/drm/drm_mode_config.h     |  12 --
- 4 files changed, 230 insertions(+), 29 deletions(-)
+There's a separate hardware API mode for OpenCL compute shader dispatch.
+Some features may be emulated in software, but at least that and memory
+load/store instructions must be supported by the hardware.
 
-diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-index 7e6fc3c04add..638b7f704339 100644
---- a/Documentation/gpu/todo.rst
-+++ b/Documentation/gpu/todo.rst
-@@ -197,13 +197,28 @@ Convert drivers to use drm_fbdev_generic_setup()
- ------------------------------------------------
- 
- Most drivers can use drm_fbdev_generic_setup(). Driver have to implement
--atomic modesetting and GEM vmap support. Current generic fbdev emulation
--expects the framebuffer in system memory (or system-like memory).
-+atomic modesetting and GEM vmap support. Historically, generic fbdev emulation
-+expected the framebuffer in system memory or system-like memory. By employing
-+struct dma_buf_map, drivers with frambuffers in I/O memory can be supported
-+as well.
- 
- Contact: Maintainer of the driver you plan to convert
- 
- Level: Intermediate
- 
-+Reimplement functions in drm_fbdev_fb_ops without fbdev
-+-------------------------------------------------------
-+
-+A number of callback functions in drm_fbdev_fb_ops could benefit from
-+being rewritten without dependencies on the fbdev module. Some of the
-+helpers could further benefit from using struct dma_buf_map instead of
-+raw pointers.
-+
-+Contact: Thomas Zimmermann <tzimmermann@suse.de>, Daniel Vetter
-+
-+Level: Advanced
-+
-+
- drm_framebuffer_funcs and drm_mode_config_funcs.fb_create cleanup
- -----------------------------------------------------------------
- 
-diff --git a/drivers/gpu/drm/bochs/bochs_kms.c b/drivers/gpu/drm/bochs/bochs_kms.c
-index 13d0d04c4457..853081d186d5 100644
---- a/drivers/gpu/drm/bochs/bochs_kms.c
-+++ b/drivers/gpu/drm/bochs/bochs_kms.c
-@@ -151,7 +151,6 @@ int bochs_kms_init(struct bochs_device *bochs)
- 	bochs->dev->mode_config.preferred_depth = 24;
- 	bochs->dev->mode_config.prefer_shadow = 0;
- 	bochs->dev->mode_config.prefer_shadow_fbdev = 1;
--	bochs->dev->mode_config.fbdev_use_iomem = true;
- 	bochs->dev->mode_config.quirk_addfb_prefer_host_byte_order = true;
- 
- 	bochs->dev->mode_config.funcs = &bochs_mode_funcs;
-diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
-index 6212cd7cde1d..1d3180841778 100644
---- a/drivers/gpu/drm/drm_fb_helper.c
-+++ b/drivers/gpu/drm/drm_fb_helper.c
-@@ -372,24 +372,22 @@ static void drm_fb_helper_resume_worker(struct work_struct *work)
- }
- 
- static void drm_fb_helper_dirty_blit_real(struct drm_fb_helper *fb_helper,
--					  struct drm_clip_rect *clip)
-+					  struct drm_clip_rect *clip,
-+					  struct dma_buf_map *dst)
- {
- 	struct drm_framebuffer *fb = fb_helper->fb;
- 	unsigned int cpp = fb->format->cpp[0];
- 	size_t offset = clip->y1 * fb->pitches[0] + clip->x1 * cpp;
- 	void *src = fb_helper->fbdev->screen_buffer + offset;
--	void *dst = fb_helper->buffer->map.vaddr + offset;
- 	size_t len = (clip->x2 - clip->x1) * cpp;
- 	unsigned int y;
- 
--	for (y = clip->y1; y < clip->y2; y++) {
--		if (!fb_helper->dev->mode_config.fbdev_use_iomem)
--			memcpy(dst, src, len);
--		else
--			memcpy_toio((void __iomem *)dst, src, len);
-+	dma_buf_map_incr(dst, offset); /* go to first pixel within clip rect */
- 
-+	for (y = clip->y1; y < clip->y2; y++) {
-+		dma_buf_map_memcpy_to(dst, src, len);
-+		dma_buf_map_incr(dst, fb->pitches[0]);
- 		src += fb->pitches[0];
--		dst += fb->pitches[0];
- 	}
- }
- 
-@@ -417,8 +415,9 @@ static void drm_fb_helper_dirty_work(struct work_struct *work)
- 			ret = drm_client_buffer_vmap(helper->buffer, &map);
- 			if (ret)
- 				return;
--			drm_fb_helper_dirty_blit_real(helper, &clip_copy);
-+			drm_fb_helper_dirty_blit_real(helper, &clip_copy, &map);
- 		}
-+
- 		if (helper->fb->funcs->dirty)
- 			helper->fb->funcs->dirty(helper->fb, NULL, 0, 0,
- 						 &clip_copy, 1);
-@@ -2027,6 +2026,206 @@ static int drm_fbdev_fb_mmap(struct fb_info *info, struct vm_area_struct *vma)
- 		return -ENODEV;
- }
- 
-+static bool drm_fbdev_use_iomem(struct fb_info *info)
-+{
-+	struct drm_fb_helper *fb_helper = info->par;
-+	struct drm_client_buffer *buffer = fb_helper->buffer;
-+
-+	return !drm_fbdev_use_shadow_fb(fb_helper) && buffer->map.is_iomem;
-+}
-+
-+static ssize_t fb_read_screen_base(struct fb_info *info, char __user *buf, size_t count, 
-+				   loff_t pos)
-+{
-+	const char __iomem *src = info->screen_base + pos;
-+	size_t alloc_size = min(count, PAGE_SIZE);
-+	ssize_t ret = 0;
-+	char *tmp;
-+
-+	tmp = kmalloc(alloc_size, GFP_KERNEL);
-+	if (!tmp)
-+		return -ENOMEM;
-+
-+	while (count) {
-+		size_t c = min(count, alloc_size);
-+
-+		memcpy_fromio(tmp, src, c);
-+		if (copy_to_user(buf, tmp, c)) {
-+			ret = -EFAULT;
-+			break;
-+		}
-+
-+		src += c;
-+		buf += c;
-+		ret += c;
-+		count -= c;
-+	}
-+
-+	kfree(tmp);
-+
-+	return ret;
-+}
-+
-+static ssize_t fb_read_screen_buffer(struct fb_info *info, char __user *buf, size_t count,
-+				     loff_t pos)
-+{
-+	const char *src = info->screen_buffer + pos;
-+
-+	if (copy_to_user(buf, src, count))
-+		return -EFAULT;
-+
-+	return count;
-+}
-+
-+static ssize_t drm_fbdev_fb_read(struct fb_info *info, char __user *buf,
-+				 size_t count, loff_t *ppos)
-+{
-+	loff_t pos = *ppos;
-+	size_t total_size;
-+	ssize_t ret;
-+
-+	if (info->state != FBINFO_STATE_RUNNING)
-+		return -EPERM;
-+
-+	if (info->screen_size)
-+		total_size = info->screen_size;
-+	else
-+		total_size = info->fix.smem_len;
-+
-+	if (pos >= total_size)
-+		return 0;
-+	if (count >= total_size)
-+		count = total_size;
-+	if (total_size - count < pos)
-+		count = total_size - pos;
-+
-+	if (drm_fbdev_use_iomem(info))
-+		ret = fb_read_screen_base(info, buf, count, pos);
-+	else
-+		ret = fb_read_screen_buffer(info, buf, count, pos);
-+
-+	if (ret > 0)
-+		*ppos = ret;
-+
-+	return ret;
-+}
-+
-+static ssize_t fb_write_screen_base(struct fb_info *info, const char __user *buf, size_t count,
-+				    loff_t pos)
-+{
-+	char __iomem *dst = info->screen_base + pos;
-+	size_t alloc_size = min(count, PAGE_SIZE);
-+	ssize_t ret = 0;
-+	u8 *tmp;
-+
-+	tmp = kmalloc(alloc_size, GFP_KERNEL);
-+	if (!tmp)
-+		return -ENOMEM;
-+
-+	while (count) {
-+		size_t c = min(count, alloc_size);
-+
-+		if (copy_from_user(tmp, buf, c)) {
-+			ret = -EFAULT;
-+			break;
-+		}
-+		memcpy_toio(dst, tmp, c);
-+
-+		dst += c;
-+		buf += c;
-+		ret += c;
-+		count -= c;
-+	}
-+
-+	kfree(tmp);
-+
-+	return ret;
-+}
-+
-+static ssize_t fb_write_screen_buffer(struct fb_info *info, const char __user *buf, size_t count,
-+				      loff_t pos)
-+{
-+	char *dst = info->screen_buffer + pos;
-+
-+	if (copy_from_user(dst, buf, count))
-+		return -EFAULT;
-+
-+	return count;
-+}
-+
-+static ssize_t drm_fbdev_fb_write(struct fb_info *info, const char __user *buf,
-+				  size_t count, loff_t *ppos)
-+{
-+	loff_t pos = *ppos;
-+	size_t total_size;
-+	ssize_t ret;
-+	int err;
-+
-+	if (info->state != FBINFO_STATE_RUNNING)
-+		return -EPERM;
-+
-+	if (info->screen_size)
-+		total_size = info->screen_size;
-+	else
-+		total_size = info->fix.smem_len;
-+
-+	if (pos > total_size)
-+		return -EFBIG;
-+	if (count > total_size) {
-+		err = -EFBIG;
-+		count = total_size;
-+	}
-+	if (total_size - count < pos) {
-+		if (!err)
-+			err = -ENOSPC;
-+		count = total_size - pos;
-+	}
-+
-+	/*
-+	 * Copy to framebuffer even if we already logged an error. Emulates
-+	 * the behavior of the original fbdev implementation.
-+	 */
-+	if (drm_fbdev_use_iomem(info))
-+		ret = fb_write_screen_base(info, buf, count, pos);
-+	else
-+		ret = fb_write_screen_buffer(info, buf, count, pos);
-+
-+	if (ret > 0)
-+		*ppos = ret;
-+
-+	if (err)
-+		return err;
-+
-+	return ret;
-+}
-+
-+static void drm_fbdev_fb_fillrect(struct fb_info *info,
-+				  const struct fb_fillrect *rect)
-+{
-+	if (drm_fbdev_use_iomem(info))
-+		drm_fb_helper_cfb_fillrect(info, rect);
-+	else
-+		drm_fb_helper_sys_fillrect(info, rect);
-+}
-+
-+static void drm_fbdev_fb_copyarea(struct fb_info *info,
-+				  const struct fb_copyarea *area)
-+{
-+	if (drm_fbdev_use_iomem(info))
-+		drm_fb_helper_cfb_copyarea(info, area);
-+	else
-+		drm_fb_helper_sys_copyarea(info, area);
-+}
-+
-+static void drm_fbdev_fb_imageblit(struct fb_info *info,
-+				   const struct fb_image *image)
-+{
-+	if (drm_fbdev_use_iomem(info))
-+		drm_fb_helper_cfb_imageblit(info, image);
-+	else
-+		drm_fb_helper_sys_imageblit(info, image);
-+}
-+
- static const struct fb_ops drm_fbdev_fb_ops = {
- 	.owner		= THIS_MODULE,
- 	DRM_FB_HELPER_DEFAULT_OPS,
-@@ -2034,11 +2233,11 @@ static const struct fb_ops drm_fbdev_fb_ops = {
- 	.fb_release	= drm_fbdev_fb_release,
- 	.fb_destroy	= drm_fbdev_fb_destroy,
- 	.fb_mmap	= drm_fbdev_fb_mmap,
--	.fb_read	= drm_fb_helper_sys_read,
--	.fb_write	= drm_fb_helper_sys_write,
--	.fb_fillrect	= drm_fb_helper_sys_fillrect,
--	.fb_copyarea	= drm_fb_helper_sys_copyarea,
--	.fb_imageblit	= drm_fb_helper_sys_imageblit,
-+	.fb_read	= drm_fbdev_fb_read,
-+	.fb_write	= drm_fbdev_fb_write,
-+	.fb_fillrect	= drm_fbdev_fb_fillrect,
-+	.fb_copyarea	= drm_fbdev_fb_copyarea,
-+	.fb_imageblit	= drm_fbdev_fb_imageblit,
- };
- 
- static struct fb_deferred_io drm_fbdev_defio = {
-diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
-index 5ffbb4ed5b35..ab424ddd7665 100644
---- a/include/drm/drm_mode_config.h
-+++ b/include/drm/drm_mode_config.h
-@@ -877,18 +877,6 @@ struct drm_mode_config {
- 	 */
- 	bool prefer_shadow_fbdev;
- 
--	/**
--	 * @fbdev_use_iomem:
--	 *
--	 * Set to true if framebuffer reside in iomem.
--	 * When set to true memcpy_toio() is used when copying the framebuffer in
--	 * drm_fb_helper.drm_fb_helper_dirty_blit_real().
--	 *
--	 * FIXME: This should be replaced with a per-mapping is_iomem
--	 * flag (like ttm does), and then used everywhere in fbdev code.
--	 */
--	bool fbdev_use_iomem;
--
- 	/**
- 	 * @quirk_addfb_prefer_xbgr_30bpp:
- 	 *
--- 
-2.28.0
+> > > I suppose for my own education I also have the same question about
+> > > Vulkan. Is there specific GPU hardware requirements for that? My
+> > > understanding is that things like OpenCL and Vulkan are just software
+> > > API's to tap into the hardware units.
+> > 
+> > I am a big vulkan newbie but I think the baseline for vulkan is ES 3.1. So any
+> > GPU where we can support ES 3.1 could also be driven by the Vulkan API.
+> 
+> The IMX8MM has a GC NanoUltra (1 shader) supporting OpenGL ES 2.0 and
+> a GC502L for 2D from what I can find. So if the baseline is ES 3.1
+> there would never be any hope for Vulkan on that. I'm assuming the
+> GLES API's are implemented in hardware and not some sort of
+> abstraction layer.
 
+Given that the Vivante homepage listed OpenCL support as optional for
+GCNano Ultra, I believe that the implementation on i.MX8MM may have the
+required hardware features for compute shaders disabled.
+
+regards
+Philipp
 _______________________________________________
 etnaviv mailing list
 etnaviv@lists.freedesktop.org
