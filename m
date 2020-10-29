@@ -1,39 +1,36 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1D7029EE06
-	for <lists+etnaviv@lfdr.de>; Thu, 29 Oct 2020 15:21:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8753029EE0F
+	for <lists+etnaviv@lfdr.de>; Thu, 29 Oct 2020 15:21:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ABAFD6ECEB;
-	Thu, 29 Oct 2020 14:21:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F1F76ECC5;
+	Thu, 29 Oct 2020 14:21:41 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
 Received: from honk.sigxcpu.org (honk.sigxcpu.org [24.134.29.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A7B096ECE3;
- Thu, 29 Oct 2020 14:21:02 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 056BC6ECC5
+ for <etnaviv@lists.freedesktop.org>; Thu, 29 Oct 2020 14:21:40 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by honk.sigxcpu.org (Postfix) with ESMTP id 4475DFB02;
- Thu, 29 Oct 2020 15:21:01 +0100 (CET)
+ by honk.sigxcpu.org (Postfix) with ESMTP id 9BF0BFB03;
+ Thu, 29 Oct 2020 15:21:38 +0100 (CET)
 X-Virus-Scanned: Debian amavisd-new at honk.sigxcpu.org
 Received: from honk.sigxcpu.org ([127.0.0.1])
  by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Pf59pt3RtFms; Thu, 29 Oct 2020 15:20:58 +0100 (CET)
+ with ESMTP id SIiNAjulvq7a; Thu, 29 Oct 2020 15:21:37 +0100 (CET)
 Received: by bogon.sigxcpu.org (Postfix, from userid 1000)
- id 4F05444639; Thu, 29 Oct 2020 15:20:57 +0100 (CET)
-From: =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>
-To: Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [RFC PATCH 2/2] drm: etnaviv: Unmap gems on gem_close
-Date: Thu, 29 Oct 2020 15:20:57 +0100
-Message-Id: <a92da13ed190e6d49550b78dadad3c0003ef6881.1603981111.git.agx@sigxcpu.org>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <cover.1603981111.git.agx@sigxcpu.org>
-References: <cover.1603981111.git.agx@sigxcpu.org>
+ id F304144637; Thu, 29 Oct 2020 15:21:36 +0100 (CET)
+Date: Thu, 29 Oct 2020 15:21:36 +0100
+From: Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [RFC PATCH 0/2] drm: etnaviv: Unmap gems on gem_close
+Message-ID: <20201029142136.GA316994@bogon.m.sigxcpu.org>
+References: <cover.1603979517.git.agx@sigxcpu.org>
+ <CAKMK7uF2By1SwE+FOyM2i7cOtFzzJ9wrHh_yDntG7cyNt0tJUg@mail.gmail.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <CAKMK7uF2By1SwE+FOyM2i7cOtFzzJ9wrHh_yDntG7cyNt0tJUg@mail.gmail.com>
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,74 +42,92 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: David Airlie <airlied@linux.ie>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Lucas Stach <l.stach@pengutronix.de>,
+ The etnaviv authors <etnaviv@lists.freedesktop.org>,
+ Russell King <linux+etnaviv@armlinux.org.uk>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-U28gZmFyIHRoZSB1bm1hcCBmcm9tIGdwdSBhZGRyZXNzIHNwYWNlIG9ubHkgaGFwcGVuZWQgd2hl
-biBkcm9wcGluZyB0aGUKbGFzdCByZWYgaW4gZ2VtX2ZyZWVfb2JqZWN0X3VubG9ja2VkLCBob3dl
-dmVyIHRoYXQgaXMgc2tpcHBlZCBpZiB0aGVyZSdzCnN0aWxsIG11bHRpcGxlIGhhbmRsZXMgdG8g
-dGhlIHNhbWUgR0VNIG9iamVjdC4KClNpbmNlIHVzZXJzcGFjZSAoaGVyZSBtZXNhKSBpbiB0aGUg
-Y2FzZSBvZiBzb2Z0cGluIGhhbmRzIGJhY2sgdGhlIG1lbW9yeQpyZWdpb24gdG8gdGhlIHBvb2wg
-b2YgYXZhaWxhYmxlIEdQVSB2aXJ0dWFsIG1lbW9yeSBjbG9zaW5nIHRoZSBoYW5kbGUKdmlhIERS
-TV9JT0NUTF9HRU1fQ0xPU0UgdGhpcyBjYW4gbGVhZCB0byBldG5hdml2X2lvbW11X2luc2VydF9l
-eGFjdApmYWlsaW5nIGxhdGVyIHNpbmNlIHVzZXJzcGFjZSB0aGlua3MgdGhlIHZhZGRyIGlzIGF2
-YWlsYWJsZSB3aGlsZSB0aGUKa2VybmVsIHRoaW5rcyBpdCBpc24ndCBtYWtpbmcgdGhlIHN1Ym1p
-dCBmYWlsIGxpa2UKCiAgW0VdIHN1Ym1pdCBmYWlsZWQ6IC0xNCAoTm8gc3BhY2UgbGVmdCBvbiBk
-ZXZpY2UpIChldG5hX2NtZF9zdHJlYW1fZmx1c2g6MjQ0KQoKRml4IHRoaXMgYnkgdW5tYXBwaW5n
-IHRoZSBtZW1vcnkgdmlhIHRoZSAuZ2VtX2Nsb3NlX29iamVjdCBjYWxsYmFjay4KClNpZ25lZC1v
-ZmYtYnk6IEd1aWRvIEfDvG50aGVyIDxhZ3hAc2lneGNwdS5vcmc+Ci0tLQogZHJpdmVycy9ncHUv
-ZHJtL2V0bmF2aXYvZXRuYXZpdl9kcnYuYyB8ICAxICsKIGRyaXZlcnMvZ3B1L2RybS9ldG5hdml2
-L2V0bmF2aXZfZHJ2LmggfCAgMSArCiBkcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2X2dl
-bS5jIHwgMzIgKysrKysrKysrKysrKysrKysrKysrKysrKysrCiAzIGZpbGVzIGNoYW5nZWQsIDM0
-IGluc2VydGlvbnMoKykKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5h
-dml2X2Rydi5jIGIvZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9kcnYuYwppbmRleCBh
-OWEzYWZhZWY5YTEuLmZkY2M2NDA1MDY4YyAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2V0
-bmF2aXYvZXRuYXZpdl9kcnYuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2
-X2Rydi5jCkBAIC00OTEsNiArNDkxLDcgQEAgc3RhdGljIHN0cnVjdCBkcm1fZHJpdmVyIGV0bmF2
-aXZfZHJtX2RyaXZlciA9IHsKIAkub3BlbiAgICAgICAgICAgICAgID0gZXRuYXZpdl9vcGVuLAog
-CS5wb3N0Y2xvc2UgICAgICAgICAgID0gZXRuYXZpdl9wb3N0Y2xvc2UsCiAJLmdlbV9mcmVlX29i
-amVjdF91bmxvY2tlZCA9IGV0bmF2aXZfZ2VtX2ZyZWVfb2JqZWN0LAorCS5nZW1fY2xvc2Vfb2Jq
-ZWN0ICAgPSBldG5hdml2X2dlbV9jbG9zZV9vYmplY3QsCiAJLmdlbV92bV9vcHMgICAgICAgICA9
-ICZ2bV9vcHMsCiAJLnByaW1lX2hhbmRsZV90b19mZCA9IGRybV9nZW1fcHJpbWVfaGFuZGxlX3Rv
-X2ZkLAogCS5wcmltZV9mZF90b19oYW5kbGUgPSBkcm1fZ2VtX3ByaW1lX2ZkX3RvX2hhbmRsZSwK
-ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfZHJ2LmggYi9kcml2
-ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2X2Rydi5oCmluZGV4IDRkOGRjOTIzNmU1Zi4uMjIy
-NmE5YWYwZDYzIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2X2Ry
-di5oCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfZHJ2LmgKQEAgLTY1LDYg
-KzY1LDcgQEAgaW50IGV0bmF2aXZfZ2VtX2NwdV9wcmVwKHN0cnVjdCBkcm1fZ2VtX29iamVjdCAq
-b2JqLCB1MzIgb3AsCiAJCXN0cnVjdCBkcm1fZXRuYXZpdl90aW1lc3BlYyAqdGltZW91dCk7CiBp
-bnQgZXRuYXZpdl9nZW1fY3B1X2Zpbmkoc3RydWN0IGRybV9nZW1fb2JqZWN0ICpvYmopOwogdm9p
-ZCBldG5hdml2X2dlbV9mcmVlX29iamVjdChzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKm9iaik7Cit2
-b2lkIGV0bmF2aXZfZ2VtX2Nsb3NlX29iamVjdChzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKm9iaiwg
-c3RydWN0IGRybV9maWxlICpmaWxlKTsKIGludCBldG5hdml2X2dlbV9uZXdfaGFuZGxlKHN0cnVj
-dCBkcm1fZGV2aWNlICpkZXYsIHN0cnVjdCBkcm1fZmlsZSAqZmlsZSwKIAkJdTMyIHNpemUsIHUz
-MiBmbGFncywgdTMyICpoYW5kbGUpOwogaW50IGV0bmF2aXZfZ2VtX25ld191c2VycHRyKHN0cnVj
-dCBkcm1fZGV2aWNlICpkZXYsIHN0cnVjdCBkcm1fZmlsZSAqZmlsZSwKZGlmZiAtLWdpdCBhL2Ry
-aXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfZ2VtLmMgYi9kcml2ZXJzL2dwdS9kcm0vZXRu
-YXZpdi9ldG5hdml2X2dlbS5jCmluZGV4IGYwNmUxOWU3YmUwNC4uNWFlYzRhMjNjNzdlIDEwMDY0
-NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2X2dlbS5jCisrKyBiL2RyaXZl
-cnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfZ2VtLmMKQEAgLTUxNSw2ICs1MTUsMzggQEAgc3Rh
-dGljIGNvbnN0IHN0cnVjdCBldG5hdml2X2dlbV9vcHMgZXRuYXZpdl9nZW1fc2htZW1fb3BzID0g
-ewogCS5tbWFwID0gZXRuYXZpdl9nZW1fbW1hcF9vYmosCiB9OwogCit2b2lkIGV0bmF2aXZfZ2Vt
-X2Nsb3NlX29iamVjdChzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKm9iaiwgc3RydWN0IGRybV9maWxl
-ICp1bnVzZWQpCit7CisJc3RydWN0IGV0bmF2aXZfZ2VtX29iamVjdCAqZXRuYXZpdl9vYmogPSB0
-b19ldG5hdml2X2JvKG9iaik7CisJc3RydWN0IGV0bmF2aXZfdnJhbV9tYXBwaW5nICptYXBwaW5n
-LCAqdG1wOworCisJLyogSGFuZGxlIHRoaXMgdmlhIGV0bmF2aXZfZ2VtX2ZyZWVfb2JqZWN0ICov
-CisJaWYgKG9iai0+aGFuZGxlX2NvdW50ID09IDEpCisJCXJldHVybjsKKworCVdBUk5fT04oaXNf
-YWN0aXZlKGV0bmF2aXZfb2JqKSk7CisKKwkvKgorCSAqIHVzZXJzcGFjZSB3YW50cyB0byByZWxl
-YXNlIHRoZSBoYW5kbGUgc28gd2UgbmVlZCB0byByZW1vdmUKKwkgKiB0aGUgbWFwcGluZyBmcm9t
-IHRoZSBncHUncyB2aXJ0dWFsIGFkZHJlc3Mgc3BhY2UgdG8gc3RheQorCSAqIGluIHN5bmMuCisJ
-ICovCisJbGlzdF9mb3JfZWFjaF9lbnRyeV9zYWZlKG1hcHBpbmcsIHRtcCwgJmV0bmF2aXZfb2Jq
-LT52cmFtX2xpc3QsCisJCQkJIG9ial9ub2RlKSB7CisJCXN0cnVjdCBldG5hdml2X2lvbW11X2Nv
-bnRleHQgKmNvbnRleHQgPSBtYXBwaW5nLT5jb250ZXh0OworCisJCVdBUk5fT04obWFwcGluZy0+
-dXNlKTsKKworCQlpZiAoY29udGV4dCkgeworCQkJZXRuYXZpdl9pb21tdV91bm1hcF9nZW0oY29u
-dGV4dCwgbWFwcGluZyk7CisJCQlldG5hdml2X2lvbW11X2NvbnRleHRfcHV0KGNvbnRleHQpOwor
-CQl9CisKKwkJbGlzdF9kZWwoJm1hcHBpbmctPm9ial9ub2RlKTsKKwkJa2ZyZWUobWFwcGluZyk7
-CisJfQorfQorCiB2b2lkIGV0bmF2aXZfZ2VtX2ZyZWVfb2JqZWN0KHN0cnVjdCBkcm1fZ2VtX29i
-amVjdCAqb2JqKQogewogCXN0cnVjdCBldG5hdml2X2dlbV9vYmplY3QgKmV0bmF2aXZfb2JqID0g
-dG9fZXRuYXZpdl9ibyhvYmopOwotLSAKMi4yOC4wCgpfX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fXwpldG5hdml2IG1haWxpbmcgbGlzdApldG5hdml2QGxpc3Rz
-LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
-c3RpbmZvL2V0bmF2aXYK
+Hi,
+On Thu, Oct 29, 2020 at 03:08:09PM +0100, Daniel Vetter wrote:
+> On Thu, Oct 29, 2020 at 2:54 PM Guido G=FCnther <agx@sigxcpu.org> wrote:
+> >
+> > This is meant as a RFC since i'm not sure if this is the right
+> > way to fix the problem:
+> >
+> > So far the unmap from gpu address space only happened when dropping the
+> > last ref in gem_free_object_unlocked, however that is skipped if there's
+> > still multiple handles to the same GEM object.
+> >
+> > Since userspace (here mesa) in the case of softpin hands back the memory
+> > region to the pool of available GPU virtual memory closing the handle
+> > via DRM_IOCTL_GEM_CLOSE this can lead to etnaviv_iommu_insert_exact
+> > failing later since userspace thinks the vaddr is available while the
+> > kernel thinks it isn't making the submit fail like
+> >
+> >      [E] submit failed: -14 (No space left on device) (etna_cmd_stream_=
+flush:244)
+> >
+> > Fix this by unmapping the memory via the .gem_close_object callback.
+> >
+> > The patch is against 5.9 and will need to be redone for drm-misc-next d=
+ue to
+> > the conversion to GEM object functions but i'm happy to do that it look=
+s like
+> > the right approach.
+> >
+> > I can trigger the problem when plugging/unplugging a DP screen driven b=
+y DCSS
+> > while DSI is driven by mxsfb. It preferably happens with 4k since this
+> > allocates bigger chunks.
+> >
+> > I also folded in a commit checking for the context->lock in
+> > etnaviv_iommu_insert_exact and etnaviv_iommu_remove_mapping too to make=
+ it
+> > match etnaviv_iommu_find_iova.
+> >
+> > Guido G=FCnther (2):
+> >   drm: etnaviv: Add lockdep annotations for context lock
+> >   drm: etnaviv: Unmap gems on gem_close
+> =
+
+> Can you pls resubmit with dri-devel on cc? This is kinda a general
+> problem of letting userspace manage the gpu VA.
+
+Sure, done.
+ -- Guido
+
+> -Daniel
+> =
+
+> >
+> >  drivers/gpu/drm/etnaviv/etnaviv_drv.c |  1 +
+> >  drivers/gpu/drm/etnaviv/etnaviv_drv.h |  1 +
+> >  drivers/gpu/drm/etnaviv/etnaviv_gem.c | 32 +++++++++++++++++++++++++++
+> >  drivers/gpu/drm/etnaviv/etnaviv_mmu.c |  4 ++++
+> >  4 files changed, 38 insertions(+)
+> >
+> > --
+> > 2.28.0
+> >
+> =
+
+> =
+
+> -- =
+
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
+> _______________________________________________
+> etnaviv mailing list
+> etnaviv@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/etnaviv
+_______________________________________________
+etnaviv mailing list
+etnaviv@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/etnaviv
