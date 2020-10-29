@@ -2,42 +2,59 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B662E29EE72
-	for <lists+etnaviv@lfdr.de>; Thu, 29 Oct 2020 15:38:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E154029F401
+	for <lists+etnaviv@lfdr.de>; Thu, 29 Oct 2020 19:21:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E91B6E8B2;
-	Thu, 29 Oct 2020 14:38:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 305E36E5BD;
+	Thu, 29 Oct 2020 18:21:00 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9649D6E8B2
- for <etnaviv@lists.freedesktop.org>; Thu, 29 Oct 2020 14:38:33 +0000 (UTC)
-Received: from gallifrey.ext.pengutronix.de
- ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=localhost)
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1kY94J-0007Rw-Lp; Thu, 29 Oct 2020 15:38:23 +0100
-Message-ID: <8a354530944e6a606212fe537c689ec20422a954.camel@pengutronix.de>
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 012D06E8CB
+ for <etnaviv@lists.freedesktop.org>; Thu, 29 Oct 2020 18:20:58 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id a72so717978wme.5
+ for <etnaviv@lists.freedesktop.org>; Thu, 29 Oct 2020 11:20:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=rUvFewj78zazz9v88M20C4ahSp4GZVp9VtdQYcKFKAg=;
+ b=H/Y7xO1wfsyQhxJl3e1hzDghMncQnGz0jIP5Iveb1dE8S6mhAMtmuz9SBikZZRyiLv
+ Eyk4Y2ye1unBIOlOLm3vC+uYu+qFcfzcWfYfYjXQzwWx3DLAEFpxkIGmr6ELsxIDU8rz
+ FGsy7ENdDR4QnTVDUuIVc7irJ7PEe0N17zsdA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=rUvFewj78zazz9v88M20C4ahSp4GZVp9VtdQYcKFKAg=;
+ b=eTLDV5d69Smdae8JDuHEBvB+3MNeXdk/k3fLStwTtmW7FBCeJL1hgJyW9ypUlHazoD
+ 74vm6uVm8ExF2lgPqFI6pUH3gLOM1cQcCREBNyVtspTwODI6rE4vatlQmqic5p88BAbM
+ 6QkDMZWvYfOFuwuYFWcFQUpOLpxsNVTIR+85sxSWFCP/zcnnbBQAVDAMOMS9IKvoxeZg
+ CqWDonWFRCqrnIGjeAPT7nH+ftryGZidC2q8f3VRC2gx8SHsu+HrPRNaLDLiyAaaJonf
+ ArOyFaiEet+kg3mCuqQpOswJmlf8JniH7zymq03G7nEuOFQzw0oxijo9GksaNYEYFUwD
+ m61g==
+X-Gm-Message-State: AOAM531/hzPGj4dNfzw0F1PduJkkuRzeQeooLBdxxcvlahpVCObnKEiJ
+ W10qj979u8GS6IhUBGxXHm3r4w==
+X-Google-Smtp-Source: ABdhPJzn+l6jKHwyQDGTtsckcMdFKnDcYrUly+8CSDk2BKw7si9QF+sMJc3+tgPG2nPDbJ1PAkx1cQ==
+X-Received: by 2002:a1c:ac87:: with SMTP id v129mr84886wme.119.1603995657591; 
+ Thu, 29 Oct 2020 11:20:57 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id q7sm6520441wrr.39.2020.10.29.11.20.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 29 Oct 2020 11:20:56 -0700 (PDT)
+Date: Thu, 29 Oct 2020 19:20:54 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Lucas Stach <l.stach@pengutronix.de>
 Subject: Re: [RFC PATCH 2/2] drm: etnaviv: Unmap gems on gem_close
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Guido =?ISO-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>, Russell King
- <linux+etnaviv@armlinux.org.uk>, Christian Gmeiner
- <christian.gmeiner@gmail.com>,  David Airlie <airlied@linux.ie>, Daniel
- Vetter <daniel@ffwll.ch>, etnaviv@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org
-Date: Thu, 29 Oct 2020 15:38:21 +0100
-In-Reply-To: <a92da13ed190e6d49550b78dadad3c0003ef6881.1603981111.git.agx@sigxcpu.org>
+Message-ID: <20201029182054.GC401619@phenom.ffwll.local>
 References: <cover.1603981111.git.agx@sigxcpu.org>
  <a92da13ed190e6d49550b78dadad3c0003ef6881.1603981111.git.agx@sigxcpu.org>
-User-Agent: Evolution 3.36.5 (3.36.5-1.fc32) 
+ <8a354530944e6a606212fe537c689ec20422a954.camel@pengutronix.de>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
+Content-Disposition: inline
+In-Reply-To: <8a354530944e6a606212fe537c689ec20422a954.camel@pengutronix.de>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,87 +66,170 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: David Airlie <airlied@linux.ie>,
+ Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>,
+ etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Russell King <linux+etnaviv@armlinux.org.uk>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-SGkgR3VpZG8sCgpBbSBEb25uZXJzdGFnLCBkZW4gMjkuMTAuMjAyMCwgMTU6MjAgKzAxMDAgc2No
-cmllYiBHdWlkbyBHw7xudGhlcjoKPiBTbyBmYXIgdGhlIHVubWFwIGZyb20gZ3B1IGFkZHJlc3Mg
-c3BhY2Ugb25seSBoYXBwZW5lZCB3aGVuIGRyb3BwaW5nIHRoZQo+IGxhc3QgcmVmIGluIGdlbV9m
-cmVlX29iamVjdF91bmxvY2tlZCwgaG93ZXZlciB0aGF0IGlzIHNraXBwZWQgaWYgdGhlcmUncwo+
-IHN0aWxsIG11bHRpcGxlIGhhbmRsZXMgdG8gdGhlIHNhbWUgR0VNIG9iamVjdC4KPiAKPiBTaW5j
-ZSB1c2Vyc3BhY2UgKGhlcmUgbWVzYSkgaW4gdGhlIGNhc2Ugb2Ygc29mdHBpbiBoYW5kcyBiYWNr
-IHRoZSBtZW1vcnkKPiByZWdpb24gdG8gdGhlIHBvb2wgb2YgYXZhaWxhYmxlIEdQVSB2aXJ0dWFs
-IG1lbW9yeSBjbG9zaW5nIHRoZSBoYW5kbGUKPiB2aWEgRFJNX0lPQ1RMX0dFTV9DTE9TRSB0aGlz
-IGNhbiBsZWFkIHRvIGV0bmF2aXZfaW9tbXVfaW5zZXJ0X2V4YWN0Cj4gZmFpbGluZyBsYXRlciBz
-aW5jZSB1c2Vyc3BhY2UgdGhpbmtzIHRoZSB2YWRkciBpcyBhdmFpbGFibGUgd2hpbGUgdGhlCj4g
-a2VybmVsIHRoaW5rcyBpdCBpc24ndCBtYWtpbmcgdGhlIHN1Ym1pdCBmYWlsIGxpa2UKPiAKPiAg
-IFtFXSBzdWJtaXQgZmFpbGVkOiAtMTQgKE5vIHNwYWNlIGxlZnQgb24gZGV2aWNlKSAoZXRuYV9j
-bWRfc3RyZWFtX2ZsdXNoOjI0NCkKPiAKPiBGaXggdGhpcyBieSB1bm1hcHBpbmcgdGhlIG1lbW9y
-eSB2aWEgdGhlIC5nZW1fY2xvc2Vfb2JqZWN0IGNhbGxiYWNrLgo+IAo+IFNpZ25lZC1vZmYtYnk6
-IEd1aWRvIEfDvG50aGVyIDxhZ3hAc2lneGNwdS5vcmc+Cj4gLS0tCj4gIGRyaXZlcnMvZ3B1L2Ry
-bS9ldG5hdml2L2V0bmF2aXZfZHJ2LmMgfCAgMSArCj4gIGRyaXZlcnMvZ3B1L2RybS9ldG5hdml2
-L2V0bmF2aXZfZHJ2LmggfCAgMSArCj4gIGRyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZf
-Z2VtLmMgfCAzMiArKysrKysrKysrKysrKysrKysrKysrKysrKysKPiAgMyBmaWxlcyBjaGFuZ2Vk
-LCAzNCBpbnNlcnRpb25zKCspCj4gCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9ldG5h
-dml2L2V0bmF2aXZfZHJ2LmMgYi9kcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2X2Rydi5j
-Cj4gaW5kZXggYTlhM2FmYWVmOWExLi5mZGNjNjQwNTA2OGMgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVy
-cy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9kcnYuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9l
-dG5hdml2L2V0bmF2aXZfZHJ2LmMKPiBAQCAtNDkxLDYgKzQ5MSw3IEBAIHN0YXRpYyBzdHJ1Y3Qg
-ZHJtX2RyaXZlciBldG5hdml2X2RybV9kcml2ZXIgPSB7Cj4gIAkub3BlbiAgICAgICAgICAgICAg
-ID0gZXRuYXZpdl9vcGVuLAo+ICAJLnBvc3RjbG9zZSAgICAgICAgICAgPSBldG5hdml2X3Bvc3Rj
-bG9zZSwKPiAgCS5nZW1fZnJlZV9vYmplY3RfdW5sb2NrZWQgPSBldG5hdml2X2dlbV9mcmVlX29i
-amVjdCwKPiArCS5nZW1fY2xvc2Vfb2JqZWN0ICAgPSBldG5hdml2X2dlbV9jbG9zZV9vYmplY3Qs
-Cj4gIAkuZ2VtX3ZtX29wcyAgICAgICAgID0gJnZtX29wcywKPiAgCS5wcmltZV9oYW5kbGVfdG9f
-ZmQgPSBkcm1fZ2VtX3ByaW1lX2hhbmRsZV90b19mZCwKPiAgCS5wcmltZV9mZF90b19oYW5kbGUg
-PSBkcm1fZ2VtX3ByaW1lX2ZkX3RvX2hhbmRsZSwKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUv
-ZHJtL2V0bmF2aXYvZXRuYXZpdl9kcnYuaCBiL2RyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2
-aXZfZHJ2LmgKPiBpbmRleCA0ZDhkYzkyMzZlNWYuLjIyMjZhOWFmMGQ2MyAxMDA2NDQKPiAtLS0g
-YS9kcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2X2Rydi5oCj4gKysrIGIvZHJpdmVycy9n
-cHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9kcnYuaAo+IEBAIC02NSw2ICs2NSw3IEBAIGludCBldG5h
-dml2X2dlbV9jcHVfcHJlcChzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKm9iaiwgdTMyIG9wLAo+ICAJ
-CXN0cnVjdCBkcm1fZXRuYXZpdl90aW1lc3BlYyAqdGltZW91dCk7Cj4gIGludCBldG5hdml2X2dl
-bV9jcHVfZmluaShzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKm9iaik7Cj4gIHZvaWQgZXRuYXZpdl9n
-ZW1fZnJlZV9vYmplY3Qoc3RydWN0IGRybV9nZW1fb2JqZWN0ICpvYmopOwo+ICt2b2lkIGV0bmF2
-aXZfZ2VtX2Nsb3NlX29iamVjdChzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKm9iaiwgc3RydWN0IGRy
-bV9maWxlICpmaWxlKTsKPiAgaW50IGV0bmF2aXZfZ2VtX25ld19oYW5kbGUoc3RydWN0IGRybV9k
-ZXZpY2UgKmRldiwgc3RydWN0IGRybV9maWxlICpmaWxlLAo+ICAJCXUzMiBzaXplLCB1MzIgZmxh
-Z3MsIHUzMiAqaGFuZGxlKTsKPiAgaW50IGV0bmF2aXZfZ2VtX25ld191c2VycHRyKHN0cnVjdCBk
-cm1fZGV2aWNlICpkZXYsIHN0cnVjdCBkcm1fZmlsZSAqZmlsZSwKPiBkaWZmIC0tZ2l0IGEvZHJp
-dmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9nZW0uYyBiL2RyaXZlcnMvZ3B1L2RybS9ldG5h
-dml2L2V0bmF2aXZfZ2VtLmMKPiBpbmRleCBmMDZlMTllN2JlMDQuLjVhZWM0YTIzYzc3ZSAxMDA2
-NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2X2dlbS5jCj4gKysrIGIv
-ZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9nZW0uYwo+IEBAIC01MTUsNiArNTE1LDM4
-IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgZXRuYXZpdl9nZW1fb3BzIGV0bmF2aXZfZ2VtX3NobWVt
-X29wcyA9IHsKPiAgCS5tbWFwID0gZXRuYXZpdl9nZW1fbW1hcF9vYmosCj4gIH07Cj4gIAo+ICt2
-b2lkIGV0bmF2aXZfZ2VtX2Nsb3NlX29iamVjdChzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKm9iaiwg
-c3RydWN0IGRybV9maWxlICp1bnVzZWQpCj4gK3sKPiArCXN0cnVjdCBldG5hdml2X2dlbV9vYmpl
-Y3QgKmV0bmF2aXZfb2JqID0gdG9fZXRuYXZpdl9ibyhvYmopOwo+ICsJc3RydWN0IGV0bmF2aXZf
-dnJhbV9tYXBwaW5nICptYXBwaW5nLCAqdG1wOwo+ICsKPiArCS8qIEhhbmRsZSB0aGlzIHZpYSBl
-dG5hdml2X2dlbV9mcmVlX29iamVjdCAqLwo+ICsJaWYgKG9iai0+aGFuZGxlX2NvdW50ID09IDEp
-Cj4gKwkJcmV0dXJuOwo+ICsKPiArCVdBUk5fT04oaXNfYWN0aXZlKGV0bmF2aXZfb2JqKSk7Cj4g
-Kwo+ICsJLyoKPiArCSAqIHVzZXJzcGFjZSB3YW50cyB0byByZWxlYXNlIHRoZSBoYW5kbGUgc28g
-d2UgbmVlZCB0byByZW1vdmUKPiArCSAqIHRoZSBtYXBwaW5nIGZyb20gdGhlIGdwdSdzIHZpcnR1
-YWwgYWRkcmVzcyBzcGFjZSB0byBzdGF5Cj4gKwkgKiBpbiBzeW5jLgo+ICsJICovCj4gKwlsaXN0
-X2Zvcl9lYWNoX2VudHJ5X3NhZmUobWFwcGluZywgdG1wLCAmZXRuYXZpdl9vYmotPnZyYW1fbGlz
-dCwKPiArCQkJCSBvYmpfbm9kZSkgewo+ICsJCXN0cnVjdCBldG5hdml2X2lvbW11X2NvbnRleHQg
-KmNvbnRleHQgPSBtYXBwaW5nLT5jb250ZXh0Owo+ICsKPiArCQlXQVJOX09OKG1hcHBpbmctPnVz
-ZSk7Cj4gKwo+ICsJCWlmIChjb250ZXh0KSB7Cj4gKwkJCWV0bmF2aXZfaW9tbXVfdW5tYXBfZ2Vt
-KGNvbnRleHQsIG1hcHBpbmcpOwo+ICsJCQlldG5hdml2X2lvbW11X2NvbnRleHRfcHV0KGNvbnRl
-eHQpOwoKSSBzZWUgdGhlIGlzc3VlIHlvdSBhcmUgdHJ5aW5nIHRvIGZpeCBoZXJlLCBidXQgdGhp
-cyBpcyBub3QgYSB2aWFibGUKZml4LiBXaGlsZSB1c2Vyc3BhY2UgbWF5IGNsb3NlIHRoZSBoYW5k
-bGUsIHRoZSBHUFUgbWF5IHN0aWxsIGJlCnByb2Nlc3Npbmcgam9icyByZWZlcmVuaW5nIHRoZSBC
-Tywgc28gd2UgY2FuJ3QganVzdCB1bm1hcCBpdCBmcm9tIHRoZQphZGRyZXNzIHNwYWNlLgoKSSB0
-aGluayB3aGF0IHdlIG5lZWQgdG8gZG8gaGVyZSBpcyB3YWl0aW5nIGZvciB0aGUgY3VycmVudCBq
-b2JzL2ZlbmNlcwpvZiB0aGUgQk8gd2hlbiB3ZSBoaXQgdGhlIGNhc2Ugd2hlcmUgdXNlcnNwYWNl
-IHRyaWVzIHRvIGFzc2lnbiBhIG5ldwphZGRyZXNzIHRvIHRoZSBCTy4gQmFzaWNhbGx5IHdhaXQg
-Zm9yIGN1cnJlbnQgam9icyAtPiB1bmFtcCBmcm9tIHRoZQphZGRyZXNzIHNwYWNlIC0+IG1hcCBh
-dCBuZXcgdXNlcnNwYWNlIGFzc2lnbmVkIGFkZHJlc3MuCgpSZWdhcmRzLApMdWNhcwoKPiArCQl9
-Cj4gKwo+ICsJCWxpc3RfZGVsKCZtYXBwaW5nLT5vYmpfbm9kZSk7Cj4gKwkJa2ZyZWUobWFwcGlu
-Zyk7Cj4gKwl9Cj4gK30KPiArCj4gIHZvaWQgZXRuYXZpdl9nZW1fZnJlZV9vYmplY3Qoc3RydWN0
-IGRybV9nZW1fb2JqZWN0ICpvYmopCj4gIHsKPiAgCXN0cnVjdCBldG5hdml2X2dlbV9vYmplY3Qg
-KmV0bmF2aXZfb2JqID0gdG9fZXRuYXZpdl9ibyhvYmopOwoKX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX18KZXRuYXZpdiBtYWlsaW5nIGxpc3QKZXRuYXZpdkBs
-aXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1h
-bi9saXN0aW5mby9ldG5hdml2Cg==
+On Thu, Oct 29, 2020 at 03:38:21PM +0100, Lucas Stach wrote:
+> Hi Guido,
+> =
+
+> Am Donnerstag, den 29.10.2020, 15:20 +0100 schrieb Guido G=FCnther:
+> > So far the unmap from gpu address space only happened when dropping the
+> > last ref in gem_free_object_unlocked, however that is skipped if there's
+> > still multiple handles to the same GEM object.
+> > =
+
+> > Since userspace (here mesa) in the case of softpin hands back the memory
+> > region to the pool of available GPU virtual memory closing the handle
+> > via DRM_IOCTL_GEM_CLOSE this can lead to etnaviv_iommu_insert_exact
+> > failing later since userspace thinks the vaddr is available while the
+> > kernel thinks it isn't making the submit fail like
+> > =
+
+> >   [E] submit failed: -14 (No space left on device) (etna_cmd_stream_flu=
+sh:244)
+> > =
+
+> > Fix this by unmapping the memory via the .gem_close_object callback.
+> > =
+
+> > Signed-off-by: Guido G=FCnther <agx@sigxcpu.org>
+> > ---
+> >  drivers/gpu/drm/etnaviv/etnaviv_drv.c |  1 +
+> >  drivers/gpu/drm/etnaviv/etnaviv_drv.h |  1 +
+> >  drivers/gpu/drm/etnaviv/etnaviv_gem.c | 32 +++++++++++++++++++++++++++
+> >  3 files changed, 34 insertions(+)
+> > =
+
+> > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/et=
+naviv/etnaviv_drv.c
+> > index a9a3afaef9a1..fdcc6405068c 100644
+> > --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> > +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> > @@ -491,6 +491,7 @@ static struct drm_driver etnaviv_drm_driver =3D {
+> >  	.open               =3D etnaviv_open,
+> >  	.postclose           =3D etnaviv_postclose,
+> >  	.gem_free_object_unlocked =3D etnaviv_gem_free_object,
+> > +	.gem_close_object   =3D etnaviv_gem_close_object,
+> >  	.gem_vm_ops         =3D &vm_ops,
+> >  	.prime_handle_to_fd =3D drm_gem_prime_handle_to_fd,
+> >  	.prime_fd_to_handle =3D drm_gem_prime_fd_to_handle,
+> > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.h b/drivers/gpu/drm/et=
+naviv/etnaviv_drv.h
+> > index 4d8dc9236e5f..2226a9af0d63 100644
+> > --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.h
+> > +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.h
+> > @@ -65,6 +65,7 @@ int etnaviv_gem_cpu_prep(struct drm_gem_object *obj, =
+u32 op,
+> >  		struct drm_etnaviv_timespec *timeout);
+> >  int etnaviv_gem_cpu_fini(struct drm_gem_object *obj);
+> >  void etnaviv_gem_free_object(struct drm_gem_object *obj);
+> > +void etnaviv_gem_close_object(struct drm_gem_object *obj, struct drm_f=
+ile *file);
+> >  int etnaviv_gem_new_handle(struct drm_device *dev, struct drm_file *fi=
+le,
+> >  		u32 size, u32 flags, u32 *handle);
+> >  int etnaviv_gem_new_userptr(struct drm_device *dev, struct drm_file *f=
+ile,
+> > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/et=
+naviv/etnaviv_gem.c
+> > index f06e19e7be04..5aec4a23c77e 100644
+> > --- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+> > +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+> > @@ -515,6 +515,38 @@ static const struct etnaviv_gem_ops etnaviv_gem_sh=
+mem_ops =3D {
+> >  	.mmap =3D etnaviv_gem_mmap_obj,
+> >  };
+> >  =
+
+> > +void etnaviv_gem_close_object(struct drm_gem_object *obj, struct drm_f=
+ile *unused)
+> > +{
+> > +	struct etnaviv_gem_object *etnaviv_obj =3D to_etnaviv_bo(obj);
+> > +	struct etnaviv_vram_mapping *mapping, *tmp;
+> > +
+> > +	/* Handle this via etnaviv_gem_free_object */
+> > +	if (obj->handle_count =3D=3D 1)
+> > +		return;
+> > +
+> > +	WARN_ON(is_active(etnaviv_obj));
+> > +
+> > +	/*
+> > +	 * userspace wants to release the handle so we need to remove
+> > +	 * the mapping from the gpu's virtual address space to stay
+> > +	 * in sync.
+> > +	 */
+> > +	list_for_each_entry_safe(mapping, tmp, &etnaviv_obj->vram_list,
+> > +				 obj_node) {
+> > +		struct etnaviv_iommu_context *context =3D mapping->context;
+> > +
+> > +		WARN_ON(mapping->use);
+> > +
+> > +		if (context) {
+> > +			etnaviv_iommu_unmap_gem(context, mapping);
+> > +			etnaviv_iommu_context_put(context);
+> =
+
+> I see the issue you are trying to fix here, but this is not a viable
+> fix. While userspace may close the handle, the GPU may still be
+> processing jobs referening the BO, so we can't just unmap it from the
+> address space.
+> =
+
+> I think what we need to do here is waiting for the current jobs/fences
+> of the BO when we hit the case where userspace tries to assign a new
+> address to the BO. Basically wait for current jobs -> unamp from the
+> address space -> map at new userspace assigned address.
+
+Yeah was about to say the same. There's two solutions to this:
+- let the kernel manage the VA space. This is what amdgpu does in some
+  cases (but still no relocations)
+- pipeline the VA/PTE updates in your driver, because userspace has a
+  somewhat hard time figuring out when a buffer is done. Doing that would
+  either at complexity or stalls when the kernel is doing all the tracking
+  already anyway. Minimal fix is to do what Lucas explained above, but
+  importantly with the kernel solution we have the option to fully
+  pipeline everything and avoid stalls. I think this is what everyone else
+  who lets userspace manage VA does in their kernel side.
+
+-Daniel
+
+
+
+
+
+> =
+
+> Regards,
+> Lucas
+> =
+
+> > +		}
+> > +
+> > +		list_del(&mapping->obj_node);
+> > +		kfree(mapping);
+> > +	}
+> > +}
+> > +
+> >  void etnaviv_gem_free_object(struct drm_gem_object *obj)
+> >  {
+> >  	struct etnaviv_gem_object *etnaviv_obj =3D to_etnaviv_bo(obj);
+> =
+
+
+-- =
+
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+etnaviv mailing list
+etnaviv@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/etnaviv
