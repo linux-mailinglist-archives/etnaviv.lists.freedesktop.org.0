@@ -2,60 +2,30 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 643432A7F18
-	for <lists+etnaviv@lfdr.de>; Thu,  5 Nov 2020 13:54:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 135B52AB4F4
+	for <lists+etnaviv@lfdr.de>; Mon,  9 Nov 2020 11:32:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 588A16ED1B;
-	Thu,  5 Nov 2020 12:54:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C0BF8985A;
+	Mon,  9 Nov 2020 10:32:52 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
- [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A8A8E6E20F
- for <etnaviv@lists.freedesktop.org>; Thu,  5 Nov 2020 12:54:36 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id s13so1508568wmh.4
- for <etnaviv@lists.freedesktop.org>; Thu, 05 Nov 2020 04:54:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=iR+CVMR9Igk+i7q6zQ360QpQoQUWwq9hKMxFO8Y7cGA=;
- b=bPPrnh4BjIGHxssI9in0eI8avIf6lVSA1Fd+jmaHNuJRYj4GLesWwatvAf+cWdJ1Gn
- +T1a9zT5WiAc7uq+YkZ1UAi9uQqINJcLFkN5pbawGR6HDSkkCEunVz0GKT5BPbCo522L
- G94YF8sd+EF3xMH5d9NYF5qFQjmBr4VXc5pXs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=iR+CVMR9Igk+i7q6zQ360QpQoQUWwq9hKMxFO8Y7cGA=;
- b=ig+HKtYNug6CoYpETaH/iAofvbzYwd6JA5kmxnLQ0c4lXTErmEJpMhUIxCsIZyyewE
- sDNxr53yTL9eySd+DT1qbDKqRKisQsbv4XispmM4j3pQiJswEwpaytaZmzpQrubmWMwk
- U697dXC/ikwyaotWLziExAq96rhm8ebA/yl10TOoOVk+z4sQLAlVMD/mA7rob33zoRp1
- ka27vwHmpXuv1zG2uxEx+aVp1nolwKmKPKosfgRvCTh95yXdnmWhVlQ7crxloYL442MC
- UrDUzXKYes/7qXbBKad1E8Yt+A2heSlYzMAqQ+cgjtCCNy3TWWFehsA0wgSsve4EUArZ
- cd7Q==
-X-Gm-Message-State: AOAM53064+UOe2fytWTKh+eBX0Ht+Euq/8kf8+kvsyA2le+4NWFQfbeX
- cYpxKlHHvexUle2+9FDFeibAkg==
-X-Google-Smtp-Source: ABdhPJwrW3OjL7kR/bAr74WjxI8azvpsj46DeaIlccjHcQq2wan765xbIbWOOKK6+3jptMrcJuyztQ==
-X-Received: by 2002:a1c:6843:: with SMTP id d64mr2670603wmc.131.1604580875284; 
- Thu, 05 Nov 2020 04:54:35 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id m12sm2468188wrs.92.2020.11.05.04.54.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Nov 2020 04:54:34 -0800 (PST)
-Date: Thu, 5 Nov 2020 13:54:31 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v5 09/10] dma-buf-map: Add memcpy and pointer-increment
- interfaces
-Message-ID: <20201105125431.GW401619@phenom.ffwll.local>
-References: <20201020122046.31167-1-tzimmermann@suse.de>
- <20201020122046.31167-10-tzimmermann@suse.de>
- <CACRpkdbvGWKo8y323actUJn9xXmxpgDw1EKLiPH4RqB_kFx=XQ@mail.gmail.com>
- <27acbd7e-d72e-4e05-c147-b50f56e21589@suse.de>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 478A78985A;
+ Mon,  9 Nov 2020 10:32:51 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id D074DAC1F;
+ Mon,  9 Nov 2020 10:32:49 +0000 (UTC)
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: daniel@ffwll.ch, airlied@linux.ie, chunkuang.hu@kernel.org,
+ p.zabel@pengutronix.de, robdclark@gmail.com, sean@poorly.run
+Subject: [PATCH 1/2] drm/msm: Use struct dma_buf_map in GEM vmap ops
+Date: Mon,  9 Nov 2020 11:32:41 +0100
+Message-Id: <20201109103242.19544-2-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20201109103242.19544-1-tzimmermann@suse.de>
+References: <20201109103242.19544-1-tzimmermann@suse.de>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <27acbd7e-d72e-4e05-c147-b50f56e21589@suse.de>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,135 +37,118 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: luben.tuikov@amd.com, Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
- Dave Airlie <airlied@linux.ie>, nouveau@lists.freedesktop.org,
- Linus Walleij <linus.walleij@linaro.org>,
- "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
- Chris Wilson <chris@chris-wilson.co.uk>, melissa.srw@gmail.com,
- Eric Anholt <eric@anholt.net>, ray.huang@amd.com,
- Gerd Hoffmann <kraxel@redhat.com>, Sam Ravnborg <sam@ravnborg.org>,
- Sumit Semwal <sumit.semwal@linaro.org>,
+Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
+ =?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Chris Wilson <chris@chris-wilson.co.uk>, Melissa Wen <melissa.srw@gmail.com>,
+ Eric Anholt <eric@anholt.net>, Huang Rui <ray.huang@amd.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Madhav Chauhan <madhav.chauhan@amd.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Sumit Semwal <sumit.semwal@linaro.org>,
  Emil Velikov <emil.velikov@collabora.com>, Rob Herring <robh@kernel.org>,
- linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
- Joonyoung Shim <jy0922.shim@samsung.com>, lima@lists.freedesktop.org,
+ xen-devel@lists.xenproject.org, lima@lists.freedesktop.org,
  Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
- Krzysztof Kozlowski <krzk@kernel.org>, steven.price@arm.com,
- "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
- Kukjin Kim <kgene@kernel.org>, Ben Skeggs <bskeggs@redhat.com>,
- linux+etnaviv@armlinux.org.uk, spice-devel@lists.freedesktop.org,
- alyssa.rosenzweig@collabora.com,
+ linux-rockchip@lists.infradead.org, Qinglang Miao <miaoqinglang@huawei.com>,
+ Steven Price <steven.price@arm.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Luben Tuikov <luben.tuikov@amd.com>, Ben Skeggs <bskeggs@redhat.com>,
+ Russell King <linux+etnaviv@armlinux.org.uk>, Dave Airlie <airlied@redhat.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ linux-arm-msm@vger.kernel.org,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  etnaviv@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>,
- Inki Dae <inki.dae@samsung.com>, Hans de Goede <hdegoede@redhat.com>,
+ Hans de Goede <hdegoede@redhat.com>,
  Christian Gmeiner <christian.gmeiner@gmail.com>,
- xen-devel@lists.xenproject.org, virtualization@lists.linux-foundation.org,
- Sean Paul <sean@poorly.run>, apaneers@amd.com,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- linaro-mm-sig@lists.linaro.org, amd-gfx@lists.freedesktop.org,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Seung-Woo Kim <sw0312.kim@samsung.com>, Sandy Huang <hjc@rock-chips.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Qinglang Miao <miaoqinglang@huawei.com>, yuq825@gmail.com,
- Daniel Vetter <daniel@ffwll.ch>, Alex Deucher <alexander.deucher@amd.com>,
- Linux Media Mailing List <linux-media@vger.kernel.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ spice-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
+ Arunpravin <apaneers@amd.com>, linux-arm-kernel@lists.infradead.org,
+ amd-gfx@lists.freedesktop.org,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>, Sandy Huang <hjc@rock-chips.com>,
+ Qiang Yu <yuq825@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Alex Deucher <alexander.deucher@amd.com>, freedreno@lists.freedesktop.org,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
  Lucas Stach <l.stach@pengutronix.de>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-On Thu, Nov 05, 2020 at 11:37:08AM +0100, Thomas Zimmermann wrote:
-> Hi
-> 
-> Am 05.11.20 um 11:07 schrieb Linus Walleij:
-> > Overall I like this, just an inline question:
-> > 
-> > On Tue, Oct 20, 2020 at 2:20 PM Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> > 
-> >> To do framebuffer updates, one needs memcpy from system memory and a
-> >> pointer-increment function. Add both interfaces with documentation.
-> > 
-> > (...)
-> >> +/**
-> >> + * dma_buf_map_memcpy_to - Memcpy into dma-buf mapping
-> >> + * @dst:       The dma-buf mapping structure
-> >> + * @src:       The source buffer
-> >> + * @len:       The number of byte in src
-> >> + *
-> >> + * Copies data into a dma-buf mapping. The source buffer is in system
-> >> + * memory. Depending on the buffer's location, the helper picks the correct
-> >> + * method of accessing the memory.
-> >> + */
-> >> +static inline void dma_buf_map_memcpy_to(struct dma_buf_map *dst, const void *src, size_t len)
-> >> +{
-> >> +       if (dst->is_iomem)
-> >> +               memcpy_toio(dst->vaddr_iomem, src, len);
-> >> +       else
-> >> +               memcpy(dst->vaddr, src, len);
-> >> +}
-> > 
-> > Are these going to be really big memcpy() operations?
-> 
-> Individually, each could be a scanline, so a few KiB. (4 bytes *
-> horizontal resolution). Updating a full framebuffer can sum up to
-> several MiB.
-> 
-> > 
-> > Some platforms have DMA offload engines that can perform memcpy(),They could be
-> > drivers/dma, include/linux/dmaengine.h
-> > especially if the CPU doesn't really need to touch the contents
-> > and flush caches etc.
-> > An example exist in some MTD drivers that move large quantities of
-> > data off flash memory like this:
-> > drivers/mtd/nand/raw/cadence-nand-controller.c
-> > 
-> > Notice that DMAengine and DMAbuf does not have much in common,
-> > the names can be deceiving.
-> > 
-> > The value of this varies with the system architecture. It is not just
-> > a question about performance but also about power and the CPU
-> > being able to do other stuff in parallel for large transfers. So *when*
-> > to use this facility to accelerate memcpy() is a delicate question.
-> > 
-> > What I'm after here is if these can be really big, do we want
-> > (in the long run, not now) open up to the idea to slot in
-> > hardware-accelerated memcpy() here?
-> 
-> We currently use this functionality for the graphical framebuffer
-> console that most DRM drivers provide. It's non-accelerated and slow,
-> but this has not been much of a problem so far.
-> 
-> Within DRM, we're more interested in removing console code from drivers
-> and going for the generic implementation.
-> 
-> Most of the graphics HW allocates framebuffers from video RAM, system
-> memory or CMA pools and does not really need these memcpys. Only a few
-> systems with small video RAM require a shadow buffer, which we flush
-> into VRAM as needed. Those might benefit.
-> 
-> OTOH, off-loading memcpys to hardware sounds reasonable if we can hide
-> it from the DRM code. I think it all depends on how invasive that change
-> would be.
-
-I wouldn't, all the additional locks this would pull in sound like
-nightmare. And when an oops happens, this might be the only thing that
-manages to get the oops to the user.
-
-Unless someone really starts caring about fbcon acceleration I really
-wouldn't bother. Ok maybe it also matters for fbdev, but the problem is
-that the page fault intercepting alone is already expensive, so the only
-real solution if you care about performance in that case is to use kms
-natively, and use a dirty rectangle flip (or the DIRTY syscall).
-
-And in there drivers should (and do) use any dma engines they have to
-upload the frames already.
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
-_______________________________________________
-etnaviv mailing list
-etnaviv@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/etnaviv
+Rml4ZXMgYSBidWlsZCBmYWlsdXJlIHdpdGggbXNtLgoKVGhpcyBjaGFuZ2Ugd2FzIHN1cHBvc2Vk
+IHRvIGJlIHBhcnQgb2YgY29tbWl0IDQ5YTNmNTFkZmVlZSAoImRybS9nZW06ClVzZSBzdHJ1Y3Qg
+ZG1hX2J1Zl9tYXAgaW4gR0VNIHZtYXAgb3BzIGFuZCBjb252ZXJ0IEdFTSBiYWNrZW5kcyIpLCBi
+dXQKbXNtIHdhcyBmb3Jnb3R0ZW4uCgpTaWduZWQtb2ZmLWJ5OiBUaG9tYXMgWmltbWVybWFubiA8
+dHppbW1lcm1hbm5Ac3VzZS5kZT4KRml4ZXM6IDQ5YTNmNTFkZmVlZSAoImRybS9nZW06IFVzZSBz
+dHJ1Y3QgZG1hX2J1Zl9tYXAgaW4gR0VNIHZtYXAgb3BzIGFuZCBjb252ZXJ0IEdFTSBiYWNrZW5k
+cyIpCkNjOiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4KQ2M6IENocmlz
+dGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KQ2M6IERhdmlkIEFpcmxpZSA8
+YWlybGllZEBsaW51eC5pZT4KQ2M6IERhbmllbCBWZXR0ZXIgPGRhbmllbEBmZndsbC5jaD4KQ2M6
+IE1hYXJ0ZW4gTGFua2hvcnN0IDxtYWFydGVuLmxhbmtob3JzdEBsaW51eC5pbnRlbC5jb20+CkNj
+OiBNYXhpbWUgUmlwYXJkIDxtcmlwYXJkQGtlcm5lbC5vcmc+CkNjOiBEYXZlIEFpcmxpZSA8YWly
+bGllZEByZWRoYXQuY29tPgpDYzogTHVjYXMgU3RhY2ggPGwuc3RhY2hAcGVuZ3V0cm9uaXguZGU+
+CkNjOiBSdXNzZWxsIEtpbmcgPGxpbnV4K2V0bmF2aXZAYXJtbGludXgub3JnLnVrPgpDYzogQ2hy
+aXN0aWFuIEdtZWluZXIgPGNocmlzdGlhbi5nbWVpbmVyQGdtYWlsLmNvbT4KQ2M6IFFpYW5nIFl1
+IDx5dXE4MjVAZ21haWwuY29tPgpDYzogQmVuIFNrZWdncyA8YnNrZWdnc0ByZWRoYXQuY29tPgpD
+YzogUm9iIEhlcnJpbmcgPHJvYmhAa2VybmVsLm9yZz4KQ2M6IFRvbWV1IFZpem9zbyA8dG9tZXUu
+dml6b3NvQGNvbGxhYm9yYS5jb20+CkNjOiBTdGV2ZW4gUHJpY2UgPHN0ZXZlbi5wcmljZUBhcm0u
+Y29tPgpDYzogQWx5c3NhIFJvc2VuendlaWcgPGFseXNzYS5yb3Nlbnp3ZWlnQGNvbGxhYm9yYS5j
+b20+CkNjOiBHZXJkIEhvZmZtYW5uIDxrcmF4ZWxAcmVkaGF0LmNvbT4KQ2M6IEFsZXggRGV1Y2hl
+ciA8YWxleGFuZGVyLmRldWNoZXJAYW1kLmNvbT4KQ2M6ICJDaHJpc3RpYW4gS8O2bmlnIiA8Y2hy
+aXN0aWFuLmtvZW5pZ0BhbWQuY29tPgpDYzogU2FuZHkgSHVhbmcgPGhqY0Byb2NrLWNoaXBzLmNv
+bT4KQ2M6ICJIZWlrbyBTdMO8Ym5lciIgPGhlaWtvQHNudGVjaC5kZT4KQ2M6IEhhbnMgZGUgR29l
+ZGUgPGhkZWdvZWRlQHJlZGhhdC5jb20+CkNjOiBTZWFuIFBhdWwgPHNlYW5AcG9vcmx5LnJ1bj4K
+Q2M6IEVyaWMgQW5ob2x0IDxlcmljQGFuaG9sdC5uZXQ+CkNjOiBSb2RyaWdvIFNpcXVlaXJhIDxy
+b2RyaWdvc2lxdWVpcmFtZWxvQGdtYWlsLmNvbT4KQ2M6IE1lbGlzc2EgV2VuIDxtZWxpc3NhLnNy
+d0BnbWFpbC5jb20+CkNjOiBIYW5lZW4gTW9oYW1tZWQgPGhhbW9oYW1tZWQuc2FAZ21haWwuY29t
+PgpDYzogT2xla3NhbmRyIEFuZHJ1c2hjaGVua28gPG9sZWtzYW5kcl9hbmRydXNoY2hlbmtvQGVw
+YW0uY29tPgpDYzogU3VtaXQgU2Vtd2FsIDxzdW1pdC5zZW13YWxAbGluYXJvLm9yZz4KQ2M6IEVt
+aWwgVmVsaWtvdiA8ZW1pbC52ZWxpa292QGNvbGxhYm9yYS5jb20+CkNjOiBMdWJlbiBUdWlrb3Yg
+PGx1YmVuLnR1aWtvdkBhbWQuY29tPgpDYzogTWFyZWsgU3p5cHJvd3NraSA8bS5zenlwcm93c2tp
+QHNhbXN1bmcuY29tPgpDYzogQXJ1bnByYXZpbiA8YXBhbmVlcnNAYW1kLmNvbT4KQ2M6IEh1YW5n
+IFJ1aSA8cmF5Lmh1YW5nQGFtZC5jb20+CkNjOiBNYWRoYXYgQ2hhdWhhbiA8bWFkaGF2LmNoYXVo
+YW5AYW1kLmNvbT4KQ2M6IEphc29uIEd1bnRob3JwZSA8amdnQHppZXBlLmNhPgpDYzogU2FtIFJh
+dm5ib3JnIDxzYW1AcmF2bmJvcmcub3JnPgpDYzogQ2hyaXMgV2lsc29uIDxjaHJpc0BjaHJpcy13
+aWxzb24uY28udWs+CkNjOiBRaW5nbGFuZyBNaWFvIDxtaWFvcWluZ2xhbmdAaHVhd2VpLmNvbT4K
+Q2M6IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKQ2M6IGV0bmF2aXZAbGlzdHMuZnJl
+ZWRlc2t0b3Aub3JnCkNjOiBsaW1hQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpDYzogbm91dmVhdUBs
+aXN0cy5mcmVlZGVza3RvcC5vcmcKQ2M6IHZpcnR1YWxpemF0aW9uQGxpc3RzLmxpbnV4LWZvdW5k
+YXRpb24ub3JnCkNjOiBzcGljZS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKQ2M6IGFtZC1n
+ZnhAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCkNjOiBsaW51eC1hcm0ta2VybmVsQGxpc3RzLmluZnJh
+ZGVhZC5vcmcKQ2M6IGxpbnV4LXJvY2tjaGlwQGxpc3RzLmluZnJhZGVhZC5vcmcKQ2M6IHhlbi1k
+ZXZlbEBsaXN0cy54ZW5wcm9qZWN0Lm9yZwotLS0KIGRyaXZlcnMvZ3B1L2RybS9tc20vbXNtX2Ry
+di5oICAgICAgIHwgIDQgKystLQogZHJpdmVycy9ncHUvZHJtL21zbS9tc21fZ2VtX3ByaW1lLmMg
+fCAxMyArKysrKysrKysrLS0tCiAyIGZpbGVzIGNoYW5nZWQsIDEyIGluc2VydGlvbnMoKyksIDUg
+ZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL21zbS9tc21fZHJ2Lmgg
+Yi9kcml2ZXJzL2dwdS9kcm0vbXNtL21zbV9kcnYuaAppbmRleCBjNDU3ODlmMzZlNDguLmE2YWVm
+Njg3YmM2ZSAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL21zbS9tc21fZHJ2LmgKKysrIGIv
+ZHJpdmVycy9ncHUvZHJtL21zbS9tc21fZHJ2LmgKQEAgLTI5NSw4ICsyOTUsOCBAQCBpbnQgbXNt
+X2dlbV9kdW1iX2NyZWF0ZShzdHJ1Y3QgZHJtX2ZpbGUgKmZpbGUsIHN0cnVjdCBkcm1fZGV2aWNl
+ICpkZXYsCiBpbnQgbXNtX2dlbV9kdW1iX21hcF9vZmZzZXQoc3RydWN0IGRybV9maWxlICpmaWxl
+LCBzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LAogCQl1aW50MzJfdCBoYW5kbGUsIHVpbnQ2NF90ICpv
+ZmZzZXQpOwogc3RydWN0IHNnX3RhYmxlICptc21fZ2VtX3ByaW1lX2dldF9zZ190YWJsZShzdHJ1
+Y3QgZHJtX2dlbV9vYmplY3QgKm9iaik7Ci12b2lkICptc21fZ2VtX3ByaW1lX3ZtYXAoc3RydWN0
+IGRybV9nZW1fb2JqZWN0ICpvYmopOwotdm9pZCBtc21fZ2VtX3ByaW1lX3Z1bm1hcChzdHJ1Y3Qg
+ZHJtX2dlbV9vYmplY3QgKm9iaiwgdm9pZCAqdmFkZHIpOworaW50IG1zbV9nZW1fcHJpbWVfdm1h
+cChzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKm9iaiwgc3RydWN0IGRtYV9idWZfbWFwICptYXApOwor
+dm9pZCBtc21fZ2VtX3ByaW1lX3Z1bm1hcChzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKm9iaiwgc3Ry
+dWN0IGRtYV9idWZfbWFwICptYXApOwogaW50IG1zbV9nZW1fcHJpbWVfbW1hcChzdHJ1Y3QgZHJt
+X2dlbV9vYmplY3QgKm9iaiwgc3RydWN0IHZtX2FyZWFfc3RydWN0ICp2bWEpOwogc3RydWN0IGRy
+bV9nZW1fb2JqZWN0ICptc21fZ2VtX3ByaW1lX2ltcG9ydF9zZ190YWJsZShzdHJ1Y3QgZHJtX2Rl
+dmljZSAqZGV2LAogCQlzdHJ1Y3QgZG1hX2J1Zl9hdHRhY2htZW50ICphdHRhY2gsIHN0cnVjdCBz
+Z190YWJsZSAqc2cpOwpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL21zbS9tc21fZ2VtX3By
+aW1lLmMgYi9kcml2ZXJzL2dwdS9kcm0vbXNtL21zbV9nZW1fcHJpbWUuYwppbmRleCA1MTVlZjgw
+ODE2YTAuLjk4ODAzNDhhNGRjNyAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL21zbS9tc21f
+Z2VtX3ByaW1lLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL21zbS9tc21fZ2VtX3ByaW1lLmMKQEAg
+LTIyLDEyICsyMiwxOSBAQCBzdHJ1Y3Qgc2dfdGFibGUgKm1zbV9nZW1fcHJpbWVfZ2V0X3NnX3Rh
+YmxlKHN0cnVjdCBkcm1fZ2VtX29iamVjdCAqb2JqKQogCXJldHVybiBkcm1fcHJpbWVfcGFnZXNf
+dG9fc2cob2JqLT5kZXYsIG1zbV9vYmotPnBhZ2VzLCBucGFnZXMpOwogfQogCi12b2lkICptc21f
+Z2VtX3ByaW1lX3ZtYXAoc3RydWN0IGRybV9nZW1fb2JqZWN0ICpvYmopCitpbnQgbXNtX2dlbV9w
+cmltZV92bWFwKHN0cnVjdCBkcm1fZ2VtX29iamVjdCAqb2JqLCBzdHJ1Y3QgZG1hX2J1Zl9tYXAg
+Km1hcCkKIHsKLQlyZXR1cm4gbXNtX2dlbV9nZXRfdmFkZHIob2JqKTsKKwl2b2lkICp2YWRkcjsK
+KworCXZhZGRyID0gbXNtX2dlbV9nZXRfdmFkZHIob2JqKTsKKwlpZiAoSVNfRVJSKHZhZGRyKSkK
+KwkJcmV0dXJuIFBUUl9FUlIodmFkZHIpOworCWRtYV9idWZfbWFwX3NldF92YWRkcihtYXAsIHZh
+ZGRyKTsKKworCXJldHVybiAwOwogfQogCi12b2lkIG1zbV9nZW1fcHJpbWVfdnVubWFwKHN0cnVj
+dCBkcm1fZ2VtX29iamVjdCAqb2JqLCB2b2lkICp2YWRkcikKK3ZvaWQgbXNtX2dlbV9wcmltZV92
+dW5tYXAoc3RydWN0IGRybV9nZW1fb2JqZWN0ICpvYmosIHN0cnVjdCBkbWFfYnVmX21hcCAqbWFw
+KQogewogCW1zbV9nZW1fcHV0X3ZhZGRyKG9iaik7CiB9Ci0tIAoyLjI5LjIKCl9fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmV0bmF2aXYgbWFpbGluZyBsaXN0
+CmV0bmF2aXZAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnL21haWxtYW4vbGlzdGluZm8vZXRuYXZpdgo=
