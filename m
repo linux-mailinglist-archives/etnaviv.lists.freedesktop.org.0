@@ -1,40 +1,40 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1E342CA58E
-	for <lists+etnaviv@lfdr.de>; Tue,  1 Dec 2020 15:28:09 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC0662CAD80
+	for <lists+etnaviv@lfdr.de>; Tue,  1 Dec 2020 21:38:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E5716E570;
-	Tue,  1 Dec 2020 14:28:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4161C6E8D3;
+	Tue,  1 Dec 2020 20:38:43 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 03F0E6E570
- for <etnaviv@lists.freedesktop.org>; Tue,  1 Dec 2020 14:28:07 +0000 (UTC)
-Received: from gallifrey.ext.pengutronix.de
- ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1kk6dS-00054X-KY; Tue, 01 Dec 2020 15:28:06 +0100
-Message-ID: <c0206dbc5def338520dc9321c8b44c6b70c66c57.camel@pengutronix.de>
-Subject: Re: GC300 2D unit won't work with GC2000 3D disabled on MMP3
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Lubomir Rintel <lkundrak@v3.sk>
-Date: Tue, 01 Dec 2020 15:28:05 +0100
-In-Reply-To: <20201201134942.GA1727513@demiurge.local>
-References: <20201130170745.GA1666321@demiurge.local>
- <aae1aea6ce45048253cb329b73bd16793e90404b.camel@pengutronix.de>
- <20201201134942.GA1727513@demiurge.local>
-User-Agent: Evolution 3.38.1 (3.38.1-1.fc33) 
+Received: from shell.v3.sk (mail.v3.sk [167.172.186.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 48DBA6E8D3;
+ Tue,  1 Dec 2020 20:38:41 +0000 (UTC)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+ by zimbra.v3.sk (Postfix) with ESMTP id 8434EE0717;
+ Tue,  1 Dec 2020 20:35:43 +0000 (UTC)
+Received: from shell.v3.sk ([127.0.0.1])
+ by localhost (zimbra.v3.sk [127.0.0.1]) (amavisd-new, port 10032)
+ with ESMTP id 591dSLY_ZOcM; Tue,  1 Dec 2020 20:35:43 +0000 (UTC)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+ by zimbra.v3.sk (Postfix) with ESMTP id CA88BE0713;
+ Tue,  1 Dec 2020 20:35:42 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at zimbra.v3.sk
+Received: from shell.v3.sk ([127.0.0.1])
+ by localhost (zimbra.v3.sk [127.0.0.1]) (amavisd-new, port 10026)
+ with ESMTP id 7V2lgoylkZj4; Tue,  1 Dec 2020 20:35:42 +0000 (UTC)
+Received: from localhost (unknown [109.183.109.54])
+ by zimbra.v3.sk (Postfix) with ESMTPSA id 49917DF932;
+ Tue,  1 Dec 2020 20:35:42 +0000 (UTC)
+From: Lubomir Rintel <lkundrak@v3.sk>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH libdrm 0/3] tests/etnaviv_2d_test: some test improvements
+Date: Tue,  1 Dec 2020 21:38:26 +0100
+Message-Id: <20201201203829.1735559-1-lkundrak@v3.sk>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,79 +46,23 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: Christian Gmeiner <christian.gmeiner@gmail.com>,
- Ivan Najdanovic <najdanovicivan@gmail.com>, etnaviv@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: etnaviv@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-QW0gRGllbnN0YWcsIGRlbiAwMS4xMi4yMDIwLCAxNDo0OSArMDEwMCBzY2hyaWViIEx1Ym9taXIg
-UmludGVsOgo+IE9uIFR1ZSwgRGVjIDAxLCAyMDIwIGF0IDExOjMzOjM2QU0gKzAxMDAsIEx1Y2Fz
-IFN0YWNoIHdyb3RlOgo+ID4gSGkgTHVib21pciwKPiA+IAo+ID4gQW0gTW9udGFnLCBkZW4gMzAu
-MTEuMjAyMCwgMTg6MDcgKzAxMDAgc2NocmllYiBMdWJvbWlyIFJpbnRlbDoKPiA+ID4gSGVsbG8s
-Cj4gPiA+IAo+ID4gPiAoYWRkaW5nIEl2YW4gdG8gQ2MsIHNpbmNlIGhlIGJyb3VnaHQgdGhlIGlz
-c3VlIHVwIHByaXZhdGVseS4gSXZhbiwKPiA+ID4gZXRuYXZpdkAgaXMgYSBtb2RlcmF0ZWQgbGlz
-dCwgcGxlYXNlIHN1YnNjcmliZSBpZiB5b3UncmUgZ29pbmcgdG8KPiA+ID4gcmVwbHkuKQo+ID4g
-PiAKPiA+ID4gSSdtIHdvbmRlcmluZyBpZiBhbnlvbmUgY2FuIGhlbHAgbWUgdW5kZXJzdGFuZCB3
-aGF0IGlzIGdvaW5nIHdpdGgKPiA+ID4gVml2YW50ZQo+ID4gPiBHQzMwMCBvbiBhIE1NUDMgYW5k
-IGZpbmQgYSByZWFzb25hYmxlIGZpeC4gTU1QMyBoYXMgdGhlc2UgdHdvIEdQVQo+ID4gPiBjb3Jl
-czoKPiA+ID4gCj4gPiA+IMKgIFvCoMKgwqAgMi4xNDI1NDVdIGV0bmF2aXYtZ3B1IGQ0MjBkMDAw
-LmdwdTogbW9kZWw6IEdDMjAwMCwgcmV2aXNpb246Cj4gPiA+IDUwMjYKPiA+ID4gwqAgW8KgwqDC
-oCAyLjE1NDQ2OF0gZXRuYXZpdi1ncHUgZDQyMGYwMDAuZ3B1OiBtb2RlbDogR0MzMDAsIHJldmlz
-aW9uOiA0NjM0Cj4gPiA+IMKgIFvCoMKgwqAgMi4xNjY4MDhdIFtkcm1dIEluaXRpYWxpemVkIGV0
-bmF2aXYgMS4zLjAgMjAxNTEyMTQgZm9yIGV0bmF2aXYKPiA+ID4gb24gbWlub3IgMAo+ID4gPiAK
-PiA+ID4gQ3VycmVudGx5LCBjbGllbnRzIHRoYXQgdHJ5IHRvIHVzZSB0aGUgR0MzMDAgMkQgdW5p
-dCAtLSBsaWJkcm0ncwo+ID4gPiBldG5hdml2XzJkCj4gPiA+IHRlc3Qgb3IgdGhlIHhvcmcteDEx
-LWRydi1hcm1hZGEgZGR4IG9uIGEgTU1QMyBkb24ndCB3b3JrIGFuZCBldG5hdml2Cj4gPiA+IGNv
-bXBsYWluczoKPiA+ID4gCj4gPiA+IMKgIFvCoCAyOTUuMDc3NzcwXSBldG5hdml2LWdwdSBkNDIw
-ZDAwMC5ncHU6IHJlY292ZXIgaHVuZyBHUFUhCj4gPiA+IAo+ID4gPiBUaGF0IGlzLCB1bnRpbCB0
-aGUgY2xvY2sgdGhhdCdzIHN1cHBvc2VkbHkgZm9yIHRoZSBHQzIwMDAgM0QgdW5pdCBhcmUKPiA+
-ID4gdHVybmVkIG9uLiBUaGVuIHRoaW5ncyB3b3JrIGZpbmUuCj4gPiAKPiA+IEkgYmVsaWV2ZSB0
-aGUgYWJvdmUgc3BsYXQgaXMgd2l0aCB0aGUgZXRuYXZpdl8yZF90ZXN0PyBUaGlzIHRlc3QgaXMK
-PiA+IGJyb2tlbiBpbiB0aGF0IGl0IHdpbGwganVzdCBwaWNrIHRoZSBmaXJzdCBHUFUgY29yZSAo
-aW4geW91ciBjYXNlIHRoZQo+ID4gR0MyMDAwKSBpbnN0ZWFkIG9mIGxvb2tpbmcgZm9yIGEgY29y
-ZSB3aXRoIDJEIGNhcGFiaWxpdGllcy4gU3VibWl0dGluZwo+ID4gMkQgam9icyBpbnRvIHRoZSAz
-RCBHUFUgd2lsbCBkbyBub3RoaW5nIG9yIGhhbmcgdGhlIEdQVSwgZGVwZW5kaW5nIG9uCj4gPiB0
-aGUgc3BlY2lmaWMgR1BVIGdlbmVyYXRpb24uCj4gCj4gWWVzLAo+IAo+IFdpdGggY29yZT0wIHRo
-ZSBvdXRwdXQgaXM6Cj4gCj4gwqDCoGV0bmF2aXYtZ3B1IGQ0MjBkMDAwLmdwdTogcmVjb3ZlciBo
-dW5nIEdQVSEKPiAKPiBJZiBJIGNoYW5nZSB0aGUgdGVzdCB0byBzZXQgY29yZT0xLCBJIGdldCB0
-d28gZXh0cmEgbGluZXM6Cj4gCj4gwqDCoGV0bmF2aXYtZ3B1IGQ0MjBmMDAwLmdwdTogcmVjb3Zl
-ciBodW5nIEdQVSEKPiDCoMKgZXRuYXZpdi1ncHUgZDQyMGYwMDAuZ3B1OiBHUFUgZmFpbGVkIHRv
-IHJlc2V0OiBGRSBub3QgaWRsZSwgM0Qgbm90IGlkbGUsIDJEIG5vdCBpZGxlCj4gwqDCoGV0bmF2
-aXYtZ3B1IGQ0MjBmMDAwLmdwdTogR1BVIG5vdCB5ZXQgaWRsZSwgbWFzazogMHgwMDAwMDAwMAoK
-T2theSwgdGhpcyBsb29rcyBhdCBsZWFzdCBzb21ld2hhdCBsaWtlIHdoYXQgSSB3b3VsZCBleHBl
-Y3Qgd2l0aCBhCm1pc3NpbmcgY2xvY2suCgpBcyBHUFUgY29yZXMgYXJlIG5vcm1hbGx5IGZ1bGx5
-IGluZGVwZW5kZW50LCBJIGd1ZXNzIHlvdXIgdW5kZXJzdGFuZGluZwpvZiB0aGUgY2xvY2sgdHJl
-ZSBpbiB0aGUgU29DIGlzbid0IGZ1bGx5IGNvcnJlY3QuIElzIGl0IHBvc3NpYmxlIHRoYXQKR0Mz
-RF9BWElDTEtfRU4gcmVhbGx5IGlzIGEgY2xvY2sgc291cmNlIGZvciBib3RoIHRoZSAyRCBhbmQg
-M0QgR1BVIGNvcmUKQVhJIGludGVyZmFjZXM/Cgo+ID4gSSBkb24ndCBrbm93IGV4YWN0bHkgd2hh
-dCB0aGUgYXJtYWRhIGRyaXZlciBpcyBkb2luZywgSUlSQyBpdCBwcm9wZXJseQo+ID4gbG9va3Mg
-Zm9yIGEgMkQgR1BVIGNvcmUuCj4gCj4gSXQgc2VlbXMgdG8uIEl0IGxvZ3MgdGhpcyBsaW5lOgo+
-IAo+IMKgwqBbICAxMjc1LjEzMF0gKC0tKSBhcm1hZGEoMCk6IFZpdmFudGUgR0MzMDAgR1BVIHJl
-dmlzaW9uIDQ2MzQgKGV0bmF2aXYpIDJkIFBFMi4wCj4gCj4gVGhlIGtlcm5lbCBvdXRwdXQgaXM6
-Cj4gCj4gwqDCoGV0bmF2aXYtZ3B1IGQ0MjBmMDAwLmdwdTogcmVjb3ZlciBodW5nIEdQVSEKPiDC
-oMKgZXRuYXZpdi1ncHUgZDQyMGYwMDAuZ3B1OiBHUFUgZmFpbGVkIHRvIHJlc2V0OiBGRSBub3Qg
-aWRsZSwgM0Qgbm90IGlkbGUsIDJEIG5vdCBpZGxlCj4gwqDCoGV0bmF2aXYtZ3B1IGQ0MjBmMDAw
-LmdwdTogcmVjb3ZlciBodW5nIEdQVSEKPiDCoMKgZXRuYXZpdi1ncHUgZDQyMGYwMDAuZ3B1OiBH
-UFUgZmFpbGVkIHRvIHJlc2V0OiBGRSBub3QgaWRsZSwgM0Qgbm90IGlkbGUsIDJEIG5vdCBpZGxl
-Cj4gwqDCoGV0bmF2aXYtZ3B1IGQ0MjBmMDAwLmdwdTogcmVjb3ZlciBodW5nIEdQVSEKPiAKPiA+
-IElzIHRoZSBzeW1wdG9tIHRoZSBzYW1lIGlmIHRoZSAyZF90ZXN0IGlzIGZpeGVkIHRvIHN1Ym1p
-dCBpbnRvIHRoZQo+ID4gcmlnaHQgR1BVIGNvcmU/Cj4gCj4gU2VlIGFib3ZlLgo+IAo+IE5vdGUg
-dGhhdCBpZiBJIGZvcmNlIHRoZSBjbG9jayBvbiB0aGUgdGVzdCBzdWNjZWVkcyAoYW5kIHRoZSBy
-ZXN1bHQgaXMKPiBjb3JyZWN0KSB3aXRoIGVpdGhlciBjb3JlPTAgb3IgY29yZT0xLgoKU28geW91
-IGdldCB0aGUgZ3JlZW4gcmVjdGFuZ2xlcyBpbiB0aGUgcGljdHVyZSBldmVuIHdpdGggY29yZT0w
-PyBUaGF0CndvdWxkIGJlIHZlcnkgdW5leHBlY3RlZC4KCj4gIEkgZG9uJ3Qga25vdyBpZiBib3Ro
-IGNvcmVzIGFyZSAyRAo+IGNhcGFibGU7IEkgaGF2ZSBubyBpZGVhIGhvdyB0byB0ZWxsLiBIZXJl
-IHRoZSBmZWF0dXJlIHdvcmRzIGFyZToKPiAKPiDCoMKgY29yZT0wIEVUTkFfR1BVX0ZFQVRVUkVT
-XzAgPSAweGUwMjg2Y2FkCj4gwqDCoGNvcmU9MCBFVE5BX0dQVV9GRUFUVVJFU18xID0gMHhjYjc5
-OWVmZgo+IMKgwqBjb3JlPTAgRVROQV9HUFVfRkVBVFVSRVNfMiA9IDB4MmUxM2IyZDkKPiDCoMKg
-Y29yZT0wIEVUTkFfR1BVX0ZFQVRVUkVTXzMgPSAweDAyMDAwMDAwCj4gCj4gwqDCoGNvcmU9MSBF
-VE5BX0dQVV9GRUFUVVJFU18wID0gMHhlMDJjN2VjYQo+IMKgwqBjb3JlPTEgRVROQV9HUFVfRkVB
-VFVSRVNfMSA9IDB4ZTEzOTlmZmYKPiDCoMKgY29yZT0xIEVUTkFfR1BVX0ZFQVRVUkVTXzIgPSAw
-eDJlMTNiMjE5Cj4gwqDCoGNvcmU9MSBFVE5BX0dQVV9GRUFUVVJFU18zID0gMHgwMDAxMDAwMAoK
-MkQgcGlwZSBpcyBiaXQgOSBpbiB0aGUgRkVBVFVSRV8wIHJlZ2lzdGVyLCBzbyBvbmx5IHRoZSAy
-bmQgY29yZSBjbGFpbXMKdG8gc3VwcG9ydCAyRCBjb21tYW5kcywgYXMgZXhwZWN0ZWQuCgpSZWdh
-cmRzLApMdWNhcwoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X18KZXRuYXZpdiBtYWlsaW5nIGxpc3QKZXRuYXZpdkBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0
-cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9ldG5hdml2Cg==
+Hi,
+
+patches chained to this message contains changes I've found useful when
+testing whether 2d rendering works well with the etnaviv driver on my
+platform. Perhaps they're useful enough for merging upstream.
+
+Thanks
+Lubo
+
+
+_______________________________________________
+etnaviv mailing list
+etnaviv@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/etnaviv
