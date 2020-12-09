@@ -2,44 +2,53 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED2292CADF7
-	for <lists+etnaviv@lfdr.de>; Tue,  1 Dec 2020 22:03:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E31AA2D44D9
+	for <lists+etnaviv@lfdr.de>; Wed,  9 Dec 2020 15:55:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AEA616E918;
-	Tue,  1 Dec 2020 21:03:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A63F089A5D;
+	Wed,  9 Dec 2020 14:54:59 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from shell.v3.sk (mail.v3.sk [167.172.186.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 96E046E918
- for <etnaviv@lists.freedesktop.org>; Tue,  1 Dec 2020 21:03:15 +0000 (UTC)
-Received: from localhost (localhost.localdomain [127.0.0.1])
- by zimbra.v3.sk (Postfix) with ESMTP id 95BC5DF932;
- Tue,  1 Dec 2020 21:00:18 +0000 (UTC)
-Received: from shell.v3.sk ([127.0.0.1])
- by localhost (zimbra.v3.sk [127.0.0.1]) (amavisd-new, port 10032)
- with ESMTP id ry_O_j2TliB2; Tue,  1 Dec 2020 21:00:17 +0000 (UTC)
-Received: from localhost (localhost.localdomain [127.0.0.1])
- by zimbra.v3.sk (Postfix) with ESMTP id D8E99E06C5;
- Tue,  1 Dec 2020 21:00:17 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at zimbra.v3.sk
-Received: from shell.v3.sk ([127.0.0.1])
- by localhost (zimbra.v3.sk [127.0.0.1]) (amavisd-new, port 10026)
- with ESMTP id KKnFCyLVMw2A; Tue,  1 Dec 2020 21:00:17 +0000 (UTC)
-Received: from localhost (unknown [109.183.109.54])
- by zimbra.v3.sk (Postfix) with ESMTPSA id 890ACDF932;
- Tue,  1 Dec 2020 21:00:17 +0000 (UTC)
-Date: Tue, 1 Dec 2020 22:03:13 +0100
-From: Lubomir Rintel <lkundrak@v3.sk>
-To: Lucas Stach <l.stach@pengutronix.de>
-Subject: Re: GC300 2D unit won't work with GC2000 3D disabled on MMP3
-Message-ID: <20201201210313.GA1734622@demiurge.local>
-References: <20201130170745.GA1666321@demiurge.local>
- <aae1aea6ce45048253cb329b73bd16793e90404b.camel@pengutronix.de>
- <20201201134942.GA1727513@demiurge.local>
- <c0206dbc5def338520dc9321c8b44c6b70c66c57.camel@pengutronix.de>
+Received: from mail-vs1-xe41.google.com (mail-vs1-xe41.google.com
+ [IPv6:2607:f8b0:4864:20::e41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3FD6289A4E;
+ Wed,  9 Dec 2020 14:54:58 +0000 (UTC)
+Received: by mail-vs1-xe41.google.com with SMTP id v8so1026498vso.2;
+ Wed, 09 Dec 2020 06:54:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=hxtflmsMeTNgaATfE0kw89kTercNxrr7qBaXpt6ZltA=;
+ b=AqiJTEkG3PwekmbfmfrxDhIz/U1lyjvUAldSt7MMCbD7IkcFssABTvGyvLNogK2EpS
+ XrhO/OMvjUg/kd1JwzolU8wI4U3SS3nyQvWN1vTKcTYArDcNYthTco5kXMCU2oT7gUli
+ bZipnN+KZAIQ8sUGNF2z46vXYQ5H6RVWewibO/WGSR6sR0gsmxGh2HNcgaA5XJXahFK/
+ KrlnSDSDl5NeHJbmiizvdYAncLYPiqbmwT+RS8Db4o9MqmuI2DOZQaDJf0D0qNl07jjn
+ 3i+IwjbgB+HS/mN7kp9s9Yj48gVfhGx66g3TNs4HbJ2vZJRnFrFJtcWWbujRb/L3hQDv
+ NpXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=hxtflmsMeTNgaATfE0kw89kTercNxrr7qBaXpt6ZltA=;
+ b=JQPWArdEhglEtFdm0ryHgwFhtVNM38sfahJijrabFRGULvE4+g3/JcjwfmurK704NT
+ bOgHLja0xCGXqCLp2rEPt2pZxcjAwsxfkwcKjEFKMpYLnKmD67lRI57zXijXHCBnDDid
+ 9K7Is9Qn3GHJo1gZMwtgcMCsnieXNBAt+ZGQYhJYPCZWg/oLz5YoDO39sk/iP31YNzbC
+ SWRYJLX2iSiET/odrAu1oAaGMme61XKfBDLHawmD6uqc5V81GBDbo73N+PVcnyt+fEEm
+ eOINl2iBBSffz1fceur0DTr9zy68vWN92w5WrU9P8FtA7H/+bpWJEeKzYeAfqLRUg6q3
+ d4bg==
+X-Gm-Message-State: AOAM533CCm30NoD3GyyBGVjQcZRYK6/QTOA08U35pk9y0bG7KOZvyJjC
+ H0zfjI661DEqtWm0MuLNXQ3djO9E5cS42NnRKl+sht/fwyWdWg==
+X-Google-Smtp-Source: ABdhPJxBHtmG9PhLeKx3r56IkOeKBX3EKZxeg9jQEIlymw1Z8FR2N3LAYLQU4dsHyyiGCjh5Dj9ud5KzCWuLuXX/sFc=
+X-Received: by 2002:a67:ea54:: with SMTP id r20mr2144561vso.9.1607525697209;
+ Wed, 09 Dec 2020 06:54:57 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <c0206dbc5def338520dc9321c8b44c6b70c66c57.camel@pengutronix.de>
+References: <20201201203829.1735559-1-lkundrak@v3.sk>
+ <20201201203829.1735559-2-lkundrak@v3.sk>
+In-Reply-To: <20201201203829.1735559-2-lkundrak@v3.sk>
+From: Christian Gmeiner <christian.gmeiner@gmail.com>
+Date: Wed, 9 Dec 2020 15:54:46 +0100
+Message-ID: <CAH9NwWePufaKaAV=5wq80GWgEq8=4a4YoQFTFCYhK7KnDF=DZg@mail.gmail.com>
+Subject: Re: [PATCH libdrm 1/3] tests/etnaviv_2d_test: explain the errors
+To: Lubomir Rintel <lkundrak@v3.sk>
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,175 +60,102 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: Christian Gmeiner <christian.gmeiner@gmail.com>,
- Ivan Najdanovic <najdanovicivan@gmail.com>, etnaviv@lists.freedesktop.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: The etnaviv authors <etnaviv@lists.freedesktop.org>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-On Tue, Dec 01, 2020 at 03:28:05PM +0100, Lucas Stach wrote:
-> Am Dienstag, den 01.12.2020, 14:49 +0100 schrieb Lubomir Rintel:
-> > On Tue, Dec 01, 2020 at 11:33:36AM +0100, Lucas Stach wrote:
-> > > Hi Lubomir,
-> > > =
+Am Di., 1. Dez. 2020 um 21:38 Uhr schrieb Lubomir Rintel <lkundrak@v3.sk>:
+>
+> Just so that it's obvious what failed and why.
+>
+> Signed-off-by: Lubomir Rintel <lkundrak@v3.sk>
 
-> > > Am Montag, den 30.11.2020, 18:07 +0100 schrieb Lubomir Rintel:
-> > > > Hello,
-> > > > =
+Reviewed-by: Christian Gmeiner <christian.gmeiner@gmail.com>
 
-> > > > (adding Ivan to Cc, since he brought the issue up privately. Ivan,
-> > > > etnaviv@ is a moderated list, please subscribe if you're going to
-> > > > reply.)
-> > > > =
+> ---
+>  tests/etnaviv/etnaviv_2d_test.c | 16 ++++++++++++++--
+>  1 file changed, 14 insertions(+), 2 deletions(-)
+>
+> diff --git a/tests/etnaviv/etnaviv_2d_test.c b/tests/etnaviv/etnaviv_2d_test.c
+> index 8dd77b66..eb9dfa59 100644
+> --- a/tests/etnaviv/etnaviv_2d_test.c
+> +++ b/tests/etnaviv/etnaviv_2d_test.c
+> @@ -162,9 +162,16 @@ int main(int argc, char *argv[])
+>         drmVersionPtr version;
+>         int fd, ret = 0;
+>
+> -       fd = open(argv[1], O_RDWR);
+> -       if (fd < 0)
+> +       if (argc < 2) {
+> +               fprintf(stderr, "Usage: %s /dev/dri/<device>\n", argv[0]);
+>                 return 1;
+> +       }
+> +
+> +       fd = open(argv[1], O_RDWR);
+> +       if (fd < 0) {
+> +               perror(argv[1]);
+> +               return 1;
+> +       }
+>
+>         version = drmGetVersion(fd);
+>         if (version) {
+> @@ -178,6 +185,7 @@ int main(int argc, char *argv[])
+>
+>         dev = etna_device_new(fd);
+>         if (!dev) {
+> +               perror("etna_device_new");
+>                 ret = 2;
+>                 goto out;
+>         }
+> @@ -185,18 +193,21 @@ int main(int argc, char *argv[])
+>         /* TODO: we assume that core 0 is a 2D capable one */
+>         gpu = etna_gpu_new(dev, 0);
+>         if (!gpu) {
+> +               perror("etna_gpu_new");
+>                 ret = 3;
+>                 goto out_device;
+>         }
+>
+>         pipe = etna_pipe_new(gpu, ETNA_PIPE_2D);
+>         if (!pipe) {
+> +               perror("etna_pipe_new");
+>                 ret = 4;
+>                 goto out_gpu;
+>         }
+>
+>         bmp = etna_bo_new(dev, bmp_size, ETNA_BO_UNCACHED);
+>         if (!bmp) {
+> +               perror("etna_bo_new");
+>                 ret = 5;
+>                 goto out_pipe;
+>         }
+> @@ -204,6 +215,7 @@ int main(int argc, char *argv[])
+>
+>         stream = etna_cmd_stream_new(pipe, 0x300, NULL, NULL);
+>         if (!stream) {
+> +               perror("etna_cmd_stream_new");
+>                 ret = 6;
+>                 goto out_bo;
+>         }
+> --
+> 2.28.0
+>
+> _______________________________________________
+> etnaviv mailing list
+> etnaviv@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/etnaviv
 
-> > > > I'm wondering if anyone can help me understand what is going with
-> > > > Vivante
-> > > > GC300 on a MMP3 and find a reasonable fix. MMP3 has these two GPU
-> > > > cores:
-> > > > =
 
-> > > > =A0 [=A0=A0=A0 2.142545] etnaviv-gpu d420d000.gpu: model: GC2000, r=
-evision:
-> > > > 5026
-> > > > =A0 [=A0=A0=A0 2.154468] etnaviv-gpu d420f000.gpu: model: GC300, re=
-vision: 4634
-> > > > =A0 [=A0=A0=A0 2.166808] [drm] Initialized etnaviv 1.3.0 20151214 f=
-or etnaviv
-> > > > on minor 0
-> > > > =
 
-> > > > Currently, clients that try to use the GC300 2D unit -- libdrm's
-> > > > etnaviv_2d
-> > > > test or the xorg-x11-drv-armada ddx on a MMP3 don't work and etnaviv
-> > > > complains:
-> > > > =
+-- 
+greets
+--
+Christian Gmeiner, MSc
 
-> > > > =A0 [=A0 295.077770] etnaviv-gpu d420d000.gpu: recover hung GPU!
-> > > > =
-
-> > > > That is, until the clock that's supposedly for the GC2000 3D unit a=
-re
-> > > > turned on. Then things work fine.
-> > > =
-
-> > > I believe the above splat is with the etnaviv_2d_test? This test is
-> > > broken in that it will just pick the first GPU core (in your case the
-> > > GC2000) instead of looking for a core with 2D capabilities. Submitting
-> > > 2D jobs into the 3D GPU will do nothing or hang the GPU, depending on
-> > > the specific GPU generation.
-> > =
-
-> > Yes,
-> > =
-
-> > With core=3D0 the output is:
-> > =
-
-> > =A0=A0etnaviv-gpu d420d000.gpu: recover hung GPU!
-> > =
-
-> > If I change the test to set core=3D1, I get two extra lines:
-> > =
-
-> > =A0=A0etnaviv-gpu d420f000.gpu: recover hung GPU!
-> > =A0=A0etnaviv-gpu d420f000.gpu: GPU failed to reset: FE not idle, 3D no=
-t idle, 2D not idle
-> > =A0=A0etnaviv-gpu d420f000.gpu: GPU not yet idle, mask: 0x00000000
-> =
-
-> Okay, this looks at least somewhat like what I would expect with a
-> missing clock.
-> =
-
-> As GPU cores are normally fully independent, I guess your understanding
-> of the clock tree in the SoC isn't fully correct. Is it possible that
-> GC3D_AXICLK_EN really is a clock source for both the 2D and 3D GPU core
-> AXI interfaces?
-
-It's certainly possible.
-
-I don't know if there's a way to check that. There's zero documentation
--- all I got is the tree I got from Dell for the MMP3 kernels they ship
-[1] and the OLPC tree [2] which has the same defines plus the reset
-bits.
-
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/lkundrak/linux-mmp3-del=
-l-ariel.git/tree/arch/arm/mach-mmp/clock-mmp3.c#n1106
-[2] http://dev.laptop.org/git/olpc-kernel/tree/arch/arm/mach-mmp/clock-dt.c=
-?h=3Darm-3.5#n197
-
-The clocks in both kernels don't have any useful granularity; they just
-enable and disable everything in one go.
-
-> > > I don't know exactly what the armada driver is doing, IIRC it properly
-> > > looks for a 2D GPU core.
-> > =
-
-> > It seems to. It logs this line:
-> > =
-
-> > =A0=A0[  1275.130] (--) armada(0): Vivante GC300 GPU revision 4634 (etn=
-aviv) 2d PE2.0
-> > =
-
-> > The kernel output is:
-> > =
-
-> > =A0=A0etnaviv-gpu d420f000.gpu: recover hung GPU!
-> > =A0=A0etnaviv-gpu d420f000.gpu: GPU failed to reset: FE not idle, 3D no=
-t idle, 2D not idle
-> > =A0=A0etnaviv-gpu d420f000.gpu: recover hung GPU!
-> > =A0=A0etnaviv-gpu d420f000.gpu: GPU failed to reset: FE not idle, 3D no=
-t idle, 2D not idle
-> > =A0=A0etnaviv-gpu d420f000.gpu: recover hung GPU!
-> > =
-
-> > > Is the symptom the same if the 2d_test is fixed to submit into the
-> > > right GPU core?
-> > =
-
-> > See above.
-> > =
-
-> > Note that if I force the clock on the test succeeds (and the result is
-> > correct) with either core=3D0 or core=3D1.
-> =
-
-> So you get the green rectangles in the picture even with core=3D0? That
-> would be very unexpected.
-
-No. I'm stupid. Sorry. I got some "clever" patches on top of the test that
-messed up the results. I've hopefully fixed that now, sent them to the list.
-
-So yeah, with the clocks on, it behaves as you'd expect -- fail on 3D
-core and success on 2D one.
-
-> >  I don't know if both cores are 2D
-> > capable; I have no idea how to tell. Here the feature words are:
-> > =
-
-> > =A0=A0core=3D0 ETNA_GPU_FEATURES_0 =3D 0xe0286cad
-> > =A0=A0core=3D0 ETNA_GPU_FEATURES_1 =3D 0xcb799eff
-> > =A0=A0core=3D0 ETNA_GPU_FEATURES_2 =3D 0x2e13b2d9
-> > =A0=A0core=3D0 ETNA_GPU_FEATURES_3 =3D 0x02000000
-> > =
-
-> > =A0=A0core=3D1 ETNA_GPU_FEATURES_0 =3D 0xe02c7eca
-> > =A0=A0core=3D1 ETNA_GPU_FEATURES_1 =3D 0xe1399fff
-> > =A0=A0core=3D1 ETNA_GPU_FEATURES_2 =3D 0x2e13b219
-> > =A0=A0core=3D1 ETNA_GPU_FEATURES_3 =3D 0x00010000
-> =
-
-> 2D pipe is bit 9 in the FEATURE_0 register, so only the 2nd core claims
-> to support 2D commands, as expected.
-> =
-
-> Regards,
-> Lucas
-
-Thanks
-Lubo
+https://christian-gmeiner.info/privacypolicy
 _______________________________________________
 etnaviv mailing list
 etnaviv@lists.freedesktop.org
