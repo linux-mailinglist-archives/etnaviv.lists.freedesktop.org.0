@@ -1,55 +1,59 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F4142D44EB
-	for <lists+etnaviv@lfdr.de>; Wed,  9 Dec 2020 15:58:50 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9287A2DBF99
+	for <lists+etnaviv@lfdr.de>; Wed, 16 Dec 2020 12:42:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 31EEC6EA53;
-	Wed,  9 Dec 2020 14:58:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 33A856E183;
+	Wed, 16 Dec 2020 11:42:20 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-vs1-xe43.google.com (mail-vs1-xe43.google.com
- [IPv6:2607:f8b0:4864:20::e43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 42A7D6EA48;
- Wed,  9 Dec 2020 14:58:46 +0000 (UTC)
-Received: by mail-vs1-xe43.google.com with SMTP id x26so1041387vsq.1;
- Wed, 09 Dec 2020 06:58:46 -0800 (PST)
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
+ [IPv6:2a00:1450:4864:20::62b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C8E756E0DF;
+ Wed, 16 Dec 2020 11:42:18 +0000 (UTC)
+Received: by mail-ej1-x62b.google.com with SMTP id b9so7318171ejy.0;
+ Wed, 16 Dec 2020 03:42:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=8Np9UgJRycvQwpQGNE2yYpgVDH1Z3o7mevwsErmtfEs=;
- b=kyEtl18OU+cr117sFVa/EilbHkKsswbLn4VFsz3jvY/cCo48yHobIJ+fNunDlAT7xS
- LdWXV+hMurfVaS3f1sosYnY1V/UpCv6rh/hXvzm5ERKmtBjQf2k1qZG2DZMPtnexTxH9
- rG1mNQDdQNiw1514B0alZjzvAZy/hhJ6HXC6k3KH7sUNj4Lwnc0UJuoGdmdxQLQHUM2b
- akgEZtB52yjGJEBHut5HNMZiuIPQA7G6e73r/tIdGVeGhlZdQxW24Qi0wGQTiQSn2jj/
- bR4QyttrMtjaIdK1ECx8HtOkNK2R/sJ0isAmjEROZd7bhNn211R/sx4F8mpUGrUiJLFw
- JPAw==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=vpFk2jW++o/c5mecPREIAGYZAOvlUctt44C0JGqrkMg=;
+ b=X9qwLlVj2vFqyrsO4c4Ef4BcFxY4hXr24RrggjGJfJEACj7B7Q+qFOD5yW+t/h87uq
+ 6pqc6JCK6ZNBHxTyoRFlhWVdX7wzR0Q/HQzp9u/q486tt73fIFfFMhnUBFn6RI/DsMN2
+ MLmWemRc0DE3pO8qVk8LMSLHgx5mcRqtkLWaRBeceIhjtSCf0+ycCgjznPHm+5QQyUvN
+ c70Hz945tKQLQ8ql1JVrqyo6leSmw7pw+G06uJCsMVCoC19qtAr48TzN6f1KxJeYTTHG
+ Bv8dyjADbkEn5kYa3QfRvS4dbk5ytfsokbGYz8pej6ENBwEOEu8PL/d3GA2qBxqg/at+
+ wV1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=8Np9UgJRycvQwpQGNE2yYpgVDH1Z3o7mevwsErmtfEs=;
- b=kqPLQPZ0cHeqccaT3Gi9zyROzq3yKbJsFC3RuCPbAARygwi2r7DmFHReRTJF6BEBQA
- hx4XIlJ0YrZzh2rPw4DL0bSY/aAnhaU0cbearmYRzWoJma2NPBKRWdutDIap+3PcEzac
- AHVa0WPyFJ4XJvwuwHxYFe9xrY3iG9yKZj/a+zkWQLDgv2hWc1br8dsbRjJzJ9xXuLm2
- kZ5zbfLGfG9f4SxBFcxNSmYwVVGkTU8NTkHiyS66Fexv446xIGLJsX8r5sfFys8jN5T3
- EPpkyfXS3vpV0zQNCBlG1SK/7U3j0LOCsSUdq/5voaEePjfVTxN+BbxVwCtdfzVceIMD
- Texg==
-X-Gm-Message-State: AOAM533nWMg0xP/j5iZZ0NmDmaNWx+fdvKL0qv7snVpa4KU8u16Qrszh
- ufZJ/JD+0jBruXDZVDyaI+UKIZkVldOX7ih0MYU5aK6cqfdDUA==
-X-Google-Smtp-Source: ABdhPJy7pSqKkqt/hf1ZO6X2l4SErP7qwfrcBZHndcDaWTpJLRgglMaho7bnVStgayTtdb7l3teE4B4+hPYD5OJ11G8=
-X-Received: by 2002:a67:30c1:: with SMTP id w184mr2114251vsw.13.1607525925484; 
- Wed, 09 Dec 2020 06:58:45 -0800 (PST)
-MIME-Version: 1.0
-References: <20201201203829.1735559-1-lkundrak@v3.sk>
- <20201201203829.1735559-4-lkundrak@v3.sk>
-In-Reply-To: <20201201203829.1735559-4-lkundrak@v3.sk>
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=vpFk2jW++o/c5mecPREIAGYZAOvlUctt44C0JGqrkMg=;
+ b=OTWmedj4eEERNKAV2WHBz8K0Q4TP4WBHlcUJSJJJnBUW0gimHfsVrt1LrapTbl2wNX
+ +lur/fXNy+1IOHvBHaruAj7mbCpFkDK/1U2JWDyQCQjmyfjBJ8d/udTMJgw3ChMOeY2N
+ eq5Ulk13AVzSZIkEVhGo/K7BfxMQsQ5VW6cMzbVrELJMqXBYxO/j+Z5VQQLGPKmw5RVN
+ 8dvMNvg0sVJdCPdAGrCZkYOxvg9HbWVxLuhnSigwSMCw0j+S4rpwUAhC37IoYomcYstb
+ NiVgVgRLSZiDEg3wCu68uZsElhxR7Ar4TCzddUBBvcDHL0jpQ/WudlNXjT0oPKR+36zA
+ 4Byw==
+X-Gm-Message-State: AOAM533mr6JVy5QNDbEvbzrscL3wOSTVNv6qqBhkMPaYBL3SUaQKFXxD
+ NjN00SxMD5yBIpZiMwQ2GRg=
+X-Google-Smtp-Source: ABdhPJxamD2xp7vuL0j9UPK+vAORDA1al7JS8aMaG+jUl6Rk+0gBnwf83HKvOY+En7OXRX1uF5k6Mg==
+X-Received: by 2002:a17:906:1916:: with SMTP id
+ a22mr30353517eje.536.1608118937452; 
+ Wed, 16 Dec 2020 03:42:17 -0800 (PST)
+Received: from localhost.localdomain.info
+ (62-178-82-229.cable.dynamic.surfer.at. [62.178.82.229])
+ by smtp.gmail.com with ESMTPSA id y17sm1223472ejj.84.2020.12.16.03.42.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 16 Dec 2020 03:42:16 -0800 (PST)
 From: Christian Gmeiner <christian.gmeiner@gmail.com>
-Date: Wed, 9 Dec 2020 15:58:34 +0100
-Message-ID: <CAH9NwWfhzYjJYBctvPbDEr+hBBYMeUYQda9dvnyyXL_6g+vm0g@mail.gmail.com>
-Subject: Re: [PATCH libdrm 3/3] tests/etnaviv_2d_test: check whether the
- rendering is correct
-To: Lubomir Rintel <lkundrak@v3.sk>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/etnaviv: provide more ID values via GET_PARAM ioctl.
+Date: Wed, 16 Dec 2020 12:42:01 +0100
+Message-Id: <20201216114209.276630-1-christian.gmeiner@gmail.com>
+X-Mailer: git-send-email 2.29.2
+MIME-Version: 1.0
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,101 +65,64 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: The etnaviv authors <etnaviv@lists.freedesktop.org>,
- DRI mailing list <dri-devel@lists.freedesktop.org>
+Cc: David Airlie <airlied@linux.ie>, etnaviv@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Russell King <linux+etnaviv@armlinux.org.uk>,
+ Lucas Stach <l.stach@pengutronix.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Am Di., 1. Dez. 2020 um 21:38 Uhr schrieb Lubomir Rintel <lkundrak@v3.sk>:
->
-> Instead of always dumping the rendered picture, check whether it matches
-> the expectations. This makes more sense for automated testing.
->
-> Retain the ability to dump the picture instead of checking it when a
-> file name is given as an argument. This also removes use of a hardcoded
-> file name in a world writable directory, which is an unsafe thing to
-> do anyway.
->
-> Signed-off-by: Lubomir Rintel <lkundrak@v3.sk>
+Make it possible for the user space to access these ID values.
 
-Reviewed-by: Christian Gmeiner <christian.gmeiner@gmail.com>
+Signed-off-by: Christian Gmeiner <christian.gmeiner@gmail.com>
+---
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 12 ++++++++++++
+ include/uapi/drm/etnaviv_drm.h        |  3 +++
+ 2 files changed, 15 insertions(+)
 
-> ---
->  tests/etnaviv/etnaviv_2d_test.c | 29 +++++++++++++++++++++++++++--
->  1 file changed, 27 insertions(+), 2 deletions(-)
->
-> diff --git a/tests/etnaviv/etnaviv_2d_test.c b/tests/etnaviv/etnaviv_2d_test.c
-> index a75a4a89..9fcdae18 100644
-> --- a/tests/etnaviv/etnaviv_2d_test.c
-> +++ b/tests/etnaviv/etnaviv_2d_test.c
-> @@ -147,6 +147,27 @@ static void gen_cmd_stream(struct etna_cmd_stream *stream, struct etna_bo *bmp,
->         etna_set_state(stream, VIVS_GL_FLUSH_CACHE, VIVS_GL_FLUSH_CACHE_PE2D);
->  }
->
-> +int etna_check_image(uint32_t *p, int width, int height)
-> +{
-> +       int i;
-> +       uint32_t expected;
-> +
-> +       for (i = 0; i < width * height; i++) {
-> +               if (i%8 < 4 && i%(width*8) < width*4 && i%width < 8*16 && i < width*8*16)
-> +                       expected = 0xff40ff40;
-> +               else
-> +                       expected = 0x00000000;
-> +
-> +               if (p[i] != expected) {
-> +                       fprintf(stderr, "Offset %d: expected: 0x%08x, got: 0x%08x\n",
-> +                               i, expected, p[i]);
-> +                       return -1;
-> +               }
-> +       }
-> +
-> +       return 0;
-> +}
-> +
->  int main(int argc, char *argv[])
->  {
->         const int width = 256;
-> @@ -165,7 +186,7 @@ int main(int argc, char *argv[])
->         int core = 0;
->
->         if (argc < 2) {
-> -               fprintf(stderr, "Usage: %s /dev/dri/<device>\n", argv[0]);
-> +               fprintf(stderr, "Usage: %s /dev/dri/<device> [<etna.bmp>]\n", argv[0]);
->                 return 1;
->         }
->
-> @@ -242,7 +263,11 @@ int main(int argc, char *argv[])
->
->         etna_cmd_stream_finish(stream);
->
-> -       bmp_dump32(etna_bo_map(bmp), width, height, false, "/tmp/etna.bmp");
-> +       if (argc > 2)
-> +               bmp_dump32(etna_bo_map(bmp), width, height, false, argv[2]);
-> +
-> +       if (etna_check_image(etna_bo_map(bmp), width, height))
-> +               ret = 7;
->
->         etna_cmd_stream_del(stream);
->
-> --
-> 2.28.0
->
-> _______________________________________________
-> etnaviv mailing list
-> etnaviv@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/etnaviv
-
-
-
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+index c6404b8d067f..ec16991ba8b6 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+@@ -156,6 +156,18 @@ int etnaviv_gpu_get_param(struct etnaviv_gpu *gpu, u32 param, u64 *value)
+ 			*value = ~0ULL;
+ 		break;
+ 
++	case ETNAVIV_PARAM_GPU_PRODUCT_ID:
++		*value = gpu->identity.product_id;
++		break;
++
++	case ETNAVIV_PARAM_GPU_CUSTOMER_ID:
++		*value = gpu->identity.customer_id;
++		break;
++
++	case ETNAVIV_PARAM_GPU_ECO_ID:
++		*value = gpu->identity.eco_id;
++		break;
++
+ 	default:
+ 		DBG("%s: invalid param: %u", dev_name(gpu->dev), param);
+ 		return -EINVAL;
+diff --git a/include/uapi/drm/etnaviv_drm.h b/include/uapi/drm/etnaviv_drm.h
+index 09d0df8b71c5..af024d90453d 100644
+--- a/include/uapi/drm/etnaviv_drm.h
++++ b/include/uapi/drm/etnaviv_drm.h
+@@ -74,6 +74,9 @@ struct drm_etnaviv_timespec {
+ #define ETNAVIV_PARAM_GPU_NUM_CONSTANTS             0x19
+ #define ETNAVIV_PARAM_GPU_NUM_VARYINGS              0x1a
+ #define ETNAVIV_PARAM_SOFTPIN_START_ADDR            0x1b
++#define ETNAVIV_PARAM_GPU_PRODUCT_ID                0x1c
++#define ETNAVIV_PARAM_GPU_CUSTOMER_ID               0x1d
++#define ETNAVIV_PARAM_GPU_ECO_ID                    0x1e
+ 
+ #define ETNA_MAX_PIPES 4
+ 
 -- 
-greets
---
-Christian Gmeiner, MSc
+2.29.2
 
-https://christian-gmeiner.info/privacypolicy
 _______________________________________________
 etnaviv mailing list
 etnaviv@lists.freedesktop.org
