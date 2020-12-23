@@ -2,58 +2,48 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9287A2DBF99
-	for <lists+etnaviv@lfdr.de>; Wed, 16 Dec 2020 12:42:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9DC72E87A5
+	for <lists+etnaviv@lfdr.de>; Sat,  2 Jan 2021 15:50:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 33A856E183;
-	Wed, 16 Dec 2020 11:42:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 49CBA895C8;
+	Sat,  2 Jan 2021 14:50:04 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
- [IPv6:2a00:1450:4864:20::62b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C8E756E0DF;
- Wed, 16 Dec 2020 11:42:18 +0000 (UTC)
-Received: by mail-ej1-x62b.google.com with SMTP id b9so7318171ejy.0;
- Wed, 16 Dec 2020 03:42:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=vpFk2jW++o/c5mecPREIAGYZAOvlUctt44C0JGqrkMg=;
- b=X9qwLlVj2vFqyrsO4c4Ef4BcFxY4hXr24RrggjGJfJEACj7B7Q+qFOD5yW+t/h87uq
- 6pqc6JCK6ZNBHxTyoRFlhWVdX7wzR0Q/HQzp9u/q486tt73fIFfFMhnUBFn6RI/DsMN2
- MLmWemRc0DE3pO8qVk8LMSLHgx5mcRqtkLWaRBeceIhjtSCf0+ycCgjznPHm+5QQyUvN
- c70Hz945tKQLQ8ql1JVrqyo6leSmw7pw+G06uJCsMVCoC19qtAr48TzN6f1KxJeYTTHG
- Bv8dyjADbkEn5kYa3QfRvS4dbk5ytfsokbGYz8pej6ENBwEOEu8PL/d3GA2qBxqg/at+
- wV1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=vpFk2jW++o/c5mecPREIAGYZAOvlUctt44C0JGqrkMg=;
- b=OTWmedj4eEERNKAV2WHBz8K0Q4TP4WBHlcUJSJJJnBUW0gimHfsVrt1LrapTbl2wNX
- +lur/fXNy+1IOHvBHaruAj7mbCpFkDK/1U2JWDyQCQjmyfjBJ8d/udTMJgw3ChMOeY2N
- eq5Ulk13AVzSZIkEVhGo/K7BfxMQsQ5VW6cMzbVrELJMqXBYxO/j+Z5VQQLGPKmw5RVN
- 8dvMNvg0sVJdCPdAGrCZkYOxvg9HbWVxLuhnSigwSMCw0j+S4rpwUAhC37IoYomcYstb
- NiVgVgRLSZiDEg3wCu68uZsElhxR7Ar4TCzddUBBvcDHL0jpQ/WudlNXjT0oPKR+36zA
- 4Byw==
-X-Gm-Message-State: AOAM533mr6JVy5QNDbEvbzrscL3wOSTVNv6qqBhkMPaYBL3SUaQKFXxD
- NjN00SxMD5yBIpZiMwQ2GRg=
-X-Google-Smtp-Source: ABdhPJxamD2xp7vuL0j9UPK+vAORDA1al7JS8aMaG+jUl6Rk+0gBnwf83HKvOY+En7OXRX1uF5k6Mg==
-X-Received: by 2002:a17:906:1916:: with SMTP id
- a22mr30353517eje.536.1608118937452; 
- Wed, 16 Dec 2020 03:42:17 -0800 (PST)
-Received: from localhost.localdomain.info
- (62-178-82-229.cable.dynamic.surfer.at. [62.178.82.229])
- by smtp.gmail.com with ESMTPSA id y17sm1223472ejj.84.2020.12.16.03.42.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Dec 2020 03:42:16 -0800 (PST)
-From: Christian Gmeiner <christian.gmeiner@gmail.com>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/etnaviv: provide more ID values via GET_PARAM ioctl.
-Date: Wed, 16 Dec 2020 12:42:01 +0100
-Message-Id: <20201216114209.276630-1-christian.gmeiner@gmail.com>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A72696E876
+ for <etnaviv@lists.freedesktop.org>; Wed, 23 Dec 2020 19:51:17 +0000 (UTC)
+Received: from gallifrey.ext.pengutronix.de
+ ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=bjornoya.blackshift.org)
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <mkl@pengutronix.de>) id 1ksAAG-0001MY-7X
+ for etnaviv@lists.freedesktop.org; Wed, 23 Dec 2020 20:51:16 +0100
+Received: from dspam.blackshift.org (localhost [127.0.0.1])
+ by bjornoya.blackshift.org (Postfix) with SMTP id 2047C5B2ACC
+ for <etnaviv@lists.freedesktop.org>; Wed, 23 Dec 2020 19:51:15 +0000 (UTC)
+Received: from hardanger.blackshift.org (unknown [172.20.34.65])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (Client did not present a certificate)
+ by bjornoya.blackshift.org (Postfix) with ESMTPS id 557085B2AC8;
+ Wed, 23 Dec 2020 19:51:14 +0000 (UTC)
+Received: from blackshift.org (localhost [::1])
+ by hardanger.blackshift.org (OpenSMTPD) with ESMTP id 9d05f08d;
+ Wed, 23 Dec 2020 19:51:13 +0000 (UTC)
+From: Marc Kleine-Budde <mkl@pengutronix.de>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/etnaviv: dump: fix sparse warnings
+Date: Wed, 23 Dec 2020 20:51:10 +0100
+Message-Id: <20201223195110.2264558-1-mkl@pengutronix.de>
 X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: mkl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
+X-Mailman-Approved-At: Sat, 02 Jan 2021 14:50:03 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,63 +55,69 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, etnaviv@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Russell King <linux+etnaviv@armlinux.org.uk>,
- Lucas Stach <l.stach@pengutronix.de>
+Cc: Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Lucas Stach <l.stach@pengutronix.de>, Marc Kleine-Budde <mkl@pengutronix.de>,
+ etnaviv@lists.freedesktop.org, Russell King <linux+etnaviv@armlinux.org.uk>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Make it possible for the user space to access these ID values.
+This patch fixes the following sparse warnings, by adding the missing endianess
+conversion functions.
 
-Signed-off-by: Christian Gmeiner <christian.gmeiner@gmail.com>
+| etnaviv/etnaviv_dump.c:78:26: warning: restricted __le32 degrades to integer
+| etnaviv/etnaviv_dump.c:88:26: warning: incorrect type in assignment (different base types)
+| etnaviv/etnaviv_dump.c:88:26:    expected restricted __le32 [usertype] reg
+| etnaviv/etnaviv_dump.c:88:26:    got unsigned short const
+| etnaviv/etnaviv_dump.c:89:28: warning: incorrect type in assignment (different base types)
+| etnaviv/etnaviv_dump.c:89:28:    expected restricted __le32 [usertype] value
+| etnaviv/etnaviv_dump.c:89:28:    got unsigned int
+| etnaviv/etnaviv_dump.c:210:43: warning: incorrect type in assignment (different base types)
+| etnaviv/etnaviv_dump.c:210:43:    expected restricted __le32
+| etnaviv/etnaviv_dump.c:210:43:    got long
+
+Signed-off-by: Marc Kleine-Budde <mkl@pengutronix.de>
 ---
- drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 12 ++++++++++++
- include/uapi/drm/etnaviv_drm.h        |  3 +++
- 2 files changed, 15 insertions(+)
+ drivers/gpu/drm/etnaviv/etnaviv_dump.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-index c6404b8d067f..ec16991ba8b6 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-@@ -156,6 +156,18 @@ int etnaviv_gpu_get_param(struct etnaviv_gpu *gpu, u32 param, u64 *value)
- 			*value = ~0ULL;
- 		break;
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_dump.c b/drivers/gpu/drm/etnaviv/etnaviv_dump.c
+index 706af0304ca4..f418e0b75772 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_dump.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_dump.c
+@@ -75,7 +75,7 @@ static void etnaviv_core_dump_header(struct core_dump_iterator *iter,
+ 	hdr->file_size = cpu_to_le32(data_end - iter->data);
  
-+	case ETNAVIV_PARAM_GPU_PRODUCT_ID:
-+		*value = gpu->identity.product_id;
-+		break;
-+
-+	case ETNAVIV_PARAM_GPU_CUSTOMER_ID:
-+		*value = gpu->identity.customer_id;
-+		break;
-+
-+	case ETNAVIV_PARAM_GPU_ECO_ID:
-+		*value = gpu->identity.eco_id;
-+		break;
-+
- 	default:
- 		DBG("%s: invalid param: %u", dev_name(gpu->dev), param);
- 		return -EINVAL;
-diff --git a/include/uapi/drm/etnaviv_drm.h b/include/uapi/drm/etnaviv_drm.h
-index 09d0df8b71c5..af024d90453d 100644
---- a/include/uapi/drm/etnaviv_drm.h
-+++ b/include/uapi/drm/etnaviv_drm.h
-@@ -74,6 +74,9 @@ struct drm_etnaviv_timespec {
- #define ETNAVIV_PARAM_GPU_NUM_CONSTANTS             0x19
- #define ETNAVIV_PARAM_GPU_NUM_VARYINGS              0x1a
- #define ETNAVIV_PARAM_SOFTPIN_START_ADDR            0x1b
-+#define ETNAVIV_PARAM_GPU_PRODUCT_ID                0x1c
-+#define ETNAVIV_PARAM_GPU_CUSTOMER_ID               0x1d
-+#define ETNAVIV_PARAM_GPU_ECO_ID                    0x1e
+ 	iter->hdr++;
+-	iter->data += hdr->file_size;
++	iter->data += le32_to_cpu(hdr->file_size);
+ }
  
- #define ETNA_MAX_PIPES 4
+ static void etnaviv_core_dump_registers(struct core_dump_iterator *iter,
+@@ -85,8 +85,8 @@ static void etnaviv_core_dump_registers(struct core_dump_iterator *iter,
+ 	unsigned int i;
  
+ 	for (i = 0; i < ARRAY_SIZE(etnaviv_dump_registers); i++, reg++) {
+-		reg->reg = etnaviv_dump_registers[i];
+-		reg->value = gpu_read(gpu, etnaviv_dump_registers[i]);
++		reg->reg = cpu_to_le32(etnaviv_dump_registers[i]);
++		reg->value = cpu_to_le32(gpu_read(gpu, etnaviv_dump_registers[i]));
+ 	}
+ 
+ 	etnaviv_core_dump_header(iter, ETDUMP_BUF_REG, reg);
+@@ -207,7 +207,7 @@ void etnaviv_core_dump(struct etnaviv_gem_submit *submit)
+ 		if (!IS_ERR(pages)) {
+ 			int j;
+ 
+-			iter.hdr->data[0] = bomap - bomap_start;
++			iter.hdr->data[0] = cpu_to_le32((bomap - bomap_start));
+ 
+ 			for (j = 0; j < obj->base.size >> PAGE_SHIFT; j++)
+ 				*bomap++ = cpu_to_le64(page_to_phys(*pages++));
 -- 
 2.29.2
+
 
 _______________________________________________
 etnaviv mailing list
