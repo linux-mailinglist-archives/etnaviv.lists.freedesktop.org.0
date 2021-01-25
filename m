@@ -2,39 +2,34 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1E223028F2
-	for <lists+etnaviv@lfdr.de>; Mon, 25 Jan 2021 18:33:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D822830C3C3
+	for <lists+etnaviv@lfdr.de>; Tue,  2 Feb 2021 16:28:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A06F489688;
-	Mon, 25 Jan 2021 17:33:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8AF466E1CF;
+	Tue,  2 Feb 2021 15:28:50 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6427089688
- for <etnaviv@lists.freedesktop.org>; Mon, 25 Jan 2021 17:33:09 +0000 (UTC)
-Received: from gallifrey.ext.pengutronix.de
- ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1l45jb-0006rs-G3; Mon, 25 Jan 2021 18:33:03 +0100
-Message-ID: <86de8471155f0d1e46d7048e40d80219da715e0e.camel@pengutronix.de>
-Subject: Re: [PATCH] drm/etnaviv: fix NULL check before some freeing
- functions is not needed
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Tian Tao <tiantao6@hisilicon.com>, airlied@linux.ie, daniel@ffwll.ch, 
- sumit.semwal@linaro.org, christian.koenig@amd.com
-Date: Mon, 25 Jan 2021 18:33:02 +0100
-In-Reply-To: <1611545247-33487-1-git-send-email-tiantao6@hisilicon.com>
-References: <1611545247-33487-1-git-send-email-tiantao6@hisilicon.com>
-User-Agent: Evolution 3.38.3 (3.38.3-1.fc33) 
+Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C04489C55;
+ Mon, 25 Jan 2021 03:27:50 +0000 (UTC)
+Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.58])
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4DPFdh3cDxzjCtq;
+ Mon, 25 Jan 2021 11:26:32 +0800 (CST)
+Received: from localhost.localdomain (10.69.192.56) by
+ DGGEMS413-HUB.china.huawei.com (10.3.19.213) with Microsoft SMTP Server id
+ 14.3.498.0; Mon, 25 Jan 2021 11:27:42 +0800
+From: Tian Tao <tiantao6@hisilicon.com>
+To: <l.stach@pengutronix.de>, <airlied@linux.ie>, <daniel@ffwll.ch>,
+ <sumit.semwal@linaro.org>, <christian.koenig@amd.com>
+Subject: [PATCH] drm/etnaviv: fix NULL check before some freeing functions is
+ not needed
+Date: Mon, 25 Jan 2021 11:27:27 +0800
+Message-ID: <1611545247-33487-1-git-send-email-tiantao6@hisilicon.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
+X-Originating-IP: [10.69.192.56]
+X-CFilter-Loop: Reflected
+X-Mailman-Approved-At: Tue, 02 Feb 2021 15:28:49 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,30 +42,38 @@ List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
 Cc: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-QW0gTW9udGFnLCBkZW0gMjUuMDEuMjAyMSB1bSAxMToyNyArMDgwMCBzY2hyaWViIFRpYW4gVGFv
-Ogo+IGZpeGVkIHRoZSBiZWxvdyB3YXJuaW5nOgo+IGRyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0
-bmF2aXZfZ2VtX3ByaW1lLmM6ODQ6Mi04OiBXQVJOSU5HOiBOVUxMIGNoZWNrCj4gYmVmb3JlIHNv
-bWUgZnJlZWluZyBmdW5jdGlvbnMgaXMgbm90IG5lZWRlZC4KClRoYW5rcywgSSd2ZSBhZGRlZCB0
-aGlzIHBhdGNoIHRvIG15IGV0bmF2aXYvbmV4dCBicmFuY2guCgpSZWdhcmRzLApMdWNhcwoKPiBT
-aWduZWQtb2ZmLWJ5OiBUaWFuIFRhbyA8dGlhbnRhbzZAaGlzaWxpY29uLmNvbT4KPiAtLS0KPiDC
-oGRyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfZ2VtX3ByaW1lLmMgfCAzICstLQo+IMKg
-MSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAyIGRlbGV0aW9ucygtKQo+IAo+IGRpZmYg
-LS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2X2dlbV9wcmltZS5jIGIvZHJp
-dmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9nZW1fcHJpbWUuYwo+IGluZGV4IGIzOTBkZDQu
-LmQ3NDFiMWQgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9n
-ZW1fcHJpbWUuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfZ2VtX3By
-aW1lLmMKPiBAQCAtODAsOCArODAsNyBAQCBzdGF0aWMgdm9pZCBldG5hdml2X2dlbV9wcmltZV9y
-ZWxlYXNlKHN0cnVjdCBldG5hdml2X2dlbV9vYmplY3QgKmV0bmF2aXZfb2JqKQo+IMKgCS8qIERv
-bid0IGRyb3AgdGhlIHBhZ2VzIGZvciBpbXBvcnRlZCBkbWFidWYsIGFzIHRoZXkgYXJlIG5vdAo+
-IMKgCSAqIG91cnMsIGp1c3QgZnJlZSB0aGUgYXJyYXkgd2UgYWxsb2NhdGVkOgo+IMKgCSAqLwo+
-IC0JaWYgKGV0bmF2aXZfb2JqLT5wYWdlcykKPiAtCQlrdmZyZWUoZXRuYXZpdl9vYmotPnBhZ2Vz
-KTsKPiArCWt2ZnJlZShldG5hdml2X29iai0+cGFnZXMpOwo+IMKgCj4gCj4gCj4gCj4gwqAJZHJt
-X3ByaW1lX2dlbV9kZXN0cm95KCZldG5hdml2X29iai0+YmFzZSwgZXRuYXZpdl9vYmotPnNndCk7
-Cj4gwqB9CgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18K
-ZXRuYXZpdiBtYWlsaW5nIGxpc3QKZXRuYXZpdkBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6
-Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9ldG5hdml2Cg==
+fixed the below warning:
+drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c:84:2-8: WARNING: NULL check
+before some freeing functions is not needed.
+
+Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
+---
+ drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
+index b390dd4..d741b1d 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
+@@ -80,8 +80,7 @@ static void etnaviv_gem_prime_release(struct etnaviv_gem_object *etnaviv_obj)
+ 	/* Don't drop the pages for imported dmabuf, as they are not
+ 	 * ours, just free the array we allocated:
+ 	 */
+-	if (etnaviv_obj->pages)
+-		kvfree(etnaviv_obj->pages);
++	kvfree(etnaviv_obj->pages);
+ 
+ 	drm_prime_gem_destroy(&etnaviv_obj->base, etnaviv_obj->sgt);
+ }
+-- 
+2.7.4
+
+_______________________________________________
+etnaviv mailing list
+etnaviv@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/etnaviv
