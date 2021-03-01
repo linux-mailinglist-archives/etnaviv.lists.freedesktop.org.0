@@ -2,52 +2,53 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42DC4325F4F
-	for <lists+etnaviv@lfdr.de>; Fri, 26 Feb 2021 09:42:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DE37327B36
+	for <lists+etnaviv@lfdr.de>; Mon,  1 Mar 2021 10:53:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E5346E8FC;
-	Fri, 26 Feb 2021 08:42:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C4996E550;
+	Mon,  1 Mar 2021 09:53:04 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-vs1-xe2a.google.com (mail-vs1-xe2a.google.com
- [IPv6:2607:f8b0:4864:20::e2a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 975286E8F7;
- Fri, 26 Feb 2021 08:42:52 +0000 (UTC)
-Received: by mail-vs1-xe2a.google.com with SMTP id l192so4366123vsd.5;
- Fri, 26 Feb 2021 00:42:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=14VFYof0i1qhYtG6IP3r3atV1+gp0vez9of+ccnZeiE=;
- b=Pvz10iUnUx+4sFedZ1zNZsUQN9/Tg5jsorHKwE5wPtgKu2OdoFe6xaPGMf/ZPeypRz
- vefchTEm94QXlj14JNWU7ghRDx00Bqb2W6xr+TViDYKU7eR9XBzIjgQPhfcI/7ojMqf6
- pu6K6G3IbLqVA54ULc5B6KrL6Qjbkej1K1Lz5m1D4qJmHMAYq5iBpjo1W3VDcl/n81lk
- s8XP+U1ClndLU1PdJJhT/XCfpjFhTcEUl3VW1Zt91BuNPicIUtMyQ8H5HVrKHZSVVuwq
- t6ICl/YtnM0DiaVshCwX3UZp8Y7OcfvnEWSey3vvwZNxp3DX5si9gbm+XS6QUVsyQYzN
- lwrg==
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com
+ [IPv6:2a00:1450:4864:20::329])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 046E36E550
+ for <etnaviv@lists.freedesktop.org>; Mon,  1 Mar 2021 09:53:03 +0000 (UTC)
+Received: by mail-wm1-x329.google.com with SMTP id u187so10999361wmg.4
+ for <etnaviv@lists.freedesktop.org>; Mon, 01 Mar 2021 01:53:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=gCxNwSmtosKjBOsP3oJostPTdxL4pw1j5WTp0Gs5jN4=;
+ b=aT/lpsg3hVIo/j/sXTbm1YQnEo2Mhu8qNhuBG1++3ci9SmJZnTW1ScmMGSFirtKKo+
+ 6p/wq16Ys3GaxMJGktYpmGy9yfrOinrwYQg8YIxDxaODMfAeY07P6X6DxvfKufZ+/jKz
+ jcvC1b842TLcrMDiduAHx5Mt88Yg6pXG8VfZE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=14VFYof0i1qhYtG6IP3r3atV1+gp0vez9of+ccnZeiE=;
- b=Tn5mtXFo4cDCHG2H1PnEeTcbVgU3gAD8+g2jLA2w/qlk5vFOAVJcdsH2KphGsgnZyX
- vw/9jPKvjHDPH3WmHLM2yIIHN7WMlXd74/zxglLzkRhwYZ1PIzhFK/m/Agp/NpLuT9/M
- c0mXcd0CBTz8q3tLdWxEIReiy3DK0PUH7CbTXz4roY7/1U1XLyqTurQ6BnX+wTHevGZT
- iL8mKU4U+wx4iAtB7jOzpetypdLmiaa4SnfSpUTseGN+HJZ4rydJOIiY2Miq00hHbVi2
- e+OASOs4Nc+sZRFRo7uZxPvLVDuxkRHCK/yL/boiZpfR3WogPVtgsOwWV9iYuzv8K7RR
- IMkg==
-X-Gm-Message-State: AOAM531NuQGEqVRGrLhfPTEVftDWsp5wFNgj0AiWt/JdZ/sH9PtoMNdY
- 6KdFue8eU6ghlnSJuI2GBRw4I6VQrwf90I4QyzM+JLy1nu0=
-X-Google-Smtp-Source: ABdhPJwqY2uMfng18zKynwKhtRhcp3b3XhyOloQlQZfTjQMtZko7IIBA3ZXlv8cLMdnjrnAMFJ7YNI1/1r2EoOEsuFY=
-X-Received: by 2002:a67:fad5:: with SMTP id g21mr974561vsq.29.1614328971759;
- Fri, 26 Feb 2021 00:42:51 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=gCxNwSmtosKjBOsP3oJostPTdxL4pw1j5WTp0Gs5jN4=;
+ b=Rg0xE7WDh9TTYLrTB4nWMc+l6q4wn5fK/EadbYxNqNNMqUnrM20SSpqPuosYGtxw8X
+ ez/B3mdPnLelkGVraYpGT/htF1KF4vsKn9fgKGZDb+7Cel6I9NytNYIRrueLar/49YC/
+ UzH8H8MQ9+zq84p3ySw60LQUBF0gpoGt2fxgmdvd5MzAGH/Cm4qdaQU7uYODOR/V26cD
+ pO1cCvcKnxudYIRqG9ILTX+phOcQVm3W5y60VlDnrjDVqtgljB4krxMwOziAUKVf3hL4
+ JUNmkSYioQcZJ4UgpRoQ3FKx5LCEFDHOOyWIilC38/lSBmvE3oc3yRHVPimpbry4VY2s
+ 26Sw==
+X-Gm-Message-State: AOAM53090oGVFuKw3EzRXV8VzMzYtylzyJQFo4Ejf8DYIVrcR61AbhrR
+ Aif73zDNEKGmlG7i5NR+o0Ji2A==
+X-Google-Smtp-Source: ABdhPJzS9tzgwkxeKN9NVWheGzS19gf3IPi0FqJ1+eBzNy1c7Bj1uTvARfgNW1EOExC3AnAg0STfPw==
+X-Received: by 2002:a7b:c242:: with SMTP id b2mr13089760wmj.119.1614592381781; 
+ Mon, 01 Mar 2021 01:53:01 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id c9sm21770155wmb.33.2021.03.01.01.53.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 01 Mar 2021 01:53:00 -0800 (PST)
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: DRI Development <dri-devel@lists.freedesktop.org>
+Subject: [PATCH 1/2] drm/etnaviv: Use FOLL_FORCE for userptr
+Date: Mon,  1 Mar 2021 10:52:53 +0100
+Message-Id: <20210301095254.1946084-1-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
-References: <20210224155500.4187550-1-l.stach@pengutronix.de>
-In-Reply-To: <20210224155500.4187550-1-l.stach@pengutronix.de>
-From: Christian Gmeiner <christian.gmeiner@gmail.com>
-Date: Fri, 26 Feb 2021 09:42:40 +0100
-Message-ID: <CAH9NwWff6CCebmowLLfNC6gGCNv1ZKK8sfF7=BBx3djQYfLEYA@mail.gmail.com>
-Subject: Re: [PATCH] drm/etnaviv: add HWDB entry for GC7000 rev 6204
-To: Lucas Stach <l.stach@pengutronix.de>
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,86 +60,54 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sascha Hauer <kernel@pengutronix.de>, patchwork-lst@pengutronix.de,
- The etnaviv authors <etnaviv@lists.freedesktop.org>,
- DRI mailing list <dri-devel@lists.freedesktop.org>,
- Russell King <linux+etnaviv@armlinux.org.uk>
+Cc: John Hubbard <jhubbard@nvidia.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ etnaviv@lists.freedesktop.org, stable@vger.kernel.org,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Daniel Vetter <daniel.vetter@intel.com>, Lucas Stach <l.stach@pengutronix.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Am Mi., 24. Feb. 2021 um 16:55 Uhr schrieb Lucas Stach <l.stach@pengutronix.de>:
->
-> From: Sascha Hauer <s.hauer@pengutronix.de>
->
-> This is the 3D GPU found on the i.MX8MP SoC.
->
-Can you provide some information about where you have taken these
-values (galcore version,
-database entry name)?
+Nothing checks userptr.ro except this call to pup_fast, which means
+there's nothing actually preventing userspace from writing to this.
+Which means you can just read-only mmap any file you want, userptr it
+and then write to it with the gpu. Not good.
 
-> Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
-> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
-> ---
->  drivers/gpu/drm/etnaviv/etnaviv_hwdb.c | 31 ++++++++++++++++++++++++++
->  1 file changed, 31 insertions(+)
->
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c b/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
-> index 167971a09be7..dfc0f536b3b9 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
-> @@ -37,6 +37,37 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
->                 .minor_features10 = 0x0,
->                 .minor_features11 = 0x0,
->         },
-> +       {
-> +               .model = 0x7000,
-> +               .revision = 0x6204,
-> +               .product_id = ~0U,
-> +               .customer_id = ~0U,
-> +               .eco_id = 0,
-> +               .stream_count = 16,
-> +               .register_max = 64,
-> +               .thread_count = 512,
-> +               .shader_core_count = 2,
-> +               .vertex_cache_size = 16,
-> +               .vertex_output_buffer_size = 1024,
-> +               .pixel_pipes = 1,
-> +               .instruction_count = 512,
-> +               .num_constants = 320,
-> +               .buffer_size = 0,
-> +               .varyings_count = 16,
-> +               .features = 0xe0287c8d,
-> +               .minor_features0 = 0xc1589eff,
-> +               .minor_features1 = 0xfefbfad9,
-> +               .minor_features2 = 0xeb9d4fbf,
-> +               .minor_features3 = 0xedfffced,
-> +               .minor_features4 = 0xdb0dafc7,
-> +               .minor_features5 = 0x3b5ac333,
-> +               .minor_features6 = 0xfcce6000,
-> +               .minor_features7 = 0xfffbfa6f,
-> +               .minor_features8 = 0x00e10ef3,
-> +               .minor_features9 = 0x04c8003c,
-> +               .minor_features10 = 0x00004060,
-> +               .minor_features11 = 0x00000024,
-> +       },
->         {
->                 .model = 0x7000,
->                 .revision = 0x6214,
-> --
-> 2.29.2
->
+The right way to handle this is FOLL_WRITE | FOLL_FORCE, which will
+break any COW mappings and update tracking for MAY_WRITE mappings so
+there's no exploit and the vm isn't confused about what's going on.
+For any legit use case there's no difference from what userspace can
+observe and do.
 
-I really would love to see a hwdb in mesa instead of adding more
-entries to the kernel one.
+Cc: stable@vger.kernel.org
+Cc: John Hubbard <jhubbard@nvidia.com>
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+Cc: Lucas Stach <l.stach@pengutronix.de>
+Cc: Russell King <linux+etnaviv@armlinux.org.uk>
+Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
+Cc: etnaviv@lists.freedesktop.org
+---
+ drivers/gpu/drm/etnaviv/etnaviv_gem.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+index 6d38c5c17f23..a9e696d05b33 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+@@ -689,7 +689,7 @@ static int etnaviv_gem_userptr_get_pages(struct etnaviv_gem_object *etnaviv_obj)
+ 		struct page **pages = pvec + pinned;
+ 
+ 		ret = pin_user_pages_fast(ptr, num_pages,
+-					  !userptr->ro ? FOLL_WRITE : 0, pages);
++					  FOLL_WRITE | FOLL_FORCE, pages);
+ 		if (ret < 0) {
+ 			unpin_user_pages(pvec, pinned);
+ 			kvfree(pvec);
 -- 
-greets
---
-Christian Gmeiner, MSc
+2.30.0
 
-https://christian-gmeiner.info/privacypolicy
 _______________________________________________
 etnaviv mailing list
 etnaviv@lists.freedesktop.org
