@@ -1,57 +1,39 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E609327B37
-	for <lists+etnaviv@lfdr.de>; Mon,  1 Mar 2021 10:53:07 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 35F33327C13
+	for <lists+etnaviv@lfdr.de>; Mon,  1 Mar 2021 11:28:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BBFE26E563;
-	Mon,  1 Mar 2021 09:53:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D819D6E58B;
+	Mon,  1 Mar 2021 10:28:42 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
- [IPv6:2a00:1450:4864:20::32d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E54756E550
- for <etnaviv@lists.freedesktop.org>; Mon,  1 Mar 2021 09:53:03 +0000 (UTC)
-Received: by mail-wm1-x32d.google.com with SMTP id k66so13825176wmf.1
- for <etnaviv@lists.freedesktop.org>; Mon, 01 Mar 2021 01:53:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=EeI5BVtXyBefOOJ/+aIoV3DIZyRdktgzKXSwldp6gq0=;
- b=QXspYk7DS04z5eUBW9cQsUAIwrzMNOLHNcC+SckHflj62WDbMbFuafwPwdu5J8j8ek
- B6/2FbH0e6z/iVAwNipbgWFZzKFk2iHwHyoTvAjrY/X10dQTQAwMX4L9Iis/6LeGCXGx
- xN4KyoCcDQoyJcsvinRXAow9txmNXBA86E+1c=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=EeI5BVtXyBefOOJ/+aIoV3DIZyRdktgzKXSwldp6gq0=;
- b=PBf0+yTh/4q4pvT47/Iova3inYpBSnk+SGZJawC4quEDGbbaLCLX0xwM8+doEnYfUg
- DAWfpPfioFZ699vTfbaWzs4Gfm0duAy6n6h8BPyYTvfkpRdUydOWByHcwTzx1OuI2BAP
- AZhL57wi7hKDSI2uHG33ifmUHPUOOxBG/wLOjPKClG6k9EpvLurEttko5UK5/g4EaFPa
- JDxSFDQQk9+wDSycP3/4kULhnCgauR2V5vRelGBLdrRf+ekcH5naMlyWvB1ZVMLHdOYa
- 2HAmpqXxLEcMqDO7cWAG9u32m4uFoOntsidwZfi1NHtNWQLuxtUVnoUOnKucadAb8oyd
- HDrQ==
-X-Gm-Message-State: AOAM532ZTNlexKlDgr9B9ennklz4jDLUb6yDmAk28vHsR5zf5+TRT0Wy
- G2pKfo+pg+RXCUJa7EkdZ2jZI9QyplCdMw==
-X-Google-Smtp-Source: ABdhPJzAT/HGgrD0jcr9hGqgkHEqI6mRUy3x2si+8Fm43GhWylSKXhSbuAtccfHgZVQUYP86vSCPzw==
-X-Received: by 2002:a05:600c:410e:: with SMTP id
- j14mr15446043wmi.36.1614592382589; 
- Mon, 01 Mar 2021 01:53:02 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id c9sm21770155wmb.33.2021.03.01.01.53.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 01 Mar 2021 01:53:02 -0800 (PST)
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 2/2] drm/etnaviv: User FOLL_LONGTERM in userptr
-Date: Mon,  1 Mar 2021 10:52:54 +0100
-Message-Id: <20210301095254.1946084-2-daniel.vetter@ffwll.ch>
-X-Mailer: git-send-email 2.30.0
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4704E6E58B
+ for <etnaviv@lists.freedesktop.org>; Mon,  1 Mar 2021 10:28:41 +0000 (UTC)
+Received: from gallifrey.ext.pengutronix.de
+ ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1lGfmw-00045g-S2; Mon, 01 Mar 2021 11:28:30 +0100
+Message-ID: <f0e85747e101a9078f1e1d158f1eea29a9f31684.camel@pengutronix.de>
+Subject: Re: [PATCH 1/2] drm/etnaviv: Use FOLL_FORCE for userptr
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>, DRI Development
+ <dri-devel@lists.freedesktop.org>
+Date: Mon, 01 Mar 2021 11:28:30 +0100
 In-Reply-To: <20210301095254.1946084-1-daniel.vetter@ffwll.ch>
 References: <20210301095254.1946084-1-daniel.vetter@ffwll.ch>
+User-Agent: Evolution 3.38.4 (3.38.4-1.fc33) 
 MIME-Version: 1.0
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,51 +45,51 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: John Hubbard <jhubbard@nvidia.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- etnaviv@lists.freedesktop.org, Christian Gmeiner <christian.gmeiner@gmail.com>,
+Cc: John Hubbard <jhubbard@nvidia.com>, etnaviv@lists.freedesktop.org,
+ stable@vger.kernel.org, Christian Gmeiner <christian.gmeiner@gmail.com>,
  Russell King <linux+etnaviv@armlinux.org.uk>,
- Daniel Vetter <daniel.vetter@intel.com>, Lucas Stach <l.stach@pengutronix.de>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+ Daniel Vetter <daniel.vetter@intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-There's no mmu notifier or anything like that, releasing this pin is
-entirely up to userspace. Hence FOLL_LONGTERM.
-
-No cc: stable for this patch since a lot of the infrastructure around
-FOLL_LONGETRM (like not allowing it for pages currently sitting in
-ZONE_MOVEABLE before they're migrated) is still being worked on. So
-not big benefits yet.
-
-Cc: John Hubbard <jhubbard@nvidia.com>
-Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-Cc: Lucas Stach <l.stach@pengutronix.de>
-Cc: Russell King <linux+etnaviv@armlinux.org.uk>
-Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
-Cc: etnaviv@lists.freedesktop.org
----
- drivers/gpu/drm/etnaviv/etnaviv_gem.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-index a9e696d05b33..db69f19ab5bc 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-@@ -689,7 +689,8 @@ static int etnaviv_gem_userptr_get_pages(struct etnaviv_gem_object *etnaviv_obj)
- 		struct page **pages = pvec + pinned;
- 
- 		ret = pin_user_pages_fast(ptr, num_pages,
--					  FOLL_WRITE | FOLL_FORCE, pages);
-+					  FOLL_WRITE | FOLL_FORCE | FOLL_LONGTERM,
-+					  pages);
- 		if (ret < 0) {
- 			unpin_user_pages(pvec, pinned);
- 			kvfree(pvec);
--- 
-2.30.0
-
-_______________________________________________
-etnaviv mailing list
-etnaviv@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/etnaviv
+QW0gTW9udGFnLCBkZW0gMDEuMDMuMjAyMSB1bSAxMDo1MiArMDEwMCBzY2hyaWViIERhbmllbCBW
+ZXR0ZXI6Cj4gTm90aGluZyBjaGVja3MgdXNlcnB0ci5ybyBleGNlcHQgdGhpcyBjYWxsIHRvIHB1
+cF9mYXN0LCB3aGljaCBtZWFucwo+IHRoZXJlJ3Mgbm90aGluZyBhY3R1YWxseSBwcmV2ZW50aW5n
+IHVzZXJzcGFjZSBmcm9tIHdyaXRpbmcgdG8gdGhpcy4KPiBXaGljaCBtZWFucyB5b3UgY2FuIGp1
+c3QgcmVhZC1vbmx5IG1tYXAgYW55IGZpbGUgeW91IHdhbnQsIHVzZXJwdHIgaXQKPiBhbmQgdGhl
+biB3cml0ZSB0byBpdCB3aXRoIHRoZSBncHUuIE5vdCBnb29kLgoKSSBhZ3JlZSBhYm91dCB0aGUg
+Im5vdCBnb29kIiBwYXJ0LgoKPiBUaGUgcmlnaHQgd2F5IHRvIGhhbmRsZSB0aGlzIGlzIEZPTExf
+V1JJVEUgfCBGT0xMX0ZPUkNFLCB3aGljaCB3aWxsCj4gYnJlYWsgYW55IENPVyBtYXBwaW5ncyBh
+bmQgdXBkYXRlIHRyYWNraW5nIGZvciBNQVlfV1JJVEUgbWFwcGluZ3Mgc28KPiB0aGVyZSdzIG5v
+IGV4cGxvaXQgYW5kIHRoZSB2bSBpc24ndCBjb25mdXNlZCBhYm91dCB3aGF0J3MgZ29pbmcgb24u
+Cj4gRm9yIGFueSBsZWdpdCB1c2UgY2FzZSB0aGVyZSdzIG5vIGRpZmZlcmVuY2UgZnJvbSB3aGF0
+IHVzZXJzcGFjZSBjYW4KPiBvYnNlcnZlIGFuZCBkby4KClRoaXMgaG93ZXZlciBzZWVtcyBwcmV0
+dHkgaGVhdnkgaGFuZGVkLiBEb2VzIHRoaXMgbWVhbiB3ZSBkbyBhIGZ1bGwgQ09XCmN5Y2xlIG9m
+IHRoZSB1c2VycGFnZXMgb24gQk8gY3JlYXRpb24/IFRoaXMgbW9zdCBsaWtlbHkga2lsbHMgYSBs
+b3Qgb2YKdGhlIHBlcmZvcm1hbmNlIGJlbmVmaXRzIHRoYXQgb25lIG1pZ2h0IHNlZWsgYnkgdXNp
+bmcgdXNlcnB0ci4gSWYKdGhhdCdzIHRoZSBjYXNlIEkgbWlnaHQgc3RpbGwgdGFrZSB0aGlzIHBh
+dGNoIGZvciBzdGFibGUsIGJ1dCB0aGVuIHdlCnNob3VsZCByYXRoZXIganVzdCBkaXNhbGxvdyB3
+cml0YWJsZSBHUFUgbWFwcGluZ3MgdG8gdGhpcyBCTy4KClJlZ2FyZHMsCkx1Y2FzCgo+IAo+IENj
+OiBzdGFibGVAdmdlci5rZXJuZWwub3JnCj4gQ2M6IEpvaG4gSHViYmFyZCA8amh1YmJhcmRAbnZp
+ZGlhLmNvbT4KPiBTaWduZWQtb2ZmLWJ5OiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVyQGlu
+dGVsLmNvbT4KPiBDYzogTHVjYXMgU3RhY2ggPGwuc3RhY2hAcGVuZ3V0cm9uaXguZGU+Cj4gQ2M6
+IFJ1c3NlbGwgS2luZyA8bGludXgrZXRuYXZpdkBhcm1saW51eC5vcmcudWs+Cj4gQ2M6IENocmlz
+dGlhbiBHbWVpbmVyIDxjaHJpc3RpYW4uZ21laW5lckBnbWFpbC5jb20+Cj4gQ2M6IGV0bmF2aXZA
+bGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gLS0tCj4gwqBkcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9l
+dG5hdml2X2dlbS5jIHwgMiArLQo+IMKgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAx
+IGRlbGV0aW9uKC0pCj4gCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0
+bmF2aXZfZ2VtLmMgYi9kcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2X2dlbS5jCj4gaW5k
+ZXggNmQzOGM1YzE3ZjIzLi5hOWU2OTZkMDViMzMgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUv
+ZHJtL2V0bmF2aXYvZXRuYXZpdl9nZW0uYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9ldG5hdml2
+L2V0bmF2aXZfZ2VtLmMKPiBAQCAtNjg5LDcgKzY4OSw3IEBAIHN0YXRpYyBpbnQgZXRuYXZpdl9n
+ZW1fdXNlcnB0cl9nZXRfcGFnZXMoc3RydWN0IGV0bmF2aXZfZ2VtX29iamVjdCAqZXRuYXZpdl9v
+YmopCj4gwqAJCXN0cnVjdCBwYWdlICoqcGFnZXMgPSBwdmVjICsgcGlubmVkOwo+IMKgCj4gCj4g
+Cj4gCj4gCj4gCj4gCj4gCj4gwqAJCXJldCA9IHBpbl91c2VyX3BhZ2VzX2Zhc3QocHRyLCBudW1f
+cGFnZXMsCj4gLQkJCQkJICAhdXNlcnB0ci0+cm8gPyBGT0xMX1dSSVRFIDogMCwgcGFnZXMpOwo+
+ICsJCQkJCSAgRk9MTF9XUklURSB8IEZPTExfRk9SQ0UsIHBhZ2VzKTsKPiDCoAkJaWYgKHJldCA8
+IDApIHsKPiDCoAkJCXVucGluX3VzZXJfcGFnZXMocHZlYywgcGlubmVkKTsKPiDCoAkJCWt2ZnJl
+ZShwdmVjKTsKCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+XwpldG5hdml2IG1haWxpbmcgbGlzdApldG5hdml2QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRw
+czovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2V0bmF2aXYK
