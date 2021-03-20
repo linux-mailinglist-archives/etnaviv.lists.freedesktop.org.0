@@ -1,53 +1,54 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4ACE342B5A
-	for <lists+etnaviv@lfdr.de>; Sat, 20 Mar 2021 09:54:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B869342B68
+	for <lists+etnaviv@lfdr.de>; Sat, 20 Mar 2021 10:28:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 46E266EB49;
-	Sat, 20 Mar 2021 08:54:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C234B89D43;
+	Sat, 20 Mar 2021 09:28:08 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-vk1-xa30.google.com (mail-vk1-xa30.google.com
- [IPv6:2607:f8b0:4864:20::a30])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CFFDD6EB47;
- Sat, 20 Mar 2021 08:54:14 +0000 (UTC)
-Received: by mail-vk1-xa30.google.com with SMTP id h136so779687vka.7;
- Sat, 20 Mar 2021 01:54:14 -0700 (PDT)
+Received: from mail-vs1-xe32.google.com (mail-vs1-xe32.google.com
+ [IPv6:2607:f8b0:4864:20::e32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C60DE89D43;
+ Sat, 20 Mar 2021 09:28:07 +0000 (UTC)
+Received: by mail-vs1-xe32.google.com with SMTP id z68so4816996vsb.10;
+ Sat, 20 Mar 2021 02:28:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=tJOHqcF9D/PSfpMLCzj4p9ALSWHGa7mLQmmAOiypWFE=;
- b=WWkf7RWJcsGZU0dYFxLvUa0lXlBHqfEF2cvFz6ujphXK/8lWpxcQ3BFU/PosbQb1Yt
- Ao1by88VHkc+Dvta7rCLER2olY/5AaiwOpV3CKX8oZoioqEaO3Q7DYV+3Yf6L0vbJRLW
- R0mgAwCZ/QpgC5vj3zGLSZU+WsFeT97Br8NCA1HuiEjdft7P/c+78kM+msj77vYziwf3
- f4U3Ap3JAot/CGXFS9LPE1hxzYqO0x2KuuYDuCDxTHjlaQSILBgluCmpDTLlIJ8VSmvc
- kAK4hBLH2nEfw+Y8nWchZHrIanzoDZL2fxQo6LIGaYP1rkyEaJfuHihC0030XR8Yed6t
- Czzg==
+ bh=ym1aYFZ2eQ19MevTlNBGf+SRQwy6XhDZ2AMwQHDehC4=;
+ b=ufLwQXyh5oBM9tOqcPs+noHs1Hv/IxB7Pkrs9VtL4w/Vag5unQnjP6sumkHxks16bM
+ MfvFWKEykZMVFkf8zL1s261dpK/9ZvubHVsVbjsc9p4YXGde5453Wx8JVJ7XgKIkW4pe
+ 5jCmo/XDoE9JRDwtd9++gLhpL60FC4vVdz/MG/zT8MpAyGqvD4oqf8TrIA9bHjXFskqr
+ evt8NADA9IkcH7OyQTDmwSVzVDytTTw9azPiAjfOJ+66MkyWs2J49J+O4+Z7dtwU+mHW
+ PxCjkZ98q9re3T2jLJF7yWJBbQVu6i/DjyuEJiTi+s7nJSdJEdny1lHlNDS0FULcu+LJ
+ 5V6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=tJOHqcF9D/PSfpMLCzj4p9ALSWHGa7mLQmmAOiypWFE=;
- b=J5L4qC5OFzdz5xAQ7VrsOPNhEjVvg0x69k7KFJaNu/bAck+BLE5VpGyXecnGWqyGwq
- NrcevsQyts9iq/AJ64x2OWrCmAfGId+Dh561tC68x5I/X3dyOOx0uw/tgyNzzinZCUJZ
- /OBYYQv353PYf2ObG+psc7qNep5cpePM/zK2uip9WL1DJxguTCI72ORiFeuL1ivJ0PMe
- FAybx+5a03xrl24n/ubdc+IefGj0QLWCsSU9VazWnu/4uRTceI6Ue4ZSVQJ5av1sogYP
- wtkBkSKYxTvDSmDohymMsMG/deTCYpBFOUYtWr/AIKN7aXZIrAmHnjiT18LXxYjfbSnk
- caFQ==
-X-Gm-Message-State: AOAM531x2CFThNOW68k4yt/+B3SfQnVXoR4dRQBIDV00mzDXnK2AmMTT
- /tfh8FBMtwDLIhHAGSMPkfGU8Xo2hlZUp7InF2k=
-X-Google-Smtp-Source: ABdhPJwNzkteh+UuF9ldAoKBa0DmW5BpaRslCuVQhlZd1bV7uxv06atheXCrORuQicZwGbynCGPU3MvLXyc1pVGpnjY=
-X-Received: by 2002:a1f:a449:: with SMTP id n70mr5040178vke.14.1616230453902; 
- Sat, 20 Mar 2021 01:54:13 -0700 (PDT)
+ bh=ym1aYFZ2eQ19MevTlNBGf+SRQwy6XhDZ2AMwQHDehC4=;
+ b=euAZew0Jf37D6ouL0ACOlurep5fRuNNzbezAZmHuI9r1SS7wWiXw/jqbtoec+98kc5
+ 96fbslnogu6Skf2u7YWcG+JxkltkTydMw4VseHKsJGjBNvIgpedRtJme02e1AnqHaw9+
+ KnmrcMlm1uT9+wd9ZVlQ3NmPTrBeNassxbqTup4r2OzUV21g24TmiyvckGPJU/TGQjqA
+ NEsE5UvSJK3icJL4daE4KPqG/m1CtSKqlC3lqgDzndsbjHP/vpflOR/uHnnylbygnU1M
+ qRaz+Gyb/DxacuQy0IYWrMW5/aLiDqQL8BeProZA+gjyAGmcl2jVMhsByUciMJoGw7+U
+ mXeA==
+X-Gm-Message-State: AOAM530LVzNfz3nTJjASN2cYCZzqr/v1vu/JNCHgC4vHgw5dRtW5Kyo5
+ Ym6O9343oUvdFAeN5C9rk77nYrU+ACCII7f/z4Q9UnEoVyA=
+X-Google-Smtp-Source: ABdhPJz8Z7cmxvYpYLcBkNOsZaxUhdgUopDtV7OydHL2PC+Nh5BuUXBDidxepV8E+0nBqRyKJzY4qAgtpZbxSUdfnKI=
+X-Received: by 2002:a05:6102:b05:: with SMTP id
+ b5mr4955359vst.29.1616232486902; 
+ Sat, 20 Mar 2021 02:28:06 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210319190202.2903140-1-l.stach@pengutronix.de>
-In-Reply-To: <20210319190202.2903140-1-l.stach@pengutronix.de>
+References: <20210319190607.2903545-1-l.stach@pengutronix.de>
+In-Reply-To: <20210319190607.2903545-1-l.stach@pengutronix.de>
 From: Christian Gmeiner <christian.gmeiner@gmail.com>
-Date: Sat, 20 Mar 2021 09:54:02 +0100
-Message-ID: <CAH9NwWdt=poqpDDo51AxqHQ8t9aVBL0kmgyooy=ppW6WwrCnMw@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/etnaviv: add HWDB entry for GC7000 rev 6204
+Date: Sat, 20 Mar 2021 10:27:55 +0100
+Message-ID: <CAH9NwWdOSiWTNpyzxXHasjcNrhOtK3Su66kaQsGA_kz7AUp53A@mail.gmail.com>
+Subject: Re: [PATCH] drm/fourcc: add Vivante TS modifiers
 To: Lucas Stach <l.stach@pengutronix.de>
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,15 +70,16 @@ Content-Transfer-Encoding: base64
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-QW0gRnIuLCAxOS4gTcOkcnogMjAyMSB1bSAyMDowMiBVaHIgc2NocmllYiBMdWNhcyBTdGFjaCA8
-bC5zdGFjaEBwZW5ndXRyb25peC5kZT46Cj4KPiBGcm9tOiBTYXNjaGEgSGF1ZXIgPHMuaGF1ZXJA
-cGVuZ3V0cm9uaXguZGU+Cj4KPiBUaGlzIGlzIHRoZSAzRCBHUFUgZm91bmQgb24gdGhlIGkuTVg4
-TVAgU29DLiBUaGUgZmVhdHVyZSBiaXRzIGFyZQo+IHRha2VuIGZyb20gdGhlIE5YUCBkb3duc3Ry
-ZWFtIGtlcm5lbCBkcml2ZXIgNi40LjMucDEuMzA1NTcyLgo+Cj4gU2lnbmVkLW9mZi1ieTogU2Fz
-Y2hhIEhhdWVyIDxzLmhhdWVyQHBlbmd1dHJvbml4LmRlPgo+IFNpZ25lZC1vZmYtYnk6IEx1Y2Fz
-IFN0YWNoIDxsLnN0YWNoQHBlbmd1dHJvbml4LmRlPgoKUmV2aWV3ZWQtYnk6IENocmlzdGlhbiBH
-bWVpbmVyIDxjaHJpc3RpYW4uZ21laW5lckBnbWFpbC5jb20+CgotLSAKZ3JlZXRzCi0tCkNocmlz
-dGlhbiBHbWVpbmVyLCBNU2MKCmh0dHBzOi8vY2hyaXN0aWFuLWdtZWluZXIuaW5mby9wcml2YWN5
-cG9saWN5Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmV0
-bmF2aXYgbWFpbGluZyBsaXN0CmV0bmF2aXZAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8v
-bGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZXRuYXZpdgo=
+SGkgTHVjYXMKCkFtIEZyLiwgMTkuIE3DpHJ6IDIwMjEgdW0gMjA6MDYgVWhyIHNjaHJpZWIgTHVj
+YXMgU3RhY2ggPGwuc3RhY2hAcGVuZ3V0cm9uaXguZGU+Ogo+Cj4gVml2YW50ZSBUUyAodGlsZS1z
+dGF0dXMpIGJ1ZmZlciBtb2RpZmllcnMuIFRoZXkgY2FuIGJlIGNvbWJpbmVkIHdpdGggYWxsIG9m
+Cj4gdGhlIFZpdmFudGUgY29sb3IgYnVmZmVyIHRpbGluZyBtb2RpZmllcnMsIHNvIHRoZXkgYXJl
+IGtpbmQgb2YgYSBtb2RpZmllcgo+IG1vZGlmaWVyLiBJZiBhIFRTIG1vZGlmaWVyIGlzIHByZXNl
+bnQgd2UgaGF2ZSBhIGFkZGl0aW9uYWwgcGxhbmUgZm9yIHRoZQo+IFRTIGJ1ZmZlciBhbmQgdGhl
+IG1vZGlmaWVyIGRlZmluZXMgdGhlIGxheW91dCBvZiB0aGlzIFRTIGJ1ZmZlci4KPgoKSSBhbSB1
+bnN1cmUgd2h5IHlvdSB3YW50IHRvIGhhdmUgdGhlIFRTIG1vZGlmaWVycyBpbiBkcm1fZm91cmNj
+LmguIENhbgp5b3Ugc2hhcmUgc29tZSBpbnNpZ2h0IG9uIHRoaXM/CgotLSAKZ3JlZXRzCi0tCkNo
+cmlzdGlhbiBHbWVpbmVyLCBNU2MKCmh0dHBzOi8vY2hyaXN0aWFuLWdtZWluZXIuaW5mby9wcml2
+YWN5cG9saWN5Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+CmV0bmF2aXYgbWFpbGluZyBsaXN0CmV0bmF2aXZAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBz
+Oi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZXRuYXZpdgo=
