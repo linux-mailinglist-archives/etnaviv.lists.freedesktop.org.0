@@ -2,38 +2,61 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B780343FF2
-	for <lists+etnaviv@lfdr.de>; Mon, 22 Mar 2021 12:35:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0F4C34463C
+	for <lists+etnaviv@lfdr.de>; Mon, 22 Mar 2021 14:53:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F084A6E44C;
-	Mon, 22 Mar 2021 11:35:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 626256E499;
+	Mon, 22 Mar 2021 13:53:53 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D1C066E44C
- for <etnaviv@lists.freedesktop.org>; Mon, 22 Mar 2021 11:35:26 +0000 (UTC)
-Received: from gallifrey.ext.pengutronix.de
- ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1lOIqB-0007g8-PO; Mon, 22 Mar 2021 12:35:23 +0100
-Message-ID: <6aa0de38c610ff12a1507ef8e5487b04af2b5d75.camel@pengutronix.de>
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
+ [IPv6:2a00:1450:4864:20::433])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE8246E499
+ for <etnaviv@lists.freedesktop.org>; Mon, 22 Mar 2021 13:53:51 +0000 (UTC)
+Received: by mail-wr1-x433.google.com with SMTP id e9so16928172wrw.10
+ for <etnaviv@lists.freedesktop.org>; Mon, 22 Mar 2021 06:53:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=22NppRjOAxc2xE/8hJ2VOeEEh08I1RoGlHwTEuT4DVw=;
+ b=XW2Y+2lFxsqebG6HnMQQIA7ET/J4WbtMDQaxJH70CTDJSGtF/LUgIY2vsO14Ihl4C7
+ 44Ml4z0ku6BpEwSap8xYCHmq3svHjMgOptfEmKBfqaqIXqjiVwqw/czYQl2GYsdS88d+
+ PgG2cc3arcXiYW/F+8K5bFIwvUiZ6V0i9USQc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=22NppRjOAxc2xE/8hJ2VOeEEh08I1RoGlHwTEuT4DVw=;
+ b=lAdHHmLuHYGjRm/jcVRAIlcgOpcaQafJCZ2RERH28qMe4R7NVryXNiwNEShJygUrTp
+ /08FM1b2IU/rE+ADO7wvJR2jHkndnXqIzWtT3LUPa+i/WiB4yWYmjPZlokWyM0KL4eLg
+ HcqRUcvzYD/1yC4al16yjlgKIjtEc02KDCt9ztl1DGcnj5z16taxCGsRTKUo+8BBrlaz
+ JGATml2lUqdjSaF7my1dZwwfkpHXQOLcAeOQ1Vqzt2n777W0xDX6EBjHAtXzP+OMKzic
+ 9VZhfQlxllr9XluSyKgZoR8J05MMU1+afRIhM/q7/AzFUjG0MnvlTq5gvOXj5Cv7EqKJ
+ +mYA==
+X-Gm-Message-State: AOAM531yitkBUiQj+O4ZT6/sWcsbuU7hkUEuqXiZ/1rGmn4bnu7pnrOb
+ VkmXQuz5VgN9f32p4IrK8Sly9w==
+X-Google-Smtp-Source: ABdhPJzTYzAl0xgzsxNm9bbNr/k/BzpKcJCa+yOJPVhkxN1JV1JaW9XSxdHrvrQejRhrfRlsCiXnpA==
+X-Received: by 2002:a5d:68cd:: with SMTP id p13mr19129558wrw.247.1616421230627; 
+ Mon, 22 Mar 2021 06:53:50 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id l15sm19757266wru.38.2021.03.22.06.53.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 22 Mar 2021 06:53:50 -0700 (PDT)
+Date: Mon, 22 Mar 2021 14:53:48 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Lucas Stach <l.stach@pengutronix.de>
 Subject: Re: [PATCH] drm/fourcc: add Vivante TS modifiers
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Simon Ser <contact@emersion.fr>
-Date: Mon, 22 Mar 2021 12:35:21 +0100
-In-Reply-To: <4LQSSN-fXyGvlGD3wSNEi7_TXX1VwnyINrJ6ta9jlLsd8TE3hDf7nZHFbe1GMLu2PYHS9ju726GfQWvd_wmUmAnbojBsKeythWYAWz_k4ak=@emersion.fr>
+Message-ID: <YFihbJmqKeU8D6qD@phenom.ffwll.local>
 References: <20210319190607.2903545-1-l.stach@pengutronix.de>
- <4LQSSN-fXyGvlGD3wSNEi7_TXX1VwnyINrJ6ta9jlLsd8TE3hDf7nZHFbe1GMLu2PYHS9ju726GfQWvd_wmUmAnbojBsKeythWYAWz_k4ak=@emersion.fr>
-User-Agent: Evolution 3.38.4 (3.38.4-1.fc33) 
+ <CAH9NwWdOSiWTNpyzxXHasjcNrhOtK3Su66kaQsGA_kz7AUp53A@mail.gmail.com>
+ <CAKMK7uH-X6KzxfrMLgzhhYdoceLgygtKvzZWbFt+ZztY_BCC5A@mail.gmail.com>
+ <CAH9NwWeYO_WsYTtsri6E5dRfWYhD0FrUohK99jx_gZHVHJRukA@mail.gmail.com>
+ <4f96f825f90836066dd89ab33e0c71e3cb922d91.camel@pengutronix.de>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
+Content-Disposition: inline
+In-Reply-To: <4f96f825f90836066dd89ab33e0c71e3cb922d91.camel@pengutronix.de>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,46 +68,91 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@pengutronix.de, etnaviv@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, patchwork-lst@pengutronix.de
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Daniel Vetter <daniel@ffwll.ch>,
+ The etnaviv authors <etnaviv@lists.freedesktop.org>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>,
+ patchwork-lst@pengutronix.de, Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Sascha Hauer <kernel@pengutronix.de>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-SGkgU2ltb24sCgpBbSBGcmVpdGFnLCBkZW0gMTkuMDMuMjAyMSB1bSAxOTo1MiArMDAwMCBzY2hy
-aWViIFNpbW9uIFNlcjoKPiBPbiBGcmlkYXksIE1hcmNoIDE5dGgsIDIwMjEgYXQgODowNiBQTSwg
-THVjYXMgU3RhY2ggPGwuc3RhY2hAcGVuZ3V0cm9uaXguZGU+IHdyb3RlOgo+IAo+ID4gKy8qCj4g
-PiArICogVml2YW50ZSBUUyAodGlsZS1zdGF0dXMpIGJ1ZmZlciBtb2RpZmllcnMuIFRoZXkgY2Fu
-IGJlIGNvbWJpbmVkIHdpdGggYWxsIG9mCj4gPiArICogdGhlIGNvbG9yIGJ1ZmZlciB0aWxpbmcg
-bW9kaWZpZXJzIGRlZmluZWQgYWJvdmUuIFdoZW4gVFMgaXMgcHJlc2VudCBpdCdzIGEKPiA+ICsg
-KiBzZXBhcmF0ZSBidWZmZXIgY29udGFpbmluZyB0aGUgY2xlYXIvY29tcHJlc3Npb24gc3RhdHVz
-IG9mIGVhY2ggdGlsZS4gVGhlCj4gPiArICogbW9kaWZpZXJzIGFyZSBkZWZpbmVkIGFzIFZJVkFO
-VEVfTU9EX1RTX2Nfcywgd2hlcmUgYyBpcyB0aGUgY29sb3IgYnVmZmVyIHRpbGUKPiA+ICsgKiBz
-aXplIGluIGJ5dGVzIGNvdmVyZWQgYnkgb25lIGVudHJ5IGluIHRoZSBzdGF0dXMgYnVmZmVyIGFu
-ZCBzIGlzIHRoZSBudW1iZXIKPiA+ICsgKiBvZiBzdGF0dXMgYml0cyBwZXIgZW50cnkuCj4gPiAr
-ICogV2UgcmVzZXJ2ZSB0aGUgdG9wIDhiaXRzIG9mIHRoZSBWaXZhbnRlIG1vZGlmaWVyIHNwYWNl
-IGZvciBUUyBtb2RpZmllcnMsIGFzCj4gPiArICogZnV0dXJlIGNvcmVzIG1pZ2h0IGFkZCBzb21l
-IG1vcmUgVFMgbGF5b3V0IHZhcmlhdGlvbnMuCj4gPiArICovCj4gPiArI2RlZmluZSBWSVZBTlRF
-X01PRF9UU182NF80ICAgICAgICAgICAgICAgKDFVTEwgPDwgNDgpCj4gPiArI2RlZmluZSBWSVZB
-TlRFX01PRF9UU182NF8yICAgICAgICAgICAgICAgKDJVTEwgPDwgNDgpCj4gPiArI2RlZmluZSBW
-SVZBTlRFX01PRF9UU18xMjhfNCAgICAgICAgICAgICAgKDNVTEwgPDwgNDgpCj4gPiArI2RlZmlu
-ZSBWSVZBTlRFX01PRF9UU18yNTZfNCAgICAgICAgICAgICAgKDRVTEwgPDwgNDgpCj4gPiArI2Rl
-ZmluZSBWSVZBTlRFX01PRF9UU19NQVNLICAgICAgICAgICAgICAgKDB4ZmZVTEwgIDw8IDQ4KQo+
-IAo+IEhtLCBJIHRoaW5rIGl0J3MgdGhlIGZpcnN0IHRpbWUgd2UgaGF2ZSB2YWx1ZXMgeW91IGNh
-biBPUiB3aXRoIG1vZGlmaWVycyB0bwo+IGdldCBhIG5ldyBtb2RpZmllcnMuIFRoaXMgc291bmRz
-IGEgbGl0dGxlIGJpdCBkYW5nZXJvdXMsIGJlY2F1c2UgYWxsIG9mIHRoZQo+IGZpZWxkcyBkb24n
-dCBnZXQgdGhyb3VnaCB0aGUgZm91cmNjX21vZF9jb2RlIG1hc2suCj4gCj4gTWF5YmUgaXQgd291
-bGQgYmUgYmV0dGVyIHRvIGRlZmluZSBzb21ldGhpbmcgbGlrZSB0aGlzOgo+IAo+IMKgwqDCoMKg
-I2RlZmluZSBEUk1fRk9STUFUX01PRF9WSVZBTlRFX1RTKGNvbG9yX3RpbGluZywgdHMpIFwKPiDC
-oMKgwqDCoMKgwqDCoMKgZm91cmNjX21vZF9jb2RlKFZJVkFOVEUsIChjb2xvcl90aWxpbmcgJiAw
-eEZGKSB8ICh0cyAmIDB4RkYgPDwgNDgpKQo+IAo+IEFuZCB0aGVuIGhhdmUgZGVmaW5lcyBmb3Ig
-YWxsIG9mIHRoZSBwb3NzaWJsZSB2YWx1ZXMgZm9yIGNvbG9yIHRpbGluZyBhbmQgdHM/CgpXaGls
-ZSBJIGFncmVlIHRoYXQgdGhpcyByZXF1aXJlcyBzb21lIGF0dGVudGlvbiB3aGVuIHdvcmtpbmcg
-d2l0aCB0aG9zZQp2YWx1ZXMsIEkgc3BlY2lmaWNhbGx5IGRlc2lnbmVkIHRoZW0gaW4gc3VjaCBh
-IHdheSB0aGF0IG9uZSBjYW4gY29tYmluZQp0aGVtIHdpdGggdGhlIHJlZ3VsYXIgY29sb3IgYnVm
-ZmVyIG1vZGlmaWVycyBieSBPUidpbmcgdGhlbSB0b2dldGhlciwKYXMgdGhhdCBtYWtlcyB0aGUg
-Y29kZSB1c2luZyB0aGVtIG11Y2ggc2ltcGxlci4KClJlZ2FyZHMsCkx1Y2FzCgpfX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpldG5hdml2IG1haWxpbmcgbGlz
-dApldG5hdml2QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9w
-Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL2V0bmF2aXYK
+On Mon, Mar 22, 2021 at 10:20:45AM +0100, Lucas Stach wrote:
+> Hi Christian,
+> =
+
+> Am Montag, dem 22.03.2021 um 09:54 +0100 schrieb Christian Gmeiner:
+> > Am Sa., 20. M=E4rz 2021 um 20:11 Uhr schrieb Daniel Vetter <daniel@ffwl=
+l.ch>:
+> > > =
+
+> > > On Sat, Mar 20, 2021 at 10:28 AM Christian Gmeiner
+> > > <christian.gmeiner@gmail.com> wrote:
+> > > > =
+
+> > > > Hi Lucas
+> > > > =
+
+> > > > Am Fr., 19. M=E4rz 2021 um 20:06 Uhr schrieb Lucas Stach <l.stach@p=
+engutronix.de>:
+> > > > > =
+
+> > > > > Vivante TS (tile-status) buffer modifiers. They can be combined w=
+ith all of
+> > > > > the Vivante color buffer tiling modifiers, so they are kind of a =
+modifier
+> > > > > modifier. If a TS modifier is present we have a additional plane =
+for the
+> > > > > TS buffer and the modifier defines the layout of this TS buffer.
+> > > > > =
+
+> > > > =
+
+> > > > I am unsure why you want to have the TS modifiers in drm_fourcc.h. =
+Can
+> > > > you share some insight on this?
+> > > =
+
+> > > It's the official registry for drm_fourcc codes and drm modifiers.
+> > > Whether the kernel ever uses it or not doesn't matter.
+> > =
+
+> > Fair point.. but I do not see any usage of these TS modifiers in mesa
+> > - that's why I am asking.
+> =
+
+> I have a Mesa series using those modifiers, which I'm currently
+> rebasing and will be posted shortly. However, the way things work is:
+> first get the modifier into drm_fourcc.h, then merge any code using the
+> new modifiers, so I figured it would be fair game to post this patch
+> before I fully finished reworking the Mesa series.
+
+Generally post poth sides, and then _merge_ them in the order you
+described. Christian has a good point that generally for modifiers that
+mesa is expected to use, we want to have the mesa code as demonstration
+that they work. Especially for r/e'ed drivers where there's not
+authoritative spec.
+
+I was just assuming that this has happened already.
+-Daniel
+
+PS: Since this comes up all the time, relevant part of the upstream docs:
+
+"The kernel patch can only be merged after all the above requirements are
+met, but it must be merged to either drm-next or drm-misc-next before the
+userspace patches land. uAPI always flows from the kernel, doing things
+the other way round risks divergence of the uAPI definitions and header
+files."
+
+https://dri.freedesktop.org/docs/drm/gpu/drm-uapi.html#open-source-userspac=
+e-requirements
+-- =
+
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+etnaviv mailing list
+etnaviv@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/etnaviv
