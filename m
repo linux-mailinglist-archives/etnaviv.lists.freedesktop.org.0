@@ -2,34 +2,53 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C981E345CEB
-	for <lists+etnaviv@lfdr.de>; Tue, 23 Mar 2021 12:32:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0F06345D17
+	for <lists+etnaviv@lfdr.de>; Tue, 23 Mar 2021 12:39:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E2C56E10A;
-	Tue, 23 Mar 2021 11:32:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 39B126E8C1;
+	Tue, 23 Mar 2021 11:39:31 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-X-Greylist: delayed 303 seconds by postgrey-1.36 at gabe;
- Tue, 23 Mar 2021 02:51:26 UTC
-Received: from out30-132.freemail.mail.aliyun.com
- (out30-132.freemail.mail.aliyun.com [115.124.30.132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C8B456E82C
- for <etnaviv@lists.freedesktop.org>; Tue, 23 Mar 2021 02:51:26 +0000 (UTC)
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R211e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=e01e01424;
- MF=jiapeng.chong@linux.alibaba.com; NM=1; PH=DS; RN=13; SR=0;
- TI=SMTPD_---0UT1Ea9s_1616467574; 
-Received: from
- j63c13417.sqa.eu95.tbsite.net(mailfrom:jiapeng.chong@linux.alibaba.com
- fp:SMTPD_---0UT1Ea9s_1616467574) by smtp.aliyun-inc.com(127.0.0.1);
- Tue, 23 Mar 2021 10:46:19 +0800
-From: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-To: l.stach@pengutronix.de
-Subject: [PATCH] drm/etnaviv: Remove redundant NULL check
-Date: Tue, 23 Mar 2021 10:46:12 +0800
-Message-Id: <1616467572-112804-1-git-send-email-jiapeng.chong@linux.alibaba.com>
-X-Mailer: git-send-email 1.8.3.1
-X-Mailman-Approved-At: Tue, 23 Mar 2021 11:32:28 +0000
+Received: from mail-ua1-x92d.google.com (mail-ua1-x92d.google.com
+ [IPv6:2607:f8b0:4864:20::92d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 073296E8BC;
+ Tue, 23 Mar 2021 11:39:29 +0000 (UTC)
+Received: by mail-ua1-x92d.google.com with SMTP id q18so6582835uas.11;
+ Tue, 23 Mar 2021 04:39:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=jWd4Ah9+UKZUMTNKlTR6tTi9e4IEQ3A7/7UYNOEhWgk=;
+ b=Zy0LI4WgEinuGCSgciAuIi220oIK1wYFSJTIlGZ8zZ0qH//GmPNYXWNzhWx6qFuptr
+ LkywILx6bDxhBWiVlPWg0v4UtYz9r/nh2h5q5zOqBM0MipuV4swdT2bkpn4/x3KAVZMd
+ hJ3zBKhlNaC7VVWwtRvrY/QfmUf1Y7b0qL3ToDm7K/+nqPCmFl8tTscsFroStqV5q4s+
+ jO5MM4TD04/08tRO331LuMZ1H3ty1zvzysxOnH/UR5wXFP9GNTyDkZG+ELM9cUibE+bO
+ tyDga7Eua0Ddxh3I0Cb/MZtaf0y0lApnq4sPpW7KjXiZJnW9vWc7nC5b7lQJWCZhYjSa
+ Xi4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=jWd4Ah9+UKZUMTNKlTR6tTi9e4IEQ3A7/7UYNOEhWgk=;
+ b=CgXEzoMjGaJHUkeMhKsIpXTblT/14OjgjPDcOe5CcgMvrGqnFTmPAf3APKBaHunRQl
+ APXUAe6yFYzG93WZP/NNmTXahCC1UGbTLBbqzs/ct0dfIxkA29oHDRF4FjzSAqgdy6Ic
+ UDK7xnfnJbYyY3/dtC12bKjCRJXwKuK/NLXg7C5IqNvGKU0AcU2yEQqMLdMw0jQcmzjh
+ WXeUsQVpSjxIZG5Lsxhp8qkj4dy+ouinhPB0DFSz0po8wZdyNppyjg9qgX7Mdk8z/v9t
+ IIl3pz3emBTutCLTcxHSm0/F8MIx+hPGgwk55tSbYydrez9m6sqMdSzSA9t39jaqaKCc
+ UmMw==
+X-Gm-Message-State: AOAM532fybvnE/U3wRh9sFO16aH2r6xYkWXKjYVwodrIoKtR/KhBi9Lp
+ lwl1YNAa+bciwwHCghx1gtVwo6OfLDV3tNfKu/A=
+X-Google-Smtp-Source: ABdhPJzKaAFGxeyxpFpXgX6baOVQd4rV8AdYt/v5U5rOjJZkuMeUlGuvkjXtOlp6aD/2LJ0tH21yM/B9ocGridIkhnM=
+X-Received: by 2002:a9f:2d90:: with SMTP id v16mr2777321uaj.138.1616499569175; 
+ Tue, 23 Mar 2021 04:39:29 -0700 (PDT)
+MIME-Version: 1.0
+References: <1616467572-112804-1-git-send-email-jiapeng.chong@linux.alibaba.com>
+In-Reply-To: <1616467572-112804-1-git-send-email-jiapeng.chong@linux.alibaba.com>
+From: Christian Gmeiner <christian.gmeiner@gmail.com>
+Date: Tue, 23 Mar 2021 12:39:19 +0100
+Message-ID: <CAH9NwWffN0zAYSTg-zuB=cfSbNeB-J1ddpoM_7knD+inEbTFGw@mail.gmail.com>
+Subject: Re: [PATCH] drm/etnaviv: Remove redundant NULL check
+To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,62 +60,34 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>, airlied@linux.ie,
- linux-kernel@vger.kernel.org, etnaviv@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, sumit.semwal@linaro.org,
- linaro-mm-sig@lists.linaro.org, christian.gmeiner@gmail.com, daniel@ffwll.ch,
- linux+etnaviv@armlinux.org.uk, christian.koenig@amd.com,
- linux-media@vger.kernel.org
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: David Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
+ The etnaviv authors <etnaviv@lists.freedesktop.org>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Linaro MM SIG Mailman List <linaro-mm-sig@lists.linaro.org>,
+ Daniel Vetter <daniel@ffwll.ch>, Russell King <linux+etnaviv@armlinux.org.uk>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Lucas Stach <l.stach@pengutronix.de>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Fix the following coccicheck warnings:
-
-./drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c:622:2-8: WARNING: NULL
-check before some freeing functions is not needed.
-
-./drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c:618:2-8: WARNING: NULL
-check before some freeing functions is not needed.
-
-./drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c:616:2-8: WARNING: NULL
-check before some freeing functions is not needed.
-
-Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
----
- drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c | 12 ++++--------
- 1 file changed, 4 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-index d05c359..bd0d66e 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-@@ -612,14 +612,10 @@ int etnaviv_ioctl_gem_submit(struct drm_device *dev, void *data,
- err_submit_cmds:
- 	if (ret && (out_fence_fd >= 0))
- 		put_unused_fd(out_fence_fd);
--	if (stream)
--		kvfree(stream);
--	if (bos)
--		kvfree(bos);
--	if (relocs)
--		kvfree(relocs);
--	if (pmrs)
--		kvfree(pmrs);
-+	kvfree(stream);
-+	kvfree(bos);
-+	kvfree(relocs);
-+	kvfree(pmrs);
- 
- 	return ret;
- }
--- 
-1.8.3.1
-
-_______________________________________________
-etnaviv mailing list
-etnaviv@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/etnaviv
+QW0gRGkuLCAyMy4gTcOkcnogMjAyMSB1bSAwMzo0NiBVaHIgc2NocmllYiBKaWFwZW5nIENob25n
+CjxqaWFwZW5nLmNob25nQGxpbnV4LmFsaWJhYmEuY29tPjoKPgo+IEZpeCB0aGUgZm9sbG93aW5n
+IGNvY2NpY2hlY2sgd2FybmluZ3M6Cj4KPiAuL2RyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2
+aXZfZ2VtX3N1Ym1pdC5jOjYyMjoyLTg6IFdBUk5JTkc6IE5VTEwKPiBjaGVjayBiZWZvcmUgc29t
+ZSBmcmVlaW5nIGZ1bmN0aW9ucyBpcyBub3QgbmVlZGVkLgo+Cj4gLi9kcml2ZXJzL2dwdS9kcm0v
+ZXRuYXZpdi9ldG5hdml2X2dlbV9zdWJtaXQuYzo2MTg6Mi04OiBXQVJOSU5HOiBOVUxMCj4gY2hl
+Y2sgYmVmb3JlIHNvbWUgZnJlZWluZyBmdW5jdGlvbnMgaXMgbm90IG5lZWRlZC4KPgo+IC4vZHJp
+dmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9nZW1fc3VibWl0LmM6NjE2OjItODogV0FSTklO
+RzogTlVMTAo+IGNoZWNrIGJlZm9yZSBzb21lIGZyZWVpbmcgZnVuY3Rpb25zIGlzIG5vdCBuZWVk
+ZWQuCj4KPiBSZXBvcnRlZC1ieTogQWJhY2kgUm9ib3QgPGFiYWNpQGxpbnV4LmFsaWJhYmEuY29t
+Pgo+IFNpZ25lZC1vZmYtYnk6IEppYXBlbmcgQ2hvbmcgPGppYXBlbmcuY2hvbmdAbGludXguYWxp
+YmFiYS5jb20+CgpSZXZpZXdlZC1ieTogQ2hyaXN0aWFuIEdtZWluZXIgPGNocmlzdGlhbi5nbWVp
+bmVyQGdtYWlsLmNvbT4KCi0tIApncmVldHMKLS0KQ2hyaXN0aWFuIEdtZWluZXIsIE1TYwoKaHR0
+cHM6Ly9jaHJpc3RpYW4tZ21laW5lci5pbmZvL3ByaXZhY3lwb2xpY3kKX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZXRuYXZpdiBtYWlsaW5nIGxpc3QKZXRu
+YXZpdkBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcv
+bWFpbG1hbi9saXN0aW5mby9ldG5hdml2Cg==
