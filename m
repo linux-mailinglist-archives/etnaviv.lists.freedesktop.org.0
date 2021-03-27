@@ -2,32 +2,37 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0773334920D
-	for <lists+etnaviv@lfdr.de>; Thu, 25 Mar 2021 13:33:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C3F034B7A5
+	for <lists+etnaviv@lfdr.de>; Sat, 27 Mar 2021 15:28:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 96C5A6EB5B;
-	Thu, 25 Mar 2021 12:33:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 35A106E153;
+	Sat, 27 Mar 2021 14:28:52 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from szxga07-in.huawei.com (szxga07-in.huawei.com [45.249.212.35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E6146EB5B;
- Thu, 25 Mar 2021 12:33:34 +0000 (UTC)
-Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4F5kxB2nRcz9sxF;
- Thu, 25 Mar 2021 20:31:26 +0800 (CST)
-Received: from localhost.localdomain (10.69.192.56) by
- DGGEMS410-HUB.china.huawei.com (10.3.19.210) with Microsoft SMTP Server id
- 14.3.498.0; Thu, 25 Mar 2021 20:33:22 +0800
-From: Tian Tao <tiantao6@hisilicon.com>
-To: <l.stach@pengutronix.de>, <airlied@linux.ie>, <daniel@ffwll.ch>,
- <sumit.semwal@linaro.org>, <christian.koenig@amd.com>
-Subject: [PATCH] drm/etnaviv: Remove useless error message
-Date: Thu, 25 Mar 2021 20:33:56 +0800
-Message-ID: <1616675636-27405-1-git-send-email-tiantao6@hisilicon.com>
-X-Mailer: git-send-email 2.7.4
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D7C446E153
+ for <etnaviv@lists.freedesktop.org>; Sat, 27 Mar 2021 14:28:50 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 1C00A6194B;
+ Sat, 27 Mar 2021 14:28:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1616855330;
+ bh=8Ne5Z6CQcuHlQ+5eVZH0CMPQXAQMro4UxDG6uGFJEGI=;
+ h=Subject:To:Cc:From:Date:From;
+ b=Of/GEPd1XqJ6pCFIXToxG/6s4Q++wBUW9u6OX3+Y7wcpY9V61erPbQmkhKHCbeOFW
+ ih7s2zd4rGl+Q4xTRnzmEq0Fn28nPm4+DPYG6q8U3bs/aSzVAa1o2MMNymjETrgCht
+ m7RX8DP6grYiUC97QRUVsvydlcBxBE+nKJeocqek=
+Subject: Patch "drm/etnaviv: Use FOLL_FORCE for userptr" has been added to the
+ 5.10-stable tree
+To: christian.gmeiner@gmail.com, daniel.vetter@ffwll.ch,
+ daniel.vetter@intel.com, etnaviv@lists.freedesktop.org,
+ gregkh@linuxfoundation.org, jhubbard@nvidia.com, l.stach@pengutronix.de,
+ linux+etnaviv@armlinux.org.uk
+From: <gregkh@linuxfoundation.org>
+Date: Sat, 27 Mar 2021 15:27:44 +0100
+Message-ID: <1616855264147231@kroah.com>
 MIME-Version: 1.0
-X-Originating-IP: [10.69.192.56]
-X-CFilter-Loop: Reflected
+X-stable: commit
+X-Patchwork-Hint: ignore 
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -39,45 +44,78 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: stable-commits@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Fix the following coccicheck report:
 
-drivers/gpu/drm/etnaviv/etnaviv_gpu.c:1775:2-9:
-line 1775 is redundant because platform_get_irq() already prints an error
+This is a note to let you know that I've just added the patch titled
 
-Remove dev_err() messages after platform_get_irq() failures.
+    drm/etnaviv: Use FOLL_FORCE for userptr
 
-Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
-Signed-off-by: Zihao Tang <tangzihao1@hisilicon.com>
-Signed-off-by: Jay Fang <f.fangjian@huawei.com>
+to the 5.10-stable tree which can be found at:
+    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
+
+The filename of the patch is:
+     drm-etnaviv-use-foll_force-for-userptr.patch
+and it can be found in the queue-5.10 subdirectory.
+
+If you, or anyone else, feels it should not be added to the stable tree,
+please let <stable@vger.kernel.org> know about it.
+
+
+From cd5297b0855f17c8b4e3ef1d20c6a3656209c7b3 Mon Sep 17 00:00:00 2001
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Mon, 1 Mar 2021 10:52:53 +0100
+Subject: drm/etnaviv: Use FOLL_FORCE for userptr
+
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+
+commit cd5297b0855f17c8b4e3ef1d20c6a3656209c7b3 upstream.
+
+Nothing checks userptr.ro except this call to pup_fast, which means
+there's nothing actually preventing userspace from writing to this.
+Which means you can just read-only mmap any file you want, userptr it
+and then write to it with the gpu. Not good.
+
+The right way to handle this is FOLL_WRITE | FOLL_FORCE, which will
+break any COW mappings and update tracking for MAY_WRITE mappings so
+there's no exploit and the vm isn't confused about what's going on.
+For any legit use case there's no difference from what userspace can
+observe and do.
+
+Reviewed-by: Lucas Stach <l.stach@pengutronix.de>
+Cc: stable@vger.kernel.org
+Cc: John Hubbard <jhubbard@nvidia.com>
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+Cc: Lucas Stach <l.stach@pengutronix.de>
+Cc: Russell King <linux+etnaviv@armlinux.org.uk>
+Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
+Cc: etnaviv@lists.freedesktop.org
+Link: https://patchwork.freedesktop.org/patch/msgid/20210301095254.1946084-1-daniel.vetter@ffwll.ch
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ drivers/gpu/drm/etnaviv/etnaviv_gem.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-index c6404b8..4645349 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-@@ -1771,10 +1771,8 @@ static int etnaviv_gpu_platform_probe(struct platform_device *pdev)
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+@@ -675,7 +675,7 @@ static int etnaviv_gem_userptr_get_pages
+ 		struct page **pages = pvec + pinned;
  
- 	/* Get Interrupt: */
- 	gpu->irq = platform_get_irq(pdev, 0);
--	if (gpu->irq < 0) {
--		dev_err(dev, "failed to get irq: %d\n", gpu->irq);
-+	if (gpu->irq < 0)
- 		return gpu->irq;
--	}
- 
- 	err = devm_request_irq(&pdev->dev, gpu->irq, irq_handler, 0,
- 			       dev_name(gpu->dev), gpu);
--- 
-2.7.4
+ 		ret = pin_user_pages_fast(ptr, num_pages,
+-					  !userptr->ro ? FOLL_WRITE : 0, pages);
++					  FOLL_WRITE | FOLL_FORCE, pages);
+ 		if (ret < 0) {
+ 			unpin_user_pages(pvec, pinned);
+ 			kvfree(pvec);
 
+
+Patches currently in stable-queue which might be from daniel.vetter@ffwll.ch are
+
+queue-5.10/drm-etnaviv-use-foll_force-for-userptr.patch
 _______________________________________________
 etnaviv mailing list
 etnaviv@lists.freedesktop.org
