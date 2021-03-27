@@ -2,34 +2,34 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C3F034B7A5
-	for <lists+etnaviv@lfdr.de>; Sat, 27 Mar 2021 15:28:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4B0934B7AB
+	for <lists+etnaviv@lfdr.de>; Sat, 27 Mar 2021 15:30:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 35A106E153;
-	Sat, 27 Mar 2021 14:28:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7EFC16E153;
+	Sat, 27 Mar 2021 14:30:15 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D7C446E153
- for <etnaviv@lists.freedesktop.org>; Sat, 27 Mar 2021 14:28:50 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 1C00A6194B;
- Sat, 27 Mar 2021 14:28:49 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A7866E153
+ for <etnaviv@lists.freedesktop.org>; Sat, 27 Mar 2021 14:30:15 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 88A07619F2;
+ Sat, 27 Mar 2021 14:30:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1616855330;
- bh=8Ne5Z6CQcuHlQ+5eVZH0CMPQXAQMro4UxDG6uGFJEGI=;
+ s=korg; t=1616855415;
+ bh=rcp5iR+iMkhFgPlT11tNCbmZxf5nai+dbjIBEd30u60=;
  h=Subject:To:Cc:From:Date:From;
- b=Of/GEPd1XqJ6pCFIXToxG/6s4Q++wBUW9u6OX3+Y7wcpY9V61erPbQmkhKHCbeOFW
- ih7s2zd4rGl+Q4xTRnzmEq0Fn28nPm4+DPYG6q8U3bs/aSzVAa1o2MMNymjETrgCht
- m7RX8DP6grYiUC97QRUVsvydlcBxBE+nKJeocqek=
+ b=XjYpn0EYW8k42GQTGBCycrT5lph+oPV0J89Cyru/n8yn0qW02VDyQAPGE01oPWSef
+ 18Ny2um9R+KOPZbW64x4Htr/zkd/uDvShv323qtyIr6jf4fZQiFYMrrSiMsabdEZYH
+ kC8JNKY0mrka4UAmLGU2LuLAe+bXV7UT+g4kTBGM=
 Subject: Patch "drm/etnaviv: Use FOLL_FORCE for userptr" has been added to the
- 5.10-stable tree
+ 5.11-stable tree
 To: christian.gmeiner@gmail.com, daniel.vetter@ffwll.ch,
  daniel.vetter@intel.com, etnaviv@lists.freedesktop.org,
  gregkh@linuxfoundation.org, jhubbard@nvidia.com, l.stach@pengutronix.de,
  linux+etnaviv@armlinux.org.uk
 From: <gregkh@linuxfoundation.org>
-Date: Sat, 27 Mar 2021 15:27:44 +0100
-Message-ID: <1616855264147231@kroah.com>
+Date: Sat, 27 Mar 2021 15:28:01 +0100
+Message-ID: <161685528124569@kroah.com>
 MIME-Version: 1.0
 X-stable: commit
 X-Patchwork-Hint: ignore 
@@ -55,12 +55,12 @@ This is a note to let you know that I've just added the patch titled
 
     drm/etnaviv: Use FOLL_FORCE for userptr
 
-to the 5.10-stable tree which can be found at:
+to the 5.11-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
      drm-etnaviv-use-foll_force-for-userptr.patch
-and it can be found in the queue-5.10 subdirectory.
+and it can be found in the queue-5.11 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
@@ -102,7 +102,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 --- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
 +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-@@ -675,7 +675,7 @@ static int etnaviv_gem_userptr_get_pages
+@@ -689,7 +689,7 @@ static int etnaviv_gem_userptr_get_pages
  		struct page **pages = pvec + pinned;
  
  		ret = pin_user_pages_fast(ptr, num_pages,
@@ -115,7 +115,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 Patches currently in stable-queue which might be from daniel.vetter@ffwll.ch are
 
-queue-5.10/drm-etnaviv-use-foll_force-for-userptr.patch
+queue-5.11/drm-etnaviv-use-foll_force-for-userptr.patch
 _______________________________________________
 etnaviv mailing list
 etnaviv@lists.freedesktop.org
