@@ -1,34 +1,34 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CEAE34C98D
-	for <lists+etnaviv@lfdr.de>; Mon, 29 Mar 2021 10:33:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D17734C807
+	for <lists+etnaviv@lfdr.de>; Mon, 29 Mar 2021 10:20:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 10ED56E1F7;
-	Mon, 29 Mar 2021 08:33:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F4F46E1F7;
+	Mon, 29 Mar 2021 08:20:12 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BFC256E1F7
- for <etnaviv@lists.freedesktop.org>; Mon, 29 Mar 2021 08:33:05 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 1460D619D4;
- Mon, 29 Mar 2021 08:33:04 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 019406E1F7
+ for <etnaviv@lists.freedesktop.org>; Mon, 29 Mar 2021 08:20:10 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 8D36661477;
+ Mon, 29 Mar 2021 08:20:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1617006785;
- bh=zOxT4fum2Fd5OtteXKj84aXCwiX9E4WS8TU3t2VXCNg=;
+ s=korg; t=1617006009;
+ bh=O6tClAaFA0Qq72nsz5l4iwyHAcp7i0MbnyNKYGoJMvk=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=qhuEOxovLh9pjO4iJafua6G4sONE43ZGFQ2vPlg8TzAe18MwHPUwS82tgaWBNorWj
- wIYP3m3hz2joEsJpMTjDRis+M8E4m2in/NOAyKt5tPhH42g346HHJOmD7NBDb5syIR
- a++4Ec5Zmt1Ox4H1OVyn/GTDn7CfFQNhePZV4/QE=
+ b=LP1Dd2e4FlNA2B6C6KOFUcAR90576ALlMC2DI9gdvIzsnE+hJrmc1DNh+wIE+jc3r
+ tyWDVt/4yuhkT8/Qf1J6HKcWoI0b3MRqELWcjUEamsdskJGjDpUdEDFKlRY/I9hmMR
+ 3mTFflgUEDjl4Mfui1DcVsIEqBgmAtGqwDCroUro=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH 5.11 096/254] drm/etnaviv: Use FOLL_FORCE for userptr
-Date: Mon, 29 Mar 2021 09:56:52 +0200
-Message-Id: <20210329075636.349560401@linuxfoundation.org>
+Subject: [PATCH 5.10 084/221] drm/etnaviv: Use FOLL_FORCE for userptr
+Date: Mon, 29 Mar 2021 09:56:55 +0200
+Message-Id: <20210329075632.011485061@linuxfoundation.org>
 X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210329075633.135869143@linuxfoundation.org>
-References: <20210329075633.135869143@linuxfoundation.org>
+In-Reply-To: <20210329075629.172032742@linuxfoundation.org>
+References: <20210329075629.172032742@linuxfoundation.org>
 User-Agent: quilt/0.66
 MIME-Version: 1.0
 X-BeenThere: etnaviv@lists.freedesktop.org
@@ -83,7 +83,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 --- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
 +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-@@ -689,7 +689,7 @@ static int etnaviv_gem_userptr_get_pages
+@@ -675,7 +675,7 @@ static int etnaviv_gem_userptr_get_pages
  		struct page **pages = pvec + pinned;
  
  		ret = pin_user_pages_fast(ptr, num_pages,
