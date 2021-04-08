@@ -1,28 +1,29 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09BFC35847C
-	for <lists+etnaviv@lfdr.de>; Thu,  8 Apr 2021 15:19:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E2250358E5F
+	for <lists+etnaviv@lfdr.de>; Thu,  8 Apr 2021 22:29:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A42786EAD6;
-	Thu,  8 Apr 2021 13:19:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 29EE06E21D;
+	Thu,  8 Apr 2021 20:29:39 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
 Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0881F6E19B;
- Thu,  8 Apr 2021 13:19:39 +0000 (UTC)
-Received: from mail-oi1-f176.google.com ([209.85.167.176]) by
- mrelayeu.kundenserver.de (mreue108 [213.165.67.113]) with ESMTPSA (Nemesis)
- id 1MTzjI-1l3e0p2czK-00R49h; Thu, 08 Apr 2021 15:19:37 +0200
-Received: by mail-oi1-f176.google.com with SMTP id i3so2114193oik.7;
- Thu, 08 Apr 2021 06:19:36 -0700 (PDT)
-X-Gm-Message-State: AOAM530iARu9AyE9oOClAP6fIBFEKL4icMzit/CAZlDRfiLswEWmuixT
- RFADZywKPysJmRHOHyWnbFGyNIeGKpwpK1O1Ssg=
-X-Google-Smtp-Source: ABdhPJzHb7t36K8Eh3/YW98i9jFFwt105TSLCljFkAhUwPloRFuMsDPsNoXrOsOYqi1vkp97GaHnIbSFi7HvVPlRimE=
-X-Received: by 2002:a05:6808:313:: with SMTP id
- i19mr5867255oie.67.1617887975911; 
- Thu, 08 Apr 2021 06:19:35 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E77FD6E08C;
+ Thu,  8 Apr 2021 20:29:36 +0000 (UTC)
+Received: from mail-ot1-f53.google.com ([209.85.210.53]) by
+ mrelayeu.kundenserver.de (mreue109 [213.165.67.113]) with ESMTPSA (Nemesis)
+ id 1N8onQ-1lgC6t1m9G-015nUi; Thu, 08 Apr 2021 22:29:33 +0200
+Received: by mail-ot1-f53.google.com with SMTP id
+ l12-20020a9d6a8c0000b0290238e0f9f0d8so3587527otq.8; 
+ Thu, 08 Apr 2021 13:29:33 -0700 (PDT)
+X-Gm-Message-State: AOAM5329V1/bFkTX4u1gJz5hMLSs1520m0kozT+eOwAOXiX34RUKAV19
+ 21bgzSjpBzRpV5NgB4GeKpHZfY+ghMnj2x0k8Ck=
+X-Google-Smtp-Source: ABdhPJyfPECLeLOF/Bs3NvQ2GDzKFAUyLZwtkCfbxO3pPqunDWbqv1JOjJ/RM4Y98JdJ7lIhjCGjr/ZYV8r3IjuTvvw=
+X-Received: by 2002:a05:6830:148c:: with SMTP id
+ s12mr9613770otq.251.1617913771943; 
+ Thu, 08 Apr 2021 13:29:31 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210408092011.52763-1-david@redhat.com>
  <20210408092011.52763-3-david@redhat.com>
@@ -33,29 +34,30 @@ References: <20210408092011.52763-1-david@redhat.com>
  <CAK8P3a1tVwkDbtvKi8atkrg1-CfoQHGrXLCzn_uo+=dfZJfdQA@mail.gmail.com>
  <3a2d64a7-8425-8daf-17ee-95b9f0c635f9@redhat.com>
  <CACRpkdYizKGhtYzE+22oZAduLNCOGP9Vbp=LQbXG1C-a+MyMcg@mail.gmail.com>
-In-Reply-To: <CACRpkdYizKGhtYzE+22oZAduLNCOGP9Vbp=LQbXG1C-a+MyMcg@mail.gmail.com>
+ <2ef3b65c-c0ef-7bbe-0e05-39ee8f2bae48@redhat.com>
+In-Reply-To: <2ef3b65c-c0ef-7bbe-0e05-39ee8f2bae48@redhat.com>
 From: Arnd Bergmann <arnd@arndb.de>
-Date: Thu, 8 Apr 2021 15:19:19 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a2Wu7tT-YajfdXSSVvg5MYMEnEy3APJ83DcLeJdGkkSrQ@mail.gmail.com>
-Message-ID: <CAK8P3a2Wu7tT-YajfdXSSVvg5MYMEnEy3APJ83DcLeJdGkkSrQ@mail.gmail.com>
+Date: Thu, 8 Apr 2021 22:29:15 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a3sqZBo8-zye1yiZuD2uMUr0oE_q_QfaK9K54TEgd1Cdw@mail.gmail.com>
+Message-ID: <CAK8P3a3sqZBo8-zye1yiZuD2uMUr0oE_q_QfaK9K54TEgd1Cdw@mail.gmail.com>
 Subject: Re: [PATCH v1 2/2] drivers/gpu/drm: don't select DMA_CMA or CMA from
  aspeed or etnaviv
-To: Linus Walleij <linus.walleij@linaro.org>
-X-Provags-ID: V03:K1:PExc2Nn9ZQWjgqED09K3r4Bk848iZiqC7n53nerDSc0J4M3RZJS
- ++MmPHRf56eBzSV14Sp1JwARRSlJdDa3A2XFeEQngkPWvam9D5IYk0P17M3ci0Xd68sMGBG
- qpj9SK7mshsEDeowN7pe5YLLIZvo1DjSs2DM5PvZQDXqzBUnIkVGFJb055dVBSOHxBCu+Q0
- YdoFW7kOGqtq7ElqgpU2w==
+To: David Hildenbrand <david@redhat.com>
+X-Provags-ID: V03:K1:AU/AJpvQ7hUp1HPIXTPM9B9a7e5RdJcLgqr83J2YenGxurRA5FB
+ H2ii6aeb344CKhKFnzLX6d4QWfwP1m2WcBE8/ynWVNAmavYg+IaszVpb1nIweKAFy+WyOpF
+ igbyQlWKaZLrs6eweonMGiycbCk9ngbDZZhAK3S68GPXQjuNf4IzX0gWCUSE2o+41eFlNeL
+ r+Z3L9V2z/mFeIPuvHArw==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:w2kodYd7nlY=:vyYfay29E/Xi8AqoJdVHT6
- s87+VroKpVCtXTWS6inSqubXLKmp8icGMhJnREj8YkCrtV7xT7WVoKM8ruwAqEA77fRrtGuLU
- FrSJ9ind5Yj2N7LNy1ZiG3ih2l/HCb6ajDOzYcKOWHhLZROamOs23Mi3Ij1FFSwjp+BOvrNl6
- NomBGhLu31+jdHhH0NwpHcWPWy5ZhYXV6U/4iaeoceHmSe4xxOIGPmSoJ5PVZehePf4cwatRf
- noyGnaHG0pvvPReAObgOBFDcmysccC4OU81Cx24R8+N+A9FrXt3FIo9rF6hz2LxK6RL06DjSq
- T9+kxHz0VjtSMcPSjBFOFYkRc921/V3LczYTpvz3Y2hW4HcwKv3G7YpvGjBCcM+jWNnT+bYyJ
- zVIO48kCj2vhCBL/YiS3DcigYeaOsQotKKqIvnWfl771Oz7vKH2F6LG1kh16zq+eee5JI72ap
- jhbCdakrRAbY3rD2C3rb9NlsgQIy++xjYToPVCzByJmc8s4YqDupFH6QoLhoi/sYoWH4TKref
- xn3B0yF/5C0fokbhroL1XB37yNr0XCduupwX2UVd67i9Vn1+QBLef4oCVP94NCdhSEjyDuF9x
- 9NSQp4YjQJVLxlXkJ8bswkl+w8FIqWUDWW
+X-UI-Out-Filterresults: notjunk:1;V03:K0:NKjw4CEqH2U=:pSkjONLwVTPt7tMfuQB1OZ
+ 3xw1UBCLeclBwwFP73Y3Bgvjhh5GTtHvdkUnk1gpUZI2iiUYHzKF9KWd/MlxQ87GTN9V414nz
+ 2ng6RG+/+DyKzKDl5rX/Ht6qsT6Yh97VmC4v3kYZ6NtU1bsd58qfe0NM9JH5jRF6p+jdIqbg0
+ wvXWNKyxavHH1sxV0n2oBBoWpf9hn4R4H8UOFi9EiI8E5XBUHnIknBhuVXlauCPuVKfN8/Imo
+ lXt6BWY8c9IvBGVpLzlOwjoelC7cXolk1qG0rWHc+/MEceKtNvlmJbEJvUt1OUbody+VzBy2B
+ fyTv1/auOEVjd4LPdgH/PAemcvk0hTsNmKbFlGvTAElG25vcsxEeomobOP20oE+4Q+MU9SOyg
+ 3ocuxn/TqYOnASETGFGq2fIHLXSy7iveFX4DMSyoQ2QkO+LaMFEiLk2t9QQA27BlqYasHST9M
+ cefeiOVtKWC64qFdmJpMdpxi2IBNCZ9KHY6E1S0fxWeYwF4U2/kDrtvzBfAnWSqJz0z2eM93O
+ 3IlyEdvw9fYd7anVrMJokaULVIhMizw6QBPPAsfHvekD8kbLpcPg0bqNM09u8VHDsCVMLsXG2
+ ynhQYWwxaV7h8dIwaN9pvXkHHev2D3Y0oH
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,69 +71,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
 Cc: Linux ARM <linux-arm-kernel@lists.infradead.org>,
  Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Randy Dunlap <rdunlap@infradead.org>,
  linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- David Hildenbrand <david@redhat.com>, David Airlie <airlied@linux.ie>,
- Andrew Jeffery <andrew@aj.id.au>, Masahiro Yamada <masahiroy@kernel.org>,
  Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ David Airlie <airlied@linux.ie>, Andrew Jeffery <andrew@aj.id.au>,
+ Linus Walleij <linus.walleij@linaro.org>, Randy Dunlap <rdunlap@infradead.org>,
  The etnaviv authors <etnaviv@lists.freedesktop.org>,
  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
  dri-devel <dri-devel@lists.freedesktop.org>,
  Michal Simek <michal.simek@xilinx.com>, Linux-MM <linux-mm@kvack.org>,
  Christian Gmeiner <christian.gmeiner@gmail.com>, Joel Stanley <joel@jms.id.au>,
  Daniel Vetter <daniel@ffwll.ch>, Russell King <linux+etnaviv@armlinux.org.uk>,
- Peter Collingbourne <pcc@google.com>, Mike Rapoport <rppt@kernel.org>,
- Lucas Stach <l.stach@pengutronix.de>
+ Peter Collingbourne <pcc@google.com>, Masahiro Yamada <masahiroy@kernel.org>,
+ Mike Rapoport <rppt@kernel.org>, Lucas Stach <l.stach@pengutronix.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-On Thu, Apr 8, 2021 at 2:50 PM Linus Walleij <linus.walleij@linaro.org> wrote:
->
-> On Thu, Apr 8, 2021 at 2:01 PM David Hildenbrand <david@redhat.com> wrote:
->
-> > > This is something you could do using a hidden helper symbol like
-> > >
-> > > config DRMA_ASPEED_GFX
-> > >         bool "Aspeed display driver"
-> > >         select DRM_WANT_CMA
-> > >
-> > > config DRM_WANT_CMA
-> > >         bool
-> > >         help
-> > >            Select this from any driver that benefits from CMA being enabled
-> > >
-> > > config DMA_CMA
-> > >         bool "Use CMA helpers for DRM"
-> > >         default DRM_WANT_CMA
-> > >
-> > >           Arnd
-> > >
+On Thu, Apr 8, 2021 at 6:45 PM David Hildenbrand <david@redhat.com> wrote:
+> On 08.04.21 14:49, Linus Walleij wrote:
+> > On Thu, Apr 8, 2021 at 2:01 PM David Hildenbrand <david@redhat.com> wrote:
 > >
-> > That's precisely what I had first, with an additional "WANT_CMA" --  but
-> > looking at the number of such existing options (I was able to spot 1 !)
+> >>> This is something you could do using a hidden helper symbol like
+> >>>
+> >>> config DRMA_ASPEED_GFX
+> >>>          bool "Aspeed display driver"
+> >>>          select DRM_WANT_CMA
+> >>>
+> >>> config DRM_WANT_CMA
+> >>>          bool
+> >>>          help
+> >>>             Select this from any driver that benefits from CMA being enabled
+> >>>
+> >>> config DMA_CMA
+> >>>          bool "Use CMA helpers for DRM"
+> >>>          default DRM_WANT_CMA
+> >>>
+> >>>            Arnd
+> >>>
+> >>
+> >> That's precisely what I had first, with an additional "WANT_CMA" --  but
+> >> looking at the number of such existing options (I was able to spot 1 !)
+> >
+> > If you do this it probably makes sense to fix a few other drivers
+> > Kconfig in the process. It's not just a problem with your driver.
+> > "my" drivers:
+> >
 >
-> If you do this it probably makes sense to fix a few other drivers
-> Kconfig in the process. It's not just a problem with your driver.
-> "my" drivers:
+> :) I actually wanted to convert them to "depends on DMA_CMA" but ran
+> into recursive dependencies ...
 >
-> drivers/gpu/drm/mcde/Kconfig
-> drivers/gpu/drm/pl111/Kconfig
-> drivers/gpu/drm/tve200/Kconfig
->
-> certainly needs this as well, and pretty much anything that is
-> selecting DRM_KMS_CMA_HELPER or
-> DRM_GEM_CMA_HELPER "wants" DMA_CMA.
+> > drivers/gpu/drm/mcde/Kconfig
+> > drivers/gpu/drm/pl111/Kconfig
+> > drivers/gpu/drm/tve200/Kconfig
 
-Are there any that don't select either of the helpers and
-still want CMA? If not, it would be easy to just add
+Right, this is the main problem caused by using 'select' to
+force-enable symbols that other drivers depend on.
 
-   default  DRM_KMS_CMA_HELPER || DRM_GEM_CMA_HELPER
+Usually, the answer is to be consistent about the use of 'select'
+and 'depends on', using the former only to enable symbols that
+are hidden, while using 'depends on' for anything that is an
+actual build time dependency.
 
-and skipt the extra symbol.
+> I was assuming these are "real" dependencies. Will it also work without
+> DMA_CMA?
 
-        Arnd
+I think in this case, it is fairly likely to work without DMA_CMA when the
+probe function gets called during a fresh boot, but fairly likely to fail if
+it gets called after the system has run for long enough to fragment the
+free memory.
+
+The point of DMA_CMA is to make it work reliably.
+
+      Arnd
 _______________________________________________
 etnaviv mailing list
 etnaviv@lists.freedesktop.org
