@@ -2,47 +2,38 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EAB2359D2D
-	for <lists+etnaviv@lfdr.de>; Fri,  9 Apr 2021 13:21:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D76D359ECA
+	for <lists+etnaviv@lfdr.de>; Fri,  9 Apr 2021 14:33:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB2D96EC0A;
-	Fri,  9 Apr 2021 11:20:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 35D3B6EC17;
+	Fri,  9 Apr 2021 12:33:21 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [63.128.21.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E187E6EC15
- for <etnaviv@lists.freedesktop.org>; Fri,  9 Apr 2021 11:20:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617967257;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=PD3Q7CnsV9MqbBn+Rr4TRlOA2dr68nSidgD5C8Dw+e8=;
- b=O/UOgQW41J7EJwcNayZ9bp9RQ4rtZu7hI5GiM65Yrw9Q3Tw9koLENkHtF4V9wAx/dbVz6s
- tMxvGfwnztvZOSIbst/8YZLpRV4m36LregBUm+iycIBdzzu76ie3gwa97EiIyhuLzQ3ZH5
- UKggSe0e9eAXB/TeZtXKBP0ke0r2UkM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-558-ohRWwxMiOb2g9zARlvyeqQ-1; Fri, 09 Apr 2021 07:20:53 -0400
-X-MC-Unique: ohRWwxMiOb2g9zARlvyeqQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EBD7664157;
- Fri,  9 Apr 2021 11:20:48 +0000 (UTC)
-Received: from t480s.redhat.com (ovpn-115-11.ams2.redhat.com [10.36.115.11])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0F4195D9E3;
- Fri,  9 Apr 2021 11:20:35 +0000 (UTC)
-From: David Hildenbrand <david@redhat.com>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH v3] drivers: introduce and use WANT_DMA_CMA for soft
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 08A956EC17
+ for <etnaviv@lists.freedesktop.org>; Fri,  9 Apr 2021 12:33:20 +0000 (UTC)
+Received: from gallifrey.ext.pengutronix.de
+ ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1lUqHd-00037W-3M; Fri, 09 Apr 2021 14:30:45 +0200
+Message-ID: <18d42d56167f0e2af6d0edaf596b20fcd778b96c.camel@pengutronix.de>
+Subject: Re: [PATCH v3] drivers: introduce and use WANT_DMA_CMA for soft
  dependencies on DMA_CMA
-Date: Fri,  9 Apr 2021 13:20:35 +0200
-Message-Id: <20210409112035.27221-1-david@redhat.com>
+From: Lucas Stach <l.stach@pengutronix.de>
+To: David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org
+Date: Fri, 09 Apr 2021 14:30:34 +0200
+In-Reply-To: <20210409112035.27221-1-david@redhat.com>
+References: <20210409112035.27221-1-david@redhat.com>
+User-Agent: Evolution 3.38.4 (3.38.4-1.fc33) 
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,281 +46,204 @@ List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
 Cc: linux-fbdev@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
- David Hildenbrand <david@redhat.com>, David Airlie <airlied@linux.ie>,
- Linus Walleij <linus.walleij@linaro.org>, dri-devel@lists.freedesktop.org,
- Paul Cercueil <paul@crapouillou.net>, Eric Anholt <eric@anholt.net>,
- Suman Anna <s-anna@ti.com>, Christoph Hellwig <hch@lst.de>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
+ David Airlie <airlied@linux.ie>, Linus Walleij <linus.walleij@linaro.org>,
+ dri-devel@lists.freedesktop.org, Paul Cercueil <paul@crapouillou.net>,
+ Eric Anholt <eric@anholt.net>, Suman Anna <s-anna@ti.com>,
+ Christoph Hellwig <hch@lst.de>, Marek Szyprowski <m.szyprowski@samsung.com>,
  Masahiro Yamada <masahiroy@kernel.org>, Michal Simek <michal.simek@xilinx.com>,
  Jason Gunthorpe <jgg@ziepe.ca>, Joel Stanley <joel@jms.id.au>,
  Russell King <linux+etnaviv@armlinux.org.uk>,
- Thomas Zimmermann <tzimmermann@suse.de>, Arnd Bergmann <arnd@arndb.de>,
+ "Alexander A. Klimov" <grandmaster@al2klimov.de>,
+ Arnd Bergmann <arnd@arndb.de>,
  Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  etnaviv@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>,
  Christian Gmeiner <christian.gmeiner@gmail.com>,
- Peter Collingbourne <pcc@google.com>, linux-arm-kernel@lists.infradead.org,
- "Alexander A. Klimov" <grandmaster@al2klimov.de>, linux-mm@kvack.org,
+ Daniel Vetter <daniel@ffwll.ch>, Peter Collingbourne <pcc@google.com>,
+ linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org,
  Andrew Jeffery <andrew@aj.id.au>, linux-mips@vger.kernel.org,
- iommu@lists.linux-foundation.org, Daniel Vetter <daniel@ffwll.ch>,
+ iommu@lists.linux-foundation.org, Thomas Zimmermann <tzimmermann@suse.de>,
  Andrew Morton <akpm@linux-foundation.org>, Robin Murphy <robin.murphy@arm.com>,
- Mike Rapoport <rppt@kernel.org>, Lucas Stach <l.stach@pengutronix.de>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+ Mike Rapoport <rppt@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Random drivers should not override a user configuration of core knobs
-(e.g., CONFIG_DMA_CMA=n). Applicable drivers would like to use DMA_CMA,
-which depends on CMA, if possible; however, these drivers also have to
-tolerate if DMA_CMA is not available/functioning, for example, if no CMA
-area for DMA_CMA use has been setup via "cma=X". In the worst case, the
-driver cannot do it's job properly in some configurations.
-
-For example, commit 63f5677544b3 ("drm/etnaviv: select CMA and DMA_CMA if
-available") documents
-	While this is no build dependency, etnaviv will only work correctly
-	on most systems if CMA and DMA_CMA are enabled. Select both options
-	if available to avoid users ending up with a non-working GPU due to
-	a lacking kernel config.
-So etnaviv really wants to have DMA_CMA, however, can deal with some cases
-where it is not available.
-
-Let's introduce WANT_DMA_CMA and use it in most cases where drivers
-select CMA/DMA_CMA, or depend on DMA_CMA (in a wrong way via CMA because
-of recursive dependency issues).
-
-We'll assume that any driver that selects DRM_GEM_CMA_HELPER or
-DRM_KMS_CMA_HELPER would like to use DMA_CMA if possible.
-
-With this change, distributions can disable CONFIG_CMA or
-CONFIG_DMA_CMA, without it silently getting enabled again by random
-drivers. Also, we'll now automatically try to enabled both, CONFIG_CMA
-and CONFIG_DMA_CMA if they are unspecified and any driver is around that
-selects WANT_DMA_CMA -- also implicitly via DRM_GEM_CMA_HELPER or
-DRM_KMS_CMA_HELPER.
-
-For example, if any driver selects WANT_DMA_CMA and we do a
-"make olddefconfig":
-
-1. With "# CONFIG_CMA is not set" and no specification of
-   "CONFIG_DMA_CMA"
-
--> CONFIG_DMA_CMA won't be part of .config
-
-2. With no specification of CONFIG_CMA or CONFIG_DMA_CMA
-
-Contiguous Memory Allocator (CMA) [Y/n/?] (NEW)
-DMA Contiguous Memory Allocator (DMA_CMA) [Y/n/?] (NEW)
-
-3. With "# CONFIG_CMA is not set" and "# CONFIG_DMA_CMA is not set"
-
--> CONFIG_DMA_CMA will be removed from .config
-
-Note: drivers/remoteproc seems to be special; commit c51e882cd711
-("remoteproc/davinci: Update Kconfig to depend on DMA_CMA") explains that
-there is a real dependency to DMA_CMA for it to work; leave that dependency
-in place and don't convert it to a soft dependency.
-
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Joel Stanley <joel@jms.id.au>
-Cc: Andrew Jeffery <andrew@aj.id.au>
-Cc: Lucas Stach <l.stach@pengutronix.de>
-Cc: Russell King <linux+etnaviv@armlinux.org.uk>
-Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
-Cc: Paul Cercueil <paul@crapouillou.net>
-Cc: Linus Walleij <linus.walleij@linaro.org>
-Cc: Christoph Hellwig <hch@lst.de>
-Cc: Marek Szyprowski <m.szyprowski@samsung.com>
-Cc: Robin Murphy <robin.murphy@arm.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Mike Rapoport <rppt@kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>
-Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Cc: Eric Anholt <eric@anholt.net>
-Cc: Michal Simek <michal.simek@xilinx.com>
-Cc: Masahiro Yamada <masahiroy@kernel.org>
-Cc: "Alexander A. Klimov" <grandmaster@al2klimov.de>
-Cc: Peter Collingbourne <pcc@google.com>
-Cc: Suman Anna <s-anna@ti.com>
-Cc: Jason Gunthorpe <jgg@ziepe.ca>
-Cc: dri-devel@lists.freedesktop.org
-Cc: linux-aspeed@lists.ozlabs.org
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: etnaviv@lists.freedesktop.org
-Cc: linux-mips@vger.kernel.org
-Cc: linux-fbdev@vger.kernel.org
-Cc: iommu@lists.linux-foundation.org
-Signed-off-by: David Hildenbrand <david@redhat.com>
----
-
-Let's see if this approach is better for soft dependencies (and if we
-actually have some hard dependencies in there). This is the follow-up
-of
-  https://lkml.kernel.org/r/20210408092011.52763-1-david@redhat.com
-  https://lkml.kernel.org/r/20210408100523.63356-1-david@redhat.com
-
-I was wondering if it would make sense in some drivers to warn if either
-CONFIG_DMA_CMA is not available or if DRM_CMA has not been configured
-properly - just to give people a heads up that something might more likely
-go wrong; that would, however, be future work.
-
-v2 -> v3:
-- Don't use "imply" but instead use a new WANT_DMA_CMA and make the default
-  of CMA and DMA_CMA depend on it.
-- Also adjust ingenic, mcde, tve200; these sound like soft dependencies as
-  well (although DMA_CMA is really desired)
-
-v1 -> v2:
-- Fix DRM_CMA -> DMA_CMA
-
----
- drivers/gpu/drm/Kconfig         | 2 ++
- drivers/gpu/drm/aspeed/Kconfig  | 2 --
- drivers/gpu/drm/etnaviv/Kconfig | 3 +--
- drivers/gpu/drm/ingenic/Kconfig | 1 -
- drivers/gpu/drm/mcde/Kconfig    | 1 -
- drivers/gpu/drm/tve200/Kconfig  | 1 -
- drivers/video/fbdev/Kconfig     | 2 +-
- kernel/dma/Kconfig              | 7 +++++++
- mm/Kconfig                      | 1 +
- 9 files changed, 12 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index 85b79a7fee63..6f9989adfa93 100644
---- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -201,12 +201,14 @@ config DRM_TTM_HELPER
- config DRM_GEM_CMA_HELPER
- 	bool
- 	depends on DRM
-+	select WANT_DMA_CMA
- 	help
- 	  Choose this if you need the GEM CMA helper functions
- 
- config DRM_KMS_CMA_HELPER
- 	bool
- 	depends on DRM
-+	select WANT_DMA_CMA
- 	select DRM_GEM_CMA_HELPER
- 	help
- 	  Choose this if you need the KMS CMA helper functions
-diff --git a/drivers/gpu/drm/aspeed/Kconfig b/drivers/gpu/drm/aspeed/Kconfig
-index 5e95bcea43e9..e5ff33f85f21 100644
---- a/drivers/gpu/drm/aspeed/Kconfig
-+++ b/drivers/gpu/drm/aspeed/Kconfig
-@@ -6,8 +6,6 @@ config DRM_ASPEED_GFX
- 	depends on MMU
- 	select DRM_KMS_HELPER
- 	select DRM_KMS_CMA_HELPER
--	select DMA_CMA if HAVE_DMA_CONTIGUOUS
--	select CMA if HAVE_DMA_CONTIGUOUS
- 	select MFD_SYSCON
- 	help
- 	  Chose this option if you have an ASPEED AST2500 SOC Display
-diff --git a/drivers/gpu/drm/etnaviv/Kconfig b/drivers/gpu/drm/etnaviv/Kconfig
-index faa7fc68b009..a3e7649b44a7 100644
---- a/drivers/gpu/drm/etnaviv/Kconfig
-+++ b/drivers/gpu/drm/etnaviv/Kconfig
-@@ -9,8 +9,7 @@ config DRM_ETNAVIV
- 	select THERMAL if DRM_ETNAVIV_THERMAL
- 	select TMPFS
- 	select WANT_DEV_COREDUMP
--	select CMA if HAVE_DMA_CONTIGUOUS
--	select DMA_CMA if HAVE_DMA_CONTIGUOUS
-+	select WANT_DMA_CMA
- 	select DRM_SCHED
- 	help
- 	  DRM driver for Vivante GPUs.
-diff --git a/drivers/gpu/drm/ingenic/Kconfig b/drivers/gpu/drm/ingenic/Kconfig
-index 3b57f8be007c..156b11b7bbb8 100644
---- a/drivers/gpu/drm/ingenic/Kconfig
-+++ b/drivers/gpu/drm/ingenic/Kconfig
-@@ -2,7 +2,6 @@ config DRM_INGENIC
- 	tristate "DRM Support for Ingenic SoCs"
- 	depends on MIPS || COMPILE_TEST
- 	depends on DRM
--	depends on CMA
- 	depends on OF
- 	depends on COMMON_CLK
- 	select DRM_BRIDGE
-diff --git a/drivers/gpu/drm/mcde/Kconfig b/drivers/gpu/drm/mcde/Kconfig
-index 71c689b573c9..217d54c4babc 100644
---- a/drivers/gpu/drm/mcde/Kconfig
-+++ b/drivers/gpu/drm/mcde/Kconfig
-@@ -1,7 +1,6 @@
- config DRM_MCDE
- 	tristate "DRM Support for ST-Ericsson MCDE (Multichannel Display Engine)"
- 	depends on DRM
--	depends on CMA
- 	depends on ARM || COMPILE_TEST
- 	depends on OF
- 	depends on COMMON_CLK
-diff --git a/drivers/gpu/drm/tve200/Kconfig b/drivers/gpu/drm/tve200/Kconfig
-index e2d163c74ed6..d04b7322c770 100644
---- a/drivers/gpu/drm/tve200/Kconfig
-+++ b/drivers/gpu/drm/tve200/Kconfig
-@@ -2,7 +2,6 @@
- config DRM_TVE200
- 	tristate "DRM Support for Faraday TV Encoder TVE200"
- 	depends on DRM
--	depends on CMA
- 	depends on ARM || COMPILE_TEST
- 	depends on OF
- 	select DRM_BRIDGE
-diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
-index 4f02db65dede..e8acd4f77d41 100644
---- a/drivers/video/fbdev/Kconfig
-+++ b/drivers/video/fbdev/Kconfig
-@@ -2186,7 +2186,7 @@ config FB_HYPERV
- 	select FB_CFB_COPYAREA
- 	select FB_CFB_IMAGEBLIT
- 	select FB_DEFERRED_IO
--	select DMA_CMA if HAVE_DMA_CONTIGUOUS && CMA
-+	select WANT_DMA_CMA
- 	help
- 	  This framebuffer driver supports Microsoft Hyper-V Synthetic Video.
- 
-diff --git a/kernel/dma/Kconfig b/kernel/dma/Kconfig
-index 77b405508743..928f16d2461d 100644
---- a/kernel/dma/Kconfig
-+++ b/kernel/dma/Kconfig
-@@ -103,8 +103,15 @@ config DMA_DIRECT_REMAP
- 	select DMA_REMAP
- 	select DMA_COHERENT_POOL
- 
-+config WANT_DMA_CMA
-+	bool
-+	help
-+	  Drivers should "select" this option if they desire to use the
-+	  DMA_CMA mechanism.
-+
- config DMA_CMA
- 	bool "DMA Contiguous Memory Allocator"
-+	default y if WANT_DMA_CMA
- 	depends on HAVE_DMA_CONTIGUOUS && CMA
- 	help
- 	  This enables the Contiguous Memory Allocator which allows drivers
-diff --git a/mm/Kconfig b/mm/Kconfig
-index 24c045b24b95..169598ee56b1 100644
---- a/mm/Kconfig
-+++ b/mm/Kconfig
-@@ -485,6 +485,7 @@ config FRONTSWAP
- 
- config CMA
- 	bool "Contiguous Memory Allocator"
-+	default y if WANT_DMA_CMA
- 	depends on MMU
- 	select MIGRATION
- 	select MEMORY_ISOLATION
--- 
-2.30.2
-
-_______________________________________________
-etnaviv mailing list
-etnaviv@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/etnaviv
+QW0gRnJlaXRhZywgZGVtIDA5LjA0LjIwMjEgdW0gMTM6MjAgKzAyMDAgc2NocmllYiBEYXZpZCBI
+aWxkZW5icmFuZDoKPiBSYW5kb20gZHJpdmVycyBzaG91bGQgbm90IG92ZXJyaWRlIGEgdXNlciBj
+b25maWd1cmF0aW9uIG9mIGNvcmUga25vYnMKPiAoZS5nLiwgQ09ORklHX0RNQV9DTUE9bikuIEFw
+cGxpY2FibGUgZHJpdmVycyB3b3VsZCBsaWtlIHRvIHVzZSBETUFfQ01BLAo+IHdoaWNoIGRlcGVu
+ZHMgb24gQ01BLCBpZiBwb3NzaWJsZTsgaG93ZXZlciwgdGhlc2UgZHJpdmVycyBhbHNvIGhhdmUg
+dG8KPiB0b2xlcmF0ZSBpZiBETUFfQ01BIGlzIG5vdCBhdmFpbGFibGUvZnVuY3Rpb25pbmcsIGZv
+ciBleGFtcGxlLCBpZiBubyBDTUEKPiBhcmVhIGZvciBETUFfQ01BIHVzZSBoYXMgYmVlbiBzZXR1
+cCB2aWEgImNtYT1YIi4gSW4gdGhlIHdvcnN0IGNhc2UsIHRoZQo+IGRyaXZlciBjYW5ub3QgZG8g
+aXQncyBqb2IgcHJvcGVybHkgaW4gc29tZSBjb25maWd1cmF0aW9ucy4KPiAKPiBGb3IgZXhhbXBs
+ZSwgY29tbWl0IDYzZjU2Nzc1NDRiMyAoImRybS9ldG5hdml2OiBzZWxlY3QgQ01BIGFuZCBETUFf
+Q01BIGlmCj4gYXZhaWxhYmxlIikgZG9jdW1lbnRzCj4gCVdoaWxlIHRoaXMgaXMgbm8gYnVpbGQg
+ZGVwZW5kZW5jeSwgZXRuYXZpdiB3aWxsIG9ubHkgd29yayBjb3JyZWN0bHkKPiAJb24gbW9zdCBz
+eXN0ZW1zIGlmIENNQSBhbmQgRE1BX0NNQSBhcmUgZW5hYmxlZC4gU2VsZWN0IGJvdGggb3B0aW9u
+cwo+IAlpZiBhdmFpbGFibGUgdG8gYXZvaWQgdXNlcnMgZW5kaW5nIHVwIHdpdGggYSBub24td29y
+a2luZyBHUFUgZHVlIHRvCj4gCWEgbGFja2luZyBrZXJuZWwgY29uZmlnLgo+IFNvIGV0bmF2aXYg
+cmVhbGx5IHdhbnRzIHRvIGhhdmUgRE1BX0NNQSwgaG93ZXZlciwgY2FuIGRlYWwgd2l0aCBzb21l
+IGNhc2VzCj4gd2hlcmUgaXQgaXMgbm90IGF2YWlsYWJsZS4KPiAKPiBMZXQncyBpbnRyb2R1Y2Ug
+V0FOVF9ETUFfQ01BIGFuZCB1c2UgaXQgaW4gbW9zdCBjYXNlcyB3aGVyZSBkcml2ZXJzCj4gc2Vs
+ZWN0IENNQS9ETUFfQ01BLCBvciBkZXBlbmQgb24gRE1BX0NNQSAoaW4gYSB3cm9uZyB3YXkgdmlh
+IENNQSBiZWNhdXNlCj4gb2YgcmVjdXJzaXZlIGRlcGVuZGVuY3kgaXNzdWVzKS4KPiAKPiBXZSds
+bCBhc3N1bWUgdGhhdCBhbnkgZHJpdmVyIHRoYXQgc2VsZWN0cyBEUk1fR0VNX0NNQV9IRUxQRVIg
+b3IKPiBEUk1fS01TX0NNQV9IRUxQRVIgd291bGQgbGlrZSB0byB1c2UgRE1BX0NNQSBpZiBwb3Nz
+aWJsZS4KPiAKPiBXaXRoIHRoaXMgY2hhbmdlLCBkaXN0cmlidXRpb25zIGNhbiBkaXNhYmxlIENP
+TkZJR19DTUEgb3IKPiBDT05GSUdfRE1BX0NNQSwgd2l0aG91dCBpdCBzaWxlbnRseSBnZXR0aW5n
+IGVuYWJsZWQgYWdhaW4gYnkgcmFuZG9tCj4gZHJpdmVycy4gQWxzbywgd2UnbGwgbm93IGF1dG9t
+YXRpY2FsbHkgdHJ5IHRvIGVuYWJsZWQgYm90aCwgQ09ORklHX0NNQQo+IGFuZCBDT05GSUdfRE1B
+X0NNQSBpZiB0aGV5IGFyZSB1bnNwZWNpZmllZCBhbmQgYW55IGRyaXZlciBpcyBhcm91bmQgdGhh
+dAo+IHNlbGVjdHMgV0FOVF9ETUFfQ01BIC0tIGFsc28gaW1wbGljaXRseSB2aWEgRFJNX0dFTV9D
+TUFfSEVMUEVSIG9yCj4gRFJNX0tNU19DTUFfSEVMUEVSLgo+IAo+IEZvciBleGFtcGxlLCBpZiBh
+bnkgZHJpdmVyIHNlbGVjdHMgV0FOVF9ETUFfQ01BIGFuZCB3ZSBkbyBhCj4gIm1ha2Ugb2xkZGVm
+Y29uZmlnIjoKPiAKPiAxLiBXaXRoICIjIENPTkZJR19DTUEgaXMgbm90IHNldCIgYW5kIG5vIHNw
+ZWNpZmljYXRpb24gb2YKPiDCoMKgwqAiQ09ORklHX0RNQV9DTUEiCj4gCj4gLT4gQ09ORklHX0RN
+QV9DTUEgd29uJ3QgYmUgcGFydCBvZiAuY29uZmlnCj4gCj4gMi4gV2l0aCBubyBzcGVjaWZpY2F0
+aW9uIG9mIENPTkZJR19DTUEgb3IgQ09ORklHX0RNQV9DTUEKPiAKPiBDb250aWd1b3VzIE1lbW9y
+eSBBbGxvY2F0b3IgKENNQSkgW1kvbi8/XSAoTkVXKQo+IERNQSBDb250aWd1b3VzIE1lbW9yeSBB
+bGxvY2F0b3IgKERNQV9DTUEpIFtZL24vP10gKE5FVykKPiAKPiAzLiBXaXRoICIjIENPTkZJR19D
+TUEgaXMgbm90IHNldCIgYW5kICIjIENPTkZJR19ETUFfQ01BIGlzIG5vdCBzZXQiCj4gCj4gLT4g
+Q09ORklHX0RNQV9DTUEgd2lsbCBiZSByZW1vdmVkIGZyb20gLmNvbmZpZwo+IAo+IE5vdGU6IGRy
+aXZlcnMvcmVtb3RlcHJvYyBzZWVtcyB0byBiZSBzcGVjaWFsOyBjb21taXQgYzUxZTg4MmNkNzEx
+Cj4gKCJyZW1vdGVwcm9jL2RhdmluY2k6IFVwZGF0ZSBLY29uZmlnIHRvIGRlcGVuZCBvbiBETUFf
+Q01BIikgZXhwbGFpbnMgdGhhdAo+IHRoZXJlIGlzIGEgcmVhbCBkZXBlbmRlbmN5IHRvIERNQV9D
+TUEgZm9yIGl0IHRvIHdvcms7IGxlYXZlIHRoYXQgZGVwZW5kZW5jeQo+IGluIHBsYWNlIGFuZCBk
+b24ndCBjb252ZXJ0IGl0IHRvIGEgc29mdCBkZXBlbmRlbmN5LgoKSG0sIHRvIG1lIHRoaXMgc291
+bmRzIG11Y2ggbGlrZSB0aGUgcmVhc29uaW5nIGZvciB0aGUgZXRuYXZpdgpkZXBlbmRlbmN5LiBU
+aGVyZSBpcyBubyBhY3R1YWwgYnVpbGQgZGVwZW5kZW5jeSwgYXMgdGhlIGFsbG9jYXRpb25zIGFy
+ZQpkb25lIHRocm91Z2ggdGhlIERNQSBBUEksIGJ1dCBmb3IgdGhlIGFsbG9jYXRpb25zIHRvIHN1
+Y2NlZWQgeW91IG1vc3QKbGlrZWx5IHdhbnQgQ01BIHRvIGJlIGVuYWJsZWQuIEJ1dCB0aGF0J3Mg
+anVzdCBhbiBvYnNlcnZhdGlvbiBmcm9tIHRoZQpvdXRzaWRlLCBJIGhhdmUgbm8gcmVhbCBjbHVl
+IGFib3V0IHRoZSByZW1vdGVwcm9jIGRyaXZlcnMuCgpBcyBmYXIgYXMgdGhlIGV0bmF2aXYgY2hh
+bmdlcyBhcmUgY29uY2VybmVkOgpBY2tlZC1ieTogTHVjYXMgU3RhY2ggPGwuc3RhY2hAcGVuZ3V0
+cm9uaXguZGU+Cgo+IENjOiBNYWFydGVuIExhbmtob3JzdCA8bWFhcnRlbi5sYW5raG9yc3RAbGlu
+dXguaW50ZWwuY29tPgo+IENjOiBNYXhpbWUgUmlwYXJkIDxtcmlwYXJkQGtlcm5lbC5vcmc+Cj4g
+Q2M6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPgo+IENjOiBEYXZpZCBB
+aXJsaWUgPGFpcmxpZWRAbGludXguaWU+Cj4gQ2M6IERhbmllbCBWZXR0ZXIgPGRhbmllbEBmZnds
+bC5jaD4KPiBDYzogSm9lbCBTdGFubGV5IDxqb2VsQGptcy5pZC5hdT4KPiBDYzogQW5kcmV3IEpl
+ZmZlcnkgPGFuZHJld0Bhai5pZC5hdT4KPiBDYzogTHVjYXMgU3RhY2ggPGwuc3RhY2hAcGVuZ3V0
+cm9uaXguZGU+Cj4gQ2M6IFJ1c3NlbGwgS2luZyA8bGludXgrZXRuYXZpdkBhcm1saW51eC5vcmcu
+dWs+Cj4gQ2M6IENocmlzdGlhbiBHbWVpbmVyIDxjaHJpc3RpYW4uZ21laW5lckBnbWFpbC5jb20+
+Cj4gQ2M6IFBhdWwgQ2VyY3VlaWwgPHBhdWxAY3JhcG91aWxsb3UubmV0Pgo+IENjOiBMaW51cyBX
+YWxsZWlqIDxsaW51cy53YWxsZWlqQGxpbmFyby5vcmc+Cj4gQ2M6IENocmlzdG9waCBIZWxsd2ln
+IDxoY2hAbHN0LmRlPgo+IENjOiBNYXJlayBTenlwcm93c2tpIDxtLnN6eXByb3dza2lAc2Ftc3Vu
+Zy5jb20+Cj4gQ2M6IFJvYmluIE11cnBoeSA8cm9iaW4ubXVycGh5QGFybS5jb20+Cj4gQ2M6IEFu
+ZHJldyBNb3J0b24gPGFrcG1AbGludXgtZm91bmRhdGlvbi5vcmc+Cj4gQ2M6IE1pa2UgUmFwb3Bv
+cnQgPHJwcHRAa2VybmVsLm9yZz4KPiBDYzogQXJuZCBCZXJnbWFubiA8YXJuZEBhcm5kYi5kZT4K
+PiBDYzogQmFydGxvbWllaiBab2xuaWVya2lld2ljeiA8Yi56b2xuaWVya2llQHNhbXN1bmcuY29t
+Pgo+IENjOiBFcmljIEFuaG9sdCA8ZXJpY0BhbmhvbHQubmV0Pgo+IENjOiBNaWNoYWwgU2ltZWsg
+PG1pY2hhbC5zaW1la0B4aWxpbnguY29tPgo+IENjOiBNYXNhaGlybyBZYW1hZGEgPG1hc2FoaXJv
+eUBrZXJuZWwub3JnPgo+IENjOiAiQWxleGFuZGVyIEEuIEtsaW1vdiIgPGdyYW5kbWFzdGVyQGFs
+MmtsaW1vdi5kZT4KPiBDYzogUGV0ZXIgQ29sbGluZ2JvdXJuZSA8cGNjQGdvb2dsZS5jb20+Cj4g
+Q2M6IFN1bWFuIEFubmEgPHMtYW5uYUB0aS5jb20+Cj4gQ2M6IEphc29uIEd1bnRob3JwZSA8amdn
+QHppZXBlLmNhPgo+IENjOiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gQ2M6IGxp
+bnV4LWFzcGVlZEBsaXN0cy5vemxhYnMub3JnCj4gQ2M6IGxpbnV4LWFybS1rZXJuZWxAbGlzdHMu
+aW5mcmFkZWFkLm9yZwo+IENjOiBldG5hdml2QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+IENjOiBs
+aW51eC1taXBzQHZnZXIua2VybmVsLm9yZwo+IENjOiBsaW51eC1mYmRldkB2Z2VyLmtlcm5lbC5v
+cmcKPiBDYzogaW9tbXVAbGlzdHMubGludXgtZm91bmRhdGlvbi5vcmcKPiBTaWduZWQtb2ZmLWJ5
+OiBEYXZpZCBIaWxkZW5icmFuZCA8ZGF2aWRAcmVkaGF0LmNvbT4KPiAtLS0KPiAKPiBMZXQncyBz
+ZWUgaWYgdGhpcyBhcHByb2FjaCBpcyBiZXR0ZXIgZm9yIHNvZnQgZGVwZW5kZW5jaWVzIChhbmQg
+aWYgd2UKPiBhY3R1YWxseSBoYXZlIHNvbWUgaGFyZCBkZXBlbmRlbmNpZXMgaW4gdGhlcmUpLiBU
+aGlzIGlzIHRoZSBmb2xsb3ctdXAKPiBvZgo+IMKgwqBodHRwczovL2xrbWwua2VybmVsLm9yZy9y
+LzIwMjEwNDA4MDkyMDExLjUyNzYzLTEtZGF2aWRAcmVkaGF0LmNvbQo+IMKgwqBodHRwczovL2xr
+bWwua2VybmVsLm9yZy9yLzIwMjEwNDA4MTAwNTIzLjYzMzU2LTEtZGF2aWRAcmVkaGF0LmNvbQo+
+IAo+IEkgd2FzIHdvbmRlcmluZyBpZiBpdCB3b3VsZCBtYWtlIHNlbnNlIGluIHNvbWUgZHJpdmVy
+cyB0byB3YXJuIGlmIGVpdGhlcgo+IENPTkZJR19ETUFfQ01BIGlzIG5vdCBhdmFpbGFibGUgb3Ig
+aWYgRFJNX0NNQSBoYXMgbm90IGJlZW4gY29uZmlndXJlZAo+IHByb3Blcmx5IC0ganVzdCB0byBn
+aXZlIHBlb3BsZSBhIGhlYWRzIHVwIHRoYXQgc29tZXRoaW5nIG1pZ2h0IG1vcmUgbGlrZWx5Cj4g
+Z28gd3Jvbmc7IHRoYXQgd291bGQsIGhvd2V2ZXIsIGJlIGZ1dHVyZSB3b3JrLgo+IAo+IHYyIC0+
+IHYzOgo+IC0gRG9uJ3QgdXNlICJpbXBseSIgYnV0IGluc3RlYWQgdXNlIGEgbmV3IFdBTlRfRE1B
+X0NNQSBhbmQgbWFrZSB0aGUgZGVmYXVsdAo+IMKgwqBvZiBDTUEgYW5kIERNQV9DTUEgZGVwZW5k
+IG9uIGl0Lgo+IC0gQWxzbyBhZGp1c3QgaW5nZW5pYywgbWNkZSwgdHZlMjAwOyB0aGVzZSBzb3Vu
+ZCBsaWtlIHNvZnQgZGVwZW5kZW5jaWVzIGFzCj4gwqDCoHdlbGwgKGFsdGhvdWdoIERNQV9DTUEg
+aXMgcmVhbGx5IGRlc2lyZWQpCj4gCj4gdjEgLT4gdjI6Cj4gLSBGaXggRFJNX0NNQSAtPiBETUFf
+Q01BCj4gCj4gLS0tCj4gwqBkcml2ZXJzL2dwdS9kcm0vS2NvbmZpZyAgICAgICAgIHwgMiArKwo+
+IMKgZHJpdmVycy9ncHUvZHJtL2FzcGVlZC9LY29uZmlnICB8IDIgLS0KPiDCoGRyaXZlcnMvZ3B1
+L2RybS9ldG5hdml2L0tjb25maWcgfCAzICstLQo+IMKgZHJpdmVycy9ncHUvZHJtL2luZ2VuaWMv
+S2NvbmZpZyB8IDEgLQo+IMKgZHJpdmVycy9ncHUvZHJtL21jZGUvS2NvbmZpZyAgICB8IDEgLQo+
+IMKgZHJpdmVycy9ncHUvZHJtL3R2ZTIwMC9LY29uZmlnICB8IDEgLQo+IMKgZHJpdmVycy92aWRl
+by9mYmRldi9LY29uZmlnICAgICB8IDIgKy0KPiDCoGtlcm5lbC9kbWEvS2NvbmZpZyAgICAgICAg
+ICAgICAgfCA3ICsrKysrKysKPiDCoG1tL0tjb25maWcgICAgICAgICAgICAgICAgICAgICAgfCAx
+ICsKPiDCoDkgZmlsZXMgY2hhbmdlZCwgMTIgaW5zZXJ0aW9ucygrKSwgOCBkZWxldGlvbnMoLSkK
+PiAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL0tjb25maWcgYi9kcml2ZXJzL2dwdS9k
+cm0vS2NvbmZpZwo+IGluZGV4IDg1Yjc5YTdmZWU2My4uNmY5OTg5YWRmYTkzIDEwMDY0NAo+IC0t
+LSBhL2RyaXZlcnMvZ3B1L2RybS9LY29uZmlnCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL0tjb25m
+aWcKPiBAQCAtMjAxLDEyICsyMDEsMTQgQEAgY29uZmlnIERSTV9UVE1fSEVMUEVSCj4gwqBjb25m
+aWcgRFJNX0dFTV9DTUFfSEVMUEVSCj4gwqAJYm9vbAo+IMKgCWRlcGVuZHMgb24gRFJNCj4gKwlz
+ZWxlY3QgV0FOVF9ETUFfQ01BCj4gwqAJaGVscAo+IMKgCSAgQ2hvb3NlIHRoaXMgaWYgeW91IG5l
+ZWQgdGhlIEdFTSBDTUEgaGVscGVyIGZ1bmN0aW9ucwo+IMKgCj4gCj4gCj4gCj4gwqBjb25maWcg
+RFJNX0tNU19DTUFfSEVMUEVSCj4gwqAJYm9vbAo+IMKgCWRlcGVuZHMgb24gRFJNCj4gKwlzZWxl
+Y3QgV0FOVF9ETUFfQ01BCj4gwqAJc2VsZWN0IERSTV9HRU1fQ01BX0hFTFBFUgo+IMKgCWhlbHAK
+PiDCoAkgIENob29zZSB0aGlzIGlmIHlvdSBuZWVkIHRoZSBLTVMgQ01BIGhlbHBlciBmdW5jdGlv
+bnMKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FzcGVlZC9LY29uZmlnIGIvZHJpdmVy
+cy9ncHUvZHJtL2FzcGVlZC9LY29uZmlnCj4gaW5kZXggNWU5NWJjZWE0M2U5Li5lNWZmMzNmODVm
+MjEgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2FzcGVlZC9LY29uZmlnCj4gKysrIGIv
+ZHJpdmVycy9ncHUvZHJtL2FzcGVlZC9LY29uZmlnCj4gQEAgLTYsOCArNiw2IEBAIGNvbmZpZyBE
+Uk1fQVNQRUVEX0dGWAo+IMKgCWRlcGVuZHMgb24gTU1VCj4gwqAJc2VsZWN0IERSTV9LTVNfSEVM
+UEVSCj4gwqAJc2VsZWN0IERSTV9LTVNfQ01BX0hFTFBFUgo+IC0Jc2VsZWN0IERNQV9DTUEgaWYg
+SEFWRV9ETUFfQ09OVElHVU9VUwo+IC0Jc2VsZWN0IENNQSBpZiBIQVZFX0RNQV9DT05USUdVT1VT
+Cj4gwqAJc2VsZWN0IE1GRF9TWVNDT04KPiDCoAloZWxwCj4gwqAJICBDaG9zZSB0aGlzIG9wdGlv
+biBpZiB5b3UgaGF2ZSBhbiBBU1BFRUQgQVNUMjUwMCBTT0MgRGlzcGxheQo+IGRpZmYgLS1naXQg
+YS9kcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9LY29uZmlnIGIvZHJpdmVycy9ncHUvZHJtL2V0bmF2
+aXYvS2NvbmZpZwo+IGluZGV4IGZhYTdmYzY4YjAwOS4uYTNlNzY0OWI0NGE3IDEwMDY0NAo+IC0t
+LSBhL2RyaXZlcnMvZ3B1L2RybS9ldG5hdml2L0tjb25maWcKPiArKysgYi9kcml2ZXJzL2dwdS9k
+cm0vZXRuYXZpdi9LY29uZmlnCj4gQEAgLTksOCArOSw3IEBAIGNvbmZpZyBEUk1fRVROQVZJVgo+
+IMKgCXNlbGVjdCBUSEVSTUFMIGlmIERSTV9FVE5BVklWX1RIRVJNQUwKPiDCoAlzZWxlY3QgVE1Q
+RlMKPiDCoAlzZWxlY3QgV0FOVF9ERVZfQ09SRURVTVAKPiAtCXNlbGVjdCBDTUEgaWYgSEFWRV9E
+TUFfQ09OVElHVU9VUwo+IC0Jc2VsZWN0IERNQV9DTUEgaWYgSEFWRV9ETUFfQ09OVElHVU9VUwo+
+ICsJc2VsZWN0IFdBTlRfRE1BX0NNQQo+IMKgCXNlbGVjdCBEUk1fU0NIRUQKPiDCoAloZWxwCj4g
+wqAJICBEUk0gZHJpdmVyIGZvciBWaXZhbnRlIEdQVXMuCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMv
+Z3B1L2RybS9pbmdlbmljL0tjb25maWcgYi9kcml2ZXJzL2dwdS9kcm0vaW5nZW5pYy9LY29uZmln
+Cj4gaW5kZXggM2I1N2Y4YmUwMDdjLi4xNTZiMTFiN2JiYjggMTAwNjQ0Cj4gLS0tIGEvZHJpdmVy
+cy9ncHUvZHJtL2luZ2VuaWMvS2NvbmZpZwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9pbmdlbmlj
+L0tjb25maWcKPiBAQCAtMiw3ICsyLDYgQEAgY29uZmlnIERSTV9JTkdFTklDCj4gwqAJdHJpc3Rh
+dGUgIkRSTSBTdXBwb3J0IGZvciBJbmdlbmljIFNvQ3MiCj4gwqAJZGVwZW5kcyBvbiBNSVBTIHx8
+IENPTVBJTEVfVEVTVAo+IMKgCWRlcGVuZHMgb24gRFJNCj4gLQlkZXBlbmRzIG9uIENNQQo+IMKg
+CWRlcGVuZHMgb24gT0YKPiDCoAlkZXBlbmRzIG9uIENPTU1PTl9DTEsKPiDCoAlzZWxlY3QgRFJN
+X0JSSURHRQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vbWNkZS9LY29uZmlnIGIvZHJp
+dmVycy9ncHUvZHJtL21jZGUvS2NvbmZpZwo+IGluZGV4IDcxYzY4OWI1NzNjOS4uMjE3ZDU0YzRi
+YWJjIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9tY2RlL0tjb25maWcKPiArKysgYi9k
+cml2ZXJzL2dwdS9kcm0vbWNkZS9LY29uZmlnCj4gQEAgLTEsNyArMSw2IEBACj4gwqBjb25maWcg
+RFJNX01DREUKPiDCoAl0cmlzdGF0ZSAiRFJNIFN1cHBvcnQgZm9yIFNULUVyaWNzc29uIE1DREUg
+KE11bHRpY2hhbm5lbCBEaXNwbGF5IEVuZ2luZSkiCj4gwqAJZGVwZW5kcyBvbiBEUk0KPiAtCWRl
+cGVuZHMgb24gQ01BCj4gwqAJZGVwZW5kcyBvbiBBUk0gfHwgQ09NUElMRV9URVNUCj4gwqAJZGVw
+ZW5kcyBvbiBPRgo+IMKgCWRlcGVuZHMgb24gQ09NTU9OX0NMSwo+IGRpZmYgLS1naXQgYS9kcml2
+ZXJzL2dwdS9kcm0vdHZlMjAwL0tjb25maWcgYi9kcml2ZXJzL2dwdS9kcm0vdHZlMjAwL0tjb25m
+aWcKPiBpbmRleCBlMmQxNjNjNzRlZDYuLmQwNGI3MzIyYzc3MCAxMDA2NDQKPiAtLS0gYS9kcml2
+ZXJzL2dwdS9kcm0vdHZlMjAwL0tjb25maWcKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vdHZlMjAw
+L0tjb25maWcKPiBAQCAtMiw3ICsyLDYgQEAKPiDCoGNvbmZpZyBEUk1fVFZFMjAwCj4gwqAJdHJp
+c3RhdGUgIkRSTSBTdXBwb3J0IGZvciBGYXJhZGF5IFRWIEVuY29kZXIgVFZFMjAwIgo+IMKgCWRl
+cGVuZHMgb24gRFJNCj4gLQlkZXBlbmRzIG9uIENNQQo+IMKgCWRlcGVuZHMgb24gQVJNIHx8IENP
+TVBJTEVfVEVTVAo+IMKgCWRlcGVuZHMgb24gT0YKPiDCoAlzZWxlY3QgRFJNX0JSSURHRQo+IGRp
+ZmYgLS1naXQgYS9kcml2ZXJzL3ZpZGVvL2ZiZGV2L0tjb25maWcgYi9kcml2ZXJzL3ZpZGVvL2Zi
+ZGV2L0tjb25maWcKPiBpbmRleCA0ZjAyZGI2NWRlZGUuLmU4YWNkNGY3N2Q0MSAxMDA2NDQKPiAt
+LS0gYS9kcml2ZXJzL3ZpZGVvL2ZiZGV2L0tjb25maWcKPiArKysgYi9kcml2ZXJzL3ZpZGVvL2Zi
+ZGV2L0tjb25maWcKPiBAQCAtMjE4Niw3ICsyMTg2LDcgQEAgY29uZmlnIEZCX0hZUEVSVgo+IMKg
+CXNlbGVjdCBGQl9DRkJfQ09QWUFSRUEKPiDCoAlzZWxlY3QgRkJfQ0ZCX0lNQUdFQkxJVAo+IMKg
+CXNlbGVjdCBGQl9ERUZFUlJFRF9JTwo+IC0Jc2VsZWN0IERNQV9DTUEgaWYgSEFWRV9ETUFfQ09O
+VElHVU9VUyAmJiBDTUEKPiArCXNlbGVjdCBXQU5UX0RNQV9DTUEKPiDCoAloZWxwCj4gwqAJICBU
+aGlzIGZyYW1lYnVmZmVyIGRyaXZlciBzdXBwb3J0cyBNaWNyb3NvZnQgSHlwZXItViBTeW50aGV0
+aWMgVmlkZW8uCj4gwqAKPiAKPiAKPiAKPiBkaWZmIC0tZ2l0IGEva2VybmVsL2RtYS9LY29uZmln
+IGIva2VybmVsL2RtYS9LY29uZmlnCj4gaW5kZXggNzdiNDA1NTA4NzQzLi45MjhmMTZkMjQ2MWQg
+MTAwNjQ0Cj4gLS0tIGEva2VybmVsL2RtYS9LY29uZmlnCj4gKysrIGIva2VybmVsL2RtYS9LY29u
+ZmlnCj4gQEAgLTEwMyw4ICsxMDMsMTUgQEAgY29uZmlnIERNQV9ESVJFQ1RfUkVNQVAKPiDCoAlz
+ZWxlY3QgRE1BX1JFTUFQCj4gwqAJc2VsZWN0IERNQV9DT0hFUkVOVF9QT09MCj4gwqAKPiAKPiAK
+PiAKPiArY29uZmlnIFdBTlRfRE1BX0NNQQo+ICsJYm9vbAo+ICsJaGVscAo+ICsJICBEcml2ZXJz
+IHNob3VsZCAic2VsZWN0IiB0aGlzIG9wdGlvbiBpZiB0aGV5IGRlc2lyZSB0byB1c2UgdGhlCj4g
+KwkgIERNQV9DTUEgbWVjaGFuaXNtLgo+ICsKPiDCoGNvbmZpZyBETUFfQ01BCj4gwqAJYm9vbCAi
+RE1BIENvbnRpZ3VvdXMgTWVtb3J5IEFsbG9jYXRvciIKPiArCWRlZmF1bHQgeSBpZiBXQU5UX0RN
+QV9DTUEKPiDCoAlkZXBlbmRzIG9uIEhBVkVfRE1BX0NPTlRJR1VPVVMgJiYgQ01BCj4gwqAJaGVs
+cAo+IMKgCSAgVGhpcyBlbmFibGVzIHRoZSBDb250aWd1b3VzIE1lbW9yeSBBbGxvY2F0b3Igd2hp
+Y2ggYWxsb3dzIGRyaXZlcnMKPiBkaWZmIC0tZ2l0IGEvbW0vS2NvbmZpZyBiL21tL0tjb25maWcK
+PiBpbmRleCAyNGMwNDViMjRiOTUuLjE2OTU5OGVlNTZiMSAxMDA2NDQKPiAtLS0gYS9tbS9LY29u
+ZmlnCj4gKysrIGIvbW0vS2NvbmZpZwo+IEBAIC00ODUsNiArNDg1LDcgQEAgY29uZmlnIEZST05U
+U1dBUAo+IMKgCj4gCj4gCj4gCj4gwqBjb25maWcgQ01BCj4gwqAJYm9vbCAiQ29udGlndW91cyBN
+ZW1vcnkgQWxsb2NhdG9yIgo+ICsJZGVmYXVsdCB5IGlmIFdBTlRfRE1BX0NNQQo+IMKgCWRlcGVu
+ZHMgb24gTU1VCj4gwqAJc2VsZWN0IE1JR1JBVElPTgo+IMKgCXNlbGVjdCBNRU1PUllfSVNPTEFU
+SU9OCgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZXRu
+YXZpdiBtYWlsaW5nIGxpc3QKZXRuYXZpdkBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9s
+aXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9ldG5hdml2Cg==
