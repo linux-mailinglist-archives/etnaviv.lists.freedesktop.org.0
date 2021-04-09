@@ -2,43 +2,43 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82BFC35974D
-	for <lists+etnaviv@lfdr.de>; Fri,  9 Apr 2021 10:11:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70918359741
+	for <lists+etnaviv@lfdr.de>; Fri,  9 Apr 2021 10:11:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B49D6EBA6;
-	Fri,  9 Apr 2021 08:11:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F7AF6EB95;
+	Fri,  9 Apr 2021 08:11:08 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A1B106EB8F
- for <etnaviv@lists.freedesktop.org>; Fri,  9 Apr 2021 08:07:15 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [63.128.21.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A4E56EB91
+ for <etnaviv@lists.freedesktop.org>; Fri,  9 Apr 2021 08:10:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617955634;
+ s=mimecast20190719; t=1617955805;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=k2PTBL+nqzlKBelC7c/vISZYvaV01k6PixS2+D0BjW8=;
- b=V+51ZP6VFT0bi9F+UlEgbg9fq3q0B782puEtIYb1CuSLMxbuHuCNg6xm8yvucAre7p1Clx
- mEu+NflWch2TSyyUdZ17O922jsIECJtGfSIpj6NOdua5N/mduD/cjQEEPg2uDegk3Oixbw
- p/Uas0oef3HO1ORR4owv8+vGDirMrik=
+ bh=0CK2pH4tMSS36srqXiWiXDwOybdtTZO1Syr9BWG62Vc=;
+ b=InCSkLuX659ZxZqQWQNuFW4W8e9ZF2UnGpHtnkr8EWim+/BxxljkhrLKcbf64BSr/czk+T
+ ZLWYL32heKLWC6YI57anVSvha0i0MvNhIWgN6Kq+AxHo2w1qVUULPS0WTIdHWDz0a2mPla
+ IKkjQ+X4xCpxO707oD1k9u91JCJ7c10=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-180-sYcaZKqyO02l33jnkyP5XA-1; Fri, 09 Apr 2021 04:07:10 -0400
-X-MC-Unique: sYcaZKqyO02l33jnkyP5XA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-586-RZ0ZAZfyOVWdvZcWXExmQA-1; Fri, 09 Apr 2021 04:10:01 -0400
+X-MC-Unique: RZ0ZAZfyOVWdvZcWXExmQA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 748496D246;
- Fri,  9 Apr 2021 08:07:08 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 77CF783DD2E;
+ Fri,  9 Apr 2021 08:09:58 +0000 (UTC)
 Received: from [10.36.115.11] (ovpn-115-11.ams2.redhat.com [10.36.115.11])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 701F75C1D5;
- Fri,  9 Apr 2021 08:07:02 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E145319811;
+ Fri,  9 Apr 2021 08:09:52 +0000 (UTC)
 Subject: Re: [PATCH v1 2/2] drivers/gpu/drm: don't select DMA_CMA or CMA from
  aspeed or etnaviv
-To: Arnd Bergmann <arnd@arndb.de>, Linus Walleij <linus.walleij@linaro.org>
+To: Arnd Bergmann <arnd@arndb.de>
 References: <20210408092011.52763-1-david@redhat.com>
  <20210408092011.52763-3-david@redhat.com>
  <CAK8P3a09LdJ-87ZrN28y=t8Sa0zL-3NOvEWhkStMY+2EbO7UAw@mail.gmail.com>
@@ -48,17 +48,18 @@ References: <20210408092011.52763-1-david@redhat.com>
  <CAK8P3a1tVwkDbtvKi8atkrg1-CfoQHGrXLCzn_uo+=dfZJfdQA@mail.gmail.com>
  <3a2d64a7-8425-8daf-17ee-95b9f0c635f9@redhat.com>
  <CACRpkdYizKGhtYzE+22oZAduLNCOGP9Vbp=LQbXG1C-a+MyMcg@mail.gmail.com>
- <CAK8P3a2Wu7tT-YajfdXSSVvg5MYMEnEy3APJ83DcLeJdGkkSrQ@mail.gmail.com>
+ <2ef3b65c-c0ef-7bbe-0e05-39ee8f2bae48@redhat.com>
+ <CAK8P3a3sqZBo8-zye1yiZuD2uMUr0oE_q_QfaK9K54TEgd1Cdw@mail.gmail.com>
 From: David Hildenbrand <david@redhat.com>
 Organization: Red Hat GmbH
-Message-ID: <e6fa1b72-24ca-28bc-0115-7ceceb101e96@redhat.com>
-Date: Fri, 9 Apr 2021 10:07:01 +0200
+Message-ID: <b78f2ec2-3c47-f435-6d5e-fb7330ff3907@redhat.com>
+Date: Fri, 9 Apr 2021 10:09:51 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <CAK8P3a2Wu7tT-YajfdXSSVvg5MYMEnEy3APJ83DcLeJdGkkSrQ@mail.gmail.com>
+In-Reply-To: <CAK8P3a3sqZBo8-zye1yiZuD2uMUr0oE_q_QfaK9K54TEgd1Cdw@mail.gmail.com>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mailman-Approved-At: Fri, 09 Apr 2021 08:11:07 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -76,66 +77,87 @@ Cc: Linux ARM <linux-arm-kernel@lists.infradead.org>,
  linux-aspeed <linux-aspeed@lists.ozlabs.org>,
  Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
  David Airlie <airlied@linux.ie>, Andrew Jeffery <andrew@aj.id.au>,
- Masahiro Yamada <masahiroy@kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
+ Linus Walleij <linus.walleij@linaro.org>, Randy Dunlap <rdunlap@infradead.org>,
  The etnaviv authors <etnaviv@lists.freedesktop.org>,
  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
  dri-devel <dri-devel@lists.freedesktop.org>,
  Michal Simek <michal.simek@xilinx.com>, Linux-MM <linux-mm@kvack.org>,
  Christian Gmeiner <christian.gmeiner@gmail.com>, Joel Stanley <joel@jms.id.au>,
  Daniel Vetter <daniel@ffwll.ch>, Russell King <linux+etnaviv@armlinux.org.uk>,
- Peter Collingbourne <pcc@google.com>, Mike Rapoport <rppt@kernel.org>,
- Lucas Stach <l.stach@pengutronix.de>
+ Peter Collingbourne <pcc@google.com>, Masahiro Yamada <masahiroy@kernel.org>,
+ Mike Rapoport <rppt@kernel.org>, Lucas Stach <l.stach@pengutronix.de>
 Content-Transfer-Encoding: 7bit
 Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-On 08.04.21 15:19, Arnd Bergmann wrote:
-> On Thu, Apr 8, 2021 at 2:50 PM Linus Walleij <linus.walleij@linaro.org> wrote:
->>
->> On Thu, Apr 8, 2021 at 2:01 PM David Hildenbrand <david@redhat.com> wrote:
->>
->>>> This is something you could do using a hidden helper symbol like
->>>>
->>>> config DRMA_ASPEED_GFX
->>>>          bool "Aspeed display driver"
->>>>          select DRM_WANT_CMA
->>>>
->>>> config DRM_WANT_CMA
->>>>          bool
->>>>          help
->>>>             Select this from any driver that benefits from CMA being enabled
->>>>
->>>> config DMA_CMA
->>>>          bool "Use CMA helpers for DRM"
->>>>          default DRM_WANT_CMA
->>>>
->>>>            Arnd
->>>>
+On 08.04.21 22:29, Arnd Bergmann wrote:
+> On Thu, Apr 8, 2021 at 6:45 PM David Hildenbrand <david@redhat.com> wrote:
+>> On 08.04.21 14:49, Linus Walleij wrote:
+>>> On Thu, Apr 8, 2021 at 2:01 PM David Hildenbrand <david@redhat.com> wrote:
 >>>
->>> That's precisely what I had first, with an additional "WANT_CMA" --  but
->>> looking at the number of such existing options (I was able to spot 1 !)
+>>>>> This is something you could do using a hidden helper symbol like
+>>>>>
+>>>>> config DRMA_ASPEED_GFX
+>>>>>           bool "Aspeed display driver"
+>>>>>           select DRM_WANT_CMA
+>>>>>
+>>>>> config DRM_WANT_CMA
+>>>>>           bool
+>>>>>           help
+>>>>>              Select this from any driver that benefits from CMA being enabled
+>>>>>
+>>>>> config DMA_CMA
+>>>>>           bool "Use CMA helpers for DRM"
+>>>>>           default DRM_WANT_CMA
+>>>>>
+>>>>>             Arnd
+>>>>>
+>>>>
+>>>> That's precisely what I had first, with an additional "WANT_CMA" --  but
+>>>> looking at the number of such existing options (I was able to spot 1 !)
+>>>
+>>> If you do this it probably makes sense to fix a few other drivers
+>>> Kconfig in the process. It's not just a problem with your driver.
+>>> "my" drivers:
+>>>
 >>
->> If you do this it probably makes sense to fix a few other drivers
->> Kconfig in the process. It's not just a problem with your driver.
->> "my" drivers:
+>> :) I actually wanted to convert them to "depends on DMA_CMA" but ran
+>> into recursive dependencies ...
 >>
->> drivers/gpu/drm/mcde/Kconfig
->> drivers/gpu/drm/pl111/Kconfig
->> drivers/gpu/drm/tve200/Kconfig
->>
->> certainly needs this as well, and pretty much anything that is
->> selecting DRM_KMS_CMA_HELPER or
->> DRM_GEM_CMA_HELPER "wants" DMA_CMA.
+>>> drivers/gpu/drm/mcde/Kconfig
+>>> drivers/gpu/drm/pl111/Kconfig
+>>> drivers/gpu/drm/tve200/Kconfig
 > 
-> Are there any that don't select either of the helpers and
-> still want CMA? If not, it would be easy to just add
+> Right, this is the main problem caused by using 'select' to
+> force-enable symbols that other drivers depend on.
 > 
->     default  DRM_KMS_CMA_HELPER || DRM_GEM_CMA_HELPER
+> Usually, the answer is to be consistent about the use of 'select'
+> and 'depends on', using the former only to enable symbols that
+> are hidden, while using 'depends on' for anything that is an
+> actual build time dependency.
 > 
-> and skipt the extra symbol.
+>> I was assuming these are "real" dependencies. Will it also work without
+>> DMA_CMA?
+> 
+> I think in this case, it is fairly likely to work without DMA_CMA when the
+> probe function gets called during a fresh boot, but fairly likely to fail if
+> it gets called after the system has run for long enough to fragment the
+> free memory.
+> 
+> The point of DMA_CMA is to make it work reliably.
 
-That sounds like a reasonable thing to do. I'll look into that.
+Right, and even at runtime there is no guarantee that DMA_CMA will do 
+anything -- especially if we don't reserve a CMA region (e.g., "cma=X").
+
+So this really sounds like a
+
+"desires DMA_CMA"
+
+and achieving that via an additional symbol or via "default y if ..." 
+for DMA_CMA sounds reasonable.
+
+Thanks!
 
 -- 
 Thanks,
