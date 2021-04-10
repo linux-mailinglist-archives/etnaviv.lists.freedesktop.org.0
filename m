@@ -1,34 +1,54 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFC6E35AB69
-	for <lists+etnaviv@lfdr.de>; Sat, 10 Apr 2021 08:43:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CC8635AB67
+	for <lists+etnaviv@lfdr.de>; Sat, 10 Apr 2021 08:43:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2DB706E10B;
-	Sat, 10 Apr 2021 06:43:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C69276E10B;
+	Sat, 10 Apr 2021 06:43:08 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from szxga07-in.huawei.com (szxga07-in.huawei.com [45.249.212.35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 764E16E4A2;
- Fri,  9 Apr 2021 12:23:13 +0000 (UTC)
-Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4FGy091Yytz9xX2;
- Fri,  9 Apr 2021 20:20:57 +0800 (CST)
-Received: from DESKTOP-EFRLNPK.china.huawei.com (10.174.176.196) by
- DGGEMS414-HUB.china.huawei.com (10.3.19.214) with Microsoft SMTP Server id
- 14.3.498.0; Fri, 9 Apr 2021 20:22:59 +0800
-From: Qiheng Lin <linqiheng@huawei.com>
-To: <l.stach@pengutronix.de>, <linux+etnaviv@armlinux.org.uk>,
- <christian.gmeiner@gmail.com>, <airlied@linux.ie>, <daniel@ffwll.ch>
-Subject: [PATCH -next] drm/etnaviv: remove unneeded if-null-free check
-Date: Fri, 9 Apr 2021 20:22:31 +0800
-Message-ID: <20210409122231.8391-1-linqiheng@huawei.com>
-X-Mailer: git-send-email 2.31.1
+Received: from mail-ua1-x92c.google.com (mail-ua1-x92c.google.com
+ [IPv6:2607:f8b0:4864:20::92c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B6386E043;
+ Sat, 10 Apr 2021 06:43:08 +0000 (UTC)
+Received: by mail-ua1-x92c.google.com with SMTP id s2so2562362uap.1;
+ Fri, 09 Apr 2021 23:43:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=tD3sRW7MhXsgApKUhr5Trpqo6cxrYcmmNJGwF4gwOKs=;
+ b=SMpl/+iLP9kKRhJyvI9ApCT/ke9K3JfR/FMTQOrKpakLLs3eG+Y0Pq3PKHMLhOP0Li
+ eSfQb2mOUDWTUA0GwOilnhPpX5dFWi67LcC9RKDIaXZKZF7pzBFWN3ejY1Di78OpKG6Y
+ sFrZTO0rHj3SFQaW6ZRlGEDBotGqQZg3+XJcGQ4Ux9QNdTcwQ86zaF/wq3QaZ1fUEzGG
+ UYmQLkx1tqkirMfpMxTlCJGOBRKIc93XUHWCnxfk+g9Sl7j04PlbPVjl5kZ6U5fNWIx4
+ b/nYY8RXawYcTPq9YzzWUiFwN+ghiHzJYk51SIVf1irKLa/L0j9oJ9fuSX9nROd+fROV
+ KwMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=tD3sRW7MhXsgApKUhr5Trpqo6cxrYcmmNJGwF4gwOKs=;
+ b=G+kcHf/jp12apsBCLB5d3hVkXWQRLt06cv4otD/QzhyI9gVe87bLgg7Ru61dLpBfi+
+ DbasK98Nb9W7mea1PLqzfu7zH72lY+jpchHcGypUQQm9ijVKNpXD5nnM/41Q/VNhhcbA
+ ba3F8yDdcjAzbV6qreoOf6YniHSlDLNoGUPg7X3J0htSGsNu/h2KL/oF5OUcxk7qCV55
+ 4RwfYrYiivkRbCI/wcn+dzk+fYbxwJIZFA+q0R6VIdufIayfJtkqluZDZNo6KuoyoZz/
+ pt7TzrznElozDMbEA8DtV3+OaQR34wmMGaYMY6DVORpo1onTbwqLRh7vBN2DUB+tf2+x
+ 6GWA==
+X-Gm-Message-State: AOAM532PBAaWy5Y4fxMCQHRiqAzn+EmEOXeEC0YzlVZEn4OHujuoBTTh
+ nOiUGmn9GxwXafCdrQG8PbDGRwCExfaJIgrAu44=
+X-Google-Smtp-Source: ABdhPJwgUEPopjijNm0Znbec+DapNcANQeEmTj4r9qYMN/XdzzPqq4JwU5kxkQMIg7uuy/hxk8tpCwRx4uu9YgIodUM=
+X-Received: by 2002:ab0:7142:: with SMTP id k2mr14667467uao.124.1618036987493; 
+ Fri, 09 Apr 2021 23:43:07 -0700 (PDT)
 MIME-Version: 1.0
-X-Originating-IP: [10.174.176.196]
-X-CFilter-Loop: Reflected
-X-Mailman-Approved-At: Sat, 10 Apr 2021 06:43:31 +0000
+References: <1616675636-27405-1-git-send-email-tiantao6@hisilicon.com>
+In-Reply-To: <1616675636-27405-1-git-send-email-tiantao6@hisilicon.com>
+From: Christian Gmeiner <christian.gmeiner@gmail.com>
+Date: Sat, 10 Apr 2021 08:42:56 +0200
+Message-ID: <CAH9NwWdew01Jc1JpupnX3nbNb7n_B3n6bNEQWL3sdGA5+KMnrQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/etnaviv: Remove useless error message
+To: Tian Tao <tiantao6@hisilicon.com>
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -40,56 +60,28 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: Qiheng Lin <linqiheng@huawei.com>, etnaviv@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: David Airlie <airlied@linux.ie>,
+ The etnaviv authors <etnaviv@lists.freedesktop.org>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Daniel Vetter <daniel@ffwll.ch>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Lucas Stach <l.stach@pengutronix.de>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Eliminate the following coccicheck warning:
-
-drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c:616:2-8: WARNING:
- NULL check before some freeing functions is not needed.
-drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c:618:2-8: WARNING:
- NULL check before some freeing functions is not needed.
-drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c:620:2-8: WARNING:
- NULL check before some freeing functions is not needed.
-drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c:622:2-8: WARNING:
- NULL check before some freeing functions is not needed.
-
-Signed-off-by: Qiheng Lin <linqiheng@huawei.com>
----
- drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c | 12 ++++--------
- 1 file changed, 4 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-index d05c35994579..bd0d66ebf314 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-@@ -612,14 +612,10 @@ int etnaviv_ioctl_gem_submit(struct drm_device *dev, void *data,
- err_submit_cmds:
- 	if (ret && (out_fence_fd >= 0))
- 		put_unused_fd(out_fence_fd);
--	if (stream)
--		kvfree(stream);
--	if (bos)
--		kvfree(bos);
--	if (relocs)
--		kvfree(relocs);
--	if (pmrs)
--		kvfree(pmrs);
-+	kvfree(stream);
-+	kvfree(bos);
-+	kvfree(relocs);
-+	kvfree(pmrs);
- 
- 	return ret;
- }
--- 
-2.31.1
-
-_______________________________________________
-etnaviv mailing list
-etnaviv@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/etnaviv
+QW0gRG8uLCAyNS4gTcOkcnogMjAyMSB1bSAxMzozMyBVaHIgc2NocmllYiBUaWFuIFRhbyA8dGlh
+bnRhbzZAaGlzaWxpY29uLmNvbT46Cj4KPiBGaXggdGhlIGZvbGxvd2luZyBjb2NjaWNoZWNrIHJl
+cG9ydDoKPgo+IGRyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfZ3B1LmM6MTc3NToyLTk6
+Cj4gbGluZSAxNzc1IGlzIHJlZHVuZGFudCBiZWNhdXNlIHBsYXRmb3JtX2dldF9pcnEoKSBhbHJl
+YWR5IHByaW50cyBhbiBlcnJvcgo+Cj4gUmVtb3ZlIGRldl9lcnIoKSBtZXNzYWdlcyBhZnRlciBw
+bGF0Zm9ybV9nZXRfaXJxKCkgZmFpbHVyZXMuCj4KPiBTaWduZWQtb2ZmLWJ5OiBUaWFuIFRhbyA8
+dGlhbnRhbzZAaGlzaWxpY29uLmNvbT4KPiBTaWduZWQtb2ZmLWJ5OiBaaWhhbyBUYW5nIDx0YW5n
+emloYW8xQGhpc2lsaWNvbi5jb20+Cj4gU2lnbmVkLW9mZi1ieTogSmF5IEZhbmcgPGYuZmFuZ2pp
+YW5AaHVhd2VpLmNvbT4KClJldmlld2VkLWJ5OiBDaHJpc3RpYW4gR21laW5lciA8Y2hyaXN0aWFu
+LmdtZWluZXJAZ21haWwuY29tPgoKCi0tIApncmVldHMKLS0KQ2hyaXN0aWFuIEdtZWluZXIsIE1T
+YwoKaHR0cHM6Ly9jaHJpc3RpYW4tZ21laW5lci5pbmZvL3ByaXZhY3lwb2xpY3kKX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZXRuYXZpdiBtYWlsaW5nIGxp
+c3QKZXRuYXZpdkBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3Rv
+cC5vcmcvbWFpbG1hbi9saXN0aW5mby9ldG5hdml2Cg==
