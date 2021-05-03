@@ -1,19 +1,17 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34562372132
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4300D372133
 	for <lists+etnaviv@lfdr.de>; Mon,  3 May 2021 22:19:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D1E0E6E17F;
+	by gabe.freedesktop.org (Postfix) with ESMTP id E4B986E2DF;
 	Mon,  3 May 2021 20:19:21 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-X-Greylist: delayed 4520 seconds by postgrey-1.36 at gabe;
- Mon, 03 May 2021 09:02:05 UTC
 Received: from cpanel.siel.si (cpanel.siel.si [46.19.9.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C9496E890
- for <etnaviv@lists.freedesktop.org>; Mon,  3 May 2021 09:02:04 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E2246E0A6;
+ Mon,  3 May 2021 11:38:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=norik.com; 
  s=default;
  h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
@@ -21,27 +19,26 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=norik.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=nSFrq9lFNWpRXzhrsu3gsuZbrC0Z5T4HsqbZmtnN6XU=; b=aUU/LAkqBwnF9EP0SXMakNM6Yf
- tAhiaQx7mu5dsxYzlhtFXnhF572BAXHSfv6Ib7iKoHljuyQx6bAQPs4t5T7A+bxofmi8d2cOu7vRQ
- KZEJ/JOkBrV3FH0W/ANhn5Mu4ByeCW0Uyyjqys9619oU1P8OS7oFcSM9/DHqusCkPZNNcp1gXXzUu
- tWIqnit648rtZLIXM3MpXUEqe9rU6GrlnEsw9kyodcaHBUlKCZClZWjctu3PcITd4N2j5ZaVeQCPV
- HEqEubPGW/r8jqquAJ1a90L0BGQT8eU1M7NnFsl4iP0tgijR7emA4xz0pstaw60rQ0CQefULnJ+Th
- RLyblc+Q==;
-Received: from 89-212-21-243.static.t-2.net ([89.212.21.243]:35770
+ bh=lE1O1BdtfF2Xps+0XJY/PbqTWk8FyHsOVh9J9xMViSA=; b=n5u5iNIUZjqePoXVAGWKRfgBMQ
+ FxW54FRhvLn51yAThISook7ivgL6Hd4yZ5BCSjiDxOVOI9u7BNzInA/wxMxUQ+kOpTlJKOOGTe6IL
+ lVoJvao2esDr9KOKcegoNrPm5lkRkKdWDlC/eoP6DdkCLxynpLBmsz6MaFn6tdoINMGF0rX0VLAkx
+ TkFdY3JiHumQQ1+YvHTZbnfR4OLMzqyzIEQf/BFg3T5jp23YYDZLmH1pVHzgYiE3ZId8NpnxCubmt
+ uaxtk6CqTx7ZyAgL2AFtISJM47fGqZW3w6n3dzh/aa21tETuoW3Nd7HwUUk8EroUVoI8hYlJLKRs6
+ OtNFStMw==;
+Received: from 89-212-21-243.static.t-2.net ([89.212.21.243]:40500
  helo=localhost.localdomain)
  by cpanel.siel.si with esmtpsa (TLS1.2) tls
  TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.94)
  (envelope-from <primoz.fiser@norik.com>)
- id 1ldTHk-002Lfp-Qd; Mon, 03 May 2021 09:46:40 +0200
+ id 1ldWtp-002rjw-3X; Mon, 03 May 2021 13:38:05 +0200
 From: Primoz Fiser <primoz.fiser@norik.com>
 To: l.stach@pengutronix.de
-Subject: Re: [PATCH 2/2] drm/etnaviv: use CMA area to compute linear window
- offset if possible
-Date: Mon,  3 May 2021 09:46:40 +0200
-Message-Id: <20210503074640.3412988-1-primoz.fiser@norik.com>
+Subject: Re: [PATCH] drm/etnaviv: rework linear window offset calculation
+Date: Mon,  3 May 2021 13:38:08 +0200
+Message-Id: <20210503113808.3517329-1-primoz.fiser@norik.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20190529104312.27835-2-l.stach@pengutronix.de>
-References: <20190529104312.27835-2-l.stach@pengutronix.de>
+In-Reply-To: <20210503102422.1384502-1-l.stach@pengutronix.de>
+References: <20210503102422.1384502-1-l.stach@pengutronix.de>
 MIME-Version: 1.0
 X-AntiAbuse: This header was added to track abuse,
  please include it with any abuse report
@@ -67,78 +64,30 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: thesven73@gmail.com, s.riedmueller@phytec.de, y.bas@phytec.de,
- s.mueller-klieser@phytec.de, etnaviv@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, patchwork-lst@pengutronix.de,
- linux-mm@kvack.org, huyue2@yulong.com, mina86@mina86.com,
- kernel@pengutronix.de, linux+etnaviv@armlinux.org.uk,
- akpm@linux-foundation.org, dvyukov@google.com, m.szyprowski@samsung.com
+Cc: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ patchwork-lst@pengutronix.de, primoz.fiser@norik.com, kernel@pengutronix.de,
+ linux+etnaviv@armlinux.org.uk
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Lucas,
 
-what happened to these patches? In thread "[REGRESSION] drm/etnaviv: command
-buffer outside valid memory window" [1] it was mentioned these got "shot
-down" due to layering violations, but no official correspondence has been
-found? Is is due to exporting symbols from mm/cma.c in [1/2] and why is this
-an issue?
+we tested your patch on PHYTEC i.MX6Q phyCORE with 1GiB and 2GiB RAM variants.
 
-We are still affected by issue these patches tried to address and we are
-interested in getting the solution into mainline.
+I can happily report that the previous issues with "command buffer outside
+valid memory window" are gone when using kernel's cmdline parameter cma=256M
+for example!
 
-Patches were integrated (small fix required due to renamed include file header)
-and tested on latest master with PHYTEC's 2GiB phyCORE SoM and cma=256M kernel
-cmdline parameter.
+If you want you can add:
 
-Without patches:
+Tested-by: Primoz Fiser <primoz.fiser@norik.com>
 
-[    7.892954] etnaviv etnaviv: bound 130000.gpu (ops gpu_ops)
-[    7.901286] etnaviv etnaviv: bound 134000.gpu (ops gpu_ops)
-[    7.909809] etnaviv etnaviv: bound 2204000.gpu (ops gpu_ops)
-[    7.915775] etnaviv-gpu 130000.gpu: model: GC2000, revision: 5108
-[    7.924000] etnaviv-gpu 134000.gpu: model: GC320, revision: 5007
-[    7.930615] etnaviv-gpu 2204000.gpu: model: GC355, revision: 1215
-[    7.936934] etnaviv-gpu 2204000.gpu: Ignoring GPU with VG and FE2.0
-[    7.948600] [drm] Initialized etnaviv 1.3.0 20151214 for etnaviv on minor 1
-[   16.656092] etnaviv etnaviv: command buffer outside valid memory window
-[   16.695777] etnaviv etnaviv: command buffer outside valid memory window
-[   16.765654] etnaviv etnaviv: command buffer outside valid memory window
-[   16.800111] etnaviv etnaviv: command buffer outside valid memory window
-
-NOTE: See "command buffer outside valid memory window" errors when trying to
-use GPU.
-
-With patches:
-
-[    7.708159] etnaviv etnaviv: bound 130000.gpu (ops gpu_ops)
-[    7.716095] etnaviv etnaviv: bound 134000.gpu (ops gpu_ops)
-[    7.724257] etnaviv etnaviv: bound 2204000.gpu (ops gpu_ops)
-[    7.730205] etnaviv-gpu 130000.gpu: model: GC2000, revision: 5108
-[    7.738407] etnaviv-gpu 134000.gpu: model: GC320, revision: 5007
-[    7.745039] etnaviv-gpu 2204000.gpu: model: GC355, revision: 1215
-[    7.751365] etnaviv-gpu 2204000.gpu: Ignoring GPU with VG and FE2.0
-[    7.762876] [drm] Initialized etnaviv 1.3.0 20151214 for etnaviv on minor 1
-
-NOTE: No errors, GPU fully functional!
-
-In the end, it looks like we are not the only ones with the same issues as
-patch "drm/etnaviv: optionally set gpu linear window to cma area"  that
-addresses the same issue was submitted by Sven Van Asbroeck (see [2]). 
-Unfortunately, his solution was also not accepted.
-
-Please advise what would be the best solution implementation and how to
-proceed in this case?
+Otherwise, thank you for prompt response and implemented fix.
 
 BR,
 Primoz
-
-[1] https://lists.freedesktop.org/archives/dri-devel/2019-June/223516.html
-
-[2] https://lore.kernel.org/dri-devel/20190619183856.467-1-TheSven73@gmail.com/
-
 _______________________________________________
 etnaviv mailing list
 etnaviv@lists.freedesktop.org
