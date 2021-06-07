@@ -1,43 +1,53 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B384538A565
-	for <lists+etnaviv@lfdr.de>; Thu, 20 May 2021 12:15:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 48AEE39D579
+	for <lists+etnaviv@lfdr.de>; Mon,  7 Jun 2021 08:57:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 667A46F3DF;
-	Thu, 20 May 2021 10:15:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F1DB06E23D;
+	Mon,  7 Jun 2021 06:57:44 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from fanzine.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB3336F3D0;
- Thu, 20 May 2021 10:15:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
- s=20170329; 
- h=MIME-Version:Content-Type:Date:Cc:To:From:Subject:Message-ID;
- bh=O0iHU1/VHHkhwP5qU6e9vxiPh+rZbb09bmx0z3cBJBM=; 
- b=MZHsc4N7/ulLQv+eCIGld70Dcd+eH43dyLA3991v9K8vS2m7FU8eTIYL+pVcAfYxEITRbN7NURNhh16NVzhur8aiauQt36RlismSe0GPrOVtdeIKT2RSkCT8W6aU/Immau56snwHmTLVXIsnWOtNw6U1XwE7uztIWk+Us2XROTFYPYrgc9fNj356yJq/X4W/KxFwYRAzVd2yMc/7uWJSSFdSFMdlvyu4LzeDHD1FknUleiHsRJWxTUvzDdc1ALDULB+dZ6ou4cq8tkVLU9mHhKG9xyvsfjr3Xu76y6D1p/Pfc9/nXR6niH6PtW7+whzutlgUBPEpDJIG/cEyaLnuMg==;
-Received: from 216.pool85-49-174.dynamic.orange.es ([85.49.174.216]
- helo=[192.168.1.117]) by fanzine.igalia.com with esmtpsa 
- (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
- id 1ljfiI-0004cl-RM; Thu, 20 May 2021 12:15:34 +0200
-Message-ID: <95ec2c414f7dd1ea5685184435b95430e1709047.camel@igalia.com>
-Subject: Requests For Proposals for hosting XDC 2022 are now open
-From: Samuel Iglesias =?ISO-8859-1?Q?Gons=E1lvez?= <siglesias@igalia.com>
-To: "events@lists.x.org" <events@lists.x.org>, 
- "xorg-devel@lists.freedesktop.org"
- <xorg-devel@lists.freedesktop.org>, wayland-devel@lists.freedesktop.org, 
- wayland-devel@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, mesa-dev@lists.freedesktop.org, 
- mesa-dev@lists.freedesktop.org, amd-gfx@lists.freedesktop.org, 
- amd-gfx@lists.freedesktop.org, etnaviv@lists.freedesktop.org, 
- etnaviv@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
- nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
- intel-gfx@lists.freedesktop.org
-Date: Thu, 20 May 2021 12:15:23 +0200
-User-Agent: Evolution 3.40.1 (3.40.1-1.fc34) 
+Received: from mail-vs1-xe30.google.com (mail-vs1-xe30.google.com
+ [IPv6:2607:f8b0:4864:20::e30])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 76EA26E220;
+ Mon,  7 Jun 2021 06:57:43 +0000 (UTC)
+Received: by mail-vs1-xe30.google.com with SMTP id f15so8341573vsq.12;
+ Sun, 06 Jun 2021 23:57:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=+b/qgU/xjmCf3iqp6d/+T4y8Bk4XAmWjEdEG1RU2s3Y=;
+ b=PUB8GEOePhCKMrTIQjnRhUavBGDCOHNwPYOOYDJ3uTxHCiytrs2t7Lkdwb/+7EBAvU
+ 0YbLmoZURIVk5PInquK3LaBhErEqxF1y9xYJ/ZJtVsabRMvbb2L8VqgNWDXuVyKEUEc9
+ 4cdTeyrJXp4CTrEFZMF6wpMItN6PMRWTBOhkw8fepteFLLI+DkumAROqQeRupWxyhklv
+ 1ccmee0eonbcRpDB/1DH5Ttq6YOMKGPL8cuqN2nlQNn7mqPbxF4rl80FlYb3bOScrOOP
+ +fnUoZczs6BYFEiXBO7uNDdwZaXykRhydiT/YGI10wY+MyTAp+Xr7SELHKtXtk5Seu+v
+ Zf2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=+b/qgU/xjmCf3iqp6d/+T4y8Bk4XAmWjEdEG1RU2s3Y=;
+ b=eB8/e0bLirpV28yLX4llDK+M3NFmmiAxwURBLEXaIsXivJemmjopCNvn32BNpnLmo5
+ /QmTnGTgL3kqQENED0IfBkPnGbpKMP4B61gJr11nI4iyTfr4XOmJRyeZW8kpBSTaKyiP
+ 7UQ9GdkgjeyAgUtb3SR1ZPaCB0GwPUDi9FbzGfU28XROV78fSoGBdzHNz5RZoG2XQu81
+ ry8f2d9eSOPou0ocpOdMg5CFOm3mdl6U7Fxa9X5noVQwByNOMAil3vUNnVhtpZqs7N4u
+ PKC7lygT8naCy5GrgfBOYjHPK7LEc+4zXn3Tatmy7oS3jU/+FRKxeeU7bpPYUSu9NTe5
+ rinw==
+X-Gm-Message-State: AOAM5313zseOuv7Vrs64+8gtn8kY8mgcoLqpbDBm7vC0wUVGQVVY2/f3
+ Hd24nskldlbPX21+YJd8vjcQZPFXlwcM+PfgjHM=
+X-Google-Smtp-Source: ABdhPJy70YBG8kZHmxKIbBvCjRC0dhSUQf86Cc7B3nOnbl3qJRe/PcR+aPcxCSGHjS7txoOd86P45V3nzVWo0GeH/G8=
+X-Received: by 2002:a67:ed81:: with SMTP id d1mr7789915vsp.29.1623049062495;
+ Sun, 06 Jun 2021 23:57:42 -0700 (PDT)
 MIME-Version: 1.0
+References: <20210605122415.8621-1-bernard@vivo.com>
+In-Reply-To: <20210605122415.8621-1-bernard@vivo.com>
+From: Christian Gmeiner <christian.gmeiner@gmail.com>
+Date: Mon, 7 Jun 2021 08:57:37 +0200
+Message-ID: <CAH9NwWcTDV70Nb_e_rs9egsQqmAo91_HM+DoO_woC_ZqnHCVNw@mail.gmail.com>
+Subject: Re: [PATCH] drm/etnaviv: remove no need NULL check
+To: Bernard Zhao <bernard@vivo.com>
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,97 +59,64 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: "board@foundation.x.org" <board@foundation.x.org>
-Content-Type: multipart/mixed; boundary="===============0730951759=="
+Cc: David Airlie <airlied@linux.ie>,
+ The etnaviv authors <etnaviv@lists.freedesktop.org>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Lucas Stach <l.stach@pengutronix.de>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
+Am Sa., 5. Juni 2021 um 14:24 Uhr schrieb Bernard Zhao <bernard@vivo.com>:
+>
+> NULL check before kvfree functions is not needed.
+>
+> Signed-off-by: Bernard Zhao <bernard@vivo.com>
+> ---
+>  drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c | 12 ++++--------
+>  1 file changed, 4 insertions(+), 8 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+> index d05c35994579..bd0d66ebf314 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+> @@ -612,14 +612,10 @@ int etnaviv_ioctl_gem_submit(struct drm_device *dev, void *data,
+>  err_submit_cmds:
+>         if (ret && (out_fence_fd >= 0))
+>                 put_unused_fd(out_fence_fd);
+> -       if (stream)
+> -               kvfree(stream);
+> -       if (bos)
+> -               kvfree(bos);
+> -       if (relocs)
+> -               kvfree(relocs);
+> -       if (pmrs)
+> -               kvfree(pmrs);
+> +       kvfree(stream);
+> +       kvfree(bos);
+> +       kvfree(relocs);
+> +       kvfree(pmrs);
+>
+>         return ret;
+>  }
+> --
+> 2.31.0
+>
 
---===============0730951759==
-Content-Type: multipart/signed; micalg="pgp-sha256";
-	protocol="application/pgp-signature"; boundary="=-PlIrzc/n3c7pGzJvSGeE"
+Thanks for the patch, but there is an other one queued up in
+etnaviv/next that fixes the same issue:
+https://git.pengutronix.de/cgit/lst/linux/commit/?h=etnaviv/next&id=bdf622e0fade2cec72c948c708763378b656c01d
 
+-- 
+greets
+--
+Christian Gmeiner, MSc
 
---=-PlIrzc/n3c7pGzJvSGeE
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Hello everyone!
-
-The X.org board is soliciting proposals to host XDC in 2022. Since
-XDC 2021 is being held in Europe this year (although virtually), we've
-decided to host in North America. However, the board is open to other
-locations, especially if there's an interesting co-location with
-another conference.
-
-Of course though, due to the ongoing COVID-19 pandemic it's not yet
-clear whether or not it will be possible to host XDC 2022 in person,
-although is seems very likely. Because of this, we would like to
-make it clear that sponsors should prepare for both the possibility
-of an in person conference, and the possibility of a virtual
-conference. We will work with organizers on coming up with a
-deadline for deciding whether or not we'll be going virtual, likely
-sometime around July 2022.
-
-If you're considering hosting XDC, we've assembled a wiki page with
-what's generally expected and needed:
-
-https://www.x.org/wiki/Events/RFP/
-
-When submitting your proposal, please make sure to include at least the
-key information about the potential location in question, possible
-dates along with estimated costs. Proposals can be submitted to board
-at foundation.x.org until the deadline of *September 1st, 2021*.=C2=A0
-
-Additionally, an quirk early heads-up to the board if you're
-considering hosting would be appreciated, in case we need to adjust the
-schedule a bit. Also, earlier is better since there generally will be a
-bit of Q&A with organizers.
-
-And if you just have some questions about what organizing XDC entails,
-please feel free to chat with previous organizers, or someone from the
-board.
-
-Thanks,
-
-Sam
-
-
---=-PlIrzc/n3c7pGzJvSGeE
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEQP+ZAvaXWkfuKXiEf/S6MvF9w0MFAmCmNrsACgkQf/S6MvF9
-w0NsSxAA1ui8Yz9mLl9sknE/Lu1eOzz/P0B7tgPy4hLe4cj6SbCCU37S9d+RJ0/h
-iAoZDzP5yxEneqT0nIA5LYzvUjOxcl6POaC5nxqYagrtOOKi4H0Gd4U03LjIqtpy
-Fuc6J4z1eePoXORAPP/vlQbUojPG085P/NW77biDPBYL+3pTpWdIxdQV9zFv+CzY
-HDJwupFJJHtwVaGiArV1sJn6Ls/hzgD/JhAGpGF12k6/31IjlS+k8BOAFod4sIeq
-F3KqIYWa6LQtgrhvcSpLXLMf27v5A/gPCtpw5ikga3NKIo2lZY5wwNCGTAH6DJ4q
-ILf/OFYDt7RmgQ9o3y/bMHiFtQdmoC5RzpGTSsVTezeAAyIPskc00wgfyvmItJYK
-v5eziT91D5uLqDeglhwC39HU+v2ABa11TeADqifsu4WPTPTPKVe66shB2uP/cx5s
-o2LIVt8JflpyB++CQ6DBxcz+7yVqC8OLVfNK4MbMkGtbTgzuNtcisf0zP/dVZEh8
-4Sj//vhVfDId92Sp0yyhiOEwWmAO+HAwh2/qsd+7/JbHU0HGrHwqarUM5LNhyDqJ
-ZXd0FnEpXQvNK3AYOGBJcU9gPjuXmjGlDS3k4pHhvrsb198xIp1t/lBBsV0vyEaz
-gNSmH8Dx+VbGstCm3/VE6uZhHFYXn6FMvT5qIr8BN3LGQuGz5Yc=
-=JocE
------END PGP SIGNATURE-----
-
---=-PlIrzc/n3c7pGzJvSGeE--
-
-
---===============0730951759==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+https://christian-gmeiner.info/privacypolicy
 _______________________________________________
 etnaviv mailing list
 etnaviv@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/etnaviv
-
---===============0730951759==--
-
