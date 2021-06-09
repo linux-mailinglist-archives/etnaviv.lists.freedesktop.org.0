@@ -2,44 +2,71 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2AEC39F3BA
-	for <lists+etnaviv@lfdr.de>; Tue,  8 Jun 2021 12:38:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6858B3A129E
+	for <lists+etnaviv@lfdr.de>; Wed,  9 Jun 2021 13:25:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6152E6E0E9;
-	Tue,  8 Jun 2021 10:38:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E9246E984;
+	Wed,  9 Jun 2021 11:25:51 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from fanzine.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1512989FC3;
- Tue,  8 Jun 2021 10:38:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
- s=20170329; 
- h=MIME-Version:Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID;
- bh=sTScXVap1smEciCCWRVPGYalA2ax7y/w+lgkVVTYKF4=; 
- b=lW6hHNIF3DHzaUnMn8hTq2HDxjatBeIdd0x/4sYl5uEy9+mISLr+lqd8SdndtP3QLE/wS7807N+wg5Kq4o3+0XiS/pY7rmFNzlieuR48N5/W39rZYzcAcYCLjrYNfoLoVGX0rMyWRhXHZYTeFbJ6wfe2MMic20kGyweYLL7c4eDuP5+anewvTkpDkSFj+qMTOZASMA6fbRMH3+TQ9Eqt/YGWf3awlqfNPLVThy96DsMTmwkuhRBQJshlyl6GP1rX6YhGnPwYHLJNv4ymNJ3MAoAugVBCuCeDRyA+4AE7pP+qFy/gIZs50puOpUacLXAmQ7R/sWqRZiKZlb/XZb5vRw==;
-Received: from 106.red-79-157-245.dynamicip.rima-tde.net ([79.157.245.106]
- helo=[192.168.2.252]) by fanzine.igalia.com with esmtpsa 
- (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
- id 1lqZ88-0002m9-TN; Tue, 08 Jun 2021 12:38:44 +0200
-Message-ID: <380e8cb0f18c6f4b21c20b382668316b8962159a.camel@igalia.com>
-Subject: Re: [Mesa-dev] XDC 2021: Registration & Call for Proposals now open!
-From: Samuel Iglesias =?ISO-8859-1?Q?Gons=E1lvez?= <siglesias@igalia.com>
-To: "Szwichtenberg, Radoslaw" <radoslaw.szwichtenberg@intel.com>, 
- "events@lists.x.org"
- <events@lists.x.org>, "xorg-devel@lists.freedesktop.org"
- <xorg-devel@lists.freedesktop.org>, "wayland-devel@lists.freedesktop.org"
- <wayland-devel@lists.freedesktop.org>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "mesa-dev@lists.freedesktop.org"
- <mesa-dev@lists.freedesktop.org>, "amd-gfx@lists.freedesktop.org"
- <amd-gfx@lists.freedesktop.org>, "etnaviv@lists.freedesktop.org"
- <etnaviv@lists.freedesktop.org>, "freedreno@lists.freedesktop.org"
- <freedreno@lists.freedesktop.org>, "nouveau@lists.freedesktop.org"
- <nouveau@lists.freedesktop.org>, "intel-gfx@lists.freedesktop.org"
- <intel-gfx@lists.freedesktop.org>
-Date: Tue, 08 Jun 2021 12:38:34 +0200
-In-Reply-To: <790BA4EE-E3F0-40B9-BE18-3646492F1CAE@intel.com>
-References: <790BA4EE-E3F0-40B9-BE18-3646492F1CAE@intel.com>
-User-Agent: Evolution 3.40.1 (3.40.1-1.fc34) 
+X-Greylist: delayed 333 seconds by postgrey-1.36 at gabe;
+ Wed, 09 Jun 2021 11:25:48 UTC
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 631616E8E1;
+ Wed,  9 Jun 2021 11:25:48 +0000 (UTC)
+Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
+ (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 322EA1FD2A;
+ Wed,  9 Jun 2021 11:20:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1623237614; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=oCiBA5IQR9wf4+Cc+r3nE+xIhszdcMtCPYXz7tk1DUc=;
+ b=fY/lBPn1RzheTsgcxOOcUlu2A6QxXJzVzaZKYGY8dQ/N9dkPZxAh+IzMlWy3Mdw4YcifeB
+ euR+HK45GJ3f0u+/7nmbJqJDLXGEJmIB2cOWMU93FBBin5A1MqrE27Y9jBklc67vNLz8q3
+ MEB05kirgOr7hJDXocRIMCqdq+d45FY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1623237614;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=oCiBA5IQR9wf4+Cc+r3nE+xIhszdcMtCPYXz7tk1DUc=;
+ b=qtPzutLGd6X37XBCAvAZ4AuMX1bEEdUc0wqN5VeNSoa0OrIM4LVgceME8x2WEfyyR258wQ
+ Jhvg0YtWBnitxsBg==
+Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
+ by imap.suse.de (Postfix) with ESMTP id 8991F118DD;
+ Wed,  9 Jun 2021 11:20:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1623237614; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=oCiBA5IQR9wf4+Cc+r3nE+xIhszdcMtCPYXz7tk1DUc=;
+ b=fY/lBPn1RzheTsgcxOOcUlu2A6QxXJzVzaZKYGY8dQ/N9dkPZxAh+IzMlWy3Mdw4YcifeB
+ euR+HK45GJ3f0u+/7nmbJqJDLXGEJmIB2cOWMU93FBBin5A1MqrE27Y9jBklc67vNLz8q3
+ MEB05kirgOr7hJDXocRIMCqdq+d45FY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1623237614;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=oCiBA5IQR9wf4+Cc+r3nE+xIhszdcMtCPYXz7tk1DUc=;
+ b=qtPzutLGd6X37XBCAvAZ4AuMX1bEEdUc0wqN5VeNSoa0OrIM4LVgceME8x2WEfyyR258wQ
+ Jhvg0YtWBnitxsBg==
+Received: from director2.suse.de ([192.168.254.72]) by imap3-int with ESMTPSA
+ id Pn27IO2jwGBTUgAALh3uQQ
+ (envelope-from <tzimmermann@suse.de>); Wed, 09 Jun 2021 11:20:13 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: daniel@ffwll.ch, mripard@kernel.org, maarten.lankhorst@linux.intel.com,
+ l.stach@pengutronix.de, linux+etnaviv@armlinux.org.uk,
+ christian.gmeiner@gmail.com, inki.dae@samsung.com, jy0922.shim@samsung.com,
+ sw0312.kim@samsung.com, kyungmin.park@samsung.com,
+ krzysztof.kozlowski@canonical.com, chunkuang.hu@kernel.org,
+ p.zabel@pengutronix.de, matthias.bgg@gmail.com, robdclark@gmail.com,
+ sean@poorly.run, airlied@redhat.com, kraxel@redhat.com, hjc@rock-chips.com,
+ heiko@sntech.de, oleksandr_andrushchenko@epam.com, sumit.semwal@linaro.org,
+ christian.koenig@amd.com
+Subject: [PATCH 0/9] drm: Implement gem_prime_mmap with drm_gem_prime_mmap()
+Date: Wed,  9 Jun 2021 13:20:03 +0200
+Message-Id: <20210609112012.10019-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -52,138 +79,81 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: "board@foundation.x.org" <board@foundation.x.org>
-Content-Type: multipart/mixed; boundary="===============0333843979=="
+Cc: linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org, linaro-mm-sig@lists.linaro.org,
+ linux-rockchip@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, xen-devel@lists.xenproject.org,
+ spice-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
+Replace all remaining implementations of struct drm_driver.gem_prime_mmap
+with use drm_gem_prime_mmap(). For each affected driver, put the mmap code
+into struct drm_gem_object_funcs.mmap. With the latter change in place,
+create struct file_operations via DEFINE_DRM_GEM_FOPS().
 
---===============0333843979==
-Content-Type: multipart/signed; micalg="pgp-sha256";
-	protocol="application/pgp-signature"; boundary="=-0Q47J+K4gENg3/THmwP5"
+As next steps, remaining drivers can be converted to use drm_gem_prime_mmap()
+and drm_gem_mmap() (e.g., Tegra). The default mmap code in drm_gem_prime_mmap()
+can be pushed into affected drivers or a helper function. The gem_prime_mmap
+hook can probably be removed at some point.
 
+Testing is welcome. I don't have all the necessary hardware.
 
---=-0Q47J+K4gENg3/THmwP5
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Thomas Zimmermann (9):
+  drm/etnaviv: Implement mmap as GEM object function
+  drm/exynox: Implement mmap as GEM object function
+  drm/mediatek: Implement mmap as GEM object function
+  drm/msm: Implement mmap as GEM object function
+  drm/qxl: Remove empty qxl_gem_prime_mmap()
+  drm/vgem: Implement mmap as GEM object function
+  drm/xen: Implement mmap as GEM object function
+  drm/rockchip: Implement mmap as GEM object function
+  drm: Update documentation and TODO of gem_prime_mmap hook
 
-Kind reminder. Deadline is Sunday, 4 July 2021 :-)
-
-Sam
-
-On Thu, 2021-05-20 at 10:01 +0000, Szwichtenberg, Radoslaw wrote:
-> Hello!
-> =C2=A0
-> Registration & Call for Proposals are now open for XDC 2021, which
-> will
-> take place on September 15-17, 2021. This year we will repeat as
-> virtual event.
-> =C2=A0
-> https://indico.freedesktop.org/event/1/
-> =C2=A0
-> As usual, the conference is free of charge and open to the general
-> public. If you plan on attending, please make sure to register as
-> early
-> as possible!
-> =C2=A0
-> In order to register as attendee, you will therefore need to register
-> via the XDC website. As XDC moved to a new Indico infrastructure, if
-> you previously registered on the XDC website, you need to create a
-> new
-> account again.
-> =C2=A0
-> https://indico.freedesktop.org/event/1/registrations/1/
-> =C2=A0
-> In addition to registration, the CfP is now open for talks, workshops
-> and demos at XDC 2021. While any serious proposal will be gratefully
-> considered, topics of interest to X.Org and freedesktop.org
-> developers
-> are encouraged. The program focus is on new development, ongoing
-> challenges and anything else that will spark discussions among
-> attendees in the hallway track.
-> =C2=A0
-> We are open to talks across all layers of the graphics stack, from
-> the
-> kernel to desktop environments / graphical applications and about how
-> to make things better for the developers who build them. Head to the
-> CfP page to learn more:=C2=A0
-> =C2=A0
-> https://indico.freedesktop.org/event/1/abstracts/
-> =C2=A0
-> The deadline for submissions is Sunday, 4 July 2021.
-> =C2=A0
-> Last year we modified our Reimbursement Policy to accept speaker
-> expenses for X.Org virtual events like XDC 2021. Check it out here:
-> =C2=A0
-> https://www.x.org/wiki/XorgFoundation/Policies/Reimbursement/
-> =C2=A0
-> If you have any questions, please send me an email to
-> radoslaw.szwichtenberg@intel.com,=C2=A0=C2=A0adding on CC the X.org board
-> (board
-> at foundation.x.org).
-> =C2=A0
-> And don't forget, you can follow us on Twitter for all the latest
-> updates and to stay connected:
-> =C2=A0
-> =C2=A0
-> https://twitter.com/XOrgDevConf
-> =C2=A0
-> Best,
-> =C2=A0
-> Radek
-> =C2=A0
-> P.S: a DNS redirection (xdc2021.x.org) is work in progress. Please
-> use
-> the mentioned links for the moment.
-> =C2=A0
-> =C2=A0
-> Rados=C5=82aw Szwichtenberg
-> -------------------------------------------------
-> Intel Technology Poland sp. z o.o.
-> ul. Slowackiego 173, 80-298 Gdansk
-> KRS 101882 - NIP 957-07-52-316
-> =C2=A0
-> _______________________________________________
-> mesa-dev mailing list
-> mesa-dev@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/mesa-dev
+ Documentation/gpu/todo.rst                    |  11 --
+ drivers/gpu/drm/etnaviv/etnaviv_drv.c         |  14 +--
+ drivers/gpu/drm/etnaviv/etnaviv_drv.h         |   3 -
+ drivers/gpu/drm/etnaviv/etnaviv_gem.c         |  18 +--
+ drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c   |  13 ---
+ drivers/gpu/drm/exynos/exynos_drm_drv.c       |  13 +--
+ drivers/gpu/drm/exynos/exynos_drm_fbdev.c     |  20 +---
+ drivers/gpu/drm/exynos/exynos_drm_gem.c       |  43 ++-----
+ drivers/gpu/drm/exynos/exynos_drm_gem.h       |   5 -
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c        |  13 +--
+ drivers/gpu/drm/mediatek/mtk_drm_gem.c        |  44 ++-----
+ drivers/gpu/drm/mediatek/mtk_drm_gem.h        |   3 -
+ drivers/gpu/drm/msm/msm_drv.c                 |  14 +--
+ drivers/gpu/drm/msm/msm_drv.h                 |   1 -
+ drivers/gpu/drm/msm/msm_fbdev.c               |  10 +-
+ drivers/gpu/drm/msm/msm_gem.c                 |  67 +++++------
+ drivers/gpu/drm/msm/msm_gem.h                 |   3 -
+ drivers/gpu/drm/msm/msm_gem_prime.c           |  11 --
+ drivers/gpu/drm/qxl/qxl_drv.c                 |   1 -
+ drivers/gpu/drm/qxl/qxl_drv.h                 |   2 -
+ drivers/gpu/drm/qxl/qxl_prime.c               |   6 -
+ drivers/gpu/drm/rockchip/rockchip_drm_drv.c   |  13 +--
+ drivers/gpu/drm/rockchip/rockchip_drm_fbdev.c |   3 +-
+ drivers/gpu/drm/rockchip/rockchip_drm_gem.c   |  44 ++-----
+ drivers/gpu/drm/rockchip/rockchip_drm_gem.h   |   7 --
+ drivers/gpu/drm/vgem/vgem_drv.c               |  46 +-------
+ drivers/gpu/drm/xen/xen_drm_front.c           |  16 +--
+ drivers/gpu/drm/xen/xen_drm_front_gem.c       | 108 +++++++-----------
+ drivers/gpu/drm/xen/xen_drm_front_gem.h       |   7 --
+ include/drm/drm_drv.h                         |  11 +-
+ 30 files changed, 136 insertions(+), 434 deletions(-)
 
 
---=-0Q47J+K4gENg3/THmwP5
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEQP+ZAvaXWkfuKXiEf/S6MvF9w0MFAmC/SKoACgkQf/S6MvF9
-w0P3tRAAjmk0pVTC5YtEm9h3e3HeepckAKQV5XGEPqqtHtxmHZWzgqX/UoewWeOJ
-TgERDD6aPxl3mmzk0/ZO/+7H2VFE73UVNJm6+zo5iaE43rwbhpGi6lX6wFNDUygL
-/J9/AR/XeShuIc110rzAfubCIGFxIhY+WlybNEKGYxbf3uqodK51Zi6P2mg8dhFm
-Vi4ttVAwLV222pmUipnv8jRSuBYSG6tcML5xZwLsa4qxVbtz8x3sLCKqm+pIpwTi
-VcdCP5faZYqImM1g916D+4cOe3kmUqmJwRv5pQEqDMxZ/A0zwCls7NtpBEaAn+fT
-pH6RHvovP1pnOLPB7Z3mZIoHJPB+SgGDDmlSop3dhUbJ0eb+Vlu/Gg1VCOkOEPUt
-KyvFlcTfG8L8fzaDlS0Si0i4sQ5aY6jdlhI5TsESd9yslSDf/WNtZmld/mTZtkpq
-DHS2KfzXoL7pKb6WIQPxeNKy9tmbSnghjUQEaWClOy/n9roI54y7SpGtPiifClWe
-7/GvC09oqG2JpQBREncN7cnJ25pU4Fwx3TwbozsZVPWDIcMVqbOBADdFdmzo4Zbs
-x2VpffVEH+cDlCWmqbbW5ut/NGYwCPf+e9Maiu/5KLgjjBJDpA1qT3J/4ss50Lds
-JXamMrMdZGAT4wats6V1uC+bBPcnMoU17jqHo3Mf9HROHfFjQ0Y=
-=grJo
------END PGP SIGNATURE-----
-
---=-0Q47J+K4gENg3/THmwP5--
-
-
---===============0333843979==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+base-commit: 70e4d80795934312a3853a4f4f49445ce6db1271
+prerequisite-patch-id: c2b2f08f0eccc9f5df0c0da49fa1d36267deb11d
+prerequisite-patch-id: c67e5d886a47b7d0266d81100837557fda34cb24
+--
+2.31.1
 
 _______________________________________________
 etnaviv mailing list
 etnaviv@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/etnaviv
-
---===============0333843979==--
-
