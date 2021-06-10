@@ -2,80 +2,35 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 122523A12AA
-	for <lists+etnaviv@lfdr.de>; Wed,  9 Jun 2021 13:26:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E82A3A2C9F
+	for <lists+etnaviv@lfdr.de>; Thu, 10 Jun 2021 15:14:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B58BB6E96A;
-	Wed,  9 Jun 2021 11:26:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C5F786ED11;
+	Thu, 10 Jun 2021 13:14:04 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F52C6E96B;
- Wed,  9 Jun 2021 11:26:48 +0000 (UTC)
-Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
- (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 19DE7219E6;
- Wed,  9 Jun 2021 11:20:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1623237620; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Hk665B6tEfCs3+xiggyrmaaBVgfZTuKVzd+3pkK7Ryg=;
- b=0riftsnENuEtlKaO45VfMLILTW7CVsIiXdx49o3MHlH7Q+EKEz+QeJkuwWMGzAEhU6UHHH
- 3ts3WOmOU4iussIVGweeahprcgL7L9c+tNdjKY5Dk6n3NaNwC28S1xW4RjYy+UmH7VLOjH
- k2GIcXr/JV10H9i/R8LvGdlonJJ8RMk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1623237620;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Hk665B6tEfCs3+xiggyrmaaBVgfZTuKVzd+3pkK7Ryg=;
- b=Wcvg3bkzQ+lyHvS1B+AJdv/5DCMi0f2Em4b89mhyz0mHV8DFPdA7XrbwOT44PzMYlcG3sD
- mYqnz4K5nYFXyzDg==
-Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
- by imap.suse.de (Postfix) with ESMTP id 74EFE11A98;
- Wed,  9 Jun 2021 11:20:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1623237620; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Hk665B6tEfCs3+xiggyrmaaBVgfZTuKVzd+3pkK7Ryg=;
- b=0riftsnENuEtlKaO45VfMLILTW7CVsIiXdx49o3MHlH7Q+EKEz+QeJkuwWMGzAEhU6UHHH
- 3ts3WOmOU4iussIVGweeahprcgL7L9c+tNdjKY5Dk6n3NaNwC28S1xW4RjYy+UmH7VLOjH
- k2GIcXr/JV10H9i/R8LvGdlonJJ8RMk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1623237620;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Hk665B6tEfCs3+xiggyrmaaBVgfZTuKVzd+3pkK7Ryg=;
- b=Wcvg3bkzQ+lyHvS1B+AJdv/5DCMi0f2Em4b89mhyz0mHV8DFPdA7XrbwOT44PzMYlcG3sD
- mYqnz4K5nYFXyzDg==
-Received: from director2.suse.de ([192.168.254.72]) by imap3-int with ESMTPSA
- id SIS9G/OjwGBTUgAALh3uQQ
- (envelope-from <tzimmermann@suse.de>); Wed, 09 Jun 2021 11:20:19 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: daniel@ffwll.ch, mripard@kernel.org, maarten.lankhorst@linux.intel.com,
- l.stach@pengutronix.de, linux+etnaviv@armlinux.org.uk,
- christian.gmeiner@gmail.com, inki.dae@samsung.com, jy0922.shim@samsung.com,
- sw0312.kim@samsung.com, kyungmin.park@samsung.com,
- krzysztof.kozlowski@canonical.com, chunkuang.hu@kernel.org,
- p.zabel@pengutronix.de, matthias.bgg@gmail.com, robdclark@gmail.com,
- sean@poorly.run, airlied@redhat.com, kraxel@redhat.com, hjc@rock-chips.com,
- heiko@sntech.de, oleksandr_andrushchenko@epam.com, sumit.semwal@linaro.org,
- christian.koenig@amd.com
-Subject: [PATCH 9/9] drm: Update documentation and TODO of gem_prime_mmap hook
-Date: Wed,  9 Jun 2021 13:20:12 +0200
-Message-Id: <20210609112012.10019-10-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210609112012.10019-1-tzimmermann@suse.de>
-References: <20210609112012.10019-1-tzimmermann@suse.de>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 59D736ED0F
+ for <etnaviv@lists.freedesktop.org>; Thu, 10 Jun 2021 13:14:03 +0000 (UTC)
+Received: from gallifrey.ext.pengutronix.de
+ ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1lrKVV-0006h8-CK; Thu, 10 Jun 2021 15:14:01 +0200
+Message-ID: <f27e1ec2c2fea310bfb6fe6c99174a54e9dfba83.camel@pengutronix.de>
+Subject: [GIT PULL] etnaviv-next
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Thu, 10 Jun 2021 15:14:00 +0200
+User-Agent: Evolution 3.40.1 (3.40.1-1.fc34) 
 MIME-Version: 1.0
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,74 +42,66 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org, linaro-mm-sig@lists.linaro.org,
- linux-rockchip@lists.infradead.org, linux-mediatek@lists.infradead.org,
- Thomas Zimmermann <tzimmermann@suse.de>, xen-devel@lists.xenproject.org,
- spice-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Cc: kernel@pengutronix.de, etnaviv@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-The hook gem_prime_mmap in struct drm_driver is deprecated. Document
-the new requirements.
+Hi Dave, Daniel,
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- Documentation/gpu/todo.rst | 11 -----------
- include/drm/drm_drv.h      | 11 +++++++----
- 2 files changed, 7 insertions(+), 15 deletions(-)
+please pull the following updates for the next merge window:
 
-diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-index 12e61869939e..50ad731d579b 100644
---- a/Documentation/gpu/todo.rst
-+++ b/Documentation/gpu/todo.rst
-@@ -268,17 +268,6 @@ Contact: Daniel Vetter
+- remove redundant NULL checks by various people
+- fix sparse checker warnings from Marc
+- expose more GPU ID values to userspace from Christian
+- add HWDB entry for GPU found on i.MX8MP from Sascha
+- rework of the linear window calculation to better deal with
+  systems with large regions of reserved RAM
  
- Level: Intermediate
- 
--Clean up mmap forwarding
--------------------------
--
--A lot of drivers forward gem mmap calls to dma-buf mmap for imported buffers.
--And also a lot of them forward dma-buf mmap to the gem mmap implementations.
--There's drm_gem_prime_mmap() for this now, but still needs to be rolled out.
--
--Contact: Daniel Vetter
--
--Level: Intermediate
--
- Generic fbdev defio support
- ---------------------------
- 
-diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
-index b439ae1921b8..40d93a52cf7a 100644
---- a/include/drm/drm_drv.h
-+++ b/include/drm/drm_drv.h
-@@ -385,11 +385,14 @@ struct drm_driver {
- 	 * mmap hook for GEM drivers, used to implement dma-buf mmap in the
- 	 * PRIME helpers.
- 	 *
--	 * FIXME: There's way too much duplication going on here, and also moved
--	 * to &drm_gem_object_funcs.
-+	 * This hook only exists for historical reasons. Drivers must use
-+	 * drm_gem_prime_mmap() to implement it.
-+	 *
-+	 * FIXME: Convert all drivers to implement mmap in struct
-+	 * &drm_gem_object_funcs and inline drm_gem_prime_mmap() into
-+	 * its callers. This hook should be removed afterwards.
- 	 */
--	int (*gem_prime_mmap)(struct drm_gem_object *obj,
--				struct vm_area_struct *vma);
-+	int (*gem_prime_mmap)(struct drm_gem_object *obj, struct vm_area_struct *vma);
- 
- 	/**
- 	 * @dumb_create:
--- 
-2.31.1
+Regards,
+Lucas
+
+The following changes since commit 3650b228f83adda7e5ee532e2b90429c03f7b9ec:
+
+  Linux 5.10-rc1 (2020-10-25 15:14:11 -0700)
+
+are available in the Git repository at:
+
+  https://git.pengutronix.de/git/lst/linux etnaviv/next
+
+for you to fetch changes up to 989c9dad613155a60f15747e3f1db210a6304ecf:
+
+  drm/etnaviv: add HWDB entry for GC7000 rev 6204 (2021-06-10 15:09:40 +0200)
+
+----------------------------------------------------------------
+Christian Gmeiner (1):
+      drm/etnaviv: provide more ID values via GET_PARAM ioctl.
+
+Jiapeng Chong (1):
+      drm/etnaviv: Remove redundant NULL check
+
+Lucas Stach (1):
+      drm/etnaviv: rework linear window offset calculation
+
+Marc Kleine-Budde (1):
+      drm/etnaviv: dump: fix sparse warnings
+
+Sascha Hauer (1):
+      drm/etnaviv: add HWDB entry for GC7000 rev 6204
+
+Tian Tao (2):
+      drm/etnaviv: fix NULL check before some freeing functions is not needed
+      drm/etnaviv: Remove useless error message
+
+ drivers/gpu/drm/etnaviv/etnaviv_dump.c       |  8 +++---
+ drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c  |  3 +-
+ drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c | 12 +++-----
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c        | 68 ++++++++++++++++++++++++++--------------------
+ drivers/gpu/drm/etnaviv/etnaviv_hwdb.c       | 31 +++++++++++++++++++++
+ include/uapi/drm/etnaviv_drm.h               |  3 ++
+ 6 files changed, 82 insertions(+), 43 deletions(-)
 
 _______________________________________________
 etnaviv mailing list
