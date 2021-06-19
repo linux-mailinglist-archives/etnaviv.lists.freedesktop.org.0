@@ -2,75 +2,44 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 245613ADDCF
-	for <lists+etnaviv@lfdr.de>; Sun, 20 Jun 2021 11:00:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81CE53ADDD2
+	for <lists+etnaviv@lfdr.de>; Sun, 20 Jun 2021 11:00:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 555736E0EE;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F8186E0FB;
 	Sun, 20 Jun 2021 09:00:28 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-qk1-x733.google.com (mail-qk1-x733.google.com
- [IPv6:2607:f8b0:4864:20::733])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B2D16EA90;
- Fri, 18 Jun 2021 19:57:42 +0000 (UTC)
-Received: by mail-qk1-x733.google.com with SMTP id f70so13674133qke.13;
- Fri, 18 Jun 2021 12:57:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=37+/bJDLIApjJOabHdvoQrAss7FfPxN4WhCrNaoRcQ8=;
- b=VVK5tqIQzPOB/pClQcuBsJaDAbUUEnkPPKfulh8+2myK665uuDo09ot8XCi6sHxLZR
- y8fj3mrgXvbx9A3B+ONtPw+fgzGSVSenp/EXoiY0gWROqGi4Fn1A3bfSSLUZAqRutrON
- y6/Z4NVEd0pCnvPql7ZC2qz0kpv16hGqhZjcz6pRzjZpd2pCUk/Rx0NTK3mRSSCCeTNz
- w7VxyKoNdVRfMd0+aNfUIgW7eUgGosp5ty6Jf/80ptGfWLaf+TpH/azKTIXsZyVE7lva
- yo1XLSjlzAKK3hQ6WsNhDDGl4EuKC+ZgpibQ7FiIqr2BIgGmALXcE/0yLnEA8FN0OU8x
- W31g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=37+/bJDLIApjJOabHdvoQrAss7FfPxN4WhCrNaoRcQ8=;
- b=MaqMNfrPIKuDjMuIkRiVLn1kAGB/uYT+scuPJgHb2OKR4B82g6jCvCNb/WXJTTpW1/
- u1XrKpRrSu0i/Vr+7ZLBIi1K/8vGDijf4CidJpWtQNg8kkHLMgU7HoxQkjg6NO41sNJF
- B47s3x74/+m55xqNNqneYTSk+ma6eKR8ECabUwcLOoiAVEtv0UfhcLq0WvXHYSvkU9cv
- Y5qjH3XWg5+mZ/1P7lBsuBdVOjTd/fZhfBJzGH30pB4OMPyiHGny5gIrXZZ6DmPqpvfH
- juxBQhcvQf9osDHNmAPy2zF5vDFIcBk7KRsIHqJMTeEnNh49yuJVq9h+lGY8toQxK1Jz
- v2DQ==
-X-Gm-Message-State: AOAM5312I+URdP1rsW7MR+Ck3TruZxmBB+pm1ThzZmn/rA04Z+ikUUo4
- wfB3Aqe4AUFwW2j7oFXfZis=
-X-Google-Smtp-Source: ABdhPJwsBoaPQpmygNhzzHbhxJYWLoAgyxjLlepBLO8ruFcZoLk3lMO3BSYI+s1NjI072I/BF0YnWg==
-X-Received: by 2002:a05:620a:4106:: with SMTP id
- j6mr11002088qko.452.1624046261378; 
- Fri, 18 Jun 2021 12:57:41 -0700 (PDT)
-Received: from localhost ([207.98.216.60])
- by smtp.gmail.com with ESMTPSA id 7sm6015448qtx.33.2021.06.18.12.57.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Jun 2021 12:57:41 -0700 (PDT)
-From: Yury Norov <yury.norov@gmail.com>
-To: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, "H. Peter Anvin" <hpa@zytor.com>,
- Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>, Marc Zyngier <maz@kernel.org>,
- David Woodhouse <dwmw@amazon.co.uk>,
- Andrew Morton <akpm@linux-foundation.org>,
- Wei Yang <richard.weiyang@linux.alibaba.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Alexey Klimov <aklimov@redhat.com>, x86@kernel.org,
- linux-kernel@vger.kernel.org, etnaviv@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-hwmon@vger.kernel.org
-Subject: [PATCH 3/3] Replace for_each_*_bit_from() with for_each_*_bit() where
- appropriate
-Date: Fri, 18 Jun 2021 12:57:35 -0700
-Message-Id: <20210618195735.55933-4-yury.norov@gmail.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210618195735.55933-1-yury.norov@gmail.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ACF786EABE;
+ Sat, 19 Jun 2021 10:50:08 +0000 (UTC)
+IronPort-SDR: YaS+D4BoOYzqlPZ+j3HQwvGOHiXB/sGu4CryzsiK0AHI0kQvmLZO323vEz+Hy4s8rXgf3zi5fB
+ MCJ4t63IySQQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,10019"; a="292293348"
+X-IronPort-AV: E=Sophos;i="5.83,285,1616482800"; d="scan'208";a="292293348"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Jun 2021 03:50:08 -0700
+IronPort-SDR: o8DFUIQ+V+2TuG58ZEr4r3C8CkDGqWu2uw95vEN7oxLjJ8oaxloSWHsXFVzcWwtJJIbqrt7cig
+ dDphpiQ2jjXw==
+X-IronPort-AV: E=Sophos;i="5.83,285,1616482800"; d="scan'208";a="622629219"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Jun 2021 03:50:02 -0700
+Received: from andy by smile with local (Exim 4.94.2)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1luYY2-003nwB-1Z; Sat, 19 Jun 2021 13:49:58 +0300
+Date: Sat, 19 Jun 2021 13:49:58 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Yury Norov <yury.norov@gmail.com>
+Subject: Re: [PATCH 3/3] Replace for_each_*_bit_from() with for_each_*_bit()
+ where appropriate
+Message-ID: <YM3L1kciMw7zqhUp@smile.fi.intel.com>
 References: <20210618195735.55933-1-yury.norov@gmail.com>
+ <20210618195735.55933-4-yury.norov@gmail.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20210618195735.55933-4-yury.norov@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-Mailman-Approved-At: Sun, 20 Jun 2021 09:00:27 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -83,78 +52,56 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: Yury Norov <yury.norov@gmail.com>
+Cc: Wei Yang <richard.weiyang@linux.alibaba.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, David Airlie <airlied@linux.ie>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>, dri-devel@lists.freedesktop.org,
+ "H. Peter Anvin" <hpa@zytor.com>, Marc Zyngier <maz@kernel.org>,
+ x86@kernel.org, Ingo Molnar <mingo@redhat.com>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Guenter Roeck <linux@roeck-us.net>, Jean Delvare <jdelvare@suse.com>,
+ Alexey Klimov <aklimov@redhat.com>, etnaviv@lists.freedesktop.org,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Borislav Petkov <bp@alien8.de>, Thomas Gleixner <tglx@linutronix.de>,
+ linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Daniel Vetter <daniel@ffwll.ch>, Andrew Morton <akpm@linux-foundation.org>,
+ David Woodhouse <dwmw@amazon.co.uk>, Lucas Stach <l.stach@pengutronix.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-A couple of kernel functions call for_each_*_bit_from() with start
-bit equal to 0. Replace them with for_each_*_bit().
+On Fri, Jun 18, 2021 at 12:57:35PM -0700, Yury Norov wrote:
+> A couple of kernel functions call for_each_*_bit_from() with start
+> bit equal to 0. Replace them with for_each_*_bit().
+> 
+> No functional changes, but might improve on readability.
 
-No functional changes, but might improve on readability.
+...
 
-Signed-off-by: Yury Norov <yury.norov@gmail.com>
----
- arch/x86/kernel/apic/vector.c         | 4 ++--
- drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 4 ++--
- drivers/hwmon/ltc2992.c               | 3 +--
- 3 files changed, 5 insertions(+), 6 deletions(-)
+> --- a/drivers/hwmon/ltc2992.c
+> +++ b/drivers/hwmon/ltc2992.c
+> @@ -248,8 +248,7 @@ static int ltc2992_gpio_get_multiple(struct gpio_chip *chip, unsigned long *mask
+>  
+>  	gpio_status = reg;
+>  
+> -	gpio_nr = 0;
+> -	for_each_set_bit_from(gpio_nr, mask, LTC2992_GPIO_NR) {
+> +	for_each_set_bit(gpio_nr, mask, LTC2992_GPIO_NR) {
+>  		if (test_bit(LTC2992_GPIO_BIT(gpio_nr), &gpio_status))
+>  			set_bit(gpio_nr, bits);
+>  	}
 
-diff --git a/arch/x86/kernel/apic/vector.c b/arch/x86/kernel/apic/vector.c
-index fb67ed5e7e6a..d099ef226f55 100644
---- a/arch/x86/kernel/apic/vector.c
-+++ b/arch/x86/kernel/apic/vector.c
-@@ -760,9 +760,9 @@ void __init lapic_update_legacy_vectors(void)
- 
- void __init lapic_assign_system_vectors(void)
- {
--	unsigned int i, vector = 0;
-+	unsigned int i, vector;
- 
--	for_each_set_bit_from(vector, system_vectors, NR_VECTORS)
-+	for_each_set_bit(vector, system_vectors, NR_VECTORS)
- 		irq_matrix_assign_system(vector_matrix, vector, false);
- 
- 	if (nr_legacy_irqs() > 1)
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-index 4102bcea3341..42ce3287d3be 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-@@ -1032,7 +1032,7 @@ int etnaviv_gpu_debugfs(struct etnaviv_gpu *gpu, struct seq_file *m)
- 
- void etnaviv_gpu_recover_hang(struct etnaviv_gpu *gpu)
- {
--	unsigned int i = 0;
-+	unsigned int i;
- 
- 	dev_err(gpu->dev, "recover hung GPU!\n");
- 
-@@ -1045,7 +1045,7 @@ void etnaviv_gpu_recover_hang(struct etnaviv_gpu *gpu)
- 
- 	/* complete all events, the GPU won't do it after the reset */
- 	spin_lock(&gpu->event_spinlock);
--	for_each_set_bit_from(i, gpu->event_bitmap, ETNA_NR_EVENTS)
-+	for_each_set_bit(i, gpu->event_bitmap, ETNA_NR_EVENTS)
- 		complete(&gpu->event_free);
- 	bitmap_zero(gpu->event_bitmap, ETNA_NR_EVENTS);
- 	spin_unlock(&gpu->event_spinlock);
-diff --git a/drivers/hwmon/ltc2992.c b/drivers/hwmon/ltc2992.c
-index 2a4bed0ab226..7352d2b3c756 100644
---- a/drivers/hwmon/ltc2992.c
-+++ b/drivers/hwmon/ltc2992.c
-@@ -248,8 +248,7 @@ static int ltc2992_gpio_get_multiple(struct gpio_chip *chip, unsigned long *mask
- 
- 	gpio_status = reg;
- 
--	gpio_nr = 0;
--	for_each_set_bit_from(gpio_nr, mask, LTC2992_GPIO_NR) {
-+	for_each_set_bit(gpio_nr, mask, LTC2992_GPIO_NR) {
- 		if (test_bit(LTC2992_GPIO_BIT(gpio_nr), &gpio_status))
- 			set_bit(gpio_nr, bits);
- 	}
+I would replace the entire loop by bitmap_replace() call.
+
+Something like
+	bitmap_replace(bits, bits, &gpio_status, mask, LTC2992_GPIO_NR);
+
+(Good to split sometimes :-)
+
 -- 
-2.30.2
+With Best Regards,
+Andy Shevchenko
+
 
 _______________________________________________
 etnaviv mailing list
