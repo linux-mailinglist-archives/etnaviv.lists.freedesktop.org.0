@@ -1,62 +1,62 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 392253ADDCD
-	for <lists+etnaviv@lfdr.de>; Sun, 20 Jun 2021 11:00:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A9BD3AF77B
+	for <lists+etnaviv@lfdr.de>; Mon, 21 Jun 2021 23:34:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C9A1789C83;
-	Sun, 20 Jun 2021 09:00:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 516846E42A;
+	Mon, 21 Jun 2021 21:34:23 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-qv1-xf29.google.com (mail-qv1-xf29.google.com
- [IPv6:2607:f8b0:4864:20::f29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D8636E02E;
- Sat, 19 Jun 2021 17:28:08 +0000 (UTC)
-Received: by mail-qv1-xf29.google.com with SMTP id r19so5295092qvw.5;
- Sat, 19 Jun 2021 10:28:08 -0700 (PDT)
+Received: from mail-qv1-xf2f.google.com (mail-qv1-xf2f.google.com
+ [IPv6:2607:f8b0:4864:20::f2f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B7866E42A;
+ Mon, 21 Jun 2021 21:34:23 +0000 (UTC)
+Received: by mail-qv1-xf2f.google.com with SMTP id m15so2337855qvc.9;
+ Mon, 21 Jun 2021 14:34:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=2fuqk2Uq9ZlnrXPo4v18ajx4HA0ZizExc9F16VvNLus=;
- b=qxauMLGYdJHmLOE9NAzDcQ4rSL85U6WRsaTxi4imvMzlgh5aaGSsVHCMoZjKDWfc1Z
- Cubw6ucf2e5ThDITSXLpj8lXuA/QAGwzzQ5Nfy2UWCVIL8wE1U47Ul27IyhLywGouc2E
- SpcL+ZJD+4x3oQz1b8wjCLWq7L+xnBbhIyykl5NAD6zvpj0RngxFgatT/NhHugR1HVhl
- O1TWLIqVpFeDGMV+lzAODOWEFdTqjgTofcG41PaNfAMZyIJE2XoNGsfURSyrLyt/pIoC
- ruqZLiAf7f4icv3fFwdK1wv3xRo+6QEfXO1I+87XozfQ2wLyzoDdx1Gv6qfKHYTYIsxe
- ISNg==
+ bh=d3c9VDld9cVll7jiOE4VaogdRPw6AneLM9bO2IMc2sk=;
+ b=p3Z4oBwaAf/CzqFKoFIM1M8KmY7Wg7f2bqib/s4ROzYjlXDlqA2rz0QR5ZEx6T24dY
+ vVydPJdvK1u1wwF+3pG/LB+K26EdnKi4YKQ+2vZN5lG40wdLdgNmlvlrlW8hhEyvrROo
+ okXNlwoArj2NCzH6BAYUge9UF0rv3tk+YTX7bgutc12+FW4JiELD81lKx7lgQsyCZtu8
+ F+5VYTsVjvuuwXQ+1hOOJTaVOpyJzHlvXH6CieHCPUcMM/CkE72pjOcQtBP/7EGn0am9
+ sOtj05167/GWBgvUDxGuGnTp7oumSo5/CKSny7oiTk0wl/NyOAGxyx0SvnHPVuhY+HPb
+ nh7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=2fuqk2Uq9ZlnrXPo4v18ajx4HA0ZizExc9F16VvNLus=;
- b=e+2hkPeOurJnNRqHojbTKVHiMblMlN8jUw06JpTSyJPb0wYKHAR+BONALZbs+i4GtI
- 85hjkn8MTYjangWV7/hA8r3Jo+tdiEvQ95FDPATXe3kej0Ek+vxB25esRUTMmmOsp+r+
- kOki/HAlj5m8JVmCupcstWKc7ycAx8bo0xJoBcP8DoWr70Rn2Kkw1Oo8tlZgGMxmXMiD
- PGh3ir3HkPu56V+vKxPNu3zBKw086X2GezHNWIz5F4osqL/uI3Dmc4DeLSx7WrxRqkGm
- hXDL/Eu3kST7wtXoBLqV5HHNlJoOZ1qqLBjymnRC2FTyvl5pdzopAx1GpcymV5lrG+Bz
- aoGg==
-X-Gm-Message-State: AOAM533rxDsT+q479lz7RHcPfxQDLnZZUKcfNlYKrQZRVcqPkK1SK/J0
- EY5uto1AAdfJ/TgjiNsM/UQ=
-X-Google-Smtp-Source: ABdhPJysdpI6MAT1dIYZqEk3e1RnK3iKjOdCfxTZEgVQY//BnW2jEuzNa1kYw342QMQlR/jxfpPjbw==
-X-Received: by 2002:ad4:5f0e:: with SMTP id fo14mr11491351qvb.16.1624123687363; 
- Sat, 19 Jun 2021 10:28:07 -0700 (PDT)
+ bh=d3c9VDld9cVll7jiOE4VaogdRPw6AneLM9bO2IMc2sk=;
+ b=NsXm6sJbivwCCXNhjaP+VAOssd7S7l0dr26YLBOVRvheW9jd0cRt//62zU1L/ZcfBC
+ JvayyO/zjmkWYZHhard5ZMEOazqX6aCtUs4MTkZ9NvbifyI2y+K0+41rxnswAZqq7ChN
+ WnRLd9pHPLz7IYFSReURpZTQzPgwRRwLbjDGlWIA8CtqJoMZUuyd4J5Bg9F/8ep2G0ix
+ /GOnkBracerqeW356+j7uIMr2q3NS+rBmPKHSu+a4D7P+Dc4mfaPj168VfivqlTwTfPB
+ /imwQsRpnFC7DIaxmwoFOTwiWtSyjRocihkKzt5U7MA45xqV+4NyrYHWA/ULJE9W6hK6
+ dZXQ==
+X-Gm-Message-State: AOAM5309zdqRz35tKENMsksyf0vOUyLtGgYemNmJhcCqTP2PR5ZXADIe
+ 5br/jHPkPDI9OWZBdMWsG7Q=
+X-Google-Smtp-Source: ABdhPJyCWCfKmaUbhmrlNJ383qFx661DD98xr7rhC6QmgPxeKOjV5GXLx1pVQN95O1tQew7FlRzhJQ==
+X-Received: by 2002:a0c:e912:: with SMTP id a18mr18884264qvo.39.1624311261786; 
+ Mon, 21 Jun 2021 14:34:21 -0700 (PDT)
 Received: from localhost ([207.98.216.60])
- by smtp.gmail.com with ESMTPSA id 186sm877814qkf.29.2021.06.19.10.28.06
+ by smtp.gmail.com with ESMTPSA id h17sm237580qtk.23.2021.06.21.14.34.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 19 Jun 2021 10:28:07 -0700 (PDT)
-Date: Sat, 19 Jun 2021 10:28:06 -0700
+ Mon, 21 Jun 2021 14:34:21 -0700 (PDT)
+Date: Mon, 21 Jun 2021 14:34:19 -0700
 From: Yury Norov <yury.norov@gmail.com>
-To: Marc Zyngier <maz@kernel.org>
-Subject: Re: [PATCH 2/3] find: micro-optimize for_each_{set,clear}_bit()
-Message-ID: <YM4pJpNphEwvUF2F@yury-ThinkPad>
+To: Guenter Roeck <linux@roeck-us.net>
+Subject: Re: [PATCH 3/3] Replace for_each_*_bit_from() with for_each_*_bit()
+ where appropriate
+Message-ID: <YNEF2w/bTLWIG8M2@yury-ThinkPad>
 References: <20210618195735.55933-1-yury.norov@gmail.com>
- <20210618195735.55933-3-yury.norov@gmail.com>
- <87bl81ddqo.wl-maz@kernel.org>
+ <20210618195735.55933-4-yury.norov@gmail.com>
+ <20210621201711.GA631547@roeck-us.net>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <87bl81ddqo.wl-maz@kernel.org>
-X-Mailman-Approved-At: Sun, 20 Jun 2021 09:00:27 +0000
+In-Reply-To: <20210621201711.GA631547@roeck-us.net>
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,9 +71,9 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Cc: Wei Yang <richard.weiyang@linux.alibaba.com>,
  Geert Uytterhoeven <geert+renesas@glider.be>, David Airlie <airlied@linux.ie>,
  Rasmus Villemoes <linux@rasmusvillemoes.dk>, dri-devel@lists.freedesktop.org,
- "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
- Ingo Molnar <mingo@redhat.com>, Russell King <linux+etnaviv@armlinux.org.uk>,
- Guenter Roeck <linux@roeck-us.net>, Jean Delvare <jdelvare@suse.com>,
+ "H. Peter Anvin" <hpa@zytor.com>, Marc Zyngier <maz@kernel.org>,
+ x86@kernel.org, Ingo Molnar <mingo@redhat.com>,
+ Russell King <linux+etnaviv@armlinux.org.uk>, Jean Delvare <jdelvare@suse.com>,
  Alexey Klimov <aklimov@redhat.com>, etnaviv@lists.freedesktop.org,
  Christian Gmeiner <christian.gmeiner@gmail.com>,
  Borislav Petkov <bp@alien8.de>, Thomas Gleixner <tglx@linutronix.de>,
@@ -86,63 +86,23 @@ Content-Transfer-Encoding: 7bit
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-On Sat, Jun 19, 2021 at 05:24:15PM +0100, Marc Zyngier wrote:
-> On Fri, 18 Jun 2021 20:57:34 +0100,
-> Yury Norov <yury.norov@gmail.com> wrote:
+On Mon, Jun 21, 2021 at 01:17:11PM -0700, Guenter Roeck wrote:
+> On Fri, Jun 18, 2021 at 12:57:35PM -0700, Yury Norov wrote:
+> > A couple of kernel functions call for_each_*_bit_from() with start
+> > bit equal to 0. Replace them with for_each_*_bit().
 > > 
-> > The macros iterate thru all set/clear bits in a bitmap. They search a
-> > first bit using find_first_bit(), and the rest bits using find_next_bit().
-> > 
-> > Since find_next_bit() is called shortly after find_first_bit(), we can
-> > save few lines of I-cache by not using find_first_bit().
-> 
-> Really?
-> 
+> > No functional changes, but might improve on readability.
 > > 
 > > Signed-off-by: Yury Norov <yury.norov@gmail.com>
 > > ---
-> >  include/linux/find.h | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/include/linux/find.h b/include/linux/find.h
-> > index 4500e8ab93e2..ae9ed52b52b8 100644
-> > --- a/include/linux/find.h
-> > +++ b/include/linux/find.h
-> > @@ -280,7 +280,7 @@ unsigned long find_next_bit_le(const void *addr, unsigned
-> >  #endif
-> >  
-> >  #define for_each_set_bit(bit, addr, size) \
-> > -	for ((bit) = find_first_bit((addr), (size));		\
-> > +	for ((bit) = find_next_bit((addr), (size), 0);		\
+> >  arch/x86/kernel/apic/vector.c         | 4 ++--
+> >  drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 4 ++--
+> >  drivers/hwmon/ltc2992.c               | 3 +--
 > 
-> On which architecture do you observe a gain? Only 32bit ARM and m68k
-> implement their own version of find_first_bit(), and everyone else
-> uses the canonical implementation:
+> This should be three different patches, one per subsystem.
 
-And those who enable GENERIC_FIND_FIRST_BIT - x86, arm64, arc, mips
-and s390.
-
-> #ifndef find_first_bit
-> #define find_first_bit(addr, size) find_next_bit((addr), (size), 0)
-> #endif
-> 
-> These architectures explicitly have different implementations for
-> find_first_bit() and find_next_bit() because they can do better
-> (whether that is true or not is another debate). I don't think you
-> should remove this optimisation until it has been measured on these
-> two architectures.
-
-This patch is based on a series that enables separate implementation
-of find_first_bit() for all architectures; according to my tests,
-find_first* is ~ twice faster than find_next* on arm64 and x86.
-
-https://lore.kernel.org/lkml/20210612123639.329047-1-yury.norov@gmail.com/T/#t
-
-After applying the series, I noticed that my small kernel module that
-calls for_each_set_bit() is now using find_first_bit() to just find
-one bit, and find_next_bit() for all others. I think it's better to
-always use find_next_bit() in this case to minimize the chance of
-cache miss. But if it's not that obvious, I'll try to write some test.
+It was discussed recently.
+https://lore.kernel.org/linux-arch/20210614180706.1e8564854bfed648dd4c039b@linux-foundation.org/
 _______________________________________________
 etnaviv mailing list
 etnaviv@lists.freedesktop.org
