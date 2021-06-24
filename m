@@ -1,62 +1,36 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DC1D3B4E80
-	for <lists+etnaviv@lfdr.de>; Sat, 26 Jun 2021 14:55:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E9D263B4E7F
+	for <lists+etnaviv@lfdr.de>; Sat, 26 Jun 2021 14:55:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C1D16EE5C;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 631E66EE58;
 	Sat, 26 Jun 2021 12:55:13 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com
- [IPv6:2607:f8b0:4864:20::32e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B3506E416;
- Mon, 21 Jun 2021 20:17:14 +0000 (UTC)
-Received: by mail-ot1-x32e.google.com with SMTP id
- o17-20020a9d76510000b02903eabfc221a9so19078241otl.0; 
- Mon, 21 Jun 2021 13:17:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=lUeLmMYshlqC43ra6D4oMuARM4v5esyzjhcrxCA07rc=;
- b=uen0OLlYCIIJ0ysttCR0tWOzZvZE5wYyjv1j32o1ETOiVlFbURt/DJjrawet5dbsIe
- qIrNSCW+z+bmiq/9pccgtefZpkJF0oli3c6Pjgd0CswfHP/A2OwLRzc96x6AmjEzOUg2
- MKIjDKrWzFL7M/2ulpK8jfxMmxSjqgBJlV3SNGxfxLv7bbNfXeMldlxq5XJtbyomWN6X
- XedyC82puop1+jilpO7Tea1DV5uwXf7KoHF1wAK6UzcRfqLNpKB1Y0mebh9r0zQRWdWY
- IringK+01puuyFlkLMrTjlQLqo/ku8E2X3rWC4q/XAnIfbS0dtQ8qRzp5DLd8h0CE8Bo
- Sq4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :references:mime-version:content-disposition:in-reply-to;
- bh=lUeLmMYshlqC43ra6D4oMuARM4v5esyzjhcrxCA07rc=;
- b=RaSMiW9O339H5uc6gYTtU1jomFiElkncAoXnFENvTIYLzlgOgM1Rf7wStdejNDpuTl
- +TFxFEYgMUqN+aD5zsSMXzyhfavn0hkyiifibKCuApxCGFP1tG1gN9ak6tuEuS2KaFAT
- 1vjMqweCqnga/36FcCHJA7abPd3Nwkl0L8DsMbFTGXT2f0nv2/klQR86LXsg20+7bOQo
- 6s5O8rPwZgnmzc+P8g/kb2saK26MAZoVT/wrQcciXTv1rYp22kETyFajSYEloYmhc8WB
- Ha8Abr8DiZ4HLEhanxY8zEIexZHJip6V8fy/ZNDNsIpmxt8eL3wKeruEQaVxsEmpHRL4
- k3Fw==
-X-Gm-Message-State: AOAM532W/9m4vbYk/wZw3dPMMvTRteJHKUQoiFFFygEH5t8ERrQNMQ4d
- VvcmxzhA872iYoLVUp0VhZY=
-X-Google-Smtp-Source: ABdhPJyXvwYFylZXYOaEJn7CqGhHRyc5sGx5GMsyW2l3WGjfojJwouZF+P6Xohag5ohcqn7xqfaq3g==
-X-Received: by 2002:a9d:5d11:: with SMTP id b17mr222037oti.216.1624306633582; 
- Mon, 21 Jun 2021 13:17:13 -0700 (PDT)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id h193sm3808092oib.3.2021.06.21.13.17.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Jun 2021 13:17:12 -0700 (PDT)
-Date: Mon, 21 Jun 2021 13:17:11 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Yury Norov <yury.norov@gmail.com>
-Subject: Re: [PATCH 3/3] Replace for_each_*_bit_from() with for_each_*_bit()
- where appropriate
-Message-ID: <20210621201711.GA631547@roeck-us.net>
-References: <20210618195735.55933-1-yury.norov@gmail.com>
- <20210618195735.55933-4-yury.norov@gmail.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 3DC5F6EC09;
+ Thu, 24 Jun 2021 14:32:14 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6223CED1;
+ Thu, 24 Jun 2021 07:32:13 -0700 (PDT)
+Received: from [192.168.1.179] (unknown [172.31.20.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D9A8A3F718;
+ Thu, 24 Jun 2021 07:32:07 -0700 (PDT)
+Subject: Re: [PATCH 01/11] drm/sched: Split drm_sched_job_init
+To: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+References: <20210624140025.438303-1-daniel.vetter@ffwll.ch>
+ <20210624140025.438303-2-daniel.vetter@ffwll.ch>
+From: Steven Price <steven.price@arm.com>
+Message-ID: <22cb9d54-bf8a-57d7-452d-565d4886cad0@arm.com>
+Date: Thu, 24 Jun 2021 15:32:02 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210618195735.55933-4-yury.norov@gmail.com>
+In-Reply-To: <20210624140025.438303-2-daniel.vetter@ffwll.ch>
+Content-Language: en-GB
 X-Mailman-Approved-At: Sat, 26 Jun 2021 12:55:12 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,95 +43,102 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: Wei Yang <richard.weiyang@linux.alibaba.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>, David Airlie <airlied@linux.ie>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>, dri-devel@lists.freedesktop.org,
- "H. Peter Anvin" <hpa@zytor.com>, Marc Zyngier <maz@kernel.org>,
- x86@kernel.org, Ingo Molnar <mingo@redhat.com>,
- Russell King <linux+etnaviv@armlinux.org.uk>, Jean Delvare <jdelvare@suse.com>,
- Alexey Klimov <aklimov@redhat.com>, etnaviv@lists.freedesktop.org,
+Cc: Adam Borowski <kilobyte@angband.pl>, David Airlie <airlied@linux.ie>,
+ Viresh Kumar <viresh.kumar@linaro.org>, Sonny Jiang <sonny.jiang@amd.com>,
+ Nirmoy Das <nirmoy.das@amd.com>, Daniel Vetter <daniel.vetter@intel.com>,
+ Lee Jones <lee.jones@linaro.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Rob Herring <robh@kernel.org>, Jack Zhang <Jack.Zhang1@amd.com>,
+ lima@lists.freedesktop.org, Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ Masahiro Yamada <masahiroy@kernel.org>, Luben Tuikov <luben.tuikov@amd.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Sami Tolvanen <samitolvanen@google.com>,
+ Russell King <linux+etnaviv@armlinux.org.uk>, Dave Airlie <airlied@redhat.com>,
+ Dennis Li <Dennis.Li@amd.com>, Chen Li <chenli@uniontech.com>,
+ Paul Menzel <pmenzel@molgen.mpg.de>, Kees Cook <keescook@chromium.org>,
+ =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <marek.olsak@amd.com>,
+ Kevin Wang <kevin1.wang@amd.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ etnaviv@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ Nick Terrell <terrelln@fb.com>, Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
+ Deepak R Varma <mh12gx2825@gmail.com>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>,
  Christian Gmeiner <christian.gmeiner@gmail.com>,
- Borislav Petkov <bp@alien8.de>, Thomas Gleixner <tglx@linutronix.de>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
- Daniel Vetter <daniel@ffwll.ch>, Andrew Morton <akpm@linux-foundation.org>,
- David Woodhouse <dwmw@amazon.co.uk>, Lucas Stach <l.stach@pengutronix.de>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+ Boris Brezillon <boris.brezillon@collabora.com>, Qiang Yu <yuq825@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Alex Deucher <alexander.deucher@amd.com>,
+ Tian Tao <tiantao6@hisilicon.com>, linux-media@vger.kernel.org,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Lucas Stach <l.stach@pengutronix.de>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-On Fri, Jun 18, 2021 at 12:57:35PM -0700, Yury Norov wrote:
-> A couple of kernel functions call for_each_*_bit_from() with start
-> bit equal to 0. Replace them with for_each_*_bit().
-> 
-> No functional changes, but might improve on readability.
-> 
-> Signed-off-by: Yury Norov <yury.norov@gmail.com>
-> ---
->  arch/x86/kernel/apic/vector.c         | 4 ++--
->  drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 4 ++--
->  drivers/hwmon/ltc2992.c               | 3 +--
-
-This should be three different patches, one per subsystem.
-
-Guenter
-
->  3 files changed, 5 insertions(+), 6 deletions(-)
-> 
-> diff --git a/arch/x86/kernel/apic/vector.c b/arch/x86/kernel/apic/vector.c
-> index fb67ed5e7e6a..d099ef226f55 100644
-> --- a/arch/x86/kernel/apic/vector.c
-> +++ b/arch/x86/kernel/apic/vector.c
-> @@ -760,9 +760,9 @@ void __init lapic_update_legacy_vectors(void)
->  
->  void __init lapic_assign_system_vectors(void)
->  {
-> -	unsigned int i, vector = 0;
-> +	unsigned int i, vector;
->  
-> -	for_each_set_bit_from(vector, system_vectors, NR_VECTORS)
-> +	for_each_set_bit(vector, system_vectors, NR_VECTORS)
->  		irq_matrix_assign_system(vector_matrix, vector, false);
->  
->  	if (nr_legacy_irqs() > 1)
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> index 4102bcea3341..42ce3287d3be 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> @@ -1032,7 +1032,7 @@ int etnaviv_gpu_debugfs(struct etnaviv_gpu *gpu, struct seq_file *m)
->  
->  void etnaviv_gpu_recover_hang(struct etnaviv_gpu *gpu)
->  {
-> -	unsigned int i = 0;
-> +	unsigned int i;
->  
->  	dev_err(gpu->dev, "recover hung GPU!\n");
->  
-> @@ -1045,7 +1045,7 @@ void etnaviv_gpu_recover_hang(struct etnaviv_gpu *gpu)
->  
->  	/* complete all events, the GPU won't do it after the reset */
->  	spin_lock(&gpu->event_spinlock);
-> -	for_each_set_bit_from(i, gpu->event_bitmap, ETNA_NR_EVENTS)
-> +	for_each_set_bit(i, gpu->event_bitmap, ETNA_NR_EVENTS)
->  		complete(&gpu->event_free);
->  	bitmap_zero(gpu->event_bitmap, ETNA_NR_EVENTS);
->  	spin_unlock(&gpu->event_spinlock);
-> diff --git a/drivers/hwmon/ltc2992.c b/drivers/hwmon/ltc2992.c
-> index 2a4bed0ab226..7352d2b3c756 100644
-> --- a/drivers/hwmon/ltc2992.c
-> +++ b/drivers/hwmon/ltc2992.c
-> @@ -248,8 +248,7 @@ static int ltc2992_gpio_get_multiple(struct gpio_chip *chip, unsigned long *mask
->  
->  	gpio_status = reg;
->  
-> -	gpio_nr = 0;
-> -	for_each_set_bit_from(gpio_nr, mask, LTC2992_GPIO_NR) {
-> +	for_each_set_bit(gpio_nr, mask, LTC2992_GPIO_NR) {
->  		if (test_bit(LTC2992_GPIO_BIT(gpio_nr), &gpio_status))
->  			set_bit(gpio_nr, bits);
->  	}
-_______________________________________________
-etnaviv mailing list
-etnaviv@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/etnaviv
+T24gMjQvMDYvMjAyMSAxNTowMCwgRGFuaWVsIFZldHRlciB3cm90ZToKPiBUaGlzIGlzIGEgdmVy
+eSBjb25mdXNpbmdseSBuYW1lZCBmdW5jdGlvbiwgYmVjYXVzZSBub3QganVzdCBkb2VzIGl0Cj4g
+aW5pdCBhbiBvYmplY3QsIGl0IGFybXMgaXQgYW5kIHByb3ZpZGVzIGEgcG9pbnQgb2Ygbm8gcmV0
+dXJuIGZvcgo+IHB1c2hpbmcgYSBqb2IgaW50byB0aGUgc2NoZWR1bGVyLiBJdCB3b3VsZCBiZSBu
+aWNlIGlmIHRoYXQncyBhIGJpdAo+IGNsZWFyZXIgaW4gdGhlIGludGVyZmFjZS4KPiAKPiBCdXQg
+dGhlIHJlYWwgcmVhc29uIGlzIHRoYXQgSSB3YW50IHRvIHB1c2ggdGhlIGRlcGVuZGVuY3kgdHJh
+Y2tpbmcKPiBoZWxwZXJzIGludG8gdGhlIHNjaGVkdWxlciBjb2RlLCBhbmQgdGhhdCBtZWFucyBk
+cm1fc2NoZWRfam9iX2luaXQKPiBtdXN0IGJlIGNhbGxlZCBhIGxvdCBlYXJsaWVyLCB3aXRob3V0
+IGFybWluZyB0aGUgam9iLgo+IAo+IFNpZ25lZC1vZmYtYnk6IERhbmllbCBWZXR0ZXIgPGRhbmll
+bC52ZXR0ZXJAaW50ZWwuY29tPgo+IENjOiBMdWNhcyBTdGFjaCA8bC5zdGFjaEBwZW5ndXRyb25p
+eC5kZT4KPiBDYzogUnVzc2VsbCBLaW5nIDxsaW51eCtldG5hdml2QGFybWxpbnV4Lm9yZy51az4K
+PiBDYzogQ2hyaXN0aWFuIEdtZWluZXIgPGNocmlzdGlhbi5nbWVpbmVyQGdtYWlsLmNvbT4KPiBD
+YzogUWlhbmcgWXUgPHl1cTgyNUBnbWFpbC5jb20+Cj4gQ2M6IFJvYiBIZXJyaW5nIDxyb2JoQGtl
+cm5lbC5vcmc+Cj4gQ2M6IFRvbWV1IFZpem9zbyA8dG9tZXUudml6b3NvQGNvbGxhYm9yYS5jb20+
+Cj4gQ2M6IFN0ZXZlbiBQcmljZSA8c3RldmVuLnByaWNlQGFybS5jb20+Cj4gQ2M6IEFseXNzYSBS
+b3Nlbnp3ZWlnIDxhbHlzc2Eucm9zZW56d2VpZ0Bjb2xsYWJvcmEuY29tPgo+IENjOiBEYXZpZCBB
+aXJsaWUgPGFpcmxpZWRAbGludXguaWU+Cj4gQ2M6IERhbmllbCBWZXR0ZXIgPGRhbmllbEBmZnds
+bC5jaD4KPiBDYzogU3VtaXQgU2Vtd2FsIDxzdW1pdC5zZW13YWxAbGluYXJvLm9yZz4KPiBDYzog
+IkNocmlzdGlhbiBLw7ZuaWciIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+Cj4gQ2M6IE1hc2Fo
+aXJvIFlhbWFkYSA8bWFzYWhpcm95QGtlcm5lbC5vcmc+Cj4gQ2M6IEtlZXMgQ29vayA8a2Vlc2Nv
+b2tAY2hyb21pdW0ub3JnPgo+IENjOiBBZGFtIEJvcm93c2tpIDxraWxvYnl0ZUBhbmdiYW5kLnBs
+Pgo+IENjOiBOaWNrIFRlcnJlbGwgPHRlcnJlbGxuQGZiLmNvbT4KPiBDYzogTWF1cm8gQ2FydmFs
+aG8gQ2hlaGFiIDxtY2hlaGFiK2h1YXdlaUBrZXJuZWwub3JnPgo+IENjOiBQYXVsIE1lbnplbCA8
+cG1lbnplbEBtb2xnZW4ubXBnLmRlPgo+IENjOiBTYW1pIFRvbHZhbmVuIDxzYW1pdG9sdmFuZW5A
+Z29vZ2xlLmNvbT4KPiBDYzogVmlyZXNoIEt1bWFyIDx2aXJlc2gua3VtYXJAbGluYXJvLm9yZz4K
+PiBDYzogQWxleCBEZXVjaGVyIDxhbGV4YW5kZXIuZGV1Y2hlckBhbWQuY29tPgo+IENjOiBEYXZl
+IEFpcmxpZSA8YWlybGllZEByZWRoYXQuY29tPgo+IENjOiBOaXJtb3kgRGFzIDxuaXJtb3kuZGFz
+QGFtZC5jb20+Cj4gQ2M6IERlZXBhayBSIFZhcm1hIDxtaDEyZ3gyODI1QGdtYWlsLmNvbT4KPiBD
+YzogTGVlIEpvbmVzIDxsZWUuam9uZXNAbGluYXJvLm9yZz4KPiBDYzogS2V2aW4gV2FuZyA8a2V2
+aW4xLndhbmdAYW1kLmNvbT4KPiBDYzogQ2hlbiBMaSA8Y2hlbmxpQHVuaW9udGVjaC5jb20+Cj4g
+Q2M6IEx1YmVuIFR1aWtvdiA8bHViZW4udHVpa292QGFtZC5jb20+Cj4gQ2M6ICJNYXJlayBPbMWh
+w6FrIiA8bWFyZWsub2xzYWtAYW1kLmNvbT4KPiBDYzogRGVubmlzIExpIDxEZW5uaXMuTGlAYW1k
+LmNvbT4KPiBDYzogTWFhcnRlbiBMYW5raG9yc3QgPG1hYXJ0ZW4ubGFua2hvcnN0QGxpbnV4Lmlu
+dGVsLmNvbT4KPiBDYzogQW5kcmV5IEdyb2R6b3Zza3kgPGFuZHJleS5ncm9kem92c2t5QGFtZC5j
+b20+Cj4gQ2M6IFNvbm55IEppYW5nIDxzb25ueS5qaWFuZ0BhbWQuY29tPgo+IENjOiBCb3JpcyBC
+cmV6aWxsb24gPGJvcmlzLmJyZXppbGxvbkBjb2xsYWJvcmEuY29tPgo+IENjOiBUaWFuIFRhbyA8
+dGlhbnRhbzZAaGlzaWxpY29uLmNvbT4KPiBDYzogSmFjayBaaGFuZyA8SmFjay5aaGFuZzFAYW1k
+LmNvbT4KPiBDYzogZXRuYXZpdkBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiBDYzogbGltYUBsaXN0
+cy5mcmVlZGVza3RvcC5vcmcKPiBDYzogbGludXgtbWVkaWFAdmdlci5rZXJuZWwub3JnCj4gQ2M6
+IGxpbmFyby1tbS1zaWdAbGlzdHMubGluYXJvLm9yZwo+IC0tLQo+ICAuZ2l0aWdub3JlICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgIHwgIDEgKwo+ICBkcml2ZXJzL2dwdS9kcm0vYW1kL2Ft
+ZGdwdS9hbWRncHVfY3MuYyAgIHwgIDIgKysKPiAgZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUv
+YW1kZ3B1X2pvYi5jICB8ICAyICsrCj4gIGRyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZf
+c2NoZWQuYyAgfCAgMiArKwo+ICBkcml2ZXJzL2dwdS9kcm0vbGltYS9saW1hX3NjaGVkLmMgICAg
+ICAgIHwgIDIgKysKPiAgZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L3BhbmZyb3N0X2pvYi5jICB8
+ICAyICsrCj4gIGRyaXZlcnMvZ3B1L2RybS9zY2hlZHVsZXIvc2NoZWRfZW50aXR5LmMgfCAgNiAr
+KystLS0KPiAgZHJpdmVycy9ncHUvZHJtL3NjaGVkdWxlci9zY2hlZF9mZW5jZS5jICB8IDE1ICsr
+KysrKysrKystLS0tLQo+ICBkcml2ZXJzL2dwdS9kcm0vc2NoZWR1bGVyL3NjaGVkX21haW4uYyAg
+IHwgMjMgKysrKysrKysrKysrKysrKysrKysrKy0KPiAgaW5jbHVkZS9kcm0vZ3B1X3NjaGVkdWxl
+ci5oICAgICAgICAgICAgICB8ICA2ICsrKysrLQo+ICAxMCBmaWxlcyBjaGFuZ2VkLCA1MSBpbnNl
+cnRpb25zKCspLCAxMCBkZWxldGlvbnMoLSkKPiAKPiBkaWZmIC0tZ2l0IGEvLmdpdGlnbm9yZSBi
+Ly5naXRpZ25vcmUKPiBpbmRleCA3YWZkNDEyZGFkZDIuLjUyNDMzYTkzMDI5OSAxMDA2NDQKPiAt
+LS0gYS8uZ2l0aWdub3JlCj4gKysrIGIvLmdpdGlnbm9yZQo+IEBAIC02Niw2ICs2Niw3IEBAIG1v
+ZHVsZXMub3JkZXIKPiAgL21vZHVsZXMuYnVpbHRpbgo+ICAvbW9kdWxlcy5idWlsdGluLm1vZGlu
+Zm8KPiAgL21vZHVsZXMubnNkZXBzCj4gKyouYnVpbHRpbgoKSSBkb24ndCB0aGluayB0aGlzIGJl
+bG9uZ3MgaW4gdGhpcyBwYXRjaCEKClsuLi5dCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2Ry
+bS9wYW5mcm9zdC9wYW5mcm9zdF9qb2IuYyBiL2RyaXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9wYW5m
+cm9zdF9qb2IuYwo+IGluZGV4IGJlYjYyYzhmYzg1MS4uMWU5NTA1MzRiOWIwIDEwMDY0NAo+IC0t
+LSBhL2RyaXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9qb2IuYwo+ICsrKyBiL2RyaXZl
+cnMvZ3B1L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9qb2IuYwo+IEBAIC0yNDQsNiArMjQ0LDggQEAg
+aW50IHBhbmZyb3N0X2pvYl9wdXNoKHN0cnVjdCBwYW5mcm9zdF9qb2IgKmpvYikKPiAgCQlnb3Rv
+IHVubG9jazsKPiAgCX0KPiAgCj4gKwlkcm1fc2NoZWRfam9iX2FybSgmam9iLT5iYXNlKTsKPiAr
+Cj4gIAlqb2ItPnJlbmRlcl9kb25lX2ZlbmNlID0gZG1hX2ZlbmNlX2dldCgmam9iLT5iYXNlLnNf
+ZmVuY2UtPmZpbmlzaGVkKTsKPiAgCj4gIAlyZXQgPSBwYW5mcm9zdF9hY3F1aXJlX29iamVjdF9m
+ZW5jZXMoam9iLT5ib3MsIGpvYi0+Ym9fY291bnQsCgpBY2tlZC1ieTogU3RldmVuIFByaWNlIDxz
+dGV2ZW4ucHJpY2VAYXJtLmNvbT4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX18KZXRuYXZpdiBtYWlsaW5nIGxpc3QKZXRuYXZpdkBsaXN0cy5mcmVlZGVza3Rv
+cC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9ldG5h
+dml2Cg==
