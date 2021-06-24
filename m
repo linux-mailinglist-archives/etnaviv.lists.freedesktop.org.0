@@ -1,62 +1,64 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A9BD3AF77B
-	for <lists+etnaviv@lfdr.de>; Mon, 21 Jun 2021 23:34:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DDEA03B2AD1
+	for <lists+etnaviv@lfdr.de>; Thu, 24 Jun 2021 10:58:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 516846E42A;
-	Mon, 21 Jun 2021 21:34:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B990C6EB1E;
+	Thu, 24 Jun 2021 08:58:05 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-qv1-xf2f.google.com (mail-qv1-xf2f.google.com
- [IPv6:2607:f8b0:4864:20::f2f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B7866E42A;
- Mon, 21 Jun 2021 21:34:23 +0000 (UTC)
-Received: by mail-qv1-xf2f.google.com with SMTP id m15so2337855qvc.9;
- Mon, 21 Jun 2021 14:34:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=d3c9VDld9cVll7jiOE4VaogdRPw6AneLM9bO2IMc2sk=;
- b=p3Z4oBwaAf/CzqFKoFIM1M8KmY7Wg7f2bqib/s4ROzYjlXDlqA2rz0QR5ZEx6T24dY
- vVydPJdvK1u1wwF+3pG/LB+K26EdnKi4YKQ+2vZN5lG40wdLdgNmlvlrlW8hhEyvrROo
- okXNlwoArj2NCzH6BAYUge9UF0rv3tk+YTX7bgutc12+FW4JiELD81lKx7lgQsyCZtu8
- F+5VYTsVjvuuwXQ+1hOOJTaVOpyJzHlvXH6CieHCPUcMM/CkE72pjOcQtBP/7EGn0am9
- sOtj05167/GWBgvUDxGuGnTp7oumSo5/CKSny7oiTk0wl/NyOAGxyx0SvnHPVuhY+HPb
- nh7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=d3c9VDld9cVll7jiOE4VaogdRPw6AneLM9bO2IMc2sk=;
- b=NsXm6sJbivwCCXNhjaP+VAOssd7S7l0dr26YLBOVRvheW9jd0cRt//62zU1L/ZcfBC
- JvayyO/zjmkWYZHhard5ZMEOazqX6aCtUs4MTkZ9NvbifyI2y+K0+41rxnswAZqq7ChN
- WnRLd9pHPLz7IYFSReURpZTQzPgwRRwLbjDGlWIA8CtqJoMZUuyd4J5Bg9F/8ep2G0ix
- /GOnkBracerqeW356+j7uIMr2q3NS+rBmPKHSu+a4D7P+Dc4mfaPj168VfivqlTwTfPB
- /imwQsRpnFC7DIaxmwoFOTwiWtSyjRocihkKzt5U7MA45xqV+4NyrYHWA/ULJE9W6hK6
- dZXQ==
-X-Gm-Message-State: AOAM5309zdqRz35tKENMsksyf0vOUyLtGgYemNmJhcCqTP2PR5ZXADIe
- 5br/jHPkPDI9OWZBdMWsG7Q=
-X-Google-Smtp-Source: ABdhPJyCWCfKmaUbhmrlNJ383qFx661DD98xr7rhC6QmgPxeKOjV5GXLx1pVQN95O1tQew7FlRzhJQ==
-X-Received: by 2002:a0c:e912:: with SMTP id a18mr18884264qvo.39.1624311261786; 
- Mon, 21 Jun 2021 14:34:21 -0700 (PDT)
-Received: from localhost ([207.98.216.60])
- by smtp.gmail.com with ESMTPSA id h17sm237580qtk.23.2021.06.21.14.34.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Jun 2021 14:34:21 -0700 (PDT)
-Date: Mon, 21 Jun 2021 14:34:19 -0700
-From: Yury Norov <yury.norov@gmail.com>
-To: Guenter Roeck <linux@roeck-us.net>
-Subject: Re: [PATCH 3/3] Replace for_each_*_bit_from() with for_each_*_bit()
- where appropriate
-Message-ID: <YNEF2w/bTLWIG8M2@yury-ThinkPad>
-References: <20210618195735.55933-1-yury.norov@gmail.com>
- <20210618195735.55933-4-yury.norov@gmail.com>
- <20210621201711.GA631547@roeck-us.net>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 81D166EA42;
+ Thu, 24 Jun 2021 08:58:04 +0000 (UTC)
+Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
+ (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 35C7C21956;
+ Thu, 24 Jun 2021 08:58:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1624525083; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=h2DIkcYhSHhjdGevdXaUI25Y2wjLHj15VeFtSdpnndQ=;
+ b=1fgUVJka//y7Ks1Gj4wehdj4nwWxXic4Uy5EUOt2gOsG0PrSykRsYH3oqwdsBrUKfFQSnu
+ n/+WNi8WUylYkC1BsyA+l+wgBz02TQOcl675IHX1q8YcvbFOvC5d7+4AAZABhKlSnwykRz
+ JW9YVqduZBe2MSu2I4FyuIGdPG7qmXI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1624525083;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=h2DIkcYhSHhjdGevdXaUI25Y2wjLHj15VeFtSdpnndQ=;
+ b=atUpWkYhIadpnehgduqsSX82ExzgoVowL5w34I6y7ZoRk/kXtReY1eLgioDUkuIOY+kQ9w
+ Mx9bhOc+//vFymDA==
+Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
+ by imap.suse.de (Postfix) with ESMTP id 04B5411A97;
+ Thu, 24 Jun 2021 08:58:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1624525083; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=h2DIkcYhSHhjdGevdXaUI25Y2wjLHj15VeFtSdpnndQ=;
+ b=1fgUVJka//y7Ks1Gj4wehdj4nwWxXic4Uy5EUOt2gOsG0PrSykRsYH3oqwdsBrUKfFQSnu
+ n/+WNi8WUylYkC1BsyA+l+wgBz02TQOcl675IHX1q8YcvbFOvC5d7+4AAZABhKlSnwykRz
+ JW9YVqduZBe2MSu2I4FyuIGdPG7qmXI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1624525083;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=h2DIkcYhSHhjdGevdXaUI25Y2wjLHj15VeFtSdpnndQ=;
+ b=atUpWkYhIadpnehgduqsSX82ExzgoVowL5w34I6y7ZoRk/kXtReY1eLgioDUkuIOY+kQ9w
+ Mx9bhOc+//vFymDA==
+Received: from director2.suse.de ([192.168.254.72]) by imap3-int with ESMTPSA
+ id fdU1ABtJ1GBkMQAALh3uQQ
+ (envelope-from <tzimmermann@suse.de>); Thu, 24 Jun 2021 08:58:03 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: l.stach@pengutronix.de, linux+etnaviv@armlinux.org.uk,
+ christian.gmeiner@gmail.com, airlied@linux.ie, daniel@ffwll.ch
+Subject: [PATCH] drm/etnaviv: Implement mmap as GEM object function
+Date: Thu, 24 Jun 2021 10:58:00 +0200
+Message-Id: <20210624085800.7941-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210621201711.GA631547@roeck-us.net>
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,41 +70,149 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: Wei Yang <richard.weiyang@linux.alibaba.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>, David Airlie <airlied@linux.ie>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>, dri-devel@lists.freedesktop.org,
- "H. Peter Anvin" <hpa@zytor.com>, Marc Zyngier <maz@kernel.org>,
- x86@kernel.org, Ingo Molnar <mingo@redhat.com>,
- Russell King <linux+etnaviv@armlinux.org.uk>, Jean Delvare <jdelvare@suse.com>,
- Alexey Klimov <aklimov@redhat.com>, etnaviv@lists.freedesktop.org,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- Borislav Petkov <bp@alien8.de>, Thomas Gleixner <tglx@linutronix.de>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
- Daniel Vetter <daniel@ffwll.ch>, Andrew Morton <akpm@linux-foundation.org>,
- David Woodhouse <dwmw@amazon.co.uk>, Lucas Stach <l.stach@pengutronix.de>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, etnaviv@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-On Mon, Jun 21, 2021 at 01:17:11PM -0700, Guenter Roeck wrote:
-> On Fri, Jun 18, 2021 at 12:57:35PM -0700, Yury Norov wrote:
-> > A couple of kernel functions call for_each_*_bit_from() with start
-> > bit equal to 0. Replace them with for_each_*_bit().
-> > 
-> > No functional changes, but might improve on readability.
-> > 
-> > Signed-off-by: Yury Norov <yury.norov@gmail.com>
-> > ---
-> >  arch/x86/kernel/apic/vector.c         | 4 ++--
-> >  drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 4 ++--
-> >  drivers/hwmon/ltc2992.c               | 3 +--
-> 
-> This should be three different patches, one per subsystem.
+Moving the driver-specific mmap code into a GEM object function allows
+for using DRM helpers for various mmap callbacks.
 
-It was discussed recently.
-https://lore.kernel.org/linux-arch/20210614180706.1e8564854bfed648dd4c039b@linux-foundation.org/
+The respective etnaviv functions are being removed. The file_operations
+structure fops is now being created by the helper macro
+DEFINE_DRM_GEM_FOPS().
+
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+---
+ drivers/gpu/drm/etnaviv/etnaviv_drv.c       | 14 ++------------
+ drivers/gpu/drm/etnaviv/etnaviv_drv.h       |  3 ---
+ drivers/gpu/drm/etnaviv/etnaviv_gem.c       | 18 +++++-------------
+ drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c | 13 -------------
+ 4 files changed, 7 insertions(+), 41 deletions(-)
+
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+index f0a07278ad04..7dcc6392792d 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+@@ -468,17 +468,7 @@ static const struct drm_ioctl_desc etnaviv_ioctls[] = {
+ 	ETNA_IOCTL(PM_QUERY_SIG, pm_query_sig, DRM_RENDER_ALLOW),
+ };
+ 
+-static const struct file_operations fops = {
+-	.owner              = THIS_MODULE,
+-	.open               = drm_open,
+-	.release            = drm_release,
+-	.unlocked_ioctl     = drm_ioctl,
+-	.compat_ioctl       = drm_compat_ioctl,
+-	.poll               = drm_poll,
+-	.read               = drm_read,
+-	.llseek             = no_llseek,
+-	.mmap               = etnaviv_gem_mmap,
+-};
++DEFINE_DRM_GEM_FOPS(fops);
+ 
+ static const struct drm_driver etnaviv_drm_driver = {
+ 	.driver_features    = DRIVER_GEM | DRIVER_RENDER,
+@@ -487,7 +477,7 @@ static const struct drm_driver etnaviv_drm_driver = {
+ 	.prime_handle_to_fd = drm_gem_prime_handle_to_fd,
+ 	.prime_fd_to_handle = drm_gem_prime_fd_to_handle,
+ 	.gem_prime_import_sg_table = etnaviv_gem_prime_import_sg_table,
+-	.gem_prime_mmap     = etnaviv_gem_prime_mmap,
++	.gem_prime_mmap     = drm_gem_prime_mmap,
+ #ifdef CONFIG_DEBUG_FS
+ 	.debugfs_init       = etnaviv_debugfs_init,
+ #endif
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.h b/drivers/gpu/drm/etnaviv/etnaviv_drv.h
+index 003288ebd896..049ae87de9be 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_drv.h
++++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.h
+@@ -47,12 +47,9 @@ struct etnaviv_drm_private {
+ int etnaviv_ioctl_gem_submit(struct drm_device *dev, void *data,
+ 		struct drm_file *file);
+ 
+-int etnaviv_gem_mmap(struct file *filp, struct vm_area_struct *vma);
+ int etnaviv_gem_mmap_offset(struct drm_gem_object *obj, u64 *offset);
+ struct sg_table *etnaviv_gem_prime_get_sg_table(struct drm_gem_object *obj);
+ int etnaviv_gem_prime_vmap(struct drm_gem_object *obj, struct dma_buf_map *map);
+-int etnaviv_gem_prime_mmap(struct drm_gem_object *obj,
+-			   struct vm_area_struct *vma);
+ struct drm_gem_object *etnaviv_gem_prime_import_sg_table(struct drm_device *dev,
+ 	struct dma_buf_attachment *attach, struct sg_table *sg);
+ int etnaviv_gem_prime_pin(struct drm_gem_object *obj);
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+index b8fa6ed3dd73..8f1b5af47dd6 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+@@ -130,8 +130,7 @@ static int etnaviv_gem_mmap_obj(struct etnaviv_gem_object *etnaviv_obj,
+ {
+ 	pgprot_t vm_page_prot;
+ 
+-	vma->vm_flags &= ~VM_PFNMAP;
+-	vma->vm_flags |= VM_MIXEDMAP;
++	vma->vm_flags |= VM_IO | VM_MIXEDMAP | VM_DONTEXPAND | VM_DONTDUMP;
+ 
+ 	vm_page_prot = vm_get_page_prot(vma->vm_flags);
+ 
+@@ -154,19 +153,11 @@ static int etnaviv_gem_mmap_obj(struct etnaviv_gem_object *etnaviv_obj,
+ 	return 0;
+ }
+ 
+-int etnaviv_gem_mmap(struct file *filp, struct vm_area_struct *vma)
++static int etnaviv_gem_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma)
+ {
+-	struct etnaviv_gem_object *obj;
+-	int ret;
+-
+-	ret = drm_gem_mmap(filp, vma);
+-	if (ret) {
+-		DBG("mmap failed: %d", ret);
+-		return ret;
+-	}
++	struct etnaviv_gem_object *etnaviv_obj = to_etnaviv_bo(obj);
+ 
+-	obj = to_etnaviv_bo(vma->vm_private_data);
+-	return obj->ops->mmap(obj, vma);
++	return etnaviv_obj->ops->mmap(etnaviv_obj, vma);
+ }
+ 
+ static vm_fault_t etnaviv_gem_fault(struct vm_fault *vmf)
+@@ -567,6 +558,7 @@ static const struct drm_gem_object_funcs etnaviv_gem_object_funcs = {
+ 	.unpin = etnaviv_gem_prime_unpin,
+ 	.get_sg_table = etnaviv_gem_prime_get_sg_table,
+ 	.vmap = etnaviv_gem_prime_vmap,
++	.mmap = etnaviv_gem_mmap,
+ 	.vm_ops = &vm_ops,
+ };
+ 
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
+index d741b1d735f7..6d8bed9c739d 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
+@@ -34,19 +34,6 @@ int etnaviv_gem_prime_vmap(struct drm_gem_object *obj, struct dma_buf_map *map)
+ 	return 0;
+ }
+ 
+-int etnaviv_gem_prime_mmap(struct drm_gem_object *obj,
+-			   struct vm_area_struct *vma)
+-{
+-	struct etnaviv_gem_object *etnaviv_obj = to_etnaviv_bo(obj);
+-	int ret;
+-
+-	ret = drm_gem_mmap_obj(obj, obj->size, vma);
+-	if (ret < 0)
+-		return ret;
+-
+-	return etnaviv_obj->ops->mmap(etnaviv_obj, vma);
+-}
+-
+ int etnaviv_gem_prime_pin(struct drm_gem_object *obj)
+ {
+ 	if (!obj->import_attach) {
+-- 
+2.32.0
+
 _______________________________________________
 etnaviv mailing list
 etnaviv@lists.freedesktop.org
