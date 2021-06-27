@@ -1,58 +1,62 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07A273B4E81
-	for <lists+etnaviv@lfdr.de>; Sat, 26 Jun 2021 14:55:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B06BF3B546C
+	for <lists+etnaviv@lfdr.de>; Sun, 27 Jun 2021 18:47:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A17B16EE5D;
-	Sat, 26 Jun 2021 12:55:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B1C9189E3B;
+	Sun, 27 Jun 2021 16:47:29 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
- [IPv6:2a00:1450:4864:20::631])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 872366E9A1
- for <etnaviv@lists.freedesktop.org>; Thu, 24 Jun 2021 21:00:46 +0000 (UTC)
-Received: by mail-ej1-x631.google.com with SMTP id n2so475122eju.11
- for <etnaviv@lists.freedesktop.org>; Thu, 24 Jun 2021 14:00:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anholt-net.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=IR4aEk4fY+kQz2psBvmLXib2kl0ubSGcHQYCPaxJ2YA=;
- b=nqgmw09ORBqRhCPcSdwNmbOZbO7ESKavpHGGFj6bhvTDAV2O8NGYqISEzzE2yx7wxl
- Q2T4cBqldf5sq0EcWa7YMEyAqx+2pqGgHFXQGPFpt2o82L9EAbluDNZZGdK0WxzoweW4
- XnR86PZdGA5dGWJ90zdW4VAfYU7gP6g2iE6WnlU2Mub1OreYppEprje/Z+c2S7GH0D0Q
- nUIn2ZOmUJA5VjgI4u0/1IVk4Is8N9ianxUPaK+EG7W/bNSERnA6Cmm/O9AcZZKKXxwu
- kxe35JPF4zcjn2upYa1YPReRCa4tXDvWdpRZB01/Xlg4vk+1ghPYNd3TjVbZuzL+0iqr
- fBTw==
+Received: from mail-qt1-x82b.google.com (mail-qt1-x82b.google.com
+ [IPv6:2607:f8b0:4864:20::82b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 357DF89E3B;
+ Sun, 27 Jun 2021 16:47:28 +0000 (UTC)
+Received: by mail-qt1-x82b.google.com with SMTP id r20so11727058qtp.3;
+ Sun, 27 Jun 2021 09:47:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=IGinKwiNSfxrJd+RUlITcVgWE2FaXzN4ff0xutRXDaU=;
+ b=DeEb2ecHoc+9I/oFeMO1TfS4y4+YwjybIHliznobdI/nxpUlDavt/JLpost/dY8G3R
+ 8cJOtmQqUlYDxeTfYaNQ1/1g1TYrdNZ/A32GllgnS0hha2/HadzrYR0ZR/tRkdZpbxH8
+ IzXE19/om+0BCtDEh+5G/TinS7EBlwCBx9XnhCN27I7baiLvgEtBOZ5RxX86Pt8qGGrL
+ ti6MAYW24ozYHGBBcO1pRe0GOzYwFWDEmrfrVRXyBEeul012dxIt8kEK88EQW2k3Go1b
+ IUG+ysf0WhcqHZpAScjamKwVwTjwtbeNNXEkL9mP8x8n8wShaIzm/RqO9jBhmSlRJ8kA
+ 7pag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=IR4aEk4fY+kQz2psBvmLXib2kl0ubSGcHQYCPaxJ2YA=;
- b=dVOzIy9dgLwrl1nR/ia8BCA0PG6elaP/W9Ux/7lxEjaFqxsKeuZlIW058ew47QIPR9
- WGfmjD2BNDDKPBoBWEYB/O9KtYCtqEWLZuKTCwcTKuCyqrJu5L5qXgnHYVvCOACBEUi3
- JHbPimL2BIQUsU0xrobF/dZa+olIyVNuV/kpqq2auo1cp0rcbtUchTowLjGODo/4k5Rh
- 6IBvozP8eqPz0xmXMu0ZGaz3OmeH9Gl3v9V7PZn4+If954nuSr+0A7QjK07kI5fsYAik
- kXvscTiTDKhp9H3mtH9f5YtVKRga0VS9aO3txbvBx7yLKITxgyJxwuWFvZPTQxSLUR+2
- A0mQ==
-X-Gm-Message-State: AOAM531S7kVmuf5akdJsXf/WzKrg1HFcccN9FPXPr9VDW6bGlprIRaou
- yzsdX7Ice8s9W/C5wCGeNgsfy9c17JzsVuXZSpELJQ==
-X-Google-Smtp-Source: ABdhPJyZ4lUgJUvjuk8NBMNyhneRJZo/xx5f9zO62wml+jZsqtpsarsBFuhsxF/AMmWn1C2aGDTV2wOlpvQTqGzIkfA=
-X-Received: by 2002:a17:906:26c9:: with SMTP id
- u9mr7162402ejc.498.1624568444951; 
- Thu, 24 Jun 2021 14:00:44 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=IGinKwiNSfxrJd+RUlITcVgWE2FaXzN4ff0xutRXDaU=;
+ b=m/TpDMegVHGHkUdFSmTRnxi1AMHhwBYDW5bk3z+q2Lb+GOgyIxM7jgJreWJBuYv8vJ
+ PiwkrIAHLRMDdnFUD8djKaIpMakxqXrqT/2Ec+kotydlS7AotVTcPEdF9RAkDhsHUc/b
+ HWIDcfGlI5k4llehdNaUyCpLdnxQXH5FpSGb2eXN1Teqxync7nAxmM9No9bSWhQ3Pf5m
+ 8dUubR/sM7WNQNi3NYL/B1CBgL0PRfgyi+wexeSy8WvpimH5c8M3IgjH5TifCAlhMG9b
+ 1vMqDV39TqfnUZh3F2S9jgciyUY929g/NmaSUnRCKGO1wxy05YRZM5YN4P+9CXJ53/yB
+ E6Sw==
+X-Gm-Message-State: AOAM532CyK2IejcUIWYHEu6XJpjH7Plz+1rtAgORQmxmsuTFLrOMa2Ne
+ /KdW3IuxRIVJh8UDS8rTBQI=
+X-Google-Smtp-Source: ABdhPJzXp6YlfGmAUiYHzOtD1PJTSLr3XCovAHLZvis1ouC9/p4U2/5jfgoQakO2n+2S85GDybfXYQ==
+X-Received: by 2002:a05:622a:11cd:: with SMTP id
+ n13mr18281355qtk.233.1624812447049; 
+ Sun, 27 Jun 2021 09:47:27 -0700 (PDT)
+Received: from localhost ([207.98.216.60])
+ by smtp.gmail.com with ESMTPSA id 202sm7563423qki.83.2021.06.27.09.47.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 27 Jun 2021 09:47:26 -0700 (PDT)
+Date: Sun, 27 Jun 2021 09:47:25 -0700
+From: Yury Norov <yury.norov@gmail.com>
+To: Marc Zyngier <maz@kernel.org>
+Subject: Re: [PATCH 2/3] find: micro-optimize for_each_{set,clear}_bit()
+Message-ID: <YNirnaYw1GSxg1jK@yury-ThinkPad>
+References: <20210618195735.55933-1-yury.norov@gmail.com>
+ <20210618195735.55933-3-yury.norov@gmail.com>
+ <87bl81ddqo.wl-maz@kernel.org> <YM4pJpNphEwvUF2F@yury-ThinkPad>
 MIME-Version: 1.0
-References: <20210624140025.438303-2-daniel.vetter@ffwll.ch>
- <20210624204535.614168-1-daniel.vetter@ffwll.ch>
-In-Reply-To: <20210624204535.614168-1-daniel.vetter@ffwll.ch>
-From: Emma Anholt <emma@anholt.net>
-Date: Thu, 24 Jun 2021 14:00:34 -0700
-Message-ID: <CADaigPWe17ddknbNWOVcGLZGkX3u1JfpzkAxySTduwgPUa5okQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/sched: Split drm_sched_job_init
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-X-Mailman-Approved-At: Sat, 26 Jun 2021 12:55:12 +0000
+Content-Disposition: inline
+In-Reply-To: <YM4pJpNphEwvUF2F@yury-ThinkPad>
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,216 +68,192 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: Adam Borowski <kilobyte@angband.pl>, David Airlie <airlied@linux.ie>,
- Viresh Kumar <viresh.kumar@linaro.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Sonny Jiang <sonny.jiang@amd.com>, Nirmoy Das <nirmoy.das@amd.com>,
- Daniel Vetter <daniel.vetter@intel.com>, Lee Jones <lee.jones@linaro.org>,
- Sumit Semwal <sumit.semwal@linaro.org>, Rob Herring <robh@kernel.org>,
- Jack Zhang <Jack.Zhang1@amd.com>, lima@lists.freedesktop.org,
- Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Masahiro Yamada <masahiroy@kernel.org>, Steven Price <steven.price@arm.com>,
- Luben Tuikov <luben.tuikov@amd.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Sami Tolvanen <samitolvanen@google.com>,
- Russell King <linux+etnaviv@armlinux.org.uk>, Dave Airlie <airlied@redhat.com>,
- Dennis Li <Dennis.Li@amd.com>, Chen Li <chenli@uniontech.com>,
- Paul Menzel <pmenzel@molgen.mpg.de>, Kees Cook <keescook@chromium.org>,
- =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <marek.olsak@amd.com>,
- Kevin Wang <kevin1.wang@amd.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- etnaviv@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+Cc: Wei Yang <richard.weiyang@linux.alibaba.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, David Airlie <airlied@linux.ie>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>, dri-devel@lists.freedesktop.org,
+ "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
+ Ingo Molnar <mingo@redhat.com>, Russell King <linux+etnaviv@armlinux.org.uk>,
+ Guenter Roeck <linux@roeck-us.net>, Jean Delvare <jdelvare@suse.com>,
+ Alexey Klimov <aklimov@redhat.com>, etnaviv@lists.freedesktop.org,
  Christian Gmeiner <christian.gmeiner@gmail.com>,
- Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
- Deepak R Varma <mh12gx2825@gmail.com>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>, Nick Terrell <terrelln@fb.com>,
- Boris Brezillon <boris.brezillon@collabora.com>, Qiang Yu <yuq825@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Alex Deucher <alexander.deucher@amd.com>,
- Tian Tao <tiantao6@hisilicon.com>, linux-media@vger.kernel.org,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Lucas Stach <l.stach@pengutronix.de>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ Borislav Petkov <bp@alien8.de>, Thomas Gleixner <tglx@linutronix.de>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Daniel Vetter <daniel@ffwll.ch>, Andrew Morton <akpm@linux-foundation.org>,
+ David Woodhouse <dwmw@amazon.co.uk>, Lucas Stach <l.stach@pengutronix.de>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-T24gVGh1LCBKdW4gMjQsIDIwMjEgYXQgMTo0NSBQTSBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0
-dGVyQGZmd2xsLmNoPiB3cm90ZToKPgo+IFRoaXMgaXMgYSB2ZXJ5IGNvbmZ1c2luZ2x5IG5hbWVk
-IGZ1bmN0aW9uLCBiZWNhdXNlIG5vdCBqdXN0IGRvZXMgaXQKPiBpbml0IGFuIG9iamVjdCwgaXQg
-YXJtcyBpdCBhbmQgcHJvdmlkZXMgYSBwb2ludCBvZiBubyByZXR1cm4gZm9yCj4gcHVzaGluZyBh
-IGpvYiBpbnRvIHRoZSBzY2hlZHVsZXIuIEl0IHdvdWxkIGJlIG5pY2UgaWYgdGhhdCdzIGEgYml0
-Cj4gY2xlYXJlciBpbiB0aGUgaW50ZXJmYWNlLgo+Cj4gQnV0IHRoZSByZWFsIHJlYXNvbiBpcyB0
-aGF0IEkgd2FudCB0byBwdXNoIHRoZSBkZXBlbmRlbmN5IHRyYWNraW5nCj4gaGVscGVycyBpbnRv
-IHRoZSBzY2hlZHVsZXIgY29kZSwgYW5kIHRoYXQgbWVhbnMgZHJtX3NjaGVkX2pvYl9pbml0Cj4g
-bXVzdCBiZSBjYWxsZWQgYSBsb3QgZWFybGllciwgd2l0aG91dCBhcm1pbmcgdGhlIGpvYi4KPgo+
-IHYyOgo+IC0gZG9uJ3QgY2hhbmdlIC5naXRpZ25vcmUgKFN0ZXZlbikKPiAtIGRvbid0IGZvcmdl
-dCB2M2QgKEVtbWEpCj4KPiBBY2tlZC1ieTogU3RldmVuIFByaWNlIDxzdGV2ZW4ucHJpY2VAYXJt
-LmNvbT4KPiBTaWduZWQtb2ZmLWJ5OiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVyQGludGVs
-LmNvbT4KPiBDYzogTHVjYXMgU3RhY2ggPGwuc3RhY2hAcGVuZ3V0cm9uaXguZGU+Cj4gQ2M6IFJ1
-c3NlbGwgS2luZyA8bGludXgrZXRuYXZpdkBhcm1saW51eC5vcmcudWs+Cj4gQ2M6IENocmlzdGlh
-biBHbWVpbmVyIDxjaHJpc3RpYW4uZ21laW5lckBnbWFpbC5jb20+Cj4gQ2M6IFFpYW5nIFl1IDx5
-dXE4MjVAZ21haWwuY29tPgo+IENjOiBSb2IgSGVycmluZyA8cm9iaEBrZXJuZWwub3JnPgo+IENj
-OiBUb21ldSBWaXpvc28gPHRvbWV1LnZpem9zb0Bjb2xsYWJvcmEuY29tPgo+IENjOiBTdGV2ZW4g
-UHJpY2UgPHN0ZXZlbi5wcmljZUBhcm0uY29tPgo+IENjOiBBbHlzc2EgUm9zZW56d2VpZyA8YWx5
-c3NhLnJvc2VuendlaWdAY29sbGFib3JhLmNvbT4KPiBDYzogRGF2aWQgQWlybGllIDxhaXJsaWVk
-QGxpbnV4LmllPgo+IENjOiBEYW5pZWwgVmV0dGVyIDxkYW5pZWxAZmZ3bGwuY2g+Cj4gQ2M6IFN1
-bWl0IFNlbXdhbCA8c3VtaXQuc2Vtd2FsQGxpbmFyby5vcmc+Cj4gQ2M6ICJDaHJpc3RpYW4gS8O2
-bmlnIiA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgo+IENjOiBNYXNhaGlybyBZYW1hZGEgPG1h
-c2FoaXJveUBrZXJuZWwub3JnPgo+IENjOiBLZWVzIENvb2sgPGtlZXNjb29rQGNocm9taXVtLm9y
-Zz4KPiBDYzogQWRhbSBCb3Jvd3NraSA8a2lsb2J5dGVAYW5nYmFuZC5wbD4KPiBDYzogTmljayBU
-ZXJyZWxsIDx0ZXJyZWxsbkBmYi5jb20+Cj4gQ2M6IE1hdXJvIENhcnZhbGhvIENoZWhhYiA8bWNo
-ZWhhYitodWF3ZWlAa2VybmVsLm9yZz4KPiBDYzogUGF1bCBNZW56ZWwgPHBtZW56ZWxAbW9sZ2Vu
-Lm1wZy5kZT4KPiBDYzogU2FtaSBUb2x2YW5lbiA8c2FtaXRvbHZhbmVuQGdvb2dsZS5jb20+Cj4g
-Q2M6IFZpcmVzaCBLdW1hciA8dmlyZXNoLmt1bWFyQGxpbmFyby5vcmc+Cj4gQ2M6IEFsZXggRGV1
-Y2hlciA8YWxleGFuZGVyLmRldWNoZXJAYW1kLmNvbT4KPiBDYzogRGF2ZSBBaXJsaWUgPGFpcmxp
-ZWRAcmVkaGF0LmNvbT4KPiBDYzogTmlybW95IERhcyA8bmlybW95LmRhc0BhbWQuY29tPgo+IENj
-OiBEZWVwYWsgUiBWYXJtYSA8bWgxMmd4MjgyNUBnbWFpbC5jb20+Cj4gQ2M6IExlZSBKb25lcyA8
-bGVlLmpvbmVzQGxpbmFyby5vcmc+Cj4gQ2M6IEtldmluIFdhbmcgPGtldmluMS53YW5nQGFtZC5j
-b20+Cj4gQ2M6IENoZW4gTGkgPGNoZW5saUB1bmlvbnRlY2guY29tPgo+IENjOiBMdWJlbiBUdWlr
-b3YgPGx1YmVuLnR1aWtvdkBhbWQuY29tPgo+IENjOiAiTWFyZWsgT2zFocOhayIgPG1hcmVrLm9s
-c2FrQGFtZC5jb20+Cj4gQ2M6IERlbm5pcyBMaSA8RGVubmlzLkxpQGFtZC5jb20+Cj4gQ2M6IE1h
-YXJ0ZW4gTGFua2hvcnN0IDxtYWFydGVuLmxhbmtob3JzdEBsaW51eC5pbnRlbC5jb20+Cj4gQ2M6
-IEFuZHJleSBHcm9kem92c2t5IDxhbmRyZXkuZ3JvZHpvdnNreUBhbWQuY29tPgo+IENjOiBTb25u
-eSBKaWFuZyA8c29ubnkuamlhbmdAYW1kLmNvbT4KPiBDYzogQm9yaXMgQnJlemlsbG9uIDxib3Jp
-cy5icmV6aWxsb25AY29sbGFib3JhLmNvbT4KPiBDYzogVGlhbiBUYW8gPHRpYW50YW82QGhpc2ls
-aWNvbi5jb20+Cj4gQ2M6IEphY2sgWmhhbmcgPEphY2suWmhhbmcxQGFtZC5jb20+Cj4gQ2M6IGV0
-bmF2aXZAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gQ2M6IGxpbWFAbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnCj4gQ2M6IGxpbnV4LW1lZGlhQHZnZXIua2VybmVsLm9yZwo+IENjOiBsaW5hcm8tbW0tc2ln
-QGxpc3RzLmxpbmFyby5vcmcKPiBDYzogRW1tYSBBbmhvbHQgPGVtbWFAYW5ob2x0Lm5ldD4KPiAt
-LS0KPiAgZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2NzLmMgICB8ICAyICsrCj4g
-IGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9qb2IuYyAgfCAgMiArKwo+ICBkcml2
-ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2X3NjaGVkLmMgIHwgIDIgKysKPiAgZHJpdmVycy9n
-cHUvZHJtL2xpbWEvbGltYV9zY2hlZC5jICAgICAgICB8ICAyICsrCj4gIGRyaXZlcnMvZ3B1L2Ry
-bS9wYW5mcm9zdC9wYW5mcm9zdF9qb2IuYyAgfCAgMiArKwo+ICBkcml2ZXJzL2dwdS9kcm0vc2No
-ZWR1bGVyL3NjaGVkX2VudGl0eS5jIHwgIDYgKysrLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9zY2hl
-ZHVsZXIvc2NoZWRfZmVuY2UuYyAgfCAxNSArKysrKysrKysrLS0tLS0KPiAgZHJpdmVycy9ncHUv
-ZHJtL3NjaGVkdWxlci9zY2hlZF9tYWluLmMgICB8IDIzICsrKysrKysrKysrKysrKysrKysrKyst
-Cj4gIGRyaXZlcnMvZ3B1L2RybS92M2QvdjNkX2dlbS5jICAgICAgICAgICAgfCAgMiArKwo+ICBp
-bmNsdWRlL2RybS9ncHVfc2NoZWR1bGVyLmggICAgICAgICAgICAgIHwgIDYgKysrKystCj4gIDEw
-IGZpbGVzIGNoYW5nZWQsIDUyIGluc2VydGlvbnMoKyksIDEwIGRlbGV0aW9ucygtKQo+Cj4gZGlm
-ZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9jcy5jIGIvZHJpdmVy
-cy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2NzLmMKPiBpbmRleCBjNTM4NmQxM2ViNGEuLmE0
-ZWMwOTJhZjlhNyAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRn
-cHVfY3MuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9jcy5jCj4g
-QEAgLTEyMjYsNiArMTIyNiw4IEBAIHN0YXRpYyBpbnQgYW1kZ3B1X2NzX3N1Ym1pdChzdHJ1Y3Qg
-YW1kZ3B1X2NzX3BhcnNlciAqcCwKPiAgICAgICAgIGlmIChyKQo+ICAgICAgICAgICAgICAgICBn
-b3RvIGVycm9yX3VubG9jazsKPgo+ICsgICAgICAgZHJtX3NjaGVkX2pvYl9hcm0oJmpvYi0+YmFz
-ZSk7Cj4gKwo+ICAgICAgICAgLyogTm8gbWVtb3J5IGFsbG9jYXRpb24gaXMgYWxsb3dlZCB3aGls
-ZSBob2xkaW5nIHRoZSBub3RpZmllciBsb2NrLgo+ICAgICAgICAgICogVGhlIGxvY2sgaXMgaGVs
-ZCB1bnRpbCBhbWRncHVfY3Nfc3VibWl0IGlzIGZpbmlzaGVkIGFuZCBmZW5jZSBpcwo+ICAgICAg
-ICAgICogYWRkZWQgdG8gQk9zLgo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2Ft
-ZGdwdS9hbWRncHVfam9iLmMgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfam9i
-LmMKPiBpbmRleCBkMzNlNmQ5N2NjODkuLjVkZGI5NTVkMjMxNSAxMDA2NDQKPiAtLS0gYS9kcml2
-ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfam9iLmMKPiArKysgYi9kcml2ZXJzL2dwdS9k
-cm0vYW1kL2FtZGdwdS9hbWRncHVfam9iLmMKPiBAQCAtMTcwLDYgKzE3MCw4IEBAIGludCBhbWRn
-cHVfam9iX3N1Ym1pdChzdHJ1Y3QgYW1kZ3B1X2pvYiAqam9iLCBzdHJ1Y3QgZHJtX3NjaGVkX2Vu
-dGl0eSAqZW50aXR5LAo+ICAgICAgICAgaWYgKHIpCj4gICAgICAgICAgICAgICAgIHJldHVybiBy
-Owo+Cj4gKyAgICAgICBkcm1fc2NoZWRfam9iX2FybSgmam9iLT5iYXNlKTsKPiArCj4gICAgICAg
-ICAqZiA9IGRtYV9mZW5jZV9nZXQoJmpvYi0+YmFzZS5zX2ZlbmNlLT5maW5pc2hlZCk7Cj4gICAg
-ICAgICBhbWRncHVfam9iX2ZyZWVfcmVzb3VyY2VzKGpvYik7Cj4gICAgICAgICBkcm1fc2NoZWRf
-ZW50aXR5X3B1c2hfam9iKCZqb2ItPmJhc2UsIGVudGl0eSk7Cj4gZGlmZiAtLWdpdCBhL2RyaXZl
-cnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfc2NoZWQuYyBiL2RyaXZlcnMvZ3B1L2RybS9ldG5h
-dml2L2V0bmF2aXZfc2NoZWQuYwo+IGluZGV4IDE5ODI2ZTUwNGVmYy4uYWYxNjcxZjAxYzdmIDEw
-MDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfc2NoZWQuYwo+ICsr
-KyBiL2RyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfc2NoZWQuYwo+IEBAIC0xNjMsNiAr
-MTYzLDggQEAgaW50IGV0bmF2aXZfc2NoZWRfcHVzaF9qb2Ioc3RydWN0IGRybV9zY2hlZF9lbnRp
-dHkgKnNjaGVkX2VudGl0eSwKPiAgICAgICAgIGlmIChyZXQpCj4gICAgICAgICAgICAgICAgIGdv
-dG8gb3V0X3VubG9jazsKPgo+ICsgICAgICAgZHJtX3NjaGVkX2pvYl9hcm0oJnN1Ym1pdC0+c2No
-ZWRfam9iKTsKPiArCj4gICAgICAgICBzdWJtaXQtPm91dF9mZW5jZSA9IGRtYV9mZW5jZV9nZXQo
-JnN1Ym1pdC0+c2NoZWRfam9iLnNfZmVuY2UtPmZpbmlzaGVkKTsKPiAgICAgICAgIHN1Ym1pdC0+
-b3V0X2ZlbmNlX2lkID0gaWRyX2FsbG9jX2N5Y2xpYygmc3VibWl0LT5ncHUtPmZlbmNlX2lkciwK
-PiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBzdWJtaXQt
-Pm91dF9mZW5jZSwgMCwKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2xpbWEvbGltYV9z
-Y2hlZC5jIGIvZHJpdmVycy9ncHUvZHJtL2xpbWEvbGltYV9zY2hlZC5jCj4gaW5kZXggZWNmMzI2
-NzMzNGZmLi5iZDFhZjFmZDhjMGYgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2xpbWEv
-bGltYV9zY2hlZC5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2xpbWEvbGltYV9zY2hlZC5jCj4g
-QEAgLTEyOSw2ICsxMjksOCBAQCBpbnQgbGltYV9zY2hlZF90YXNrX2luaXQoc3RydWN0IGxpbWFf
-c2NoZWRfdGFzayAqdGFzaywKPiAgICAgICAgICAgICAgICAgcmV0dXJuIGVycjsKPiAgICAgICAg
-IH0KPgo+ICsgICAgICAgZHJtX3NjaGVkX2pvYl9hcm0oJnRhc2stPmJhc2UpOwo+ICsKPiAgICAg
-ICAgIHRhc2stPm51bV9ib3MgPSBudW1fYm9zOwo+ICAgICAgICAgdGFzay0+dm0gPSBsaW1hX3Zt
-X2dldCh2bSk7Cj4KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L3BhbmZy
-b3N0X2pvYi5jIGIvZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L3BhbmZyb3N0X2pvYi5jCj4gaW5k
-ZXggYmViNjJjOGZjODUxLi4xZTk1MDUzNGI5YjAgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUv
-ZHJtL3BhbmZyb3N0L3BhbmZyb3N0X2pvYi5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3BhbmZy
-b3N0L3BhbmZyb3N0X2pvYi5jCj4gQEAgLTI0NCw2ICsyNDQsOCBAQCBpbnQgcGFuZnJvc3Rfam9i
-X3B1c2goc3RydWN0IHBhbmZyb3N0X2pvYiAqam9iKQo+ICAgICAgICAgICAgICAgICBnb3RvIHVu
-bG9jazsKPiAgICAgICAgIH0KPgo+ICsgICAgICAgZHJtX3NjaGVkX2pvYl9hcm0oJmpvYi0+YmFz
-ZSk7Cj4gKwo+ICAgICAgICAgam9iLT5yZW5kZXJfZG9uZV9mZW5jZSA9IGRtYV9mZW5jZV9nZXQo
-JmpvYi0+YmFzZS5zX2ZlbmNlLT5maW5pc2hlZCk7Cj4KPiAgICAgICAgIHJldCA9IHBhbmZyb3N0
-X2FjcXVpcmVfb2JqZWN0X2ZlbmNlcyhqb2ItPmJvcywgam9iLT5ib19jb3VudCwKPiBkaWZmIC0t
-Z2l0IGEvZHJpdmVycy9ncHUvZHJtL3NjaGVkdWxlci9zY2hlZF9lbnRpdHkuYyBiL2RyaXZlcnMv
-Z3B1L2RybS9zY2hlZHVsZXIvc2NoZWRfZW50aXR5LmMKPiBpbmRleCA3OTU1NGFhNGRiYjEuLmY3
-MzQ3YzI4NDg4NiAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vc2NoZWR1bGVyL3NjaGVk
-X2VudGl0eS5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3NjaGVkdWxlci9zY2hlZF9lbnRpdHku
-Ywo+IEBAIC00ODUsOSArNDg1LDkgQEAgdm9pZCBkcm1fc2NoZWRfZW50aXR5X3NlbGVjdF9ycShz
-dHJ1Y3QgZHJtX3NjaGVkX2VudGl0eSAqZW50aXR5KQo+ICAgKiBAc2NoZWRfam9iOiBqb2IgdG8g
-c3VibWl0Cj4gICAqIEBlbnRpdHk6IHNjaGVkdWxlciBlbnRpdHkKPiAgICoKPiAtICogTm90ZTog
-VG8gZ3VhcmFudGVlIHRoYXQgdGhlIG9yZGVyIG9mIGluc2VydGlvbiB0byBxdWV1ZSBtYXRjaGVz
-Cj4gLSAqIHRoZSBqb2IncyBmZW5jZSBzZXF1ZW5jZSBudW1iZXIgdGhpcyBmdW5jdGlvbiBzaG91
-bGQgYmUKPiAtICogY2FsbGVkIHdpdGggZHJtX3NjaGVkX2pvYl9pbml0IHVuZGVyIGNvbW1vbiBs
-b2NrLgo+ICsgKiBOb3RlOiBUbyBndWFyYW50ZWUgdGhhdCB0aGUgb3JkZXIgb2YgaW5zZXJ0aW9u
-IHRvIHF1ZXVlIG1hdGNoZXMgdGhlIGpvYidzCj4gKyAqIGZlbmNlIHNlcXVlbmNlIG51bWJlciB0
-aGlzIGZ1bmN0aW9uIHNob3VsZCBiZSBjYWxsZWQgd2l0aCBkcm1fc2NoZWRfam9iX2FybSgpCj4g
-KyAqIHVuZGVyIGNvbW1vbiBsb2NrLgo+ICAgKgo+ICAgKiBSZXR1cm5zIDAgZm9yIHN1Y2Nlc3Ms
-IG5lZ2F0aXZlIGVycm9yIGNvZGUgb3RoZXJ3aXNlLgo+ICAgKi8KPiBkaWZmIC0tZ2l0IGEvZHJp
-dmVycy9ncHUvZHJtL3NjaGVkdWxlci9zY2hlZF9mZW5jZS5jIGIvZHJpdmVycy9ncHUvZHJtL3Nj
-aGVkdWxlci9zY2hlZF9mZW5jZS5jCj4gaW5kZXggNjlkZTJjNzY3MzFmLi4wYmE4MTBjMTk4YmQg
-MTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3NjaGVkdWxlci9zY2hlZF9mZW5jZS5jCj4g
-KysrIGIvZHJpdmVycy9ncHUvZHJtL3NjaGVkdWxlci9zY2hlZF9mZW5jZS5jCj4gQEAgLTE1Miwx
-MSArMTUyLDEwIEBAIHN0cnVjdCBkcm1fc2NoZWRfZmVuY2UgKnRvX2RybV9zY2hlZF9mZW5jZShz
-dHJ1Y3QgZG1hX2ZlbmNlICpmKQo+ICB9Cj4gIEVYUE9SVF9TWU1CT0wodG9fZHJtX3NjaGVkX2Zl
-bmNlKTsKPgo+IC1zdHJ1Y3QgZHJtX3NjaGVkX2ZlbmNlICpkcm1fc2NoZWRfZmVuY2VfY3JlYXRl
-KHN0cnVjdCBkcm1fc2NoZWRfZW50aXR5ICplbnRpdHksCj4gLSAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICB2b2lkICpvd25lcikKPiArc3RydWN0IGRybV9zY2hl
-ZF9mZW5jZSAqZHJtX3NjaGVkX2ZlbmNlX2FsbG9jKHN0cnVjdCBkcm1fc2NoZWRfZW50aXR5ICpl
-bnRpdHksCj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHZv
-aWQgKm93bmVyKQo+ICB7Cj4gICAgICAgICBzdHJ1Y3QgZHJtX3NjaGVkX2ZlbmNlICpmZW5jZSA9
-IE5VTEw7Cj4gLSAgICAgICB1bnNpZ25lZCBzZXE7Cj4KPiAgICAgICAgIGZlbmNlID0ga21lbV9j
-YWNoZV96YWxsb2Moc2NoZWRfZmVuY2Vfc2xhYiwgR0ZQX0tFUk5FTCk7Cj4gICAgICAgICBpZiAo
-ZmVuY2UgPT0gTlVMTCkKPiBAQCAtMTY2LDEzICsxNjUsMTkgQEAgc3RydWN0IGRybV9zY2hlZF9m
-ZW5jZSAqZHJtX3NjaGVkX2ZlbmNlX2NyZWF0ZShzdHJ1Y3QgZHJtX3NjaGVkX2VudGl0eSAqZW50
-aXR5LAo+ICAgICAgICAgZmVuY2UtPnNjaGVkID0gZW50aXR5LT5ycS0+c2NoZWQ7Cj4gICAgICAg
-ICBzcGluX2xvY2tfaW5pdCgmZmVuY2UtPmxvY2spOwo+Cj4gKyAgICAgICByZXR1cm4gZmVuY2U7
-Cj4gK30KCklmIHRoZXJlJ3MgYW4gZXJyb3IgcGF0aCBiZXR3ZWVuIGZlbmNlX2FsbG9jIChqb2Jf
-aW5pdCgpKSBhbmQKZmVuY2VfY3JlYXRlKCkgKGpvYl9hcm0oKSkgdGltZSwgaG93IGRvZXMgdGhl
-IHNfZmVuY2UgZ2V0IGZyZWVkPwpCZWZvcmUsIEkgd2FzIGNvbW1pdHRlZCB0byBjYWxsaW5nIGRy
-bV9zY2hlZF9lbnRpdHlfcHVzaF9qb2IoKSB3aGljaApsZWFkIHRvIHRoZSBqb2IgYmVpbmcgcHJv
-Y2Vzc2VkIGFuZCBmcmVlZCwgYnV0IG5vdyBJIHRoaW5rIHdlIG5lZWQKc29tZSBvdGhlciBub24t
-cHVzaGVkLWpvYiBmcmVlIHBhdGguCgo+ICtFWFBPUlRfU1lNQk9MKGRybV9zY2hlZF9qb2JfYXJt
-KTsKPiArCj4gIC8qKgo+ICAgKiBkcm1fc2NoZWRfam9iX2NsZWFudXAgLSBjbGVhbiB1cCBzY2hl
-ZHVsZXIgam9iIHJlc291cmNlcwo+ICAgKgo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0v
-djNkL3YzZF9nZW0uYyBiL2RyaXZlcnMvZ3B1L2RybS92M2QvdjNkX2dlbS5jCj4gaW5kZXggNGVi
-MzU0MjI2OTcyLi41YzNhOTkwMjdlY2QgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3Yz
-ZC92M2RfZ2VtLmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vdjNkL3YzZF9nZW0uYwo+IEBAIC00
-NzUsNiArNDc1LDggQEAgdjNkX3B1c2hfam9iKHN0cnVjdCB2M2RfZmlsZV9wcml2ICp2M2RfcHJp
-diwKPiAgICAgICAgIGlmIChyZXQpCj4gICAgICAgICAgICAgICAgIHJldHVybiByZXQ7Cj4KPiAr
-ICAgICAgIGRybV9zY2hlZF9qb2JfYXJtKCZqb2ItPmJhc2UpOwo+ICsKPiAgICAgICAgIGpvYi0+
-ZG9uZV9mZW5jZSA9IGRtYV9mZW5jZV9nZXQoJmpvYi0+YmFzZS5zX2ZlbmNlLT5maW5pc2hlZCk7
-Cj4KPiAgICAgICAgIC8qIHB1dCBieSBzY2hlZHVsZXIgam9iIGNvbXBsZXRpb24gKi8KPiBkaWZm
-IC0tZ2l0IGEvaW5jbHVkZS9kcm0vZ3B1X3NjaGVkdWxlci5oIGIvaW5jbHVkZS9kcm0vZ3B1X3Nj
-aGVkdWxlci5oCj4gaW5kZXggZDE4YWY0OWZkMDA5Li44MDQzOGQxMjZjOWQgMTAwNjQ0Cj4gLS0t
-IGEvaW5jbHVkZS9kcm0vZ3B1X3NjaGVkdWxlci5oCj4gKysrIGIvaW5jbHVkZS9kcm0vZ3B1X3Nj
-aGVkdWxlci5oCj4gQEAgLTMxMyw2ICszMTMsNyBAQCB2b2lkIGRybV9zY2hlZF9maW5pKHN0cnVj
-dCBkcm1fZ3B1X3NjaGVkdWxlciAqc2NoZWQpOwo+ICBpbnQgZHJtX3NjaGVkX2pvYl9pbml0KHN0
-cnVjdCBkcm1fc2NoZWRfam9iICpqb2IsCj4gICAgICAgICAgICAgICAgICAgICAgICBzdHJ1Y3Qg
-ZHJtX3NjaGVkX2VudGl0eSAqZW50aXR5LAo+ICAgICAgICAgICAgICAgICAgICAgICAgdm9pZCAq
-b3duZXIpOwo+ICt2b2lkIGRybV9zY2hlZF9qb2JfYXJtKHN0cnVjdCBkcm1fc2NoZWRfam9iICpq
-b2IpOwo+ICB2b2lkIGRybV9zY2hlZF9lbnRpdHlfbW9kaWZ5X3NjaGVkKHN0cnVjdCBkcm1fc2No
-ZWRfZW50aXR5ICplbnRpdHksCj4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-c3RydWN0IGRybV9ncHVfc2NoZWR1bGVyICoqc2NoZWRfbGlzdCwKPiAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICB1bnNpZ25lZCBpbnQgbnVtX3NjaGVkX2xpc3QpOwo+IEBAIC0z
-NTIsOCArMzUzLDExIEBAIHZvaWQgZHJtX3NjaGVkX2VudGl0eV9zZXRfcHJpb3JpdHkoc3RydWN0
-IGRybV9zY2hlZF9lbnRpdHkgKmVudGl0eSwKPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgIGVudW0gZHJtX3NjaGVkX3ByaW9yaXR5IHByaW9yaXR5KTsKPiAgYm9vbCBkcm1fc2No
-ZWRfZW50aXR5X2lzX3JlYWR5KHN0cnVjdCBkcm1fc2NoZWRfZW50aXR5ICplbnRpdHkpOwo+Cj4g
-LXN0cnVjdCBkcm1fc2NoZWRfZmVuY2UgKmRybV9zY2hlZF9mZW5jZV9jcmVhdGUoCj4gK3N0cnVj
-dCBkcm1fc2NoZWRfZmVuY2UgKmRybV9zY2hlZF9mZW5jZV9hbGxvYygKPiAgICAgICAgIHN0cnVj
-dCBkcm1fc2NoZWRfZW50aXR5ICpzX2VudGl0eSwgdm9pZCAqb3duZXIpOwo+ICt2b2lkIGRybV9z
-Y2hlZF9mZW5jZV9pbml0KHN0cnVjdCBkcm1fc2NoZWRfZmVuY2UgKmZlbmNlLAo+ICsgICAgICAg
-ICAgICAgICAgICAgICAgICAgc3RydWN0IGRybV9zY2hlZF9lbnRpdHkgKmVudGl0eSk7Cj4gKwo+
-ICB2b2lkIGRybV9zY2hlZF9mZW5jZV9zY2hlZHVsZWQoc3RydWN0IGRybV9zY2hlZF9mZW5jZSAq
-ZmVuY2UpOwo+ICB2b2lkIGRybV9zY2hlZF9mZW5jZV9maW5pc2hlZChzdHJ1Y3QgZHJtX3NjaGVk
-X2ZlbmNlICpmZW5jZSk7Cj4KPiAtLQo+IDIuMzIuMC5yYzIKPgpfX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fXwpldG5hdml2IG1haWxpbmcgbGlzdApldG5hdml2
-QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWls
-bWFuL2xpc3RpbmZvL2V0bmF2aXYK
+On Sat, Jun 19, 2021 at 10:28:07AM -0700, Yury Norov wrote:
+> On Sat, Jun 19, 2021 at 05:24:15PM +0100, Marc Zyngier wrote:
+> > On Fri, 18 Jun 2021 20:57:34 +0100,
+> > Yury Norov <yury.norov@gmail.com> wrote:
+> > > 
+> > > The macros iterate thru all set/clear bits in a bitmap. They search a
+> > > first bit using find_first_bit(), and the rest bits using find_next_bit().
+> > > 
+> > > Since find_next_bit() is called shortly after find_first_bit(), we can
+> > > save few lines of I-cache by not using find_first_bit().
+> > 
+> > Really?
+> > 
+> > > 
+> > > Signed-off-by: Yury Norov <yury.norov@gmail.com>
+> > > ---
+> > >  include/linux/find.h | 4 ++--
+> > >  1 file changed, 2 insertions(+), 2 deletions(-)
+> > > 
+> > > diff --git a/include/linux/find.h b/include/linux/find.h
+> > > index 4500e8ab93e2..ae9ed52b52b8 100644
+> > > --- a/include/linux/find.h
+> > > +++ b/include/linux/find.h
+> > > @@ -280,7 +280,7 @@ unsigned long find_next_bit_le(const void *addr, unsigned
+> > >  #endif
+> > >  
+> > >  #define for_each_set_bit(bit, addr, size) \
+> > > -	for ((bit) = find_first_bit((addr), (size));		\
+> > > +	for ((bit) = find_next_bit((addr), (size), 0);		\
+> > 
+> > On which architecture do you observe a gain? Only 32bit ARM and m68k
+> > implement their own version of find_first_bit(), and everyone else
+> > uses the canonical implementation:
+> 
+> And those who enable GENERIC_FIND_FIRST_BIT - x86, arm64, arc, mips
+> and s390.
+> 
+> > #ifndef find_first_bit
+> > #define find_first_bit(addr, size) find_next_bit((addr), (size), 0)
+> > #endif
+> > 
+> > These architectures explicitly have different implementations for
+> > find_first_bit() and find_next_bit() because they can do better
+> > (whether that is true or not is another debate). I don't think you
+> > should remove this optimisation until it has been measured on these
+> > two architectures.
+> 
+> This patch is based on a series that enables separate implementation
+> of find_first_bit() for all architectures; according to my tests,
+> find_first* is ~ twice faster than find_next* on arm64 and x86.
+> 
+> https://lore.kernel.org/lkml/20210612123639.329047-1-yury.norov@gmail.com/T/#t
+> 
+> After applying the series, I noticed that my small kernel module that
+> calls for_each_set_bit() is now using find_first_bit() to just find
+> one bit, and find_next_bit() for all others. I think it's better to
+> always use find_next_bit() in this case to minimize the chance of
+> cache miss. But if it's not that obvious, I'll try to write some test.
+
+This test measures the difference between for_each_set_bit() and
+for_each_set_bit_from().
+
+diff --git a/lib/find_bit_benchmark.c b/lib/find_bit_benchmark.c
+index 5637c5711db9..1f37e99090b0 100644
+--- a/lib/find_bit_benchmark.c
++++ b/lib/find_bit_benchmark.c
+@@ -111,6 +111,59 @@ static int __init test_find_next_and_bit(const void *bitmap,
+ 	return 0;
+ }
+ 
++#ifdef CONFIG_X86_64
++#define flush_cache_all() wbinvd()
++#endif
++
++static int __init test_for_each_set_bit(int flags)
++{
++#ifdef flush_cache_all
++	DECLARE_BITMAP(bm, BITS_PER_LONG * 2);
++	unsigned long i, cnt = 0;
++	ktime_t time;
++
++	bm[0] = 1; bm[1] = 0;
++
++	time = ktime_get();
++	while (cnt < 1000) {
++		if (flags)
++			flush_cache_all();
++		for_each_set_bit(i, bm, BITS_PER_LONG * 2)
++			cnt++;
++	}
++
++	time = ktime_get() - time;
++
++	pr_err("for_each_set_bit:   %18llu ns, %6ld iterations\n",  time, cnt);
++#endif
++	return 0;
++}
++
++static int __init test_for_each_set_bit_from(int flags)
++{
++#ifdef flush_cache_all
++	DECLARE_BITMAP(bm, BITS_PER_LONG * 2);
++	unsigned long i, cnt = 0;
++	ktime_t time;
++
++	bm[0] = 1; bm[1] = 0;
++
++	time = ktime_get();
++	while (cnt < 1000) {
++		if (flags)
++			flush_cache_all();
++		i = 0;
++		for_each_set_bit_from(i, bm, BITS_PER_LONG * 2)
++			cnt++;
++	}
++
++	time = ktime_get() - time;
++
++	pr_err("for_each_set_bit_from:%16llu ns, %6ld iterations\n", time, cnt);
++#endif
++	return 0;
++}
++
+ static int __init find_bit_test(void)
+ {
+ 	unsigned long nbits = BITMAP_LEN / SPARSE;
+@@ -147,6 +200,16 @@ static int __init find_bit_test(void)
+ 	test_find_first_bit(bitmap, BITMAP_LEN);
+ 	test_find_next_and_bit(bitmap, bitmap2, BITMAP_LEN);
+ 
++	pr_err("\nStart testing for_each_bit()\n");
++
++	test_for_each_set_bit(0);
++	test_for_each_set_bit_from(0);
++
++	pr_err("\nStart testing for_each_bit() with cash flushing\n");
++
++	test_for_each_set_bit(1);
++	test_for_each_set_bit_from(1);
++
+ 	/*
+ 	 * Everything is OK. Return error just to let user run benchmark
+ 	 * again without annoying rmmod.
+
+Here on each iteration: 
+ - for_each_set_bit() calls find_first_bit() once, and find_next_bit() once.
+ - for_each_set_bit_from() calls  find_next_bit() twice.
+
+On my AMD Ryzen 7 4700U, the result is like this:
+
+Start testing for_each_bit()
+for_each_set_bit:                15296 ns,   1000 iterations
+for_each_set_bit_from:           15225 ns,   1000 iterations
+
+Start testing for_each_bit() with cash flushing
+for_each_set_bit:               547626 ns,   1000 iterations
+for_each_set_bit_from:          497899 ns,   1000 iterations
+
+for_each_set_bit_from() is ~10% faster than for_each_set_bit() in
+case of cold caches, and no significant difference was observed if
+flush_cache_all() is not called.
+
+So, it looks reasonable to switch for_each_set_bit() to use
+find_next_bit() only.
+
+Thanks,
+Yury
+_______________________________________________
+etnaviv mailing list
+etnaviv@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/etnaviv
