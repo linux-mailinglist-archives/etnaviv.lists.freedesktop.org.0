@@ -1,62 +1,42 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B06BF3B546C
-	for <lists+etnaviv@lfdr.de>; Sun, 27 Jun 2021 18:47:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B6CC43B9490
+	for <lists+etnaviv@lfdr.de>; Thu,  1 Jul 2021 18:14:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B1C9189E3B;
-	Sun, 27 Jun 2021 16:47:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 63F926E0CB;
+	Thu,  1 Jul 2021 16:14:36 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-qt1-x82b.google.com (mail-qt1-x82b.google.com
- [IPv6:2607:f8b0:4864:20::82b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 357DF89E3B;
- Sun, 27 Jun 2021 16:47:28 +0000 (UTC)
-Received: by mail-qt1-x82b.google.com with SMTP id r20so11727058qtp.3;
- Sun, 27 Jun 2021 09:47:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=IGinKwiNSfxrJd+RUlITcVgWE2FaXzN4ff0xutRXDaU=;
- b=DeEb2ecHoc+9I/oFeMO1TfS4y4+YwjybIHliznobdI/nxpUlDavt/JLpost/dY8G3R
- 8cJOtmQqUlYDxeTfYaNQ1/1g1TYrdNZ/A32GllgnS0hha2/HadzrYR0ZR/tRkdZpbxH8
- IzXE19/om+0BCtDEh+5G/TinS7EBlwCBx9XnhCN27I7baiLvgEtBOZ5RxX86Pt8qGGrL
- ti6MAYW24ozYHGBBcO1pRe0GOzYwFWDEmrfrVRXyBEeul012dxIt8kEK88EQW2k3Go1b
- IUG+ysf0WhcqHZpAScjamKwVwTjwtbeNNXEkL9mP8x8n8wShaIzm/RqO9jBhmSlRJ8kA
- 7pag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=IGinKwiNSfxrJd+RUlITcVgWE2FaXzN4ff0xutRXDaU=;
- b=m/TpDMegVHGHkUdFSmTRnxi1AMHhwBYDW5bk3z+q2Lb+GOgyIxM7jgJreWJBuYv8vJ
- PiwkrIAHLRMDdnFUD8djKaIpMakxqXrqT/2Ec+kotydlS7AotVTcPEdF9RAkDhsHUc/b
- HWIDcfGlI5k4llehdNaUyCpLdnxQXH5FpSGb2eXN1Teqxync7nAxmM9No9bSWhQ3Pf5m
- 8dUubR/sM7WNQNi3NYL/B1CBgL0PRfgyi+wexeSy8WvpimH5c8M3IgjH5TifCAlhMG9b
- 1vMqDV39TqfnUZh3F2S9jgciyUY929g/NmaSUnRCKGO1wxy05YRZM5YN4P+9CXJ53/yB
- E6Sw==
-X-Gm-Message-State: AOAM532CyK2IejcUIWYHEu6XJpjH7Plz+1rtAgORQmxmsuTFLrOMa2Ne
- /KdW3IuxRIVJh8UDS8rTBQI=
-X-Google-Smtp-Source: ABdhPJzXp6YlfGmAUiYHzOtD1PJTSLr3XCovAHLZvis1ouC9/p4U2/5jfgoQakO2n+2S85GDybfXYQ==
-X-Received: by 2002:a05:622a:11cd:: with SMTP id
- n13mr18281355qtk.233.1624812447049; 
- Sun, 27 Jun 2021 09:47:27 -0700 (PDT)
-Received: from localhost ([207.98.216.60])
- by smtp.gmail.com with ESMTPSA id 202sm7563423qki.83.2021.06.27.09.47.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 27 Jun 2021 09:47:26 -0700 (PDT)
-Date: Sun, 27 Jun 2021 09:47:25 -0700
-From: Yury Norov <yury.norov@gmail.com>
-To: Marc Zyngier <maz@kernel.org>
-Subject: Re: [PATCH 2/3] find: micro-optimize for_each_{set,clear}_bit()
-Message-ID: <YNirnaYw1GSxg1jK@yury-ThinkPad>
-References: <20210618195735.55933-1-yury.norov@gmail.com>
- <20210618195735.55933-3-yury.norov@gmail.com>
- <87bl81ddqo.wl-maz@kernel.org> <YM4pJpNphEwvUF2F@yury-ThinkPad>
+Received: from fanzine.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 89E0E6E0CB;
+ Thu,  1 Jul 2021 16:14:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+ s=20170329; 
+ h=MIME-Version:Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID;
+ bh=wK9wrmd+6oYN7FKRJ1PwqG4FPKNWD7UZGqxDhFVY3YA=; 
+ b=Y4rlul+uhkYkZ4p6PoktJ1He64NFdmYZWcPpM13vr6JwyByUFcMFxf7tyOvHSUYGAsQGuCwcUoD7h5DI4G0VjAPU8O8+bLIPf62+t7OUSN+R/QYhU0JnC0VuJKQTtRvbWX3fbx6b5WzNX1bZImGRveVbDTtd/0HPNao87E/LJkrpM6iDlUx/srHN6OI5snwK8PxazjWK5xG7t3iJJ9WU+csZyt0hFOSwx3R6pP4/3oRO0mRpynHUbJfXQ4UfRyQqzglMs6SBk6RjTXKmiyJ0CAnUvAeJ2bnyP0rx715hkwTsNSF1wpGP3s6PM34qHol9in6d5fNW/mzzdtcje0K6/g==;
+Received: from 152.red-88-9-105.dynamicip.rima-tde.net ([88.9.105.152]
+ helo=[192.168.2.252]) by fanzine.igalia.com with esmtpsa 
+ (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
+ id 1lyzKj-0005WT-LU; Thu, 01 Jul 2021 18:14:33 +0200
+Message-ID: <f5ee80e067e79dff0b2d65c67dbb83b9be70014f.camel@igalia.com>
+Subject: Re: [Mesa-dev] Requests For Proposals for hosting XDC 2022 are now
+ open
+From: Samuel Iglesias =?ISO-8859-1?Q?Gons=E1lvez?= <siglesias@igalia.com>
+To: "events@lists.x.org" <events@lists.x.org>, 
+ "xorg-devel@lists.freedesktop.org"
+ <xorg-devel@lists.freedesktop.org>, wayland-devel@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, mesa-dev@lists.freedesktop.org, 
+ amd-gfx@lists.freedesktop.org, etnaviv@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
+ intel-gfx@lists.freedesktop.org
+Date: Thu, 01 Jul 2021 18:14:23 +0200
+In-Reply-To: <95ec2c414f7dd1ea5685184435b95430e1709047.camel@igalia.com>
+References: <95ec2c414f7dd1ea5685184435b95430e1709047.camel@igalia.com>
+User-Agent: Evolution 3.38.3-1 
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <YM4pJpNphEwvUF2F@yury-ThinkPad>
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,192 +48,116 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: Wei Yang <richard.weiyang@linux.alibaba.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>, David Airlie <airlied@linux.ie>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>, dri-devel@lists.freedesktop.org,
- "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
- Ingo Molnar <mingo@redhat.com>, Russell King <linux+etnaviv@armlinux.org.uk>,
- Guenter Roeck <linux@roeck-us.net>, Jean Delvare <jdelvare@suse.com>,
- Alexey Klimov <aklimov@redhat.com>, etnaviv@lists.freedesktop.org,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- Borislav Petkov <bp@alien8.de>, Thomas Gleixner <tglx@linutronix.de>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
- Daniel Vetter <daniel@ffwll.ch>, Andrew Morton <akpm@linux-foundation.org>,
- David Woodhouse <dwmw@amazon.co.uk>, Lucas Stach <l.stach@pengutronix.de>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: "board@foundation.x.org" <board@foundation.x.org>
+Content-Type: multipart/mixed; boundary="===============1085044041=="
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-On Sat, Jun 19, 2021 at 10:28:07AM -0700, Yury Norov wrote:
-> On Sat, Jun 19, 2021 at 05:24:15PM +0100, Marc Zyngier wrote:
-> > On Fri, 18 Jun 2021 20:57:34 +0100,
-> > Yury Norov <yury.norov@gmail.com> wrote:
-> > > 
-> > > The macros iterate thru all set/clear bits in a bitmap. They search a
-> > > first bit using find_first_bit(), and the rest bits using find_next_bit().
-> > > 
-> > > Since find_next_bit() is called shortly after find_first_bit(), we can
-> > > save few lines of I-cache by not using find_first_bit().
-> > 
-> > Really?
-> > 
-> > > 
-> > > Signed-off-by: Yury Norov <yury.norov@gmail.com>
-> > > ---
-> > >  include/linux/find.h | 4 ++--
-> > >  1 file changed, 2 insertions(+), 2 deletions(-)
-> > > 
-> > > diff --git a/include/linux/find.h b/include/linux/find.h
-> > > index 4500e8ab93e2..ae9ed52b52b8 100644
-> > > --- a/include/linux/find.h
-> > > +++ b/include/linux/find.h
-> > > @@ -280,7 +280,7 @@ unsigned long find_next_bit_le(const void *addr, unsigned
-> > >  #endif
-> > >  
-> > >  #define for_each_set_bit(bit, addr, size) \
-> > > -	for ((bit) = find_first_bit((addr), (size));		\
-> > > +	for ((bit) = find_next_bit((addr), (size), 0);		\
-> > 
-> > On which architecture do you observe a gain? Only 32bit ARM and m68k
-> > implement their own version of find_first_bit(), and everyone else
-> > uses the canonical implementation:
-> 
-> And those who enable GENERIC_FIND_FIRST_BIT - x86, arm64, arc, mips
-> and s390.
-> 
-> > #ifndef find_first_bit
-> > #define find_first_bit(addr, size) find_next_bit((addr), (size), 0)
-> > #endif
-> > 
-> > These architectures explicitly have different implementations for
-> > find_first_bit() and find_next_bit() because they can do better
-> > (whether that is true or not is another debate). I don't think you
-> > should remove this optimisation until it has been measured on these
-> > two architectures.
-> 
-> This patch is based on a series that enables separate implementation
-> of find_first_bit() for all architectures; according to my tests,
-> find_first* is ~ twice faster than find_next* on arm64 and x86.
-> 
-> https://lore.kernel.org/lkml/20210612123639.329047-1-yury.norov@gmail.com/T/#t
-> 
-> After applying the series, I noticed that my small kernel module that
-> calls for_each_set_bit() is now using find_first_bit() to just find
-> one bit, and find_next_bit() for all others. I think it's better to
-> always use find_next_bit() in this case to minimize the chance of
-> cache miss. But if it's not that obvious, I'll try to write some test.
 
-This test measures the difference between for_each_set_bit() and
-for_each_set_bit_from().
+--===============1085044041==
+Content-Type: multipart/signed; micalg="pgp-sha256";
+	protocol="application/pgp-signature"; boundary="=-QH/ByUmgrN7MqV73jY6n"
 
-diff --git a/lib/find_bit_benchmark.c b/lib/find_bit_benchmark.c
-index 5637c5711db9..1f37e99090b0 100644
---- a/lib/find_bit_benchmark.c
-+++ b/lib/find_bit_benchmark.c
-@@ -111,6 +111,59 @@ static int __init test_find_next_and_bit(const void *bitmap,
- 	return 0;
- }
- 
-+#ifdef CONFIG_X86_64
-+#define flush_cache_all() wbinvd()
-+#endif
-+
-+static int __init test_for_each_set_bit(int flags)
-+{
-+#ifdef flush_cache_all
-+	DECLARE_BITMAP(bm, BITS_PER_LONG * 2);
-+	unsigned long i, cnt = 0;
-+	ktime_t time;
-+
-+	bm[0] = 1; bm[1] = 0;
-+
-+	time = ktime_get();
-+	while (cnt < 1000) {
-+		if (flags)
-+			flush_cache_all();
-+		for_each_set_bit(i, bm, BITS_PER_LONG * 2)
-+			cnt++;
-+	}
-+
-+	time = ktime_get() - time;
-+
-+	pr_err("for_each_set_bit:   %18llu ns, %6ld iterations\n",  time, cnt);
-+#endif
-+	return 0;
-+}
-+
-+static int __init test_for_each_set_bit_from(int flags)
-+{
-+#ifdef flush_cache_all
-+	DECLARE_BITMAP(bm, BITS_PER_LONG * 2);
-+	unsigned long i, cnt = 0;
-+	ktime_t time;
-+
-+	bm[0] = 1; bm[1] = 0;
-+
-+	time = ktime_get();
-+	while (cnt < 1000) {
-+		if (flags)
-+			flush_cache_all();
-+		i = 0;
-+		for_each_set_bit_from(i, bm, BITS_PER_LONG * 2)
-+			cnt++;
-+	}
-+
-+	time = ktime_get() - time;
-+
-+	pr_err("for_each_set_bit_from:%16llu ns, %6ld iterations\n", time, cnt);
-+#endif
-+	return 0;
-+}
-+
- static int __init find_bit_test(void)
- {
- 	unsigned long nbits = BITMAP_LEN / SPARSE;
-@@ -147,6 +200,16 @@ static int __init find_bit_test(void)
- 	test_find_first_bit(bitmap, BITMAP_LEN);
- 	test_find_next_and_bit(bitmap, bitmap2, BITMAP_LEN);
- 
-+	pr_err("\nStart testing for_each_bit()\n");
-+
-+	test_for_each_set_bit(0);
-+	test_for_each_set_bit_from(0);
-+
-+	pr_err("\nStart testing for_each_bit() with cash flushing\n");
-+
-+	test_for_each_set_bit(1);
-+	test_for_each_set_bit_from(1);
-+
- 	/*
- 	 * Everything is OK. Return error just to let user run benchmark
- 	 * again without annoying rmmod.
 
-Here on each iteration: 
- - for_each_set_bit() calls find_first_bit() once, and find_next_bit() once.
- - for_each_set_bit_from() calls  find_next_bit() twice.
+--=-QH/ByUmgrN7MqV73jY6n
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On my AMD Ryzen 7 4700U, the result is like this:
+This is a reminder that the call for proposals for hosting XDC 2022
+period finishes in two months.
 
-Start testing for_each_bit()
-for_each_set_bit:                15296 ns,   1000 iterations
-for_each_set_bit_from:           15225 ns,   1000 iterations
+Be sure to prepare your submission before you leave on holiday!
 
-Start testing for_each_bit() with cash flushing
-for_each_set_bit:               547626 ns,   1000 iterations
-for_each_set_bit_from:          497899 ns,   1000 iterations
+Sam
 
-for_each_set_bit_from() is ~10% faster than for_each_set_bit() in
-case of cold caches, and no significant difference was observed if
-flush_cache_all() is not called.
+On Thu, 2021-05-20 at 12:15 +0200, Samuel Iglesias Gons=C3=A1lvez wrote:
+> Hello everyone!
+>=20
+> The X.org board is soliciting proposals to host XDC in 2022. Since
+> XDC 2021 is being held in Europe this year (although virtually),
+> we've
+> decided to host in North America. However, the board is open to other
+> locations, especially if there's an interesting co-location with
+> another conference.
+>=20
+> Of course though, due to the ongoing COVID-19 pandemic it's not yet
+> clear whether or not it will be possible to host XDC 2022 in person,
+> although is seems very likely. Because of this, we would like to
+> make it clear that sponsors should prepare for both the possibility
+> of an in person conference, and the possibility of a virtual
+> conference. We will work with organizers on coming up with a
+> deadline for deciding whether or not we'll be going virtual, likely
+> sometime around July 2022.
+>=20
+> If you're considering hosting XDC, we've assembled a wiki page with
+> what's generally expected and needed:
+>=20
+> https://www.x.org/wiki/Events/RFP/
+>=20
+> When submitting your proposal, please make sure to include at least
+> the
+> key information about the potential location in question, possible
+> dates along with estimated costs. Proposals can be submitted to board
+> at foundation.x.org until the deadline of *September 1st, 2021*.=C2=A0
+>=20
+> Additionally, an quirk early heads-up to the board if you're
+> considering hosting would be appreciated, in case we need to adjust
+> the
+> schedule a bit. Also, earlier is better since there generally will be
+> a
+> bit of Q&A with organizers.
+>=20
+> And if you just have some questions about what organizing XDC
+> entails,
+> please feel free to chat with previous organizers, or someone from
+> the
+> board.
+>=20
+> Thanks,
+>=20
+> Sam
+>=20
+> _______________________________________________
+> mesa-dev mailing list
+> mesa-dev@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/mesa-dev
 
-So, it looks reasonable to switch for_each_set_bit() to use
-find_next_bit() only.
 
-Thanks,
-Yury
+--=-QH/ByUmgrN7MqV73jY6n
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEQP+ZAvaXWkfuKXiEf/S6MvF9w0MFAmDd6d8ACgkQf/S6MvF9
+w0MKsRAA13BGnKOl2o6oyp+Ws0lBHITyQt5yGc5pIHoT3xjPVY924AFiGtJTsGq/
+oqYp9tMAGduh5VbFDmg9/FanKRpFSbFI8xXTWMuwC6OgaXgu+c9NDO8ilN8wl9vP
+3sAv88KlFP2bJtwwruGjw+jro7tnXE4WvKLaBILW8cqt3nL2xNZbI2JknPIFQDgp
+sddQ0GKSvFCtYuiEaMfxVTasJcaIyf1F4+bew031wDkS4yiuLdXUrBEoEXWNuGWG
+tcMg3HzGBAIkMFXrk3J8aSpSFlj/1r/AXlmT+UMHzp19xCk9YHcgEN5rUlnHA2BI
+AFrJKl5UBXiEl4q8h3V8sUoDM+MBItgpZxxW1P80dJvJe/OT0K9gh4VkYQoQx9Xh
+mg9IzmKENsavip/0Osh91MC9hUIBjEAvGWt2evEjlaIRCd2/xb1KO+gXcCMlz884
+nfZOoi3vAxtG/+XAohOq1pmdE6iSyuLdq8SPxtLSFXGCScHQ0R1Mh1I3xxou4dp6
+8jF2Wl4unF2ovuzCsR6VjQDyyGkXKCJHlueFLYyRrmlqjHd9n6ZDeQvHgCnYW93X
+eYYplicS4TVcZ9GHTsTgmxgGLXSM+aR7xzOZ0NQ4Dcy06uSYdbMet1iLz3XA3MoO
+ADwUOZ7evzwvmkdZ0AN4TjPI0iVtf9aVeZ5hpGPkP/eBEF033gA=
+=6VGv
+-----END PGP SIGNATURE-----
+
+--=-QH/ByUmgrN7MqV73jY6n--
+
+
+--===============1085044041==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 etnaviv mailing list
 etnaviv@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/etnaviv
+
+--===============1085044041==--
+
