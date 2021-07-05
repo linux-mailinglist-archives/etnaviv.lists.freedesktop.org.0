@@ -2,56 +2,61 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 474A93BA526
-	for <lists+etnaviv@lfdr.de>; Fri,  2 Jul 2021 23:38:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80A233BBC5E
+	for <lists+etnaviv@lfdr.de>; Mon,  5 Jul 2021 13:47:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D46989D52;
-	Fri,  2 Jul 2021 21:38:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 369B689911;
+	Mon,  5 Jul 2021 11:47:24 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
- [IPv6:2a00:1450:4864:20::32e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5675189D4B
- for <etnaviv@lists.freedesktop.org>; Fri,  2 Jul 2021 21:38:30 +0000 (UTC)
-Received: by mail-wm1-x32e.google.com with SMTP id
- m9-20020a05600c3b09b02901f246b43bbeso7215655wms.3
- for <etnaviv@lists.freedesktop.org>; Fri, 02 Jul 2021 14:38:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=r5UDpKih+Cz0Ip0RsQYJf4LObnNANTrq8DTJd3TzsDY=;
- b=cboccj9uK2nqIaGDjp7JjZjNm3xB97a/EjrI9FL0N30f2veooJDaN0dVKs9Zle+tkw
- IHELqLyQ+qYnYSr1/jlCowrfQCVao0x0E59chfLBBqxgnXP494ZxeJGlaCExWfkPNGnY
- NMRu7urjIGSchgBqEv+hyO7FQ4ZSu1/qnt9PY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=r5UDpKih+Cz0Ip0RsQYJf4LObnNANTrq8DTJd3TzsDY=;
- b=F/bnvenpO7qsk8KqVlQXEOFv/WyAyLh5lZQpyRv0Jh7BVnSKIIsyt4BLEZUu9da5BV
- MPVKps+jFSHDyF3Ml/kO66jBB2lo/nVla6AsmAd44I8IXdToNXYfHZRUYchCE0TBbJ0v
- 3pneAHm822+Cfx+m9Re2mSxCJWnL1jnx2UYSCWavPTd/zfQ9B0ulCbpsSEudY2DPme6h
- LS6gcQHiS8zIBR61L8ey2qFJztA0p0Rw4icaiINQh4RIgrHJ8+L6Mv2+6L85+tk5LgkN
- pjbGXGBkxBr+LvusKnFPZiqsj5Z7zzTs8gsP8XtYm+MOxATwYztVZV6QMZ/JLkAAeFeq
- 1aMg==
-X-Gm-Message-State: AOAM533KSuuOBzoF/nRBANegE7Z4iHGnggSWvN0M5HhdjLyCZNtvrjGf
- hGu3HLw8cK9oAIDWoI2P5dAqrw==
-X-Google-Smtp-Source: ABdhPJxqVHbkBsJue9XqhmKx1HoLke8pCMRgf6iknh/A+rCrC0rFG4vwSxu5tAuee8bjh1mW1krKDQ==
-X-Received: by 2002:a7b:c042:: with SMTP id u2mr409618wmc.86.1625261909076;
- Fri, 02 Jul 2021 14:38:29 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id n19sm4007222wms.4.2021.07.02.14.38.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 02 Jul 2021 14:38:28 -0700 (PDT)
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v2 08/11] drm/etnaviv: Use scheduler dependency handling
-Date: Fri,  2 Jul 2021 23:38:12 +0200
-Message-Id: <20210702213815.2249499-9-daniel.vetter@ffwll.ch>
-X-Mailer: git-send-email 2.32.0.rc2
-In-Reply-To: <20210702213815.2249499-1-daniel.vetter@ffwll.ch>
-References: <20210702213815.2249499-1-daniel.vetter@ffwll.ch>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E69789911;
+ Mon,  5 Jul 2021 11:47:22 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 23BBB2225F;
+ Mon,  5 Jul 2021 11:47:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1625485641; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ARoYCegrz93ocG6a+eVDla5LtrMzUpZdFhpRJ+P5ZGw=;
+ b=vgf2UZ+kd5LqeqrlXq7NE358No+ZT/2ug+TL3kHBV1OZidd70E4qH4V2BkPLHMDTUu61nv
+ KGU3qAon8sibwlwAJMvoDteCzzjpIbm2ARFtqnVa1sCxqzqF1meeEyB7veh7ZkObG2qVh1
+ MQVWcHNgyyrvgWjLMI/XyqKlJGwXELk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1625485641;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ARoYCegrz93ocG6a+eVDla5LtrMzUpZdFhpRJ+P5ZGw=;
+ b=DxjH5gGKpfJjLQ2AyAS7HF9i7FdtO48ODHd70uN3AoL+PHmg0OGPEcVIxjfn2BG3sWPWKz
+ TCr2zmT3alLM5ZAA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E1C5913A47;
+ Mon,  5 Jul 2021 11:47:20 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id IBRrNUjx4mBUYQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 05 Jul 2021 11:47:20 +0000
+Subject: Re: [PATCH] drm/etnaviv: Implement mmap as GEM object function
+To: Lucas Stach <l.stach@pengutronix.de>, linux+etnaviv@armlinux.org.uk,
+ christian.gmeiner@gmail.com, airlied@linux.ie, daniel@ffwll.ch
+References: <20210624085800.7941-1-tzimmermann@suse.de>
+ <657956dded241192bbd9ca59f6e9d58a9283f972.camel@pengutronix.de>
+ <ddae9158-0aa7-f861-2c61-5d8f8d28fb62@suse.de>
+ <d31b8b5237695d9bea3ad52b9be410249d12d652.camel@pengutronix.de>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <ff1f74bf-e8f8-6144-72aa-924c0eb8e123@suse.de>
+Date: Mon, 5 Jul 2021 13:47:20 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
+In-Reply-To: <d31b8b5237695d9bea3ad52b9be410249d12d652.camel@pengutronix.de>
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,142 +68,211 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, etnaviv@lists.freedesktop.org,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- linaro-mm-sig@lists.linaro.org,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Daniel Vetter <daniel.vetter@intel.com>, linux-media@vger.kernel.org,
- Sumit Semwal <sumit.semwal@linaro.org>, Lucas Stach <l.stach@pengutronix.de>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Content-Type: multipart/mixed; boundary="===============1538342071=="
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-V2UgbmVlZCB0byBwdWxsIHRoZSBkcm1fc2NoZWRfam9iX2luaXQgbXVjaCBlYXJsaWVyLCBidXQg
-dGhhdCdzIHZlcnkKbWlub3Igc3VyZ2VyeS4KClNpZ25lZC1vZmYtYnk6IERhbmllbCBWZXR0ZXIg
-PGRhbmllbC52ZXR0ZXJAaW50ZWwuY29tPgpDYzogTHVjYXMgU3RhY2ggPGwuc3RhY2hAcGVuZ3V0
-cm9uaXguZGU+CkNjOiBSdXNzZWxsIEtpbmcgPGxpbnV4K2V0bmF2aXZAYXJtbGludXgub3JnLnVr
-PgpDYzogQ2hyaXN0aWFuIEdtZWluZXIgPGNocmlzdGlhbi5nbWVpbmVyQGdtYWlsLmNvbT4KQ2M6
-IFN1bWl0IFNlbXdhbCA8c3VtaXQuc2Vtd2FsQGxpbmFyby5vcmc+CkNjOiAiQ2hyaXN0aWFuIEvD
-tm5pZyIgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KQ2M6IGV0bmF2aXZAbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnCkNjOiBsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmcKQ2M6IGxpbmFyby1tbS1z
-aWdAbGlzdHMubGluYXJvLm9yZwotLS0KIGRyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZf
-Z2VtLmggICAgICAgIHwgIDUgKy0KIGRyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfZ2Vt
-X3N1Ym1pdC5jIHwgMzIgKysrKystLS0tLQogZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZp
-dl9zY2hlZC5jICAgICAgfCA2MSArLS0tLS0tLS0tLS0tLS0tLS0tLQogZHJpdmVycy9ncHUvZHJt
-L2V0bmF2aXYvZXRuYXZpdl9zY2hlZC5oICAgICAgfCAgMyArLQogNCBmaWxlcyBjaGFuZ2VkLCAy
-MCBpbnNlcnRpb25zKCspLCA4MSBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dw
-dS9kcm0vZXRuYXZpdi9ldG5hdml2X2dlbS5oIGIvZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYvZXRu
-YXZpdl9nZW0uaAppbmRleCA5OGU2MGRmODgyYjYuLjYzNjg4ZTZlNDU4MCAxMDA2NDQKLS0tIGEv
-ZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9nZW0uaAorKysgYi9kcml2ZXJzL2dwdS9k
-cm0vZXRuYXZpdi9ldG5hdml2X2dlbS5oCkBAIC04MCw5ICs4MCw2IEBAIHN0cnVjdCBldG5hdml2
-X2dlbV9zdWJtaXRfYm8gewogCXU2NCB2YTsKIAlzdHJ1Y3QgZXRuYXZpdl9nZW1fb2JqZWN0ICpv
-Ymo7CiAJc3RydWN0IGV0bmF2aXZfdnJhbV9tYXBwaW5nICptYXBwaW5nOwotCXN0cnVjdCBkbWFf
-ZmVuY2UgKmV4Y2w7Ci0JdW5zaWduZWQgaW50IG5yX3NoYXJlZDsKLQlzdHJ1Y3QgZG1hX2ZlbmNl
-ICoqc2hhcmVkOwogfTsKIAogLyogQ3JlYXRlZCBwZXIgc3VibWl0LWlvY3RsLCB0byB0cmFjayBi
-bydzIGFuZCBjbWRzdHJlYW0gYnVmcywgZXRjLApAQCAtOTUsNyArOTIsNyBAQCBzdHJ1Y3QgZXRu
-YXZpdl9nZW1fc3VibWl0IHsKIAlzdHJ1Y3QgZXRuYXZpdl9maWxlX3ByaXZhdGUgKmN0eDsKIAlz
-dHJ1Y3QgZXRuYXZpdl9ncHUgKmdwdTsKIAlzdHJ1Y3QgZXRuYXZpdl9pb21tdV9jb250ZXh0ICpt
-bXVfY29udGV4dCwgKnByZXZfbW11X2NvbnRleHQ7Ci0Jc3RydWN0IGRtYV9mZW5jZSAqb3V0X2Zl
-bmNlLCAqaW5fZmVuY2U7CisJc3RydWN0IGRtYV9mZW5jZSAqb3V0X2ZlbmNlOwogCWludCBvdXRf
-ZmVuY2VfaWQ7CiAJc3RydWN0IGxpc3RfaGVhZCBub2RlOyAvKiBHUFUgYWN0aXZlIHN1Ym1pdCBs
-aXN0ICovCiAJc3RydWN0IGV0bmF2aXZfY21kYnVmIGNtZGJ1ZjsKZGlmZiAtLWdpdCBhL2RyaXZl
-cnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfZ2VtX3N1Ym1pdC5jIGIvZHJpdmVycy9ncHUvZHJt
-L2V0bmF2aXYvZXRuYXZpdl9nZW1fc3VibWl0LmMKaW5kZXggNGRkN2Q5ZDU0MWMwLi45MjQ3OGE1
-MGE1ODAgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfZ2VtX3N1
-Ym1pdC5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfZ2VtX3N1Ym1pdC5j
-CkBAIC0xODgsMTYgKzE4OCwxMCBAQCBzdGF0aWMgaW50IHN1Ym1pdF9mZW5jZV9zeW5jKHN0cnVj
-dCBldG5hdml2X2dlbV9zdWJtaXQgKnN1Ym1pdCkKIAkJaWYgKHN1Ym1pdC0+ZmxhZ3MgJiBFVE5B
-X1NVQk1JVF9OT19JTVBMSUNJVCkKIAkJCWNvbnRpbnVlOwogCi0JCWlmIChiby0+ZmxhZ3MgJiBF
-VE5BX1NVQk1JVF9CT19XUklURSkgewotCQkJcmV0ID0gZG1hX3Jlc3ZfZ2V0X2ZlbmNlcyhyb2Jq
-LCAmYm8tPmV4Y2wsCi0JCQkJCQkgICZiby0+bnJfc2hhcmVkLAotCQkJCQkJICAmYm8tPnNoYXJl
-ZCk7Ci0JCQlpZiAocmV0KQotCQkJCXJldHVybiByZXQ7Ci0JCX0gZWxzZSB7Ci0JCQliby0+ZXhj
-bCA9IGRtYV9yZXN2X2dldF9leGNsX3VubG9ja2VkKHJvYmopOwotCQl9Ci0KKwkJcmV0ID0gZHJt
-X3NjaGVkX2pvYl9hd2FpdF9pbXBsaWNpdCgmc3VibWl0LT5zY2hlZF9qb2IsICZiby0+b2JqLT5i
-YXNlLAorCQkJCQkJICAgYm8tPmZsYWdzICYgRVROQV9TVUJNSVRfQk9fV1JJVEUpOworCQlpZiAo
-cmV0KQorCQkJcmV0dXJuIHJldDsKIAl9CiAKIAlyZXR1cm4gcmV0OwpAQCAtNDAzLDggKzM5Nyw2
-IEBAIHN0YXRpYyB2b2lkIHN1Ym1pdF9jbGVhbnVwKHN0cnVjdCBrcmVmICprcmVmKQogCiAJd2Fr
-ZV91cF9hbGwoJnN1Ym1pdC0+Z3B1LT5mZW5jZV9ldmVudCk7CiAKLQlpZiAoc3VibWl0LT5pbl9m
-ZW5jZSkKLQkJZG1hX2ZlbmNlX3B1dChzdWJtaXQtPmluX2ZlbmNlKTsKIAlpZiAoc3VibWl0LT5v
-dXRfZmVuY2UpIHsKIAkJLyogZmlyc3QgcmVtb3ZlIGZyb20gSURSLCBzbyBmZW5jZSBjYW4gbm90
-IGJlIGZvdW5kIGFueW1vcmUgKi8KIAkJbXV0ZXhfbG9jaygmc3VibWl0LT5ncHUtPmZlbmNlX2xv
-Y2spOwpAQCAtNTM3LDYgKzUyOSwxMiBAQCBpbnQgZXRuYXZpdl9pb2N0bF9nZW1fc3VibWl0KHN0
-cnVjdCBkcm1fZGV2aWNlICpkZXYsIHZvaWQgKmRhdGEsCiAJc3VibWl0LT5leGVjX3N0YXRlID0g
-YXJncy0+ZXhlY19zdGF0ZTsKIAlzdWJtaXQtPmZsYWdzID0gYXJncy0+ZmxhZ3M7CiAKKwlyZXQg
-PSBkcm1fc2NoZWRfam9iX2luaXQoJnN1Ym1pdC0+c2NoZWRfam9iLAorCQkJCSAmY3R4LT5zY2hl
-ZF9lbnRpdHlbYXJncy0+cGlwZV0sCisJCQkJIHN1Ym1pdC0+Y3R4KTsKKwlpZiAocmV0KQorCQln
-b3RvIGVycl9zdWJtaXRfb2JqZWN0czsKKwogCXJldCA9IHN1Ym1pdF9sb29rdXBfb2JqZWN0cyhz
-dWJtaXQsIGZpbGUsIGJvcywgYXJncy0+bnJfYm9zKTsKIAlpZiAocmV0KQogCQlnb3RvIGVycl9z
-dWJtaXRfb2JqZWN0czsKQEAgLTU0OSwxMSArNTQ3LDE1IEBAIGludCBldG5hdml2X2lvY3RsX2dl
-bV9zdWJtaXQoc3RydWN0IGRybV9kZXZpY2UgKmRldiwgdm9pZCAqZGF0YSwKIAl9CiAKIAlpZiAo
-YXJncy0+ZmxhZ3MgJiBFVE5BX1NVQk1JVF9GRU5DRV9GRF9JTikgewotCQlzdWJtaXQtPmluX2Zl
-bmNlID0gc3luY19maWxlX2dldF9mZW5jZShhcmdzLT5mZW5jZV9mZCk7Ci0JCWlmICghc3VibWl0
-LT5pbl9mZW5jZSkgeworCQlzdHJ1Y3QgZG1hX2ZlbmNlICppbl9mZW5jZSA9IHN5bmNfZmlsZV9n
-ZXRfZmVuY2UoYXJncy0+ZmVuY2VfZmQpOworCQlpZiAoIWluX2ZlbmNlKSB7CiAJCQlyZXQgPSAt
-RUlOVkFMOwogCQkJZ290byBlcnJfc3VibWl0X29iamVjdHM7CiAJCX0KKworCQlyZXQgPSBkcm1f
-c2NoZWRfam9iX2F3YWl0X2ZlbmNlKCZzdWJtaXQtPnNjaGVkX2pvYiwgaW5fZmVuY2UpOworCQlp
-ZiAocmV0KQorCQkJZ290byBlcnJfc3VibWl0X29iamVjdHM7CiAJfQogCiAJcmV0ID0gc3VibWl0
-X3Bpbl9vYmplY3RzKHN1Ym1pdCk7CkBAIC01NzksNyArNTgxLDcgQEAgaW50IGV0bmF2aXZfaW9j
-dGxfZ2VtX3N1Ym1pdChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LCB2b2lkICpkYXRhLAogCWlmIChy
-ZXQpCiAJCWdvdG8gZXJyX3N1Ym1pdF9vYmplY3RzOwogCi0JcmV0ID0gZXRuYXZpdl9zY2hlZF9w
-dXNoX2pvYigmY3R4LT5zY2hlZF9lbnRpdHlbYXJncy0+cGlwZV0sIHN1Ym1pdCk7CisJcmV0ID0g
-ZXRuYXZpdl9zY2hlZF9wdXNoX2pvYihzdWJtaXQpOwogCWlmIChyZXQpCiAJCWdvdG8gZXJyX3N1
-Ym1pdF9vYmplY3RzOwogCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5h
-dml2X3NjaGVkLmMgYi9kcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2X3NjaGVkLmMKaW5k
-ZXggMTgwYmI2MzNkNWM1Li5jOThkNjczMjBiZTMgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2Ry
-bS9ldG5hdml2L2V0bmF2aXZfc2NoZWQuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9l
-dG5hdml2X3NjaGVkLmMKQEAgLTE3LDU4ICsxNyw2IEBAIG1vZHVsZV9wYXJhbV9uYW1lZChqb2Jf
-aGFuZ19saW1pdCwgZXRuYXZpdl9qb2JfaGFuZ19saW1pdCwgaW50ICwgMDQ0NCk7CiBzdGF0aWMg
-aW50IGV0bmF2aXZfaHdfam9ic19saW1pdCA9IDQ7CiBtb2R1bGVfcGFyYW1fbmFtZWQoaHdfam9i
-X2xpbWl0LCBldG5hdml2X2h3X2pvYnNfbGltaXQsIGludCAsIDA0NDQpOwogCi1zdGF0aWMgc3Ry
-dWN0IGRtYV9mZW5jZSAqCi1ldG5hdml2X3NjaGVkX2RlcGVuZGVuY3koc3RydWN0IGRybV9zY2hl
-ZF9qb2IgKnNjaGVkX2pvYiwKLQkJCSBzdHJ1Y3QgZHJtX3NjaGVkX2VudGl0eSAqZW50aXR5KQot
-ewotCXN0cnVjdCBldG5hdml2X2dlbV9zdWJtaXQgKnN1Ym1pdCA9IHRvX2V0bmF2aXZfc3VibWl0
-KHNjaGVkX2pvYik7Ci0Jc3RydWN0IGRtYV9mZW5jZSAqZmVuY2U7Ci0JaW50IGk7Ci0KLQlpZiAo
-dW5saWtlbHkoc3VibWl0LT5pbl9mZW5jZSkpIHsKLQkJZmVuY2UgPSBzdWJtaXQtPmluX2ZlbmNl
-OwotCQlzdWJtaXQtPmluX2ZlbmNlID0gTlVMTDsKLQotCQlpZiAoIWRtYV9mZW5jZV9pc19zaWdu
-YWxlZChmZW5jZSkpCi0JCQlyZXR1cm4gZmVuY2U7Ci0KLQkJZG1hX2ZlbmNlX3B1dChmZW5jZSk7
-Ci0JfQotCi0JZm9yIChpID0gMDsgaSA8IHN1Ym1pdC0+bnJfYm9zOyBpKyspIHsKLQkJc3RydWN0
-IGV0bmF2aXZfZ2VtX3N1Ym1pdF9ibyAqYm8gPSAmc3VibWl0LT5ib3NbaV07Ci0JCWludCBqOwot
-Ci0JCWlmIChiby0+ZXhjbCkgewotCQkJZmVuY2UgPSBiby0+ZXhjbDsKLQkJCWJvLT5leGNsID0g
-TlVMTDsKLQotCQkJaWYgKCFkbWFfZmVuY2VfaXNfc2lnbmFsZWQoZmVuY2UpKQotCQkJCXJldHVy
-biBmZW5jZTsKLQotCQkJZG1hX2ZlbmNlX3B1dChmZW5jZSk7Ci0JCX0KLQotCQlmb3IgKGogPSAw
-OyBqIDwgYm8tPm5yX3NoYXJlZDsgaisrKSB7Ci0JCQlpZiAoIWJvLT5zaGFyZWRbal0pCi0JCQkJ
-Y29udGludWU7Ci0KLQkJCWZlbmNlID0gYm8tPnNoYXJlZFtqXTsKLQkJCWJvLT5zaGFyZWRbal0g
-PSBOVUxMOwotCi0JCQlpZiAoIWRtYV9mZW5jZV9pc19zaWduYWxlZChmZW5jZSkpCi0JCQkJcmV0
-dXJuIGZlbmNlOwotCi0JCQlkbWFfZmVuY2VfcHV0KGZlbmNlKTsKLQkJfQotCQlrZnJlZShiby0+
-c2hhcmVkKTsKLQkJYm8tPm5yX3NoYXJlZCA9IDA7Ci0JCWJvLT5zaGFyZWQgPSBOVUxMOwotCX0K
-LQotCXJldHVybiBOVUxMOwotfQotCiBzdGF0aWMgc3RydWN0IGRtYV9mZW5jZSAqZXRuYXZpdl9z
-Y2hlZF9ydW5fam9iKHN0cnVjdCBkcm1fc2NoZWRfam9iICpzY2hlZF9qb2IpCiB7CiAJc3RydWN0
-IGV0bmF2aXZfZ2VtX3N1Ym1pdCAqc3VibWl0ID0gdG9fZXRuYXZpdl9zdWJtaXQoc2NoZWRfam9i
-KTsKQEAgLTE0MCwxNCArODgsMTIgQEAgc3RhdGljIHZvaWQgZXRuYXZpdl9zY2hlZF9mcmVlX2pv
-YihzdHJ1Y3QgZHJtX3NjaGVkX2pvYiAqc2NoZWRfam9iKQogfQogCiBzdGF0aWMgY29uc3Qgc3Ry
-dWN0IGRybV9zY2hlZF9iYWNrZW5kX29wcyBldG5hdml2X3NjaGVkX29wcyA9IHsKLQkuZGVwZW5k
-ZW5jeSA9IGV0bmF2aXZfc2NoZWRfZGVwZW5kZW5jeSwKIAkucnVuX2pvYiA9IGV0bmF2aXZfc2No
-ZWRfcnVuX2pvYiwKIAkudGltZWRvdXRfam9iID0gZXRuYXZpdl9zY2hlZF90aW1lZG91dF9qb2Is
-CiAJLmZyZWVfam9iID0gZXRuYXZpdl9zY2hlZF9mcmVlX2pvYiwKIH07CiAKLWludCBldG5hdml2
-X3NjaGVkX3B1c2hfam9iKHN0cnVjdCBkcm1fc2NoZWRfZW50aXR5ICpzY2hlZF9lbnRpdHksCi0J
-CQkgICBzdHJ1Y3QgZXRuYXZpdl9nZW1fc3VibWl0ICpzdWJtaXQpCitpbnQgZXRuYXZpdl9zY2hl
-ZF9wdXNoX2pvYihzdHJ1Y3QgZXRuYXZpdl9nZW1fc3VibWl0ICpzdWJtaXQpCiB7CiAJaW50IHJl
-dCA9IDA7CiAKQEAgLTE1OCwxMSArMTA0LDYgQEAgaW50IGV0bmF2aXZfc2NoZWRfcHVzaF9qb2Io
-c3RydWN0IGRybV9zY2hlZF9lbnRpdHkgKnNjaGVkX2VudGl0eSwKIAkgKi8KIAltdXRleF9sb2Nr
-KCZzdWJtaXQtPmdwdS0+ZmVuY2VfbG9jayk7CiAKLQlyZXQgPSBkcm1fc2NoZWRfam9iX2luaXQo
-JnN1Ym1pdC0+c2NoZWRfam9iLCBzY2hlZF9lbnRpdHksCi0JCQkJIHN1Ym1pdC0+Y3R4KTsKLQlp
-ZiAocmV0KQotCQlnb3RvIG91dF91bmxvY2s7Ci0KIAlkcm1fc2NoZWRfam9iX2FybSgmc3VibWl0
-LT5zY2hlZF9qb2IpOwogCiAJc3VibWl0LT5vdXRfZmVuY2UgPSBkbWFfZmVuY2VfZ2V0KCZzdWJt
-aXQtPnNjaGVkX2pvYi5zX2ZlbmNlLT5maW5pc2hlZCk7CmRpZmYgLS1naXQgYS9kcml2ZXJzL2dw
-dS9kcm0vZXRuYXZpdi9ldG5hdml2X3NjaGVkLmggYi9kcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9l
-dG5hdml2X3NjaGVkLmgKaW5kZXggYzBhNjc5NmUyMmM5Li5iYWViZmEwNjlhZmMgMTAwNjQ0Ci0t
-LSBhL2RyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfc2NoZWQuaAorKysgYi9kcml2ZXJz
-L2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2X3NjaGVkLmgKQEAgLTE4LDcgKzE4LDYgQEAgc3RydWN0
-IGV0bmF2aXZfZ2VtX3N1Ym1pdCAqdG9fZXRuYXZpdl9zdWJtaXQoc3RydWN0IGRybV9zY2hlZF9q
-b2IgKnNjaGVkX2pvYikKIAogaW50IGV0bmF2aXZfc2NoZWRfaW5pdChzdHJ1Y3QgZXRuYXZpdl9n
-cHUgKmdwdSk7CiB2b2lkIGV0bmF2aXZfc2NoZWRfZmluaShzdHJ1Y3QgZXRuYXZpdl9ncHUgKmdw
-dSk7Ci1pbnQgZXRuYXZpdl9zY2hlZF9wdXNoX2pvYihzdHJ1Y3QgZHJtX3NjaGVkX2VudGl0eSAq
-c2NoZWRfZW50aXR5LAotCQkJICAgc3RydWN0IGV0bmF2aXZfZ2VtX3N1Ym1pdCAqc3VibWl0KTsK
-K2ludCBldG5hdml2X3NjaGVkX3B1c2hfam9iKHN0cnVjdCBldG5hdml2X2dlbV9zdWJtaXQgKnN1
-Ym1pdCk7CiAKICNlbmRpZiAvKiBfX0VUTkFWSVZfU0NIRURfSF9fICovCi0tIAoyLjMyLjAucmMy
-CgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpldG5hdml2
-IG1haWxpbmcgbGlzdApldG5hdml2QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3Rz
-LmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2V0bmF2aXYK
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============1538342071==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="uIuTY5CJAZwqaqDqkbV3GhEhXe2wUl50N"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--uIuTY5CJAZwqaqDqkbV3GhEhXe2wUl50N
+Content-Type: multipart/mixed; boundary="wTYYMCTNG4nOxYLtmyWRNDlQJDP9Os7KZ";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Lucas Stach <l.stach@pengutronix.de>, linux+etnaviv@armlinux.org.uk,
+ christian.gmeiner@gmail.com, airlied@linux.ie, daniel@ffwll.ch
+Cc: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Message-ID: <ff1f74bf-e8f8-6144-72aa-924c0eb8e123@suse.de>
+Subject: Re: [PATCH] drm/etnaviv: Implement mmap as GEM object function
+References: <20210624085800.7941-1-tzimmermann@suse.de>
+ <657956dded241192bbd9ca59f6e9d58a9283f972.camel@pengutronix.de>
+ <ddae9158-0aa7-f861-2c61-5d8f8d28fb62@suse.de>
+ <d31b8b5237695d9bea3ad52b9be410249d12d652.camel@pengutronix.de>
+In-Reply-To: <d31b8b5237695d9bea3ad52b9be410249d12d652.camel@pengutronix.de>
+
+--wTYYMCTNG4nOxYLtmyWRNDlQJDP9Os7KZ
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+Hi,
+
+will you review my patch?
+
+Best regards
+Thomas
+
+Am 24.06.21 um 12:50 schrieb Lucas Stach:
+> Am Donnerstag, dem 24.06.2021 um 12:47 +0200 schrieb Thomas Zimmermann:=
+
+>> Hi
+>>
+>> Am 24.06.21 um 11:11 schrieb Lucas Stach:
+>>> Am Donnerstag, dem 24.06.2021 um 10:58 +0200 schrieb Thomas Zimmerman=
+n:
+>>>> Moving the driver-specific mmap code into a GEM object function allo=
+ws
+>>>> for using DRM helpers for various mmap callbacks.
+>>>>
+>>>> The respective etnaviv functions are being removed. The file_operati=
+ons
+>>>> structure fops is now being created by the helper macro
+>>>> DEFINE_DRM_GEM_FOPS().
+>>>>
+>>>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>>>> ---
+>>>>    drivers/gpu/drm/etnaviv/etnaviv_drv.c       | 14 ++------------
+>>>>    drivers/gpu/drm/etnaviv/etnaviv_drv.h       |  3 ---
+>>>>    drivers/gpu/drm/etnaviv/etnaviv_gem.c       | 18 +++++-----------=
+--
+>>>>    drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c | 13 -------------
+>>>>    4 files changed, 7 insertions(+), 41 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm=
+/etnaviv/etnaviv_drv.c
+>>>> index f0a07278ad04..7dcc6392792d 100644
+>>>> --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+>>>> +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+>>>> @@ -468,17 +468,7 @@ static const struct drm_ioctl_desc etnaviv_ioct=
+ls[] =3D {
+>>>>    	ETNA_IOCTL(PM_QUERY_SIG, pm_query_sig, DRM_RENDER_ALLOW),
+>>>>    };
+>>>>   =20
+>>>> -static const struct file_operations fops =3D {
+>>>> -	.owner              =3D THIS_MODULE,
+>>>> -	.open               =3D drm_open,
+>>>> -	.release            =3D drm_release,
+>>>> -	.unlocked_ioctl     =3D drm_ioctl,
+>>>> -	.compat_ioctl       =3D drm_compat_ioctl,
+>>>> -	.poll               =3D drm_poll,
+>>>> -	.read               =3D drm_read,
+>>>> -	.llseek             =3D no_llseek,
+>>>> -	.mmap               =3D etnaviv_gem_mmap,
+>>>> -};
+>>>> +DEFINE_DRM_GEM_FOPS(fops);
+>>>>   =20
+>>>>    static const struct drm_driver etnaviv_drm_driver =3D {
+>>>>    	.driver_features    =3D DRIVER_GEM | DRIVER_RENDER,
+>>>> @@ -487,7 +477,7 @@ static const struct drm_driver etnaviv_drm_drive=
+r =3D {
+>>>>    	.prime_handle_to_fd =3D drm_gem_prime_handle_to_fd,
+>>>>    	.prime_fd_to_handle =3D drm_gem_prime_fd_to_handle,
+>>>>    	.gem_prime_import_sg_table =3D etnaviv_gem_prime_import_sg_table=
+,
+>>>> -	.gem_prime_mmap     =3D etnaviv_gem_prime_mmap,
+>>>> +	.gem_prime_mmap     =3D drm_gem_prime_mmap,
+>>>>    #ifdef CONFIG_DEBUG_FS
+>>>>    	.debugfs_init       =3D etnaviv_debugfs_init,
+>>>>    #endif
+>>>> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.h b/drivers/gpu/drm=
+/etnaviv/etnaviv_drv.h
+>>>> index 003288ebd896..049ae87de9be 100644
+>>>> --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.h
+>>>> +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.h
+>>>> @@ -47,12 +47,9 @@ struct etnaviv_drm_private {
+>>>>    int etnaviv_ioctl_gem_submit(struct drm_device *dev, void *data,
+>>>>    		struct drm_file *file);
+>>>>   =20
+>>>> -int etnaviv_gem_mmap(struct file *filp, struct vm_area_struct *vma)=
+;
+>>>>    int etnaviv_gem_mmap_offset(struct drm_gem_object *obj, u64 *offs=
+et);
+>>>>    struct sg_table *etnaviv_gem_prime_get_sg_table(struct drm_gem_ob=
+ject *obj);
+>>>>    int etnaviv_gem_prime_vmap(struct drm_gem_object *obj, struct dma=
+_buf_map *map);
+>>>> -int etnaviv_gem_prime_mmap(struct drm_gem_object *obj,
+>>>> -			   struct vm_area_struct *vma);
+>>>>    struct drm_gem_object *etnaviv_gem_prime_import_sg_table(struct d=
+rm_device *dev,
+>>>>    	struct dma_buf_attachment *attach, struct sg_table *sg);
+>>>>    int etnaviv_gem_prime_pin(struct drm_gem_object *obj);
+>>>> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm=
+/etnaviv/etnaviv_gem.c
+>>>> index b8fa6ed3dd73..8f1b5af47dd6 100644
+>>>> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+>>>> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+>>>> @@ -130,8 +130,7 @@ static int etnaviv_gem_mmap_obj(struct etnaviv_g=
+em_object *etnaviv_obj,
+>>>>    {
+>>>>    	pgprot_t vm_page_prot;
+>>>>   =20
+>>>> -	vma->vm_flags &=3D ~VM_PFNMAP;
+>>>> -	vma->vm_flags |=3D VM_MIXEDMAP;
+>>>> +	vma->vm_flags |=3D VM_IO | VM_MIXEDMAP | VM_DONTEXPAND | VM_DONTDU=
+MP;
+>>>
+>>> I don't fully understand why this change is needed and the commit log=
+
+>>> is silent about it. Excuse my ignorance, but can you please explain t=
+he
+>>> reasoning behind this change?
+>>
+>> Sure, sorry for being brief.
+>>
+>> I worked on cleaning up the deprecated gem_prime_* callbacks in struct=
+
+>> drm_driver. These are supposed to be GEM object functions. The only
+>> obsolete gem prime callback in drm_driver is gem_prime_mmap.
+>=20
+> Sorry, that's a misunderstanding. I see the justification for the patch=
+
+> as a whole. I was asking specifically about the hunk above my comment.
+> Why are the vm_flags changed and how did you come up with this exact
+> combination of flags?
+>=20
+> Regards,
+> Lucas
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--wTYYMCTNG4nOxYLtmyWRNDlQJDP9Os7KZ--
+
+--uIuTY5CJAZwqaqDqkbV3GhEhXe2wUl50N
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmDi8UgFAwAAAAAACgkQlh/E3EQov+CY
+GQ//dGcCEcFH/YaSFnx/b05/BskFrPmJHfXJmvDwD3oLZm00iXhnIY8JQB80THgDehA+ghlPQq6f
+oGnFp090KOJv0petsegDsIxV3vu0pt8lbHIJQQAG8FgHVovBrRsrO2KaaQW4aoc+U4FafuUDPv5w
+5QpI4jjbA9nKU2W7cH0T17o4/2DSim7L+yu72jt7PGDjJKTeBtxR+vhfzV29qGxKDEJjEEMk3oph
+hvgq83q9yYUAwdRQOW0GnDPcgui6NcDrkdMJ/MR41QbwPn14PGxCrMEVB3BF6DorIsLPNRSRszlq
+FX60iBSTFPggdCu/6090/6gh0x3q7uvnSdIiFWJbOkcbjuH8mFr9vX5ZhSB03phtQeFBCkwspAPa
+66InWqEIUeCqJAL06j2e1PvBfnAU8nyMKd7I2x1aqnLrAP2D7qo/hd0l7VyJWcn3qhGFyfbHhW7y
+HjezVz/9oxRK9gxiAiaojaMMwVM6XLxd5iTVfM26LBwGLFa25Sec7K/m/2mav7Mtathaheadzsl1
+AWN1ceLj9lkRh6uRFvHq6g6QfZ8KjgkqM3baHOWwzF4/NEdLx7Wj1RYUuTAPFeTbHj3pflx6CNNW
+eVxvAtAU/5r8WcPG4lzArCCfrfblFRlrp+4YObMCICn4BncYH7lGIzu631liLcDFWdF5mZbWxR3b
+TQ8=
+=Or5B
+-----END PGP SIGNATURE-----
+
+--uIuTY5CJAZwqaqDqkbV3GhEhXe2wUl50N--
+
+--===============1538342071==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+etnaviv mailing list
+etnaviv@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/etnaviv
+
+--===============1538342071==--
