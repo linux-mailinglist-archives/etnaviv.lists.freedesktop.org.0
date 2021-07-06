@@ -2,48 +2,39 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBEFB3BCA0C
-	for <lists+etnaviv@lfdr.de>; Tue,  6 Jul 2021 12:35:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4DA03BCB70
+	for <lists+etnaviv@lfdr.de>; Tue,  6 Jul 2021 13:14:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC04D89E3B;
-	Tue,  6 Jul 2021 10:35:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7757689F24;
+	Tue,  6 Jul 2021 11:14:13 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from fanzine.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C36389E14;
- Tue,  6 Jul 2021 10:35:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
- s=20170329; 
- h=MIME-Version:Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID;
- bh=eO0X2dxTENjGPuJ76Tjdry0CigxXgCvGPfL7EUF+NQg=; 
- b=kJoF35Cvfr+nP3bkbhXpFyyKa8F6QWTSgvE3mxi2+ZRjpGZ4QfqFi6pbk2Yc8Np14ETRyHZKESGmIWEzCmFi9/ciI0wQ1FJwJF1V7I7BClhV5hfW1oc3/v7FVDPyEk5pzC9Pmmyf5SgoFxt9BIgZmJySh1c4bGLuNbGN83RztYcnXi3DwgeSeN2h0BiTgxR3//cFNIiWc+JLzQPr9BR5wfMvL+3/HbLFROBVQL/hPYwOtsMqInSiwYGoKWf6paUji+//x1fjGyuyZuwkU9TOIhN6omkgZgKcycbFBEfivzcdGpSUtt7fHXz7w4eBk6ezhm+Opb9ppp4mIMB98hvi0w==;
-Received: from 152.red-88-9-105.dynamicip.rima-tde.net ([88.9.105.152]
- helo=[192.168.2.220]) by fanzine.igalia.com with esmtpsa 
- (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
- id 1m0iQA-0006Cl-9r; Tue, 06 Jul 2021 12:35:18 +0200
-Message-ID: <e5c5331a680da672aa850604527f2ef8f23a0556.camel@igalia.com>
-Subject: Re: [Mesa-dev] XDC 2021: Registration & Call for Proposals now open!
-From: Samuel Iglesias =?ISO-8859-1?Q?Gons=E1lvez?= <siglesias@igalia.com>
-To: "Szwichtenberg, Radoslaw" <radoslaw.szwichtenberg@intel.com>, 
- "events@lists.x.org"
- <events@lists.x.org>, "xorg-devel@lists.freedesktop.org"
- <xorg-devel@lists.freedesktop.org>, "wayland-devel@lists.freedesktop.org"
- <wayland-devel@lists.freedesktop.org>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "mesa-dev@lists.freedesktop.org"
- <mesa-dev@lists.freedesktop.org>, "amd-gfx@lists.freedesktop.org"
- <amd-gfx@lists.freedesktop.org>, "etnaviv@lists.freedesktop.org"
- <etnaviv@lists.freedesktop.org>, "freedreno@lists.freedesktop.org"
- <freedreno@lists.freedesktop.org>, "nouveau@lists.freedesktop.org"
- <nouveau@lists.freedesktop.org>, "intel-gfx@lists.freedesktop.org"
- <intel-gfx@lists.freedesktop.org>
-Date: Tue, 06 Jul 2021 12:35:08 +0200
-In-Reply-To: <c40f6f761610aa2c8076cac1dda87844af96c7ad.camel@igalia.com>
-References: <790BA4EE-E3F0-40B9-BE18-3646492F1CAE@intel.com>
- <380e8cb0f18c6f4b21c20b382668316b8962159a.camel@igalia.com>
- <0032ceefa7c39bdd03907565ab9762ad6007eb80.camel@igalia.com>
- <c40f6f761610aa2c8076cac1dda87844af96c7ad.camel@igalia.com>
-User-Agent: Evolution 3.40.2 (3.40.2-1.fc34) 
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E5F789F19;
+ Tue,  6 Jul 2021 11:14:12 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 45C8D61C1E;
+ Tue,  6 Jul 2021 11:14:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1625570052;
+ bh=LfGM5sFaMdk8HgCqOUksC356f/Tvj0fPbKK+2H6H4OY=;
+ h=From:To:Cc:Subject:Date:From;
+ b=udB2BiYeeuPBYFvopPi3SjmV5RJadqewGndph8PqjBiOMyHHw1EWSGk8CPOUezsnY
+ qQ7iu5/0tn9h/VJpM0IP1w8+yiUjm2ue2Ecxg907YzELGsqznKfNvkeHqPQTfCOjJd
+ ZBbKQIu3R0wnS99fnQjDCXUv9M2x8dUwbohfcV6TPjVIU7oKo8FcRLUaX6IaOEJ/Yt
+ iaNGsXEP92+4lHyhfSmO7ZpITrYCpeHgZWS4816XaXmdrDLqdxFF1hYb1FMqQGrPLM
+ 5oD/oPYvyJH0hn1a+Fq/WfriGyG1RYXwfAx/uEDr5TUNCE3+sthj4qoNzeUG5aZiRm
+ FJJ7i17XV2OqA==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.13 001/189] drm/etnaviv: fix NULL check before some
+ freeing functions is not needed
+Date: Tue,  6 Jul 2021 07:11:01 -0400
+Message-Id: <20210706111409.2058071-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,208 +46,36 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: "board@foundation.x.org" <board@foundation.x.org>
-Content-Type: multipart/mixed; boundary="===============0559943954=="
+Cc: Sasha Levin <sashal@kernel.org>, etnaviv@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Tian Tao <tiantao6@hisilicon.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Lucas Stach <l.stach@pengutronix.de>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-
---===============0559943954==
-Content-Type: multipart/signed; micalg="pgp-sha256";
-	protocol="application/pgp-signature"; boundary="=-jzTYU/+fjqNUHUXyrwxJ"
-
-
---=-jzTYU/+fjqNUHUXyrwxJ
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, 2021-07-06 at 09:38 +0200, Samuel Iglesias Gons=C3=A1lvez wrote:
-> Hi!
->=20
-> We have decided to extend the Call for Proposals until September 1st
-> or
-> until we will all the available talk slots, whichever occurs first.
->=20
-> Remember that talks will get accepted by order of submission. If you
-> are thinking on proposing a talk for XDC, do it as soon as possible.
->=20
-
-Due to the overwhelming last minute response, we have filled all the
-pending slots for full and half-slot talks. Thanks a lot!
-
-Therefore, we close the CfP for full and half-slot talks. However, we
-stil welcome proposals for workshops, demos and lightning talks...
-Don't forget to submit yours!
-
-Sam
-
-> Thanks,
->=20
-> Sam
->=20
-> On Sat, 2021-06-26 at 08:35 +0200, Samuel Iglesias Gons=C3=A1lvez wrote:
-> > One week!
-> >=20
-> > Don't forget to submit your proposals!
-> >=20
-> > Sam
-> >=20
-> > On Tue, 2021-06-08 at 12:38 +0200, Samuel Iglesias Gons=C3=A1lvez wrote=
-:
-> > > Kind reminder. Deadline is Sunday, 4 July 2021 :-)
-> > >=20
-> > > Sam
-> > >=20
-> > > On Thu, 2021-05-20 at 10:01 +0000, Szwichtenberg, Radoslaw wrote:
-> > > > Hello!
-> > > > =C2=A0
-> > > > Registration & Call for Proposals are now open for XDC 2021,
-> > > > which
-> > > > will
-> > > > take place on September 15-17, 2021. This year we will repeat
-> > > > as
-> > > > virtual event.
-> > > > =C2=A0
-> > > > https://indico.freedesktop.org/event/1/
-> > > > =C2=A0
-> > > > As usual, the conference is free of charge and open to the
-> > > > general
-> > > > public. If you plan on attending, please make sure to register
-> > > > as
-> > > > early
-> > > > as possible!
-> > > > =C2=A0
-> > > > In order to register as attendee, you will therefore need to
-> > > > register
-> > > > via the XDC website. As XDC moved to a new Indico
-> > > > infrastructure,
-> > > > if
-> > > > you previously registered on the XDC website, you need to
-> > > > create
-> > > > a
-> > > > new
-> > > > account again.
-> > > > =C2=A0
-> > > > https://indico.freedesktop.org/event/1/registrations/1/
-> > > > =C2=A0
-> > > > In addition to registration, the CfP is now open for talks,
-> > > > workshops
-> > > > and demos at XDC 2021. While any serious proposal will be
-> > > > gratefully
-> > > > considered, topics of interest to X.Org and freedesktop.org
-> > > > developers
-> > > > are encouraged. The program focus is on new development,
-> > > > ongoing
-> > > > challenges and anything else that will spark discussions among
-> > > > attendees in the hallway track.
-> > > > =C2=A0
-> > > > We are open to talks across all layers of the graphics stack,
-> > > > from
-> > > > the
-> > > > kernel to desktop environments / graphical applications and
-> > > > about
-> > > > how
-> > > > to make things better for the developers who build them. Head
-> > > > to
-> > > > the
-> > > > CfP page to learn more:=C2=A0
-> > > > =C2=A0
-> > > > https://indico.freedesktop.org/event/1/abstracts/
-> > > > =C2=A0
-> > > > The deadline for submissions is Sunday, 4 July 2021.
-> > > > =C2=A0
-> > > > Last year we modified our Reimbursement Policy to accept
-> > > > speaker
-> > > > expenses for X.Org virtual events like XDC 2021. Check it out
-> > > > here:
-> > > > =C2=A0
-> > > > https://www.x.org/wiki/XorgFoundation/Policies/Reimbursement/
-> > > > =C2=A0
-> > > > If you have any questions, please send me an email to
-> > > > radoslaw.szwichtenberg@intel.com,=C2=A0=C2=A0adding on CC the X.org=
- board
-> > > > (board
-> > > > at foundation.x.org).
-> > > > =C2=A0
-> > > > And don't forget, you can follow us on Twitter for all the
-> > > > latest
-> > > > updates and to stay connected:
-> > > > =C2=A0
-> > > > =C2=A0
-> > > > https://twitter.com/XOrgDevConf
-> > > > =C2=A0
-> > > > Best,
-> > > > =C2=A0
-> > > > Radek
-> > > > =C2=A0
-> > > > P.S: a DNS redirection (xdc2021.x.org) is work in progress.
-> > > > Please
-> > > > use
-> > > > the mentioned links for the moment.
-> > > > =C2=A0
-> > > > =C2=A0
-> > > > Rados=C5=82aw Szwichtenberg
-> > > > -------------------------------------------------
-> > > > Intel Technology Poland sp. z o.o.
-> > > > ul. Slowackiego 173, 80-298 Gdansk
-> > > > KRS 101882 - NIP 957-07-52-316
-> > > > =C2=A0
-> > > > _______________________________________________
-> > > > mesa-dev mailing list
-> > > > mesa-dev@lists.freedesktop.org
-> > > > https://lists.freedesktop.org/mailman/listinfo/mesa-dev
-> > >=20
-> > > _______________________________________________
-> > > mesa-dev mailing list
-> > > mesa-dev@lists.freedesktop.org
-> > > https://lists.freedesktop.org/mailman/listinfo/mesa-dev
-> >=20
-> > _______________________________________________
-> > mesa-dev mailing list
-> > mesa-dev@lists.freedesktop.org
-> > https://lists.freedesktop.org/mailman/listinfo/mesa-dev
->=20
-> _______________________________________________
-> mesa-dev mailing list
-> mesa-dev@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/mesa-dev
-
-
---=-jzTYU/+fjqNUHUXyrwxJ
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEQP+ZAvaXWkfuKXiEf/S6MvF9w0MFAmDkMdwACgkQf/S6MvF9
-w0PDng/+JI0yNYCicuRjVkocfF5HSgCeuTIqm7OZoUDBk71JFfleOOP/sSLNzd7k
-AFoS5j4jeTQ4Tw3DZZ16fNMMMid+GzK7bJm/ouY9Uo3L8vk41ua0VjG43rffKYxm
-xuoi9OTNlK0e02IoNcOhetypYRFnOsO07m5dJBg0JvOj3Aj7K9ri9CpFzGdN+VrZ
-RIYuar3exYS3buWBNbntINhrp4F3x+1qq+WsntUgGbXH0fMbOk43xsuA1C+6YS7f
-y4DsON9yCGBGTNvS6FBzjPgkjQJJxjqYxk2mke092Ak6ud0WPX/pBQ/bDWVWrG/r
-Wr0DZXBLwkMqvHWrdR7/vCVqElWpDf0zkTiIIeh1qi/iqdi+sxX1VhrA+PNgbOrZ
-fFLVQ50puX+y8OdqM9gvwsK4LB4CbOPUw0ZLK/Ke+dNbhrMPojx15bN3Oyz+ZGUD
-tJPeBkIS6Aq6KCpiL6QkatjpeoXyRotWnYKShp3IVynNe/l0b3K62JP/fV6iOcWr
-wqaGLZGKczCTaiuQD/Mx3g4s4tc7LdfmAt58z9NyibYDp2k8dJzr0i7BwCFcwPyG
-6jbItBcc+53TtjxcT21aadAncnVD/50P572NmDagyYpdCKk11Yd3PE6HxdJsf8YX
-U/jujZFRO9eW8kdmYtiy1j2EKEEfrNEOv447e+6iOo1rs7lX47k=
-=+Ggb
------END PGP SIGNATURE-----
-
---=-jzTYU/+fjqNUHUXyrwxJ--
-
-
---===============0559943954==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-etnaviv mailing list
-etnaviv@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/etnaviv
-
---===============0559943954==--
-
+RnJvbTogVGlhbiBUYW8gPHRpYW50YW82QGhpc2lsaWNvbi5jb20+CgpbIFVwc3RyZWFtIGNvbW1p
+dCA3ZDYxNGFiMmYyMDUwM2VkODc2NjM2M2Q0MWY4NjA3MzM3NTcxYWRmIF0KCmZpeGVkIHRoZSBi
+ZWxvdyB3YXJuaW5nOgpkcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2X2dlbV9wcmltZS5j
+Ojg0OjItODogV0FSTklORzogTlVMTCBjaGVjawpiZWZvcmUgc29tZSBmcmVlaW5nIGZ1bmN0aW9u
+cyBpcyBub3QgbmVlZGVkLgoKU2lnbmVkLW9mZi1ieTogVGlhbiBUYW8gPHRpYW50YW82QGhpc2ls
+aWNvbi5jb20+CkFja2VkLWJ5OiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFt
+ZC5jb20+ClNpZ25lZC1vZmYtYnk6IEx1Y2FzIFN0YWNoIDxsLnN0YWNoQHBlbmd1dHJvbml4LmRl
+PgpTaWduZWQtb2ZmLWJ5OiBTYXNoYSBMZXZpbiA8c2FzaGFsQGtlcm5lbC5vcmc+Ci0tLQogZHJp
+dmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9nZW1fcHJpbWUuYyB8IDMgKy0tCiAxIGZpbGUg
+Y2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDIgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJp
+dmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9nZW1fcHJpbWUuYyBiL2RyaXZlcnMvZ3B1L2Ry
+bS9ldG5hdml2L2V0bmF2aXZfZ2VtX3ByaW1lLmMKaW5kZXggYjM5MGRkNGQ2MGI3Li5kNzQxYjFk
+NzM1ZjcgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfZ2VtX3By
+aW1lLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9nZW1fcHJpbWUuYwpA
+QCAtODAsOCArODAsNyBAQCBzdGF0aWMgdm9pZCBldG5hdml2X2dlbV9wcmltZV9yZWxlYXNlKHN0
+cnVjdCBldG5hdml2X2dlbV9vYmplY3QgKmV0bmF2aXZfb2JqKQogCS8qIERvbid0IGRyb3AgdGhl
+IHBhZ2VzIGZvciBpbXBvcnRlZCBkbWFidWYsIGFzIHRoZXkgYXJlIG5vdAogCSAqIG91cnMsIGp1
+c3QgZnJlZSB0aGUgYXJyYXkgd2UgYWxsb2NhdGVkOgogCSAqLwotCWlmIChldG5hdml2X29iai0+
+cGFnZXMpCi0JCWt2ZnJlZShldG5hdml2X29iai0+cGFnZXMpOworCWt2ZnJlZShldG5hdml2X29i
+ai0+cGFnZXMpOwogCiAJZHJtX3ByaW1lX2dlbV9kZXN0cm95KCZldG5hdml2X29iai0+YmFzZSwg
+ZXRuYXZpdl9vYmotPnNndCk7CiB9Ci0tIAoyLjMwLjIKCl9fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fCmV0bmF2aXYgbWFpbGluZyBsaXN0CmV0bmF2aXZAbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4v
+bGlzdGluZm8vZXRuYXZpdgo=
