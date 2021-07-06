@@ -2,39 +2,38 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90D863BCF1A
-	for <lists+etnaviv@lfdr.de>; Tue,  6 Jul 2021 13:27:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEAAC3BDB64
+	for <lists+etnaviv@lfdr.de>; Tue,  6 Jul 2021 18:33:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 35FD86E452;
-	Tue,  6 Jul 2021 11:27:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 806276E52F;
+	Tue,  6 Jul 2021 16:33:45 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 17CE26E452;
- Tue,  6 Jul 2021 11:27:52 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2ECDD61D92;
- Tue,  6 Jul 2021 11:27:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1625570871;
- bh=LRf7YL2qu7tu9ILqcSKb69Cs3pWEIp926myaJkaQwg0=;
- h=From:To:Cc:Subject:Date:From;
- b=NlYpezUIX+ZHldN1KxC+kvtPL2g5ZjfptsF8ZGkoYYlHxHKAjb+ElV5bCFkYs9QNh
- bE4POXBGt2/E+AGaZMTIYvAXYQ1Wxf6aKpYVtwffxIZEQTdYinPnHonYk1uPyAQU69
- V2KpH009A7SstXxUishf66yqqlnpclrl7ADzrRB3OGdzA8jfBBscT0ttQ5UC4oEXHc
- 2vyydjgdKpUPW8U0gM22WM+PfPKJWJwSCom7ngGc4xr6ZifLq6zPgIdsw1Lf712ag/
- qrzDJ+qnOARcLT4ckhTQjRfJvUySmH1cXJ6z3P4Aas+e0pGehFU/eZNKjEDPiiaGhU
- X6wGFag6D4jdg==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 01/45] drm/etnaviv: fix NULL check before some
- freeing functions is not needed
-Date: Tue,  6 Jul 2021 07:27:05 -0400
-Message-Id: <20210706112749.2065541-1-sashal@kernel.org>
-X-Mailer: git-send-email 2.30.2
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B1856E52E
+ for <etnaviv@lists.freedesktop.org>; Tue,  6 Jul 2021 16:33:44 +0000 (UTC)
+Received: from gallifrey.ext.pengutronix.de
+ ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1m0o10-00050V-GR; Tue, 06 Jul 2021 18:33:42 +0200
+Message-ID: <678b4197893029819040781305d87d2cc566d293.camel@pengutronix.de>
+Subject: Re: [PATCH 0/2] drm/etnaviv: add GC7000 r6202 support
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Michael Walle <michael@walle.cc>, etnaviv@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Date: Tue, 06 Jul 2021 18:33:39 +0200
+In-Reply-To: <20210618120433.14746-1-michael@walle.cc>
+References: <20210618120433.14746-1-michael@walle.cc>
+User-Agent: Evolution 3.40.1 (3.40.1-1.fc34) 
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,36 +45,41 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, etnaviv@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Tian Tao <tiantao6@hisilicon.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Lucas Stach <l.stach@pengutronix.de>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: David Airlie <airlied@linux.ie>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ "Lukas F . Hartmann" <lukas@mntre.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Russell King <linux+etnaviv@armlinux.org.uk>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-RnJvbTogVGlhbiBUYW8gPHRpYW50YW82QGhpc2lsaWNvbi5jb20+CgpbIFVwc3RyZWFtIGNvbW1p
-dCA3ZDYxNGFiMmYyMDUwM2VkODc2NjM2M2Q0MWY4NjA3MzM3NTcxYWRmIF0KCmZpeGVkIHRoZSBi
-ZWxvdyB3YXJuaW5nOgpkcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2X2dlbV9wcmltZS5j
-Ojg0OjItODogV0FSTklORzogTlVMTCBjaGVjawpiZWZvcmUgc29tZSBmcmVlaW5nIGZ1bmN0aW9u
-cyBpcyBub3QgbmVlZGVkLgoKU2lnbmVkLW9mZi1ieTogVGlhbiBUYW8gPHRpYW50YW82QGhpc2ls
-aWNvbi5jb20+CkFja2VkLWJ5OiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFt
-ZC5jb20+ClNpZ25lZC1vZmYtYnk6IEx1Y2FzIFN0YWNoIDxsLnN0YWNoQHBlbmd1dHJvbml4LmRl
-PgpTaWduZWQtb2ZmLWJ5OiBTYXNoYSBMZXZpbiA8c2FzaGFsQGtlcm5lbC5vcmc+Ci0tLQogZHJp
-dmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9nZW1fcHJpbWUuYyB8IDMgKy0tCiAxIGZpbGUg
-Y2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDIgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJp
-dmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9nZW1fcHJpbWUuYyBiL2RyaXZlcnMvZ3B1L2Ry
-bS9ldG5hdml2L2V0bmF2aXZfZ2VtX3ByaW1lLmMKaW5kZXggODgwYjk1NTExYjk4Li4xZmFhM2Rh
-OGM1MTcgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfZ2VtX3By
-aW1lLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9nZW1fcHJpbWUuYwpA
-QCAtODYsOCArODYsNyBAQCBzdGF0aWMgdm9pZCBldG5hdml2X2dlbV9wcmltZV9yZWxlYXNlKHN0
-cnVjdCBldG5hdml2X2dlbV9vYmplY3QgKmV0bmF2aXZfb2JqKQogCS8qIERvbid0IGRyb3AgdGhl
-IHBhZ2VzIGZvciBpbXBvcnRlZCBkbWFidWYsIGFzIHRoZXkgYXJlIG5vdAogCSAqIG91cnMsIGp1
-c3QgZnJlZSB0aGUgYXJyYXkgd2UgYWxsb2NhdGVkOgogCSAqLwotCWlmIChldG5hdml2X29iai0+
-cGFnZXMpCi0JCWt2ZnJlZShldG5hdml2X29iai0+cGFnZXMpOworCWt2ZnJlZShldG5hdml2X29i
-ai0+cGFnZXMpOwogCiAJZHJtX3ByaW1lX2dlbV9kZXN0cm95KCZldG5hdml2X29iai0+YmFzZSwg
-ZXRuYXZpdl9vYmotPnNndCk7CiB9Ci0tIAoyLjMwLjIKCl9fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fCmV0bmF2aXYgbWFpbGluZyBsaXN0CmV0bmF2aXZAbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4v
-bGlzdGluZm8vZXRuYXZpdgo=
+Am Freitag, dem 18.06.2021 um 14:04 +0200 schrieb Michael Walle:
+> This is the first step to bring GPU support to the NXP LS1028A SoC. It
+> features a Mali DP500, a Vivante GC7000 and has one DisplayPort output
+> which is driven by a Cadence MHDP controller and PHY.
+> 
+> This was briefly tested with glmark2, a patched mesa kmsro driver [1]
+> to support the mali DP500/GC7000 duo, fixes from mesa merge request
+> 9255 [2] and using ETNA_MESA_DEBUG=no_supertile,no_ts.
+> 
+> [1] https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/11419
+> [2] https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/9255
+> 
+> Michael Walle (2):
+>   drm/etnaviv: add HWDB entry for GC7000 r6202
+>   drm/etnaviv: add clock gating workaround for GC7000 r6202
+> 
+>  drivers/gpu/drm/etnaviv/etnaviv_gpu.c  |  6 +++++
+>  drivers/gpu/drm/etnaviv/etnaviv_hwdb.c | 31 ++++++++++++++++++++++++++
+>  2 files changed, 37 insertions(+)
+
+Thanks, I've applied this series to my etnaviv/next branch.
+
+Regards,
+Lucas
+
+_______________________________________________
+etnaviv mailing list
+etnaviv@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/etnaviv
