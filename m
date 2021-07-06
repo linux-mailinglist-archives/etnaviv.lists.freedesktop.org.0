@@ -2,35 +2,35 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D78873BCCBA
-	for <lists+etnaviv@lfdr.de>; Tue,  6 Jul 2021 13:18:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BFDA3BCDE9
+	for <lists+etnaviv@lfdr.de>; Tue,  6 Jul 2021 13:22:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 686C66E239;
-	Tue,  6 Jul 2021 11:18:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F3D9C6E3B7;
+	Tue,  6 Jul 2021 11:22:06 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A37A6E235;
- Tue,  6 Jul 2021 11:18:29 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 6E91261CC8;
- Tue,  6 Jul 2021 11:18:28 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C8BEE6E1EC;
+ Tue,  6 Jul 2021 11:22:05 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id DC6F861DED;
+ Tue,  6 Jul 2021 11:22:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1625570309;
- bh=LfGM5sFaMdk8HgCqOUksC356f/Tvj0fPbKK+2H6H4OY=;
+ s=k20201202; t=1625570525;
+ bh=aexcraR/jbiLJzmmi7c4a7TbhA2dKFC0BduVigO9NaY=;
  h=From:To:Cc:Subject:Date:From;
- b=Ps/+4GQxSz0L7IPE3f/sgCsYbqO7y3lckoNg0GaOJfvZZr3ynPoZasBErR+vjVXLk
- ncyANhyLFeW0lhP9Hka2Ek4Ss9L+Viu+r1E9Ln4SUTCXb8oYeleB87uDmnfp9ETAgA
- LPuf03RcJ9zRQWYYA4OvawCAyrkoKjqQVXT2GnMevj+XDNXzhI/FHgeYn+fZzfczh4
- G3rRyZVbjRlMI3GoduYdbgtnzksL1WIT/hmL6Ldwhijn8m1KcKJwgMWkPF50X1aL64
- dg2LWAVIAUPnati3Eg1hTT7iYYR5ry6WKg5MMd+WYrkVVTQiO3UBJOgsYvKYVnVc4S
- tSbN4Cml02UPA==
+ b=hqD3J6CTlJT7VFwPvCMwF99SAsbyhhoGtdHU2Zref+t6RlTBodNu1GMjUMAWhuOxa
+ 43U8LErN90PEKaY4ecyegwYQgh44g/LNYUjVYzRfPwg7DktVsQOgcaImICq+gGsjv5
+ DSftfsyRbpqWCPhyJrfNvaHj47f+wd6hrXW43682j7itxB2OVSMFZaMM5alsvqPTg5
+ 0yEZzZ2DehDuyChV29EJ047QQXHD/vWXNEat3ax0mD/beLMBKhp1hxycDf9J7Dcehx
+ y3NOZL8Wru9e2g1UIHaksPf8npumggcVWgg04fRF+M47pT+L93hnsgWe/YDyFQqOoQ
+ n3WL3bFGfOxXw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.12 001/160] drm/etnaviv: fix NULL check before some
+Subject: [PATCH AUTOSEL 5.10 001/137] drm/etnaviv: fix NULL check before some
  freeing functions is not needed
-Date: Tue,  6 Jul 2021 07:15:47 -0400
-Message-Id: <20210706111827.2060499-1-sashal@kernel.org>
+Date: Tue,  6 Jul 2021 07:19:47 -0400
+Message-Id: <20210706112203.2062605-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 X-stable: review
@@ -66,10 +66,10 @@ PgpTaWduZWQtb2ZmLWJ5OiBTYXNoYSBMZXZpbiA8c2FzaGFsQGtlcm5lbC5vcmc+Ci0tLQogZHJp
 dmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9nZW1fcHJpbWUuYyB8IDMgKy0tCiAxIGZpbGUg
 Y2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDIgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJp
 dmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9nZW1fcHJpbWUuYyBiL2RyaXZlcnMvZ3B1L2Ry
-bS9ldG5hdml2L2V0bmF2aXZfZ2VtX3ByaW1lLmMKaW5kZXggYjM5MGRkNGQ2MGI3Li5kNzQxYjFk
-NzM1ZjcgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfZ2VtX3By
+bS9ldG5hdml2L2V0bmF2aXZfZ2VtX3ByaW1lLmMKaW5kZXggNGFhMzQyNmE5YmE0Li4wNTllYzMx
+ZDUzMmQgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfZ2VtX3By
 aW1lLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9nZW1fcHJpbWUuYwpA
-QCAtODAsOCArODAsNyBAQCBzdGF0aWMgdm9pZCBldG5hdml2X2dlbV9wcmltZV9yZWxlYXNlKHN0
+QCAtNzcsOCArNzcsNyBAQCBzdGF0aWMgdm9pZCBldG5hdml2X2dlbV9wcmltZV9yZWxlYXNlKHN0
 cnVjdCBldG5hdml2X2dlbV9vYmplY3QgKmV0bmF2aXZfb2JqKQogCS8qIERvbid0IGRyb3AgdGhl
 IHBhZ2VzIGZvciBpbXBvcnRlZCBkbWFidWYsIGFzIHRoZXkgYXJlIG5vdAogCSAqIG91cnMsIGp1
 c3QgZnJlZSB0aGUgYXJyYXkgd2UgYWxsb2NhdGVkOgogCSAqLwotCWlmIChldG5hdml2X29iai0+
