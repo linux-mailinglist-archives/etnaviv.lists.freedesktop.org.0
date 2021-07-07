@@ -1,32 +1,33 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5357A3BDB66
-	for <lists+etnaviv@lfdr.de>; Tue,  6 Jul 2021 18:35:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DBC563BE4CB
+	for <lists+etnaviv@lfdr.de>; Wed,  7 Jul 2021 10:54:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F3ADD6E52D;
-	Tue,  6 Jul 2021 16:34:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C7D7892A1;
+	Wed,  7 Jul 2021 08:54:47 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D20F6E52D
- for <etnaviv@lists.freedesktop.org>; Tue,  6 Jul 2021 16:34:49 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 622976E850
+ for <etnaviv@lists.freedesktop.org>; Wed,  7 Jul 2021 08:54:46 +0000 (UTC)
 Received: from gallifrey.ext.pengutronix.de
  ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <l.stach@pengutronix.de>)
- id 1m0o22-00056O-PK; Tue, 06 Jul 2021 18:34:46 +0200
-Message-ID: <8ee553e98f25afb42ab2f01d07e7611d06336ded.camel@pengutronix.de>
-Subject: Re: [PATCH] drm/etnaviv: Implement mmap as GEM object function
+ id 1m13KG-0000x8-Oh; Wed, 07 Jul 2021 10:54:36 +0200
+Message-ID: <7ae23a2b1a4aec4e57881e0d88a7d046fe17bfda.camel@pengutronix.de>
+Subject: Re: [PATCH 3/7] drm/etnaviv: Don't break exclusive fence ordering
 From: Lucas Stach <l.stach@pengutronix.de>
-To: Thomas Zimmermann <tzimmermann@suse.de>, linux+etnaviv@armlinux.org.uk, 
- christian.gmeiner@gmail.com, airlied@linux.ie, daniel@ffwll.ch
-Date: Tue, 06 Jul 2021 18:34:45 +0200
-In-Reply-To: <20210624085800.7941-1-tzimmermann@suse.de>
-References: <20210624085800.7941-1-tzimmermann@suse.de>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>, DRI Development
+ <dri-devel@lists.freedesktop.org>
+Date: Wed, 07 Jul 2021 10:54:33 +0200
+In-Reply-To: <20210706101209.3034092-4-daniel.vetter@ffwll.ch>
+References: <20210706101209.3034092-1-daniel.vetter@ffwll.ch>
+ <20210706101209.3034092-4-daniel.vetter@ffwll.ch>
 User-Agent: Evolution 3.40.1 (3.40.1-1.fc34) 
 MIME-Version: 1.0
 X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
@@ -45,152 +46,88 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: Daniel Vetter <daniel.vetter@intel.com>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>, etnaviv@lists.freedesktop.org,
+ Russell King <linux+etnaviv@armlinux.org.uk>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Am Donnerstag, dem 24.06.2021 um 10:58 +0200 schrieb Thomas Zimmermann:
-> Moving the driver-specific mmap code into a GEM object function allows
-> for using DRM helpers for various mmap callbacks.
-> 
-> The respective etnaviv functions are being removed. The file_operations
-> structure fops is now being created by the helper macro
-> DEFINE_DRM_GEM_FOPS().
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Hi Daniel,
 
-Thanks, I've tested this patch and applied to my etnaviv/next branch.
+I'm feeling like I miss a ton of context here, so some maybe dumb
+questions/remarks below.
+
+Am Dienstag, dem 06.07.2021 um 12:12 +0200 schrieb Daniel Vetter:
+> There's only one exclusive slot, and we must not break the ordering.
+> 
+> A better fix would be to us a dma_fence_chain or _array like e.g.
+> amdgpu now uses, but it probably makes sense to lift this into
+> dma-resv.c code as a proper concept, so that drivers don't have to
+> hack up their own solution each on their own. Hence go with the simple
+> fix for now.
+> 
+> Another option is the fence import ioctl from Jason:
+> 
+> https://lore.kernel.org/dri-devel/20210610210925.642582-7-jason@jlekstrand.net/
+
+Sorry, but why is the fence import ioctl a alternative to the fix
+proposed in this patch?
+
+> 
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> Cc: Lucas Stach <l.stach@pengutronix.de>
+> Cc: Russell King <linux+etnaviv@armlinux.org.uk>
+> Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
+> Cc: etnaviv@lists.freedesktop.org
+> ---
+>  drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c | 8 +++++---
+>  1 file changed, 5 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+> index 92478a50a580..5c4fed2b7c6a 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+> @@ -178,18 +178,20 @@ static int submit_fence_sync(struct etnaviv_gem_submit *submit)
+>  	for (i = 0; i < submit->nr_bos; i++) {
+>  		struct etnaviv_gem_submit_bo *bo = &submit->bos[i];
+>  		struct dma_resv *robj = bo->obj->base.resv;
+> +		bool write = bo->flags & ETNA_SUBMIT_BO_WRITE;
+>  
+> -		if (!(bo->flags & ETNA_SUBMIT_BO_WRITE)) {
+> +		if (!(write)) {
+
+No parenthesis around the write needed.
+
+>  			ret = dma_resv_reserve_shared(robj, 1);
+>  			if (ret)
+>  				return ret;
+>  		}
+>  
+> -		if (submit->flags & ETNA_SUBMIT_NO_IMPLICIT)
+> +		/* exclusive fences must be ordered */
+
+I feel like this comment isn't really helpful. It might tell you all
+you need to know if you just paged in all the context around dma_resv
+and the dependency graph, but it's not more than noise to me right now.
+
+I guess the comment should answer the question against what the
+exclusive fence we are going to add needs to be ordered and why it
+isn't safe to skip implicit sync in that case.
 
 Regards,
-Lucas
-
-> ---
->  drivers/gpu/drm/etnaviv/etnaviv_drv.c       | 14 ++------------
->  drivers/gpu/drm/etnaviv/etnaviv_drv.h       |  3 ---
->  drivers/gpu/drm/etnaviv/etnaviv_gem.c       | 18 +++++-------------
->  drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c | 13 -------------
->  4 files changed, 7 insertions(+), 41 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-> index f0a07278ad04..7dcc6392792d 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-> @@ -468,17 +468,7 @@ static const struct drm_ioctl_desc etnaviv_ioctls[] = {
->  	ETNA_IOCTL(PM_QUERY_SIG, pm_query_sig, DRM_RENDER_ALLOW),
->  };
+Lucas 
+> +		if (submit->flags & ETNA_SUBMIT_NO_IMPLICIT && !write)
+>  			continue;
 >  
-> -static const struct file_operations fops = {
-> -	.owner              = THIS_MODULE,
-> -	.open               = drm_open,
-> -	.release            = drm_release,
-> -	.unlocked_ioctl     = drm_ioctl,
-> -	.compat_ioctl       = drm_compat_ioctl,
-> -	.poll               = drm_poll,
-> -	.read               = drm_read,
-> -	.llseek             = no_llseek,
-> -	.mmap               = etnaviv_gem_mmap,
-> -};
-> +DEFINE_DRM_GEM_FOPS(fops);
->  
->  static const struct drm_driver etnaviv_drm_driver = {
->  	.driver_features    = DRIVER_GEM | DRIVER_RENDER,
-> @@ -487,7 +477,7 @@ static const struct drm_driver etnaviv_drm_driver = {
->  	.prime_handle_to_fd = drm_gem_prime_handle_to_fd,
->  	.prime_fd_to_handle = drm_gem_prime_fd_to_handle,
->  	.gem_prime_import_sg_table = etnaviv_gem_prime_import_sg_table,
-> -	.gem_prime_mmap     = etnaviv_gem_prime_mmap,
-> +	.gem_prime_mmap     = drm_gem_prime_mmap,
->  #ifdef CONFIG_DEBUG_FS
->  	.debugfs_init       = etnaviv_debugfs_init,
->  #endif
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.h b/drivers/gpu/drm/etnaviv/etnaviv_drv.h
-> index 003288ebd896..049ae87de9be 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.h
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.h
-> @@ -47,12 +47,9 @@ struct etnaviv_drm_private {
->  int etnaviv_ioctl_gem_submit(struct drm_device *dev, void *data,
->  		struct drm_file *file);
->  
-> -int etnaviv_gem_mmap(struct file *filp, struct vm_area_struct *vma);
->  int etnaviv_gem_mmap_offset(struct drm_gem_object *obj, u64 *offset);
->  struct sg_table *etnaviv_gem_prime_get_sg_table(struct drm_gem_object *obj);
->  int etnaviv_gem_prime_vmap(struct drm_gem_object *obj, struct dma_buf_map *map);
-> -int etnaviv_gem_prime_mmap(struct drm_gem_object *obj,
-> -			   struct vm_area_struct *vma);
->  struct drm_gem_object *etnaviv_gem_prime_import_sg_table(struct drm_device *dev,
->  	struct dma_buf_attachment *attach, struct sg_table *sg);
->  int etnaviv_gem_prime_pin(struct drm_gem_object *obj);
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-> index b8fa6ed3dd73..8f1b5af47dd6 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-> @@ -130,8 +130,7 @@ static int etnaviv_gem_mmap_obj(struct etnaviv_gem_object *etnaviv_obj,
->  {
->  	pgprot_t vm_page_prot;
->  
-> -	vma->vm_flags &= ~VM_PFNMAP;
-> -	vma->vm_flags |= VM_MIXEDMAP;
-> +	vma->vm_flags |= VM_IO | VM_MIXEDMAP | VM_DONTEXPAND | VM_DONTDUMP;
->  
->  	vm_page_prot = vm_get_page_prot(vma->vm_flags);
->  
-> @@ -154,19 +153,11 @@ static int etnaviv_gem_mmap_obj(struct etnaviv_gem_object *etnaviv_obj,
->  	return 0;
->  }
->  
-> -int etnaviv_gem_mmap(struct file *filp, struct vm_area_struct *vma)
-> +static int etnaviv_gem_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma)
->  {
-> -	struct etnaviv_gem_object *obj;
-> -	int ret;
-> -
-> -	ret = drm_gem_mmap(filp, vma);
-> -	if (ret) {
-> -		DBG("mmap failed: %d", ret);
-> -		return ret;
-> -	}
-> +	struct etnaviv_gem_object *etnaviv_obj = to_etnaviv_bo(obj);
->  
-> -	obj = to_etnaviv_bo(vma->vm_private_data);
-> -	return obj->ops->mmap(obj, vma);
-> +	return etnaviv_obj->ops->mmap(etnaviv_obj, vma);
->  }
->  
->  static vm_fault_t etnaviv_gem_fault(struct vm_fault *vmf)
-> @@ -567,6 +558,7 @@ static const struct drm_gem_object_funcs etnaviv_gem_object_funcs = {
->  	.unpin = etnaviv_gem_prime_unpin,
->  	.get_sg_table = etnaviv_gem_prime_get_sg_table,
->  	.vmap = etnaviv_gem_prime_vmap,
-> +	.mmap = etnaviv_gem_mmap,
->  	.vm_ops = &vm_ops,
->  };
->  
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
-> index d741b1d735f7..6d8bed9c739d 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
-> @@ -34,19 +34,6 @@ int etnaviv_gem_prime_vmap(struct drm_gem_object *obj, struct dma_buf_map *map)
->  	return 0;
->  }
->  
-> -int etnaviv_gem_prime_mmap(struct drm_gem_object *obj,
-> -			   struct vm_area_struct *vma)
-> -{
-> -	struct etnaviv_gem_object *etnaviv_obj = to_etnaviv_bo(obj);
-> -	int ret;
-> -
-> -	ret = drm_gem_mmap_obj(obj, obj->size, vma);
-> -	if (ret < 0)
-> -		return ret;
-> -
-> -	return etnaviv_obj->ops->mmap(etnaviv_obj, vma);
-> -}
-> -
->  int etnaviv_gem_prime_pin(struct drm_gem_object *obj)
->  {
->  	if (!obj->import_attach) {
+>  		ret = drm_sched_job_await_implicit(&submit->sched_job, &bo->obj->base,
+> -						   bo->flags & ETNA_SUBMIT_BO_WRITE);
+> +						   write);
+>  		if (ret)
+>  			return ret;
+>  	}
 
 
 _______________________________________________
