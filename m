@@ -2,41 +2,74 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 860AB3D1871
-	for <lists+etnaviv@lfdr.de>; Wed, 21 Jul 2021 22:54:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E86F3D916A
+	for <lists+etnaviv@lfdr.de>; Wed, 28 Jul 2021 16:57:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F28A6E3AA;
-	Wed, 21 Jul 2021 20:54:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A4AC76E0B9;
+	Wed, 28 Jul 2021 14:57:06 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 70E606E3AA
- for <etnaviv@lists.freedesktop.org>; Wed, 21 Jul 2021 20:54:42 +0000 (UTC)
-Received: from gallifrey.ext.pengutronix.de
- ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1m6JEg-0006hs-Dm; Wed, 21 Jul 2021 22:54:34 +0200
-Message-ID: <36057b25e939270c98d66fd24823b5edfa789d60.camel@pengutronix.de>
-Subject: Re: [RESEND PATCH v6 07/14] drm/etnaviv: Change buffer dump checks
- to target syslog
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Sean Paul <sean@poorly.run>, dri-devel@lists.freedesktop.org, 
- ppaalanen@gmail.com, maarten.lankhorst@linux.intel.com,
- tzimmermann@suse.de,  airlied@linux.ie, daniel.vetter@ffwll.ch
-Date: Wed, 21 Jul 2021 22:54:29 +0200
-In-Reply-To: <20210721175526.22020-8-sean@poorly.run>
-References: <20210721175526.22020-1-sean@poorly.run>
- <20210721175526.22020-8-sean@poorly.run>
-User-Agent: Evolution 3.40.3 (3.40.3-1.fc34) 
+Received: from mail-il1-x131.google.com (mail-il1-x131.google.com
+ [IPv6:2607:f8b0:4864:20::131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ADD506E075;
+ Wed, 28 Jul 2021 14:57:04 +0000 (UTC)
+Received: by mail-il1-x131.google.com with SMTP id r1so2848496iln.6;
+ Wed, 28 Jul 2021 07:57:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=e2ywKCAyW5iOo3TdeL4LGysC3w1acIn4LADsFzbMsMA=;
+ b=LmKgLak9fidSbx+hsVMK04ZqjeFal/L/sWVRHPUbfKyYpAF/FL5spbTmGeZD7MgHAl
+ 5eKMIgEflypQwCqPRdpVG+ohHTvVL0gBPbAuOm+9PrzqU+/ObXpT9ut0SBxUdL8zmnHI
+ OPsmcDAzTcTcJWQIB749Hk8BpJbIVEZ07oaLxPd7XcdWRrnfTvHjB0BJrna7ADRoLGjZ
+ n+P/gZUano47GrIg207NeiAQuBa6oQ24nHw/HJsegM188NC5ZcZvJv9JqoG//qye24Z3
+ WrrGadOWX2X3AHUZIgCS/4wEBiOmnnDhciABNrJS19nIl7rlcCXgi4f3NxtLO6aAt1Kd
+ kWcA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=e2ywKCAyW5iOo3TdeL4LGysC3w1acIn4LADsFzbMsMA=;
+ b=tlJQYjcDTBbWknGuS6KsIk0sCnDxEops1vGDxGWXv7PN8NQDVHCPd7290ja7Dv3kk+
+ ttszRQTP+P9CRgGeTw08exhchq55pmAc8H71UadUPxiROXcaKeHiF6uV2agetwxQw/r4
+ O56koAPKf7TKRY5ki3AbpKVeNODljGew31K3WhpGA30FzRXyuCM/Ff9zyFHeKnGjxz7b
+ SbJ9oLoJIat/SKLRlfwMMC6NmVfhlmR0PMYTKdQjZo3IRk8XSBbiikckTEe6TyyuzC04
+ CbPXk9dBfaTZmiZdydC1C/ZviclttJByiuemYjwA0eRjUimhbRHVPARgQuvtPW3g1GR7
+ PxDw==
+X-Gm-Message-State: AOAM530+NVIn2TLeBUAqxzIRg2g3c9YLNSDHiYHWerPzZv6xT6p/vwF2
+ z7otHkbe19IcMjMCcpuBPy8=
+X-Google-Smtp-Source: ABdhPJywbWBVLY6qHpI7Oc9lffXNu0yIXkEG1M1rAmTYABJuf5ipVoG372N5iVxALJi3BqYFfoigxA==
+X-Received: by 2002:a05:6e02:ecd:: with SMTP id
+ i13mr199143ilk.182.1627484223888; 
+ Wed, 28 Jul 2021 07:57:03 -0700 (PDT)
+Received: from localhost ([12.28.44.171])
+ by smtp.gmail.com with ESMTPSA id x4sm78028ilj.52.2021.07.28.07.57.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 28 Jul 2021 07:57:03 -0700 (PDT)
+Date: Wed, 28 Jul 2021 07:57:02 -0700
+From: Yury Norov <yury.norov@gmail.com>
+To: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, "H. Peter Anvin" <hpa@zytor.com>,
+ Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Marc Zyngier <maz@kernel.org>, David Woodhouse <dwmw@amazon.co.uk>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Wei Yang <richard.weiyang@linux.alibaba.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Alexey Klimov <aklimov@redhat.com>, x86@kernel.org,
+ linux-kernel@vger.kernel.org, etnaviv@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-hwmon@vger.kernel.org
+Subject: Re: [PATCH 0/3] for_each_*_bit: move to find.h and reconsider
+Message-ID: <YQFwPtKOtlN6Cigg@yury-ThinkPad>
+References: <20210618195735.55933-1-yury.norov@gmail.com>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
+Content-Disposition: inline
+In-Reply-To: <20210618195735.55933-1-yury.norov@gmail.com>
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,74 +81,40 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: Christian Gmeiner <christian.gmeiner@gmail.com>,
- Sean Paul <seanpaul@chromium.org>, etnaviv@lists.freedesktop.org,
- Daniel Vetter <daniel@ffwll.ch>, Russell King <linux+etnaviv@armlinux.org.uk>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Am Mittwoch, dem 21.07.2021 um 13:55 -0400 schrieb Sean Paul:
-> From: Sean Paul <seanpaul@chromium.org>
-> 
-> Since the logs protected by these checks specifically target syslog,
-> use the new drm_debug_syslog_enabled() call to avoid triggering
-> these prints when only trace is enabled.
-> 
-> Signed-off-by: Sean Paul <seanpaul@chromium.org>
+Ping?
 
-Acked-by: Lucas Stach <l.stach@pengutronix.de>
-
-> Link: https://patchwork.freedesktop.org/patch/msgid/20200608210505.48519-8-sean@poorly.run #v5
+On Fri, Jun 18, 2021 at 12:57:32PM -0700, Yury Norov wrote:
+> for_each_bit() macro family uses find_bit() functions, so it's better
+> to have for_each_bit() and find_bit() functions in the same header. 
 > 
-> Changes in v5:
-> -Added to the set
-> Changes in v6:
-> -None
-> ---
->  drivers/gpu/drm/etnaviv/etnaviv_buffer.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
+> This series puts for_each_bit() to a proper place and optimizes its
+> usage over the kernel.
 > 
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_buffer.c b/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
-> index 76d38561c910..7713474800e8 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
-> @@ -353,7 +353,7 @@ void etnaviv_buffer_queue(struct etnaviv_gpu *gpu, u32 exec_state,
->  
->  	lockdep_assert_held(&gpu->lock);
->  
-> -	if (drm_debug_enabled(DRM_UT_DRIVER))
-> +	if (drm_debug_syslog_enabled(DRM_UT_DRIVER))
->  		etnaviv_buffer_dump(gpu, buffer, 0, 0x50);
->  
->  	link_target = etnaviv_cmdbuf_get_va(cmdbuf,
-> @@ -509,13 +509,13 @@ void etnaviv_buffer_queue(struct etnaviv_gpu *gpu, u32 exec_state,
->  		 etnaviv_cmdbuf_get_va(buffer, &gpu->mmu_context->cmdbuf_mapping)
->  		 + buffer->user_size - 4);
->  
-> -	if (drm_debug_enabled(DRM_UT_DRIVER))
-> +	if (drm_debug_syslog_enabled(DRM_UT_DRIVER))
->  		pr_info("stream link to 0x%08x @ 0x%08x %p\n",
->  			return_target,
->  			etnaviv_cmdbuf_get_va(cmdbuf, &gpu->mmu_context->cmdbuf_mapping),
->  			cmdbuf->vaddr);
->  
-> -	if (drm_debug_enabled(DRM_UT_DRIVER)) {
-> +	if (drm_debug_syslog_enabled(DRM_UT_DRIVER)) {
->  		print_hex_dump(KERN_INFO, "cmd ", DUMP_PREFIX_OFFSET, 16, 4,
->  			       cmdbuf->vaddr, cmdbuf->size, 0);
->  
-> @@ -534,6 +534,6 @@ void etnaviv_buffer_queue(struct etnaviv_gpu *gpu, u32 exec_state,
->  				    VIV_FE_LINK_HEADER_PREFETCH(link_dwords),
->  				    link_target);
->  
-> -	if (drm_debug_enabled(DRM_UT_DRIVER))
-> +	if (drm_debug_syslog_enabled(DRM_UT_DRIVER))
->  		etnaviv_buffer_dump(gpu, buffer, 0, 0x50);
->  }
-
-
+> The series is based on this:
+> https://lore.kernel.org/linux-arch/20210612123639.329047-1-yury.norov@gmail.com/
+> 
+> The full series can be found here:
+> https://github.com/norov/linux/commits/bm-final
+> 
+> Yury Norov (3):
+>   include/linux: move for_each_bit() macros from bitops.h to find.h
+>   find: micro-optimize for_each_{set,clear}_bit()
+>   Replace for_each_*_bit_from() with for_each_*_bit() where appropriate
+> 
+>  arch/x86/kernel/apic/vector.c         |  4 ++--
+>  drivers/gpu/drm/etnaviv/etnaviv_gpu.c |  4 ++--
+>  drivers/hwmon/ltc2992.c               |  3 +--
+>  include/linux/bitops.h                | 34 ---------------------------
+>  include/linux/find.h                  | 34 +++++++++++++++++++++++++++
+>  5 files changed, 39 insertions(+), 40 deletions(-)
+> 
+> -- 
+> 2.30.2
 _______________________________________________
 etnaviv mailing list
 etnaviv@lists.freedesktop.org
