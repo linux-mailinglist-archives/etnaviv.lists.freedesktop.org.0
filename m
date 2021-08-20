@@ -1,36 +1,35 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF4403F3272
-	for <lists+etnaviv@lfdr.de>; Fri, 20 Aug 2021 19:49:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 091663F350A
+	for <lists+etnaviv@lfdr.de>; Fri, 20 Aug 2021 22:18:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E7E76EAD4;
-	Fri, 20 Aug 2021 17:49:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A15C16EB1B;
+	Fri, 20 Aug 2021 20:18:34 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ECFA56EAD4
- for <etnaviv@lists.freedesktop.org>; Fri, 20 Aug 2021 17:49:05 +0000 (UTC)
-Received: from gallifrey.ext.pengutronix.de
- ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5EC706EB17
+ for <etnaviv@lists.freedesktop.org>; Fri, 20 Aug 2021 20:18:33 +0000 (UTC)
+Received: from dude03.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::39])
+ by metis.ext.pengutronix.de with esmtp (Exim 4.92)
  (envelope-from <l.stach@pengutronix.de>)
- id 1mH8db-0003cd-NP; Fri, 20 Aug 2021 19:49:03 +0200
-Message-ID: <4d16197fa5e4147117fea842f1ed9f0fdadb1d57.camel@pengutronix.de>
-Subject: [GIT PULL] etnaviv-next for 5.15
+ id 1mHAyF-000258-Ip; Fri, 20 Aug 2021 22:18:31 +0200
 From: Lucas Stach <l.stach@pengutronix.de>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: kernel@pengutronix.de, etnaviv@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org
-Date: Fri, 20 Aug 2021 19:49:02 +0200
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.3 (3.40.3-1.fc34) 
+To: etnaviv@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>, kernel@pengutronix.de,
+ patchwork-lst@pengutronix.de
+Subject: [PATCH 1/8] drm/etnaviv: return context from etnaviv_iommu_context_get
+Date: Fri, 20 Aug 2021 22:18:23 +0200
+Message-Id: <20210820201830.2005563-1-l.stach@pengutronix.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:1101:1d::39
 X-SA-Exim-Mail-From: l.stach@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
  SAEximRunCond expanded to false
@@ -49,40 +48,98 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Hi Dave, Daniel,
+Being able to have the refcount manipulation in an assignment makes
+it much easier to parse the code.
 
-things are still slow in etnaviv land. Just one hardware support
-addition for the GPU found on the NXP Layerscape LS1028A SoC from
-Michael and the GEM mmap cleanup from Thomas.
+Cc: stable@vger.kernel.org # 5.4
+Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+Tested-by: Michael Walle <michael@walle.cc>
+---
+ drivers/gpu/drm/etnaviv/etnaviv_buffer.c     | 3 +--
+ drivers/gpu/drm/etnaviv/etnaviv_gem.c        | 3 +--
+ drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c | 3 +--
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c        | 6 ++----
+ drivers/gpu/drm/etnaviv/etnaviv_mmu.h        | 4 +++-
+ 5 files changed, 8 insertions(+), 11 deletions(-)
 
-Regards,
-Lucas
-
-The following changes since commit 8a02ea42bc1d4c448caf1bab0e05899dad503f74:
-
-  Merge tag 'drm-intel-next-fixes-2021-06-29' of git://anongit.freedesktop.org/drm/drm-intel into drm-next (2021-06-30 15:42:05 +1000)
-
-are available in the Git repository at:
-
-  https://git.pengutronix.de/git/lst/linux 81fd23e2b3ccf71c807e671444e8accaba98ca53
-
-for you to fetch changes up to 81fd23e2b3ccf71c807e671444e8accaba98ca53:
-
-  drm/etnaviv: Implement mmap as GEM object function (2021-07-06 18:32:23 +0200)
-
-----------------------------------------------------------------
-Michael Walle (2):
-      drm/etnaviv: add HWDB entry for GC7000 r6202
-      drm/etnaviv: add clock gating workaround for GC7000 r6202
-
-Thomas Zimmermann (1):
-      drm/etnaviv: Implement mmap as GEM object function
-
- drivers/gpu/drm/etnaviv/etnaviv_drv.c       | 14 ++------------
- drivers/gpu/drm/etnaviv/etnaviv_drv.h       |  3 ---
- drivers/gpu/drm/etnaviv/etnaviv_gem.c       | 18 +++++-------------
- drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c | 13 -------------
- drivers/gpu/drm/etnaviv/etnaviv_gpu.c       |  6 ++++++
- drivers/gpu/drm/etnaviv/etnaviv_hwdb.c      | 31 +++++++++++++++++++++++++++++++
- 6 files changed, 44 insertions(+), 41 deletions(-)
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_buffer.c b/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
+index 76d38561c910..cf741c5c82d2 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
+@@ -397,8 +397,7 @@ void etnaviv_buffer_queue(struct etnaviv_gpu *gpu, u32 exec_state,
+ 		if (switch_mmu_context) {
+ 			struct etnaviv_iommu_context *old_context = gpu->mmu_context;
+ 
+-			etnaviv_iommu_context_get(mmu_context);
+-			gpu->mmu_context = mmu_context;
++			gpu->mmu_context = etnaviv_iommu_context_get(mmu_context);
+ 			etnaviv_iommu_context_put(old_context);
+ 		}
+ 
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+index b8fa6ed3dd73..fb7a33b88fc0 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+@@ -303,8 +303,7 @@ struct etnaviv_vram_mapping *etnaviv_gem_mapping_get(
+ 		list_del(&mapping->obj_node);
+ 	}
+ 
+-	etnaviv_iommu_context_get(mmu_context);
+-	mapping->context = mmu_context;
++	mapping->context = etnaviv_iommu_context_get(mmu_context);
+ 	mapping->use = 1;
+ 
+ 	ret = etnaviv_iommu_map_gem(mmu_context, etnaviv_obj,
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+index 4dd7d9d541c0..486259e154af 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+@@ -532,8 +532,7 @@ int etnaviv_ioctl_gem_submit(struct drm_device *dev, void *data,
+ 		goto err_submit_objects;
+ 
+ 	submit->ctx = file->driver_priv;
+-	etnaviv_iommu_context_get(submit->ctx->mmu);
+-	submit->mmu_context = submit->ctx->mmu;
++	submit->mmu_context = etnaviv_iommu_context_get(submit->ctx->mmu);
+ 	submit->exec_state = args->exec_state;
+ 	submit->flags = args->flags;
+ 
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+index 4102bcea3341..c8b9b0cc4442 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+@@ -1365,12 +1365,10 @@ struct dma_fence *etnaviv_gpu_submit(struct etnaviv_gem_submit *submit)
+ 	}
+ 
+ 	if (!gpu->mmu_context) {
+-		etnaviv_iommu_context_get(submit->mmu_context);
+-		gpu->mmu_context = submit->mmu_context;
++		gpu->mmu_context = etnaviv_iommu_context_get(submit->mmu_context);
+ 		etnaviv_gpu_start_fe_idleloop(gpu);
+ 	} else {
+-		etnaviv_iommu_context_get(gpu->mmu_context);
+-		submit->prev_mmu_context = gpu->mmu_context;
++		submit->prev_mmu_context = etnaviv_iommu_context_get(gpu->mmu_context);
+ 	}
+ 
+ 	if (submit->nr_pmrs) {
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_mmu.h b/drivers/gpu/drm/etnaviv/etnaviv_mmu.h
+index d1d6902fd13b..e4a0b7d09c2e 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_mmu.h
++++ b/drivers/gpu/drm/etnaviv/etnaviv_mmu.h
+@@ -105,9 +105,11 @@ void etnaviv_iommu_dump(struct etnaviv_iommu_context *ctx, void *buf);
+ struct etnaviv_iommu_context *
+ etnaviv_iommu_context_init(struct etnaviv_iommu_global *global,
+ 			   struct etnaviv_cmdbuf_suballoc *suballoc);
+-static inline void etnaviv_iommu_context_get(struct etnaviv_iommu_context *ctx)
++static inline struct etnaviv_iommu_context *
++etnaviv_iommu_context_get(struct etnaviv_iommu_context *ctx)
+ {
+ 	kref_get(&ctx->refcount);
++	return ctx;
+ }
+ void etnaviv_iommu_context_put(struct etnaviv_iommu_context *ctx);
+ void etnaviv_iommu_restore(struct etnaviv_gpu *gpu,
+-- 
+2.30.2
 
