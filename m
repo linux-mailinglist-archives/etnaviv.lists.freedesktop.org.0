@@ -1,51 +1,52 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C9F93F8758
-	for <lists+etnaviv@lfdr.de>; Thu, 26 Aug 2021 14:25:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE2523F87D2
+	for <lists+etnaviv@lfdr.de>; Thu, 26 Aug 2021 14:43:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B6DB6E827;
-	Thu, 26 Aug 2021 12:25:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 498916E837;
+	Thu, 26 Aug 2021 12:43:30 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from ssl.serverraum.org (ssl.serverraum.org [176.9.125.105])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A5396E826;
- Thu, 26 Aug 2021 12:25:14 +0000 (UTC)
+Received: from ssl.serverraum.org (ssl.serverraum.org
+ [IPv6:2a01:4f8:151:8464::1:2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 48BFD6E836;
+ Thu, 26 Aug 2021 12:43:28 +0000 (UTC)
 Received: from ssl.serverraum.org (web.serverraum.org [172.16.0.2])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ssl.serverraum.org (Postfix) with ESMTPSA id 42B9822173;
- Thu, 26 Aug 2021 14:25:13 +0200 (CEST)
+ by ssl.serverraum.org (Postfix) with ESMTPSA id 7201922173;
+ Thu, 26 Aug 2021 14:43:26 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc;
- s=mail2016061301; t=1629980713;
+ s=mail2016061301; t=1629981806;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NO66SlcglsAtwRHk9/RoqD9t2fjAjr5n+D4doJAgl5U=;
- b=RPf4yBTyHCR/f40J/p1KVngoIVbiRdrufuVB8ya8cXbAK1HB39/fWGtfcaT5s37EXf8Zrg
- OKVuCAYfmfhF+qZYpvjy1YwskTazm8YWB1dHhYBmLci6H0vjhs/vKV4V1HWYvBLansDQCe
- VeGpb9YQIjfkWgwyhE1Ss/AhyMkSebk=
+ bh=xSWjg7oTauzs6qyI/TdnBZKk5aEHxZIo5MLqxy6CYF0=;
+ b=rrMTNkLnhRa+waIzNGf3Obc91poG0QomCOgxK2bU14KJM1K4vto55BvWNK5n11pqT0Dj4Z
+ u9j4Vr+xs2ZlT7WpJHVxKyCbTX7jvHRN+KUabFzjfhnoaoZu+pFF9lWTRJuegH2FeLcxST
+ iIT2rrJzYPJbuL2Xq1/HqnqZSw8f4dU=
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII;
  format=flowed
 Content-Transfer-Encoding: 7bit
-Date: Thu, 26 Aug 2021 14:25:13 +0200
+Date: Thu, 26 Aug 2021 14:43:26 +0200
 From: Michael Walle <michael@walle.cc>
-To: "Russell King (Oracle)" <linux@armlinux.org.uk>
-Cc: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, "Lukas F . Hartmann" <lukas@mntre.com>, Marek
- Vasut <marek.vasut@gmail.com>, Lucas Stach <l.stach@pengutronix.de>,
- Christian Gmeiner <christian.gmeiner@gmail.com>, David Airlie
- <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+To: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Cc: "Lukas F . Hartmann" <lukas@mntre.com>, Marek Vasut
+ <marek.vasut@gmail.com>, Lucas Stach <l.stach@pengutronix.de>, Russell King
+ <linux+etnaviv@armlinux.org.uk>, Christian Gmeiner
+ <christian.gmeiner@gmail.com>, David Airlie <airlied@linux.ie>, Daniel
+ Vetter <daniel@ffwll.ch>
 Subject: Re: [PATCH 3/3] drm/etnaviv: use a 32 bit mask as coherent DMA mask
-In-Reply-To: <20210826121917.GS22278@shell.armlinux.org.uk>
+In-Reply-To: <20210826121006.685257-4-michael@walle.cc>
 References: <20210826121006.685257-1-michael@walle.cc>
  <20210826121006.685257-4-michael@walle.cc>
- <20210826121917.GS22278@shell.armlinux.org.uk>
 User-Agent: Roundcube Webmail/1.4.11
-Message-ID: <0f67c2a847963ee13ad02762866c94bf@walle.cc>
+Message-ID: <732be3deb2a29b9d9e274ee543fa3b89@walle.cc>
 X-Sender: michael@walle.cc
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -61,47 +62,18 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Am 2021-08-26 14:19, schrieb Russell King (Oracle):
-> On Thu, Aug 26, 2021 at 02:10:06PM +0200, Michael Walle wrote:
->> -	pdev->dev.coherent_dma_mask = DMA_BIT_MASK(40);
->> -	pdev->dev.dma_mask = &pdev->dev.coherent_dma_mask;
->> +	/*
->> +	 * PTA and MTLB can have 40 bit base addresses, but
->> +	 * unfortunately, an entry in the MTLB can only point to a
->> +	 * 32 bit base address of a STLB. Moreover, to initialize the
->> +	 * MMU we need a command buffer with a 32 bit address because
->> +	 * without an MMU there is only an indentity mapping between
->> +	 * the internal 32 bit addresses and the bus addresses.
->> +	 *
->> +	 * To make things easy, we set the dma_coherent_mask to 32
->> +	 * bit to make sure we are allocating the command buffers and
->> +	 * TLBs in the lower 4 GiB address space.
->> +	 */
->> +	if (dma_set_mask(&pdev->dev, DMA_BIT_MASK(40)) ||
->> +	    dma_set_coherent_mask(&pdev->dev, DMA_BIT_MASK(32))) {
->> +		dev_dbg(&pdev->dev, "No suitable DMA available\n");
->> +		return -ENODEV;
->> +	}
+Am 2021-08-26 14:10, schrieb Michael Walle:
+> The STLB and the first command buffer (which is used to set up the 
+> TLBs)
+> has a 32 bit size restriction in hardware. There seems to be no way to
+> specify addresses larger than 32 bit. Keep it simple and restict the
+> addresses to the lower 4 GiB range for all coherent DMA memory
+> allocations.
 > 
-> This makes no sense. In the previous patch, you initialised
-> pdev->dev.dma_mask ot point at the coherent mask, implying that
-> it wasn't already set - for which dma_coerce_mask_and_coherent()
-> should be used. Now you're just calling dma_set_mask(), which will
-> fail if pdev->dev.dma_mask hasn't already been set to point at
-> something.
-> 
-> If it's already been initialised to point at something, then you
-> shouldn't be overwriting it in the driver, and you should've used
-> dma_set_mask_and_coherent() in your previous patch.
-> 
-> Confused.
+> Signed-off-by: Michael Walle <michael@walle.cc>
 
-Mh, I see that moving these two lines was a bad idea. See commit
-message in patch 2/3:
-> Also move the dma mask assignemnts to probe() to keep all DMA related
-> settings together.
+Suggested-by: Lucas Stach <l.stach@pengutronix.de>
 
-The actual fix in patch 2/3 is the move of the of_dma_configure()
-not the dma_mask assignments.
+is missing here. sorry, will add it in the next version.
 
 -michael
