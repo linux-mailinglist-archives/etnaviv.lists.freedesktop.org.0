@@ -2,61 +2,43 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E1C13F8839
-	for <lists+etnaviv@lfdr.de>; Thu, 26 Aug 2021 15:00:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3121A3F8A9C
+	for <lists+etnaviv@lfdr.de>; Thu, 26 Aug 2021 17:00:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 037BB6E844;
-	Thu, 26 Aug 2021 13:00:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6393D6E874;
+	Thu, 26 Aug 2021 15:00:28 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-vk1-xa35.google.com (mail-vk1-xa35.google.com
- [IPv6:2607:f8b0:4864:20::a35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AAC236E844;
- Thu, 26 Aug 2021 13:00:09 +0000 (UTC)
-Received: by mail-vk1-xa35.google.com with SMTP id j12so820392vka.6;
- Thu, 26 Aug 2021 06:00:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ocFFaMnpP/NK5k6jGasl64HMse3t1Sh2zr+zn0SwV+M=;
- b=MKdgsD3skHusjl9BNP/Q3G/9e20/iXnmW0VTMNm31s2zKx3/EqdUj3fwoNAsi/G3s+
- yKi3kFV4DzuNUImg5s8PfOD6inHbj/5N00EC1fy4Ri6GislaYs0uFkucQ4RH8VIiiYX7
- DhHWuH0bIeXdXtcPSDoXHWP0Sqpk5xbyYnbp0APV85I9EAwb+vVk96FFMvafuntQtd2v
- vwLei9S9sMdtlIe4yedOC4NjT04WjNkCCs6sEtGd+NYhjFioLxLnHVPSUNJwSi0R7163
- YGqpBuy1DSNxcFHZTUk9K32tkPegiVCF6ojaIaIoiEFsu8Atywmy06oBOEA4u3P7EnCW
- 9Asg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ocFFaMnpP/NK5k6jGasl64HMse3t1Sh2zr+zn0SwV+M=;
- b=FIFy7uRFlZAOMEHYUw04njkrlncnZbPtLmQGMossZxjilCKx1biQlcWoIKyfycEP1L
- 0l+1qYBT0Vulx5CjaZb4VtVXc3hYSZY5tKBW+aJ2Jp1fitk6eLvEvCtlfwmFuvK+7YIE
- b4R7spHv0QXQ8Xv+SKW0RfrrhwGbHQE7JLo+bhThHwgxZdKwux1Qn8Rk110LE19MhqWi
- VtpP5oIE5ToB6LsHDIefTRoHgcMHPVMj555Nmx/RDZ9F2H/dOc3C5iU2hDB7liJaHmoJ
- k41Nd9+gEQzJE7HkVzIEJyBGqsjVJJocPErDpXOlAztrfmLg+FDH1caZYvFaB/WXdUZL
- /XuA==
-X-Gm-Message-State: AOAM533IcB7wAI4xZqwxRTK/yzSp+Avljg8Pag4JxZqwws0XRrWilexB
- Df7WJfZ1PbW+N3SGVjNuwPyEy7w1UPmQElFVYWQ=
-X-Google-Smtp-Source: ABdhPJw3aw85jut73xut5Y2i6V/6gxTcFzKq2kOS6bgJFbpSwBicdQkFyh7ayj+OYPNpfBvqMtHwF512RYxlTaGstBI=
-X-Received: by 2002:a1f:90cd:: with SMTP id s196mr1638807vkd.5.1629982808785; 
- Thu, 26 Aug 2021 06:00:08 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210826121006.685257-1-michael@walle.cc>
- <20210826121006.685257-2-michael@walle.cc>
-In-Reply-To: <20210826121006.685257-2-michael@walle.cc>
-From: Christian Gmeiner <christian.gmeiner@gmail.com>
-Date: Thu, 26 Aug 2021 14:59:57 +0200
-Message-ID: <CAH9NwWcFdt=C=aEp48462wXA6Q47CvTVoRQawyZMuPwwgVzzUA@mail.gmail.com>
-Subject: Re: [PATCH 1/3] drm/etnaviv: use PLATFORM_DEVID_NONE
-To: Michael Walle <michael@walle.cc>
-Cc: The etnaviv authors <etnaviv@lists.freedesktop.org>, 
- DRI mailing list <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>, 
- "Lukas F . Hartmann" <lukas@mntre.com>, Marek Vasut <marek.vasut@gmail.com>, 
- Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>, 
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 1E9226E872;
+ Thu, 26 Aug 2021 15:00:25 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0D46F31B;
+ Thu, 26 Aug 2021 08:00:24 -0700 (PDT)
+Received: from [10.57.15.112] (unknown [10.57.15.112])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 635F03F66F;
+ Thu, 26 Aug 2021 08:00:22 -0700 (PDT)
+Subject: Re: [PATCH 2/3] drm/etnaviv: fix dma configuration of the virtual
+ device
+To: Michael Walle <michael@walle.cc>, etnaviv@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: "Lukas F . Hartmann" <lukas@mntre.com>,
+ Marek Vasut <marek.vasut@gmail.com>, Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
+References: <20210826121006.685257-1-michael@walle.cc>
+ <20210826121006.685257-3-michael@walle.cc>
+From: Robin Murphy <robin.murphy@arm.com>
+Message-ID: <df806090-8a21-33e8-1e01-bd03b6ed64cf@arm.com>
+Date: Thu, 26 Aug 2021 16:00:15 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
+MIME-Version: 1.0
+In-Reply-To: <20210826121006.685257-3-michael@walle.cc>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,41 +53,102 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Am Do., 26. Aug. 2021 um 14:10 Uhr schrieb Michael Walle <michael@walle.cc>:
->
-> There is already a macro for the magic value. Use it.
->
+On 2021-08-26 13:10, Michael Walle wrote:
+> The DMA configuration of the virtual device is inherited from the first
+> actual etnaviv device. Unfortunately, this doesn't work with an IOMMU:
+> 
+> [    5.191008] Failed to set up IOMMU for device (null); retaining platform DMA ops
+> 
+> This is because there is no associated iommu_group with the device. The
+> group is set in iommu_group_add_device() which is eventually called by
+> device_add() via the platform bus:
+>    device_add()
+>      blocking_notifier_call_chain()
+>        iommu_bus_notifier()
+>          iommu_probe_device()
+>            __iommu_probe_device()
+>              iommu_group_get_for_dev()
+>                iommu_group_add_device()
+> 
+> Move of_dma_configure() into the probe function, which is called after
+> device_add(). Normally, the platform code will already call it itself
+> if .of_node is set. Unfortunately, this isn't the case here.
+> 
+> Also move the dma mask assignemnts to probe() to keep all DMA related
+> settings together.
+
+I assume the driver must already keep track of the real GPU platform 
+device in order to map registers, request interrupts, etc. correctly - 
+can't it also correctly use that device for DMA API calls and avoid the 
+need for these shenanigans altogether?
+
+FYI, IOMMU configuration is really supposed to *only* run at 
+add_device() time as above - the fact that it's currently hooked in to 
+be retriggered by of_dma_configure() on DT platforms actually turns out 
+to lead to various issues within the IOMMU API, and the plan to change 
+that is slowly climbing up my to-do list.
+
+Robin.
+
 > Signed-off-by: Michael Walle <michael@walle.cc>
-
-Reviewed-by: Christian Gmeiner <christian.gmeiner@gmail.com>
-
-I will wait for v2 for the rest of the changes to review.
-
 > ---
->  drivers/gpu/drm/etnaviv/etnaviv_drv.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
+>   drivers/gpu/drm/etnaviv/etnaviv_drv.c | 24 +++++++++++++++---------
+>   1 file changed, 15 insertions(+), 9 deletions(-)
+> 
 > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-> index 7dcc6392792d..2509b3e85709 100644
+> index 2509b3e85709..ff6425f6ebad 100644
 > --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
 > +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-> @@ -653,7 +653,7 @@ static int __init etnaviv_init(void)
->                 if (!of_device_is_available(np))
->                         continue;
->
-> -               pdev = platform_device_alloc("etnaviv", -1);
-> +               pdev = platform_device_alloc("etnaviv", PLATFORM_DEVID_NONE);
->                 if (!pdev) {
->                         ret = -ENOMEM;
->                         of_node_put(np);
-> --
-> 2.30.2
->
-
-
--- 
-greets
---
-Christian Gmeiner, MSc
-
-https://christian-gmeiner.info/privacypolicy
+> @@ -589,6 +589,7 @@ static int compare_str(struct device *dev, void *data)
+>   static int etnaviv_pdev_probe(struct platform_device *pdev)
+>   {
+>   	struct device *dev = &pdev->dev;
+> +	struct device_node *first_node = NULL;
+>   	struct component_match *match = NULL;
+>   
+>   	if (!dev->platform_data) {
+> @@ -598,6 +599,9 @@ static int etnaviv_pdev_probe(struct platform_device *pdev)
+>   			if (!of_device_is_available(core_node))
+>   				continue;
+>   
+> +			if (!first_node)
+> +				first_node = core_node;
+> +
+>   			drm_of_component_match_add(&pdev->dev, &match,
+>   						   compare_of, core_node);
+>   		}
+> @@ -609,6 +613,17 @@ static int etnaviv_pdev_probe(struct platform_device *pdev)
+>   			component_match_add(dev, &match, compare_str, names[i]);
+>   	}
+>   
+> +	pdev->dev.coherent_dma_mask = DMA_BIT_MASK(40);
+> +	pdev->dev.dma_mask = &pdev->dev.coherent_dma_mask;
+> +
+> +	/*
+> +	 * Apply the same DMA configuration to the virtual etnaviv
+> +	 * device as the GPU we found. This assumes that all Vivante
+> +	 * GPUs in the system share the same DMA constraints.
+> +	 */
+> +	if (first_node)
+> +		of_dma_configure(&pdev->dev, first_node, true);
+> +
+>   	return component_master_add_with_match(dev, &etnaviv_master_ops, match);
+>   }
+>   
+> @@ -659,15 +674,6 @@ static int __init etnaviv_init(void)
+>   			of_node_put(np);
+>   			goto unregister_platform_driver;
+>   		}
+> -		pdev->dev.coherent_dma_mask = DMA_BIT_MASK(40);
+> -		pdev->dev.dma_mask = &pdev->dev.coherent_dma_mask;
+> -
+> -		/*
+> -		 * Apply the same DMA configuration to the virtual etnaviv
+> -		 * device as the GPU we found. This assumes that all Vivante
+> -		 * GPUs in the system share the same DMA constraints.
+> -		 */
+> -		of_dma_configure(&pdev->dev, np, true);
+>   
+>   		ret = platform_device_add(pdev);
+>   		if (ret) {
+> 
