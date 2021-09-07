@@ -2,46 +2,47 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D61253F8F8E
-	for <lists+etnaviv@lfdr.de>; Thu, 26 Aug 2021 22:15:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04B11402D26
+	for <lists+etnaviv@lfdr.de>; Tue,  7 Sep 2021 18:49:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A0366E8AF;
-	Thu, 26 Aug 2021 20:15:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 86D316E063;
+	Tue,  7 Sep 2021 16:49:57 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id E69B56E8AF;
- Thu, 26 Aug 2021 20:15:21 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E0BAF106F;
- Thu, 26 Aug 2021 13:15:20 -0700 (PDT)
-Received: from [10.57.15.112] (unknown [10.57.15.112])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4A3CE3F5A1;
- Thu, 26 Aug 2021 13:15:19 -0700 (PDT)
-Subject: Re: [PATCH 2/3] drm/etnaviv: fix dma configuration of the virtual
- device
-To: Lucas Stach <l.stach@pengutronix.de>, Michael Walle <michael@walle.cc>,
- etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Received: from ssl.serverraum.org (ssl.serverraum.org
+ [IPv6:2a01:4f8:151:8464::1:2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E9B246E05D;
+ Tue,  7 Sep 2021 16:49:55 +0000 (UTC)
+Received: from mwalle01.kontron.local. (unknown [213.135.10.150])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-384) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by ssl.serverraum.org (Postfix) with ESMTPSA id A8B1622175;
+ Tue,  7 Sep 2021 18:49:50 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc;
+ s=mail2016061301; t=1631033393;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=RBIaEU+QYRJFKSVBjVbUGUzxvaWbeZCnz5PKzm5X2GQ=;
+ b=YhiJSkf6SgSXcXZhUZRVN1SrYWpTY2oGzLSHPG+7bLeaQBJ48I4LJgDj9XyIibCV/yBVyD
+ 4zQYOCiAXlEhq2I+39/qg3rVbo2tgZcUK2QWxKwfzomgXe70r0HDOoeY3VfmaAQ20HQmBl
+ wb9hyz2JunKJnQupi/UPJwyYZ3Qe9Qk=
+From: Michael Walle <michael@walle.cc>
+To: Robin Murphy <robin.murphy@arm.com>, etnaviv@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Cc: "Lukas F . Hartmann" <lukas@mntre.com>,
- Marek Vasut <marek.vasut@gmail.com>,
+ Marek Vasut <marek.vasut@gmail.com>, Lucas Stach <l.stach@pengutronix.de>,
  Russell King <linux+etnaviv@armlinux.org.uk>,
  Christian Gmeiner <christian.gmeiner@gmail.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-References: <20210826121006.685257-1-michael@walle.cc>
- <20210826121006.685257-3-michael@walle.cc>
- <df806090-8a21-33e8-1e01-bd03b6ed64cf@arm.com>
- <b8e3f7c6bec4d01ba05861de6a25c0b7fd432d0a.camel@pengutronix.de>
-From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <01fa99f2-8d19-0cd2-232f-4ba1f3171f24@arm.com>
-Date: Thu, 26 Aug 2021 21:15:13 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Michael Walle <michael@walle.cc>
+Subject: [PATCH v2 0/3] drm/etnaviv: IOMMU related fixes
+Date: Tue,  7 Sep 2021 18:49:42 +0200
+Message-Id: <20210907164945.2309815-1-michael@walle.cc>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-In-Reply-To: <b8e3f7c6bec4d01ba05861de6a25c0b7fd432d0a.camel@pengutronix.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,79 +57,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-On 2021-08-26 16:17, Lucas Stach wrote:
-> Am Donnerstag, dem 26.08.2021 um 16:00 +0100 schrieb Robin Murphy:
->> On 2021-08-26 13:10, Michael Walle wrote:
->>> The DMA configuration of the virtual device is inherited from the first
->>> actual etnaviv device. Unfortunately, this doesn't work with an IOMMU:
->>>
->>> [    5.191008] Failed to set up IOMMU for device (null); retaining platform DMA ops
->>>
->>> This is because there is no associated iommu_group with the device. The
->>> group is set in iommu_group_add_device() which is eventually called by
->>> device_add() via the platform bus:
->>>     device_add()
->>>       blocking_notifier_call_chain()
->>>         iommu_bus_notifier()
->>>           iommu_probe_device()
->>>             __iommu_probe_device()
->>>               iommu_group_get_for_dev()
->>>                 iommu_group_add_device()
->>>
->>> Move of_dma_configure() into the probe function, which is called after
->>> device_add(). Normally, the platform code will already call it itself
->>> if .of_node is set. Unfortunately, this isn't the case here.
->>>
->>> Also move the dma mask assignemnts to probe() to keep all DMA related
->>> settings together.
->>
->> I assume the driver must already keep track of the real GPU platform
->> device in order to map registers, request interrupts, etc. correctly -
->> can't it also correctly use that device for DMA API calls and avoid the
->> need for these shenanigans altogether?
->>
-> Not without a bigger rework. There's still quite a bit of midlayer
-> issues in DRM, where dma-buf imports are dma-mapped and cached via the
-> virtual DRM device instead of the real GPU device. Also etnaviv is able
-> to coalesce multiple Vivante GPUs in a single system under one virtual
-> DRM device, which is used on i.MX6 where the 2D and 3D GPUs are
-> separate peripherals, but have the same DMA constraints.
+This patch series fixes usage of the etnaviv driver with GPUs behind a
+IOMMU. It was tested on a NXP LS1028A SoC. Together with Lucas' MMU patches
+[1] there are not more (GPU internal) MMU nor (system) IOMMU faults on the
+LS1028A.
 
-Sure, I wouldn't expect it to be trivial to fix properly, but I wanted 
-to point out that this is essentially a hack, relying on an implicit 
-side-effect of of_dma_configure() which is already slated for removal. 
-As such, I for one am not going to be too sympathetic if it stops 
-working in future.
+[1] https://lists.freedesktop.org/archives/etnaviv/2021-August/003682.html
 
-Furthermore, even today it doesn't work in general - it might be OK for 
-LS1028A with a single GPU block behind an SMMU, but as soon as you have 
-multiple GPU blocks with distinct SMMU StreamIDs, or behind different 
-IOMMU instances, then you're stuffed again.
+changes since v1:
+ - don't move the former dma_mask setup code around in patch 2/3. Will
+   avoid any confusion.
 
-Although in fact I think it's also broken even for LS1028A, since AFAICS 
-there's no guarantee that the relevant SMMU instance will actually be 
-probed, or the SMMU driver even loaded, when etnaviv_pdev_probe() runs.
+Michael Walle (3):
+  drm/etnaviv: use PLATFORM_DEVID_NONE
+  drm/etnaviv: fix dma configuration of the virtual device
+  drm/etnaviv: use a 32 bit mask as coherent DMA mask
 
-> Effectively we would need to handle N devices for the dma-mapping in a
-> lot of places instead of only dealing with the one virtual DRM device.
-> It would probably be the right thing to anyways, but it's not something
-> that can be changed short-term. I'm also not yet sure about the
-> performance implications, as we might run into some cache maintenance
-> bottlenecks if we dma synchronize buffers to multiple real device
-> instead of doing it a single time with the virtual DRM device. I know,
-> I know, this has a lot of assumptions baked in that could fall apart if
-> someone builds a SoC with multiple Vivante GPUs that have differing DMA
-> constraints, but up until now hardware designers have not been *that*
-> crazy, fortunately.
+ drivers/gpu/drm/etnaviv/etnaviv_drv.c | 41 ++++++++++++++++++++-------
+ 1 file changed, 31 insertions(+), 10 deletions(-)
 
-I'm not too familiar with the component stuff, but would it be viable to 
-just have etnaviv_gpu_platform_probe() set up the first GPU which comes 
-along as the master component and fundamental DRM device, then treat any 
-subsequent ones as subcomponents as before? That would at least stand to 
-be more robust in terms of obviating the of_dma_configure() hack (only 
-actual bus code should ever be calling that), even if it won't do 
-anything for the multiple IOMMU mapping or differing DMA constraints 
-problems.
+-- 
+2.30.2
 
-Thanks,
-Robin.
