@@ -2,39 +2,40 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4EFB40D91D
-	for <lists+etnaviv@lfdr.de>; Thu, 16 Sep 2021 13:54:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FF60410FA3
+	for <lists+etnaviv@lfdr.de>; Mon, 20 Sep 2021 08:52:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D9266ED0E;
-	Thu, 16 Sep 2021 11:54:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A2B06E3B2;
+	Mon, 20 Sep 2021 06:52:12 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DEEED6ED0E
- for <etnaviv@lists.freedesktop.org>; Thu, 16 Sep 2021 11:54:06 +0000 (UTC)
-Received: from gallifrey.ext.pengutronix.de
- ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1mQpxs-0007SA-Ls; Thu, 16 Sep 2021 13:54:04 +0200
-Message-ID: <729a561b6cfed090457bcc856a9e14ed6209fe21.camel@pengutronix.de>
-Subject: [GIT PULL] etnaviv-fixes for 5.15
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org, 
- kernel@pengutronix.de
-Date: Thu, 16 Sep 2021 13:54:03 +0200
-Content-Type: text/plain; charset="UTF-8"
+Received: from fanzine.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 939DD89D30;
+ Mon, 20 Sep 2021 06:52:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+ s=20170329; 
+ h=MIME-Version:Content-Type:Date:Cc:To:From:Subject:Message-ID;
+ bh=HIeG4c8Cgmfkp2RX70iP04l8SH3i1ZCSA3GfMJ3wXno=; 
+ b=DCzMV7lmoCMokoovP1iX2KHPGYUR/wTQpGCNy+9xKRZkBQcH07aWbXFGYERIkHM3lfFVNoNx0iGJ5Xbps1UWSIYcX6hrx1iwGVmKoldMLAR7Q1Y5Ggxlj1lUKDEA4xMMs2cAyZmRB8Ra+zyIl/BeQL2G/ezHTAnxTieKYFoai4KWnNlxXKPINbVM6yWl/GYC0oNJD4FftCFPmgwUQfb1rjvYfjF2tpYeAuStkjfKhdqUWloAn/k/f6NXLhEhVr5YeKcpgrNvWGZ8jJ0W2xAMRYm7YRg9/9ggKVljN6gjGrn3CKcXmHEiZYC8YOapYTB7Tm6mlLYaguEqBmczc5PJkw==;
+Received: from 1.pool85-50-22.dynamic.orange.es ([85.50.22.1]
+ helo=[192.168.1.109]) by fanzine.igalia.com with esmtpsa 
+ (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
+ id 1mSD9s-0001Nl-0K; Mon, 20 Sep 2021 08:52:08 +0200
+Message-ID: <f61913b1abac118c7c85a3b788264e2f8c8fab33.camel@igalia.com>
+Subject: Have you attended XDC 2021? Give us your feedback!
+From: Samuel Iglesias =?ISO-8859-1?Q?Gons=E1lvez?= <siglesias@igalia.com>
+To: events@lists.x.org, xorg-devel@lists.freedesktop.org, 
+ wayland-devel@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ mesa-dev@lists.freedesktop.org, amd-gfx@lists.freedesktop.org, 
+ etnaviv@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
+ libre-soc-dev@lists.libre-soc.org
+Cc: board@foundation.x.org
+Date: Mon, 20 Sep 2021 08:51:57 +0200
+Content-Type: multipart/signed; micalg="pgp-sha256";
+ protocol="application/pgp-signature"; boundary="=-2+e6MjXtLH+zpwS79csn"
 User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,51 +50,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Hi Dave, Daniel,
 
-please pull those etnaviv changes as fixes for the 5.15 release
-series. 
+--=-2+e6MjXtLH+zpwS79csn
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Fixes a very annoying issue where the driver view of the MMU state gets
-out of sync with the actual hardware state across a runtime PM cycle,
-so we end up restarting the GPU with the wrong (potentially already
-freed) MMU context. Hilarity ensues.
+Hi,
 
-Regards,
-Lucas
+First of all, thanks organizers for such a great conference. It was
+smooth and, although there were some issues as it is usual in any
+conference, they were fixed promptly :-)
 
-The following changes since commit 6880fa6c56601bb8ed59df6c30fd390cc5f6dd8f:
+I would like also to thank all of you for attending and participating
+either via submitting talks, watching them or joining the hallway track
+in IRC :-D Without you this conference won't make sense.
 
-  Linux 5.15-rc1 (2021-09-12 16:28:37 -0700)
+Now it is time to gather feedback from you :-D
 
-are available in the Git repository at:
+* Do you have any comment on how was XDC 2021?
+  - For example, have you tried the new streaming service
+(https://streaming.media.ccc.de/xdc2021)? Was it fine?
 
-  https://git.pengutronix.de/git/lst/linux etnaviv/fixes
+* Do you think we can improve on something for future events?
 
-for you to fetch changes up to f2faea8b64125852fa9acc6771c07fc0311a039b:
+* What did you like most/least about the conference?
 
-  drm/etnaviv: add missing MMU context put when reaping MMU mapping (2021-09-16 10:35:37 +0200)
+You can reply privately to me if you wish. We will share all the
+gathered feedback among organizers and the X.Org Foundation board.
 
-----------------------------------------------------------------
-Lucas Stach (8):
-      drm/etnaviv: return context from etnaviv_iommu_context_get
-      drm/etnaviv: put submit prev MMU context when it exists
-      drm/etnaviv: stop abusing mmu_context as FE running marker
-      drm/etnaviv: keep MMU context across runtime suspend/resume
-      drm/etnaviv: exec and MMU state is lost when resetting the GPU
-      drm/etnaviv: fix MMU context leak on GPU reset
-      drm/etnaviv: reference MMU context when setting up hardware state
-      drm/etnaviv: add missing MMU context put when reaping MMU mapping
+Now that I got your attention... Did you like XDC 2021? What about
+organizing XDC 2023 (likely in Europe)?
 
- drivers/gpu/drm/etnaviv/etnaviv_buffer.c     |  3 +--
- drivers/gpu/drm/etnaviv/etnaviv_gem.c        |  3 +--
- drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c |  3 +--
- drivers/gpu/drm/etnaviv/etnaviv_gpu.c        | 43 +++++++++++++++++++++++++------------------
- drivers/gpu/drm/etnaviv/etnaviv_gpu.h        |  1 +
- drivers/gpu/drm/etnaviv/etnaviv_iommu.c      |  4 ++++
- drivers/gpu/drm/etnaviv/etnaviv_iommu_v2.c   |  8 ++++++++
- drivers/gpu/drm/etnaviv/etnaviv_mmu.c        |  1 +
- drivers/gpu/drm/etnaviv/etnaviv_mmu.h        |  4 +++-
- 9 files changed, 45 insertions(+), 25 deletions(-)
+We know this is a decision that takes time (trigger internal
+discussion, looking for volunteers, budget, and a venue suitable for
+the event, etc). Therefore, we encourage potential interested parties
+to start the internal discussions now, so any question they have can be
+answered before we open the call for proposals for XDC 2023 next year.
+Please read [0] and feel free to contact me or the board for more info
+if needed.
 
+Thanks,
+
+Sam
+
+[0] https://www.x.org/wiki/Events/RFP/
+
+
+--=-2+e6MjXtLH+zpwS79csn
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEQP+ZAvaXWkfuKXiEf/S6MvF9w0MFAmFIL40ACgkQf/S6MvF9
+w0Pm2xAAiXNnIPiWHUDIS5hG6kdWVdDYs0mf/4THHuuVhq6m3TmlKWgpE4EACuNu
+mRX84tg+mEpvp8BDvWYH9sweHTM8qjzRvm95m/RODQGkIHy2VPcHVAeswUm6+9Gh
+a1z8trwsFqIeAiyCXzzQzHx1ix/NrleOnSAL6vSSYvKzDJl5gLfMX4b910SZIhGD
+MSRBDQyi1xTg+4bwvDTP3Digp/Z/YPjoQi8W/TMyMArwoP6Wh/knDfamm/cE+fhF
+1Ijd0JAy5EAB3da9ElurrMuYnlG1N4V0qhS7VCBsaHDSb+/5eM+sZVZcn8tUboVM
+qQ2Vk7+zdlHKxLGEIDePJKQWACG91EpMahZGmAFgJHP0V8iD78XO6oXGLVrzJNYZ
+ppYlgfVXzQLpeKC/SIgIi1qtVI3r1mmbjNVk3tmAOURFxJjm/E2e+Sushh0P0RSN
+T4wuUA8Y3dcmyya/A+k+mu7hkQqmHa2ejbjtn0ie4F2qlXA4X1gypeWSGQdDEKHp
+wvbZKawnEQhPQMAIoX7WoeEmxebMIO8xIJL+A698P+/G7aaIqjuOIvYGX7JWKp5k
+HhxiAnf/iAimeCkkdLhjfDO3zbtEqwQ28XCOM2IW3kI9pmCohbWH7bUxKXYgSuIr
+PInGDOUadk/c3jDZGf7Ta1d7ekcp9b62czwrZSw6rVeHG5NYrUA=
+=JFe3
+-----END PGP SIGNATURE-----
+
+--=-2+e6MjXtLH+zpwS79csn--
 
