@@ -1,65 +1,70 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F6EC417C9D
-	for <lists+etnaviv@lfdr.de>; Fri, 24 Sep 2021 22:54:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF503418FA2
+	for <lists+etnaviv@lfdr.de>; Mon, 27 Sep 2021 09:01:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2AEDA6EE52;
-	Fri, 24 Sep 2021 20:54:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 39CBB6E836;
+	Mon, 27 Sep 2021 07:01:23 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
- [IPv6:2a00:1450:4864:20::42a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0CE816E25B;
- Fri, 24 Sep 2021 20:54:01 +0000 (UTC)
-Received: by mail-wr1-x42a.google.com with SMTP id t8so31228572wri.1;
- Fri, 24 Sep 2021 13:54:00 -0700 (PDT)
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
+ [IPv6:2a00:1450:4864:20::432])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 699146E834;
+ Mon, 27 Sep 2021 07:01:22 +0000 (UTC)
+Received: by mail-wr1-x432.google.com with SMTP id t8so49404874wrq.4;
+ Mon, 27 Sep 2021 00:01:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=uBK3kIF03EoojuPkVPYFnbtHDg911meAFaC4x+8vLoU=;
- b=eG+xwf1r45RolAI7X1FYzC+K9OkqVYQHyQYpfYYqqJueIM/GtMuLrUnWkiF//ZdsP0
- euDauiBLOpRw5ASNk3lX3V2Ewt6WiMsD5BCGoX9Cv0kVdcaStIi6w2J8qEEYY7XlxaGu
- iY9hum/H4z/IGDdTGWKmaBoDsLVO2JCNvKmS+BKU8vhAA8waUWIazRKkvKIZ01g3G6l2
- UBiEo5e8neza03fvcDDIx8DQ803a2gqDQkcfr7+0vXpRkYGfO8w08F5kLw5ag4ESY5gV
- bTdHYZcbly+SdzJ4l8ejQWiAavKeo/i2mp5POgjmU4GHipFocMJY4JqltmcvniaL6Yyr
- 8OfA==
+ h=subject:from:to:cc:references:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=zQB26B5eWUnzl+964mpUpFb8aQd6/nGrTcRgYihaeWc=;
+ b=hhkZKKfmY6xHACewDTWjOFBz4xjAdw6xepF6ktK90NO/v63YVfo3bclcJjktmyxKd9
+ Z/c4igoFBRypdKeRup7kuFoUmC/X1Ve6oHCvfGuhIPEsLfcEPQw33+GPKhEzsaTZc8AB
+ FRO4bjD10C8Oh8tk8cVFMIHRCrcV/nFhAVuQJwEXZYxXtzHVZWPwpH6WwM4X58xMxD3G
+ ANTPz2NS8tzJLST011L1Ub4nsekD7rgLMNy021dE0rsoWx/yWUahwOlLMkjDzbTjLZyQ
+ gg06B5E6Oq2eJ6mqcnpBhkZzaI05ZMPzkrFUOtTv6WPupPyIVVbHmiOWBJUuvTNXTRaP
+ 2vyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=uBK3kIF03EoojuPkVPYFnbtHDg911meAFaC4x+8vLoU=;
- b=INHoyyY5xqJByCdPrnNHwVJUi1fCIFQLKaYg1W+WxHWkyLeZ6MjNwjushjxXN5YGlC
- lS85yVoQzyg+P+dwyZS9gQyxDtWkwfOc3zIbMP3aY4sLtg+yqfnya50vgPmyDCqrqUKs
- I9/lXtVqgsFN6tCFzdsF/va+BoSGWfdCc6vEjmETowUpomrbPlfz30fbNNOeZ6YGXdqb
- X/c9T4AHov2PdBJTTeHdGqfT6PWIB2PLTHu8NFYmFEj0W8iq4omWdvAiGpwuGDPzOo98
- NUX0ByWG3IMEzKUYyh3H3gfX+9y/7GoUglZDXvsPhOOPt0YuPmkafdF9TPN4NmzXGCNs
- PW6w==
-X-Gm-Message-State: AOAM533RniWDAfrJEETq07lZ58OSXOo/jW1U+TN/S7IGOpBZ8yeuptko
- lw4ecfRN183XKCWww/eBQ1B8KEu4dqRtZHI6Jrg=
-X-Google-Smtp-Source: ABdhPJyI8zaM6SVV9fKH0gNRI3MH/q09miYXikX9BmaxTIVHKik9puC7KXd2F8UYrIhi7QrD7wnVKE8z9RBeIw3dr2M=
-X-Received: by 2002:a1c:ac03:: with SMTP id v3mr4149363wme.127.1632516839424; 
- Fri, 24 Sep 2021 13:53:59 -0700 (PDT)
-MIME-Version: 1.0
+ h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=zQB26B5eWUnzl+964mpUpFb8aQd6/nGrTcRgYihaeWc=;
+ b=HjGfuglVhGBd8xEVGHYVO7xC7wJm8G0tgaLiXxxuiVvosuWgMBoJgQ3YO+Cbvo5NNI
+ ryzS0PGdsN3IeSyT+YLOdEkvMn4wYFH0/lM82IsfRHJUwmPrWlycl0/H7yIzbL4dl1pB
+ O022xFfyje4oL83zxS6pa3wWpOktpHKRIYuwRFO97gjZSXIDDNwR4U3ozrVmMM5wcoJo
+ ImUiQpyl91lUyXvEKu8s/PV6A5xLdL86UYhB6fYIBtbfgEacsWkN5J40YwpkqbxcjiEF
+ H+1Aj3u/J8WMBHnymq5U5/fGMuHI3cdC3GDCvDfp6w5YqtVyK2OyfeR/7RkbBPQfZgoo
+ xAmw==
+X-Gm-Message-State: AOAM531oQ+Vh7XKn5Nj/KPCCK3AF3x1QR1Yn2xjLctKmelhKl3tQH+Ku
+ Q8s542RFbRawA0AXZ/9HICU=
+X-Google-Smtp-Source: ABdhPJyKxcFSxLyjYTbrEPilQCvwXzB/i+kykltwhE6uBKLPaKa7c1AQMv9DtFoICMHeA7Ce1DlXbg==
+X-Received: by 2002:a5d:6a08:: with SMTP id m8mr25303052wru.336.1632726080941; 
+ Mon, 27 Sep 2021 00:01:20 -0700 (PDT)
+Received: from [192.168.178.21] (p5b0ea1b5.dip0.t-ipconnect.de.
+ [91.14.161.181])
+ by smtp.gmail.com with ESMTPSA id w21sm2167288wmk.15.2021.09.27.00.01.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 27 Sep 2021 00:01:20 -0700 (PDT)
+Subject: Re: [PATCH 2/4] drm/msm: allow compile_test on !ARM
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+To: dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, etnaviv@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
+Cc: l.stach@pengutronix.de, christian.gmeiner@gmail.com,
+ linux+etnaviv@armlinux.org.uk, robdclark@gmail.com, sean@poorly.run
 References: <20210924071759.22659-1-christian.koenig@amd.com>
-In-Reply-To: <20210924071759.22659-1-christian.koenig@amd.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Fri, 24 Sep 2021 13:58:31 -0700
-Message-ID: <CAF6AEGtD5Xb=4LYK3Nxd+ucMDkABdLFvW6rUqqP8q2-iVedqew@mail.gmail.com>
-Subject: Re: [PATCH 1/4] dma-buf: add dma_fence_describe and dma_resv_describe
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>, 
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>, 
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- The etnaviv authors <etnaviv@lists.freedesktop.org>, 
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- freedreno <freedreno@lists.freedesktop.org>, 
- Lucas Stach <l.stach@pengutronix.de>,
- Christian Gmeiner <christian.gmeiner@gmail.com>, 
- Russell King <linux+etnaviv@armlinux.org.uk>, Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ <20210924071759.22659-2-christian.koenig@amd.com>
+Message-ID: <dbf6b324-511e-45d4-3316-f41f076c4f82@gmail.com>
+Date: Mon, 27 Sep 2021 09:01:18 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
+MIME-Version: 1.0
+In-Reply-To: <20210924071759.22659-2-christian.koenig@amd.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,157 +79,84 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-On Fri, Sep 24, 2021 at 12:18 AM Christian K=C3=B6nig
-<ckoenig.leichtzumerken@gmail.com> wrote:
+As long as nobody objects I'm going to push this one here to 
+drm-misc-next with Rob's rb.
+
+The other patches still need a bit more work, but being able to at least 
+compile test MSM on x86 is really helpful.
+
+Christian.
+
+Am 24.09.21 um 09:17 schrieb Christian König:
+> MSM is one of the few drivers which won't even compile
+> test on !ARM platforms.
 >
-> Add functions to dump dma_fence and dma_resv objects into a seq_file and
-> use them for printing the debugfs informations.
+> Looking into this a bit more it turned out that there is
+> actually not that much missing to at least let the driver
+> compile on x86 as well.
 >
-> Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-
-for the series,
-
-Reviewed-by: Rob Clark <robdclark@gmail.com>
-
+> So this patch replaces the use of phys_to_page() with the
+> open coded version and provides a dummy for of_drm_find_bridge().
+>
+> Signed-off-by: Christian König <christian.koenig@amd.com>
 > ---
->  drivers/dma-buf/dma-buf.c   | 11 +----------
->  drivers/dma-buf/dma-fence.c | 16 ++++++++++++++++
->  drivers/dma-buf/dma-resv.c  | 23 +++++++++++++++++++++++
->  include/linux/dma-fence.h   |  1 +
->  include/linux/dma-resv.h    |  1 +
->  5 files changed, 42 insertions(+), 10 deletions(-)
+>   drivers/gpu/drm/msm/Kconfig   |  4 ++--
+>   drivers/gpu/drm/msm/msm_gem.c |  2 +-
+>   include/drm/drm_bridge.h      | 10 +++++++++-
+>   3 files changed, 12 insertions(+), 4 deletions(-)
 >
-> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> index d35c71743ccb..4975c9289b02 100644
-> --- a/drivers/dma-buf/dma-buf.c
-> +++ b/drivers/dma-buf/dma-buf.c
-> @@ -1368,8 +1368,6 @@ static int dma_buf_debug_show(struct seq_file *s, v=
-oid *unused)
->  {
->         struct dma_buf *buf_obj;
->         struct dma_buf_attachment *attach_obj;
-> -       struct dma_resv_iter cursor;
-> -       struct dma_fence *fence;
->         int count =3D 0, attach_count;
->         size_t size =3D 0;
->         int ret;
-> @@ -1397,14 +1395,7 @@ static int dma_buf_debug_show(struct seq_file *s, =
-void *unused)
->                                 file_inode(buf_obj->file)->i_ino,
->                                 buf_obj->name ?: "");
->
-> -               dma_resv_for_each_fence(&cursor, buf_obj->resv, true, fen=
-ce) {
-> -                       seq_printf(s, "\t%s fence: %s %s %ssignalled\n",
-> -                                  dma_resv_iter_is_exclusive(&cursor) ?
-> -                                       "Exclusive" : "Shared",
-> -                                  fence->ops->get_driver_name(fence),
-> -                                  fence->ops->get_timeline_name(fence),
-> -                                  dma_fence_is_signaled(fence) ? "" : "u=
-n");
-> -               }
-> +               dma_resv_describe(buf_obj->resv, s);
->
->                 seq_puts(s, "\tAttached Devices:\n");
->                 attach_count =3D 0;
-> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
-> index 1e82ecd443fa..5175adf58644 100644
-> --- a/drivers/dma-buf/dma-fence.c
-> +++ b/drivers/dma-buf/dma-fence.c
-> @@ -907,6 +907,22 @@ dma_fence_wait_any_timeout(struct dma_fence **fences=
-, uint32_t count,
->  }
->  EXPORT_SYMBOL(dma_fence_wait_any_timeout);
->
-> +/**
-> + * dma_fence_describe - Dump fence describtion into seq_file
-> + * @fence: the 6fence to describe
-> + * @seq: the seq_file to put the textual description into
-> + *
-> + * Dump a textual description of the fence and it's state into the seq_f=
-ile.
-> + */
-> +void dma_fence_describe(struct dma_fence *fence, struct seq_file *seq)
+> diff --git a/drivers/gpu/drm/msm/Kconfig b/drivers/gpu/drm/msm/Kconfig
+> index e9c6af78b1d7..5879f67bc88c 100644
+> --- a/drivers/gpu/drm/msm/Kconfig
+> +++ b/drivers/gpu/drm/msm/Kconfig
+> @@ -3,9 +3,9 @@
+>   config DRM_MSM
+>   	tristate "MSM DRM"
+>   	depends on DRM
+> -	depends on ARCH_QCOM || SOC_IMX5 || (ARM && COMPILE_TEST)
+> +	depends on ARCH_QCOM || SOC_IMX5 || COMPILE_TEST
+>   	depends on IOMMU_SUPPORT
+> -	depends on OF && COMMON_CLK
+> +	depends on (OF && COMMON_CLK) || COMPILE_TEST
+>   	depends on QCOM_OCMEM || QCOM_OCMEM=n
+>   	depends on QCOM_LLCC || QCOM_LLCC=n
+>   	depends on QCOM_COMMAND_DB || QCOM_COMMAND_DB=n
+> diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
+> index 14907622769f..5bd511f07c07 100644
+> --- a/drivers/gpu/drm/msm/msm_gem.c
+> +++ b/drivers/gpu/drm/msm/msm_gem.c
+> @@ -85,7 +85,7 @@ static struct page **get_pages_vram(struct drm_gem_object *obj, int npages)
+>   
+>   	paddr = physaddr(obj);
+>   	for (i = 0; i < npages; i++) {
+> -		p[i] = phys_to_page(paddr);
+> +		p[i] = pfn_to_page(__phys_to_pfn(paddr));
+>   		paddr += PAGE_SIZE;
+>   	}
+>   
+> diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
+> index 9cdbd209388e..a445298e1c25 100644
+> --- a/include/drm/drm_bridge.h
+> +++ b/include/drm/drm_bridge.h
+> @@ -790,11 +790,19 @@ drm_priv_to_bridge(struct drm_private_obj *priv)
+>   
+>   void drm_bridge_add(struct drm_bridge *bridge);
+>   void drm_bridge_remove(struct drm_bridge *bridge);
+> -struct drm_bridge *of_drm_find_bridge(struct device_node *np);
+>   int drm_bridge_attach(struct drm_encoder *encoder, struct drm_bridge *bridge,
+>   		      struct drm_bridge *previous,
+>   		      enum drm_bridge_attach_flags flags);
+>   
+> +#ifdef CONFIG_OF
+> +struct drm_bridge *of_drm_find_bridge(struct device_node *np);
+> +#else
+> +static inline struct drm_bridge *of_drm_find_bridge(struct device_node *np)
 > +{
-> +       seq_printf(seq, "%s %s seq %llu %ssignalled\n",
-> +                  fence->ops->get_driver_name(fence),
-> +                  fence->ops->get_timeline_name(fence), fence->seqno,
-> +                  dma_fence_is_signaled(fence) ? "" : "un");
+> +	return NULL;
 > +}
-> +EXPORT_SYMBOL(dma_fence_describe);
+> +#endif
 > +
->  /**
->   * dma_fence_init - Initialize a custom fence.
->   * @fence: the fence to initialize
-> diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
-> index 266ec9e3caef..6bb25d53e702 100644
-> --- a/drivers/dma-buf/dma-resv.c
-> +++ b/drivers/dma-buf/dma-resv.c
-> @@ -38,6 +38,7 @@
->  #include <linux/mm.h>
->  #include <linux/sched/mm.h>
->  #include <linux/mmu_notifier.h>
-> +#include <linux/seq_file.h>
->
->  /**
->   * DOC: Reservation Object Overview
-> @@ -654,6 +655,28 @@ bool dma_resv_test_signaled(struct dma_resv *obj, bo=
-ol test_all)
->  }
->  EXPORT_SYMBOL_GPL(dma_resv_test_signaled);
->
-> +/**
-> + * dma_resv_describe - Dump description of the resv object into seq_file
-> + * @obj: the reservation object
-> + * @seq: the seq_file to dump the description into
-> + *
-> + * Dump a textual description of the fences inside an dma_resv object in=
-to the
-> + * seq_file.
-> + */
-> +void dma_resv_describe(struct dma_resv *obj, struct seq_file *seq)
-> +{
-> +       struct dma_resv_iter cursor;
-> +       struct dma_fence *fence;
-> +
-> +       dma_resv_for_each_fence(&cursor, obj, true, fence) {
-> +               seq_printf(seq, "\t%s fence:",
-> +                          dma_resv_iter_is_exclusive(&cursor) ?
-> +                               "Exclusive" : "Shared");
-> +               dma_fence_describe(fence, seq);
-> +       }
-> +}
-> +EXPORT_SYMBOL_GPL(dma_resv_describe);
-> +
->  #if IS_ENABLED(CONFIG_LOCKDEP)
->  static int __init dma_resv_lockdep(void)
->  {
-> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
-> index a706b7bf51d7..1ea691753bd3 100644
-> --- a/include/linux/dma-fence.h
-> +++ b/include/linux/dma-fence.h
-> @@ -264,6 +264,7 @@ void dma_fence_init(struct dma_fence *fence, const st=
-ruct dma_fence_ops *ops,
->
->  void dma_fence_release(struct kref *kref);
->  void dma_fence_free(struct dma_fence *fence);
-> +void dma_fence_describe(struct dma_fence *fence, struct seq_file *seq);
->
->  /**
->   * dma_fence_put - decreases refcount of the fence
-> diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
-> index d4b4cd43f0f1..49c0152073fd 100644
-> --- a/include/linux/dma-resv.h
-> +++ b/include/linux/dma-resv.h
-> @@ -486,5 +486,6 @@ int dma_resv_copy_fences(struct dma_resv *dst, struct=
- dma_resv *src);
->  long dma_resv_wait_timeout(struct dma_resv *obj, bool wait_all, bool int=
-r,
->                            unsigned long timeout);
->  bool dma_resv_test_signaled(struct dma_resv *obj, bool test_all);
-> +void dma_resv_describe(struct dma_resv *obj, struct seq_file *seq);
->
->  #endif /* _LINUX_RESERVATION_H */
-> --
-> 2.25.1
->
+>   /**
+>    * drm_bridge_get_next_bridge() - Get the next bridge in the chain
+>    * @bridge: bridge object
+
