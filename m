@@ -1,65 +1,40 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6701243198A
-	for <lists+etnaviv@lfdr.de>; Mon, 18 Oct 2021 14:42:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CC4643833C
+	for <lists+etnaviv@lfdr.de>; Sat, 23 Oct 2021 12:43:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E9FE16EC5E;
-	Mon, 18 Oct 2021 12:42:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 18ABD6E2A3;
+	Sat, 23 Oct 2021 10:43:23 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com
- [IPv6:2a00:1450:4864:20::532])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B2A156EC55;
- Mon, 18 Oct 2021 12:42:31 +0000 (UTC)
-Received: by mail-ed1-x532.google.com with SMTP id g10so70785968edj.1;
- Mon, 18 Oct 2021 05:42:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=0iYdyokYod4LZcTae4ruCEjJ8TW63KspCJvOc18aEGY=;
- b=DJ+DZZJWvqJ+4q6RDg1mfZwz48wraW0kyXocBAP5Nx8CsQ6SvSlzie5M0ATmxYMYSr
- 5ddXvb9oQ7nJ+07DAT9qVQYyvaO7dgKLdAVx4fy7ppmamL1CgoVOaOZc0ti4yMouxrAJ
- JQGs3E/mH8IcXzjdPUDpLhBvHkhfC176YCvJC1m8rzQ4RBGQZ4iFPZOt+51iqBw92O3s
- JUmlIijDEXLVS0HeA7vwNO/OW0QbFfJFYcRra9wpNb/3TcCNeHd8NCYn6gW1VlsG9OQ+
- AmdYOWtDf9F7R5SV1V1BDTPXZ7Ftl3T195Gi5x4aCm+mz/4TDMThJ5D7xB++j582xUoy
- KHPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=0iYdyokYod4LZcTae4ruCEjJ8TW63KspCJvOc18aEGY=;
- b=19el1GU0rf1D0HwZ0KDkfc99hz3lR5GCSIxOUJ1p7HWoOlLuWMJuOQkBBvPznfrYXU
- uDryWmIpU65Q+uYVbH/FIVlhkGlV8aSWI2PffXq3ajSUoc5eB5XK9nMaRrGSJsFIdws9
- NSAajz+QRUxDTyaqYvnFgaR61wOjUWF6OT1ZSMGe1D8OT69pJNcOkTS3MR50rrSSmTDV
- 5iA0y9lkx/kE3YN9P1Oq03A7lbwrP9haLJIvoNBlk0w+2Iv9yGkllpx7P1lyi9A9ed9i
- EQ9c+9z5ESRtUZOQF3ZEoZjpelyITjH+j7dnirQCEhUI95Qp3oBXUGKVFozjUi/kJzEX
- +qqw==
-X-Gm-Message-State: AOAM533PcrE2pZn2RxJr5afFK200/QsSHus1PAb9tmZA6hZx2WvNaTb6
- 2Uj7HBJyhIWCke+WXGTkyl2yff3ZAKYOVEy22NA=
-X-Google-Smtp-Source: ABdhPJx1Yr8Ty0BkPpsKqK9TDNUWSEsCZ86NgCSskCbZwziCccTqEDcX8aJvx4og7kLumF6keMezyg1srwlsiXGmd8U=
-X-Received: by 2002:a17:906:9888:: with SMTP id
- zc8mr30340887ejb.504.1634560946664; 
- Mon, 18 Oct 2021 05:42:26 -0700 (PDT)
+Received: from smtp.smtpout.orange.fr (smtp13.smtpout.orange.fr
+ [80.12.242.135])
+ by gabe.freedesktop.org (Postfix) with ESMTP id CC11D6E30C
+ for <etnaviv@lists.freedesktop.org>; Sun, 10 Oct 2021 14:07:50 +0000 (UTC)
+Received: from pop-os.home ([90.126.248.220]) by mwinf5d78 with ME
+ id 4E0F260064m3Hzu03E0Fup; Sun, 10 Oct 2021 16:00:18 +0200
+X-ME-Helo: pop-os.home
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Sun, 10 Oct 2021 16:00:18 +0200
+X-ME-IP: 90.126.248.220
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To: l.stach@pengutronix.de, linux+etnaviv@armlinux.org.uk,
+ christian.gmeiner@gmail.com, airlied@linux.ie, daniel@ffwll.ch,
+ robdclark@gmail.com, sean@poorly.run, jyri.sarha@iki.fi, tomba@kernel.org,
+ linux-graphics-maintainer@vmware.com, zackr@vmware.com,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
+Cc: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Subject: [PATCH] drm: Remove redundant 'flush_workqueue()' calls
+Date: Sun, 10 Oct 2021 15:59:40 +0200
+Message-Id: <75e8ba40076ad707d47e3a3670e6b23c1b8b11bc.1633874223.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <75e8ba40076ad707d47e3a3670e6b23c1b8b11bc.1633874223.git.christophe.jaillet@wanadoo.fr>
-In-Reply-To: <75e8ba40076ad707d47e3a3670e6b23c1b8b11bc.1633874223.git.christophe.jaillet@wanadoo.fr>
-From: Christian Gmeiner <christian.gmeiner@gmail.com>
-Date: Mon, 18 Oct 2021 14:42:15 +0200
-Message-ID: <CAH9NwWdC1pV6Uwe_2NkBZGeUb_ejFH-YVYdhx0wpmZbL8CnRoA@mail.gmail.com>
-Subject: Re: [PATCH] drm: Remove redundant 'flush_workqueue()' calls
-To: christophe.jaillet@wanadoo.fr
-Cc: Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>, 
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Clark <robdclark@gmail.com>, 
- Sean Paul <sean@poorly.run>, jyri.sarha@iki.fi, tomba@kernel.org, 
- linux-graphics-maintainer@vmware.com, zackr@vmware.com, 
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org, 
- The etnaviv authors <etnaviv@lists.freedesktop.org>, 
- DRI mailing list <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>, kernel-janitors@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Sat, 23 Oct 2021 10:43:21 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,30 +49,109 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Am So., 10. Okt. 2021 um 16:08 Uhr schrieb Christophe JAILLET
-<christophe.jaillet@wanadoo.fr>:
->
-> 'destroy_workqueue()' already drains the queue before destroying it, so
-> there is no need to flush it explicitly.
->
-> Remove the redundant 'flush_workqueue()' calls.
->
-> This was generated with coccinelle:
->
-> @@
-> expression E;
-> @@
-> -       flush_workqueue(E);
->         destroy_workqueue(E);
->
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+'destroy_workqueue()' already drains the queue before destroying it, so
+there is no need to flush it explicitly.
 
-For drm/etnaviv:
-Reviewed-by: Christian Gmeiner <christian.gmeiner@gmail.com>
+Remove the redundant 'flush_workqueue()' calls.
 
+This was generated with coccinelle:
+
+@@
+expression E;
+@@
+- 	flush_workqueue(E);
+	destroy_workqueue(E);
+
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 1 -
+ drivers/gpu/drm/msm/dsi/dsi_host.c    | 1 -
+ drivers/gpu/drm/msm/edp/edp_ctrl.c    | 1 -
+ drivers/gpu/drm/msm/hdmi/hdmi.c       | 4 +---
+ drivers/gpu/drm/tilcdc/tilcdc_drv.c   | 4 +---
+ drivers/gpu/drm/vmwgfx/ttm_memory.c   | 1 -
+ 6 files changed, 2 insertions(+), 10 deletions(-)
+
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+index 789acae37f55..06bde46df451 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+@@ -1733,7 +1733,6 @@ static void etnaviv_gpu_unbind(struct device *dev, struct device *master,
+ 
+ 	DBG("%s", dev_name(gpu->dev));
+ 
+-	flush_workqueue(gpu->wq);
+ 	destroy_workqueue(gpu->wq);
+ 
+ 	etnaviv_sched_fini(gpu);
+diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
+index c86b5090fae6..462ea65ebf89 100644
+--- a/drivers/gpu/drm/msm/dsi/dsi_host.c
++++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
+@@ -1925,7 +1925,6 @@ void msm_dsi_host_destroy(struct mipi_dsi_host *host)
+ 	DBG("");
+ 	dsi_tx_buf_free(msm_host);
+ 	if (msm_host->workqueue) {
+-		flush_workqueue(msm_host->workqueue);
+ 		destroy_workqueue(msm_host->workqueue);
+ 		msm_host->workqueue = NULL;
+ 	}
+diff --git a/drivers/gpu/drm/msm/edp/edp_ctrl.c b/drivers/gpu/drm/msm/edp/edp_ctrl.c
+index fe1366b4c49f..07129a6e5dbb 100644
+--- a/drivers/gpu/drm/msm/edp/edp_ctrl.c
++++ b/drivers/gpu/drm/msm/edp/edp_ctrl.c
+@@ -1190,7 +1190,6 @@ void msm_edp_ctrl_destroy(struct edp_ctrl *ctrl)
+ 		return;
+ 
+ 	if (ctrl->workqueue) {
+-		flush_workqueue(ctrl->workqueue);
+ 		destroy_workqueue(ctrl->workqueue);
+ 		ctrl->workqueue = NULL;
+ 	}
+diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.c b/drivers/gpu/drm/msm/hdmi/hdmi.c
+index 737453b6e596..5ba7c8f28419 100644
+--- a/drivers/gpu/drm/msm/hdmi/hdmi.c
++++ b/drivers/gpu/drm/msm/hdmi/hdmi.c
+@@ -61,10 +61,8 @@ static void msm_hdmi_destroy(struct hdmi *hdmi)
+ 	 * at this point, hpd has been disabled,
+ 	 * after flush workq, it's safe to deinit hdcp
+ 	 */
+-	if (hdmi->workq) {
+-		flush_workqueue(hdmi->workq);
++	if (hdmi->workq)
+ 		destroy_workqueue(hdmi->workq);
+-	}
+ 	msm_hdmi_hdcp_destroy(hdmi);
+ 
+ 	if (hdmi->phy_dev) {
+diff --git a/drivers/gpu/drm/tilcdc/tilcdc_drv.c b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
+index 6b03f89a98d4..3ddb7c710a3d 100644
+--- a/drivers/gpu/drm/tilcdc/tilcdc_drv.c
++++ b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
+@@ -186,10 +186,8 @@ static void tilcdc_fini(struct drm_device *dev)
+ 	if (priv->mmio)
+ 		iounmap(priv->mmio);
+ 
+-	if (priv->wq) {
+-		flush_workqueue(priv->wq);
++	if (priv->wq)
+ 		destroy_workqueue(priv->wq);
+-	}
+ 
+ 	dev->dev_private = NULL;
+ 
+diff --git a/drivers/gpu/drm/vmwgfx/ttm_memory.c b/drivers/gpu/drm/vmwgfx/ttm_memory.c
+index edd17c30d5a5..7f7fe35fc21d 100644
+--- a/drivers/gpu/drm/vmwgfx/ttm_memory.c
++++ b/drivers/gpu/drm/vmwgfx/ttm_memory.c
+@@ -468,7 +468,6 @@ void ttm_mem_global_release(struct ttm_mem_global *glob)
+ 	struct ttm_mem_zone *zone;
+ 	unsigned int i;
+ 
+-	flush_workqueue(glob->swap_queue);
+ 	destroy_workqueue(glob->swap_queue);
+ 	glob->swap_queue = NULL;
+ 	for (i = 0; i < glob->num_zones; ++i) {
 -- 
-greets
---
-Christian Gmeiner, MSc
+2.30.2
 
-https://christian-gmeiner.info/privacypolicy
