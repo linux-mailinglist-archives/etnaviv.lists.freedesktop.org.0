@@ -1,67 +1,130 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E331443E2E
-	for <lists+etnaviv@lfdr.de>; Wed,  3 Nov 2021 09:12:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D78C744728C
+	for <lists+etnaviv@lfdr.de>; Sun,  7 Nov 2021 11:29:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 890C1734C7;
-	Wed,  3 Nov 2021 08:12:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79D456F8F3;
+	Sun,  7 Nov 2021 10:29:40 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
- [IPv6:2a00:1450:4864:20::42e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C81FB734C0;
- Wed,  3 Nov 2021 08:12:39 +0000 (UTC)
-Received: by mail-wr1-x42e.google.com with SMTP id u18so2245792wrg.5;
- Wed, 03 Nov 2021 01:12:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=4CDt1ISjRTMYLH7FxvvLqp3He8TQZQtgj+2GfXtaN90=;
- b=g9U1aSa+6bfag8lo3nJKStn7BnOsmwJb6j1n4QC0Lkp1bDff6m9nVVeAoToH3yAudW
- 4jTbxb8/cz27CKva48/O/RblrmnLlJa141hwjr/7zvWE1IjnsP9KKu7Zbc4G7kGQ+bjy
- TRMIQFhu0WKSRP/jVfYGghycdSFltphYSAwVFMpZt91dTudt5/B1Bw7LABU4HXO3tbv8
- q9Q62IJ8avbKVgS4KTNxIMKbWGcXUxKEB+i3t+0ZCrlwNWFLXmBmD/GZCpKLiZFgIp3z
- 8zW847hVRQ1jOayX9XCwct3J+rN0aZqVN6CWHmMOhJF6kywpn1Xl6nxJGDznecM+bw+q
- 2k2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=4CDt1ISjRTMYLH7FxvvLqp3He8TQZQtgj+2GfXtaN90=;
- b=QpN0blYHtN6isPxPoDoHeKpxd9OCAGxA8YtkbCRJFJw/30fGcBy7vLt78BekoTjPd3
- BQKXqDApa+09R8tUN98vJ+RCYa2aZSEed9+fVlwACOz5e4HODro2JBlLHasJF8d9XGHd
- Ss42PkeZEXAl/ikAjRCwEYfVHGiy7e+DavUOp0cjSH/88qaX5FzGy8NtCUapeRja6ms2
- EaxupHJ9W6GIwrUvlkxlCPLPauvlf4PERLrdMW9jCh6GUmfUe3wOJq91AMZGLdfw6Wgc
- FruxNQHy7sK7lHyl50SBbcHokgVaEM5T602MAyeY9nzVCf+Vii33KsifykWFiePWHRJQ
- SUJg==
-X-Gm-Message-State: AOAM5312ivoS6xG9YIKEUtJMZrMLIg9hnIG0der4ZK5gz9ZGCGZG8RE1
- 4YQUAXxan+n0wP7kO5VqjM8=
-X-Google-Smtp-Source: ABdhPJxlY/OJLgc774nRzsIwvqJo4XvP/pZEzGcq0XIZGbOcmmVvVYVPx0RKwrS16P8UJv2gUPvNvA==
-X-Received: by 2002:a5d:6dae:: with SMTP id u14mr53757436wrs.46.1635927158385; 
- Wed, 03 Nov 2021 01:12:38 -0700 (PDT)
-Received: from abel.fritz.box (p5b0ea1b5.dip0.t-ipconnect.de. [91.14.161.181])
- by smtp.gmail.com with ESMTPSA id
- l7sm1450088wry.86.2021.11.03.01.12.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Nov 2021 01:12:38 -0700 (PDT)
-From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>
-To: linux-media@vger.kernel.org, etnaviv@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org,
- spice-devel@lists.freedesktop.org
-Subject: [PATCH 4/4] drm/qxl: use iterator instead of dma_resv_shared_list
-Date: Wed,  3 Nov 2021 09:12:31 +0100
-Message-Id: <20211103081231.18578-5-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211103081231.18578-1-christian.koenig@amd.com>
-References: <20211103081231.18578-1-christian.koenig@amd.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2080.outbound.protection.outlook.com [40.107.237.80])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3BC98739A8;
+ Wed,  3 Nov 2021 16:36:27 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ftRpVFrK2Wnf4rmmfmtou87881D20aCu4/yHCvxL9+76W5b180AHTA3giY077o66vK5lhqd+rks/m7Y3PJP+W34ypSXT+nL3NePbHfLK6YB+nBo+p/m6E509L3x1ADPUIoXBVTVkDoVMW0RBin6EqhSE+LRnkE0b2ARmeKq03kvKnvFkQnWAQ/FbVndqLG8UKyK5nI2f/tFe21xbUiioF9G2jOM9yut3TU2DX/AIGcs22tXP5eGag7SSSjF6vTUZDFMbA0bjiyu3H9GAegis9SyyDXuaOFKuue53aZAcFUuJjKMg1GfCIXD8sI7GhFw4Tn+ijMBNml60LOq3hPWZBQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=VT00V9UaHmTr2BX4r2hDLU8zqzuxiRXU6n2zyTptOEg=;
+ b=LOW+VZes+W1fJLZbYtXNfkI3AbiyvH3my4gY0Bm4uxrF1zmsG31PwXwAtb39bNgs4bxE1GqI5iYWWz2tTuUbg3pMcJxZVyKNcqdV1eKLagrSgKJz+M6eczdFOJyuuWpQFd6j5jqbky4BMQ72csQlSK8BN+cCp6g0ZmjOJU2oqHh96KdpzaMDOSKZTjel54yZGrmL60TKz6wwLs1kHonA6G8SV7Xz2C+g7mLQA31AZIdp9OlqA5bc0SiXe5vGVoxP4kY5JYll4qJM0A96E/wfL/3mkA6Y2gMpuO7T+3MfglEeFvkh95e2z8ZG5Td8lhqh8+2071qzZY1Nwc6iSfho/w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=VT00V9UaHmTr2BX4r2hDLU8zqzuxiRXU6n2zyTptOEg=;
+ b=Dd02n/mWnU6YF6vkrU3p+E6GDRni48bfL/icKAz9slymUa8ei7KENKyWlN89vNXYyV19wbFCJxqOLUXl4GfJObAdPxirU+TkCG++ZQYLJgoloiuHa+Vm2NS5HkOdYxozCaDOp8NhF+PD/wWnlWTLahaZSe+lqr48esAqf7yijxA=
+Authentication-Results: gmail.com; dkim=none (message not signed)
+ header.d=none;gmail.com; dmarc=none action=none header.from=amd.com;
+Received: from DM4PR12MB5136.namprd12.prod.outlook.com (2603:10b6:5:393::23)
+ by DM4PR12MB5295.namprd12.prod.outlook.com (2603:10b6:5:39f::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4649.15; Wed, 3 Nov
+ 2021 16:36:24 +0000
+Received: from DM4PR12MB5136.namprd12.prod.outlook.com
+ ([fe80::e95d:8a23:c590:e07a]) by DM4PR12MB5136.namprd12.prod.outlook.com
+ ([fe80::e95d:8a23:c590:e07a%7]) with mapi id 15.20.4649.017; Wed, 3 Nov 2021
+ 16:36:24 +0000
+Message-ID: <eb312f24-76bb-96dd-3bcf-848f83869a16@amd.com>
+Date: Wed, 3 Nov 2021 17:36:12 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.1
+Subject: Re: [PATCH 6/6] drm/radeon: use dma_resv_wait_timeout() instead of
+ manually waiting
+Content-Language: en-US
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+ etnaviv@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+References: <20211028132630.2330-1-christian.koenig@amd.com>
+ <20211028132630.2330-6-christian.koenig@amd.com>
+From: "Das, Nirmoy" <nirmoy.das@amd.com>
+In-Reply-To: <20211028132630.2330-6-christian.koenig@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: AM6PR01CA0062.eurprd01.prod.exchangelabs.com
+ (2603:10a6:20b:e0::39) To DM4PR12MB5136.namprd12.prod.outlook.com
+ (2603:10b6:5:393::23)
+MIME-Version: 1.0
+Received: from [192.168.178.88] (93.229.39.242) by
+ AM6PR01CA0062.eurprd01.prod.exchangelabs.com (2603:10a6:20b:e0::39) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4669.11 via Frontend
+ Transport; Wed, 3 Nov 2021 16:36:22 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: d295c2f6-0141-4132-ed30-08d99ee812dc
+X-MS-TrafficTypeDiagnostic: DM4PR12MB5295:
+X-Microsoft-Antispam-PRVS: <DM4PR12MB5295B5E9A992EC8616D87BEE8B8C9@DM4PR12MB5295.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3513;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: dOtfJA1Ad9ZJcvz4933FeRpdS5d0fvlfSTvhOxTAe0qIR9Mt6UrQ80UXEfTYTAfe9SM9CjlcQ1TCBsnvlgmbPSYu28zV+W/eW6szdBaiBpcrp+cxayIpTT1qQAYBTZHNVtCTb7B1SDoKkEN2Lc+srbEU3zzKGcojNVRStDysp1ZCH6Z7JccmYzKhiQyp4qdUe8h2311lnW5JkPFgdiO9LqAXpFqZZOSETKrX4ffBIspF2x0DpC9Lsuc+xwEQMvsyVVJQ1V0SuQ25pcCOA5Rzn1rJ5+htUjj4mYLyri/SRVw/TObj14eHZOwA6yipv8i9mobmiivDZvJnPVHH1TMv9yd/KReVeiuKHHURDAC/28n2n6vSf3qG1AbWcOxrxwIUgJdDPSeuHc9u4bWHUS1r2tgKtzjd430cqaVMI+5xro2rE9gg1IUHATWY1mD80YHOEUDmxpuMC7JwhcUvrmjpNCFIyzm3HhW/RXLlV8+nXX5UTiRURSmrDDh0E9C5xJwW0nsPCD10q4btHoTCjuGWWFF2XsS5NfYndkiNvY5oad3yXJqITwjbAD1HZ8+bfe3Eam0u2/yEPE7k+XUs6RBqZOslcTuSS48wORb2a2VE/w1DL0obwfsLvkImoOj3EuCvuEkLCKL2d7OO5Wj+kZ05J9nyfK6LG5FPgMrkEQBj4I8P3FlE2BRMThgGfVwnSt8D
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR12MB5136.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(316002)(8676002)(66476007)(2906002)(66946007)(6486002)(31696002)(36756003)(38100700002)(26005)(66556008)(16576012)(956004)(186003)(2616005)(83380400001)(5660300002)(53546011)(86362001)(8936002)(6666004)(508600001)(31686004)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RjFERUM4bFVFMmRGbWRuMFFVWitXUU5jWnhKUkhRMmxBaGY4TTlNVFBBMGth?=
+ =?utf-8?B?amh2VHJDOFZHejlvY3ZhWnlQU3NVL1lFRkFmbDdSbGl0OTV2VlI2a3lIT2hO?=
+ =?utf-8?B?aS9VVFNqUDZ5VG5QUGxaVDdBQTFZQzlYN0g3NDIxU05DbE44T080WVluc2Fo?=
+ =?utf-8?B?S1N2Nm5ESi8xV0R0ZDJFMDhma043NkY1VUUvMjBtSFd0ajFXWXV0WG1TL0Yz?=
+ =?utf-8?B?MVlad3RxNHZ6KzBGTUxyNG45OVVmQi9tRFd1R1ZvZjJBVG9aZDRuWW1ra1c0?=
+ =?utf-8?B?ZU00UXZ5STZxYWVpa3ViVzUzTzlwZkFaaWxHWFRCL1dOaW1TakZTc2NCWDcv?=
+ =?utf-8?B?KzJ0L0YvTkI5eXQxMkZjMmZzeEtzVmRDYlFlV1JRUVI4UjVFaHEvWC9ibWhz?=
+ =?utf-8?B?bnJvVG51ckZ2VHZ5amgvUUVKTXJaaFFtS3lTRGRFaGxUVmdqM0Q3UjB2K3Fm?=
+ =?utf-8?B?K2Jyb3BvMnFnK0VhTVpjMitHUVNDaEpYSEVUdWpld0gyK3U5ME5XajRtRHpp?=
+ =?utf-8?B?TmQ0RDk0NkZJZE52bmZ6RFZ2ZkFQNy9FS1FLRlJSczJuTmNkc3FJa2NxSWMw?=
+ =?utf-8?B?aHBmTm10UlhqdXBRZThKOVBPMDU2QUZvcnNja1VFbGwzZXNjS0JYem9VcERB?=
+ =?utf-8?B?bG5FVngzWklWWjN1SDlFTHpCcXZ6ZHI4OUtEb3haU0ovNVlvN1BvalFiL2dw?=
+ =?utf-8?B?RFVhTE5hN3BEQTFZekZKMkJPNnhGNDBHVWN3eHRJQWpteGFQdVRRV05sMWxN?=
+ =?utf-8?B?bXNoZG1FYXlsb3ZHTTRiRkNKRDdvZEZOVEI5b1kyYlFLTVlmaVROaDhIbW5y?=
+ =?utf-8?B?RjMrWkNNbXZSQUpWczJ5eHZwK0wrTU1VVU02OGZJZG94b1R2eG1XQTZjalVS?=
+ =?utf-8?B?MVduZm9VaHp5RVNqYjNJT1JjRDBtTE1jVXFMMXFmbWVQMWcrdGo0bWR2d09H?=
+ =?utf-8?B?LzA5d3YwSjZPbTFNRytJS0hJSlA3UlBVci8wN1dDMDljNEVHaGEvSTlKVW0r?=
+ =?utf-8?B?c08raUl1M0tKU296Y0J6MnArOUxSNlpITXVwQU5QUnBUdlRyVUFHWjZaL0oy?=
+ =?utf-8?B?RUgxdXloU2pTNGVkL2RsbTBwaUhBMGRzT3RKckk5UmNlalhXblpjUjRVV1Vh?=
+ =?utf-8?B?UnVLWXp4QkQrcTlYcDI4a1liOFJqQ29yU0hjUktyc2dEKys0MUtBV25OOUFj?=
+ =?utf-8?B?eUgyVVBMcE44RFQzQTFhNVdqZVJtdWR1YXhmUFhHWXFTZitVYk1XQ0JmWDlD?=
+ =?utf-8?B?R3IvMi9IRnlpNFlUWkFHa3g5MFVvdWthY0ZCWkhTZ3RVSFZSWlU5NWJmSGlJ?=
+ =?utf-8?B?ckhiQnVtL2RXRGEzVDc1WWNpRXc3TURWMmowWlNJblFHcTlpaDN4dXRvWURX?=
+ =?utf-8?B?U1lxN253c3NDOHJBaWo4VllmRUZXMmhldWx5eWlaNFlTazBLdEZvZ3BScEx5?=
+ =?utf-8?B?bnl3aVJKR1MvRXBYaWg4ZHZTSWFTOU9tdktwY1JHbDlrWXJyZGJnc1R5R2pk?=
+ =?utf-8?B?VzU5elpqeDhMRnExU1ZISS9ZeHdLYi96OHJZWW5IaW0xOWIvc21PM1hKR0M2?=
+ =?utf-8?B?ZSswV0YxR1pNcHFCdEN5bHVwaCt1KzVwbDdrbVR0NUwzTGw4SkZ2c05EU0pa?=
+ =?utf-8?B?TkZqSDArVk45M2p5bnhqdVF4REZVSEpmRktiZUw2SnA3RkZVRm5DR0JLZkhy?=
+ =?utf-8?B?bDZUdWZUY2FaQk1Sa0FzTTdNOVdGeGhNN05MZVhuak5qL2k5c254NlJId1Rq?=
+ =?utf-8?B?N2hQUjlBV0VkMmo1SVlaVlB5NXN4dWhZcVE1VHF0V1lZZEVjczBrY2FhTmJN?=
+ =?utf-8?B?K2JZQUo2QUd1QnpZVjhJVGpzZ0xTL0ZwQkdVajRadlpqRElseXNPdkNEWjBR?=
+ =?utf-8?B?NktCUFhqZ3lxWlBDTmFWYWd2Uk9HUFhIVUp4cC9xTDhQVTlmazd5Nm1rWHB1?=
+ =?utf-8?B?bXl2ZjdiSngydGlpbDZNWXo2ZmZkdkR6VDVmREYzRXYvM0lRMzFUa2psREVR?=
+ =?utf-8?B?U0grRDdlYVgwaFhHd0RYaTVhZ2lLajZCeEE1NzU3Vkxzc3ZERnQranY5bXY5?=
+ =?utf-8?B?UU85d2J2UktPS0lPTHRFcmQ1L05HZHRTT1JFZmxGdHFvODZjaDd4QUg1MjRQ?=
+ =?utf-8?B?N3REVFFjR3dHajY2QWNtOStPQUVqSUVjSlVQNVdWcCsrWkl0Snh4Y1hWcmJh?=
+ =?utf-8?Q?WcTMWKkxp0t4oM6LBefSmjA=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d295c2f6-0141-4132-ed30-08d99ee812dc
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5136.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Nov 2021 16:36:24.1609 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Bsd7HFU1BexpCy591oEi+StSBr9VMj2HBQ88LL1xpiR/Kb1wkq5asAN7xW69BSPWCPYWybPgN3awU92hCIqcDw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5295
+X-Mailman-Approved-At: Sun, 07 Nov 2021 10:29:38 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,50 +136,49 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: sumit.semwal@linaro.org, daniel@ffwll.ch, l.stach@pengutronix.de
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-I'm not sure why it is useful to know the number of fences
-in the reservation object, but we try to avoid exposing the
-dma_resv_shared_list() function.
+Acked-by: Nirmoy Das <nirmoy.das@amd.com>
 
-So use the iterator instead. If more information is desired
-we could use dma_resv_describe() as well.
-
-Signed-off-by: Christian König <christian.koenig@amd.com>
----
- drivers/gpu/drm/qxl/qxl_debugfs.c | 17 ++++++++++-------
- 1 file changed, 10 insertions(+), 7 deletions(-)
-
-diff --git a/drivers/gpu/drm/qxl/qxl_debugfs.c b/drivers/gpu/drm/qxl/qxl_debugfs.c
-index 1f9a59601bb1..6a36b0fd845c 100644
---- a/drivers/gpu/drm/qxl/qxl_debugfs.c
-+++ b/drivers/gpu/drm/qxl/qxl_debugfs.c
-@@ -57,13 +57,16 @@ qxl_debugfs_buffers_info(struct seq_file *m, void *data)
- 	struct qxl_bo *bo;
- 
- 	list_for_each_entry(bo, &qdev->gem.objects, list) {
--		struct dma_resv_list *fobj;
--		int rel;
--
--		rcu_read_lock();
--		fobj = dma_resv_shared_list(bo->tbo.base.resv);
--		rel = fobj ? fobj->shared_count : 0;
--		rcu_read_unlock();
-+		struct dma_resv_iter cursor;
-+		struct dma_fence *fence;
-+		int rel = 0;
-+
-+		dma_resv_iter_begin(&cursor, bo->tbo.base.resv, true);
-+		dma_resv_for_each_fence_unlocked(&cursor, fence) {
-+			if (dma_resv_iter_is_restarted(&cursor))
-+				rel = 0;
-+			++rel;
-+		}
- 
- 		seq_printf(m, "size %ld, pc %d, num releases %d\n",
- 			   (unsigned long)bo->tbo.base.size,
--- 
-2.25.1
-
+On 10/28/2021 3:26 PM, Christian König wrote:
+> Don't touch the exclusive fence manually here, but rather use the
+> general dma_resv function. We did that for better hw reset handling but
+> this doesn't necessary work correctly.
+>
+> Signed-off-by: Christian König <christian.koenig@amd.com>
+> ---
+>   drivers/gpu/drm/radeon/radeon_uvd.c | 13 +++++--------
+>   1 file changed, 5 insertions(+), 8 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/radeon/radeon_uvd.c b/drivers/gpu/drm/radeon/radeon_uvd.c
+> index 2ea86919d953..377f9cdb5b53 100644
+> --- a/drivers/gpu/drm/radeon/radeon_uvd.c
+> +++ b/drivers/gpu/drm/radeon/radeon_uvd.c
+> @@ -469,7 +469,6 @@ static int radeon_uvd_cs_msg(struct radeon_cs_parser *p, struct radeon_bo *bo,
+>   {
+>   	int32_t *msg, msg_type, handle;
+>   	unsigned img_size = 0;
+> -	struct dma_fence *f;
+>   	void *ptr;
+>   
+>   	int i, r;
+> @@ -479,13 +478,11 @@ static int radeon_uvd_cs_msg(struct radeon_cs_parser *p, struct radeon_bo *bo,
+>   		return -EINVAL;
+>   	}
+>   
+> -	f = dma_resv_excl_fence(bo->tbo.base.resv);
+> -	if (f) {
+> -		r = radeon_fence_wait((struct radeon_fence *)f, false);
+> -		if (r) {
+> -			DRM_ERROR("Failed waiting for UVD message (%d)!\n", r);
+> -			return r;
+> -		}
+> +	r = dma_resv_wait_timeout(bo->tbo.base.resv, false, false,
+> +				  MAX_SCHEDULE_TIMEOUT);
+> +	if (r <= 0) {
+> +		DRM_ERROR("Failed waiting for UVD message (%d)!\n", r);
+> +		return r ? r : -ETIME;
+>   	}
+>   
+>   	r = radeon_bo_kmap(bo, &ptr);
