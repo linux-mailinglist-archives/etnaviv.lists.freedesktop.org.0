@@ -2,66 +2,64 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01E1B443DDB
-	for <lists+etnaviv@lfdr.de>; Wed,  3 Nov 2021 08:55:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5F5D443E1F
+	for <lists+etnaviv@lfdr.de>; Wed,  3 Nov 2021 09:12:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9FD4C73370;
-	Wed,  3 Nov 2021 07:55:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF376734B8;
+	Wed,  3 Nov 2021 08:12:37 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
- [IPv6:2a00:1450:4864:20::42a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF7B573370;
- Wed,  3 Nov 2021 07:55:15 +0000 (UTC)
-Received: by mail-wr1-x42a.google.com with SMTP id d24so2248607wra.0;
- Wed, 03 Nov 2021 00:55:15 -0700 (PDT)
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
+ [IPv6:2a00:1450:4864:20::42d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 13E39734B6;
+ Wed,  3 Nov 2021 08:12:36 +0000 (UTC)
+Received: by mail-wr1-x42d.google.com with SMTP id t30so2203357wra.10;
+ Wed, 03 Nov 2021 01:12:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=subject:from:to:references:cc:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=ZWrI+yzyQheNNAyamcSJumrm+hk+wSs89ujE90XR8wA=;
- b=RJ0IlTMAz7WYVbgMsXLroI04Jq4hwn7P4XYUQm9l4BjQGAD+2aKABah1BiYLN/yLZ3
- aHermGkAstxp4A2zjYLvjefvY8iIqgC+VSY6ajAXuS0KZRWPiz9cfMA8GcRSabXDHvLR
- fr+hXJeD+kyp8+yHk4SfH43vLeb0CmG3+x4MiTXTvlhYMvFwKa+9MSt96NVKtX4um21d
- VrBF6DbLTGowhKWHGGiCtWGPg1zE9JehkbMWFMkzUpA4X+EoeJ2OpiLbv5QeT/1RXoyX
- 1a9zE0rRrMAf5czlb5tNZaWtgEMZnlNfwSembVyd4DwuasyL7fKD4NqTyGyMdLFcgsxz
- lpZA==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Uh0NRCclsAKfVxkerpNkq71adkos81CcdIhWKjRw+6Y=;
+ b=mr5PnPgRO8OzuCvJMvW5hnrKT6fvInL0UAalZ989hyaB3jvVYItDW8ou3liJfIJoNr
+ hvWaf54dIpbnxdcc373Xcvqh9M6HM18knXjMfLH8s9y9SqdcLaOWvj2x7DpcCaGzVFbZ
+ lRKQhbmITsNkhjsS4nGlQr7p3Lx9KbhcIkcbZuEMqIiRnZFQq9nQAgmb7jI6kyyIYGVr
+ 8DuN2xfiamK0PB5ZXxLNCXVJmkxa0CufWXYNL8NcvGDnhKDuJsd3OrctTS27BMaV18TM
+ rng6LYJfdT4RIcJrOUvee5IGHT8G8Pg1qV1oMpUStS5iXhzHspZdxG0dOEiTdyYrycJK
+ yKSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:from:to:references:cc:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=ZWrI+yzyQheNNAyamcSJumrm+hk+wSs89ujE90XR8wA=;
- b=kvXdY29/adQnGGG4rPHtBVK+SJlj/4mF/pSWF0WaDtFOqxqyef6XnwGYouVV2lhS83
- ekGTle6fs20XOuis1JHcT93sZmeQfdB9KRqvhtivQsZCBEhIIkt/KPA6epCrKucB02Kx
- A3f2rmq5IZvDm24oP8ymO4knHh10bMOqn+eLqjvPrQ32UCXmGSeBgfVTZtXkvYuobtZC
- b1xVfsmU40E+JoA9Xe3fPwuxZW+KGukoY0qmZ8F9HG1IjnPiqQnihVfB+vWMeUqZncko
- p1h4cxkV2Cs3UkxB75hiI2zmdDA+m2piF3yClElHcGW47OA2ullzsV83i96nXYrs9g3K
- m5Tw==
-X-Gm-Message-State: AOAM530nrXOBTbRidZ7C4OUPh+SEaP9aFotyRKqGqsmgPCE4V9VeHJv0
- x+feIeZsaRFWexJ+990BBClFsc4jj08=
-X-Google-Smtp-Source: ABdhPJx7hWTDgh92nYC6qMRv8Dr6nlaG+tMzTzafLRSTRpJKKLVDv0RielMU6m74QuZt2unlSRGYew==
-X-Received: by 2002:adf:eac8:: with SMTP id o8mr24554425wrn.337.1635926114457; 
- Wed, 03 Nov 2021 00:55:14 -0700 (PDT)
-Received: from [192.168.178.21] (p5b0ea1b5.dip0.t-ipconnect.de.
- [91.14.161.181])
- by smtp.gmail.com with ESMTPSA id u16sm4455389wmc.21.2021.11.03.00.55.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 03 Nov 2021 00:55:14 -0700 (PDT)
-Subject: Re: [PATCH 6/6] drm/radeon: use dma_resv_wait_timeout() instead of
- manually waiting
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-To: Alex Deucher <Alexander.Deucher@amd.com>
-References: <20211028132630.2330-1-christian.koenig@amd.com>
- <20211028132630.2330-6-christian.koenig@amd.com>
-Message-ID: <ca60f37a-c478-59ed-e5a2-28fc87e03168@gmail.com>
-Date: Wed, 3 Nov 2021 08:55:11 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Uh0NRCclsAKfVxkerpNkq71adkos81CcdIhWKjRw+6Y=;
+ b=HGJvOrpwED7SiLPwF7BLyqzA+9qhiptUlsz0Icl+z5M1wM6sImchOzL3SrUgMWYd2J
+ s0cSaLWBU5ZarHKuQ0U2zef6b7rqVSgxOTtXxXXcUoUzxkkjjfU4kzvM0+Eb8nNjUqMv
+ y0GiKb48ue91kiM06AiZGnykZgFABvP73QzC+j4/2VEd/4fe0vlodnchcgbJnWB2B6hc
+ +IatfmlMSY5No94nMPKxu/yC4bX0Dv1drD+/C+JGz0ehVgpFfDu7YKSEEcuF6mFjUqin
+ U6WYbxAYDmhLskR6ZIV+LcCYvn8MWSb4flZkfxpXvaGTe35mVaR2Vd4yXmNQxbRIa9DD
+ vVsw==
+X-Gm-Message-State: AOAM533RSXoEaQ+SqqKuQCKr7gAwfNhLT+ajn1v7O4o9L2YwTrhIjTJu
+ SB6OlfMKyocGmFmcpWtURqo=
+X-Google-Smtp-Source: ABdhPJw1BshvZSVxZm2e89H/8z2XLrQccFGIz7m0oW1jDggouT+C66c3Yi239msG+Ek/pKeY2cfj0A==
+X-Received: by 2002:adf:fe88:: with SMTP id l8mr33010703wrr.208.1635927154697; 
+ Wed, 03 Nov 2021 01:12:34 -0700 (PDT)
+Received: from abel.fritz.box (p5b0ea1b5.dip0.t-ipconnect.de. [91.14.161.181])
+ by smtp.gmail.com with ESMTPSA id
+ l7sm1450088wry.86.2021.11.03.01.12.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 03 Nov 2021 01:12:34 -0700 (PDT)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>
+To: linux-media@vger.kernel.org, etnaviv@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org,
+ spice-devel@lists.freedesktop.org
+Subject: DMA-buf debugfs cleanups
+Date: Wed,  3 Nov 2021 09:12:27 +0100
+Message-Id: <20211103081231.18578-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20211028132630.2330-6-christian.koenig@amd.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,52 +71,17 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: amd-gfx@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org
+Cc: sumit.semwal@linaro.org, daniel@ffwll.ch, l.stach@pengutronix.de
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Ping, Alex do you have a moment for that one here?
+Hi guys,
 
-Am 28.10.21 um 15:26 schrieb Christian König:
-> Don't touch the exclusive fence manually here, but rather use the
-> general dma_resv function. We did that for better hw reset handling but
-> this doesn't necessary work correctly.
->
-> Signed-off-by: Christian König <christian.koenig@amd.com>
-> ---
->   drivers/gpu/drm/radeon/radeon_uvd.c | 13 +++++--------
->   1 file changed, 5 insertions(+), 8 deletions(-)
->
-> diff --git a/drivers/gpu/drm/radeon/radeon_uvd.c b/drivers/gpu/drm/radeon/radeon_uvd.c
-> index 2ea86919d953..377f9cdb5b53 100644
-> --- a/drivers/gpu/drm/radeon/radeon_uvd.c
-> +++ b/drivers/gpu/drm/radeon/radeon_uvd.c
-> @@ -469,7 +469,6 @@ static int radeon_uvd_cs_msg(struct radeon_cs_parser *p, struct radeon_bo *bo,
->   {
->   	int32_t *msg, msg_type, handle;
->   	unsigned img_size = 0;
-> -	struct dma_fence *f;
->   	void *ptr;
->   
->   	int i, r;
-> @@ -479,13 +478,11 @@ static int radeon_uvd_cs_msg(struct radeon_cs_parser *p, struct radeon_bo *bo,
->   		return -EINVAL;
->   	}
->   
-> -	f = dma_resv_excl_fence(bo->tbo.base.resv);
-> -	if (f) {
-> -		r = radeon_fence_wait((struct radeon_fence *)f, false);
-> -		if (r) {
-> -			DRM_ERROR("Failed waiting for UVD message (%d)!\n", r);
-> -			return r;
-> -		}
-> +	r = dma_resv_wait_timeout(bo->tbo.base.resv, false, false,
-> +				  MAX_SCHEDULE_TIMEOUT);
-> +	if (r <= 0) {
-> +		DRM_ERROR("Failed waiting for UVD message (%d)!\n", r);
-> +		return r ? r : -ETIME;
->   	}
->   
->   	r = radeon_bo_kmap(bo, &ptr);
+second round for those four patches adding some simple yet useful DMA-buf helper functions for debugfs prints.
+
+Fixed some missing includes and typos in commit messages.
+
+Please review and/or comment,
+Christian.
+
 
