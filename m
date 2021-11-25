@@ -2,51 +2,40 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFA44457C83
-	for <lists+etnaviv@lfdr.de>; Sat, 20 Nov 2021 09:10:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEE3C45D732
+	for <lists+etnaviv@lfdr.de>; Thu, 25 Nov 2021 10:31:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1ED106F5C8;
-	Sat, 20 Nov 2021 08:10:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7CEF76EB0F;
+	Thu, 25 Nov 2021 09:31:41 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from 189.cn (ptr.189.cn [183.61.185.103])
- by gabe.freedesktop.org (Postfix) with ESMTP id BF95B6F5C7
- for <etnaviv@lists.freedesktop.org>; Sat, 20 Nov 2021 08:10:27 +0000 (UTC)
-HMM_SOURCE_IP: 10.64.8.43:38516.358279549
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-114.242.206.180 (unknown [10.64.8.43])
- by 189.cn (HERMES) with SMTP id 45F32100236;
- Sat, 20 Nov 2021 15:59:55 +0800 (CST)
-Received: from  ([14.17.101.177])
- by gateway-151646-dep-b7fbf7d79-vjdjk with ESMTP id
- 28a34372b2fb4701b66133de36518d6a for l.stach@pengutronix.de; 
- Sat, 20 Nov 2021 15:59:57 CST
-X-Transaction-ID: 28a34372b2fb4701b66133de36518d6a
-X-Real-From: 15330273260@189.cn
-X-Receive-IP: 14.17.101.177
-X-MEDUSA-Status: 0
-From: Sui Jingfeng <15330273260@189.cn>
-To: Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
- Sam Ravnborg <sam@ravnborg.org>, Tiezhu Yang <yangtiezhu@loongson.cn>,
- Qing Zhang <zhangqing@loongson.cn>, Jinyang He <hejinyang@loongson.cn>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Xiaochuan Mao <maoxiaochuan@loongson.cn>,
- zhaoxiao <zhaoxiao@uniontech.com>, suijingfeng <suijingfeng@loongson.cn>
-Subject: [PATCH 4/4] loongson2_defconfig: enable etnaviv drm driver on default
-Date: Sat, 20 Nov 2021 15:59:26 +0800
-Message-Id: <20211120075926.2671-5-15330273260@189.cn>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20211120075926.2671-1-15330273260@189.cn>
-References: <20211120075926.2671-1-15330273260@189.cn>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A5B56EB0A;
+ Thu, 25 Nov 2021 09:31:40 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10178"; a="234212205"
+X-IronPort-AV: E=Sophos;i="5.87,262,1631602800"; d="scan'208";a="234212205"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Nov 2021 01:31:39 -0800
+X-IronPort-AV: E=Sophos;i="5.87,262,1631602800"; d="scan'208";a="498007659"
+Received: from refaase-mobl1.ger.corp.intel.com (HELO [10.249.32.85])
+ ([10.249.32.85])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Nov 2021 01:31:38 -0800
+Message-ID: <7729c40e-fe4e-853e-06d4-5e39dff17d32@linux.intel.com>
+Date: Thu, 25 Nov 2021 10:31:35 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.3.0
+Subject: Re: [PATCH 1/6] dma-buf: move dma_resv_prune_unlocked into dma_resv.c
+Content-Language: en-US
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+ etnaviv@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+References: <20211028132630.2330-1-christian.koenig@amd.com>
+From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+In-Reply-To: <20211028132630.2330-1-christian.koenig@amd.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -59,32 +48,175 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-mips@vger.kernel.org, etnaviv@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-From: suijingfeng <suijingfeng@loongson.cn>
+On 28-10-2021 15:26, Christian König wrote:
+> The i915 driver implements a prune function which is called when it is very
+> likely that the fences inside the dma_resv object can be removed because they
+> are all signaled.
+>
+> Move that function into the dma-resv.c code since the behavior of pruning
+> fences is something internal to the object.
+>
+> Signed-off-by: Christian König <christian.koenig@amd.com>
+> ---
+>  drivers/dma-buf/dma-resv.c                   | 18 ++++++++++++++++++
+>  drivers/gpu/drm/i915/Makefile                |  1 -
+>  drivers/gpu/drm/i915/dma_resv_utils.c        | 17 -----------------
+>  drivers/gpu/drm/i915/dma_resv_utils.h        | 13 -------------
+>  drivers/gpu/drm/i915/gem/i915_gem_shrinker.c |  3 +--
+>  drivers/gpu/drm/i915/gem/i915_gem_wait.c     |  3 +--
+>  include/linux/dma-resv.h                     |  1 +
+>  7 files changed, 21 insertions(+), 35 deletions(-)
+>  delete mode 100644 drivers/gpu/drm/i915/dma_resv_utils.c
+>  delete mode 100644 drivers/gpu/drm/i915/dma_resv_utils.h
+>
+> diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
+> index ff3c0558b3b8..64d4f95778c4 100644
+> --- a/drivers/dma-buf/dma-resv.c
+> +++ b/drivers/dma-buf/dma-resv.c
+> @@ -324,6 +324,24 @@ void dma_resv_add_excl_fence(struct dma_resv *obj, struct dma_fence *fence)
+>  }
+>  EXPORT_SYMBOL(dma_resv_add_excl_fence);
+>  
+> +/**
+> + * dma_resv_prune_unlocked - try to remove signaled fences
+> + * @obj: The dma_resv object to prune
+> + *
+> + * Try to lock the object, test if it is signaled and if yes then remove all the
+> + * signaled fences.
+> + */
+> +void dma_resv_prune_unlocked(struct dma_resv *obj)
+> +{
+> +	if (!dma_resv_trylock(obj))
+> +		return;
+> +
+> +	if (dma_resv_test_signaled(obj, true))
+> +		dma_resv_add_excl_fence(obj, NULL);
+> +	dma_resv_unlock(obj);
+> +}
+> +EXPORT_SYMBOL(dma_resv_prune_unlocked);
+> +
+>  /**
+>   * dma_resv_iter_restart_unlocked - restart the unlocked iterator
+>   * @cursor: The dma_resv_iter object to restart
+> diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
+> index 660bb03de6fc..5c1af130cb6d 100644
+> --- a/drivers/gpu/drm/i915/Makefile
+> +++ b/drivers/gpu/drm/i915/Makefile
+> @@ -60,7 +60,6 @@ i915-y += i915_drv.o \
+>  
+>  # core library code
+>  i915-y += \
+> -	dma_resv_utils.o \
+>  	i915_memcpy.o \
+>  	i915_mm.o \
+>  	i915_sw_fence.o \
+> diff --git a/drivers/gpu/drm/i915/dma_resv_utils.c b/drivers/gpu/drm/i915/dma_resv_utils.c
+> deleted file mode 100644
+> index 7df91b7e4ca8..000000000000
+> --- a/drivers/gpu/drm/i915/dma_resv_utils.c
+> +++ /dev/null
+> @@ -1,17 +0,0 @@
+> -// SPDX-License-Identifier: MIT
+> -/*
+> - * Copyright © 2020 Intel Corporation
+> - */
+> -
+> -#include <linux/dma-resv.h>
+> -
+> -#include "dma_resv_utils.h"
+> -
+> -void dma_resv_prune(struct dma_resv *resv)
+> -{
+> -	if (dma_resv_trylock(resv)) {
+> -		if (dma_resv_test_signaled(resv, true))
+> -			dma_resv_add_excl_fence(resv, NULL);
+> -		dma_resv_unlock(resv);
+> -	}
+> -}
+> diff --git a/drivers/gpu/drm/i915/dma_resv_utils.h b/drivers/gpu/drm/i915/dma_resv_utils.h
+> deleted file mode 100644
+> index b9d8fb5f8367..000000000000
+> --- a/drivers/gpu/drm/i915/dma_resv_utils.h
+> +++ /dev/null
+> @@ -1,13 +0,0 @@
+> -/* SPDX-License-Identifier: MIT */
+> -/*
+> - * Copyright © 2020 Intel Corporation
+> - */
+> -
+> -#ifndef DMA_RESV_UTILS_H
+> -#define DMA_RESV_UTILS_H
+> -
+> -struct dma_resv;
+> -
+> -void dma_resv_prune(struct dma_resv *resv);
+> -
+> -#endif /* DMA_RESV_UTILS_H */
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c b/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
+> index 5ab136ffdeb2..48029bbda682 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
+> @@ -15,7 +15,6 @@
+>  
+>  #include "gt/intel_gt_requests.h"
+>  
+> -#include "dma_resv_utils.h"
+>  #include "i915_trace.h"
+>  
+>  static bool swap_available(void)
+> @@ -229,7 +228,7 @@ i915_gem_shrink(struct i915_gem_ww_ctx *ww,
+>  					i915_gem_object_unlock(obj);
+>  			}
+>  
+> -			dma_resv_prune(obj->base.resv);
+> +			dma_resv_prune_unlocked(obj->base.resv);
+>  
+>  			scanned += obj->base.size >> PAGE_SHIFT;
+>  skip:
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_wait.c b/drivers/gpu/drm/i915/gem/i915_gem_wait.c
+> index 569658c7859c..1915d203a72d 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_wait.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_wait.c
+> @@ -10,7 +10,6 @@
+>  
+>  #include "gt/intel_engine.h"
+>  
+> -#include "dma_resv_utils.h"
+>  #include "i915_gem_ioctls.h"
+>  #include "i915_gem_object.h"
+>  
+> @@ -53,7 +52,7 @@ i915_gem_object_wait_reservation(struct dma_resv *resv,
+>  	 * signaled.
+>  	 */
+>  	if (timeout > 0)
+> -		dma_resv_prune(resv);
+> +		dma_resv_prune_unlocked(resv);
+>  
+>  	return timeout;
+>  }
+> diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
+> index eebf04325b34..e0558429a5ee 100644
+> --- a/include/linux/dma-resv.h
+> +++ b/include/linux/dma-resv.h
+> @@ -458,6 +458,7 @@ void dma_resv_fini(struct dma_resv *obj);
+>  int dma_resv_reserve_shared(struct dma_resv *obj, unsigned int num_fences);
+>  void dma_resv_add_shared_fence(struct dma_resv *obj, struct dma_fence *fence);
+>  void dma_resv_add_excl_fence(struct dma_resv *obj, struct dma_fence *fence);
+> +void dma_resv_prune_unlocked(struct dma_resv *obj);
+>  int dma_resv_get_fences(struct dma_resv *obj, struct dma_fence **pfence_excl,
+>  			unsigned *pshared_count, struct dma_fence ***pshared);
+>  int dma_resv_copy_fences(struct dma_resv *dst, struct dma_resv *src);
 
-Signed-off-by: suijingfeng <suijingfeng@loongson.cn>
-Signed-off-by: Sui Jingfeng <15330273260@189.cn>
----
- arch/mips/configs/loongson2k_defconfig | 1 +
- 1 file changed, 1 insertion(+)
+I don't mind adding a dma_resv_prune for locked case, but I don't think unlocked would have benefits.
 
-diff --git a/arch/mips/configs/loongson2k_defconfig b/arch/mips/configs/loongson2k_defconfig
-index e948ca487e2d..194f39d07332 100644
---- a/arch/mips/configs/loongson2k_defconfig
-+++ b/arch/mips/configs/loongson2k_defconfig
-@@ -243,6 +243,7 @@ CONFIG_MEDIA_USB_SUPPORT=y
- CONFIG_USB_VIDEO_CLASS=m
- CONFIG_DRM=y
- CONFIG_DRM_RADEON=y
-+CONFIG_DRM_ETNAVIV=m
- CONFIG_FB_RADEON=y
- CONFIG_LCD_CLASS_DEVICE=y
- CONFIG_LCD_PLATFORM=m
--- 
-2.20.1
+Furthermore, I'm trying to remove the unlocked versions from i915. Could this be a prereq patch instead?
+
+https://patchwork.freedesktop.org/patch/460722/?series=96115&rev=1
+
+~Maarten
+
+~Maarten
 
