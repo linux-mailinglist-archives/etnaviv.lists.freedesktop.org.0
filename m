@@ -1,68 +1,61 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92F8F45D780
-	for <lists+etnaviv@lfdr.de>; Thu, 25 Nov 2021 10:44:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E0F3461FC9
+	for <lists+etnaviv@lfdr.de>; Mon, 29 Nov 2021 20:02:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A3EE6E8CF;
-	Thu, 25 Nov 2021 09:44:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D5DC86E17C;
+	Mon, 29 Nov 2021 19:02:52 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
- [IPv6:2a00:1450:4864:20::42d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A44976E802;
- Thu, 25 Nov 2021 09:44:29 +0000 (UTC)
-Received: by mail-wr1-x42d.google.com with SMTP id u18so10271353wrg.5;
- Thu, 25 Nov 2021 01:44:29 -0800 (PST)
+Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com
+ [IPv6:2a00:1450:4864:20::231])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F278E6E12A;
+ Sun, 28 Nov 2021 20:20:01 +0000 (UTC)
+Received: by mail-lj1-x231.google.com with SMTP id p8so16970344ljo.5;
+ Sun, 28 Nov 2021 12:20:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-transfer-encoding:content-language;
- bh=M4eNhtRyfszXgoCevZXctJE/hLAngb4kNGrAZca/vtQ=;
- b=hr7P+jqEo1S6urwHZfCCiWe591gBIwIqfjkJ9WWAo4LsbX2JWYICNZteJ2bwEpNfFk
- KGMkOnX6lZpF7lMAQWo17B7/5k1AGx48qJpn/jgqPCF4eClsFCaoU0dJDBB1GX12LdFp
- fkaPzCdUOyqJCQAop8HdN7pXrpRb1ZkqULRBplAsjnmdi6yPj6GShfbGGv26bSOZ5mj3
- 4+ZUXqmYIJgUr8McgNrrtafhElJmiaHGgHeHor7r4lHHeOa5wq1Y8xMrRg4c3rJ2de+V
- AFlcXQ7KdIsOFfB8z3+hj7QxR3NuK7/epZZw15YOM24P/CBqinvAWd7mKF/WbeWzavpg
- ek5g==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=k4DCyz8+/Fxa9vXLn5RMQDYsGviUlWwuLm5KSdNmdZY=;
+ b=gEBN9h0rjiWtK6jttU/X32i65gXZsB9Rsw6WnTNHd6QQEECoU3oVb9Fzy+QKNq+M5b
+ ij4GEouoWUkj9ibEDrFkACwGhqmGsX0pfmp4KKb8WXYuqS1KIuLYMEf8JVWKUBlAOvEc
+ 3DmhH8haP01CUUi+cI6ZdVIxdEa31t1e0pY0YnhQAkiJD1eMD7ILnkHEUEDhe/kuXj3p
+ FI3Sbf58ynZrNaPEuz1nEJUrpQNPL3rmCqJSFl1rW6iHjgaNB8zacW6xN9QXbZD75twJ
+ 97G+ZAd9srSAWMgu4CgNHzGkzTOI/TisJ43wLaLrhYSq/drTtrcz0nipMGXek8KtPIeH
+ QGww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=M4eNhtRyfszXgoCevZXctJE/hLAngb4kNGrAZca/vtQ=;
- b=LuV9L5A1HiwhJ67iORD8pRECoCb4EeVqY7wG2DYkNPQZDCEDLTAORhoFZiNr7B13SE
- TT6bUudB32hlPNBFOsNBfMBQxK4H3Ww9kFwfkXx6uwqfGtQIt6yD7tPR8mLLlbcNHg5n
- rXJUPWa9bTdRS9InQ4bZWNzln/uzBeP8QKMiEuHoiwHEkobLfWgIfyPBPrSiSO7B1Tq2
- OeH/Wd3sbeWMXnKC0jl8W2HkAbeooWVsHA5ZUq+ck38DJjvfecVi365VsasIx6MUhJut
- ksW25DpwqNzSo8CfQimB8ZaR2Ix4hpdkL0iiZImV+4S4fRkQMjmRzMZ2AnuoXjT5s5AP
- twgQ==
-X-Gm-Message-State: AOAM5300CR7S0jsMHFbBM+sfNYoKG62eUYcjtz6uGRI1RjKejgFyHWUf
- E8kyWToT3h+qe9m43BTytQag/6Tt2b8=
-X-Google-Smtp-Source: ABdhPJwgehb/hMyMIn8NfuWZloUVEaV7WrJtRSt6A7q1DOrmUwW6oVfThdS27Z+K6FCs7SoPVSqGFQ==
-X-Received: by 2002:a5d:6dc3:: with SMTP id d3mr4929492wrz.159.1637833468170; 
- Thu, 25 Nov 2021 01:44:28 -0800 (PST)
-Received: from [192.168.178.21] (p57b0b77b.dip0.t-ipconnect.de.
- [87.176.183.123])
- by smtp.gmail.com with ESMTPSA id az15sm2355074wmb.0.2021.11.25.01.44.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 25 Nov 2021 01:44:27 -0800 (PST)
-Subject: Re: [PATCH 1/6] dma-buf: move dma_resv_prune_unlocked into dma_resv.c
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
- etnaviv@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
-References: <20211028132630.2330-1-christian.koenig@amd.com>
- <7729c40e-fe4e-853e-06d4-5e39dff17d32@linux.intel.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <0d2f11ef-012e-f51a-80f3-3e8109fac060@gmail.com>
-Date: Thu, 25 Nov 2021 10:44:26 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=k4DCyz8+/Fxa9vXLn5RMQDYsGviUlWwuLm5KSdNmdZY=;
+ b=0xYNbXxiRSnBQGmVn3eQ1Bu1QOyQncOI1wP6Ot/LYdTTgcCxxcp3GJqYabgbFa/5o0
+ bbGPD4oVmKWQok2MsB3Fk3MAZdECNHUyScKFBajoCNr6bG+d3kh/L0kWCyo0fx3r+hZ3
+ yat36dyZDw+rU+UhDVBLYHcnNZJJOtspAbHBMcuG1kE44+pNWPn3N5qVsGbrvpT/OhqA
+ /zd0oe03dgGm/lE/WPC//5CoYNqkndbY1lHouFK2pe4GCIHUWw7tadEcKxmT2bAW+sGh
+ yMs/9zVRP6iDgdkcR8P2wa/GnLfzIN/TujTiUSyXmsEb6EGwk6Xmy6NzGaZzpq5qcFkT
+ P2hA==
+X-Gm-Message-State: AOAM531eh9reSGWQfO2kZ7eVEkGwuVE3YljPU0k5ieLcmx+Q+U9b2MYf
+ FM5sO9lEvEl707pX+qU2XSA=
+X-Google-Smtp-Source: ABdhPJxvPPnZuZKkpyL/VlLduwLNeb1FS0N0nAcE5rtjGsySNwTDTVMqW7CA+Av+gYdeEUBcSgrhfA==
+X-Received: by 2002:a2e:a305:: with SMTP id l5mr45044119lje.73.1638130800165; 
+ Sun, 28 Nov 2021 12:20:00 -0800 (PST)
+Received: from localhost.localdomain (h-155-4-221-129.NA.cust.bahnhof.se.
+ [155.4.221.129])
+ by smtp.gmail.com with ESMTPSA id c25sm1136949lja.38.2021.11.28.12.19.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 28 Nov 2021 12:19:59 -0800 (PST)
+From: Rikard Falkeborn <rikard.falkeborn@gmail.com>
+To: Lucas Stach <l.stach@pengutronix.de>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH] drm/etnaviv: constify static struct cooling_ops
+Date: Sun, 28 Nov 2021 21:19:16 +0100
+Message-Id: <20211128201916.10230-1-rikard.falkeborn@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-In-Reply-To: <7729c40e-fe4e-853e-06d4-5e39dff17d32@linux.intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-Mailman-Approved-At: Mon, 29 Nov 2021 19:02:51 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,43 +67,35 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
+Cc: linux-kernel@vger.kernel.org, Rikard Falkeborn <rikard.falkeborn@gmail.com>,
+ etnaviv@lists.freedesktop.org, Christian Gmeiner <christian.gmeiner@gmail.com>,
+ dri-devel@lists.freedesktop.org, Russell King <linux+etnaviv@armlinux.org.uk>
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Am 25.11.21 um 10:31 schrieb Maarten Lankhorst:
-> [SNIP]
->> diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
->> index eebf04325b34..e0558429a5ee 100644
->> --- a/include/linux/dma-resv.h
->> +++ b/include/linux/dma-resv.h
->> @@ -458,6 +458,7 @@ void dma_resv_fini(struct dma_resv *obj);
->>   int dma_resv_reserve_shared(struct dma_resv *obj, unsigned int num_fences);
->>   void dma_resv_add_shared_fence(struct dma_resv *obj, struct dma_fence *fence);
->>   void dma_resv_add_excl_fence(struct dma_resv *obj, struct dma_fence *fence);
->> +void dma_resv_prune_unlocked(struct dma_resv *obj);
->>   int dma_resv_get_fences(struct dma_resv *obj, struct dma_fence **pfence_excl,
->>   			unsigned *pshared_count, struct dma_fence ***pshared);
->>   int dma_resv_copy_fences(struct dma_resv *dst, struct dma_resv *src);
-> I don't mind adding a dma_resv_prune for locked case, but I don't think unlocked would have benefits.
->
-> Furthermore, I'm trying to remove the unlocked versions from i915. Could this be a prereq patch instead?
->
-> https://patchwork.freedesktop.org/patch/460722/?series=96115&rev=1
+The only usage of cooling_ops is to pass its address to
+thermal_of_cooling_device_register(), which takes a pointer to const
+struct thermal_cooling_device_ops as input. Make it const to allow the
+compiler to put it in read-only memory.
 
-Yeah, that works for me as well.
+Signed-off-by: Rikard Falkeborn <rikard.falkeborn@gmail.com>
+---
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I was on the edge of dropping that from TTM as well since this is really 
-just abusing the interface to save a few bytes of memory.
-
-Feel free to add an Acked-by: Christian König <christian.koenig@amd.com> 
-to the i915 patch if it helps to get that committed.
-
-Regards,
-Christian.
-
->
-> ~Maarten
->
-> ~Maarten
->
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+index 06bde46df451..37018bc55810 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+@@ -1658,7 +1658,7 @@ etnaviv_gpu_cooling_set_cur_state(struct thermal_cooling_device *cdev,
+ 	return 0;
+ }
+ 
+-static struct thermal_cooling_device_ops cooling_ops = {
++static const struct thermal_cooling_device_ops cooling_ops = {
+ 	.get_max_state = etnaviv_gpu_cooling_get_max_state,
+ 	.get_cur_state = etnaviv_gpu_cooling_get_cur_state,
+ 	.set_cur_state = etnaviv_gpu_cooling_set_cur_state,
+-- 
+2.34.1
 
