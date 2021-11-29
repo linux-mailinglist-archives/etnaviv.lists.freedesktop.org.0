@@ -1,61 +1,54 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E0F3461FC9
-	for <lists+etnaviv@lfdr.de>; Mon, 29 Nov 2021 20:02:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE8FB461FC6
+	for <lists+etnaviv@lfdr.de>; Mon, 29 Nov 2021 20:02:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5DC86E17C;
-	Mon, 29 Nov 2021 19:02:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 792496E17C;
+	Mon, 29 Nov 2021 19:02:31 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com
- [IPv6:2a00:1450:4864:20::231])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F278E6E12A;
- Sun, 28 Nov 2021 20:20:01 +0000 (UTC)
-Received: by mail-lj1-x231.google.com with SMTP id p8so16970344ljo.5;
- Sun, 28 Nov 2021 12:20:01 -0800 (PST)
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com
+ [IPv6:2a00:1450:4864:20::52c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 668C96E0ED;
+ Mon, 29 Nov 2021 19:02:29 +0000 (UTC)
+Received: by mail-ed1-x52c.google.com with SMTP id o20so75803850eds.10;
+ Mon, 29 Nov 2021 11:02:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=k4DCyz8+/Fxa9vXLn5RMQDYsGviUlWwuLm5KSdNmdZY=;
- b=gEBN9h0rjiWtK6jttU/X32i65gXZsB9Rsw6WnTNHd6QQEECoU3oVb9Fzy+QKNq+M5b
- ij4GEouoWUkj9ibEDrFkACwGhqmGsX0pfmp4KKb8WXYuqS1KIuLYMEf8JVWKUBlAOvEc
- 3DmhH8haP01CUUi+cI6ZdVIxdEa31t1e0pY0YnhQAkiJD1eMD7ILnkHEUEDhe/kuXj3p
- FI3Sbf58ynZrNaPEuz1nEJUrpQNPL3rmCqJSFl1rW6iHjgaNB8zacW6xN9QXbZD75twJ
- 97G+ZAd9srSAWMgu4CgNHzGkzTOI/TisJ43wLaLrhYSq/drTtrcz0nipMGXek8KtPIeH
- QGww==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=vHIcZ4ajJxCRfp6TfnnK3m4uOLsqq/PnoEl1uZz7+2M=;
+ b=LHqpOuZ9bbPhm6BAEqNPiFiqNjqndKV4zQZgjWjGtAQXoprCwWKIcC6/fyMFaSBQ6N
+ k+M+udaeBPxQSV/sqCPS8gOOdZr6WhSxUEYATlnHbqTy8naDBiledHzWmwVMy0eMdV+o
+ X5fV9bcsNEZcXKYY4M9flL9DfU4JNrNc6Wi7tlanU/9oSP6XRf2M7zmjO2MmRwlLoDOr
+ l81B3g2OMpp7EXMM9gbQ8nJGhZw5Emg0VQ/KMNogBPSu8XxQJOS5ddNYZXRxAQ4FwNN+
+ lE8Wv32IPzfNJ+SGajHs4GHojQXuYFahcQ72Q/jolrV3T85hGnbS+/eM/1yqCW1k9cfP
+ kAaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=k4DCyz8+/Fxa9vXLn5RMQDYsGviUlWwuLm5KSdNmdZY=;
- b=0xYNbXxiRSnBQGmVn3eQ1Bu1QOyQncOI1wP6Ot/LYdTTgcCxxcp3GJqYabgbFa/5o0
- bbGPD4oVmKWQok2MsB3Fk3MAZdECNHUyScKFBajoCNr6bG+d3kh/L0kWCyo0fx3r+hZ3
- yat36dyZDw+rU+UhDVBLYHcnNZJJOtspAbHBMcuG1kE44+pNWPn3N5qVsGbrvpT/OhqA
- /zd0oe03dgGm/lE/WPC//5CoYNqkndbY1lHouFK2pe4GCIHUWw7tadEcKxmT2bAW+sGh
- yMs/9zVRP6iDgdkcR8P2wa/GnLfzIN/TujTiUSyXmsEb6EGwk6Xmy6NzGaZzpq5qcFkT
- P2hA==
-X-Gm-Message-State: AOAM531eh9reSGWQfO2kZ7eVEkGwuVE3YljPU0k5ieLcmx+Q+U9b2MYf
- FM5sO9lEvEl707pX+qU2XSA=
-X-Google-Smtp-Source: ABdhPJxvPPnZuZKkpyL/VlLduwLNeb1FS0N0nAcE5rtjGsySNwTDTVMqW7CA+Av+gYdeEUBcSgrhfA==
-X-Received: by 2002:a2e:a305:: with SMTP id l5mr45044119lje.73.1638130800165; 
- Sun, 28 Nov 2021 12:20:00 -0800 (PST)
-Received: from localhost.localdomain (h-155-4-221-129.NA.cust.bahnhof.se.
- [155.4.221.129])
- by smtp.gmail.com with ESMTPSA id c25sm1136949lja.38.2021.11.28.12.19.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 28 Nov 2021 12:19:59 -0800 (PST)
-From: Rikard Falkeborn <rikard.falkeborn@gmail.com>
-To: Lucas Stach <l.stach@pengutronix.de>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH] drm/etnaviv: constify static struct cooling_ops
-Date: Sun, 28 Nov 2021 21:19:16 +0100
-Message-Id: <20211128201916.10230-1-rikard.falkeborn@gmail.com>
-X-Mailer: git-send-email 2.34.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=vHIcZ4ajJxCRfp6TfnnK3m4uOLsqq/PnoEl1uZz7+2M=;
+ b=7Bcbcwo+pFNuyr3SPP1xnCRP9/FTgeehwivXNNqpztsa71Ag36XAqY7LPxpmD8fHtt
+ 5wf94OW5DzZwxmsbKaiPBjw1VKjrk1McFU9XPux823TULAA0qGswfwFm2qmvgyiPElSF
+ zVOi4YstAy+eUaRemDryY6SWghR7kfp+4njxpAZccPvNJokrLxKnbknZEw2UINF/fIDD
+ i3wifh+3KVnW8jUZg/76D4CWSmEGtWEMekYMmBdNwh8n9rr87ob+d65Y6SnDauOV9hEx
+ C2S/WDmbtezhwKgh1/OQ3D21J12PxfGDSPYIhMREYE4jOAiliy40/0kf1ZwnBSbZ5ThE
+ JWdg==
+X-Gm-Message-State: AOAM532Yc32Xq0fU7xQSYs1fzquLYDiGGYpXOsOWzRlywzH9dLkgVq0E
+ 689T8hjMfau+1786YPZhjnaGV66scm7LtHheq3c=
+X-Google-Smtp-Source: ABdhPJxGlKZy56+YMwTdyV8+MSNj2EB5bGzBFj/T14hqS9VsMurjSEHNZMxWqn+sj4E8NhGcq44MS8KxUYhtEUSU9i4=
+X-Received: by 2002:aa7:c846:: with SMTP id g6mr76715007edt.75.1638212547798; 
+ Mon, 29 Nov 2021 11:02:27 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Mon, 29 Nov 2021 19:02:51 +0000
+References: <20211128201916.10230-1-rikard.falkeborn@gmail.com>
+In-Reply-To: <20211128201916.10230-1-rikard.falkeborn@gmail.com>
+From: Christian Gmeiner <christian.gmeiner@gmail.com>
+Date: Mon, 29 Nov 2021 20:02:16 +0100
+Message-ID: <CAH9NwWfhtYKsPMsiTN-pYc3CQ5XcA9TyX3R4yZch7ZHL2+Soyg@mail.gmail.com>
+Subject: Re: [PATCH] drm/etnaviv: constify static struct cooling_ops
+To: Rikard Falkeborn <rikard.falkeborn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,35 +60,52 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, Rikard Falkeborn <rikard.falkeborn@gmail.com>,
- etnaviv@lists.freedesktop.org, Christian Gmeiner <christian.gmeiner@gmail.com>,
- dri-devel@lists.freedesktop.org, Russell King <linux+etnaviv@armlinux.org.uk>
+Cc: David Airlie <airlied@linux.ie>,
+ The etnaviv authors <etnaviv@lists.freedesktop.org>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Lucas Stach <l.stach@pengutronix.de>
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-The only usage of cooling_ops is to pass its address to
-thermal_of_cooling_device_register(), which takes a pointer to const
-struct thermal_cooling_device_ops as input. Make it const to allow the
-compiler to put it in read-only memory.
+Am So., 28. Nov. 2021 um 21:20 Uhr schrieb Rikard Falkeborn
+<rikard.falkeborn@gmail.com>:
+>
+> The only usage of cooling_ops is to pass its address to
+> thermal_of_cooling_device_register(), which takes a pointer to const
+> struct thermal_cooling_device_ops as input. Make it const to allow the
+> compiler to put it in read-only memory.
+>
+> Signed-off-by: Rikard Falkeborn <rikard.falkeborn@gmail.com>
 
-Signed-off-by: Rikard Falkeborn <rikard.falkeborn@gmail.com>
----
- drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Reviewed-by: Christian Gmeiner <christian.gmeiner@gmail.com>
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-index 06bde46df451..37018bc55810 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-@@ -1658,7 +1658,7 @@ etnaviv_gpu_cooling_set_cur_state(struct thermal_cooling_device *cdev,
- 	return 0;
- }
- 
--static struct thermal_cooling_device_ops cooling_ops = {
-+static const struct thermal_cooling_device_ops cooling_ops = {
- 	.get_max_state = etnaviv_gpu_cooling_get_max_state,
- 	.get_cur_state = etnaviv_gpu_cooling_get_cur_state,
- 	.set_cur_state = etnaviv_gpu_cooling_set_cur_state,
+> ---
+>  drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> index 06bde46df451..37018bc55810 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> @@ -1658,7 +1658,7 @@ etnaviv_gpu_cooling_set_cur_state(struct thermal_cooling_device *cdev,
+>         return 0;
+>  }
+>
+> -static struct thermal_cooling_device_ops cooling_ops = {
+> +static const struct thermal_cooling_device_ops cooling_ops = {
+>         .get_max_state = etnaviv_gpu_cooling_get_max_state,
+>         .get_cur_state = etnaviv_gpu_cooling_get_cur_state,
+>         .set_cur_state = etnaviv_gpu_cooling_set_cur_state,
+> --
+> 2.34.1
+>
+
+
 -- 
-2.34.1
+greets
+--
+Christian Gmeiner, MSc
 
+https://christian-gmeiner.info/privacypolicy
