@@ -2,53 +2,41 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6593464D0E
-	for <lists+etnaviv@lfdr.de>; Wed,  1 Dec 2021 12:35:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C35D9464DE1
+	for <lists+etnaviv@lfdr.de>; Wed,  1 Dec 2021 13:29:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B993F6ECD3;
-	Wed,  1 Dec 2021 11:35:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C7126E5A1;
+	Wed,  1 Dec 2021 12:29:38 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from 189.cn (ptr.189.cn [183.61.185.103])
- by gabe.freedesktop.org (Postfix) with ESMTP id EBB3F6ECD2;
- Wed,  1 Dec 2021 11:35:27 +0000 (UTC)
-HMM_SOURCE_IP: 10.64.8.41:58200.40093229
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-114.242.206.180 (unknown [10.64.8.41])
- by 189.cn (HERMES) with SMTP id 3D07D100212;
- Wed,  1 Dec 2021 19:35:24 +0800 (CST)
-Received: from  ([14.17.101.176])
- by gateway-151646-dep-b7fbf7d79-9vctg with ESMTP id
- 3123c9ccac30420ba190d8df854b0e53 for l.stach@pengutronix.de; 
- Wed, 01 Dec 2021 19:35:27 CST
-X-Transaction-ID: 3123c9ccac30420ba190d8df854b0e53
-X-Real-From: 15330273260@189.cn
-X-Receive-IP: 14.17.101.176
-X-MEDUSA-Status: 0
-From: Sui Jingfeng <15330273260@189.cn>
-To: Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
- Sam Ravnborg <sam@ravnborg.org>, Tiezhu Yang <yangtiezhu@loongson.cn>,
- Qing Zhang <zhangqing@loongson.cn>, Jinyang He <hejinyang@loongson.cn>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Xiaochuan Mao <maoxiaochuan@loongson.cn>,
- zhaoxiao <zhaoxiao@uniontech.com>, suijingfeng <suijingfeng@loongson.cn>
-Subject: [PATCH v2 3/3] mips: loongson64: enable etnaviv drm driver on
- ls2k1000 and ls3a4000
-Date: Wed,  1 Dec 2021 19:35:02 +0800
-Message-Id: <20211201113502.3168-3-15330273260@189.cn>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20211201113502.3168-1-15330273260@189.cn>
-References: <20211201113502.3168-1-15330273260@189.cn>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C0D16E5A1
+ for <etnaviv@lists.freedesktop.org>; Wed,  1 Dec 2021 12:29:37 +0000 (UTC)
+Received: from gallifrey.ext.pengutronix.de
+ ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1msOju-00012c-Ll; Wed, 01 Dec 2021 13:29:34 +0100
+Message-ID: <1b03b591d51250d5049028e93c1a54ef7f28aeae.camel@pengutronix.de>
+Subject: Re: [PATCH v2 0/3] drm/etnaviv: IOMMU related fixes
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Michael Walle <michael@walle.cc>, Robin Murphy <robin.murphy@arm.com>, 
+ etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
+Date: Wed, 01 Dec 2021 13:29:31 +0100
+In-Reply-To: <20210907164945.2309815-1-michael@walle.cc>
+References: <20210907164945.2309815-1-michael@walle.cc>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,47 +48,37 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-mips@vger.kernel.org, etnaviv@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: David Airlie <airlied@linux.ie>, Marek Vasut <marek.vasut@gmail.com>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Russell King <linux+etnaviv@armlinux.org.uk>,
+ "Lukas F . Hartmann" <lukas@mntre.com>
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-From: suijingfeng <suijingfeng@loongson.cn>
+Hi Michael,
 
-  v2: merge the last two trival patches into one patch.
+Am Dienstag, dem 07.09.2021 um 18:49 +0200 schrieb Michael Walle:
+> This patch series fixes usage of the etnaviv driver with GPUs behind a
+> IOMMU. It was tested on a NXP LS1028A SoC. Together with Lucas' MMU patches
+> [1] there are not more (GPU internal) MMU nor (system) IOMMU faults on the
+> LS1028A.
+> 
+> [1] https://lists.freedesktop.org/archives/etnaviv/2021-August/003682.html
+> 
+> changes since v1:
+>  - don't move the former dma_mask setup code around in patch 2/3. Will
+>    avoid any confusion.
+> 
+> Michael Walle (3):
+>   drm/etnaviv: use PLATFORM_DEVID_NONE
+>   drm/etnaviv: fix dma configuration of the virtual device
+>   drm/etnaviv: use a 32 bit mask as coherent DMA mask
+> 
+>  drivers/gpu/drm/etnaviv/etnaviv_drv.c | 41 ++++++++++++++++++++-------
+>  1 file changed, 31 insertions(+), 10 deletions(-)
+> 
+Thanks for the patches! I applied them to my etnaviv/next branch.
 
-Signed-off-by: suijingfeng <suijingfeng@loongson.cn>
-Signed-off-by: Sui Jingfeng <15330273260@189.cn>
----
- arch/mips/configs/loongson2k_defconfig | 1 +
- arch/mips/configs/loongson3_defconfig  | 1 +
- 2 files changed, 2 insertions(+)
-
-diff --git a/arch/mips/configs/loongson2k_defconfig b/arch/mips/configs/loongson2k_defconfig
-index e948ca487e2d..194f39d07332 100644
---- a/arch/mips/configs/loongson2k_defconfig
-+++ b/arch/mips/configs/loongson2k_defconfig
-@@ -243,6 +243,7 @@ CONFIG_MEDIA_USB_SUPPORT=y
- CONFIG_USB_VIDEO_CLASS=m
- CONFIG_DRM=y
- CONFIG_DRM_RADEON=y
-+CONFIG_DRM_ETNAVIV=m
- CONFIG_FB_RADEON=y
- CONFIG_LCD_CLASS_DEVICE=y
- CONFIG_LCD_PLATFORM=m
-diff --git a/arch/mips/configs/loongson3_defconfig b/arch/mips/configs/loongson3_defconfig
-index 25ecd15bc952..65987c5abe83 100644
---- a/arch/mips/configs/loongson3_defconfig
-+++ b/arch/mips/configs/loongson3_defconfig
-@@ -280,6 +280,7 @@ CONFIG_MEDIA_USB_SUPPORT=y
- CONFIG_USB_VIDEO_CLASS=m
- CONFIG_DRM=y
- CONFIG_DRM_RADEON=m
-+CONFIG_DRM_ETNAVIV=m
- CONFIG_DRM_QXL=y
- CONFIG_DRM_VIRTIO_GPU=y
- CONFIG_FB=y
--- 
-2.20.1
+Regards,
+Lucas
 
