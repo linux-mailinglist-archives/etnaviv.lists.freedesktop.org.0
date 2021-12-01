@@ -1,54 +1,51 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE8FB461FC6
-	for <lists+etnaviv@lfdr.de>; Mon, 29 Nov 2021 20:02:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD170464C9F
+	for <lists+etnaviv@lfdr.de>; Wed,  1 Dec 2021 12:32:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 792496E17C;
-	Mon, 29 Nov 2021 19:02:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A5206EEAE;
+	Wed,  1 Dec 2021 11:32:22 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com
- [IPv6:2a00:1450:4864:20::52c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 668C96E0ED;
- Mon, 29 Nov 2021 19:02:29 +0000 (UTC)
-Received: by mail-ed1-x52c.google.com with SMTP id o20so75803850eds.10;
- Mon, 29 Nov 2021 11:02:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=vHIcZ4ajJxCRfp6TfnnK3m4uOLsqq/PnoEl1uZz7+2M=;
- b=LHqpOuZ9bbPhm6BAEqNPiFiqNjqndKV4zQZgjWjGtAQXoprCwWKIcC6/fyMFaSBQ6N
- k+M+udaeBPxQSV/sqCPS8gOOdZr6WhSxUEYATlnHbqTy8naDBiledHzWmwVMy0eMdV+o
- X5fV9bcsNEZcXKYY4M9flL9DfU4JNrNc6Wi7tlanU/9oSP6XRf2M7zmjO2MmRwlLoDOr
- l81B3g2OMpp7EXMM9gbQ8nJGhZw5Emg0VQ/KMNogBPSu8XxQJOS5ddNYZXRxAQ4FwNN+
- lE8Wv32IPzfNJ+SGajHs4GHojQXuYFahcQ72Q/jolrV3T85hGnbS+/eM/1yqCW1k9cfP
- kAaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=vHIcZ4ajJxCRfp6TfnnK3m4uOLsqq/PnoEl1uZz7+2M=;
- b=7Bcbcwo+pFNuyr3SPP1xnCRP9/FTgeehwivXNNqpztsa71Ag36XAqY7LPxpmD8fHtt
- 5wf94OW5DzZwxmsbKaiPBjw1VKjrk1McFU9XPux823TULAA0qGswfwFm2qmvgyiPElSF
- zVOi4YstAy+eUaRemDryY6SWghR7kfp+4njxpAZccPvNJokrLxKnbknZEw2UINF/fIDD
- i3wifh+3KVnW8jUZg/76D4CWSmEGtWEMekYMmBdNwh8n9rr87ob+d65Y6SnDauOV9hEx
- C2S/WDmbtezhwKgh1/OQ3D21J12PxfGDSPYIhMREYE4jOAiliy40/0kf1ZwnBSbZ5ThE
- JWdg==
-X-Gm-Message-State: AOAM532Yc32Xq0fU7xQSYs1fzquLYDiGGYpXOsOWzRlywzH9dLkgVq0E
- 689T8hjMfau+1786YPZhjnaGV66scm7LtHheq3c=
-X-Google-Smtp-Source: ABdhPJxGlKZy56+YMwTdyV8+MSNj2EB5bGzBFj/T14hqS9VsMurjSEHNZMxWqn+sj4E8NhGcq44MS8KxUYhtEUSU9i4=
-X-Received: by 2002:aa7:c846:: with SMTP id g6mr76715007edt.75.1638212547798; 
- Mon, 29 Nov 2021 11:02:27 -0800 (PST)
+Received: from 189.cn (ptr.189.cn [183.61.185.103])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 6E6456EEAE;
+ Wed,  1 Dec 2021 11:32:21 +0000 (UTC)
+HMM_SOURCE_IP: 10.64.8.43:55430.125480071
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-114.242.206.180 (unknown [10.64.8.43])
+ by 189.cn (HERMES) with SMTP id D3A031001C8;
+ Wed,  1 Dec 2021 19:32:17 +0800 (CST)
+Received: from  ([14.17.101.176])
+ by gateway-151646-dep-b7fbf7d79-vjdjk with ESMTP id
+ 2f60f39930b8491c945ffa4904a28edc for l.stach@pengutronix.de; 
+ Wed, 01 Dec 2021 19:32:19 CST
+X-Transaction-ID: 2f60f39930b8491c945ffa4904a28edc
+X-Real-From: 15330273260@189.cn
+X-Receive-IP: 14.17.101.176
+X-MEDUSA-Status: 0
+From: Sui Jingfeng <15330273260@189.cn>
+To: Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Tiezhu Yang <yangtiezhu@loongson.cn>,
+ Qing Zhang <zhangqing@loongson.cn>, Jinyang He <hejinyang@loongson.cn>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Xiaochuan Mao <maoxiaochuan@loongson.cn>,
+ zhaoxiao <zhaoxiao@uniontech.com>, suijingfeng <suijingfeng@loongson.cn>
+Subject: [PATCH v2 1/3] dt-bindings: ls2k1000: add gpu device node
+Date: Wed,  1 Dec 2021 19:32:13 +0800
+Message-Id: <20211201113215.3062-1-15330273260@189.cn>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20211128201916.10230-1-rikard.falkeborn@gmail.com>
-In-Reply-To: <20211128201916.10230-1-rikard.falkeborn@gmail.com>
-From: Christian Gmeiner <christian.gmeiner@gmail.com>
-Date: Mon, 29 Nov 2021 20:02:16 +0100
-Message-ID: <CAH9NwWfhtYKsPMsiTN-pYc3CQ5XcA9TyX3R4yZch7ZHL2+Soyg@mail.gmail.com>
-Subject: Re: [PATCH] drm/etnaviv: constify static struct cooling_ops
-To: Rikard Falkeborn <rikard.falkeborn@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,52 +57,47 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- The etnaviv authors <etnaviv@lists.freedesktop.org>,
- DRI mailing list <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Lucas Stach <l.stach@pengutronix.de>
+Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-mips@vger.kernel.org, etnaviv@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Am So., 28. Nov. 2021 um 21:20 Uhr schrieb Rikard Falkeborn
-<rikard.falkeborn@gmail.com>:
->
-> The only usage of cooling_ops is to pass its address to
-> thermal_of_cooling_device_register(), which takes a pointer to const
-> struct thermal_cooling_device_ops as input. Make it const to allow the
-> compiler to put it in read-only memory.
->
-> Signed-off-by: Rikard Falkeborn <rikard.falkeborn@gmail.com>
+From: suijingfeng <suijingfeng@loongson.cn>
 
-Reviewed-by: Christian Gmeiner <christian.gmeiner@gmail.com>
+There is a vivante gpu (GC1000 V5037) in ls2k1000,
+but it is pci device not platform device.
 
-> ---
->  drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> index 06bde46df451..37018bc55810 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> @@ -1658,7 +1658,7 @@ etnaviv_gpu_cooling_set_cur_state(struct thermal_cooling_device *cdev,
->         return 0;
->  }
->
-> -static struct thermal_cooling_device_ops cooling_ops = {
-> +static const struct thermal_cooling_device_ops cooling_ops = {
->         .get_max_state = etnaviv_gpu_cooling_get_max_state,
->         .get_cur_state = etnaviv_gpu_cooling_get_cur_state,
->         .set_cur_state = etnaviv_gpu_cooling_set_cur_state,
-> --
-> 2.34.1
->
+ls2k1000 is dual-core mips64 cpu made by loongson.
 
+Signed-off-by: suijingfeng <suijingfeng@loongson.cn>
+Signed-off-by: Sui Jingfeng <15330273260@189.cn>
+---
+ arch/mips/boot/dts/loongson/loongson64-2k1000.dtsi | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
+diff --git a/arch/mips/boot/dts/loongson/loongson64-2k1000.dtsi b/arch/mips/boot/dts/loongson/loongson64-2k1000.dtsi
+index bfc3d3243ee7..f1feffac78a6 100644
+--- a/arch/mips/boot/dts/loongson/loongson64-2k1000.dtsi
++++ b/arch/mips/boot/dts/loongson/loongson64-2k1000.dtsi
+@@ -193,6 +193,17 @@
+ 				interrupt-parent = <&liointc0>;
+ 			};
+ 
++			gpu@5,0 {
++				compatible = "pci0014,7a05.0",
++						   "pci0014,7a05",
++						   "pciclass030200",
++						   "pciclass0302";
++
++				reg = <0x2800 0x0 0x0 0x0 0x0>;
++				interrupts = <29 IRQ_TYPE_LEVEL_LOW>;
++				interrupt-parent = <&liointc0>;
++			};
++
+ 			pci_bridge@9,0 {
+ 				compatible = "pci0014,7a19.0",
+ 						   "pci0014,7a19",
 -- 
-greets
---
-Christian Gmeiner, MSc
+2.20.1
 
-https://christian-gmeiner.info/privacypolicy
