@@ -2,38 +2,34 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2AEA47745E
-	for <lists+etnaviv@lfdr.de>; Thu, 16 Dec 2021 15:23:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B3BA478954
+	for <lists+etnaviv@lfdr.de>; Fri, 17 Dec 2021 11:59:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 55EFD11225B;
-	Thu, 16 Dec 2021 14:23:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A817E10EC7E;
+	Fri, 17 Dec 2021 10:59:33 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 790E911225B;
- Thu, 16 Dec 2021 14:23:05 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1BD1A1435;
- Thu, 16 Dec 2021 06:23:05 -0800 (PST)
-Received: from [10.57.5.127] (unknown [10.57.5.127])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 187A23F73B;
- Thu, 16 Dec 2021 06:23:03 -0800 (PST)
-Subject: Re: [bug report] new kvmalloc() WARN() triggered by DRM ioctls
- tracking
-To: Boris Brezillon <boris.brezillon@collabora.com>
-References: <20211216120806.GA3691@kili>
- <8b02c4d8-cf36-6558-6e1d-9a0955483f4e@arm.com>
- <20211216151513.14ca3e8c@collabora.com>
-From: Steven Price <steven.price@arm.com>
-Message-ID: <efd97179-881c-331f-dd5c-cf2fe3db33ec@arm.com>
-Date: Thu, 16 Dec 2021 14:23:02 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0678F10ECAE
+ for <etnaviv@lists.freedesktop.org>; Fri, 17 Dec 2021 10:59:32 +0000 (UTC)
+Received: from dude03.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::39])
+ by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1myAxW-0000Z3-AB; Fri, 17 Dec 2021 11:59:30 +0100
+From: Lucas Stach <l.stach@pengutronix.de>
+To: etnaviv@lists.freedesktop.org
+Subject: [PATCH] drm/etnaviv: limit submit sizes
+Date: Fri, 17 Dec 2021 11:59:28 +0100
+Message-Id: <20211217105928.3182024-1-l.stach@pengutronix.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-In-Reply-To: <20211216151513.14ca3e8c@collabora.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:1101:1d::39
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,55 +41,51 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: lima@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
- dri-devel@lists.freedesktop.org, Dan Carpenter <dan.carpenter@oracle.com>
+Cc: Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Dan Carpenter <dan.carpenter@oracle.com>, dri-devel@lists.freedesktop.org,
+ Russell King <linux+etnaviv@armlinux.org.uk>
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-On 16/12/2021 14:15, Boris Brezillon wrote:
-> Hi Steve,
-> 
-> On Thu, 16 Dec 2021 14:02:25 +0000
-> Steven Price <steven.price@arm.com> wrote:
-> 
->> + Boris
->>
->> On 16/12/2021 12:08, Dan Carpenter wrote:
->>> Hi DRM Devs,
->>>
->>> In commit 7661809d493b ("mm: don't allow oversized kvmalloc() calls")
->>> from July, Linus added a WARN_ONCE() for "crazy" allocations over 2GB.
->>> I have a static checker warning for this and most of the warnings are
->>> from DRM ioctls.
->>>
->>> drivers/gpu/drm/lima/lima_drv.c:124 lima_ioctl_gem_submit() warn: uncapped user size for kvmalloc() will WARN
->>> drivers/gpu/drm/radeon/radeon_cs.c:291 radeon_cs_parser_init() warn: uncapped user size for kvmalloc() will WARN
->>> drivers/gpu/drm/v3d/v3d_gem.c:311 v3d_lookup_bos() warn: uncapped user size for kvmalloc() will WARN
->>> drivers/gpu/drm/v3d/v3d_gem.c:319 v3d_lookup_bos() warn: uncapped user size for kvmalloc() will WARN
->>> drivers/gpu/drm/v3d/v3d_gem.c:601 v3d_get_multisync_post_deps() warn: uncapped user size for kvmalloc() will WARN
->>> drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c:476 etnaviv_ioctl_gem_submit() warn: uncapped user size for kvmalloc() will WARN
->>> drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c:477 etnaviv_ioctl_gem_submit() warn: uncapped user size for kvmalloc() will WARN
->>> drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c:478 etnaviv_ioctl_gem_submit() warn: uncapped user size for kvmalloc() will WARN
->>> drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c:479 etnaviv_ioctl_gem_submit() warn: uncapped user size for kvmalloc() will WARN
->>> drivers/gpu/drm/virtio/virtgpu_ioctl.c:186 virtio_gpu_execbuffer_ioctl() warn: uncapped user size for kvmalloc() will WARN
->>> drivers/gpu/drm/panfrost/panfrost_drv.c:198 panfrost_copy_in_sync() warn: uncapped user size for kvmalloc() will WARN  
->>
->> I believe this one in Panfrost would be fixed by Boris's series
->> reworking the submit ioctl[1].
->>
->> Boris: are you planning on submitting that series soon - or is it worth
->> cherry picking the rework in patch 5 to fix this issue?
-> 
-> Don't know when I'll get back to it, so I'd recommend cherry-picking
-> what you need.
+Currently we allow rediculous ammounts of kernel memory being allocated
+via the etnaviv GEM_SUBMIT ioctl, which is a pretty easy DoS vector. Put
+some reasonable limits in to fix this.
 
-Thanks, no problem - it was mostly when I looked at the code I had the
-feeling that "surely this has already been fixed", then discovered your
-series was never merged ;)
+The commandstream size is limited to 64KB, which was already a soft limit
+on older kernels after which the kernel only took submits on a best effort
+base, so there is no userspace that tries to submit commandstreams larger
+than this. Even if the whole commandstream is a single incrementing address
+load, the size limit also limits the number of potential relocs and
+referenced buffers to slightly under 64K, so use the same limit for those
+arguments. The performance monitoring infrastructure currently supports
+less than 50 performance counter signals, so limiting them to 128 on a
+single submit seems like a reasonably future-proof number for now. This
+number can be bumped if needed without breaking the interface.
 
-I'll hammer out a patch for this one issue.
+Cc: stable@vger.kernel.org
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+---
+ drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-Thanks,
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+index 486259e154af..225fa5879ebd 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+@@ -469,6 +469,12 @@ int etnaviv_ioctl_gem_submit(struct drm_device *dev, void *data,
+ 		return -EINVAL;
+ 	}
+ 
++	if (args->stream_size > SZ_64K || args->nr_relocs > SZ_64K ||
++	    args->nr_bos > SZ_64K || args->nr_pmrs > 128) {
++		DRM_ERROR("submit arguments out of size limits\n");
++		return -EINVAL;
++	}
++
+ 	/*
+ 	 * Copy the command submission and bo array to kernel space in
+ 	 * one go, and do this outside of any locks.
+-- 
+2.30.2
 
-Steve
