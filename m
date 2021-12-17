@@ -1,55 +1,36 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 008FE4794EA
-	for <lists+etnaviv@lfdr.de>; Fri, 17 Dec 2021 20:38:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CE9EE479601
+	for <lists+etnaviv@lfdr.de>; Fri, 17 Dec 2021 22:10:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9BDB510E3D3;
-	Fri, 17 Dec 2021 19:38:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB09310E342;
+	Fri, 17 Dec 2021 21:10:05 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com
- [IPv6:2a00:1450:4864:20::532])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A244E10E3D3;
- Fri, 17 Dec 2021 19:38:26 +0000 (UTC)
-Received: by mail-ed1-x532.google.com with SMTP id y12so11739344eda.12;
- Fri, 17 Dec 2021 11:38:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=xBhbHR1ZRRnmsqap7tOmhGUkA6633FczKv2Mv4aRZVs=;
- b=gfA8uTswdtNIYDKecjnSpPNhnsQvzILmqtqsQeltg5uZSC8WGVwvopa+iP9gMkqTLd
- 3AdIUAwQJpPG+0MDBcQOl9i3I9dPauwNXoxHuRkmd/+qAjPkoTFiXz13KWuP55finnkw
- GMCuTAZBB4o/S27hteDBDLj/C+Kt8dVOIDQtCfV/mBoieqky/9kgLiS/rwQT6hixncEQ
- IqhOAKBPuHbHOJrZebvUv9CdFmb/4THZYpmXXA4RRM8kPDE7k0JZp2Lc9+2OPaIn+GgX
- KVz2ku0L41HwZcT3e8kK87VZqPlO+KpDJhiNzV2zg0nmHvfUuOM44lSzhvJEsY26mJPw
- YaHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=xBhbHR1ZRRnmsqap7tOmhGUkA6633FczKv2Mv4aRZVs=;
- b=Chy4jHxktjzsEzNrQQJ+mXuGiP41QowXaIvoonA4blfRVWMoHEZ/+l9jEntgqJbcJH
- bhxLFZlnLXs0A3wpWilJaLp/P3vExTAWk5xsKwJ/PR0fge9qcNh7uTGbiLEz3S9xeseP
- b/y5c5lrMleKqpcEZ7z1Q5qTC7FrKlQp4j9jCG8jBp8V9kOs5gpV/Fp7MxCbQrcnciyJ
- LeSgAyqv6THnIM9FGQxqN5NWDDE2c5k+wgU8Cx25Jx9de6iqFW9mWIERlhJrC3lofwf5
- OL/wFU79/zhBCZEpx9H2Vg3BRkyDaHZkZkOcjEPmHv58bR75kj4YnOClzIA6ethRJAj8
- OSNw==
-X-Gm-Message-State: AOAM530oK5HlaeXl49XL4fz5vCgxRMJA7tPPeVmmDsMJicWpRkDge3YA
- KX7aVJrNuOEMISNx5VZZ8RzejxsbWFTDKKc3/iI=
-X-Google-Smtp-Source: ABdhPJxuNpCkbRyKgYvx//uFZV9IzzvMt7TXuzGY6FMxVKyNkiHr7yrR8Vs4AOyWWCFM+WtZEkBDhZxoe7jY8z8WSQo=
-X-Received: by 2002:a17:906:4787:: with SMTP id
- cw7mr3496614ejc.311.1639769905119; 
- Fri, 17 Dec 2021 11:38:25 -0800 (PST)
+X-Greylist: delayed 592 seconds by postgrey-1.36 at gabe;
+ Fri, 17 Dec 2021 21:10:03 UTC
+Received: from lynxeye.de (ns.lynxeye.de [87.118.118.114])
+ by gabe.freedesktop.org (Postfix) with ESMTP id F30A810E342
+ for <etnaviv@lists.freedesktop.org>; Fri, 17 Dec 2021 21:10:03 +0000 (UTC)
+Received: by lynxeye.de (Postfix, from userid 501)
+ id 94E46E74217; Fri, 17 Dec 2021 21:59:40 +0100 (CET)
+X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on lynxeye.de
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=3.0 tests=ALL_TRUSTED,BAYES_00
+ autolearn=ham version=3.3.1
+Received: from astat.fritz.box (a89-183-128-155.net-htp.de [89.183.128.155])
+ by lynxeye.de (Postfix) with ESMTPA id 7609FE7414D;
+ Fri, 17 Dec 2021 21:59:39 +0100 (CET)
+From: Lucas Stach <l.stach@pengutronix.de>
+To: etnaviv@lists.freedesktop.org
+Subject: [PATCH RFT] drm/etnaviv: reap idle softpin mappings when necessary
+Date: Fri, 17 Dec 2021 21:59:36 +0100
+Message-Id: <20211217205936.153220-1-l.stach@pengutronix.de>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <20211217105928.3182024-1-l.stach@pengutronix.de>
-In-Reply-To: <20211217105928.3182024-1-l.stach@pengutronix.de>
-From: Christian Gmeiner <christian.gmeiner@gmail.com>
-Date: Fri, 17 Dec 2021 20:38:13 +0100
-Message-ID: <CAH9NwWdb6Frmg6T6kkxD4oo-ua=enuB_OepamhK13qDEhrb+Gg@mail.gmail.com>
-Subject: Re: [PATCH] drm/etnaviv: limit submit sizes
-To: Lucas Stach <l.stach@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,39 +42,76 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dan Carpenter <dan.carpenter@oracle.com>,
- The etnaviv authors <etnaviv@lists.freedesktop.org>,
- DRI mailing list <dri-devel@lists.freedesktop.org>,
- Russell King <linux+etnaviv@armlinux.org.uk>
+Cc: =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Am Fr., 17. Dez. 2021 um 11:59 Uhr schrieb Lucas Stach <l.stach@pengutronix.de>:
->
-> Currently we allow rediculous ammounts of kernel memory being allocated
-> via the etnaviv GEM_SUBMIT ioctl, which is a pretty easy DoS vector. Put
-> some reasonable limits in to fix this.
->
-> The commandstream size is limited to 64KB, which was already a soft limit
-> on older kernels after which the kernel only took submits on a best effort
-> base, so there is no userspace that tries to submit commandstreams larger
-> than this. Even if the whole commandstream is a single incrementing address
-> load, the size limit also limits the number of potential relocs and
-> referenced buffers to slightly under 64K, so use the same limit for those
-> arguments. The performance monitoring infrastructure currently supports
-> less than 50 performance counter signals, so limiting them to 128 on a
-> single submit seems like a reasonably future-proof number for now. This
-> number can be bumped if needed without breaking the interface.
->
-> Cc: stable@vger.kernel.org
-> Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+Right now the only point where softpin mappings get removed from the
+MMU context is when the mapped GEM object is destroyed. However,
+userspace might want to reuse that address space before the object
+is destroyed, which is a valid usage, as long as all mapping in that
+region of the address space are no longer used by any GPU jobs.
 
-Reviewed-by: Christian Gmeiner <christian.gmeiner@gmail.com>
+Implement reaping of idle MMU mappings that would otherwise
+prevent the insertion of a softpin mapping.
 
+Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+---
+ drivers/gpu/drm/etnaviv/etnaviv_mmu.c | 39 +++++++++++++++++++++++++++
+ 1 file changed, 39 insertions(+)
+
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_mmu.c b/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
+index 9fb1a2aadbcb..9111288b4062 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
+@@ -219,8 +219,47 @@ static int etnaviv_iommu_find_iova(struct etnaviv_iommu_context *context,
+ static int etnaviv_iommu_insert_exact(struct etnaviv_iommu_context *context,
+ 		   struct drm_mm_node *node, size_t size, u64 va)
+ {
++	struct etnaviv_vram_mapping *m, *n;
++	struct drm_mm_node *scan_node;
++	LIST_HEAD(scan_list);
++	int ret;
++
+ 	lockdep_assert_held(&context->lock);
+ 
++	ret = drm_mm_insert_node_in_range(&context->mm, node, size, 0, 0, va,
++					  va + size, DRM_MM_INSERT_LOWEST);
++	if (ret != -ENOSPC)
++		return ret;
++
++	/*
++	 * When we can't insert the node, due to a existing mapping blocking
++	 * the address space, there are two possible reasons:
++	 * 1. Userspace genuinely messed up and tried to reuse address space
++	 * before the last job using this VMA has finished executing.
++	 * 2. The existing buffer mappings are idle, but the buffers are not
++	 * destroyed yet (likely due to being referenced by another context) in
++	 * which case the mappings will not be cleaned up and we must reap them
++	 * here to make space for the new mapping.
++	 */
++
++	drm_mm_for_each_node_in_range(scan_node, &context->mm, va, va + size) {
++		m = container_of(scan_node, struct etnaviv_vram_mapping,
++				 vram_node);
++
++		if (m->use)
++			return -ENOSPC;
++
++		list_add(&m->scan_node, &scan_list);
++	}
++
++	list_for_each_entry_safe(m, n, &scan_list, scan_node) {
++		etnaviv_iommu_remove_mapping(context, m);
++		etnaviv_iommu_context_put(m->context);
++		m->context = NULL;
++		list_del_init(&m->mmu_node);
++		list_del_init(&m->scan_node);
++	}
++
+ 	return drm_mm_insert_node_in_range(&context->mm, node, size, 0, 0, va,
+ 					   va + size, DRM_MM_INSERT_LOWEST);
+ }
 -- 
-greets
---
-Christian Gmeiner, MSc
+2.31.1
 
-https://christian-gmeiner.info/privacypolicy
