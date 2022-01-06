@@ -2,33 +2,31 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BC4B47E867
-	for <lists+etnaviv@lfdr.de>; Thu, 23 Dec 2021 20:36:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63DBA486966
+	for <lists+etnaviv@lfdr.de>; Thu,  6 Jan 2022 19:10:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2623210E3EA;
-	Thu, 23 Dec 2021 19:36:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1000510E750;
+	Thu,  6 Jan 2022 18:10:24 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE26B89C80
- for <etnaviv@lists.freedesktop.org>; Thu, 23 Dec 2021 19:36:32 +0000 (UTC)
-Received: from gallifrey.ext.pengutronix.de
- ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B755D10E750
+ for <etnaviv@lists.freedesktop.org>; Thu,  6 Jan 2022 18:10:23 +0000 (UTC)
+Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28]
+ helo=dude02.pengutronix.de.)
+ by metis.ext.pengutronix.de with esmtp (Exim 4.92)
  (envelope-from <l.stach@pengutronix.de>)
- id 1n0Tt8-0007Jw-Ib; Thu, 23 Dec 2021 20:36:30 +0100
-Message-ID: <59619f8e9eb1d7ed7ea72cbead1f0aabc49f4e68.camel@pengutronix.de>
-Subject: [GIT PULL] etnaviv-next for 5.17
+ id 1n5XDS-0008CY-3S; Thu, 06 Jan 2022 19:10:22 +0100
 From: Lucas Stach <l.stach@pengutronix.de>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Thu, 23 Dec 2021 20:36:29 +0100
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
+To: etnaviv@lists.freedesktop.org
+Subject: [PATCH] drm/etnaviv: relax submit size limits
+Date: Thu,  6 Jan 2022 19:10:21 +0100
+Message-Id: <20220106181021.3760251-1-l.stach@pengutronix.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
 X-SA-Exim-Mail-From: l.stach@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
  SAEximRunCond expanded to false
@@ -44,51 +42,37 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@pengutronix.de, etnaviv@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
+Cc: Christian Gmeiner <christian.gmeiner@gmail.com>,
+ dri-devel@lists.freedesktop.org, Russell King <linux+etnaviv@armlinux.org.uk>
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Hi Dave, hi Daniel,
+While all userspace tried to limit commandstreams to 64K in size,
+a bug in the Mesa driver lead to command streams of up to 128K
+being submitted. Allow those to avoid breaking existing userspace.
 
-please pull the following etnaviv changes for the next merge window:
-- make etnaviv work on IOMMU enabled systems
-- fix mapping of command buffers on systems with more than 4GB RAM
-- close a DoS vector
-- fix spurious GPU resets
+Fixes: 6dfa2fab8ddd ("drm/etnaviv: limit submit sizes")
+Cc: stable@vger.kernel.org
+Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+---
+ drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Regards,
-Lucas
-
-The following changes since commit fa55b7dcdc43c1aa1ba12bca9d2dd4318c2a0dbf:
-
-  Linux 5.16-rc1 (2021-11-14 13:56:52 -0800)
-
-are available in the Git repository at:
-
-  https://git.pengutronix.de/git/lst/linux etnaviv/next
-
-for you to fetch changes up to cdd156955f946beaa5f3a00d8ccf90e5a197becc:
-
-  drm/etnaviv: consider completed fence seqno in hang check (2021-12-23 20:21:33 +0100)
-
-----------------------------------------------------------------
-Lucas Stach (2):
-      drm/etnaviv: limit submit sizes
-      drm/etnaviv: consider completed fence seqno in hang check
-
-Michael Walle (3):
-      drm/etnaviv: use PLATFORM_DEVID_NONE
-      drm/etnaviv: fix dma configuration of the virtual device
-      drm/etnaviv: use a 32 bit mask as coherent DMA mask
-
-Rikard Falkeborn (1):
-      drm/etnaviv: constify static struct cooling_ops
-
- drivers/gpu/drm/etnaviv/etnaviv_drv.c        | 41 +++++++++++++++++++++++++++++++----------
- drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c |  6 ++++++
- drivers/gpu/drm/etnaviv/etnaviv_gpu.c        |  2 +-
- drivers/gpu/drm/etnaviv/etnaviv_gpu.h        |  1 +
- drivers/gpu/drm/etnaviv/etnaviv_sched.c      |  4 +++-
- 5 files changed, 42 insertions(+), 12 deletions(-)
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+index 43da5800bfa3..0dc07c3d72a2 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+@@ -469,8 +469,8 @@ int etnaviv_ioctl_gem_submit(struct drm_device *dev, void *data,
+ 		return -EINVAL;
+ 	}
+ 
+-	if (args->stream_size > SZ_64K || args->nr_relocs > SZ_64K ||
+-	    args->nr_bos > SZ_64K || args->nr_pmrs > 128) {
++	if (args->stream_size > SZ_128K || args->nr_relocs > SZ_128K ||
++	    args->nr_bos > SZ_128K || args->nr_pmrs > 128) {
+ 		DRM_ERROR("submit arguments out of size limits\n");
+ 		return -EINVAL;
+ 	}
+-- 
+2.30.2
 
