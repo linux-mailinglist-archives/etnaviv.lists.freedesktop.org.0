@@ -1,36 +1,55 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63DBA486966
-	for <lists+etnaviv@lfdr.de>; Thu,  6 Jan 2022 19:10:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D50F84889EB
+	for <lists+etnaviv@lfdr.de>; Sun,  9 Jan 2022 15:49:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1000510E750;
-	Thu,  6 Jan 2022 18:10:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4EF9410E1E7;
+	Sun,  9 Jan 2022 14:49:54 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B755D10E750
- for <etnaviv@lists.freedesktop.org>; Thu,  6 Jan 2022 18:10:23 +0000 (UTC)
-Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28]
- helo=dude02.pengutronix.de.)
- by metis.ext.pengutronix.de with esmtp (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1n5XDS-0008CY-3S; Thu, 06 Jan 2022 19:10:22 +0100
-From: Lucas Stach <l.stach@pengutronix.de>
-To: etnaviv@lists.freedesktop.org
-Subject: [PATCH] drm/etnaviv: relax submit size limits
-Date: Thu,  6 Jan 2022 19:10:21 +0100
-Message-Id: <20220106181021.3760251-1-l.stach@pengutronix.de>
-X-Mailer: git-send-email 2.30.2
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com
+ [IPv6:2a00:1450:4864:20::533])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4673810E1E7
+ for <etnaviv@lists.freedesktop.org>; Sun,  9 Jan 2022 14:49:52 +0000 (UTC)
+Received: by mail-ed1-x533.google.com with SMTP id m4so1768535edb.10
+ for <etnaviv@lists.freedesktop.org>; Sun, 09 Jan 2022 06:49:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=SHY8jALKtaO5XWJLIKzSyeD8eMj+sZLnByWrmOMA7AU=;
+ b=H9lJAl2mEgnGoHf/GX7vSsR0YiEY1z8/RF02dgDgbaw39Xz/r6IDIfE3cJYJEaHD89
+ 9yDwy9vj5T9fl4duUo/w/da7cbcoMFaTM9ZnbkK0VPnqDU49WqjucvXoVAgZt75P//YP
+ 3DyHA7p7/y4aQbjI+mjCBo0cO3YJVu2nLZAt6rsLPDreX4AQ4Hm67AqiTqL6IE3iEaQl
+ IXRJgvb57JsNfec5OBkOGM2hA4thzd2FTlREUowDlriHyVU/0W77MhCOepzeWk8aszBQ
+ uD6FR1CMNbksjBB3sbPKQ2yVQz9aetOGGBcwqRvGjvJHUP456kR1+tQBna0UPt+2uIZp
+ Or1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=SHY8jALKtaO5XWJLIKzSyeD8eMj+sZLnByWrmOMA7AU=;
+ b=12L0GsYHCWi4mAD4hSyIM7fNrOyEmcflQqfcM2vanAiWO6mliMw63Y5tPYBV1RbxJq
+ l6ViKwZgKlhqlHtUk3yFKiJAogNbIncvnKP6baINUsD9C40IUVk5G793ml1ECI93eyha
+ +wohfzy94RqRItc8Jo/XljL0DUeiO59c0qiAR7EdGZRuJasWD+KXy+hdKf+Mt6lmX1lC
+ R5Fxav9VFAdZOmdWNUXQVB3J1AvaFENn/B7qewVB+d8p3yk739+F81LzJjsOylIsa2EW
+ tcw3lOtIG11kG0pfpJt9mU4TaZ+lq5BYhNQNNZOFxwCRjx33VPwW+eIMGOFOoVA29Cob
+ vr9w==
+X-Gm-Message-State: AOAM533cgT4MZTRdqhQ4yTfmi0I9VJJ4a8wX1Qofo5hLTWjeJ62pDoV2
+ Vfq/DmEFWAYRDQQxrHoRsp2XK58qQDas7eReyr1DRXqOEME=
+X-Google-Smtp-Source: ABdhPJwqTEYmMuYh1NaO1MzKbUYSQb1QWDichAUGSrdXunLNrAuv+HKeTecislDmCAqwumwrB0cv9Rj4Pcjf+MQiQVc=
+X-Received: by 2002:a17:907:6e01:: with SMTP id
+ sd1mr4206681ejc.311.1641739790722; 
+ Sun, 09 Jan 2022 06:49:50 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
+References: <20211217205936.153220-1-l.stach@pengutronix.de>
+In-Reply-To: <20211217205936.153220-1-l.stach@pengutronix.de>
+From: Christian Gmeiner <christian.gmeiner@gmail.com>
+Date: Sun, 9 Jan 2022 15:49:39 +0100
+Message-ID: <CAH9NwWcYHOSv=okUex4e=70otPwDPQDuZf1Eui0H+UKTp+a2wA@mail.gmail.com>
+Subject: Re: [PATCH RFT] drm/etnaviv: reap idle softpin mappings when necessary
+To: Lucas Stach <l.stach@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,37 +61,29 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: Christian Gmeiner <christian.gmeiner@gmail.com>,
- dri-devel@lists.freedesktop.org, Russell King <linux+etnaviv@armlinux.org.uk>
+Cc: =?UTF-8?Q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>,
+ The etnaviv authors <etnaviv@lists.freedesktop.org>
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-While all userspace tried to limit commandstreams to 64K in size,
-a bug in the Mesa driver lead to command streams of up to 128K
-being submitted. Allow those to avoid breaking existing userspace.
+Am Fr., 17. Dez. 2021 um 22:10 Uhr schrieb Lucas Stach <l.stach@pengutronix.de>:
+>
+> Right now the only point where softpin mappings get removed from the
+> MMU context is when the mapped GEM object is destroyed. However,
+> userspace might want to reuse that address space before the object
+> is destroyed, which is a valid usage, as long as all mapping in that
+> region of the address space are no longer used by any GPU jobs.
+>
+> Implement reaping of idle MMU mappings that would otherwise
+> prevent the insertion of a softpin mapping.
+>
+> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
 
-Fixes: 6dfa2fab8ddd ("drm/etnaviv: limit submit sizes")
-Cc: stable@vger.kernel.org
-Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
----
- drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Reviewed-by: Christian Gmeiner <christian.gmeiner@gmail.com>
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-index 43da5800bfa3..0dc07c3d72a2 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-@@ -469,8 +469,8 @@ int etnaviv_ioctl_gem_submit(struct drm_device *dev, void *data,
- 		return -EINVAL;
- 	}
- 
--	if (args->stream_size > SZ_64K || args->nr_relocs > SZ_64K ||
--	    args->nr_bos > SZ_64K || args->nr_pmrs > 128) {
-+	if (args->stream_size > SZ_128K || args->nr_relocs > SZ_128K ||
-+	    args->nr_bos > SZ_128K || args->nr_pmrs > 128) {
- 		DRM_ERROR("submit arguments out of size limits\n");
- 		return -EINVAL;
- 	}
 -- 
-2.30.2
+greets
+--
+Christian Gmeiner, MSc
 
+https://christian-gmeiner.info/privacypolicy
