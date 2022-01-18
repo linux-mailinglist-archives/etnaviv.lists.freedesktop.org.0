@@ -2,44 +2,44 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8731B49173B
-	for <lists+etnaviv@lfdr.de>; Tue, 18 Jan 2022 03:38:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15B094917EF
+	for <lists+etnaviv@lfdr.de>; Tue, 18 Jan 2022 03:43:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 239711128FB;
-	Tue, 18 Jan 2022 02:38:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7BE1911290E;
+	Tue, 18 Jan 2022 02:43:47 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org
  [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C37201128FB;
- Tue, 18 Jan 2022 02:38:47 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 857C5112908;
+ Tue, 18 Jan 2022 02:43:44 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 5191D611B4;
- Tue, 18 Jan 2022 02:38:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EAE4FC36AEB;
- Tue, 18 Jan 2022 02:38:45 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 563D9611F2;
+ Tue, 18 Jan 2022 02:43:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB39BC36AF4;
+ Tue, 18 Jan 2022 02:43:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1642473527;
- bh=5qnT/ZKpsAPdNJ9R7DEiWjtGbRKYGDcgnO84ikNbvSU=;
+ s=k20201202; t=1642473824;
+ bh=vYqT50n7P1s8BSjh/eXllW0EJ7z12+co5rPuam7sJbo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=lYQLzaqgKvZsX0JKjLIEP0U1Wqcyd4gbLSvmiCFpD04DrFFfbfNj2eQVDPFFF/meY
- tCW1ggnm5vvDY4pqEHCS7wZ0AWHsKCxhJYjBi9t+bRCZLnBhC8SudD4VGC71o+V9V/
- tTMuubddT3buUT71mN6Ul8/wZHhzzS7n1wTx6NnulNQuoylDMOF6Ll7JZzfzpJAtkl
- zZCqDXf+Vz1I6aNipjwVKqq0/9CNBzWw15XUiculQQfAaJMBUMF2Knqqa6Z2Q76EO9
- eW6fxFUH+ogWPa1EZ6KQzPcpbOBNZxnhpek1jaXElgyXA6s+jHajb0C1oE0kBWA7is
- 0NoatAsk5MpLQ==
+ b=tvHW+5OTXEVW4x4gv9mpinXXAx4svqjAOK80/X4OECqSk5qTKkiV6EoCoFOwhlUNL
+ goCC9aVqHo18Nfe6wWsNigZ20pPqtWGKnNhyCRHupORwsMDafvDRx3PXttfGCUe2c5
+ UluUYZwCpCydMOndNvVL1BFlntWazxqz6dNOyA4f+llNCnvWNCHMbfsznl8blpwGnB
+ 6CQWf2dBdj+j7mYPkRduf/ly5PuwRTCT2zgFPRdvebYWQ8mwacZuIyn2TM5fEBZVJ2
+ r7T7vVAzomD/o0k/RfERqo4gVQgZXgzeH0RARf/jIE8/EnTu2ZczoYgFWVvXLvPuPY
+ b8N7DwEB3ygeQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 150/188] drm/etnaviv: consider completed fence
+Subject: [PATCH AUTOSEL 5.10 088/116] drm/etnaviv: consider completed fence
  seqno in hang check
-Date: Mon, 17 Jan 2022 21:31:14 -0500
-Message-Id: <20220118023152.1948105-150-sashal@kernel.org>
+Date: Mon, 17 Jan 2022 21:39:39 -0500
+Message-Id: <20220118024007.1950576-88-sashal@kernel.org>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220118023152.1948105-1-sashal@kernel.org>
-References: <20220118023152.1948105-1-sashal@kernel.org>
+In-Reply-To: <20220118024007.1950576-1-sashal@kernel.org>
+References: <20220118024007.1950576-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -99,10 +99,10 @@ index 1c75c8ed5bcea..85eddd492774d 100644
  	void __iomem *mmio;
  	int irq;
 diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sched.c b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-index feb6da1b6cebc..bbf391f48f949 100644
+index cd46c882269cc..026b6c0731198 100644
 --- a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
 +++ b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-@@ -107,8 +107,10 @@ static enum drm_gpu_sched_stat etnaviv_sched_timedout_job(struct drm_sched_job
+@@ -106,8 +106,10 @@ static void etnaviv_sched_timedout_job(struct drm_sched_job *sched_job)
  	 */
  	dma_addr = gpu_read(gpu, VIVS_FE_DMA_ADDRESS);
  	change = dma_addr - gpu->hangcheck_dma_addr;
