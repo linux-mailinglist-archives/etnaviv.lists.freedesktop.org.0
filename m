@@ -1,55 +1,49 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A6C64889EF
-	for <lists+etnaviv@lfdr.de>; Sun,  9 Jan 2022 15:54:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 811F749159D
+	for <lists+etnaviv@lfdr.de>; Tue, 18 Jan 2022 03:29:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 21BFA8916B;
-	Sun,  9 Jan 2022 14:54:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A11631128D9;
+	Tue, 18 Jan 2022 02:29:22 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com
- [IPv6:2a00:1450:4864:20::52e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A47110E281;
- Sun,  9 Jan 2022 14:54:32 +0000 (UTC)
-Received: by mail-ed1-x52e.google.com with SMTP id u25so43374105edf.1;
- Sun, 09 Jan 2022 06:54:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=coLz9xd+0dZhkayM7ELgbsAyvJ6HGW23G1ay1k1gans=;
- b=dxIBTSTJ4L7k/5IjxfD5yHhWulbmoUf8KeEOv7EfMbz8RqvvHb+vBkEqSW/+Jy4b/0
- 0N52X8opTTILbLajvaFbCWpySV6AMqJx6V/+iqnY5Dq1CBrZCAtJLo2MQ28K6jEvPCrz
- /You0NG+tw0Agb632fbx/PXaCuJ78H9kK9derewxed2Q0g+NwMLJgE0Xsg+8QXRlo13Q
- DR2T6LqsLO9XY643VBoquTgH6f0SkT4DlAqP6mpzPjOstBaUrEW7mxJhW+0nrwy2BE+R
- BTudFKg+tvA5WmzZ48jdJuHTMK6TeobmuJ6uicVgyVP1YYTX1e1fMvnc/9HTMD6RQcqD
- Lpxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=coLz9xd+0dZhkayM7ELgbsAyvJ6HGW23G1ay1k1gans=;
- b=JBzxl2H1qP8QFX3Wjqb/MP7x1CHo+Qmum65tYZ/OsWyQpoyp3mfzBbG1gMQqUbd7ZF
- sx4JKwDMWL8VM3RbJS7a4Iz7BSDHe+SmvATQ7GabUqp1oK2eByecgEFdOAPLqJCdPYI4
- tn0zvTbm+vVJlY+r6h3zkqjSXXaMs/ppV4+HDBN7HdhuhBYNYDvo/Ve0QECjCmCuUPFe
- of5dflr63LVdDykSG4+2NIfoBx/67bC5k1J8x3JWC/dtKi5ksb7GEzivNYpnutg3a36C
- XWUgllPGZWxUQbQNfGFRZF3kyrgoJLm4LYV5auqZdhEHkSfSFNa+O4h3xA6DsYBJxmBB
- 05kQ==
-X-Gm-Message-State: AOAM533U+HAITCP/jHpe1zswN2zxcvxy4h6g0tiGMIycSCprLwH34PwB
- JND9g6LenJGAmiyK6FJmcRJU5+Rp+dPqloH6VzZ5Zelo1lg=
-X-Google-Smtp-Source: ABdhPJx0kfmYVwZVXZqnnGiGojZikcq0EwjhLvap3L+7Cyn7Xr6GSIEKIaO+fQ0mVNalU+6XjOSYyli0rw+wz2sNk6Q=
-X-Received: by 2002:a17:907:6ea2:: with SMTP id
- sh34mr57897451ejc.509.1641740071118; 
- Sun, 09 Jan 2022 06:54:31 -0800 (PST)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B11EA1128D4;
+ Tue, 18 Jan 2022 02:29:20 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 7A8E1B81232;
+ Tue, 18 Jan 2022 02:29:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD5D7C36AF3;
+ Tue, 18 Jan 2022 02:29:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1642472957;
+ bh=F4q09PcjBgUukBysrwd15UYEG4A+dn6xaDs9qiOmli0=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=k6gpgXkuCaXj95D6jsFtlcJM0K4FL34XGJdOUyLdC1lRS/jfVsIKJHrztFIkmgYmF
+ osE8v7G3+fZ3s/i+HIpgCpVIcSnx/FJ/g+EB56Kz9ve2JibXK7XuomsPMzHRJ+f9wu
+ uCVr/elsyvwsEl29aJQWCKDTZoOq9ofOs4w+Dv7eJV0jLoKvdIxP9lNqxbPSNzykTr
+ dTEiz3CesCMNIBmJpcBRgVnCEBfYvHc3pgL4aj9NIcVwZkXQmrLq75jBP18+hBxVFw
+ Uwzc6jhsMsPZlx1yUSxKCw8eyLOBnEDiYkBLZB9rBbohsnHdPIP4A6egoIkCBnhX4c
+ IwYJuS7IaB/6Q==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.16 177/217] drm/etnaviv: consider completed fence
+ seqno in hang check
+Date: Mon, 17 Jan 2022 21:19:00 -0500
+Message-Id: <20220118021940.1942199-177-sashal@kernel.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220118021940.1942199-1-sashal@kernel.org>
+References: <20220118021940.1942199-1-sashal@kernel.org>
 MIME-Version: 1.0
-References: <20220106181021.3760251-1-l.stach@pengutronix.de>
-In-Reply-To: <20220106181021.3760251-1-l.stach@pengutronix.de>
-From: Christian Gmeiner <christian.gmeiner@gmail.com>
-Date: Sun, 9 Jan 2022 15:54:19 +0100
-Message-ID: <CAH9NwWfW4Cuqm06w52PKKsSNYtL6Fg-9-PhdBVTNuu1HPtnFyw@mail.gmail.com>
-Subject: Re: [PATCH] drm/etnaviv: relax submit size limits
-To: Lucas Stach <l.stach@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,27 +55,65 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: The etnaviv authors <etnaviv@lists.freedesktop.org>,
- DRI mailing list <dri-devel@lists.freedesktop.org>,
- Russell King <linux+etnaviv@armlinux.org.uk>
+Cc: Sasha Levin <sashal@kernel.org>, Joerg Albert <joerg.albert@iav.de>,
+ airlied@linux.ie, etnaviv@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org,
+ Christian Gmeiner <christian.gmeiner@gmail.com>, daniel@ffwll.ch,
+ Lucas Stach <l.stach@pengutronix.de>
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Am Do., 6. Jan. 2022 um 19:10 Uhr schrieb Lucas Stach <l.stach@pengutronix.de>:
->
-> While all userspace tried to limit commandstreams to 64K in size,
-> a bug in the Mesa driver lead to command streams of up to 128K
-> being submitted. Allow those to avoid breaking existing userspace.
->
-> Fixes: 6dfa2fab8ddd ("drm/etnaviv: limit submit sizes")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+From: Lucas Stach <l.stach@pengutronix.de>
 
+[ Upstream commit cdd156955f946beaa5f3a00d8ccf90e5a197becc ]
+
+Some GPU heavy test programs manage to trigger the hangcheck quite often.
+If there are no other GPU users in the system and the test program
+exhibits a very regular structure in the commandstreams that are being
+submitted, we can end up with two distinct submits managing to trigger
+the hangcheck with the FE in a very similar address range. This leads
+the hangcheck to believe that the GPU is stuck, while in reality the GPU
+is already busy working on a different job. To avoid those spurious
+GPU resets, also remember and consider the last completed fence seqno
+in the hang check.
+
+Reported-by: Joerg Albert <joerg.albert@iav.de>
+Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
 Reviewed-by: Christian Gmeiner <christian.gmeiner@gmail.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.h   | 1 +
+ drivers/gpu/drm/etnaviv/etnaviv_sched.c | 4 +++-
+ 2 files changed, 4 insertions(+), 1 deletion(-)
 
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
+index 1c75c8ed5bcea..85eddd492774d 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
+@@ -130,6 +130,7 @@ struct etnaviv_gpu {
+ 
+ 	/* hang detection */
+ 	u32 hangcheck_dma_addr;
++	u32 hangcheck_fence;
+ 
+ 	void __iomem *mmio;
+ 	int irq;
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sched.c b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+index 180bb633d5c53..58f593b278c15 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+@@ -107,8 +107,10 @@ static enum drm_gpu_sched_stat etnaviv_sched_timedout_job(struct drm_sched_job
+ 	 */
+ 	dma_addr = gpu_read(gpu, VIVS_FE_DMA_ADDRESS);
+ 	change = dma_addr - gpu->hangcheck_dma_addr;
+-	if (change < 0 || change > 16) {
++	if (gpu->completed_fence != gpu->hangcheck_fence ||
++	    change < 0 || change > 16) {
+ 		gpu->hangcheck_dma_addr = dma_addr;
++		gpu->hangcheck_fence = gpu->completed_fence;
+ 		goto out_no_timeout;
+ 	}
+ 
 -- 
-greets
---
-Christian Gmeiner, MSc
+2.34.1
 
-https://christian-gmeiner.info/privacypolicy
