@@ -2,48 +2,41 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15B094917EF
-	for <lists+etnaviv@lfdr.de>; Tue, 18 Jan 2022 03:43:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D4D54938EB
+	for <lists+etnaviv@lfdr.de>; Wed, 19 Jan 2022 11:51:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7BE1911290E;
-	Tue, 18 Jan 2022 02:43:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA57710E796;
+	Wed, 19 Jan 2022 10:51:34 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 857C5112908;
- Tue, 18 Jan 2022 02:43:44 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 563D9611F2;
- Tue, 18 Jan 2022 02:43:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB39BC36AF4;
- Tue, 18 Jan 2022 02:43:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1642473824;
- bh=vYqT50n7P1s8BSjh/eXllW0EJ7z12+co5rPuam7sJbo=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=tvHW+5OTXEVW4x4gv9mpinXXAx4svqjAOK80/X4OECqSk5qTKkiV6EoCoFOwhlUNL
- goCC9aVqHo18Nfe6wWsNigZ20pPqtWGKnNhyCRHupORwsMDafvDRx3PXttfGCUe2c5
- UluUYZwCpCydMOndNvVL1BFlntWazxqz6dNOyA4f+llNCnvWNCHMbfsznl8blpwGnB
- 6CQWf2dBdj+j7mYPkRduf/ly5PuwRTCT2zgFPRdvebYWQ8mwacZuIyn2TM5fEBZVJ2
- r7T7vVAzomD/o0k/RfERqo4gVQgZXgzeH0RARf/jIE8/EnTu2ZczoYgFWVvXLvPuPY
- b8N7DwEB3ygeQ==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 088/116] drm/etnaviv: consider completed fence
- seqno in hang check
-Date: Mon, 17 Jan 2022 21:39:39 -0500
-Message-Id: <20220118024007.1950576-88-sashal@kernel.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220118024007.1950576-1-sashal@kernel.org>
-References: <20220118024007.1950576-1-sashal@kernel.org>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E2F1210E78E
+ for <etnaviv@lists.freedesktop.org>; Wed, 19 Jan 2022 10:51:32 +0000 (UTC)
+Received: from gallifrey.ext.pengutronix.de
+ ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1nA8Ym-0004NV-S7; Wed, 19 Jan 2022 11:51:24 +0100
+Message-ID: <bb71f83d4897ce818348522d9594b091478073ff.camel@pengutronix.de>
+Subject: Re: [PATCH] drm/etnaviv: Add missing pm_runtime_put
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Yongzhi Liu <lyz_cs@pku.edu.cn>, linux+etnaviv@armlinux.org.uk, 
+ christian.gmeiner@gmail.com, airlied@linux.ie, daniel@ffwll.ch, 
+ etnaviv@lists.freedesktop.org
+Date: Wed, 19 Jan 2022 11:51:20 +0100
+In-Reply-To: <1642515391-19329-1-git-send-email-lyz_cs@pku.edu.cn>
+References: <1642515391-19329-1-git-send-email-lyz_cs@pku.edu.cn>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,65 +48,39 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Joerg Albert <joerg.albert@iav.de>,
- airlied@linux.ie, etnaviv@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org,
- Christian Gmeiner <christian.gmeiner@gmail.com>, daniel@ffwll.ch,
- Lucas Stach <l.stach@pengutronix.de>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-From: Lucas Stach <l.stach@pengutronix.de>
+Am Dienstag, dem 18.01.2022 um 06:16 -0800 schrieb Yongzhi Liu:
+> pm_runtime_get_sync() increments the runtime PM usage counter even
+> when it returns an error code, thus a matching decrement is needed
+> on the error handling path to keep the counter balanced.
+> 
+Instead of adding more error handling code here, I would prefer to
+convert this to pm_runtime_resume_and_get to avoid this issue.
 
-[ Upstream commit cdd156955f946beaa5f3a00d8ccf90e5a197becc ]
+Regards,
+Lucas
 
-Some GPU heavy test programs manage to trigger the hangcheck quite often.
-If there are no other GPU users in the system and the test program
-exhibits a very regular structure in the commandstreams that are being
-submitted, we can end up with two distinct submits managing to trigger
-the hangcheck with the FE in a very similar address range. This leads
-the hangcheck to believe that the GPU is stuck, while in reality the GPU
-is already busy working on a different job. To avoid those spurious
-GPU resets, also remember and consider the last completed fence seqno
-in the hang check.
+> Signed-off-by: Yongzhi Liu <lyz_cs@pku.edu.cn>
+> ---
+>  drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> index 242a5fd..5e81a98 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> @@ -1714,6 +1714,9 @@ static int etnaviv_gpu_bind(struct device *dev, struct device *master,
+>  	return 0;
+>  
+>  out_sched:
+> +#ifdef CONFIG_PM
+> +	pm_runtime_put_autosuspend(gpu->dev);
+> +#endif
+>  	etnaviv_sched_fini(gpu);
+>  
+>  out_workqueue:
 
-Reported-by: Joerg Albert <joerg.albert@iav.de>
-Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
-Reviewed-by: Christian Gmeiner <christian.gmeiner@gmail.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/gpu/drm/etnaviv/etnaviv_gpu.h   | 1 +
- drivers/gpu/drm/etnaviv/etnaviv_sched.c | 4 +++-
- 2 files changed, 4 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
-index 1c75c8ed5bcea..85eddd492774d 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
-@@ -130,6 +130,7 @@ struct etnaviv_gpu {
- 
- 	/* hang detection */
- 	u32 hangcheck_dma_addr;
-+	u32 hangcheck_fence;
- 
- 	void __iomem *mmio;
- 	int irq;
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sched.c b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-index cd46c882269cc..026b6c0731198 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-@@ -106,8 +106,10 @@ static void etnaviv_sched_timedout_job(struct drm_sched_job *sched_job)
- 	 */
- 	dma_addr = gpu_read(gpu, VIVS_FE_DMA_ADDRESS);
- 	change = dma_addr - gpu->hangcheck_dma_addr;
--	if (change < 0 || change > 16) {
-+	if (gpu->completed_fence != gpu->hangcheck_fence ||
-+	    change < 0 || change > 16) {
- 		gpu->hangcheck_dma_addr = dma_addr;
-+		gpu->hangcheck_fence = gpu->completed_fence;
- 		goto out_no_timeout;
- 	}
- 
--- 
-2.34.1
 
