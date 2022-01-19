@@ -2,41 +2,54 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D4D54938EB
-	for <lists+etnaviv@lfdr.de>; Wed, 19 Jan 2022 11:51:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A301493A95
+	for <lists+etnaviv@lfdr.de>; Wed, 19 Jan 2022 13:39:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA57710E796;
-	Wed, 19 Jan 2022 10:51:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E88710EC4D;
+	Wed, 19 Jan 2022 12:39:56 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E2F1210E78E
- for <etnaviv@lists.freedesktop.org>; Wed, 19 Jan 2022 10:51:32 +0000 (UTC)
-Received: from gallifrey.ext.pengutronix.de
- ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1nA8Ym-0004NV-S7; Wed, 19 Jan 2022 11:51:24 +0100
-Message-ID: <bb71f83d4897ce818348522d9594b091478073ff.camel@pengutronix.de>
-Subject: Re: [PATCH] drm/etnaviv: Add missing pm_runtime_put
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Yongzhi Liu <lyz_cs@pku.edu.cn>, linux+etnaviv@armlinux.org.uk, 
- christian.gmeiner@gmail.com, airlied@linux.ie, daniel@ffwll.ch, 
- etnaviv@lists.freedesktop.org
-Date: Wed, 19 Jan 2022 11:51:20 +0100
-In-Reply-To: <1642515391-19329-1-git-send-email-lyz_cs@pku.edu.cn>
-References: <1642515391-19329-1-git-send-email-lyz_cs@pku.edu.cn>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
+X-Greylist: delayed 76750 seconds by postgrey-1.36 at gabe;
+ Wed, 19 Jan 2022 11:38:12 UTC
+Received: from zg8tmja2lje4os4yms4ymjma.icoremail.net
+ (zg8tmja2lje4os4yms4ymjma.icoremail.net [206.189.21.223])
+ by gabe.freedesktop.org (Postfix) with SMTP id 78B4F10EAE2;
+ Wed, 19 Jan 2022 11:38:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=pku.edu.cn; s=dkim; h=Received:From:To:Cc:Subject:Date:
+ Message-Id; bh=kD8l7wKIyCk4oo+Iq/iBIYCsIUgzS7PCA2TMzmhVhFo=; b=e
+ GIUiRRfovsyJnUyPdjmwKy3yJlaK3Pf/vX8mcr0CnrwZe/GF/Qp9VxvEveIa5+Fj
+ FtJYQG0WuDwN5LsM/sQHTYYuMwJo6bpDIxJYiJBKGPJBdq6ixCMU/v5WbeS64nlO
+ bXrveM7JUXBJwIHRPuyhowgfNnqp5DIW9/D7rJhpwI=
+Received: from localhost (unknown [10.129.21.144])
+ by front02 (Coremail) with SMTP id 54FpogBXXQEv9+dhY3N9AA--.9450S2;
+ Wed, 19 Jan 2022 19:34:07 +0800 (CST)
+From: Yongzhi Liu <lyz_cs@pku.edu.cn>
+To: l.stach@pengutronix.de, linux+etnaviv@armlinux.org.uk,
+ christian.gmeiner@gmail.com, airlied@linux.ie, daniel@ffwll.ch
+Subject: [PATCH] drm/etnaviv: Fix runtime PM imbalance on error
+Date: Wed, 19 Jan 2022 03:34:05 -0800
+Message-Id: <1642592045-28700-1-git-send-email-lyz_cs@pku.edu.cn>
+X-Mailer: git-send-email 2.7.4
+X-CM-TRANSID: 54FpogBXXQEv9+dhY3N9AA--.9450S2
+X-Coremail-Antispam: 1UD129KBjvdXoWrZrW3Aw4rurW8GF1kAr48tFb_yoWfKrb_CF
+ 1UZrs7Xr4agr1vqr47Z345ZryIqF1rXa92qws0qasxKrW2yrn8Xrykuw1DZay3XayUuFn8
+ Jan2qFy3Ar1qgjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUb4kFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AK
+ wVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20x
+ vE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK6I8E
+ 87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c
+ 8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_
+ Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwI
+ xGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc2xSY4AK6svPMxAIw28IcxkI7VAKI48JMxAI
+ w28IcVCjz48v1sIEY20_Kr1UJr1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67
+ AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIY
+ rxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14
+ v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8
+ JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUoOJ5UU
+ UUU
+X-CM-SenderInfo: irzqijirqukmo6sn3hxhgxhubq/1tbiAwEKBlPy7uA+KwAasu
+X-Mailman-Approved-At: Wed, 19 Jan 2022 12:39:56 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,39 +61,35 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Yongzhi Liu <lyz_cs@pku.edu.cn>, etnaviv@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Am Dienstag, dem 18.01.2022 um 06:16 -0800 schrieb Yongzhi Liu:
-> pm_runtime_get_sync() increments the runtime PM usage counter even
-> when it returns an error code, thus a matching decrement is needed
-> on the error handling path to keep the counter balanced.
-> 
-Instead of adding more error handling code here, I would prefer to
-convert this to pm_runtime_resume_and_get to avoid this issue.
+pm_runtime_get_sync() will increase the rumtime PM counter
+even it returns an error. Thus a pairing decrement is needed
+to prevent refcount leak. Fix this by replacing this API with
+pm_runtime_resume_and_get(), which will not change the runtime
+PM counter on error.
 
-Regards,
-Lucas
+Signed-off-by: Yongzhi Liu <lyz_cs@pku.edu.cn>
+---
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> Signed-off-by: Yongzhi Liu <lyz_cs@pku.edu.cn>
-> ---
->  drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> index 242a5fd..5e81a98 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> @@ -1714,6 +1714,9 @@ static int etnaviv_gpu_bind(struct device *dev, struct device *master,
->  	return 0;
->  
->  out_sched:
-> +#ifdef CONFIG_PM
-> +	pm_runtime_put_autosuspend(gpu->dev);
-> +#endif
->  	etnaviv_sched_fini(gpu);
->  
->  out_workqueue:
-
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+index 242a5fd..aa64f45 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+@@ -1690,7 +1690,7 @@ static int etnaviv_gpu_bind(struct device *dev, struct device *master,
+ 		goto out_workqueue;
+ 
+ #ifdef CONFIG_PM
+-	ret = pm_runtime_get_sync(gpu->dev);
++	ret = pm_runtime_resume_and_get(gpu->dev);
+ #else
+ 	ret = etnaviv_gpu_clk_enable(gpu);
+ #endif
+-- 
+2.7.4
 
