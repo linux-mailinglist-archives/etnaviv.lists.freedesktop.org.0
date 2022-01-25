@@ -2,52 +2,37 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C13B493A96
-	for <lists+etnaviv@lfdr.de>; Wed, 19 Jan 2022 13:39:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 365E849BB09
+	for <lists+etnaviv@lfdr.de>; Tue, 25 Jan 2022 19:13:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E20A10E293;
-	Wed, 19 Jan 2022 12:39:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE95610E3EA;
+	Tue, 25 Jan 2022 18:13:37 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-X-Greylist: delayed 76904 seconds by postgrey-1.36 at gabe;
- Wed, 19 Jan 2022 11:40:51 UTC
-Received: from zg8tmtyylji0my4xnjiumje2.icoremail.net
- (zg8tmtyylji0my4xnjiumje2.icoremail.net [162.243.162.216])
- by gabe.freedesktop.org (Postfix) with SMTP id 3A29810EB84;
- Wed, 19 Jan 2022 11:40:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=pku.edu.cn; s=dkim; h=Received:Date:From:To:Cc:Subject:
- In-Reply-To:References:Content-Transfer-Encoding:Content-Type:
- MIME-Version:Message-ID; bh=ko2uO+xiqlDXVopVE7QY0gYCjDmy8gGdxHDP
- QLGRqzk=; b=nCVVD+idgr/7HkEjIFTSdLMwXN2V5yJ5I3Y9CZ4myQ3KZU1sCrYQ
- Dci5x6FYePemsjRKrp9xGn4VQ+qHM8NhNiEuZyQuT2IOilTJKlXLkObPuHcryE4Z
- fWQp4PsTkxUTB2HPvnssdHTIfLwlAfJsw4judEqCiVIna+2p5IP3qUc=
-Received: by ajax-webmail-front01 (Coremail) ; Wed, 19 Jan 2022 19:36:46
- +0800 (GMT+08:00)
-X-Originating-IP: [10.129.37.75]
-Date: Wed, 19 Jan 2022 19:36:46 +0800 (GMT+08:00)
-X-CM-HeaderCharset: UTF-8
-From: =?UTF-8?B?5YiY5rC45b+X?= <lyz_cs@pku.edu.cn>
-To: "lucas stach" <l.stach@pengutronix.de>
-Subject: Re: Re: [PATCH] drm/etnaviv: Add missing pm_runtime_put
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.13 build 20210104(ab8c30b6)
- Copyright (c) 2002-2022 www.mailtech.cn
- mispb-1ea67e80-64e4-49d5-bd9f-3beeae24b9f2-pku.edu.cn
-In-Reply-To: <bb71f83d4897ce818348522d9594b091478073ff.camel@pengutronix.de>
-References: <1642515391-19329-1-git-send-email-lyz_cs@pku.edu.cn>
- <bb71f83d4897ce818348522d9594b091478073ff.camel@pengutronix.de>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F55310E34A
+ for <etnaviv@lists.freedesktop.org>; Tue, 25 Jan 2022 18:13:37 +0000 (UTC)
+Received: from gallifrey.ext.pengutronix.de
+ ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1nCQJz-0005Uv-9w; Tue, 25 Jan 2022 19:13:35 +0100
+Message-ID: <8c2cb3e3a702be86db9d43ca8927b6b78ac2b1d2.camel@pengutronix.de>
+Subject: [GIT PULL] etnaviv-fixes for 5.17-rc2
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Tue, 25 Jan 2022 19:13:34 +0100
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
 MIME-Version: 1.0
-Message-ID: <480fc77e.24a14.17e721fffbe.Coremail.lyz_cs@pku.edu.cn>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: 5oFpogD3n7rP9+dhjHt9AA--.20150W
-X-CM-SenderInfo: irzqijirqukmo6sn3hxhgxhubq/1tbiAwEKBlPy7uA+KwAcso
-X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
- CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
- daVFxhVjvjDU=
-X-Mailman-Approved-At: Wed, 19 Jan 2022 12:39:56 +0000
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,37 +44,39 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, etnaviv@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- christian.gmeiner@gmail.com, daniel@ffwll.ch, linux+etnaviv@armlinux.org.uk
+Cc: dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
+ kernel@pengutronix.de
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-PiAtLS0tLeWOn+Wni+mCruS7ti0tLS0tCj4g5Y+R5Lu25Lq6OiAiTHVjYXMgU3RhY2giIDxsLnN0
-YWNoQHBlbmd1dHJvbml4LmRlPgo+IOWPkemAgeaXtumXtDogMjAyMi0wMS0xOSAxODo1MToyMCAo
-5pif5pyf5LiJKQo+IOaUtuS7tuS6ujogIllvbmd6aGkgTGl1IiA8bHl6X2NzQHBrdS5lZHUuY24+
-LCBsaW51eCtldG5hdml2QGFybWxpbnV4Lm9yZy51aywgY2hyaXN0aWFuLmdtZWluZXJAZ21haWwu
-Y29tLCBhaXJsaWVkQGxpbnV4LmllLCBkYW5pZWxAZmZ3bGwuY2gsIGV0bmF2aXZAbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnCj4g5oqE6YCBOiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnLCBs
-aW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnCj4g5Li76aKYOiBSZTogW1BBVENIXSBkcm0vZXRu
-YXZpdjogQWRkIG1pc3NpbmcgcG1fcnVudGltZV9wdXQKPiAKPiBBbSBEaWVuc3RhZywgZGVtIDE4
-LjAxLjIwMjIgdW0gMDY6MTYgLTA4MDAgc2NocmllYiBZb25nemhpIExpdToKPiA+IHBtX3J1bnRp
-bWVfZ2V0X3N5bmMoKSBpbmNyZW1lbnRzIHRoZSBydW50aW1lIFBNIHVzYWdlIGNvdW50ZXIgZXZl
-bgo+ID4gd2hlbiBpdCByZXR1cm5zIGFuIGVycm9yIGNvZGUsIHRodXMgYSBtYXRjaGluZyBkZWNy
-ZW1lbnQgaXMgbmVlZGVkCj4gPiBvbiB0aGUgZXJyb3IgaGFuZGxpbmcgcGF0aCB0byBrZWVwIHRo
-ZSBjb3VudGVyIGJhbGFuY2VkLgo+ID4gCj4gSW5zdGVhZCBvZiBhZGRpbmcgbW9yZSBlcnJvciBo
-YW5kbGluZyBjb2RlIGhlcmUsIEkgd291bGQgcHJlZmVyIHRvCj4gY29udmVydCB0aGlzIHRvIHBt
-X3J1bnRpbWVfcmVzdW1lX2FuZF9nZXQgdG8gYXZvaWQgdGhpcyBpc3N1ZS4KPiAKPiBSZWdhcmRz
-LAo+IEx1Y2FzCj4gCgpJIHdpbGwgcmVzZW5kIG15IG1vZGlmaWVkIHBhdGNoLiBUaGFua3MgZm9y
-IHlvdXIgcmVwbHkuCgo+ID4gU2lnbmVkLW9mZi1ieTogWW9uZ3poaSBMaXUgPGx5el9jc0Bwa3Uu
-ZWR1LmNuPgo+ID4gLS0tCj4gPiAgZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9ncHUu
-YyB8IDMgKysrCj4gPiAgMSBmaWxlIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKQo+ID4gCj4gPiBk
-aWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9ncHUuYyBiL2RyaXZl
-cnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfZ3B1LmMKPiA+IGluZGV4IDI0MmE1ZmQuLjVlODFh
-OTggMTAwNjQ0Cj4gPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2X2dwdS5j
-Cj4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2X2dwdS5jCj4gPiBAQCAt
-MTcxNCw2ICsxNzE0LDkgQEAgc3RhdGljIGludCBldG5hdml2X2dwdV9iaW5kKHN0cnVjdCBkZXZp
-Y2UgKmRldiwgc3RydWN0IGRldmljZSAqbWFzdGVyLAo+ID4gIAlyZXR1cm4gMDsKPiA+ICAKPiA+
-ICBvdXRfc2NoZWQ6Cj4gPiArI2lmZGVmIENPTkZJR19QTQo+ID4gKwlwbV9ydW50aW1lX3B1dF9h
-dXRvc3VzcGVuZChncHUtPmRldik7Cj4gPiArI2VuZGlmCj4gPiAgCWV0bmF2aXZfc2NoZWRfZmlu
-aShncHUpOwo+ID4gIAo+ID4gIG91dF93b3JrcXVldWU6Cj4gCg==
+Hi Dave, Daniel,
+
+this patch relaxes the submit size checks added in the last merge
+window. Turns out that we have existing userspace that overruns its max
+size target due to a bug and thus gets denied now.
+
+Regards,
+Lucas
+
+The following changes since commit
+e783362eb54cd99b2cac8b3a9aeac942e6f6ac07:
+
+  Linux 5.17-rc1 (2022-01-23 10:12:53 +0200)
+
+are available in the Git repository at:
+
+  https://git.pengutronix.de/git/lst/linux etnaviv/fixes
+
+for you to fetch changes up to
+e3d26528e083e612314d4dcd713f3d5a26143ddc:
+
+  drm/etnaviv: relax submit size limits (2022-01-25 19:03:11 +0100)
+
+----------------------------------------------------------------
+Lucas Stach (1):
+      drm/etnaviv: relax submit size limits
+
+ drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+
