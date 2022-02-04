@@ -2,37 +2,78 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 365E849BB09
-	for <lists+etnaviv@lfdr.de>; Tue, 25 Jan 2022 19:13:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A71F64A9DD4
+	for <lists+etnaviv@lfdr.de>; Fri,  4 Feb 2022 18:40:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE95610E3EA;
-	Tue, 25 Jan 2022 18:13:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C7DA10EEDC;
+	Fri,  4 Feb 2022 17:40:14 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F55310E34A
- for <etnaviv@lists.freedesktop.org>; Tue, 25 Jan 2022 18:13:37 +0000 (UTC)
-Received: from gallifrey.ext.pengutronix.de
- ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1nCQJz-0005Uv-9w; Tue, 25 Jan 2022 19:13:35 +0100
-Message-ID: <8c2cb3e3a702be86db9d43ca8927b6b78ac2b1d2.camel@pengutronix.de>
-Subject: [GIT PULL] etnaviv-fixes for 5.17-rc2
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Tue, 25 Jan 2022 19:13:34 +0100
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA8CC10E485
+ for <etnaviv@lists.freedesktop.org>; Fri,  4 Feb 2022 17:40:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643996411;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=+Fgk2tPp8Iez8ffo3teobZs6lfET8NrmEOulKtLL6l8=;
+ b=hgu4N+S2gNdG1xMhXdat5E6BCLq/KTAMIgvMNi0eK4csndApUPlZp0/k0dlKHe6jbeZJdm
+ Ade/UI/wsT6mi0oG5a5pqi1KLVLaexIvOr1LzNja1AKUhUofqDKluRX+tBetqc/l0phA5P
+ 1h/vBToWtlExXnm1DgcDuSjqS9KBhk0=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-16-jSFNb2I1NDKwTNyB6--ZPQ-1; Fri, 04 Feb 2022 12:40:09 -0500
+X-MC-Unique: jSFNb2I1NDKwTNyB6--ZPQ-1
+Received: by mail-qt1-f199.google.com with SMTP id
+ s1-20020ac85ec1000000b002cf7c93d56dso5159565qtx.21
+ for <etnaviv@lists.freedesktop.org>; Fri, 04 Feb 2022 09:40:09 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:subject:from:to:date:organization
+ :user-agent:mime-version:content-transfer-encoding;
+ bh=+Fgk2tPp8Iez8ffo3teobZs6lfET8NrmEOulKtLL6l8=;
+ b=V02bfAH4gUop2l4FB2vqrDxEtgDrghKoN4INv0h91GXk6KkJ3x1fiILKIa93vec0Lt
+ scgR2BF2FwKz/9UIzQvIx3GVJ4JfuDC2S5bdAZUpE5livyAt6Bzv7OHt22hK/7Z4FPbr
+ cJcwvTzThgipMg7EJTR9DRPoSkguxKtkcJ2NqUn83/2OD12+Vjy0+AGhmdrCX4yzVkMR
+ FBrnjt5/CBnutcCvPBImJOtzJpz0iL2s8NcGP0FrCHCMNlwA+Yg8CfAUICOZAa1Ixt3P
+ /UQHCcDGxjUsJUZ+49nd1hCRjhtBbTArwcbgNJGqLz+xmBUP1l2Bxkofv8YM38FHo6zw
+ YP4Q==
+X-Gm-Message-State: AOAM532Ermf17jm71Gs0kDljvmlu64X2N0GH2AXA5tiegUTrASvckYLB
+ ZMpzaL5CgRKK7aA/o7zzq6bX3C/7evdCbjcAZOJzoJzAoqwIWFiiViVS6+rBcgCzY9PwVO6jEcC
+ sEpV5oFKZmGOrwWgAdzUWUQ8rHQ==
+X-Received: by 2002:ac8:578a:: with SMTP id v10mr76249qta.148.1643996409331;
+ Fri, 04 Feb 2022 09:40:09 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxKdGHijSYkEZ0PZ6zI7XULxLGuuiXeTX+kTLZtxdulDdoNZ2sUxc4s+6mCyl5zpu6dwwjJCg==
+X-Received: by 2002:ac8:578a:: with SMTP id v10mr76176qta.148.1643996408156;
+ Fri, 04 Feb 2022 09:40:08 -0800 (PST)
+Received: from [192.168.8.138] (pool-96-230-100-15.bstnma.fios.verizon.net.
+ [96.230.100.15])
+ by smtp.gmail.com with ESMTPSA id w22sm1599186qtk.7.2022.02.04.09.40.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 04 Feb 2022 09:40:07 -0800 (PST)
+Message-ID: <8db37efd8113f33107175b353f1f996523db7b9c.camel@redhat.com>
+Subject: [Important!] 2022 X.Org Foundation Membership deadline for voting
+ in the election
+From: Lyude Paul <lyude@redhat.com>
+To: events@lists.x.org, xorg-devel@lists.freedesktop.org, 
+ wayland-devel@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ mesa-dev@lists.freedesktop.org, amd-gfx@lists.freedesktop.org, 
+ etnaviv@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
+ libre-soc-dev@lists.libre-soc.org
+Date: Fri, 04 Feb 2022 12:40:05 -0500
+Organization: Red Hat Inc.
+User-Agent: Evolution 3.42.3 (3.42.3-1.fc35)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,39 +85,27 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
- kernel@pengutronix.de
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Hi Dave, Daniel,
+The 2022 X.Org Foundation elections are rapidly approaching. We will be
+forwarding instructions on the nomination process to membership in the
+near future.
 
-this patch relaxes the submit size checks added in the last merge
-window. Turns out that we have existing userspace that overruns its max
-size target due to a bug and thus gets denied now.
+Please note that only current members can vote in the upcoming election,
+and that the deadline for new memberships or renewals to vote in the
+upcoming election is March 17th 2022 at 23:59 UTC.
 
-Regards,
-Lucas
+If you are interested in joining the X.Org Foundation or in renewing
+your membership, please visit the membership system site at:
 
-The following changes since commit
-e783362eb54cd99b2cac8b3a9aeac942e6f6ac07:
+https://members.x.org/
 
-  Linux 5.17-rc1 (2022-01-23 10:12:53 +0200)
+You can find the current election schedule here:
 
-are available in the Git repository at:
+https://www.x.org/wiki/BoardOfDirectors/Elections/2022/
 
-  https://git.pengutronix.de/git/lst/linux etnaviv/fixes
-
-for you to fetch changes up to
-e3d26528e083e612314d4dcd713f3d5a26143ddc:
-
-  drm/etnaviv: relax submit size limits (2022-01-25 19:03:11 +0100)
-
-----------------------------------------------------------------
-Lucas Stach (1):
-      drm/etnaviv: relax submit size limits
-
- drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+        Lyude Paul,
+        On behalf of the X.Org elections committee
 
 
