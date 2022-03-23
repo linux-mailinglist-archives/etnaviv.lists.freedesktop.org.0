@@ -1,29 +1,30 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12AFF4E55FE
-	for <lists+etnaviv@lfdr.de>; Wed, 23 Mar 2022 17:08:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 071B04E55FD
+	for <lists+etnaviv@lfdr.de>; Wed, 23 Mar 2022 17:08:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A87BA10E260;
-	Wed, 23 Mar 2022 16:08:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A761510E744;
+	Wed, 23 Mar 2022 16:08:28 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C672010E744
- for <etnaviv@lists.freedesktop.org>; Wed, 23 Mar 2022 16:08:27 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 43D5210E744
+ for <etnaviv@lists.freedesktop.org>; Wed, 23 Mar 2022 16:08:28 +0000 (UTC)
 Received: from dude03.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::39])
  by metis.ext.pengutronix.de with esmtp (Exim 4.92)
  (envelope-from <l.stach@pengutronix.de>)
- id 1nX3X8-0001yD-0N; Wed, 23 Mar 2022 17:08:26 +0100
+ id 1nX3X8-0001yD-FL; Wed, 23 Mar 2022 17:08:26 +0100
 From: Lucas Stach <l.stach@pengutronix.de>
 To: etnaviv@lists.freedesktop.org
-Subject: [PATCH 1/4] drm/etnaviv: check for reaped mapping in
- etnaviv_iommu_unmap_gem
-Date: Wed, 23 Mar 2022 17:08:22 +0100
-Message-Id: <20220323160825.3858619-1-l.stach@pengutronix.de>
+Subject: [PATCH 2/4] drm/etnaviv: move MMU context ref/unref into map/unmap_gem
+Date: Wed, 23 Mar 2022 17:08:23 +0100
+Message-Id: <20220323160825.3858619-2-l.stach@pengutronix.de>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220323160825.3858619-1-l.stach@pengutronix.de>
+References: <20220323160825.3858619-1-l.stach@pengutronix.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:1101:1d::39
@@ -48,33 +49,81 @@ Cc: Christian Gmeiner <christian.gmeiner@gmail.com>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-When the mapping is already reaped the unmap must be a no-op, as we
-would otherwise try to remove the mapping twice, corrupting the involved
-data structures.
+This makes it a little more clear that the mapping holds a reference
+to the context once the buffer has been successfully mapped into that
+context and simplifies the error handling a bit.
 
-Cc: stable@vger.kernel.org # 5.4
 Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
 ---
- drivers/gpu/drm/etnaviv/etnaviv_mmu.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/gpu/drm/etnaviv/etnaviv_gem.c | 11 +++--------
+ drivers/gpu/drm/etnaviv/etnaviv_mmu.c |  3 +++
+ 2 files changed, 6 insertions(+), 8 deletions(-)
 
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+index d5314aa28ff7..a68e6a17505e 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+@@ -294,18 +294,15 @@ struct etnaviv_vram_mapping *etnaviv_gem_mapping_get(
+ 		list_del(&mapping->obj_node);
+ 	}
+ 
+-	mapping->context = etnaviv_iommu_context_get(mmu_context);
+ 	mapping->use = 1;
+ 
+ 	ret = etnaviv_iommu_map_gem(mmu_context, etnaviv_obj,
+ 				    mmu_context->global->memory_base,
+ 				    mapping, va);
+-	if (ret < 0) {
+-		etnaviv_iommu_context_put(mmu_context);
++	if (ret < 0)
+ 		kfree(mapping);
+-	} else {
++	else
+ 		list_add_tail(&mapping->obj_node, &etnaviv_obj->vram_list);
+-	}
+ 
+ out:
+ 	mutex_unlock(&etnaviv_obj->lock);
+@@ -498,10 +495,8 @@ void etnaviv_gem_free_object(struct drm_gem_object *obj)
+ 
+ 		WARN_ON(mapping->use);
+ 
+-		if (context) {
++		if (context)
+ 			etnaviv_iommu_unmap_gem(context, mapping);
+-			etnaviv_iommu_context_put(context);
+-		}
+ 
+ 		list_del(&mapping->obj_node);
+ 		kfree(mapping);
 diff --git a/drivers/gpu/drm/etnaviv/etnaviv_mmu.c b/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
-index 9fb1a2aadbcb..aabb997a74eb 100644
+index aabb997a74eb..3957b9a752f5 100644
 --- a/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
 +++ b/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
-@@ -286,6 +286,12 @@ void etnaviv_iommu_unmap_gem(struct etnaviv_iommu_context *context,
+@@ -245,6 +245,7 @@ int etnaviv_iommu_map_gem(struct etnaviv_iommu_context *context,
+ 		iova = sg_dma_address(sgt->sgl) - memory_base;
+ 		if (iova < 0x80000000 - sg_dma_len(sgt->sgl)) {
+ 			mapping->iova = iova;
++			mapping->context = etnaviv_iommu_context_get(context);
+ 			list_add_tail(&mapping->mmu_node, &context->mappings);
+ 			ret = 0;
+ 			goto unlock;
+@@ -271,6 +272,7 @@ int etnaviv_iommu_map_gem(struct etnaviv_iommu_context *context,
+ 		goto unlock;
+ 	}
  
- 	mutex_lock(&context->lock);
++	mapping->context = etnaviv_iommu_context_get(context);
+ 	list_add_tail(&mapping->mmu_node, &context->mappings);
+ 	context->flush_seq++;
+ unlock:
+@@ -299,6 +301,7 @@ void etnaviv_iommu_unmap_gem(struct etnaviv_iommu_context *context,
+ 	list_del(&mapping->mmu_node);
+ 	context->flush_seq++;
+ 	mutex_unlock(&context->lock);
++	etnaviv_iommu_context_put(context);
+ }
  
-+	/* Bail if the mapping has been reaped by another thread */
-+	if (!mapping->context) {
-+		mutex_unlock(&context->lock);
-+		return;
-+	}
-+
- 	/* If the vram node is on the mm, unmap and remove the node */
- 	if (mapping->vram_node.mm == &context->mm)
- 		etnaviv_iommu_remove_mapping(context, mapping);
+ static void etnaviv_iommu_context_free(struct kref *kref)
 -- 
 2.30.2
 
