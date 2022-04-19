@@ -1,85 +1,63 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BC7E507AFA
-	for <lists+etnaviv@lfdr.de>; Tue, 19 Apr 2022 22:31:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DAA2510355
+	for <lists+etnaviv@lfdr.de>; Tue, 26 Apr 2022 18:30:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9CA0E10EAA3;
-	Tue, 19 Apr 2022 20:31:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6048A10E83E;
+	Tue, 26 Apr 2022 16:30:19 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A97610E92F
- for <etnaviv@lists.freedesktop.org>; Tue, 19 Apr 2022 20:31:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650400264;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=be6VP4VL+z444uHhPHKMJh9PH6wDtAablx8mg5VMxYw=;
- b=cGSHDlSCAKOJvA7meram2okhf1Z9IWqZgn1tuGcENIW62ESkhcqw6IDPnvAh/boKESXvBC
- FN6cORlHlA3/TTcqr5jjqWwY8gf6QTIzPuo4mhEGWe4nvHyQIkuxeX57mvRcR4/RHeQo04
- 5+JX6Q4GdQUXLhtxMDYmJ9mydKVG0KQ=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-531-o7VYFFAPP8GzHYBHaRfHJQ-1; Tue, 19 Apr 2022 16:31:02 -0400
-X-MC-Unique: o7VYFFAPP8GzHYBHaRfHJQ-1
-Received: by mail-qv1-f69.google.com with SMTP id
- p3-20020a05621421e300b0044427d0ab90so15284933qvj.17
- for <etnaviv@lists.freedesktop.org>; Tue, 19 Apr 2022 13:31:02 -0700 (PDT)
+Received: from mail-qv1-xf29.google.com (mail-qv1-xf29.google.com
+ [IPv6:2607:f8b0:4864:20::f29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3DACF10EF30;
+ Tue, 19 Apr 2022 11:05:25 +0000 (UTC)
+Received: by mail-qv1-xf29.google.com with SMTP id b17so12819227qvp.6;
+ Tue, 19 Apr 2022 04:05:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=WypoIbYzDM3SGYr1aowM73aDQH7Omrk2x+2YoRxyVaU=;
+ b=a6OraGettVpXcTIsVDJpQy7a4jQLUXhbFvesUjA7jmnSNd85IR4GKqgvqZNABHG0m9
+ hn1WoKmmxl3+lDodvIJ9YsE/4OcAUL6hN4h7mGB559d3pQd6rFnx29F1T+IcdPn+ERad
+ pfNzxbsxXX4w0fZcIlmfWn6bKAuypvSukcL9ecHM+dRn7sxAcw/8LzT1mxm0EOr60k1o
+ sOR/yvTL/5ICWHcIzcRXoRtz5j3k2xyHwAwCS3+rH032Rpk6IeYoj0UrnIMy2fcBUcza
+ Tf9AU//r0dC1atNVpXt7xovE6CWTGQO7krq/Uwo6E7Flge3UBfFXTTmWGlv95GWIyZb/
+ Vcsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
- :references:organization:user-agent:mime-version
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=be6VP4VL+z444uHhPHKMJh9PH6wDtAablx8mg5VMxYw=;
- b=oSPo9HtKjQkZ7Gqn40QOdsBjoQGTxKtEsKc1DkDhbd4iX1BubaU5itkbVumxHcFKZz
- GAF9YKSt5UMEjm7BjNfCpfGOJT3hX704LIl9dvwTnFtzo1+vEe82P6E26Uj9zuQNHoPW
- xgqW6970oJTuC3NVCZfafS8oRrENtgruoEs5KNhTAjY9mz5rX/APznXmjhDy2bP7Ct9e
- JthdLW2nGqlKlHRirFtQLJfTiwDLXEiSWN+A97rmKmIbaWivdLm5kMPi32VW60nZZz7w
- CFRPwwSvTuXHu6t8x7oMj00Ta6A6yQNrj7G6C8k6nWYKVqlQ7m4yDpgRAY9ldBqsENYU
- 5QVg==
-X-Gm-Message-State: AOAM532Er4IjzHVfo28oOnslsxZhIWz5ndwTDSaNvSODcohcOvr6Hu8V
- K5Mcx28trj5XPUj1qNIAEd7yhOBwDVpu42GBdlJ/nmqE09VbG/UmTMnlBEwOC2tFjM4u3q/Sw39
- GtDknINPb4Yla2aL/FbSoegnjyA==
-X-Received: by 2002:a37:510:0:b0:69e:8868:c691 with SMTP id
- 16-20020a370510000000b0069e8868c691mr8634589qkf.731.1650400261797; 
- Tue, 19 Apr 2022 13:31:01 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx/S5ftop0ghBWPqC6VcdbCKk2EHMRpvcn+OOjAta4APIO+s/kcOllMhR+W7PX4+MaicfOv5Q==
-X-Received: by 2002:a37:510:0:b0:69e:8868:c691 with SMTP id
- 16-20020a370510000000b0069e8868c691mr8634569qkf.731.1650400261514; 
- Tue, 19 Apr 2022 13:31:01 -0700 (PDT)
-Received: from [192.168.8.138] (pool-71-126-244-162.bstnma.fios.verizon.net.
- [71.126.244.162]) by smtp.gmail.com with ESMTPSA id
- f16-20020a05622a105000b002ed4688f116sm612817qte.86.2022.04.19.13.30.59
+ bh=WypoIbYzDM3SGYr1aowM73aDQH7Omrk2x+2YoRxyVaU=;
+ b=c8muvnAHzX3C/H6MaevUnewHD2jCTd6D3tB/PHqwya/STh58rPGIId37G1+9LlOxcs
+ oWkvwsCvn7SHQGWG85M8mke5fkKRB5WmcRK2VJ4LAWUOW/LhsA7TilRfkpV13xJ6l6Q3
+ 0Tgv4bOaKcMblJRy5J4q2nFUPiW2fn02Wfx+/acFZSS3b8btLfMiW8xQf2vvfka7w9FV
+ XYlVKgNCLmtKvNh/uFMhTRlKYnYekn4FFfMhWKaEPNq5ZH01hTaUePkGna/8GDlX0PM1
+ Z+nkaQGNsnWAOxlPUxwe5AwCPilJEQ9GJbYS4t0pnM+A1i/HCh8mQ0oCq4N522GQY9UI
+ MQTg==
+X-Gm-Message-State: AOAM531r+SzmmEJ6CghF/EjxV3AOQ0mw2s2VyzmIiRoIaTNTnU/8nsvl
+ VHMJTUtLDLWwlMMi3TQVs9c=
+X-Google-Smtp-Source: ABdhPJw71zFUJUfEaL8h4nWaMzHBhFcHvhWClsius2kORwDAEjXL2UUVo6ziMXBa9ls10KuXylePWg==
+X-Received: by 2002:a05:6214:2309:b0:435:374d:4bbb with SMTP id
+ gc9-20020a056214230900b00435374d4bbbmr10758363qvb.105.1650366324179; 
+ Tue, 19 Apr 2022 04:05:24 -0700 (PDT)
+Received: from localhost.localdomain ([193.203.214.57])
+ by smtp.gmail.com with ESMTPSA id
+ x22-20020a05620a099600b0069e5db6be55sm6041254qkx.36.2022.04.19.04.05.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Apr 2022 13:31:00 -0700 (PDT)
-Message-ID: <55713be81efe8d2b9d19f6e4ad8d64a88087289f.camel@redhat.com>
-Subject: 2022 X.Org Foundation Election vote results
-From: Lyude Paul <lyude@redhat.com>
-To: elections@foundation.x.org, events@lists.x.org, 
- xorg-devel@lists.freedesktop.org, wayland-devel@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, mesa-dev@lists.freedesktop.org, 
- amd-gfx@lists.freedesktop.org, etnaviv@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
- intel-gfx@lists.freedesktop.org, libre-soc-dev@lists.libre-soc.org, 
- members@x.org
-Date: Tue, 19 Apr 2022 16:30:59 -0400
-In-Reply-To: <b75862cc1cb0a05b02c9249bb4858e8d9013be30.camel@redhat.com>
-References: <b75862cc1cb0a05b02c9249bb4858e8d9013be30.camel@redhat.com>
-Organization: Red Hat Inc.
-User-Agent: Evolution 3.42.4 (3.42.4-2.fc35)
+ Tue, 19 Apr 2022 04:05:23 -0700 (PDT)
+From: cgel.zte@gmail.com
+X-Google-Original-From: chi.minghao@zte.com.cn
+To: l.stach@pengutronix.de
+Subject: [PATCH] drm/etnaviv: using pm_runtime_resume_and_get instead of
+ pm_runtime_get_sync
+Date: Tue, 19 Apr 2022 11:05:18 +0000
+Message-Id: <20220419110518.2574486-1-chi.minghao@zte.com.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Tue, 26 Apr 2022 16:30:17 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,34 +69,42 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
+Cc: Zeal Robot <zealci@zte.com.cn>, linux-kernel@vger.kernel.org,
+ Minghao Chi <chi.minghao@zte.com.cn>, etnaviv@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux+etnaviv@armlinux.org.uk
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-The Board of Directors election and the vote on the By-laws concluded at
-23:59 UTC on 18 April 2022. There are 80 current Members of the X.Org
-Foundation, and 52 Members cast votes. This is a 65.0% turn out.
+From: Minghao Chi <chi.minghao@zte.com.cn>
 
-In the election of the Directors to the Board of the X.Org Foundation,
-the results were that Emma Anholt, Alyssa Rosenzweig, Mark Filion and
-Ricardo Garcia were elected for two year terms.
+Using pm_runtime_resume_and_get() to replace pm_runtime_get_sync and
+pm_runtime_put_noidle. This change is just to simplify the code, no
+actual functional changes.
 
-The old full board is: Emma Anholt, Samuel Iglesias Gonsálvez, Mark
-Filion, Manasi D Navare, Keith Packard, Lyude Paul, Daniel Vetter, Harry
-Wentland
+Reported-by: Zeal Robot <zealci@zte.com.cn>
+Signed-off-by: Minghao Chi <chi.minghao@zte.com.cn>
+---
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-The new full board is: Emma Anholt, Samuel Iglesias Gonsálvez, Mark
-Filion, Manasi D Navare, Alyssa Rosenzweig, Lyude Paul, Daniel Vetter,
-and Ricardo Garcia
-
-The full election results were as follows:
-
-           Option | Rank 1 | Rank 2 | Rank 3 | Rank 4 | Rank 5 | Rank 6 | Final Score
-      Emma Anholt |     21 |     16 |      4 |      1 |      5 |      5 |         240
-Alyssa Rosenzweig |      4 |     10 |     17 |      7 |     11 |      3 |         188
-      Mark Filion |      8 |     12 |      7 |     10 |      5 |     10 |         186
-   Ricardo Garcia |      9 |      4 |      5 |     17 |     10 |      7 |         172
-      Lucas Stach |      4 |      5 |     14 |      9 |     11 |      9 |         163
-  Shashank Sharma |      6 |      5 |      5 |      8 |     10 |     18 |         143
-
-Lyude Paul, on behalf of the X.Org elections committee
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+index 37018bc55810..4ac009a1c4c0 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+@@ -1342,11 +1342,9 @@ struct dma_fence *etnaviv_gpu_submit(struct etnaviv_gem_submit *submit)
+ 	int ret;
+ 
+ 	if (!submit->runtime_resumed) {
+-		ret = pm_runtime_get_sync(gpu->dev);
+-		if (ret < 0) {
+-			pm_runtime_put_noidle(gpu->dev);
++		ret = pm_runtime_resume_and_get(gpu->dev);
++		if (ret < 0)
+ 			return NULL;
+-		}
+ 		submit->runtime_resumed = true;
+ 	}
+ 
+-- 
+2.25.1
 
