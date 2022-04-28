@@ -1,85 +1,46 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE03051072E
-	for <lists+etnaviv@lfdr.de>; Tue, 26 Apr 2022 20:36:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE5F7513F65
+	for <lists+etnaviv@lfdr.de>; Fri, 29 Apr 2022 02:08:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C0B4710E1D2;
-	Tue, 26 Apr 2022 18:36:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9778910EC08;
+	Fri, 29 Apr 2022 00:08:01 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3FF3A10E2DA
- for <etnaviv@lists.freedesktop.org>; Tue, 26 Apr 2022 18:36:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650998208;
+X-Greylist: delayed 511 seconds by postgrey-1.36 at gabe;
+ Fri, 29 Apr 2022 00:08:00 UTC
+Received: from ssl.serverraum.org (ssl.serverraum.org
+ [IPv6:2a01:4f8:151:8464::1:2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB21310EC08
+ for <etnaviv@lists.freedesktop.org>; Fri, 29 Apr 2022 00:08:00 +0000 (UTC)
+Received: from apollo.. (unknown [IPv6:2a02:810b:4340:43bf:4685:ff:fe12:5967])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-384) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by ssl.serverraum.org (Postfix) with ESMTPSA id 02E5722238;
+ Fri, 29 Apr 2022 01:59:25 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc;
+ s=mail2016061301; t=1651190367;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=U7x3WHti8mB7zSssr6dU5T2fFBWQH7ax9JH4iLf8LkU=;
- b=d9odd6x1wzf73HOPYL+LjGvCy5TRQTwMNFXtI7TiJWkb2z+0740XtXKsww5enbon1NOxeF
- BeG1IYDTzNhyXmzTw+t6NMKFraaMmw1xYNzzvnOVQgpTc3twvCLZqelVa6nWwYVLUI0dgS
- Jw9Uy9J+ihQ3S93rr9oF7tHVSIqJsL4=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-562-9p2UkVzCN8mPyNdcvoZPig-1; Tue, 26 Apr 2022 14:36:47 -0400
-X-MC-Unique: 9p2UkVzCN8mPyNdcvoZPig-1
-Received: by mail-qv1-f71.google.com with SMTP id
- gi15-20020a056214248f00b00456389202a2so5030567qvb.10
- for <etnaviv@lists.freedesktop.org>; Tue, 26 Apr 2022 11:36:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:organization
- :user-agent:mime-version:content-transfer-encoding;
- bh=U7x3WHti8mB7zSssr6dU5T2fFBWQH7ax9JH4iLf8LkU=;
- b=3BX5NjgS+dp7/6N9etVqnsCsIt7HqF0Lq6GOmBiW0Fl6ABMlLh23oI3DhHcP60Q4g7
- hXi5w60hhQ6E6ZLfw1HT+GAl/A7oUaW0ZvJMY+ILpmNppXUT8I4WLLBKxy2tODYpL3xH
- DN9s/iZpoK6u0WkHtoY+oww1dHSrVnU+V905fjXtT7/nna4wBncRej9y3v70Kercylpf
- pF69G/x6XTbdFH0DTbLMNCP645XAERGxaiQiFMFD3QEO9yyIsExbMqIpukrHEVAQTYxh
- 7QgK4UHKH7mn5TVPJI+NhyDr5hQIjsSspluQ9N459frAWotsmfXU2WJBVaPtcnciKbE9
- 5dBg==
-X-Gm-Message-State: AOAM531QN04Jwsvt8I8iLBjKAYcdieXyCfO9QpR49ZW22+9Zo4xvcwGc
- zb3np0ND0Ul/x8yV/Toq9s/40LPQTc+k5pvZkKV5Ug+v4b6p79PE6OFI6Zg0OYqoaMD21xjVU+c
- HhAsUQz4asY8ccxzQUyNLicsKsw==
-X-Received: by 2002:a05:620a:f98:b0:648:a980:5161 with SMTP id
- b24-20020a05620a0f9800b00648a9805161mr13975232qkn.545.1650998206549; 
- Tue, 26 Apr 2022 11:36:46 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxFlkV78mcoPFbdNEywIl8YhmnRu/TNzHWCRjxstF0LNzVzvVzweFee+/7HtJv0KoRQlwNbkA==
-X-Received: by 2002:a05:620a:f98:b0:648:a980:5161 with SMTP id
- b24-20020a05620a0f9800b00648a9805161mr13975211qkn.545.1650998206290; 
- Tue, 26 Apr 2022 11:36:46 -0700 (PDT)
-Received: from [192.168.8.138] (static-71-184-137-158.bstnma.ftas.verizon.net.
- [71.184.137.158]) by smtp.gmail.com with ESMTPSA id
- f39-20020a05622a1a2700b002f367d7a7a5sm4252542qtb.23.2022.04.26.11.36.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Apr 2022 11:36:45 -0700 (PDT)
-Message-ID: <2be5f25b4212817ebc5e0435467848675063b45f.camel@redhat.com>
-Subject: Requests For Proposals for hosting XDC 2023 are now open
-From: Lyude Paul <lyude@redhat.com>
-To: "events@lists.x.org" <events@lists.x.org>, 
- "xorg-devel@lists.freedesktop.org"
- <xorg-devel@lists.freedesktop.org>, wayland-devel@lists.freedesktop.org, 
- wayland-devel@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, mesa-dev@lists.freedesktop.org, 
- mesa-dev@lists.freedesktop.org, amd-gfx@lists.freedesktop.org, 
- amd-gfx@lists.freedesktop.org, etnaviv@lists.freedesktop.org, 
- etnaviv@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
- nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
- intel-gfx@lists.freedesktop.org, libre-soc-dev@lists.libre-soc.org
-Date: Tue, 26 Apr 2022 14:36:44 -0400
-Organization: Red Hat Inc.
-User-Agent: Evolution 3.42.4 (3.42.4-2.fc35)
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=5+ookkYoRvSYJlv3MLXoEnad8QTltTpUU8LXR63oCiM=;
+ b=kMftywZQ8uoL7xrVY4AFZBywzWYY5z3HraaywHO9jqmOovu/2V91XSdbL3TD161AZaHWTX
+ ygvYHVz1bjc2BOvTiHMGNp0BQ6aKXiLidDQI8IPZ0SsiXlgO7jI8KpPbo8vZtKqSPHgJsh
+ jGOsGNmMEzD7LDCzgllNVok55IVVkRY=
+From: Michael Walle <michael@walle.cc>
+To: daniel.vetter@ffwll.ch
+Subject: Re: [PATCH 1/4] drm/etnaviv: Use scheduler dependency handling
+Date: Fri, 29 Apr 2022 01:59:16 +0200
+Message-Id: <20220428235916.331490-1-michael@walle.cc>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220331204651.2699107-2-daniel.vetter@ffwll.ch>
+References: <20220331204651.2699107-2-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,38 +52,69 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: board@foundation.x.org
+Cc: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ sumit.semwal@linaro.org, linaro-mm-sig@lists.linaro.org,
+ christian.gmeiner@gmail.com, Michael Walle <michael@walle.cc>,
+ linux+etnaviv@armlinux.org.uk, daniel.vetter@intel.com,
+ linux-media@vger.kernel.org, christian.koenig@amd.com, l.stach@pengutronix.de
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Hello everyone!
+> We need to pull the drm_sched_job_init much earlier, but that's very
+> minor surgery.
 
-The X.org board is soliciting proposals to host XDC in 2023. Since
-XDC 2022 is being held in North America this year, XDC 2023 is expected
-to be in Europe. However, the board is open to other locations,
-especially if there's an interesting co-location with another
-conference.
+This patch breaks the GC7000 on the LS1028A:
 
-If you're considering hosting XDC, we've assembled a wiki page with
-what's generally expected and needed:
+[   35.671102] Unable to handle kernel NULL pointer dereference at virtual address 0000000000000078
+[   35.680925] Mem abort info:
+[   35.685127]   ESR = 0x96000004
+[   35.689583]   EC = 0x25: DABT (current EL), IL = 32 bits
+[   35.696312]   SET = 0, FnV = 0
+[   35.700766]   EA = 0, S1PTW = 0
+[   35.705315]   FSC = 0x04: level 0 translation fault
+[   35.711616] Data abort info:
+[   35.715916]   ISV = 0, ISS = 0x00000004
+[   35.721170]   CM = 0, WnR = 0
+[   35.725552] user pgtable: 4k pages, 48-bit VAs, pgdp=0000002083f59000
+[   35.733420] [0000000000000078] pgd=0000000000000000, p4d=0000000000000000
+[   35.741627] Internal error: Oops: 96000004 [#1] SMP
+[   35.747902] Modules linked in:
+[   35.750963] CPU: 0 PID: 44 Comm: f0c0000.gpu Not tainted 5.18.0-rc2-00894-gde6a1d7294f5 #24
+[   35.759345] Hardware name: Kontron KBox A-230-LS (DT)
+[   35.764409] pstate: 00000005 (nzcv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+[   35.771394] pc : drm_sched_entity_select_rq+0x314/0x380
+[   35.776645] lr : drm_sched_entity_pop_job+0x4c/0x480
+[   35.781625] sp : ffff80000949bdb0
+[   35.784943] x29: ffff80000949bdb0 x28: 0000000000000000 x27: 0000000000000000
+[   35.792107] x26: ffff002003f09008 x25: ffff00200231d130 x24: ffff800008c13008
+[   35.799270] x23: ffff8000086af900 x22: ffff800008c13008 x21: ffff002003fb6e00
+[   35.806432] x20: 0000000000000040 x19: ffff002003f09008 x18: ffffffffffffffff
+[   35.813594] x17: 0000000000000000 x16: 0000000000000000 x15: ffff800009ee3d48
+[   35.820756] x14: 0000000000000000 x13: 0000000000000000 x12: ffffffff00000008
+[   35.827918] x11: 0000aaaadb063d30 x10: 0000000000000960 x9 : ffff8000086afedc
+[   35.835080] x8 : ffff00200186a900 x7 : 0000000000000000 x6 : 0000000000000000
+[   35.842242] x5 : ffff00200231d2b0 x4 : 0000000000000000 x3 : 0000000000000000
+[   35.849403] x2 : 0000000000000000 x1 : 0000000000000078 x0 : 0000000000000078
+[   35.856565] Call trace:
+[   35.859013]  drm_sched_entity_select_rq+0x314/0x380
+[   35.863906]  drm_sched_main+0x1b0/0x49c
+[   35.867752]  kthread+0xe4/0xf0
+[   35.870814]  ret_from_fork+0x10/0x20
+[   35.874401] Code: 8805fc24 35ffffa5 17fffef9 f9800031 (885f7c22) 
+[   35.880513] ---[ end trace 0000000000000000 ]---
 
-https://www.x.org/wiki/Events/RFP/
+# glmark2-es2-drm
+=======================================================
+    glmark2 2021.02
+=======================================================
+    OpenGL Information
+    GL_VENDOR:     etnaviv
+    GL_RENDERER:   Vivante GC7000 rev 6202
+    GL_VERSION:    OpenGL ES 2.0 Mesa 22.1.0-devel
 
-When submitting your proposal, please make sure to include at least the
-key information about the potential location in question, possible
-dates along with estimated costs. Proposals can be submitted to board
-at foundation.x.org until the deadline of *September 1st, 2022*. 
+Mesa is Lucas latest MR branch: lynxeye/etnaviv-gc7000-r6204.
 
-Additionally, an quirk early heads-up to the board if you're
-considering hosting would be appreciated, in case we need to adjust the
-schedule a bit. Also, earlier is better since there generally will be a
-bit of Q&A with organizers.
+Reverting this patch on drm-next will make the oops go away. Any idea
+what's going wrong here?
 
-And if you just have some questions about what organizing XDC entails,
-please feel free to chat with previous organizers, or someone from the
-board.
-
-Best regards,
-	Lyude Paul
-On behalf of X.org
-
+-michael
