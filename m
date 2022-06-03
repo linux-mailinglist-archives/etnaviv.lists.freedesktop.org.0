@@ -1,79 +1,61 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72CBA53C0F4
-	for <lists+etnaviv@lfdr.de>; Fri,  3 Jun 2022 00:47:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8954E53CA15
+	for <lists+etnaviv@lfdr.de>; Fri,  3 Jun 2022 14:37:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE5A71139F6;
-	Thu,  2 Jun 2022 22:47:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2590810E2CD;
+	Fri,  3 Jun 2022 12:37:50 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9399E11383F
- for <etnaviv@lists.freedesktop.org>; Thu,  2 Jun 2022 22:47:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654210054;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=qM7RSO4/tzFo13g+8+xYBdsTDduUl6xGQcpX/+XbDM4=;
- b=C8VY3sfgf+QqFzTfAWSlevr4HxHruEzDT8FkhnBGW8S75FRcf3Z2zrkES/pzpxUKJyxKJT
- y438dYmOaS2aP11dg1Xt+SOB7sue5sS1GBIu53YQzIF+7h2tVolfnKIOl6B4/NLzgXc6b5
- 6w8Qtxg7K+l63hj9WyNRpwI7yAF6m90=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-539-VsPs2dyQN5CJpfz3GwnAQw-1; Thu, 02 Jun 2022 18:47:32 -0400
-X-MC-Unique: VsPs2dyQN5CJpfz3GwnAQw-1
-Received: by mail-qk1-f197.google.com with SMTP id
- b1-20020a05620a118100b006a36dec1b16so4751803qkk.2
- for <etnaviv@lists.freedesktop.org>; Thu, 02 Jun 2022 15:47:32 -0700 (PDT)
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
+ [IPv6:2a00:1450:4864:20::535])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7769410E2CD;
+ Fri,  3 Jun 2022 12:37:49 +0000 (UTC)
+Received: by mail-ed1-x535.google.com with SMTP id c2so9964955edf.5;
+ Fri, 03 Jun 2022 05:37:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=YrBwkRdvXLz7+jm3aOsGJs/0ErMfrv6pPp4W4cTpnsc=;
+ b=lU6T2dV5ri5pmTMT6Mbiz1EQgTQhwZGxrRXAYVWfB5NmV8ZqAZj9v9QPOohoodr0b1
+ 79uyw1nq5zUmUdfya6dlH9RnoKW5316fqsCHXRZO4YgZM0zFDcwgyKdQzdl/fpMQkI9d
+ eKjXAUS92LFIE+J0QlN+0m9sz2DLQsgM/tEGCa4Dfx/qwcVBRhtpue7pTyxslSjB/A1w
+ o8jvBKpdYsQrusdrRo48AuRFgCFS+SPbyht3s+oOM+tQtiduLwZYb6rFFPEnzOI8Bg5B
+ tFcIl99IE0mJ1/e6i1Fc562Zznby3G/gTt4XNAGyJTWbwernPIWzLeNRSi8H8U+1FHoc
+ JrJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:organization
- :user-agent:mime-version:content-transfer-encoding;
- bh=qM7RSO4/tzFo13g+8+xYBdsTDduUl6xGQcpX/+XbDM4=;
- b=EQuMACswuwK3XtV+vyb6Y7NbWMdbxeHJuCdOIhznvZ5YvGOm7P1Podh3DU6kgQiX2+
- LeMbf1jPSAU8hyHa4arJQKVWc91gpUzgFAlNjBbeE36YKQetlpXsxJOziTLMBF/NZFmV
- Omf/vS09DVLVF0X8Kxzl6kpweUoAL2+5k4uQV1c2fN0Kur1ib7vUqNwatsV9QUD2uI3j
- AD99UqPTnPKWsLNx1Hr6vx4xF27mcEoCAKYilWEwmaax2qJiVH12SaNaYhyvxst8kA8i
- PSbEruiMP8GCa7aipG2YACkaf7Bx2FGa49hW7pIWYXJ5AH5NGFGdAADwB4HTkS0qDaXn
- fznw==
-X-Gm-Message-State: AOAM533OkMhamz7W/5B4rNWSyoWA16Qc4hnsbU8e2cDjRUGaphc4zUUU
- MI6URmztv3nL9M/mWLxAb9LMbgaHKHVpCzFn7Kc17rku5IKLUU0RqFOl0wDvZBpNmnXg0XyiPE+
- 6iSOaGri1dTOLP05D1/F9GtS7bA==
-X-Received: by 2002:a05:620a:25cb:b0:6a1:136:a7ed with SMTP id
- y11-20020a05620a25cb00b006a10136a7edmr4702917qko.531.1654210052043; 
- Thu, 02 Jun 2022 15:47:32 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwpnm1UyzEEBtWAnuoHs5dkbiAxvr8+KtajlKCD6hPVaJaiWLzEVDhYIlzllPONobjHXa8Z3g==
-X-Received: by 2002:a05:620a:25cb:b0:6a1:136:a7ed with SMTP id
- y11-20020a05620a25cb00b006a10136a7edmr4702907qko.531.1654210051816; 
- Thu, 02 Jun 2022 15:47:31 -0700 (PDT)
-Received: from [192.168.8.138] (static-71-184-137-158.bstnma.ftas.verizon.net.
- [71.184.137.158]) by smtp.gmail.com with ESMTPSA id
- f6-20020a05622a104600b002f39b99f6a3sm4086110qte.61.2022.06.02.15.47.30
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=YrBwkRdvXLz7+jm3aOsGJs/0ErMfrv6pPp4W4cTpnsc=;
+ b=WOcoml6zwVgAlZzviF6Opd+wjIqXmfRHLeJDmJPcCvVx1RpqWSIPakSHW71WrWAWQz
+ SafeV3ysBcvD2yfe8PZF7rspstcRkLX1VOOdIEKQDN+oaavJM0Z4JfGIahcg+faVD/BA
+ sMPY4MYcxKvcov/EYTJfqgGOmlqHwMzKFDOAaS0tkzjhDkJPYVMQDDRO9TIhofd2BqqU
+ DVdzBis+WhfFusL04kheGOmxPfjDitsucH16G4LPGL+ZFY78LheRQoP46QcunQ0SudQ1
+ u9AaXA7B5TbOxRvfbenbq9OwMQrxMkjYRntd3es2V7QIV72GDau0Q8sd/dsM95RwZI88
+ f3JQ==
+X-Gm-Message-State: AOAM5316JSGF1xO/1BEx8WUOTjv8ClDLDJ/cal2XpzHC2BlzKeRvrOhB
+ xPHDv1rDbhHO490NNaHLdrBhx1mSOMg=
+X-Google-Smtp-Source: ABdhPJxeCabJNbfYESsSsGF42ubf1R5Slv0JDKE/9PlNrQtqy1GE4Zsa18k3wAnt2ZmtPBrmuSNsjA==
+X-Received: by 2002:a05:6402:4410:b0:427:ab6f:a39a with SMTP id
+ y16-20020a056402441000b00427ab6fa39amr10621435eda.120.1654259867780; 
+ Fri, 03 Jun 2022 05:37:47 -0700 (PDT)
+Received: from localhost.localdomain.info
+ (62-178-82-229.cable.dynamic.surfer.at. [62.178.82.229])
+ by smtp.gmail.com with ESMTPSA id
+ b12-20020a170906660c00b0070e3f58ed5csm716120ejp.48.2022.06.03.05.37.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Jun 2022 15:47:31 -0700 (PDT)
-Message-ID: <d717d5e385e0f64e0168695ea2f693ec9db2e28a.camel@redhat.com>
-Subject: XDC 2022: Registration & Call for Presentations still open!
-From: Lyude Paul <lyude@redhat.com>
-To: events@lists.x.org, xorg-devel@lists.freedesktop.org, 
- wayland-devel@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- mesa-dev@lists.freedesktop.org, amd-gfx@lists.freedesktop.org, 
- etnaviv@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
- libre-soc-dev@lists.libre-soc.org
-Date: Thu, 02 Jun 2022 18:47:29 -0400
-Organization: Red Hat Inc.
-User-Agent: Evolution 3.42.4 (3.42.4-2.fc35)
+ Fri, 03 Jun 2022 05:37:47 -0700 (PDT)
+From: Christian Gmeiner <christian.gmeiner@gmail.com>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/etnaviv: print offender task information on hangcheck
+ recovery
+Date: Fri,  3 Jun 2022 14:37:05 +0200
+Message-Id: <20220603123706.678320-1-christian.gmeiner@gmail.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -86,63 +68,131 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: board@foundation.x.org
+Cc: David Airlie <airlied@linux.ie>,
+ "moderated list:DRM DRIVERS FOR VIVANTE GPU IP"
+ <etnaviv@lists.freedesktop.org>,
+ "open list:DRM DRIVERS FOR VIVANTE GPU IP" <dri-devel@lists.freedesktop.org>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Russell King <linux+etnaviv@armlinux.org.uk>,
+ Lucas Stach <l.stach@pengutronix.de>
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Hello! This is just a reminder that the CFP for XDC in 2022 is still open!
+Track the pid per submit, so we can print the name and cmdline of
+the task which submitted the batch that caused the gpu to hang.
 
-The 2022 X.Org Developers Conference is being held in conjunction with
-the 2022 Wine Developers Conference.  This is a meeting to bring
-together developers working on all things open graphics (Linux kernel,
-Mesa, DRM, Wayland, X11, etc.) as well as developers for the Wine
-Project, a key consumer of open graphics.
+Signed-off-by: Christian Gmeiner <christian.gmeiner@gmail.com>
+---
+ drivers/gpu/drm/etnaviv/etnaviv_gem.h        |  1 +
+ drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c |  6 ++++++
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c        | 18 +++++++++++++++++-
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.h        |  2 +-
+ drivers/gpu/drm/etnaviv/etnaviv_sched.c      |  2 +-
+ 5 files changed, 26 insertions(+), 3 deletions(-)
 
-Registration & Call for Proposals are now open for both XDC 2022 and
-WineConf 2022, which will take place on October 4-6, 2022 in
-Minneapolis, Minnesota, USA. 
-
-https://xdc2022.x.org
- 
-As usual, the conference is free of charge and open to the general
-public. If you plan on attending, please make sure to register as early
-as possible!
- 
-In order to register as attendee, you will therefore need to do it via
-the XDC website:
- 
-https://indico.freedesktop.org/event/2/registrations/2/
- 
-In addition to registration, the CfP is now open for talks, workshops
-and demos at XDC 2022. While any serious proposal will be gratefully
-considered, topics of interest to X.Org and freedesktop.org developers
-are encouraged. The program focus is on new development, ongoing
-challenges and anything else that will spark discussions among
-attendees in the hallway track.
- 
-We are open to talks across all layers of the graphics stack, from the
-kernel to desktop environments / graphical applications and about how
-to make things better for the developers who build them. Head to the
-CfP page to learn more: 
- 
-https://indico.freedesktop.org/event/2/abstracts/
- 
-The deadline for submissions is Monday July 4th, 2022.
- 
-Check out our Reimbursement Policy to accept speaker
-expenses for X.Org events like XDC 2022:
- 
-https://www.x.org/wiki/XorgFoundation/Policies/Reimbursement/
-
-If you have any questions, please send me an email to
-xdc@codeweavers.com, adding on CC the X.org board (board
-at foundation.x.org).
- 
-And don't forget, you can follow us on Twitter for all the latest
-updates and to stay connected:
- 
-https://twitter.com/XOrgDevConf
-
-Best regards,
-Lyude Paul, on behalf of X.org
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.h b/drivers/gpu/drm/etnaviv/etnaviv_gem.h
+index 63688e6e4580..baa81cbf701a 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gem.h
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.h
+@@ -96,6 +96,7 @@ struct etnaviv_gem_submit {
+ 	int out_fence_id;
+ 	struct list_head node; /* GPU active submit list */
+ 	struct etnaviv_cmdbuf cmdbuf;
++	struct pid *pid;       /* submitting process */
+ 	bool runtime_resumed;
+ 	u32 exec_state;
+ 	u32 flags;
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+index 1ac916b24891..1491159d0d20 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+@@ -399,6 +399,9 @@ static void submit_cleanup(struct kref *kref)
+ 		mutex_unlock(&submit->gpu->fence_lock);
+ 		dma_fence_put(submit->out_fence);
+ 	}
++
++	put_pid(submit->pid);
++
+ 	kfree(submit->pmrs);
+ 	kfree(submit);
+ }
+@@ -422,6 +425,7 @@ int etnaviv_ioctl_gem_submit(struct drm_device *dev, void *data,
+ 	struct sync_file *sync_file = NULL;
+ 	struct ww_acquire_ctx ticket;
+ 	int out_fence_fd = -1;
++	struct pid *pid = get_pid(task_pid(current));
+ 	void *stream;
+ 	int ret;
+ 
+@@ -519,6 +523,8 @@ int etnaviv_ioctl_gem_submit(struct drm_device *dev, void *data,
+ 		goto err_submit_ww_acquire;
+ 	}
+ 
++	submit->pid = pid;
++
+ 	ret = etnaviv_cmdbuf_init(priv->cmdbuf_suballoc, &submit->cmdbuf,
+ 				  ALIGN(args->stream_size, 8) + 8);
+ 	if (ret)
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+index 37018bc55810..7d9bf4673e2d 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+@@ -1045,12 +1045,28 @@ int etnaviv_gpu_debugfs(struct etnaviv_gpu *gpu, struct seq_file *m)
+ }
+ #endif
+ 
+-void etnaviv_gpu_recover_hang(struct etnaviv_gpu *gpu)
++void etnaviv_gpu_recover_hang(struct etnaviv_gem_submit *submit)
+ {
++	struct etnaviv_gpu *gpu = submit->gpu;
++	char *comm = NULL, *cmd = NULL;
++	struct task_struct *task;
+ 	unsigned int i;
+ 
+ 	dev_err(gpu->dev, "recover hung GPU!\n");
+ 
++	task = get_pid_task(submit->pid, PIDTYPE_PID);
++	if (task) {
++		comm = kstrdup(task->comm, GFP_KERNEL);
++		cmd = kstrdup_quotable_cmdline(task, GFP_KERNEL);
++		put_task_struct(task);
++	}
++
++	if (comm && cmd)
++		dev_err(gpu->dev, "offending task: %s (%s)\n", comm, cmd);
++
++	kfree(cmd);
++	kfree(comm);
++
+ 	if (pm_runtime_get_sync(gpu->dev) < 0)
+ 		goto pm_put;
+ 
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
+index 85eddd492774..b3a0941d56fd 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
+@@ -168,7 +168,7 @@ bool etnaviv_fill_identity_from_hwdb(struct etnaviv_gpu *gpu);
+ int etnaviv_gpu_debugfs(struct etnaviv_gpu *gpu, struct seq_file *m);
+ #endif
+ 
+-void etnaviv_gpu_recover_hang(struct etnaviv_gpu *gpu);
++void etnaviv_gpu_recover_hang(struct etnaviv_gem_submit *submit);
+ void etnaviv_gpu_retire(struct etnaviv_gpu *gpu);
+ int etnaviv_gpu_wait_fence_interruptible(struct etnaviv_gpu *gpu,
+ 	u32 fence, struct drm_etnaviv_timespec *timeout);
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sched.c b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+index 72e2553fbc98..d29f467eee13 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+@@ -67,7 +67,7 @@ static enum drm_gpu_sched_stat etnaviv_sched_timedout_job(struct drm_sched_job
+ 
+ 	/* get the GPU back into the init state */
+ 	etnaviv_core_dump(submit);
+-	etnaviv_gpu_recover_hang(gpu);
++	etnaviv_gpu_recover_hang(submit);
+ 
+ 	drm_sched_resubmit_jobs(&gpu->sched);
+ 
+-- 
+2.36.1
 
