@@ -2,58 +2,57 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8954E53CA15
-	for <lists+etnaviv@lfdr.de>; Fri,  3 Jun 2022 14:37:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 918B7552BAD
+	for <lists+etnaviv@lfdr.de>; Tue, 21 Jun 2022 09:21:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2590810E2CD;
-	Fri,  3 Jun 2022 12:37:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 33C65112311;
+	Tue, 21 Jun 2022 07:21:15 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
- [IPv6:2a00:1450:4864:20::535])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7769410E2CD;
- Fri,  3 Jun 2022 12:37:49 +0000 (UTC)
-Received: by mail-ed1-x535.google.com with SMTP id c2so9964955edf.5;
- Fri, 03 Jun 2022 05:37:49 -0700 (PDT)
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
+ [IPv6:2a00:1450:4864:20::62a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 192DF10FC63;
+ Tue, 21 Jun 2022 07:21:14 +0000 (UTC)
+Received: by mail-ej1-x62a.google.com with SMTP id fu3so25522130ejc.7;
+ Tue, 21 Jun 2022 00:21:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=YrBwkRdvXLz7+jm3aOsGJs/0ErMfrv6pPp4W4cTpnsc=;
- b=lU6T2dV5ri5pmTMT6Mbiz1EQgTQhwZGxrRXAYVWfB5NmV8ZqAZj9v9QPOohoodr0b1
- 79uyw1nq5zUmUdfya6dlH9RnoKW5316fqsCHXRZO4YgZM0zFDcwgyKdQzdl/fpMQkI9d
- eKjXAUS92LFIE+J0QlN+0m9sz2DLQsgM/tEGCa4Dfx/qwcVBRhtpue7pTyxslSjB/A1w
- o8jvBKpdYsQrusdrRo48AuRFgCFS+SPbyht3s+oOM+tQtiduLwZYb6rFFPEnzOI8Bg5B
- tFcIl99IE0mJ1/e6i1Fc562Zznby3G/gTt4XNAGyJTWbwernPIWzLeNRSi8H8U+1FHoc
- JrJQ==
+ bh=I49iaT9479MLDi3TYueSZinlKruIKCVXqSN6hfWZ6x4=;
+ b=gpAE1+YcSfcBdfh7BwfrIoGbRZBggiIKzxdzevy+uY0mwZ38SqW5C24UGUW26VY4UQ
+ WP1S+RpCG/FKyBZUka5u2+CPPXZJ3KWRf8OHVm/eGamVrfkx0pZ8k/r1dCJiI/Y9tWmz
+ 1oQm+ijCrgg6t5IQfVcRYcG0EZ0onOIYztGApiM1tQeP5guXwyXfw38Q2H/4ynJnW2mS
+ 3D4OkdRnQ+BJI/MKwgR+djuQCWPssy+Hrsm09S+yer0zBBwLofZ5OECr99J3AzlS+crQ
+ 9DHd3RGJuWdVl8yX4ILXR2mG3nU1o6BthJk/4T+xZCQa/Ujz8QiKP9A6AoGoZqirNj/t
+ B4/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=YrBwkRdvXLz7+jm3aOsGJs/0ErMfrv6pPp4W4cTpnsc=;
- b=WOcoml6zwVgAlZzviF6Opd+wjIqXmfRHLeJDmJPcCvVx1RpqWSIPakSHW71WrWAWQz
- SafeV3ysBcvD2yfe8PZF7rspstcRkLX1VOOdIEKQDN+oaavJM0Z4JfGIahcg+faVD/BA
- sMPY4MYcxKvcov/EYTJfqgGOmlqHwMzKFDOAaS0tkzjhDkJPYVMQDDRO9TIhofd2BqqU
- DVdzBis+WhfFusL04kheGOmxPfjDitsucH16G4LPGL+ZFY78LheRQoP46QcunQ0SudQ1
- u9AaXA7B5TbOxRvfbenbq9OwMQrxMkjYRntd3es2V7QIV72GDau0Q8sd/dsM95RwZI88
- f3JQ==
-X-Gm-Message-State: AOAM5316JSGF1xO/1BEx8WUOTjv8ClDLDJ/cal2XpzHC2BlzKeRvrOhB
- xPHDv1rDbhHO490NNaHLdrBhx1mSOMg=
-X-Google-Smtp-Source: ABdhPJxeCabJNbfYESsSsGF42ubf1R5Slv0JDKE/9PlNrQtqy1GE4Zsa18k3wAnt2ZmtPBrmuSNsjA==
-X-Received: by 2002:a05:6402:4410:b0:427:ab6f:a39a with SMTP id
- y16-20020a056402441000b00427ab6fa39amr10621435eda.120.1654259867780; 
- Fri, 03 Jun 2022 05:37:47 -0700 (PDT)
+ bh=I49iaT9479MLDi3TYueSZinlKruIKCVXqSN6hfWZ6x4=;
+ b=fCfGF/qoBcBSYjOzbdiE+Ll5BYmw42vOjghRv9K8LD9jy5WXVgJ1xp4iKqme3b8lfS
+ SN1HbPBV7h8Zt7eKHQMC+M14z9Wce8bgZyL8zJDS0m2F6sz+pIJQZt6BFAatRADIWdsD
+ OtQgKzyjijaN37dywz3fhY/Yft7AeRHjC7GNoKbrSHApPCesBvoxY9Ta2ONw/ZGVqoIJ
+ Ij2Xuheb9KI9QD2E4B1XojoMrpliNyG2Kb9/oh1RKctC7qBmT747nAA4jY7FFRz/Apzl
+ 5Z9zJ8WXHVfvqx9OC21mZXXZIaD5F3GG2LceBu0SZGooDbKw7KSpI0Tluj/oEJ47+7LT
+ tjAg==
+X-Gm-Message-State: AJIora+joOHYbtWTGrCJAWQ536132L3APFYAOllkEE1oQD+tiGCNtXQd
+ /GJte2wLicIab2z9R8NlgDI=
+X-Google-Smtp-Source: AGRyM1vduCB6Dl0uXtQ/uJ/zcFkNMY0AX9tE24LM9PyHr98TUnsUGHKRZg4/lze+IGydS4QD7MJIWw==
+X-Received: by 2002:a17:906:6a28:b0:711:d032:caa4 with SMTP id
+ qw40-20020a1709066a2800b00711d032caa4mr23990285ejc.80.1655796072583; 
+ Tue, 21 Jun 2022 00:21:12 -0700 (PDT)
 Received: from localhost.localdomain.info
  (62-178-82-229.cable.dynamic.surfer.at. [62.178.82.229])
  by smtp.gmail.com with ESMTPSA id
- b12-20020a170906660c00b0070e3f58ed5csm716120ejp.48.2022.06.03.05.37.46
+ p1-20020a17090653c100b00722e771007fsm50711ejo.37.2022.06.21.00.21.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Jun 2022 05:37:47 -0700 (PDT)
+ Tue, 21 Jun 2022 00:21:11 -0700 (PDT)
 From: Christian Gmeiner <christian.gmeiner@gmail.com>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/etnaviv: print offender task information on hangcheck
- recovery
-Date: Fri,  3 Jun 2022 14:37:05 +0200
-Message-Id: <20220603123706.678320-1-christian.gmeiner@gmail.com>
+Subject: [PATCH v2 0/4] Add support for GPU load values
+Date: Tue, 21 Jun 2022 09:20:46 +0200
+Message-Id: <20220621072050.76229-1-christian.gmeiner@gmail.com>
 X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -78,121 +77,27 @@ Cc: David Airlie <airlied@linux.ie>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Track the pid per submit, so we can print the name and cmdline of
-the task which submitted the batch that caused the gpu to hang.
+This patch series add support for loadavg values for GPU
+sub-components. I am adding a SMA algorithm as I was not
+really sure if EWMA would be a good fit for this use case.
 
-Signed-off-by: Christian Gmeiner <christian.gmeiner@gmail.com>
----
- drivers/gpu/drm/etnaviv/etnaviv_gem.h        |  1 +
- drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c |  6 ++++++
- drivers/gpu/drm/etnaviv/etnaviv_gpu.c        | 18 +++++++++++++++++-
- drivers/gpu/drm/etnaviv/etnaviv_gpu.h        |  2 +-
- drivers/gpu/drm/etnaviv/etnaviv_sched.c      |  2 +-
- 5 files changed, 26 insertions(+), 3 deletions(-)
+Changes v2:
+ - Addressed feedback from Lucas
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.h b/drivers/gpu/drm/etnaviv/etnaviv_gem.h
-index 63688e6e4580..baa81cbf701a 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gem.h
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.h
-@@ -96,6 +96,7 @@ struct etnaviv_gem_submit {
- 	int out_fence_id;
- 	struct list_head node; /* GPU active submit list */
- 	struct etnaviv_cmdbuf cmdbuf;
-+	struct pid *pid;       /* submitting process */
- 	bool runtime_resumed;
- 	u32 exec_state;
- 	u32 flags;
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-index 1ac916b24891..1491159d0d20 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-@@ -399,6 +399,9 @@ static void submit_cleanup(struct kref *kref)
- 		mutex_unlock(&submit->gpu->fence_lock);
- 		dma_fence_put(submit->out_fence);
- 	}
-+
-+	put_pid(submit->pid);
-+
- 	kfree(submit->pmrs);
- 	kfree(submit);
- }
-@@ -422,6 +425,7 @@ int etnaviv_ioctl_gem_submit(struct drm_device *dev, void *data,
- 	struct sync_file *sync_file = NULL;
- 	struct ww_acquire_ctx ticket;
- 	int out_fence_fd = -1;
-+	struct pid *pid = get_pid(task_pid(current));
- 	void *stream;
- 	int ret;
- 
-@@ -519,6 +523,8 @@ int etnaviv_ioctl_gem_submit(struct drm_device *dev, void *data,
- 		goto err_submit_ww_acquire;
- 	}
- 
-+	submit->pid = pid;
-+
- 	ret = etnaviv_cmdbuf_init(priv->cmdbuf_suballoc, &submit->cmdbuf,
- 				  ALIGN(args->stream_size, 8) + 8);
- 	if (ret)
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-index 37018bc55810..7d9bf4673e2d 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-@@ -1045,12 +1045,28 @@ int etnaviv_gpu_debugfs(struct etnaviv_gpu *gpu, struct seq_file *m)
- }
- #endif
- 
--void etnaviv_gpu_recover_hang(struct etnaviv_gpu *gpu)
-+void etnaviv_gpu_recover_hang(struct etnaviv_gem_submit *submit)
- {
-+	struct etnaviv_gpu *gpu = submit->gpu;
-+	char *comm = NULL, *cmd = NULL;
-+	struct task_struct *task;
- 	unsigned int i;
- 
- 	dev_err(gpu->dev, "recover hung GPU!\n");
- 
-+	task = get_pid_task(submit->pid, PIDTYPE_PID);
-+	if (task) {
-+		comm = kstrdup(task->comm, GFP_KERNEL);
-+		cmd = kstrdup_quotable_cmdline(task, GFP_KERNEL);
-+		put_task_struct(task);
-+	}
-+
-+	if (comm && cmd)
-+		dev_err(gpu->dev, "offending task: %s (%s)\n", comm, cmd);
-+
-+	kfree(cmd);
-+	kfree(comm);
-+
- 	if (pm_runtime_get_sync(gpu->dev) < 0)
- 		goto pm_put;
- 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
-index 85eddd492774..b3a0941d56fd 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
-@@ -168,7 +168,7 @@ bool etnaviv_fill_identity_from_hwdb(struct etnaviv_gpu *gpu);
- int etnaviv_gpu_debugfs(struct etnaviv_gpu *gpu, struct seq_file *m);
- #endif
- 
--void etnaviv_gpu_recover_hang(struct etnaviv_gpu *gpu);
-+void etnaviv_gpu_recover_hang(struct etnaviv_gem_submit *submit);
- void etnaviv_gpu_retire(struct etnaviv_gpu *gpu);
- int etnaviv_gpu_wait_fence_interruptible(struct etnaviv_gpu *gpu,
- 	u32 fence, struct drm_etnaviv_timespec *timeout);
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sched.c b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-index 72e2553fbc98..d29f467eee13 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-@@ -67,7 +67,7 @@ static enum drm_gpu_sched_stat etnaviv_sched_timedout_job(struct drm_sched_job
- 
- 	/* get the GPU back into the init state */
- 	etnaviv_core_dump(submit);
--	etnaviv_gpu_recover_hang(gpu);
-+	etnaviv_gpu_recover_hang(submit);
- 
- 	drm_sched_resubmit_jobs(&gpu->sched);
- 
+Christian Gmeiner (4):
+  drm/etnaviv: add simple moving average (SMA)
+  drm/etnaviv: add loadavg accounting
+  drm/etnaviv: show loadavg in debugfs
+  drm/etnaviv: export loadavg via perfmon
+
+ drivers/gpu/drm/etnaviv/etnaviv_drv.c     | 14 ++++
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c     | 76 +++++++++++++++++++++-
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.h     | 37 +++++++++++
+ drivers/gpu/drm/etnaviv/etnaviv_perfmon.c | 79 +++++++++++++++++++++++
+ drivers/gpu/drm/etnaviv/etnaviv_sma.h     | 53 +++++++++++++++
+ 5 files changed, 257 insertions(+), 2 deletions(-)
+ create mode 100644 drivers/gpu/drm/etnaviv/etnaviv_sma.h
+
 -- 
 2.36.1
 
