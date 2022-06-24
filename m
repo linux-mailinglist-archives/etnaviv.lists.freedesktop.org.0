@@ -1,33 +1,33 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D3D155965B
-	for <lists+etnaviv@lfdr.de>; Fri, 24 Jun 2022 11:22:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 175AC5596C5
+	for <lists+etnaviv@lfdr.de>; Fri, 24 Jun 2022 11:38:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 50BAA10E453;
-	Fri, 24 Jun 2022 09:22:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB75810E4E4;
+	Fri, 24 Jun 2022 09:38:30 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3428410E481
- for <etnaviv@lists.freedesktop.org>; Fri, 24 Jun 2022 09:22:43 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF98F10E4A6
+ for <etnaviv@lists.freedesktop.org>; Fri, 24 Jun 2022 09:38:28 +0000 (UTC)
 Received: from gallifrey.ext.pengutronix.de
  ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <l.stach@pengutronix.de>)
- id 1o4fWT-0001bX-2p; Fri, 24 Jun 2022 11:22:41 +0200
-Message-ID: <1a694037c631c298c6952cdf4bf54fcc6d2f08e9.camel@pengutronix.de>
-Subject: Re: [PATCH v2 1/4] drm/etnaviv: add simple moving average (SMA)
+ id 1o4fli-000450-IB; Fri, 24 Jun 2022 11:38:26 +0200
+Message-ID: <1371d97eff945cac085d7701ed76a6f422d3cd1d.camel@pengutronix.de>
+Subject: Re: [PATCH v2 2/4] drm/etnaviv: add loadavg accounting
 From: Lucas Stach <l.stach@pengutronix.de>
 To: Christian Gmeiner <christian.gmeiner@gmail.com>, 
  linux-kernel@vger.kernel.org
-Date: Fri, 24 Jun 2022 11:22:39 +0200
-In-Reply-To: <20220621072050.76229-2-christian.gmeiner@gmail.com>
+Date: Fri, 24 Jun 2022 11:38:25 +0200
+In-Reply-To: <20220621072050.76229-3-christian.gmeiner@gmail.com>
 References: <20220621072050.76229-1-christian.gmeiner@gmail.com>
- <20220621072050.76229-2-christian.gmeiner@gmail.com>
+ <20220621072050.76229-3-christian.gmeiner@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
 MIME-Version: 1.0
@@ -56,84 +56,284 @@ Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Hi Christian,
-
 Am Dienstag, dem 21.06.2022 um 09:20 +0200 schrieb Christian Gmeiner:
-> This adds a SMA algorithm inspired by Exponentially weighted moving
-> average (EWMA) algorithm found in the kernel.
+> The GPU has an idle state register where each bit represents the idle
+> state of a sub-GPU component like FE or TX. Sample this register
+> every 10ms and calculate a simple moving average over the sub-GPU
+> component idle states with a total observation time frame of 1s.
 > 
-Still not sure about this one. I _feel_ that a simple moving average
-over a period of one second does not do a good job of reflecting the
-real GPU load for a bursty workload, where EWMA might be better suited.
-But then I also don't have a real informed opinion to offer on this.
+> This provides us with a percentage based load of each sub-GPU
+> component.
+> 
+> Signed-off-by: Christian Gmeiner <christian.gmeiner@gmail.com>
+> ---
+>  drivers/gpu/drm/etnaviv/etnaviv_drv.c | 14 ++++++
+>  drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 64 ++++++++++++++++++++++++++-
+>  drivers/gpu/drm/etnaviv/etnaviv_gpu.h | 37 ++++++++++++++++
+>  3 files changed, 114 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> index 1d2b4fb4bcf8..d5c6115e56bd 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> @@ -46,6 +46,19 @@ static void load_gpu(struct drm_device *dev)
+>  	}
+>  }
+>  
+> +static void unload_gpu(struct drm_device *dev)
+> +{
+> +	struct etnaviv_drm_private *priv = dev->dev_private;
+> +	unsigned int i;
+> +
+> +	for (i = 0; i < ETNA_MAX_PIPES; i++) {
+> +		struct etnaviv_gpu *g = priv->gpu[i];
+> +
+> +		if (g)
+> +			etnaviv_gpu_shutdown(g);
+> +	}
+> +}
+> +
+>  static int etnaviv_open(struct drm_device *dev, struct drm_file *file)
+>  {
+>  	struct etnaviv_drm_private *priv = dev->dev_private;
+> @@ -557,6 +570,7 @@ static void etnaviv_unbind(struct device *dev)
+>  	struct drm_device *drm = dev_get_drvdata(dev);
+>  	struct etnaviv_drm_private *priv = drm->dev_private;
+>  
+> +	unload_gpu(drm);
+>  	drm_dev_unregister(drm);
+>  
+>  	component_unbind_all(dev, drm);
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> index 37018bc55810..202002ae75ee 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> @@ -27,6 +27,8 @@
+>  #include "state_hi.xml.h"
+>  #include "cmdstream.xml.h"
+>  
+> +static const ktime_t loadavg_polling_frequency = 10 * NSEC_PER_MSEC;
+> +
+Feeling like a nitpicker, but the thing defined here isn't a frequency,
+but a time delta/interval.
+
+>  static const struct platform_device_id gpu_ids[] = {
+>  	{ .name = "etnaviv-gpu,2d" },
+>  	{ },
+> @@ -745,6 +747,32 @@ static void etnaviv_gpu_hw_init(struct etnaviv_gpu *gpu)
+>  	gpu_write(gpu, VIVS_HI_INTR_ENBL, ~0U);
+>  }
+>  
+> +static enum hrtimer_restart etnaviv_loadavg_function(struct hrtimer *t)
+> +{
+> +	struct etnaviv_gpu *gpu = container_of(t, struct etnaviv_gpu, loadavg_timer);
+> +	const u32 idle = gpu_read(gpu, VIVS_HI_IDLE_STATE);
+> +	int i;
+> +
+> +	gpu->loadavg_last_sample_time = ktime_get();
+> +
+> +	for (i = 0; i < ARRAY_SIZE(etna_idle_module_names); i++)
+> +		if ((idle & etna_idle_module_names[i].bit))
+> +			sma_loadavg_add(&gpu->loadavg_value[i], 0);
+> +		else
+> +			sma_loadavg_add(&gpu->loadavg_value[i], 100);
+> +
+> +	spin_lock(&gpu->loadavg_spinlock);
+> +
+> +	for (i = 0; i < ARRAY_SIZE(etna_idle_module_names); i++)
+> +		gpu->loadavg_percentage[i] = sma_loadavg_read(&gpu->loadavg_value[i]);
+> +
+> +	spin_unlock(&gpu->loadavg_spinlock);
+
+After pondering this for a bit, I don't think we need this spinlock.
+The percentage is a single value per engine, so they are already single
+write atomic. The worst thing that can happen without this spinlock is
+that on read of the loadavg some engines already have the value of
+sample period n+1 integrated, while another set is still at n, which I
+don't think we care much about, as those load values are already quite
+coarse.
+
+> +
+> +	hrtimer_forward_now(t, loadavg_polling_frequency);
+> +
+> +	return HRTIMER_RESTART;
+> +}
+> +
+>  int etnaviv_gpu_init(struct etnaviv_gpu *gpu)
+>  {
+>  	struct etnaviv_drm_private *priv = gpu->drm->dev_private;
+> @@ -839,6 +867,11 @@ int etnaviv_gpu_init(struct etnaviv_gpu *gpu)
+>  	for (i = 0; i < ARRAY_SIZE(gpu->event); i++)
+>  		complete(&gpu->event_free);
+>  
+> +	/* Setup loadavg timer */
+> +	hrtimer_init(&gpu->loadavg_timer, CLOCK_MONOTONIC, HRTIMER_MODE_ABS_SOFT);
+> +	gpu->loadavg_timer.function = etnaviv_loadavg_function;
+> +	hrtimer_start(&gpu->loadavg_timer, loadavg_polling_frequency, HRTIMER_MODE_ABS_SOFT);
+> +
+>  	/* Now program the hardware */
+>  	mutex_lock(&gpu->lock);
+>  	etnaviv_gpu_hw_init(gpu);
+> @@ -859,6 +892,11 @@ int etnaviv_gpu_init(struct etnaviv_gpu *gpu)
+>  	return ret;
+>  }
+>  
+> +void etnaviv_gpu_shutdown(struct etnaviv_gpu *gpu)
+> +{
+> +	hrtimer_cancel(&gpu->loadavg_timer);
+> +}
+> +
+>  #ifdef CONFIG_DEBUG_FS
+>  struct dma_debug {
+>  	u32 address[2];
+> @@ -1585,6 +1623,8 @@ int etnaviv_gpu_wait_idle(struct etnaviv_gpu *gpu, unsigned int timeout_ms)
+>  static int etnaviv_gpu_hw_suspend(struct etnaviv_gpu *gpu)
+>  {
+>  	if (gpu->initialized && gpu->fe_running) {
+> +		hrtimer_cancel(&gpu->loadavg_timer);
+> +
+This isn't symmetric. Here you only cancel the timer when FE was
+running, but in the resume function you unconditionally start the
+timer.
+
+Moving the timer start into etnaviv_gpu_start_fe() seems to be a good
+idea. Sampling the idle state of a GPU with the FE not running doesn't
+make much sense in the first place, as it will unsurprisingly be fully
+idle. Doing this would also allow you to drop the
+etnaviv_gpu_shutdown() and unload_gpu() functions, as the timer doesn't
+need to be started when initializing the GPU.
+
+
+>  		/* Replace the last WAIT with END */
+>  		mutex_lock(&gpu->lock);
+>  		etnaviv_buffer_end(gpu);
+> @@ -1608,7 +1648,8 @@ static int etnaviv_gpu_hw_suspend(struct etnaviv_gpu *gpu)
+>  #ifdef CONFIG_PM
+>  static int etnaviv_gpu_hw_resume(struct etnaviv_gpu *gpu)
+>  {
+> -	int ret;
+> +	s64 missing_samples;
+> +	int ret, i, j;
+>  
+>  	ret = mutex_lock_killable(&gpu->lock);
+>  	if (ret)
+> @@ -1617,7 +1658,27 @@ static int etnaviv_gpu_hw_resume(struct etnaviv_gpu *gpu)
+>  	etnaviv_gpu_update_clock(gpu);
+>  	etnaviv_gpu_hw_init(gpu);
+>  
+> +	/* Update loadavg based on delta of suspend and resume ktime.
+> +	 *
+> +	 * Our SMA algorithm uses a fixed size of 100 items to be able
+> +	 * to calculate the mean over one second as we sample every 10ms.
+> +	 */
+> +	missing_samples = div_s64(ktime_ms_delta(ktime_get(), gpu->loadavg_last_sample_time), 10);
+
+In the timer function you use the loadavg_polling_frequency const for
+this value. It would be good to be consistent here. Probably just
+#define the polling interval and use this both here and in the timer
+function.
+
+> +	missing_samples = min(missing_samples, (s64)100);
+> +
+> +	spin_lock_bh(&gpu->loadavg_spinlock);
+> +
+> +	for (i = 0; i < ARRAY_SIZE(etna_idle_module_names); i++) {
+> +		struct sma_loadavg *loadavg = &gpu->loadavg_value[i];
+> +
+> +		for (j = 0; j < missing_samples; j++)
+> +			sma_loadavg_add(loadavg, 0);
+> +	}
+> +
+> +	spin_unlock_bh(&gpu->loadavg_spinlock);
+> +
+>  	mutex_unlock(&gpu->lock);
+> +	hrtimer_start(&gpu->loadavg_timer, loadavg_polling_frequency, HRTIMER_MODE_ABS_SOFT);
+>  
+>  	return 0;
+>  }
+> @@ -1787,6 +1848,7 @@ static int etnaviv_gpu_platform_probe(struct platform_device *pdev)
+>  	gpu->dev = &pdev->dev;
+>  	mutex_init(&gpu->lock);
+>  	mutex_init(&gpu->fence_lock);
+> +	spin_lock_init(&gpu->loadavg_spinlock);
+>  
+>  	/* Map registers: */
+>  	gpu->mmio = devm_platform_ioremap_resource(pdev, 0);
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
+> index 85eddd492774..881f071f640e 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
+> @@ -10,6 +10,8 @@
+>  #include "etnaviv_gem.h"
+>  #include "etnaviv_mmu.h"
+>  #include "etnaviv_drv.h"
+> +#include "etnaviv_sma.h"
+> +#include "state_hi.xml.h"
+>  
+>  struct etnaviv_gem_submit;
+>  struct etnaviv_vram_mapping;
+> @@ -91,6 +93,33 @@ struct clk;
+>  
+>  #define ETNA_NR_EVENTS 30
+>  
+> +DECLARE_SMA(loadavg, 100)
+> +
+> +static const struct {
+> +    const char *name;
+> +    u32 bit;
+> +} etna_idle_module_names[] = {
+
+Drop the _names prefix. This isn't just enumerating names, but also the
+bit positions in the state register.
 
 Regards,
 Lucas
 
-> Signed-off-by: Christian Gmeiner <christian.gmeiner@gmail.com>
-> ---
->  drivers/gpu/drm/etnaviv/etnaviv_sma.h | 53 +++++++++++++++++++++++++++
->  1 file changed, 53 insertions(+)
->  create mode 100644 drivers/gpu/drm/etnaviv/etnaviv_sma.h
-> 
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sma.h b/drivers/gpu/drm/etnaviv/etnaviv_sma.h
-> new file mode 100644
-> index 000000000000..81564d5cbdc3
-> --- /dev/null
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_sma.h
-> @@ -0,0 +1,53 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * Copyright (C) 2020 Etnaviv Project
-> + */
+> +    { "FE", VIVS_HI_IDLE_STATE_FE },
+> +    { "DE", VIVS_HI_IDLE_STATE_DE },
+> +    { "PE", VIVS_HI_IDLE_STATE_PE },
+> +    { "SH", VIVS_HI_IDLE_STATE_SH },
+> +    { "PA", VIVS_HI_IDLE_STATE_PA },
+> +    { "SE", VIVS_HI_IDLE_STATE_SE },
+> +    { "RA", VIVS_HI_IDLE_STATE_RA },
+> +    { "TX", VIVS_HI_IDLE_STATE_TX },
+> +    { "VG", VIVS_HI_IDLE_STATE_VG },
+> +    { "IM", VIVS_HI_IDLE_STATE_IM },
+> +    { "FP", VIVS_HI_IDLE_STATE_FP },
+> +    { "TS", VIVS_HI_IDLE_STATE_TS },
+> +    { "BL", VIVS_HI_IDLE_STATE_BL },
+> +    { "ASYNCFE", VIVS_HI_IDLE_STATE_ASYNCFE },
+> +    { "MC", VIVS_HI_IDLE_STATE_MC },
+> +    { "PPA", VIVS_HI_IDLE_STATE_PPA },
+> +    { "WD", VIVS_HI_IDLE_STATE_WD },
+> +    { "NN", VIVS_HI_IDLE_STATE_NN },
+> +    { "TP", VIVS_HI_IDLE_STATE_TP },
+> +};
 > +
-> +#ifndef __ETNAVIV_SMA_H__
-> +#define __ETNAVIV_SMA_H__
+>  struct etnaviv_gpu {
+>  	struct drm_device *drm;
+>  	struct thermal_cooling_device *cooling;
+> @@ -147,6 +176,13 @@ struct etnaviv_gpu {
+>  	unsigned int freq_scale;
+>  	unsigned long base_rate_core;
+>  	unsigned long base_rate_shader;
 > +
-> +#include <linux/bug.h>
-> +#include <linux/compiler.h>
-> +
-> +/*
-> + * Simple moving average (SMA)
-> + *
-> + * This implements a fixed-size SMA algorithm.
-> + *
-> + * The first argument to the macro is the name that will be used
-> + * for the struct and helper functions.
-> + *
-> + * The second argument, the samples, expresses how many samples are
-> + * used for the SMA algorithm.
-> + */
-> +
-> +#define DECLARE_SMA(name, _samples) \
-> +    struct sma_##name { \
-> +        unsigned long pos; \
-> +        unsigned long sum; \
-> +        unsigned long samples[_samples]; \
-> +    }; \
-> +    static inline void sma_##name##_init(struct sma_##name *s) \
-> +    { \
-> +        BUILD_BUG_ON(!__builtin_constant_p(_samples));	\
-> +        memset(s, 0, sizeof(struct sma_##name)); \
-> +    } \
-> +    static inline unsigned long sma_##name##_read(struct sma_##name *s) \
-> +    { \
-> +        BUILD_BUG_ON(!__builtin_constant_p(_samples));	\
-> +        return s->sum / _samples; \
-> +    } \
-> +    static inline void sma_##name##_add(struct sma_##name *s, unsigned long val) \
-> +    { \
-> +        unsigned long pos = READ_ONCE(s->pos); \
-> +        unsigned long sum = READ_ONCE(s->sum); \
-> +        unsigned long sample = READ_ONCE(s->samples[pos]); \
-> +      \
-> +        BUILD_BUG_ON(!__builtin_constant_p(_samples));	\
-> +      \
-> +       WRITE_ONCE(s->sum, sum - sample + val); \
-> +       WRITE_ONCE(s->samples[pos], val); \
-> +       WRITE_ONCE(s->pos, pos + 1 == _samples ? 0 : pos + 1); \
-> +    }
-> +
-> +#endif /* __ETNAVIV_SMA_H__ */
+> +	/* Loadavg: */
+> +	struct hrtimer loadavg_timer;
+> +	spinlock_t loadavg_spinlock;
+> +	ktime_t loadavg_last_sample_time;
+> +	struct sma_loadavg loadavg_value[ARRAY_SIZE(etna_idle_module_names)];
+> +	unsigned int loadavg_percentage[ARRAY_SIZE(etna_idle_module_names)];
+>  };
+>  
+>  static inline void gpu_write(struct etnaviv_gpu *gpu, u32 reg, u32 data)
+> @@ -162,6 +198,7 @@ static inline u32 gpu_read(struct etnaviv_gpu *gpu, u32 reg)
+>  int etnaviv_gpu_get_param(struct etnaviv_gpu *gpu, u32 param, u64 *value);
+>  
+>  int etnaviv_gpu_init(struct etnaviv_gpu *gpu);
+> +void etnaviv_gpu_shutdown(struct etnaviv_gpu *gpu);
+>  bool etnaviv_fill_identity_from_hwdb(struct etnaviv_gpu *gpu);
+>  
+>  #ifdef CONFIG_DEBUG_FS
 
 
