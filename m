@@ -1,33 +1,33 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3C635544BB
-	for <lists+etnaviv@lfdr.de>; Wed, 22 Jun 2022 10:52:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D3D155965B
+	for <lists+etnaviv@lfdr.de>; Fri, 24 Jun 2022 11:22:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A39E710E6F8;
-	Wed, 22 Jun 2022 08:52:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 50BAA10E453;
+	Fri, 24 Jun 2022 09:22:44 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E0B210E357
- for <etnaviv@lists.freedesktop.org>; Wed, 22 Jun 2022 08:52:08 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3428410E481
+ for <etnaviv@lists.freedesktop.org>; Fri, 24 Jun 2022 09:22:43 +0000 (UTC)
 Received: from gallifrey.ext.pengutronix.de
  ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <l.stach@pengutronix.de>)
- id 1o3w5l-00019i-PF; Wed, 22 Jun 2022 10:52:05 +0200
-Message-ID: <ee89fef24afc2b740aa126d734cd382d3d3f9c92.camel@pengutronix.de>
-Subject: Re: [PATCH] drm/etnaviv: print offender task information on
- hangcheck recovery
+ id 1o4fWT-0001bX-2p; Fri, 24 Jun 2022 11:22:41 +0200
+Message-ID: <1a694037c631c298c6952cdf4bf54fcc6d2f08e9.camel@pengutronix.de>
+Subject: Re: [PATCH v2 1/4] drm/etnaviv: add simple moving average (SMA)
 From: Lucas Stach <l.stach@pengutronix.de>
 To: Christian Gmeiner <christian.gmeiner@gmail.com>, 
  linux-kernel@vger.kernel.org
-Date: Wed, 22 Jun 2022 10:52:04 +0200
-In-Reply-To: <20220603123706.678320-1-christian.gmeiner@gmail.com>
-References: <20220603123706.678320-1-christian.gmeiner@gmail.com>
+Date: Fri, 24 Jun 2022 11:22:39 +0200
+In-Reply-To: <20220621072050.76229-2-christian.gmeiner@gmail.com>
+References: <20220621072050.76229-1-christian.gmeiner@gmail.com>
+ <20220621072050.76229-2-christian.gmeiner@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
 MIME-Version: 1.0
@@ -58,129 +58,82 @@ Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
 Hi Christian,
 
-Am Freitag, dem 03.06.2022 um 14:37 +0200 schrieb Christian Gmeiner:
-> Track the pid per submit, so we can print the name and cmdline of
-> the task which submitted the batch that caused the gpu to hang.
+Am Dienstag, dem 21.06.2022 um 09:20 +0200 schrieb Christian Gmeiner:
+> This adds a SMA algorithm inspired by Exponentially weighted moving
+> average (EWMA) algorithm found in the kernel.
 > 
-I really like the idea. I think the pid handling could be integrated
-into the scheduler, so we don't have to carry it on each submit, but
-not requesting any changes right now. I'm leaning toward taking this
-patch as-is and doing the scheduler integration as a second step.
+Still not sure about this one. I _feel_ that a simple moving average
+over a period of one second does not do a good job of reflecting the
+real GPU load for a bursty workload, where EWMA might be better suited.
+But then I also don't have a real informed opinion to offer on this.
 
 Regards,
 Lucas
 
 > Signed-off-by: Christian Gmeiner <christian.gmeiner@gmail.com>
 > ---
->  drivers/gpu/drm/etnaviv/etnaviv_gem.h        |  1 +
->  drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c |  6 ++++++
->  drivers/gpu/drm/etnaviv/etnaviv_gpu.c        | 18 +++++++++++++++++-
->  drivers/gpu/drm/etnaviv/etnaviv_gpu.h        |  2 +-
->  drivers/gpu/drm/etnaviv/etnaviv_sched.c      |  2 +-
->  5 files changed, 26 insertions(+), 3 deletions(-)
+>  drivers/gpu/drm/etnaviv/etnaviv_sma.h | 53 +++++++++++++++++++++++++++
+>  1 file changed, 53 insertions(+)
+>  create mode 100644 drivers/gpu/drm/etnaviv/etnaviv_sma.h
 > 
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.h b/drivers/gpu/drm/etnaviv/etnaviv_gem.h
-> index 63688e6e4580..baa81cbf701a 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem.h
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.h
-> @@ -96,6 +96,7 @@ struct etnaviv_gem_submit {
->  	int out_fence_id;
->  	struct list_head node; /* GPU active submit list */
->  	struct etnaviv_cmdbuf cmdbuf;
-> +	struct pid *pid;       /* submitting process */
->  	bool runtime_resumed;
->  	u32 exec_state;
->  	u32 flags;
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-> index 1ac916b24891..1491159d0d20 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-> @@ -399,6 +399,9 @@ static void submit_cleanup(struct kref *kref)
->  		mutex_unlock(&submit->gpu->fence_lock);
->  		dma_fence_put(submit->out_fence);
->  	}
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sma.h b/drivers/gpu/drm/etnaviv/etnaviv_sma.h
+> new file mode 100644
+> index 000000000000..81564d5cbdc3
+> --- /dev/null
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_sma.h
+> @@ -0,0 +1,53 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * Copyright (C) 2020 Etnaviv Project
+> + */
 > +
-> +	put_pid(submit->pid);
+> +#ifndef __ETNAVIV_SMA_H__
+> +#define __ETNAVIV_SMA_H__
 > +
->  	kfree(submit->pmrs);
->  	kfree(submit);
->  }
-> @@ -422,6 +425,7 @@ int etnaviv_ioctl_gem_submit(struct drm_device *dev, void *data,
->  	struct sync_file *sync_file = NULL;
->  	struct ww_acquire_ctx ticket;
->  	int out_fence_fd = -1;
-> +	struct pid *pid = get_pid(task_pid(current));
->  	void *stream;
->  	int ret;
->  
-> @@ -519,6 +523,8 @@ int etnaviv_ioctl_gem_submit(struct drm_device *dev, void *data,
->  		goto err_submit_ww_acquire;
->  	}
->  
-> +	submit->pid = pid;
+> +#include <linux/bug.h>
+> +#include <linux/compiler.h>
 > +
->  	ret = etnaviv_cmdbuf_init(priv->cmdbuf_suballoc, &submit->cmdbuf,
->  				  ALIGN(args->stream_size, 8) + 8);
->  	if (ret)
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> index 37018bc55810..7d9bf4673e2d 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> @@ -1045,12 +1045,28 @@ int etnaviv_gpu_debugfs(struct etnaviv_gpu *gpu, struct seq_file *m)
->  }
->  #endif
->  
-> -void etnaviv_gpu_recover_hang(struct etnaviv_gpu *gpu)
-> +void etnaviv_gpu_recover_hang(struct etnaviv_gem_submit *submit)
->  {
-> +	struct etnaviv_gpu *gpu = submit->gpu;
-> +	char *comm = NULL, *cmd = NULL;
-> +	struct task_struct *task;
->  	unsigned int i;
->  
->  	dev_err(gpu->dev, "recover hung GPU!\n");
->  
-> +	task = get_pid_task(submit->pid, PIDTYPE_PID);
-> +	if (task) {
-> +		comm = kstrdup(task->comm, GFP_KERNEL);
-> +		cmd = kstrdup_quotable_cmdline(task, GFP_KERNEL);
-> +		put_task_struct(task);
-> +	}
+> +/*
+> + * Simple moving average (SMA)
+> + *
+> + * This implements a fixed-size SMA algorithm.
+> + *
+> + * The first argument to the macro is the name that will be used
+> + * for the struct and helper functions.
+> + *
+> + * The second argument, the samples, expresses how many samples are
+> + * used for the SMA algorithm.
+> + */
 > +
-> +	if (comm && cmd)
-> +		dev_err(gpu->dev, "offending task: %s (%s)\n", comm, cmd);
+> +#define DECLARE_SMA(name, _samples) \
+> +    struct sma_##name { \
+> +        unsigned long pos; \
+> +        unsigned long sum; \
+> +        unsigned long samples[_samples]; \
+> +    }; \
+> +    static inline void sma_##name##_init(struct sma_##name *s) \
+> +    { \
+> +        BUILD_BUG_ON(!__builtin_constant_p(_samples));	\
+> +        memset(s, 0, sizeof(struct sma_##name)); \
+> +    } \
+> +    static inline unsigned long sma_##name##_read(struct sma_##name *s) \
+> +    { \
+> +        BUILD_BUG_ON(!__builtin_constant_p(_samples));	\
+> +        return s->sum / _samples; \
+> +    } \
+> +    static inline void sma_##name##_add(struct sma_##name *s, unsigned long val) \
+> +    { \
+> +        unsigned long pos = READ_ONCE(s->pos); \
+> +        unsigned long sum = READ_ONCE(s->sum); \
+> +        unsigned long sample = READ_ONCE(s->samples[pos]); \
+> +      \
+> +        BUILD_BUG_ON(!__builtin_constant_p(_samples));	\
+> +      \
+> +       WRITE_ONCE(s->sum, sum - sample + val); \
+> +       WRITE_ONCE(s->samples[pos], val); \
+> +       WRITE_ONCE(s->pos, pos + 1 == _samples ? 0 : pos + 1); \
+> +    }
 > +
-> +	kfree(cmd);
-> +	kfree(comm);
-> +
->  	if (pm_runtime_get_sync(gpu->dev) < 0)
->  		goto pm_put;
->  
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
-> index 85eddd492774..b3a0941d56fd 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
-> @@ -168,7 +168,7 @@ bool etnaviv_fill_identity_from_hwdb(struct etnaviv_gpu *gpu);
->  int etnaviv_gpu_debugfs(struct etnaviv_gpu *gpu, struct seq_file *m);
->  #endif
->  
-> -void etnaviv_gpu_recover_hang(struct etnaviv_gpu *gpu);
-> +void etnaviv_gpu_recover_hang(struct etnaviv_gem_submit *submit);
->  void etnaviv_gpu_retire(struct etnaviv_gpu *gpu);
->  int etnaviv_gpu_wait_fence_interruptible(struct etnaviv_gpu *gpu,
->  	u32 fence, struct drm_etnaviv_timespec *timeout);
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sched.c b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-> index 72e2553fbc98..d29f467eee13 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-> @@ -67,7 +67,7 @@ static enum drm_gpu_sched_stat etnaviv_sched_timedout_job(struct drm_sched_job
->  
->  	/* get the GPU back into the init state */
->  	etnaviv_core_dump(submit);
-> -	etnaviv_gpu_recover_hang(gpu);
-> +	etnaviv_gpu_recover_hang(submit);
->  
->  	drm_sched_resubmit_jobs(&gpu->sched);
->  
+> +#endif /* __ETNAVIV_SMA_H__ */
 
 
