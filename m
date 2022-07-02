@@ -2,41 +2,56 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A01485596EF
-	for <lists+etnaviv@lfdr.de>; Fri, 24 Jun 2022 11:44:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94CCA563FCC
+	for <lists+etnaviv@lfdr.de>; Sat,  2 Jul 2022 13:42:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 49D9910E42F;
-	Fri, 24 Jun 2022 09:44:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5335918AF40;
+	Sat,  2 Jul 2022 11:42:08 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DECF410E42F
- for <etnaviv@lists.freedesktop.org>; Fri, 24 Jun 2022 09:44:29 +0000 (UTC)
-Received: from gallifrey.ext.pengutronix.de
- ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1o4frX-00052V-LX; Fri, 24 Jun 2022 11:44:27 +0200
-Message-ID: <2d475e77dca2395ee5b6fcff0e1d3ade2b0a36ef.camel@pengutronix.de>
-Subject: Re: [PATCH v2 4/4] drm/etnaviv: export loadavg via perfmon
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Christian Gmeiner <christian.gmeiner@gmail.com>, 
- linux-kernel@vger.kernel.org
-Date: Fri, 24 Jun 2022 11:44:26 +0200
-In-Reply-To: <20220621072050.76229-5-christian.gmeiner@gmail.com>
-References: <20220621072050.76229-1-christian.gmeiner@gmail.com>
- <20220621072050.76229-5-christian.gmeiner@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
+ [IPv6:2a00:1450:4864:20::62b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6CEC718AF40;
+ Sat,  2 Jul 2022 11:42:07 +0000 (UTC)
+Received: by mail-ej1-x62b.google.com with SMTP id d2so8412974ejy.1;
+ Sat, 02 Jul 2022 04:42:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=WhjM8Dp4mS9IBPn4kroy2wdgNNIdUgixClIV/mTih4M=;
+ b=G5aRF3FDYzEYd2OJ5K35vT+eFEdkrmjc4c7Eyr428zyoAOxx1WuwoNBVxL5OykT9Lu
+ RexthZ66BUxwMN9n+wsoTcNXyZfAWPmJtVqp8TW1NBR0a0fgCWytzFhLUCOCAAfzoi/y
+ EPTkROUbArwuiq64voho2IYwp5VGYM1UQW5d7qK0MhzACkhycCA4xNkh3wfBjqpi4ZDq
+ knyLD82Xsy8Q3GNqABz6Kqqd3MqaucKwLepqBbevKFMi3DBzmifbOTj8j5y4N3gQdF2A
+ 8hwR7Cjop8kQXTMOF5hNlmszW/Rtada7eBDmlBxAAeoxCjfRH68icS46M6HcvSmBoBuh
+ C2Tg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=WhjM8Dp4mS9IBPn4kroy2wdgNNIdUgixClIV/mTih4M=;
+ b=fz14tV3y4F0sFpMhKd8q09C9EYiCruJw5jrVIbh0vOo2MRO5vNk8o9kArk0pWQam2m
+ 8TppBR6iNzFIIErm4L2jVao4aU2nwU9nzEQj6EaegoYjAyI+WOTgt+hTJyhfYtHOul4y
+ 5Hn3AKf8efQTreLE6w2LkBEkd1Cf5HXCq73lGvwbKAppwjRAbDJfa0r+YqrVSfKXogZL
+ rzTxkvXEoNIdVWW4mC0f8Ev8qW/AKto2ObhPWLYQ/3FBvR/BtO3qIXexXpLM24HDIeUc
+ D58QlqZJqzJtWXhtbgBDVTBMygW2EOog2raXR10cfdK8n6oXnMwAbiiTtdCcIO3PdMmD
+ 6j8g==
+X-Gm-Message-State: AJIora/hu+WRt535/cAqML8i/VVShMtPGzd5/NuAjTMYltNBuJw8XtTW
+ xNtetR36UL+8A9RpNSEI+7TM2MzzMC4ITpZqOOo=
+X-Google-Smtp-Source: AGRyM1sMKM+Zutej2Lk/Zoiz7uwcW9yWj8/qcDHkuNHPs5bqlatUV3f7qzNzERj7fejcIgDRX7YVW7CkMZKXqYYhmYk=
+X-Received: by 2002:a17:906:4e91:b0:722:f996:fa20 with SMTP id
+ v17-20020a1709064e9100b00722f996fa20mr19148286eju.733.1656762125876; Sat, 02
+ Jul 2022 04:42:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
+References: <20220621072050.76229-1-christian.gmeiner@gmail.com>
+ <20220621072050.76229-2-christian.gmeiner@gmail.com>
+ <1a694037c631c298c6952cdf4bf54fcc6d2f08e9.camel@pengutronix.de>
+In-Reply-To: <1a694037c631c298c6952cdf4bf54fcc6d2f08e9.camel@pengutronix.de>
+From: Christian Gmeiner <christian.gmeiner@gmail.com>
+Date: Sat, 2 Jul 2022 13:41:54 +0200
+Message-ID: <CAH9NwWf11tcQctdQhk5AoKT-Nz-ujMRaQJjfVydNDnT==+S+_w@mail.gmail.com>
+Subject: Re: [PATCH v2 1/4] drm/etnaviv: add simple moving average (SMA)
+To: Lucas Stach <l.stach@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,131 +63,33 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- "moderated list:DRM DRIVERS FOR VIVANTE
- GPU IP" <etnaviv@lists.freedesktop.org>, "open list:DRM DRIVERS FOR VIVANTE
- GPU IP" <dri-devel@lists.freedesktop.org>,
+Cc: David Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
+ "open list:DRM DRIVERS FOR VIVANTE GPU IP"
+ <dri-devel@lists.freedesktop.org>,
+ "moderated list:DRM DRIVERS FOR VIVANTE GPU IP"
+ <etnaviv@lists.freedesktop.org>, Daniel Vetter <daniel@ffwll.ch>,
  Russell King <linux+etnaviv@armlinux.org.uk>
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Am Dienstag, dem 21.06.2022 um 09:20 +0200 schrieb Christian Gmeiner:
-> Make it possible to access the sub-GPU component load value from
-> user space with the perfmon infrastructure.
-> 
-You need to explain a bit more how you intend to use those.
+Hi Lucas
 
-Contrary to all other perfmon values, where we go to great lengths to
-only count the load put onto the GPU by the specific process requesting
-the perfmon, the loadavg values also include the load caused by other
-submits. Due to this difference in behavior I fear that those new
-counters might be confusing to use. But maybe you have a use-case in
-mind that I don't see right now.
+>
+> Am Dienstag, dem 21.06.2022 um 09:20 +0200 schrieb Christian Gmeiner:
+> > This adds a SMA algorithm inspired by Exponentially weighted moving
+> > average (EWMA) algorithm found in the kernel.
+> >
+> Still not sure about this one. I _feel_ that a simple moving average
+> over a period of one second does not do a good job of reflecting the
+> real GPU load for a bursty workload, where EWMA might be better suited.
+> But then I also don't have a real informed opinion to offer on this.
+>
 
-Regards,
-Lucas
+I will play with EWMA and see what happens.
 
-> Signed-off-by: Christian Gmeiner <christian.gmeiner@gmail.com>
-> ---
->  drivers/gpu/drm/etnaviv/etnaviv_perfmon.c | 79 +++++++++++++++++++++++
->  1 file changed, 79 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c b/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
-> index bafdfe49c1d8..d65d9af3a74a 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
-> @@ -120,6 +120,19 @@ static u32 hi_total_idle_cycle_read(struct etnaviv_gpu *gpu,
->  	return gpu_read(gpu, reg);
->  }
->  
-> +static u32 load_read(struct etnaviv_gpu *gpu,
-> +	const struct etnaviv_pm_domain *domain,
-> +	const struct etnaviv_pm_signal *signal)
-> +{
-> +	u32 load;
-> +
-> +	spin_lock_bh(&gpu->loadavg_spinlock);
-> +	load = gpu->loadavg_percentage[signal->data];
-> +	spin_unlock_bh(&gpu->loadavg_spinlock);
-> +
-> +	return load;
-> +}
-> +
->  static const struct etnaviv_pm_domain doms_3d[] = {
->  	{
->  		.name = "HI",
-> @@ -419,6 +432,72 @@ static const struct etnaviv_pm_domain doms_3d[] = {
->  				&perf_reg_read
->  			}
->  		}
-> +	},
-> +	{
-> +		.name = "LOAD",
-> +		.nr_signals = 12,
-> +		.signal = (const struct etnaviv_pm_signal[]) {
-> +			{
-> +				"FE",
-> +				0,
-> +				&load_read
-> +			},
-> +			{
-> +				"DE",
-> +				1,
-> +				&load_read
-> +			},
-> +			{
-> +				"PE",
-> +				2,
-> +				&load_read
-> +			},
-> +			{
-> +				"SH",
-> +				3,
-> +				&load_read
-> +			},
-> +			{
-> +				"PA",
-> +				4,
-> +				&load_read
-> +			},
-> +			{
-> +				"SE",
-> +				5,
-> +				&load_read
-> +			},
-> +			{
-> +				"RA",
-> +				6,
-> +				&load_read
-> +			},
-> +			{
-> +				"TX",
-> +				7,
-> +				&load_read
-> +			},
-> +			{
-> +				"VG",
-> +				8,
-> +				&load_read
-> +			},
-> +			{
-> +				"IM",
-> +				9,
-> +				&load_read
-> +			},
-> +			{
-> +				"FP",
-> +				10,
-> +				&load_read
-> +			},
-> +			{
-> +				"TS",
-> +				11,
-> +				&load_read
-> +			}
-> +		}
->  	}
->  };
->  
+-- 
+greets
+--
+Christian Gmeiner, MSc
 
-
+https://christian-gmeiner.info/privacypolicy
