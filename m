@@ -2,60 +2,35 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B27A456CB7A
-	for <lists+etnaviv@lfdr.de>; Sat,  9 Jul 2022 23:00:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E36AC574AA1
+	for <lists+etnaviv@lfdr.de>; Thu, 14 Jul 2022 12:31:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 66A2E11B942;
-	Sat,  9 Jul 2022 21:00:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8EC98A4597;
+	Thu, 14 Jul 2022 10:31:47 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-yw1-x1135.google.com (mail-yw1-x1135.google.com
- [IPv6:2607:f8b0:4864:20::1135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C9446112E65
- for <etnaviv@lists.freedesktop.org>; Wed,  6 Jul 2022 18:31:59 +0000 (UTC)
-Received: by mail-yw1-x1135.google.com with SMTP id
- 00721157ae682-31caffa4a45so77056237b3.3
- for <etnaviv@lists.freedesktop.org>; Wed, 06 Jul 2022 11:31:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=JqBcZVmZY62+uZaaDsEVHApvk4BPtabj2ze/xYSIKPM=;
- b=dEPL46gwLY9Xnxeq7C4mX9Slt3nXB1pC1jn5H0CL9VX9G2i8J6+ylsbX1Mgg2ERRjp
- vlPsgCqXtBs1XZnGQqilXjd5GePb2UO5C6pmc+JN1fk6Wqr+Ol6n1+ETMDRdz1MbpBtX
- se7qXtyj0/MrUfsRscQXaxQREgk3/B/JhYx7GEriklH1gVdocFajhWPIjV+pRV1sOL1M
- 55HKrnvRjLHyI7UjeoWg73/+uxDsaFlG8k/XgUulVf0AGvgOOL2cjp6zctn+FPub2yuT
- 6Sa9SruHspQVXX5hrICktogXVFwx0I513/4Z7w3NV8jfaVdf3t2TkUdWgnHZFmwAAFKa
- XZQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=JqBcZVmZY62+uZaaDsEVHApvk4BPtabj2ze/xYSIKPM=;
- b=wTspPaApKn/JhFwmXyfaOCrGeqwYyIf9l76uzZnHDTwlAqcPkjNeqfJz236hov6GHP
- PGk3OY3Nfw5uHhkOyEjgedzuYed2HN5A3TMe0pEl/9XU/uWvjK7z5hmx7aGrqwkNBerZ
- 766jZvhUA6bwzNkkzOuJvzB7RuWuBDqikiFxSx8SCvUzLNFqMP/mJRImRsjciVeJnU3r
- k+HqLI5kAuyFBw4C24otEswSDf8pv9/tCs6cxJEecOzfuk8Cc0YvsOPbTV37LCXcuHx8
- cF7qqFWNp+yqA9p+A4pHsXqXbYkMWldsK7ONkVztnlVlbZtjoIXTjcpgQPC6+hVyprFP
- i2Xg==
-X-Gm-Message-State: AJIora9mytyJU4h/ue6lNLGyM+1/UtXIL6mC4d/3LCaOKWiryG+BExd6
- 3Ks1tq2X0gVQNmhcEuP/jcxvyJVLxNv2Np46W8mV/A==
-X-Google-Smtp-Source: AGRyM1vStpSFCTvQoOkYY9pCw67PR2KX2//2Tg5M4w73NRNk7nScyntoWxARzbefU6wlbYJu8sZsAQDLLqSTcibHrBs=
-X-Received: by 2002:a81:4f95:0:b0:31c:9817:90e5 with SMTP id
- d143-20020a814f95000000b0031c981790e5mr20142591ywb.280.1657132318960; Wed, 06
- Jul 2022 11:31:58 -0700 (PDT)
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AFDADA45A1
+ for <etnaviv@lists.freedesktop.org>; Thu, 14 Jul 2022 10:31:45 +0000 (UTC)
+Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
+ by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1oBw8F-0005K5-OP; Thu, 14 Jul 2022 12:31:43 +0200
+From: Lucas Stach <l.stach@pengutronix.de>
+To: etnaviv@lists.freedesktop.org
+Subject: [PATCH 1/2] drm/etnaviv: move idle mapping reaping into separate
+ function
+Date: Thu, 14 Jul 2022 12:31:42 +0200
+Message-Id: <20220714103143.1704573-1-l.stach@pengutronix.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20220706182924.2563058-1-tjmercier@google.com>
-In-Reply-To: <20220706182924.2563058-1-tjmercier@google.com>
-From: "T.J. Mercier" <tjmercier@google.com>
-Date: Wed, 6 Jul 2022 11:31:48 -0700
-Message-ID: <CABdmKX2vtT04iPp-BZHRu0DAyXQpLvrtSc4eahNgUVxx+K4Tqg@mail.gmail.com>
-Subject: Re: [PATCH] drm/etnaviv: Remove duplicate call to
- drm_gem_free_mmap_offset
-To: "T.J. Mercier" <tjmercier@google.com>, Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>, 
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailman-Approved-At: Sat, 09 Jul 2022 21:00:52 +0000
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:1101:1d::28
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,38 +42,83 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: Christian Gmeiner <christian.gmeiner@gmail.com>,
+ patchwork-lst@pengutronix.de, kernel@pengutronix.de,
+ dri-devel@lists.freedesktop.org, Russell King <linux+etnaviv@armlinux.org.uk>
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-On Wed, Jul 6, 2022 at 11:29 AM T.J. Mercier <tjmercier@google.com> wrote:
->
-> The docs explicitly say the drm_gem_object_release function already calls this,
-> and this does not appear to be a prerequisite for the call to
-> etnaviv_gem_ops.release.
->
-> Signed-off-by: T.J. Mercier <tjmercier@google.com>
-> ---
->  drivers/gpu/drm/etnaviv/etnaviv_gem.c | 1 -
->  1 file changed, 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-> index cc386f8a7116..ecb828e4e156 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-> @@ -504,7 +504,6 @@ void etnaviv_gem_free_object(struct drm_gem_object *obj)
->                 kfree(mapping);
->         }
->
-> -       drm_gem_free_mmap_offset(obj);
->         etnaviv_obj->ops->release(etnaviv_obj);
->         drm_gem_object_release(obj);
->
-> --
-> 2.37.0.rc0.161.g10f37bed90-goog
->
+The same logic is already used in two different places and now
+it will also be needed outside of the compilation unit, so split
+it into a separate function.
 
-I don't have a device to test this with, but I believe this is correct
-based on inspecting the code and the drm_gem_free_mmap_offset function
-docs.
+Cc: stable@vger.kernel.org # 5.19
+Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+---
+ drivers/gpu/drm/etnaviv/etnaviv_mmu.c | 23 +++++++++++++++--------
+ drivers/gpu/drm/etnaviv/etnaviv_mmu.h |  1 +
+ 2 files changed, 16 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_mmu.c b/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
+index dc1aa738c4f1..55479cb8b1ac 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
+@@ -135,6 +135,19 @@ static void etnaviv_iommu_remove_mapping(struct etnaviv_iommu_context *context,
+ 	drm_mm_remove_node(&mapping->vram_node);
+ }
+ 
++void etnaviv_iommu_reap_mapping(struct etnaviv_vram_mapping *mapping)
++{
++	struct etnaviv_iommu_context *context = mapping->context;
++
++	lockdep_assert_held(&context->lock);
++	WARN_ON(mapping->use);
++
++	etnaviv_iommu_remove_mapping(context, mapping);
++	etnaviv_iommu_context_put(mapping->context);
++	mapping->context = NULL;
++	list_del_init(&mapping->mmu_node);
++}
++
+ static int etnaviv_iommu_find_iova(struct etnaviv_iommu_context *context,
+ 				   struct drm_mm_node *node, size_t size)
+ {
+@@ -202,10 +215,7 @@ static int etnaviv_iommu_find_iova(struct etnaviv_iommu_context *context,
+ 		 * this mapping.
+ 		 */
+ 		list_for_each_entry_safe(m, n, &list, scan_node) {
+-			etnaviv_iommu_remove_mapping(context, m);
+-			etnaviv_iommu_context_put(m->context);
+-			m->context = NULL;
+-			list_del_init(&m->mmu_node);
++			etnaviv_iommu_reap_mapping(m);
+ 			list_del_init(&m->scan_node);
+ 		}
+ 
+@@ -257,10 +267,7 @@ static int etnaviv_iommu_insert_exact(struct etnaviv_iommu_context *context,
+ 	}
+ 
+ 	list_for_each_entry_safe(m, n, &scan_list, scan_node) {
+-		etnaviv_iommu_remove_mapping(context, m);
+-		etnaviv_iommu_context_put(m->context);
+-		m->context = NULL;
+-		list_del_init(&m->mmu_node);
++		etnaviv_iommu_reap_mapping(m);
+ 		list_del_init(&m->scan_node);
+ 	}
+ 
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_mmu.h b/drivers/gpu/drm/etnaviv/etnaviv_mmu.h
+index e4a0b7d09c2e..c01a147f0dfd 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_mmu.h
++++ b/drivers/gpu/drm/etnaviv/etnaviv_mmu.h
+@@ -91,6 +91,7 @@ int etnaviv_iommu_map_gem(struct etnaviv_iommu_context *context,
+ 	struct etnaviv_vram_mapping *mapping, u64 va);
+ void etnaviv_iommu_unmap_gem(struct etnaviv_iommu_context *context,
+ 	struct etnaviv_vram_mapping *mapping);
++void etnaviv_iommu_reap_mapping(struct etnaviv_vram_mapping *mapping);
+ 
+ int etnaviv_iommu_get_suballoc_va(struct etnaviv_iommu_context *ctx,
+ 				  struct etnaviv_vram_mapping *mapping,
+-- 
+2.30.2
+
