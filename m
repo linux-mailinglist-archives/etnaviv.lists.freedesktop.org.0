@@ -1,37 +1,35 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BFB359F477
-	for <lists+etnaviv@lfdr.de>; Wed, 24 Aug 2022 09:38:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BA07D5A2FA2
+	for <lists+etnaviv@lfdr.de>; Fri, 26 Aug 2022 21:07:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 19E8210E058;
-	Wed, 24 Aug 2022 07:38:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B3F710E082;
+	Fri, 26 Aug 2022 19:07:34 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from honk.sigxcpu.org (honk.sigxcpu.org [24.134.29.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1047210EA21;
- Wed, 24 Aug 2022 07:38:30 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by honk.sigxcpu.org (Postfix) with ESMTP id 78FE9FB03;
- Wed, 24 Aug 2022 09:28:33 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at honk.sigxcpu.org
-Received: from honk.sigxcpu.org ([127.0.0.1])
- by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id xH3tz5zPO1qU; Wed, 24 Aug 2022 09:28:32 +0200 (CEST)
-Date: Wed, 24 Aug 2022 09:28:31 +0200
-From: Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>
-To: Lucas Stach <l.stach@pengutronix.de>
-Subject: Re: [PATCH 2/2] drm/etnaviv: reap idle mapping if it doesn't match
- the softpin address
-Message-ID: <YwXTH6c/EH5Nc3HX@qwark.sigxcpu.org>
-References: <20220714103143.1704573-1-l.stach@pengutronix.de>
- <20220714103143.1704573-2-l.stach@pengutronix.de>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E2D710E082
+ for <etnaviv@lists.freedesktop.org>; Fri, 26 Aug 2022 19:07:31 +0000 (UTC)
+Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
+ by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1oRefx-0005kg-OO; Fri, 26 Aug 2022 21:07:29 +0200
+From: Lucas Stach <l.stach@pengutronix.de>
+To: etnaviv@lists.freedesktop.org
+Subject: [PATCH 1/2] drm/etnaviv: add HWDB entry for GC7000 r6203
+Date: Fri, 26 Aug 2022 21:07:27 +0200
+Message-Id: <20220826190728.3213793-1-l.stach@pengutronix.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220714103143.1704573-2-l.stach@pengutronix.de>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:1101:1d::28
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,55 +41,65 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- patchwork-lst@pengutronix.de, Christian Gmeiner <christian.gmeiner@gmail.com>,
- kernel@pengutronix.de, Russell King <linux+etnaviv@armlinux.org.uk>
+Cc: dri-devel@lists.freedesktop.org, patchwork-lst@pengutronix.de,
+ Christian Gmeiner <christian.gmeiner@gmail.com>, kernel@pengutronix.de,
+ Russell King <linux+etnaviv@armlinux.org.uk>, Adam Ford <aford173@gmail.com>
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Hi,
-On Thu, Jul 14, 2022 at 12:31:43PM +0200, Lucas Stach wrote:
-> When a idle BO, which is held open by another process, gets freed by
-> userspace and subsequently referenced again by e.g. importing it again,
-> userspace may assign a different softpin VA than the last time around.
-> As the kernel GEM object still exists, we likely have a idle mapping
-> with the old VA still cached, if it hasn't been reaped in the meantime.
-> 
-> As the context matches, we then simply try to resurrect this mapping by
-> increasing the refcount. As the VA in this mapping does not match the
-> new softpin address, we consequently fail the otherwise valid submit.
-> Instead of failing, reap the idle mapping.
-> 
-> Cc: stable@vger.kernel.org # 5.19
-> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
-> ---
->  drivers/gpu/drm/etnaviv/etnaviv_gem.c | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-> index cc386f8a7116..5cf13e52f7c9 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-> @@ -258,7 +258,12 @@ struct etnaviv_vram_mapping *etnaviv_gem_mapping_get(
->  		if (mapping->use == 0) {
->  			mutex_lock(&mmu_context->lock);
->  			if (mapping->context == mmu_context)
-> -				mapping->use += 1;
-> +				if (va && mapping->iova != va) {
-> +					etnaviv_iommu_reap_mapping(mapping);
-> +					mapping = NULL;
-> +				} else {
-> +					mapping->use += 1;
-> +				}
->  			else
->  				mapping = NULL;
->  			mutex_unlock(&mmu_context->lock);
+From: Marco Felsch <m.felsch@pengutronix.de>
 
-Reviewed-by: Guido Günther <agx@sigxcpu.org>
+The GPU is found on the NXP i.MX8MN SoC. The feature bits are taken from
+the NXP downstream kernel driver 6.4.3.p2.
 
-Cheers,
- -- Guido
+Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
+Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+---
+ drivers/gpu/drm/etnaviv/etnaviv_hwdb.c | 31 ++++++++++++++++++++++++++
+ 1 file changed, 31 insertions(+)
 
-> -- 
-> 2.30.2
-> 
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c b/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
+index f2fc645c7956..eaed08a3d281 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
+@@ -68,6 +68,37 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
+ 		.minor_features10 = 0x00004040,
+ 		.minor_features11 = 0x00000024,
+ 	},
++	{
++		.model = 0x7000,
++		.revision = 0x6203,
++		.product_id = ~0U,
++		.customer_id = ~0U,
++		.eco_id = ~0U,
++		.stream_count = 16,
++		.register_max = 64,
++		.thread_count = 512,
++		.shader_core_count = 2,
++		.vertex_cache_size = 16,
++		.vertex_output_buffer_size = 1024,
++		.pixel_pipes = 1,
++		.instruction_count = 512,
++		.num_constants = 320,
++		.buffer_size = 0,
++		.varyings_count = 16,
++		.features = 0xe0287c8d,
++		.minor_features0 = 0xc1589eff,
++		.minor_features1 = 0xfefbfad9,
++		.minor_features2 = 0xeb9d4fbf,
++		.minor_features3 = 0xedfffced,
++		.minor_features4 = 0xdb0dafc7,
++		.minor_features5 = 0x3b5ac333,
++		.minor_features6 = 0xfcce6000,
++		.minor_features7 = 0xfffbfa6f,
++		.minor_features8 = 0x00e10ef3,
++		.minor_features9 = 0x00c8003c,
++		.minor_features10 = 0x00004040,
++		.minor_features11 = 0x00000024,
++	},
+ 	{
+ 		.model = 0x7000,
+ 		.revision = 0x6204,
+-- 
+2.30.2
+
