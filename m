@@ -2,63 +2,55 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9121C5ABD54
-	for <lists+etnaviv@lfdr.de>; Sat,  3 Sep 2022 08:07:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C2385ABEB6
+	for <lists+etnaviv@lfdr.de>; Sat,  3 Sep 2022 13:17:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8EC5C10E98A;
-	Sat,  3 Sep 2022 06:07:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 518B610E9B3;
+	Sat,  3 Sep 2022 11:17:02 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com
- [IPv6:2607:f8b0:4864:20::52a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 51F2A10E989
- for <etnaviv@lists.freedesktop.org>; Sat,  3 Sep 2022 06:07:04 +0000 (UTC)
-Received: by mail-pg1-x52a.google.com with SMTP id bh13so3713687pgb.4
- for <etnaviv@lists.freedesktop.org>; Fri, 02 Sep 2022 23:07:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=schmorgal.com; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=Jh5euOd49DiBX3ll51Mj4npTcESoxh+5BIjuVvm+pHg=;
- b=G8QQcv1neYnCe6yYtYRzhWoUIDjvNs/L4fTPIWngkNvcePXJOLIDfLZYUD4mwLjlTu
- EBv9LPjaHc9WiVyAtJ3tO8DoyKsrKWmtyY0U9ZqP4MRI0blNUzQR9K7eiXVwPqLbZ7q6
- eVdyyfH1LzgRLOnAjXuD0jJEN8y+TLJRMa5Bc=
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com
+ [IPv6:2a00:1450:4864:20::62d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 46D8C10E9AE;
+ Sat,  3 Sep 2022 11:16:56 +0000 (UTC)
+Received: by mail-ej1-x62d.google.com with SMTP id qh18so8353303ejb.7;
+ Sat, 03 Sep 2022 04:16:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=2awJnvzg80kHaK9GkpoYgVAO7zYSHwTiiBNZbOvF4aI=;
+ b=XI+c5McA3dizsm6fZCGiITKNiybSQzrNraXfk2IlPWV4nRcjuKqF//FwwEDS8lK8lB
+ DIcb+j9zyu5XRQXXZB6/UpiBpgBiMHS80n488dgSmq0XCOdpo+Svb2usI33xk759giU3
+ GpVTdgZ+spuoe8x95AGIETQth+Ta0SBfhSxdcc4f+7PE6u4PoxjXQCz13xEYy4yfMuWO
+ 5GsKeZ5IiRL1ryq4+M/U5zQInWW2lFV9ipRISP+ow9UUjMpqD0E0YKToKfw3eUmXCOVk
+ Lo0aB4+/FhVK6gSHMGgM1NrmQne9wjoXs5lpiupaiBE8m2MEqTpHnjk0VOJ3+xueZ9+q
+ suvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date;
- bh=Jh5euOd49DiBX3ll51Mj4npTcESoxh+5BIjuVvm+pHg=;
- b=JNCzGXH7PHzrowzGamxTmR09BeB6W469BoSfqyJLbcXe+3NpuBXfS92oqsfbHsXW62
- 36V4TkX4wVaVrw3ccHRAPlfuBV61w7vy46/OK4LIt/Bmj2/56yBNgCRMisIh0f8GfFDS
- 0EE5VU1/oKmMqZZL5x8UbdWMiu4CUPTPxHmDJKgUBKh9rXbU1EWlqvbW1Tn9UEROAMTJ
- EVnAeC37xPeE/cIVMBsjYXUqscbc/7hkeCOcxLMuN1qAvKfVcxt2RZLsBuhmmhKdCUWJ
- WcruBOZ05chw7DE9qzmV1tA/+N7O8LSMiVkmLnyvgOIDuwOTC/LS1u8//EXnl2kfXgOY
- aaag==
-X-Gm-Message-State: ACgBeo2i8zcFy2LhO4Y4zCxSomYIbBslPJju18+B+AD6aTkdxOLFPAZf
- rdQu/dGCglMz0q2NOEE1/7E1vQ==
-X-Google-Smtp-Source: AA6agR5OUADLlGyGEdc2bn3zkwVekzWjphf+pMP3K7tpMZyJoZMigB6gEhgMVrkoUGwwO/VRQDJe6g==
-X-Received: by 2002:a63:8749:0:b0:430:83ed:ddfb with SMTP id
- i70-20020a638749000000b0043083edddfbmr8581846pge.346.1662185223762; 
- Fri, 02 Sep 2022 23:07:03 -0700 (PDT)
-Received: from localhost.localdomain ([50.45.132.243])
- by smtp.gmail.com with ESMTPSA id
- v28-20020aa799dc000000b00537ab89c66csm3048793pfi.143.2022.09.02.23.07.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 02 Sep 2022 23:07:03 -0700 (PDT)
-From: Doug Brown <doug@schmorgal.com>
-To: Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH 2/2] drm/etnaviv: fix power register offset on GC300
-Date: Fri,  2 Sep 2022 23:05:58 -0700
-Message-Id: <20220903060558.55167-3-doug@schmorgal.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220903060558.55167-1-doug@schmorgal.com>
-References: <20220903060558.55167-1-doug@schmorgal.com>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=2awJnvzg80kHaK9GkpoYgVAO7zYSHwTiiBNZbOvF4aI=;
+ b=1An/7HuA7a2QCKu0hXIFjMP405C8QZ2jrCJdSuftpUQxSxb4raUqnLJAs/eS8qBX6H
+ U8XvB4pZki4WsQwfoYaa2/BHrVxHBJrf+VjE7jsOsAjPVTleefZyDoU7nTDHADN+zlli
+ DqhYuA3Zk5cfrQf+En+tAvtsv9thh9RKI9HOVO9hDQQFHrBb8eq7YdYc6gW6dyg3bfVR
+ hDHG2ZYTyNo6TKgTZ4UHcHb9BRHAdNA2tdssr0fjPWdL3yq/1OE/YGT3sfJuTcVgr2YV
+ zUc8u7I0akcSk/oJtictvLXCWSrUV2ClXyyGQrnvj3/N2Vy0eTECQ2HU9lTmqaEaMAKP
+ aPcQ==
+X-Gm-Message-State: ACgBeo3FIVGF7UX9BtA0jNvKrEPepfv9tBFcacJD13yWmNxFZwMtLKnc
+ duAayPGzmToiVffZ8K0brzQMCsf36tePPInTVQY=
+X-Google-Smtp-Source: AA6agR6S8YvBSw95AGMo4y6mLXD2eFo0L6WwDUm5OxWY2zB3dGTmILtHEMIbNUc0s1LU9oCPccztzdWibHuXBjdFo+o=
+X-Received: by 2002:a17:907:7215:b0:741:416f:fb59 with SMTP id
+ dr21-20020a170907721500b00741416ffb59mr24265089ejc.150.1662203814640; Sat, 03
+ Sep 2022 04:16:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220826190728.3213793-1-l.stach@pengutronix.de>
+In-Reply-To: <20220826190728.3213793-1-l.stach@pengutronix.de>
+From: Christian Gmeiner <christian.gmeiner@gmail.com>
+Date: Sat, 3 Sep 2022 13:16:43 +0200
+Message-ID: <CAH9NwWc46-gggmK0_qkpiHxMnbGiCJJ2jwc4ogFvK-62PabeFQ@mail.gmail.com>
+Subject: Re: [PATCH 1/2] drm/etnaviv: add HWDB entry for GC7000 r6203
+To: Lucas Stach <l.stach@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,59 +62,33 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: Doug Brown <doug@schmorgal.com>, etnaviv@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
+Cc: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ patchwork-lst@pengutronix.de, kernel@pengutronix.de,
+ Russell King <linux+etnaviv@armlinux.org.uk>, Adam Ford <aford173@gmail.com>
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Older GC300 revisions have their power registers at an offset of 0x200
-rather than 0x100.
+Hi all
 
-Signed-off-by: Doug Brown <doug@schmorgal.com>
----
- drivers/gpu/drm/etnaviv/etnaviv_gpu.h | 16 ++++++++++++++--
- 1 file changed, 14 insertions(+), 2 deletions(-)
+Am Fr., 26. Aug. 2022 um 21:07 Uhr schrieb Lucas Stach <l.stach@pengutronix.de>:
+>
+> From: Marco Felsch <m.felsch@pengutronix.de>
+>
+> The GPU is found on the NXP i.MX8MN SoC. The feature bits are taken from
+> the NXP downstream kernel driver 6.4.3.p2.
+>
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
-index 85eddd492774..b375612df862 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
-@@ -10,6 +10,8 @@
- #include "etnaviv_gem.h"
- #include "etnaviv_mmu.h"
- #include "etnaviv_drv.h"
-+#include "common.xml.h"
-+#include "state_hi.xml.h"
- 
- struct etnaviv_gem_submit;
- struct etnaviv_vram_mapping;
-@@ -149,14 +151,24 @@ struct etnaviv_gpu {
- 	unsigned long base_rate_shader;
- };
- 
-+static inline u32 gpu_fix_reg_address(struct etnaviv_gpu *gpu, u32 reg)
-+{
-+	/* Power registers in GC300 < 2.0 are offset by 0x100 */
-+	if (reg >= VIVS_PM_POWER_CONTROLS && reg <= VIVS_PM_PULSE_EATER &&
-+	    gpu->identity.model == chipModel_GC300 &&
-+	    gpu->identity.revision < 0x2000)
-+		reg += 0x100;
-+	return reg;
-+}
-+
- static inline void gpu_write(struct etnaviv_gpu *gpu, u32 reg, u32 data)
- {
--	writel(data, gpu->mmio + reg);
-+	writel(data, gpu->mmio + gpu_fix_reg_address(gpu, reg));
- }
- 
- static inline u32 gpu_read(struct etnaviv_gpu *gpu, u32 reg)
- {
--	return readl(gpu->mmio + reg);
-+	return readl(gpu->mmio + gpu_fix_reg_address(gpu, reg));
- }
- 
- int etnaviv_gpu_get_param(struct etnaviv_gpu *gpu, u32 param, u64 *value);
+Can we stop adding new entries to the kernel hwdb and start to
+establish a hwdb in the userspace aka mesa?
+The kernel provides all the needed information to the user space so
+"all" that's left is to add the mesa side. You might
+ask why? It is much simpler to maintain such a database in the user
+space (thanks to stable patch releases of mesa) than
+forcing users to update their kernels to get this new database entry.
+
 -- 
-2.25.1
+greets
+--
+Christian Gmeiner, MSc
 
+https://christian-gmeiner.info/privacypolicy
