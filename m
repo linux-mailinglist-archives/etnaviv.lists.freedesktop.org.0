@@ -2,40 +2,60 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B0FC5A4DDA
-	for <lists+etnaviv@lfdr.de>; Mon, 29 Aug 2022 15:24:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4ACB05ABD58
+	for <lists+etnaviv@lfdr.de>; Sat,  3 Sep 2022 08:07:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F3CB10F277;
-	Mon, 29 Aug 2022 13:24:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9FC9510E986;
+	Sat,  3 Sep 2022 06:07:01 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F3A2810F2A1
- for <etnaviv@lists.freedesktop.org>; Mon, 29 Aug 2022 13:24:23 +0000 (UTC)
-Received: from gallifrey.ext.pengutronix.de
- ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1oSekX-0008K7-Vt; Mon, 29 Aug 2022 15:24:22 +0200
-Message-ID: <bce1a57cc9c70293819ced8a3eb11dbf215ed09d.camel@pengutronix.de>
-Subject: Re: [PATCH 1/2] drm/etnaviv: add HWDB entry for GC7000 r6203
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Stefan Eschenbacher <Stefan.Eschenbacher@gmx.de>, 
- dri-devel@lists.freedesktop.org
-Date: Mon, 29 Aug 2022 15:24:21 +0200
-In-Reply-To: <58921853-0744-4481-8A9B-68653B04A8BC@gmx.de>
-References: <58921853-0744-4481-8A9B-68653B04A8BC@gmx.de>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
+Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com
+ [IPv6:2607:f8b0:4864:20::62d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC22310E986
+ for <etnaviv@lists.freedesktop.org>; Sat,  3 Sep 2022 06:06:58 +0000 (UTC)
+Received: by mail-pl1-x62d.google.com with SMTP id f24so3829653plr.1
+ for <etnaviv@lists.freedesktop.org>; Fri, 02 Sep 2022 23:06:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=schmorgal.com; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date;
+ bh=py5Y0Qaf4PxCG0tcE0IMumOn8gfqYfS1sNrqUe6Qubw=;
+ b=Xq8zSPfLEU6xzfhSfzvaThWR+khiq/LaCdQEVJBYFxRsOd7JjYMwVkFisU/8H5uU7F
+ nUiGkdCFO4ZGUGj61sMPG4eaeGAK/vhG4KAuzSJ4vrE3q0j2yw+JMzItB8U5/5YEHon2
+ ghlxjfWLzyYOKWh5MX1I3uUA7mBZ4GwvOx6eU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date;
+ bh=py5Y0Qaf4PxCG0tcE0IMumOn8gfqYfS1sNrqUe6Qubw=;
+ b=Cjil4WXFQBCdO2ZtgR+/V/l8xSUauyyolhrYWMmASngE2B1vHlPu6efNYLHDlheGSV
+ wieAfvJ05KmRRyoXWtj+T2eEWrNU6urYVVESHd64pO+YCbYEzm7xq5Pl2noP/VnKn4Y5
+ J9hosNZnRZCUo8ptImXys4Uas3GWqlAVXmn4AMeH0Th4WDVEKKDvjCY9yB1Hi8yYiBQw
+ cPbtRQer0tVAkgujXzWbUJbgPasMWiChhuSlBGHCYnxmNW7Tvlg1+E/G2GwSQBpvBhmP
+ apcadCo8mujY34W0jzMkl6klgM6/vagUwNToOciEpaXH+SRjEoZ3i7sQtkma443Sk/TP
+ fbbQ==
+X-Gm-Message-State: ACgBeo1GKL/P4+R4eV3Fu3oeAD9cqkRslEUG3/XzjDtIdrks0v8FEzL6
+ FMBC7J3rEmbOv4/aefgnFSuiJg==
+X-Google-Smtp-Source: AA6agR7/u/4EbZMJfQ06VEfBmYTGMFsMtuHoiMGb+/ZUcagUJB8L4821HZEMG+HDPmdtHUYWwq3xtQ==
+X-Received: by 2002:a17:903:22c4:b0:175:41bc:9596 with SMTP id
+ y4-20020a17090322c400b0017541bc9596mr16512413plg.112.1662185218128; 
+ Fri, 02 Sep 2022 23:06:58 -0700 (PDT)
+Received: from localhost.localdomain ([50.45.132.243])
+ by smtp.gmail.com with ESMTPSA id
+ v28-20020aa799dc000000b00537ab89c66csm3048793pfi.143.2022.09.02.23.06.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 02 Sep 2022 23:06:57 -0700 (PDT)
+From: Doug Brown <doug@schmorgal.com>
+To: Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH 0/2] drm/etnaviv: GC300 fixes
+Date: Fri,  2 Sep 2022 23:05:56 -0700
+Message-Id: <20220903060558.55167-1-doug@schmorgal.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,89 +67,29 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: etnaviv@lists.freedesktop.org
+Cc: Doug Brown <doug@schmorgal.com>, etnaviv@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Hi Stefan,
+This series contains a few special cases for supporting the GC300
+properly. These were found in the drivers in the vivante_kernel_drivers
+repository. These changes were tested on a PXA168 with GC300 revision
+0x2201 (date 0x20080814, time 0x12051100), which already has an existing
+special case in the driver to modify the revision to 0x1051.
 
-please keep the CC list intact when replying. I've almost missed this.
+I was a little unsure of the "correct" way to do the fixup to the power
+register offsets. I implemented the change in gpu_write and gpu_read,
+but if someone has a better idea I would be happy to do it differently.
 
-Am Montag, dem 29.08.2022 um 13:41 +0200 schrieb Stefan Eschenbacher:
-> 
-> Product_id, customer_id and eco_id should not be zero. The different
-> versions of model 0x7000, revision 0x6203 can differ in stream_count,
-> minor_feature5 and minor_features7.
->  
->                 {
->                                .model = 0x7000,
->                                .revision = 0x6203,
->                                .product_id = 0x70003,
->                                .customer_id = 0x4,
->                                .eco_id = 0,
->                                .stream_count = 16,
->                                .register_max = 64,
->                                .thread_count = 512,
->                                .shader_core_count = 2,
->                                .vertex_cache_size = 16,
->                                .vertex_output_buffer_size = 1024,
->                                .pixel_pipes = 1,
->                                .instruction_count = 512,
->                                .num_constants = 320,
->                                .buffer_size = 0,
->                                .varyings_count = 16,
->                                .features = 0xe0287c8d,
->                                .minor_features0 = 0xc1799eff,
->                                .minor_features1 = 0xfefbfad9,
->                                .minor_features2 = 0xeb9d4fbf,
->                                .minor_features3 = 0xedfffced,
->                                .minor_features4 = 0xdb0dafc7,
->                                .minor_features5 = 0x3b5ac333,
->                                .minor_features6 = 0xfcce6000,
->                                .minor_features7 = 0xfffbfa6f,
->                                .minor_features8 = 0x00e10ef3,
->                                .minor_features9 = 0x00c8003c,
->                                .minor_features10 = 0x00004040,
->                                .minor_features11 = 0x00000024,
->                 },
->                 {
->                                .model = 0x7000,
->                                .revision = 0x6203,
->                                .product_id = 0x7000f,
->                                .customer_id = 0x60,
->                                .eco_id = 0,
->                                .stream_count = 8,
->                                .register_max = 64,
->                                .thread_count = 512,
->                                .shader_core_count = 2,
->                                .vertex_cache_size = 16,
->                                .vertex_output_buffer_size = 1024,
->                                .pixel_pipes = 1,
->                                .instruction_count = 512,
->                                .num_constants = 320,
->                                .buffer_size = 0,
->                                .varyings_count = 16,
->                                .features = 0xe0287c8d,
->                                 .minor_features0 = 0xc1799eff,
->                                .minor_features1 = 0xfefbfad9,
->                                .minor_features2 = 0xeb9d4fbf,
->                                .minor_features3 = 0xedfffced,
->                                .minor_features4 = 0xdb0dafc7,
->                                .minor_features5 = 0x7b5ac333,
->                                .minor_features6 = 0xfcce6000,
->                                .minor_features7 = 0x1bfbfa6f,
->                                .minor_features8 = 0x00e10ef0,
->                                .minor_features9 = 0x00c8003c,
->                                .minor_features10 = 0x00004040,
->                                .minor_features11 = 0x00000024,
->                 },
-> 
-> Take a look in the stm32 hwdb file.
+Doug Brown (2):
+  drm/etnaviv: add missing quirks for GC300
+  drm/etnaviv: fix power register offset on GC300
 
-While your comment is correct and we should do a more targeted
-matching, could you please point me to the stm32 hwdb file you are
-referring to?
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 11 +++++++++--
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.h | 16 ++++++++++++++--
+ 2 files changed, 23 insertions(+), 4 deletions(-)
 
-Regards,
-Lucas
+-- 
+2.25.1
 
