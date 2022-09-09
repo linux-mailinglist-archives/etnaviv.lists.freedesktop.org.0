@@ -1,27 +1,27 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4099B5B3368
-	for <lists+etnaviv@lfdr.de>; Fri,  9 Sep 2022 11:20:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 380F65B33D7
+	for <lists+etnaviv@lfdr.de>; Fri,  9 Sep 2022 11:30:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A2FF10EC38;
-	Fri,  9 Sep 2022 09:20:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B61B410EC43;
+	Fri,  9 Sep 2022 09:30:05 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AAA3010EC38
- for <etnaviv@lists.freedesktop.org>; Fri,  9 Sep 2022 09:20:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D77910EC43
+ for <etnaviv@lists.freedesktop.org>; Fri,  9 Sep 2022 09:30:03 +0000 (UTC)
 Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
  by metis.ext.pengutronix.de with esmtp (Exim 4.92)
  (envelope-from <l.stach@pengutronix.de>)
- id 1oWaBo-0002V4-Rh; Fri, 09 Sep 2022 11:20:44 +0200
+ id 1oWaKn-0003dp-G6; Fri, 09 Sep 2022 11:30:01 +0200
 From: Lucas Stach <l.stach@pengutronix.de>
-To: etnaviv@lists.freedesktop.org
-Subject: [PATCH] drm/etnaviv: switch to PFN mappings
-Date: Fri,  9 Sep 2022 11:20:44 +0200
-Message-Id: <20220909092044.3441775-1-l.stach@pengutronix.de>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/fourcc: add Vivante tile status modifiers
+Date: Fri,  9 Sep 2022 11:30:00 +0200
+Message-Id: <20220909093000.3458413-1-l.stach@pengutronix.de>
 X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -41,63 +41,65 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: Christian Gmeiner <christian.gmeiner@gmail.com>,
- patchwork-lst@pengutronix.de, kernel@pengutronix.de,
- dri-devel@lists.freedesktop.org, Russell King <linux+etnaviv@armlinux.org.uk>
+Cc: kernel@pengutronix.de,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ etnaviv@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>,
+ patchwork-lst@pengutronix.de, Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel@ffwll.ch>
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-There is no reason to use page based mappings, as the established
-mappings are special driver mappings anyways and should not be
-handled like normal pages.
-
-Be consistent with what other drivers do and use raw PFN based
-mappings.
+The tile status modifiers can be combined with all of the usual
+color buffer modifiers. When they are present an additional plane
+is added to the surfaces to share the tile status buffer. The
+TS modifiers describe the interpretation of the tag bits in this
+buffer.
 
 Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
 ---
- drivers/gpu/drm/etnaviv/etnaviv_gem.c | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+ include/uapi/drm/drm_fourcc.h | 29 +++++++++++++++++++++++++++++
+ 1 file changed, 29 insertions(+)
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-index d45bf0368339..68e4446a94ad 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-@@ -130,7 +130,7 @@ static int etnaviv_gem_mmap_obj(struct etnaviv_gem_object *etnaviv_obj,
- {
- 	pgprot_t vm_page_prot;
+diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
+index 0980678d502d..93b022498900 100644
+--- a/include/uapi/drm/drm_fourcc.h
++++ b/include/uapi/drm/drm_fourcc.h
+@@ -718,6 +718,35 @@ extern "C" {
+  */
+ #define DRM_FORMAT_MOD_VIVANTE_SPLIT_SUPER_TILED fourcc_mod_code(VIVANTE, 4)
  
--	vma->vm_flags |= VM_IO | VM_MIXEDMAP | VM_DONTEXPAND | VM_DONTDUMP;
-+	vma->vm_flags |= VM_PFNMAP | VM_DONTEXPAND | VM_DONTDUMP;
++/*
++ * Vivante TS (tile-status) buffer modifiers. They can be combined with all of
++ * the color buffer tiling modifiers defined above. When TS is present it's a
++ * separate buffer containing the clear/compression status of each tile. The
++ * modifiers are defined as VIVANTE_MOD_TS_c_s, where c is the color buffer
++ * tile size in bytes covered by one entry in the status buffer and s is the
++ * number of status bits per entry.
++ * We reserve the top 8 bits of the Vivante modifier space for tile status
++ * clear/compression modifiers, as future cores might add some more TS layout
++ * variations.
++ */
++#define VIVANTE_MOD_TS_64_4               (1ULL << 48)
++#define VIVANTE_MOD_TS_64_2               (2ULL << 48)
++#define VIVANTE_MOD_TS_128_4              (3ULL << 48)
++#define VIVANTE_MOD_TS_256_4              (4ULL << 48)
++#define VIVANTE_MOD_TS_MASK               (0xfULL << 48)
++
++/*
++ * Vivante compression modifiers. Those depend on a TS modifier being present
++ * as the TS bits get reinterpreted as compression tags instead of simple
++ * clear markers when compression is enabled.
++ */
++#define VIVANTE_MOD_COMP_DEC400           (1ULL << 52)
++#define VIVANTE_MOD_COMP_MASK             (0xfULL << 52)
++
++/* Masking out the extension bits will yield the base modifier. */
++#define VIVANTE_MOD_EXT_MASK              (VIVANTE_MOD_TS_MASK | \
++                                           VIVANTE_MOD_COMP_MASK)
++
+ /* NVIDIA frame buffer modifiers */
  
- 	vm_page_prot = vm_get_page_prot(vma->vm_flags);
- 
-@@ -165,7 +165,8 @@ static vm_fault_t etnaviv_gem_fault(struct vm_fault *vmf)
- 	struct vm_area_struct *vma = vmf->vma;
- 	struct drm_gem_object *obj = vma->vm_private_data;
- 	struct etnaviv_gem_object *etnaviv_obj = to_etnaviv_bo(obj);
--	struct page **pages, *page;
-+	struct page **pages;
-+	unsigned long pfn;
- 	pgoff_t pgoff;
- 	int err;
- 
-@@ -189,12 +190,12 @@ static vm_fault_t etnaviv_gem_fault(struct vm_fault *vmf)
- 	/* We don't use vmf->pgoff since that has the fake offset: */
- 	pgoff = (vmf->address - vma->vm_start) >> PAGE_SHIFT;
- 
--	page = pages[pgoff];
-+	pfn = page_to_pfn(pages[pgoff]);
- 
- 	VERB("Inserting %p pfn %lx, pa %lx", (void *)vmf->address,
--	     page_to_pfn(page), page_to_pfn(page) << PAGE_SHIFT);
-+	     pfn, pfn << PAGE_SHIFT);
- 
--	return vmf_insert_page(vma, vmf->address, page);
-+	return vmf_insert_pfn(vma, vmf->address, pfn);
- }
- 
- int etnaviv_gem_mmap_offset(struct drm_gem_object *obj, u64 *offset)
+ /*
 -- 
 2.30.2
 
