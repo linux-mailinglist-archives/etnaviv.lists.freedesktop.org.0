@@ -1,46 +1,46 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB5C95BA197
-	for <lists+etnaviv@lfdr.de>; Thu, 15 Sep 2022 21:49:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 450285BA376
+	for <lists+etnaviv@lfdr.de>; Fri, 16 Sep 2022 02:23:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0943510E04B;
-	Thu, 15 Sep 2022 19:48:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 647BE10EC38;
+	Fri, 16 Sep 2022 00:23:04 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 476D310E04B;
- Thu, 15 Sep 2022 19:48:45 +0000 (UTC)
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 05D6410EC37;
+ Fri, 16 Sep 2022 00:23:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1663271325; x=1694807325;
+ t=1663287781; x=1694823781;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:in-reply-to;
- bh=QL/cQvNufKoZPWMFB6LNKH9pSjpf98OHnLRzFNxOrCg=;
- b=SuHPZoN11RKSmk7hrglDWrFc8jodtsF/kD74jVJVVRyl/B8B3+EU09DN
- Djz4AcY7jeX/AKLj6lXv8jqSBAYHTsDwslXLJu60IIIuVo6FxBpyNhcnt
- UAN/MLDp2RKIKXkWxK57ZhDgkan3+5FJY5drFiVTGz/Pf5EdOgwfL28tz
- 9TurcdlmX4uhBvIHV7oi1k0R/IZA0xYcFPMKVomnbRaoYfVaVTF1WVo8X
- tEiWEb1DhZ4TpqpHB46nIp4v/DDe6VEbsb52YpWm4ov+qmV6hSOPgf/2V
- WHqhC1X6oPnt9AVeemS5kcgvTBdRyq+Yw4zBFwt+A9tg2zhgjPAdWA8mM g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10471"; a="297546042"
-X-IronPort-AV: E=Sophos;i="5.93,319,1654585200"; d="scan'208";a="297546042"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Sep 2022 12:48:44 -0700
+ bh=DsplFUFECkFFHGJgLVl4kYJYra7mGZGyjzGrKuIfWyU=;
+ b=CCFCI/ttglbAA8Nqeii6Z5PHz4PM5cfoX2cnTHUkCEHtv2VbMgtHqrZY
+ PtpQzG3/t++rHeA6slBoW8AvbgPRDB9j9fu15loeZfJPPr0bbSFA3xh51
+ EpEo2Qi1UWPGsMBNQoUJaOVWJNbqwH1NdpJ1ryHQSlWDv4oznA5Xd8Esl
+ Mu9g1/mQKi9gXT6QDRMqloPV20kW4Ukk8KQFkNGgQAghyDGa2tSYBSW+F
+ ai+LPhEgKCePltIoSjEKT/jynnPl8wspwmY2jMVWp37IU+CPB1IZe6glB
+ 67rH368emkD+eeqoWjxv0LUwPxm1WICb/jURMh+ZAVQKdjf7t78H4/HWV A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10471"; a="298868505"
+X-IronPort-AV: E=Sophos;i="5.93,319,1654585200"; d="scan'208";a="298868505"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Sep 2022 17:23:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,319,1654585200"; d="scan'208";a="946104148"
+X-IronPort-AV: E=Sophos;i="5.93,319,1654585200"; d="scan'208";a="685937009"
 Received: from lkp-server02.sh.intel.com (HELO 41300c7200ea) ([10.239.97.151])
- by fmsmga005.fm.intel.com with ESMTP; 15 Sep 2022 12:48:42 -0700
+ by fmsmga004.fm.intel.com with ESMTP; 15 Sep 2022 17:22:58 -0700
 Received: from kbuild by 41300c7200ea with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1oYuqo-0000vz-0g;
- Thu, 15 Sep 2022 19:48:42 +0000
-Date: Fri, 16 Sep 2022 03:48:34 +0800
+ (envelope-from <lkp@intel.com>) id 1oYz8E-0001DH-01;
+ Fri, 16 Sep 2022 00:22:58 +0000
+Date: Fri, 16 Sep 2022 08:22:57 +0800
 From: kernel test robot <lkp@intel.com>
 To: Lucas Stach <l.stach@pengutronix.de>, etnaviv@lists.freedesktop.org
 Subject: Re: [PATCH] drm/etnaviv: don't truncate physical page address
-Message-ID: <202209160334.FfC9eCgv-lkp@intel.com>
+Message-ID: <202209160813.srwkRhUH-lkp@intel.com>
 References: <20220915141941.3408991-1-l.stach@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -57,9 +57,9 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: kbuild-all@lists.01.org, llvm@lists.linux.dev,
- dri-devel@lists.freedesktop.org, patchwork-lst@pengutronix.de,
- kernel@pengutronix.de, Russell King <linux+etnaviv@armlinux.org.uk>
+Cc: Russell King <linux+etnaviv@armlinux.org.uk>, kbuild-all@lists.01.org,
+ dri-devel@lists.freedesktop.org, kernel@pengutronix.de,
+ patchwork-lst@pengutronix.de
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
@@ -75,37 +75,99 @@ https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Lucas-Stach/drm-etnaviv-don-t-truncate-physical-page-address/20220915-222156
 base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-config: arm64-randconfig-r001-20220915 (https://download.01.org/0day-ci/archive/20220916/202209160334.FfC9eCgv-lkp@intel.com/config)
-compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 791a7ae1ba3efd6bca96338e10ffde557ba83920)
+config: ia64-allyesconfig (https://download.01.org/0day-ci/archive/20220916/202209160813.srwkRhUH-lkp@intel.com/config)
+compiler: ia64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm64 cross compiling tool for clang build
-        # apt-get install binutils-aarch64-linux-gnu
         # https://github.com/intel-lab-lkp/linux/commit/941356fb766e7f49216d44f0df7614c2e4610a11
         git remote add linux-review https://github.com/intel-lab-lkp/linux
         git fetch --no-tags linux-review Lucas-Stach/drm-etnaviv-don-t-truncate-physical-page-address/20220915-222156
         git checkout 941356fb766e7f49216d44f0df7614c2e4610a11
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/gpu/drm/etnaviv/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash drivers/gpu/
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/etnaviv/etnaviv_mmu.c:86:44: warning: format specifies type 'unsigned int' but the argument has type 'phys_addr_t' (aka 'unsigned long long') [-Wformat]
-                   VERB("map[%d]: %08x %08x(%zx)", i, iova, pa, bytes);
-                                       ~~~~                 ^~
-                                       %08llx
-   drivers/gpu/drm/etnaviv/etnaviv_drv.h:85:52: note: expanded from macro 'VERB'
-   #define VERB(fmt, ...) if (0) DRM_DEBUG(fmt"\n", ##__VA_ARGS__)
-                                           ~~~        ^~~~~~~~~~~
-   include/drm/drm_print.h:526:32: note: expanded from macro 'DRM_DEBUG'
-           __drm_dbg(DRM_UT_CORE, fmt, ##__VA_ARGS__)
-                                  ~~~    ^~~~~~~~~~~
-   1 warning generated.
+   In file included from include/drm/drm_mm.h:51,
+                    from include/drm/drm_vma_manager.h:26,
+                    from include/drm/drm_gem.h:40,
+                    from drivers/gpu/drm/etnaviv/etnaviv_drv.h:16,
+                    from drivers/gpu/drm/etnaviv/etnaviv_mmu.c:11:
+   drivers/gpu/drm/etnaviv/etnaviv_mmu.c: In function 'etnaviv_iommu_map':
+>> drivers/gpu/drm/etnaviv/etnaviv_mmu.c:86:22: warning: format '%x' expects argument of type 'unsigned int', but argument 5 has type 'phys_addr_t' {aka 'long long unsigned int'} [-Wformat=]
+      86 |                 VERB("map[%d]: %08x %08x(%zx)", i, iova, pa, bytes);
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~           ~~
+         |                                                          |
+         |                                                          phys_addr_t {aka long long unsigned int}
+   include/drm/drm_print.h:526:32: note: in definition of macro 'DRM_DEBUG'
+     526 |         __drm_dbg(DRM_UT_CORE, fmt, ##__VA_ARGS__)
+         |                                ^~~
+   drivers/gpu/drm/etnaviv/etnaviv_mmu.c:86:17: note: in expansion of macro 'VERB'
+      86 |                 VERB("map[%d]: %08x %08x(%zx)", i, iova, pa, bytes);
+         |                 ^~~~
+   drivers/gpu/drm/etnaviv/etnaviv_mmu.c:86:40: note: format string is defined here
+      86 |                 VERB("map[%d]: %08x %08x(%zx)", i, iova, pa, bytes);
+         |                                     ~~~^
+         |                                        |
+         |                                        unsigned int
+         |                                     %08llx
+   {standard input}: Assembler messages:
+   {standard input}:2347: Error: Register number out of range 0..3
+   {standard input}:2347: Warning: Use of 'mov' violates WAW dependency 'GR%, % in 1 - 127' (impliedf), specific resource number is 40
+   {standard input}:2347: Warning: Only the first path encountering the conflict is reported
+   {standard input}:2342: Warning: This is the location of the conflicting usage
+   {standard input}:2348: Error: Register number out of range 0..3
+   {standard input}:2348: Warning: Use of 'mov' violates WAW dependency 'GR%, % in 1 - 127' (impliedf), specific resource number is 40
+   {standard input}:2348: Warning: Only the first path encountering the conflict is reported
+   {standard input}:2342: Warning: This is the location of the conflicting usage
+   {standard input}:2348: Warning: Use of 'mov' violates WAW dependency 'GR%, % in 1 - 127' (impliedf), specific resource number is 40
+   {standard input}:2348: Warning: Only the first path encountering the conflict is reported
+   {standard input}:2347: Warning: This is the location of the conflicting usage
+   {standard input}:2351: Error: Register number out of range 0..3
+   {standard input}:2352: Error: Register number out of range 0..3
+   {standard input}:2352: Warning: Use of 'mov' violates WAW dependency 'GR%, % in 1 - 127' (impliedf), specific resource number is 40
+   {standard input}:2352: Warning: Only the first path encountering the conflict is reported
+   {standard input}:2351: Warning: This is the location of the conflicting usage
+   {standard input}:2532: Error: Register number out of range 0..2
+   {standard input}:2532: Warning: Use of 'mov' violates WAW dependency 'GR%, % in 1 - 127' (impliedf), specific resource number is 37
+   {standard input}:2532: Warning: Only the first path encountering the conflict is reported
+   {standard input}:2528: Warning: This is the location of the conflicting usage
+   {standard input}:2533: Error: Register number out of range 0..2
+   {standard input}:2533: Warning: Use of 'mov' violates WAW dependency 'GR%, % in 1 - 127' (impliedf), specific resource number is 37
+   {standard input}:2533: Warning: Only the first path encountering the conflict is reported
+   {standard input}:2528: Warning: This is the location of the conflicting usage
+   {standard input}:2533: Warning: Use of 'mov' violates WAW dependency 'GR%, % in 1 - 127' (impliedf), specific resource number is 37
+   {standard input}:2533: Warning: Only the first path encountering the conflict is reported
+   {standard input}:2532: Warning: This is the location of the conflicting usage
+   {standard input}:2534: Error: Register number out of range 0..2
+   {standard input}:2534: Warning: Use of 'mov' violates WAW dependency 'GR%, % in 1 - 127' (impliedf), specific resource number is 37
+   {standard input}:2534: Warning: Only the first path encountering the conflict is reported
+   {standard input}:2528: Warning: This is the location of the conflicting usage
+   {standard input}:2534: Warning: Use of 'mov' violates WAW dependency 'GR%, % in 1 - 127' (impliedf), specific resource number is 37
+   {standard input}:2534: Warning: Only the first path encountering the conflict is reported
+   {standard input}:2532: Warning: This is the location of the conflicting usage
+   {standard input}:2534: Warning: Use of 'mov' violates WAW dependency 'GR%, % in 1 - 127' (impliedf), specific resource number is 37
+   {standard input}:2534: Warning: Only the first path encountering the conflict is reported
+   {standard input}:2533: Warning: This is the location of the conflicting usage
+   {standard input}:2537: Error: Register number out of range 0..2
+   {standard input}:2538: Error: Register number out of range 0..2
+   {standard input}:2538: Warning: Use of 'mov' violates WAW dependency 'GR%, % in 1 - 127' (impliedf), specific resource number is 37
+   {standard input}:2538: Warning: Only the first path encountering the conflict is reported
+   {standard input}:2537: Warning: This is the location of the conflicting usage
+   {standard input}:3788: Error: Register number out of range 0..4
+   {standard input}:3788: Warning: Use of 'mov' violates WAW dependency 'GR%, % in 1 - 127' (impliedf), specific resource number is 38
+   {standard input}:3788: Warning: Only the first path encountering the conflict is reported
+   {standard input}:3782: Warning: This is the location of the conflicting usage
+   {standard input}:3791: Error: Register number out of range 0..4
+   {standard input}:3792: Error: Register number out of range 0..4
+   {standard input}:3792: Warning: Use of 'mov' violates WAW dependency 'GR%, % in 1 - 127' (impliedf), specific resource number is 38
+   {standard input}:3792: Warning: Only the first path encountering the conflict is reported
+   {standard input}:3791: Warning: This is the location of the conflicting usage
 
 
 vim +86 drivers/gpu/drm/etnaviv/etnaviv_mmu.c
