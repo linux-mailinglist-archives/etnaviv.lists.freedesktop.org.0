@@ -1,58 +1,121 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B272B5BAD3E
-	for <lists+etnaviv@lfdr.de>; Fri, 16 Sep 2022 14:19:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 68C715BAE4D
+	for <lists+etnaviv@lfdr.de>; Fri, 16 Sep 2022 15:37:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0636B10E41E;
-	Fri, 16 Sep 2022 12:19:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9231C10ED36;
+	Fri, 16 Sep 2022 13:37:28 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F38710E41E;
- Fri, 16 Sep 2022 12:19:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1663330740; x=1694866740;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=rd+h64dIN3XFnpvE7OP/VvvgUrKcz8F8vCa/r6qf1z8=;
- b=YpcDzW5g7Th2o5dGhJmxnfo9unfUIUkQxfxob4H8k9FMVKG7lDsmM1Y3
- rdkyRHvNThkAvFmVOJdHTOuxGg9cBBdpStgGgt52PpbjZgci6tV1TfZuT
- 8aWGIkd+wbcy8amSLsbjhPnedFXrbNAjIxefNbp+8cLqFoZdMbFR47NNg
- MeT7FY28Cbn5ADRE3qI0cfKgWtqNpK/sk5O5W78+xOnyqe0Udcnsxhz6s
- WIT75UFx+JsGGKU6CCRlcUN0+V1dOHDSkRBJ7lZW6OdXyBgOhcKPqmpAm
- ulebmi/Dy7IwaW8wIW90N91/ImYYMvr3YNHGb6yE3oHQSpYAEq+7XlG7t g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10471"; a="298972565"
-X-IronPort-AV: E=Sophos;i="5.93,320,1654585200"; d="scan'208";a="298972565"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Sep 2022 05:18:59 -0700
-X-IronPort-AV: E=Sophos;i="5.93,320,1654585200"; d="scan'208";a="595232786"
-Received: from agiridha-mobl1.ger.corp.intel.com (HELO [10.213.204.25])
- ([10.213.204.25])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Sep 2022 05:18:57 -0700
-Message-ID: <06d12020-66f0-74a6-b55e-cfe8f4ae3fe9@linux.intel.com>
-Date: Fri, 16 Sep 2022 13:18:55 +0100
-MIME-Version: 1.0
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on2063.outbound.protection.outlook.com [40.107.94.63])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1426510ED49;
+ Fri, 16 Sep 2022 13:37:24 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=infu4ky4FJZRmaud3PtBuEnSzy/gF2VfEifPBxqm0dcIdqY0c5uuuA6M1bLthmD6/Z6K7ZvsBzP1yXXqv2i9lJ3UbvUo/t5rsKou6SLnjtHsQCoBj5cELGs7AakmAz3+W88AU+LWURjCIvwM/z6m3J9TOT4o2ohCCU5vebuPip+HXuzGUrqlnv6SgWNF8CeI3egJEE9WtXnmALWSwYcDgecpTPAVbnONcBZ9UB9tfeRmxYiqODbpENfxqxK1NH53DLI1HJFBEi/19moLCYd0HoXY+itZvnxDajag5ZXpKXHXZxwet6VSR/XtmBvZFp34lqXjuXyTkwWsUwyRYlRxrQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=JMPMJmTdU0IfuiNlk8SWEaEJcEljVF1wQ+6Yq2TjY4U=;
+ b=LyJoG314IAUzr7YuWkmz4Icvror1NWZscPkX6al8qlvbARyfaq101eILZPy9GQiESTgnOcgT7F49B4KONuawS8sWDFLZ/wddCjSqyfOQcuLeD/AxrspSDUAr78yH+TjIelEZylaEmlg3PQpOUjqnpnti5XDR+9kw74qyxztvtxV5BovVasRqaodLOklPgmsybUvbpjgKKKkFPSa1HhfyiwrQCjUqpkrCAhzxqVl+cSlZgk9xMQQYpDpDZ9JxN+kLnKB++jeCQjJs5yfM74PBAEyy4PTM/GXzEefeDQaQX0LvWBVWjga3kfXd45tVGve6mV17E6AC2C6aF8nAGIgRsQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=JMPMJmTdU0IfuiNlk8SWEaEJcEljVF1wQ+6Yq2TjY4U=;
+ b=nkRBOAOdKBcaR8BKkPcRVnKBswknM2ye/rVpR0i3qZar2t4r3QL8+HOeCfHsEUbvK/Kn1ZyGCQRPa5QevUgxCyfa9bCBZ0a20nQ+pLW7TZcnM1fOYf7b5x5Nl2hCV6rUKZUy3kqPdvYII2vk1/KffmYFlraVYaOTW4TxrP5yJVk=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from CY4PR12MB1943.namprd12.prod.outlook.com (2603:10b6:903:11b::7)
+ by MN0PR12MB6272.namprd12.prod.outlook.com (2603:10b6:208:3c0::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5612.22; Fri, 16 Sep
+ 2022 13:37:22 +0000
+Received: from CY4PR12MB1943.namprd12.prod.outlook.com
+ ([fe80::a527:1309:e629:789e]) by CY4PR12MB1943.namprd12.prod.outlook.com
+ ([fe80::a527:1309:e629:789e%6]) with mapi id 15.20.5612.022; Fri, 16 Sep 2022
+ 13:37:19 +0000
+Message-ID: <325fb803-d65a-92e4-731b-2f627976d640@amd.com>
+Date: Fri, 16 Sep 2022 09:37:15 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH 3/3] drm/etnaviv: export client GPU usage statistics via
- fdinfo
+ Thunderbird/91.11.0
+Subject: Re: [PATCH 1/3] drm/scheduler: track GPU active time per entity
 Content-Language: en-US
 To: Lucas Stach <l.stach@pengutronix.de>, etnaviv@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
 References: <20220908181013.3214205-1-l.stach@pengutronix.de>
- <20220908181013.3214205-3-l.stach@pengutronix.de>
- <3a9627c5-498c-c749-77cd-f273f10e474e@linux.intel.com>
- <dab8a4227d7c9aa09c5d630f61f9659b427d8349.camel@pengutronix.de>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <dab8a4227d7c9aa09c5d630f61f9659b427d8349.camel@pengutronix.de>
+ <69924bc6-d249-35b2-a942-a43a9293558e@amd.com>
+ <e862234a3aef84bbf7fbe6258b634f81fb691972.camel@pengutronix.de>
+From: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+In-Reply-To: <e862234a3aef84bbf7fbe6258b634f81fb691972.camel@pengutronix.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: YT3PR01CA0052.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:82::34) To CY4PR12MB1943.namprd12.prod.outlook.com
+ (2603:10b6:903:11b::7)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY4PR12MB1943:EE_|MN0PR12MB6272:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4ca8fed3-0ad7-4e0d-2356-08da97e89374
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: IgiKY8G2unqGMXfQjwCcU6pwTFMLDaHiZsydGf7wTcqgF1kt7Q89md+rMHciRms6m+wxJl+sCiS6EWE0PkXJY9wWEbMeaQnGrlduYo4pYiq24OX6OPHKzO0yjh2K625pjGp1W8FaFEIR8FfKcGC7Gqa4lrJHEcFZZMnlS1P3+S6XBJ7UyUSdeK2oXtlSeVPca7CDuumhecBobwnsI1VRzsWI1AoJF8NVKwWPEYxNpvZ7Tm+IYZUilQKDhaRmPtSSesaPszsUIVcsjzMJwuCKMidFBj8rf9YkH7KPoTHP5XOn4tSsGJ4fVVQs3xUiNLvz1ho/q9pABLlvgMUl3At7zLVyrkBa7CCEkPXdSQZwGi1Jefb+i4QXrDd5a8ISdTVZHmW5MCeRrHUiOvtBW9MTk3BFpF2qyFqPPH67m82fFdRtCNKtVZgmU8C9XZGnlO06tcUmXMP399s04zFtSALT+b+j88XZ5edwxZ47VH9prTO/ylJcjk8dIgx5BNWQX/OGhNjlxeNqbZQeRyr7RL8xmTolDLdSgdbVS5rYJt0LmB2IGSh7D+WcsoRzLT4SLxmfdMFIVGcI1dmLs0ptUj+shmJyELMA2k3wfcQ9A+Btp7BKFXWmV3DDRH//c4NqeMIWhn3mnpWQtWPmncXRzUGhgcXt2UpPZA6dHmTHzHeTVcdNwZNv+BuHq7uKK1L7pIMtcIGHWOmqUMskyRHxKzK9eJMbIJ4jAD+SaRX8/yia4e4PWvhdlZsdNlBFTgIN0EO8HNxloJa6CO4AbLQIi9OZyJvwDSEkHtPTLOsHqAjo214=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CY4PR12MB1943.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(396003)(366004)(376002)(136003)(346002)(39860400002)(451199015)(54906003)(6666004)(66556008)(44832011)(38100700002)(66476007)(478600001)(186003)(31686004)(8676002)(5660300002)(6486002)(36756003)(4326008)(83380400001)(2906002)(8936002)(41300700001)(6506007)(2616005)(53546011)(86362001)(6512007)(316002)(66946007)(31696002)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MFRyd0NNWldJVk10eWltczJaQ2svQ01hTkkzZUZOaEhSVzFiWmZ2RXJHNzFE?=
+ =?utf-8?B?NFdXR01NNXVRVVVDVkt6aWRWdGtoZStVaG5sZE5Fd2VnT0UzZW9sYVRQRHdi?=
+ =?utf-8?B?NGpwVjNUbkl6MGRVTjBweTd6cGE2ZVBCa1NLdHBTaUtQMnhOb3NTOUdhRGFy?=
+ =?utf-8?B?dEJqWWFVZHpGSytWQy9EZzlYQng0SE9FTzlPQ2pwYW1MUVJaSnRvaVNYS05S?=
+ =?utf-8?B?RFM1T0xGRXhUWU1YdTZuZHVmRmFNeFUwbHBYU3Iwd0FsZytTYmFCUEVxbnZV?=
+ =?utf-8?B?cXNVN0RTTkVUU3A3dEgyaGltMGdrd0NXYzhmSUlkYmszSHdBMUZQU1JmbVR0?=
+ =?utf-8?B?M0x3bVhaUU1rb1JpOENJd25GK3hrY2NlZkNuUjV5TENBaE4rS2JMWkhYUEhj?=
+ =?utf-8?B?RFpDbmNmODl1c2taZUIwVEJPdk5id2szdlkzdXVHdGthOWNaQ3ora1Jnck1a?=
+ =?utf-8?B?RHpLT0dyOGpFS0RxclBDeWF3cnJMcUdTNTFTeGUwb0M3MDdaZjFWS0NFQnBj?=
+ =?utf-8?B?bW1tOUhORW5SWkVhTGs1SlRXYUNPSXU1bTdyOWF1bUtoNDlqQWdqM21YUDg4?=
+ =?utf-8?B?alpIbnRDNlZXR0dpY2M5dTJ4TnhyazZzVGlFNHdROG5Td1ZpNDJEYm13Ni8y?=
+ =?utf-8?B?UkdqZUNBL01YZE1XczkrK2xTbFd1OHlab0ZoZmVLb1cyOXJWamJkejBIbFIw?=
+ =?utf-8?B?YVNia0pidnl2dkpZZWNLaitpRVA1dG1tSnM0QWJKOExCM2tUSWoxWVNhanRt?=
+ =?utf-8?B?cEQ2bjFHN1JnSldJd0J1MUZDVWkrMnZiaUtmS2l5RXBnQzR6Z2FuazFQN3NU?=
+ =?utf-8?B?NmJqODkvZ0dwSlVYbzR6YUUyRjlEQ2JNMFJEeFIxMVlURUhBRmE4dGVUaUpP?=
+ =?utf-8?B?OHBMYWpqQkhVOEdDTThjQ280cFRnWFlFcFYwVXlwR3JodWd0OVVGVE9EUmh5?=
+ =?utf-8?B?UldNQ1o5c1V4aXRVaGJiSjJ0QlJPZGlkQW9TcmVaWkF1UFZod1pVUlExWWk4?=
+ =?utf-8?B?bXBEdWJJRlpkRGtHQXdaaThLVyttVGsxQTliTDc5TkJoNFVZSHVwT1Z2NVVa?=
+ =?utf-8?B?alJJK2JzY045bE1sMHBMbks2RWluSjU2NDZyOHRSeWZKZkxhS0xRcGVvM0hM?=
+ =?utf-8?B?Titxdmp6TDY1L25lTkhTUWlRVis0N09GZGx0V3QrUXVZUGhSS2czYkZyTVZr?=
+ =?utf-8?B?R1RMTk5iYXVSTWlxdHVMUWg1WGd5UDg5S2IwKzd6S24zZUYrUjVqNEJLaDBs?=
+ =?utf-8?B?UGEra2Q1ZE5TY0o3V21SQ0duLzU4SG9kRnlxUnF2c1U3U1NsOU9LZk5JVkRI?=
+ =?utf-8?B?S3pMOGorRjlETEhzYVcyTWQ2MXI1RDBPREUzaEUzdzY5VzJ3cnhJU3IzWFZw?=
+ =?utf-8?B?bTZoVmVhRkZGTmpnU0VyV3FMaTlSbjRCbjNFaVJ6YlE2b0Ftd0IzdXdiL01u?=
+ =?utf-8?B?ZDdiY0pDdW8zWjQrNFYvei9qMTFxa2dmSGMyN1ZzYUFRWDdJM3d6UWVPZnA3?=
+ =?utf-8?B?aGw0ZnBzbVpaRWJtbW90cEZjUDZ5a3Y4MlFTL25seC9PcVpPUnA1U042RWtu?=
+ =?utf-8?B?SmFLQmtRZ3g4MVFIdzFTb2dyeGN1ZTUybDl4dzhxSXdqS2RsN1dJbWZiamxx?=
+ =?utf-8?B?V3ZreGQ0cGROR3lNeEJUcnpoZkRpaVM0TE05aERJcUhlRlJSYlEwYWoxVFFO?=
+ =?utf-8?B?Zytsa3hOMGZXT09uOWNHVGZkQlJYQnlFRWJsdm9XUTBiQlc1eDI1U05objUw?=
+ =?utf-8?B?QW5OeW41NVpzZFU3QzQ4Nm13eDZuYUJlRzQ1WjZONUlOQkx4eEJ5Nkl3akc2?=
+ =?utf-8?B?eVNkemM0SXhTOE5sRCtKQWVLK1lwcjhmQkExY0ZwMFYwUE5Wd3QzeVF5WWpM?=
+ =?utf-8?B?SXFGZzJWaHVzSGw5WGRxTWNNL0M1cStTaW1xYysvdW5RbFQyaUxUV0F3Y25l?=
+ =?utf-8?B?UWdvVEJwT0RJS3R5QnBCK1JWdlVESytoa2dKczZiTWJJQlBxRm1NaVFQSGgv?=
+ =?utf-8?B?dFdnWGZFZUFJSW1aSGdzVkFnT1FtazdwSlpWdzdzd0Npa2V5MkRlSnUyYmZx?=
+ =?utf-8?B?VW90NkprVFQrSXYvQjRyUWpwWWVxb3FyNFVLc0Ric2tVbE41Yk9TMmkwaUd2?=
+ =?utf-8?B?dStQZ3cyL05nSTU5bW9oWi9zR21yZmkrd3I1RCt6WDNlSHdoenZaa0pmMGpR?=
+ =?utf-8?Q?hcp5jUObNyGjJBNheCombbe/D5GMOlO9UbhSwk9jAJOK?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4ca8fed3-0ad7-4e0d-2356-08da97e89374
+X-MS-Exchange-CrossTenant-AuthSource: CY4PR12MB1943.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Sep 2022 13:37:19.0915 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 6MGDSJ5l2uoHfFGpHkFfaivS7iAc/ewzhspic2Wbs6yjHy+35KvHSaddqTRO/9EPjYgwVEj6XaMNnP5p15E23Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB6272
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,139 +127,82 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: Russell King <linux+etnaviv@armlinux.org.uk>, kernel@pengutronix.de,
- patchwork-lst@pengutronix.de
+Cc: Christian Gmeiner <christian.gmeiner@gmail.com>,
+ patchwork-lst@pengutronix.de, kernel@pengutronix.de,
+ Russell King <linux+etnaviv@armlinux.org.uk>
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
 
-On 16/09/2022 10:50, Lucas Stach wrote:
-> Hi Tvrtko,
-> 
-> Am Freitag, dem 16.09.2022 um 10:31 +0100 schrieb Tvrtko Ursulin:
->> Hi Lucas,
->>
->> On 08/09/2022 19:10, Lucas Stach wrote:
->>> This exposes a accumulated GPU active time per client via the
->>> fdinfo infrastructure.
+On 2022-09-16 05:12, Lucas Stach wrote:
+> Am Donnerstag, dem 08.09.2022 um 14:33 -0400 schrieb Andrey Grodzovsky:
+>> On 2022-09-08 14:10, Lucas Stach wrote:
+>>> Track the accumulated time that jobs from this entity were active
+>>> on the GPU. This allows drivers using the scheduler to trivially
+>>> implement the DRM fdinfo when the hardware doesn't provide more
+>>> specific information than signalling job completion anyways.
 >>>
 >>> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
 >>> ---
->>>    drivers/gpu/drm/etnaviv/etnaviv_drv.c | 38 ++++++++++++++++++++++++++-
->>>    1 file changed, 37 insertions(+), 1 deletion(-)
+>>>    drivers/gpu/drm/scheduler/sched_main.c | 6 ++++++
+>>>    include/drm/gpu_scheduler.h            | 7 +++++++
+>>>    2 files changed, 13 insertions(+)
 >>>
->>> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
->>> index b69edb40ae2a..11b1f11fcb58 100644
->>> --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
->>> +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
->>> @@ -22,6 +22,7 @@
->>>    #include "etnaviv_gem.h"
->>>    #include "etnaviv_mmu.h"
->>>    #include "etnaviv_perfmon.h"
->>> +#include "common.xml.h"
+>>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+>>> index 76fd2904c7c6..24c77a6a157f 100644
+>>> --- a/drivers/gpu/drm/scheduler/sched_main.c
+>>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+>>> @@ -847,6 +847,12 @@ drm_sched_get_cleanup_job(struct drm_gpu_scheduler *sched)
 >>>    
->>>    /*
->>>     * DRM operations:
->>> @@ -471,7 +472,42 @@ static const struct drm_ioctl_desc etnaviv_ioctls[] = {
->>>    	ETNA_IOCTL(PM_QUERY_SIG, pm_query_sig, DRM_RENDER_ALLOW),
+>>>    	spin_unlock(&sched->job_list_lock);
+>>>    
+>>> +	if (job) {
+>>> +		job->entity->elapsed_ns += ktime_to_ns(
+>>> +			ktime_sub(job->s_fence->finished.timestamp,
+>>> +				  job->s_fence->scheduled.timestamp));
+>>> +	}
+>>> +
+>>>    	return job;
+>>
+>> Looks like you making as assumption that drm_sched_entity will always be
+>> allocated using kzalloc ? Isn't it a bit dangerous assumption ?
+>>
+> No, drm_sched_entity_init() memsets the whole struct to 0 before
+> initializing any members that need more specific init values.
+>
+> Regards,
+> Lucas
+
+
+Missed the memset, in that case Reviewed-by: Andrey Grodzovsky 
+<andrey.grodzovsky@amd.com>
+
+I assume you can push that change yourself with the rest of your patchset ?
+
+Andrey
+
+>
+>> Andrey
+>>
+>>
+>>>    }
+>>>    
+>>> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+>>> index addb135eeea6..573bef640664 100644
+>>> --- a/include/drm/gpu_scheduler.h
+>>> +++ b/include/drm/gpu_scheduler.h
+>>> @@ -196,6 +196,13 @@ struct drm_sched_entity {
+>>>    	 * drm_sched_entity_fini().
+>>>    	 */
+>>>    	struct completion		entity_idle;
+>>> +	/**
+>>> +	 * @elapsed_ns
+>>> +	 *
+>>> +	 * Records the amount of time where jobs from this entity were active
+>>> +	 * on the GPU.
+>>> +	 */
+>>> +	uint64_t elapsed_ns;
 >>>    };
 >>>    
->>> -DEFINE_DRM_GEM_FOPS(fops);
->>> +static void etnaviv_fop_show_fdinfo(struct seq_file *m, struct file *f)
->>> +{
->>> +	struct drm_file *file = f->private_data;
->>> +	struct drm_device *dev = file->minor->dev;
->>> +	struct etnaviv_drm_private *priv = dev->dev_private;
->>> +	struct etnaviv_file_private *ctx = file->driver_priv;
->>> +	struct drm_printer p = drm_seq_file_printer(m);
->>
->> Any specific reason not to use seq_printf directly? (May be my ignorance.)
->>
-> Not really, I just followed what msm was doing here.
-
-Right, no strong feelings either way I just did not see the need to wrap 
-it for this use case.
-
->>> +	int i;
->>> +
->>> +	drm_printf(&p, "drm-driver:\t%s\n", dev->driver->name);
->>> +	drm_printf(&p, "drm-client-id:\t%u\n", ctx->id);
->>> +
->>> +	for (i = 0; i < ETNA_MAX_PIPES; i++) {
->>> +                struct etnaviv_gpu *gpu = priv->gpu[i];
->>> +		char engine[8];
->>> +		int cur = 0;
->>
->> Alignment renders odd in my client.
-> 
-> I'll check that, might have messed up here.
->>
->>> +
->>> +		if (!gpu)
->>> +			continue;
->>
->> I'd stick a comment in here to the effect of "For text output format
->> description please see drm-usage-stats.rst!".
->>
->> Just to leave a breadcrumb putting some restraint on adding vendor
->> specific things which may be already covered by the common spec. To help
->> with common tools in the future as much as possible.
-> 
-> Yea, it was pretty to clear to me that we want the common format as
-> much as possible when writing the patches, but it's a good idea to add
-> a pointer for the future reader.
-
-Thanks!
-
->>> +
->>> +		if (gpu->identity.features & chipFeatures_PIPE_2D)
->>> +			cur = snprintf(engine, sizeof(engine), "2D");
->>> +		if (gpu->identity.features & chipFeatures_PIPE_3D)
->>> +			cur = snprintf(engine + cur, sizeof(engine) - cur,
->>> +				       "%s3D", cur ? "/" : "");
->>> +
->>> +		drm_printf(&p, "drm-engine-%s:\t%llu ns\n", engine,
->>> +			   ctx->sched_entity[i].elapsed_ns);
->>
->> Two questions:
->>
->> 1)
->> So you have max four pipes, each can be either only 2d, 3d, or 2d/3d?
->> Can you have multiple of the same like 2x 3D? If you do, have you
->> considered exporting one drm-engine-% together with drm-engine-capacity-
->> for it?
->>
-> The four pipes is a arbitrary driver limit. Etnaviv is a bit special in
-> that it collects all Vivante GPUs present in a system into a single DRM
-> device, each of those GPUs can be either 2D, 3D or a combined core with
-> both 2D and 3D capabilities. In theory there could be multiple GPUs of
-> each kind, but for now all real SoC designs we've come across only had
-> a single one of each kind.
-> 
-> When we add support for a SoC that has multiple GPUs of one kind, I
-> think exposing drm-engine-capacity, together with hooking them up to
-> the load balancing in the scheduler is the right thing to do.
-> 
->> 2)
->> Have you tried my, yet unmerged, vendor agnostic gputop tool with your
->> changes?
->>
->> https://patchwork.freedesktop.org/series/102175/
->>
->> It would be interesting to know if it works.
->>
-> Yes, I did when working on this series. I had some crashes related to
-> (I believe) double frees in the DRM client discovery, which I hadn't
-> had time to investigate further. Seems there is a race, as I couldn't
-> reproduce the crash when running with valgrind.
-> 
-> Other than that, the tool works for exposing the per-client GPU load on
-> etnaviv.
-
-Cool, at least some success.
-
-Out of curiosity what is the planned consumer in etnaviv landscape?
-
-Regards,
-
-Tvrtko
+>>>    /**
+>
