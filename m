@@ -2,37 +2,31 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFA115BAFAC
-	for <lists+etnaviv@lfdr.de>; Fri, 16 Sep 2022 16:56:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D436A5BAFF7
+	for <lists+etnaviv@lfdr.de>; Fri, 16 Sep 2022 17:12:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 229CE10E48A;
-	Fri, 16 Sep 2022 14:56:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E271910ED60;
+	Fri, 16 Sep 2022 15:12:12 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 03AE510ED56
- for <etnaviv@lists.freedesktop.org>; Fri, 16 Sep 2022 14:56:36 +0000 (UTC)
-Received: from gallifrey.ext.pengutronix.de
- ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8BE7510E48A
+ for <etnaviv@lists.freedesktop.org>; Fri, 16 Sep 2022 15:12:07 +0000 (UTC)
+Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
+ by metis.ext.pengutronix.de with esmtp (Exim 4.92)
  (envelope-from <l.stach@pengutronix.de>)
- id 1oZCld-0001z7-2s; Fri, 16 Sep 2022 16:56:33 +0200
-Message-ID: <94e054f61f287ae1bd66a2d27fe4b3f16b67bde8.camel@pengutronix.de>
-Subject: Re: [PATCH v3 0/2] drm/etnaviv: GC300 fixes
+ id 1oZD0f-0003aI-Qm; Fri, 16 Sep 2022 17:12:05 +0200
 From: Lucas Stach <l.stach@pengutronix.de>
-To: Doug Brown <doug@schmorgal.com>, Russell King
- <linux+etnaviv@armlinux.org.uk>, Christian Gmeiner
- <christian.gmeiner@gmail.com>,  Daniel Vetter <daniel@ffwll.ch>
-Date: Fri, 16 Sep 2022 16:56:31 +0200
-In-Reply-To: <20220910202939.31010-1-doug@schmorgal.com>
-References: <20220910202939.31010-1-doug@schmorgal.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
+To: etnaviv@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH v2 1/3] drm/scheduler: track GPU active time per entity
+Date: Fri, 16 Sep 2022 17:12:03 +0200
+Message-Id: <20220916151205.165687-1-l.stach@pengutronix.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:1101:1d::28
 X-SA-Exim-Mail-From: l.stach@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
  SAEximRunCond expanded to false
@@ -48,38 +42,59 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: Christian Gmeiner <christian.gmeiner@gmail.com>,
+ patchwork-lst@pengutronix.de, kernel@pengutronix.de,
+ Russell King <linux+etnaviv@armlinux.org.uk>
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Am Samstag, dem 10.09.2022 um 13:29 -0700 schrieb Doug Brown:
-> This series contains a few special cases for supporting the GC300
-> properly. These were found in the drivers in the vivante_kernel_drivers
-> repository. These changes were tested on a PXA168 with GC300 revision
-> 0x2201 (date 0x20080814, time 0x12051100), which already has an existing
-> special case in the driver to modify the revision to 0x1051.
-> 
-Thanks, both patches applied to my etnaviv/next branch.
+Track the accumulated time that jobs from this entity were active
+on the GPU. This allows drivers using the scheduler to trivially
+implement the DRM fdinfo when the hardware doesn't provide more
+specific information than signalling job completion anyways.
 
-Regards,
-Lucas
+Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+Reviewed-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+---
+ drivers/gpu/drm/scheduler/sched_main.c | 6 ++++++
+ include/drm/gpu_scheduler.h            | 7 +++++++
+ 2 files changed, 13 insertions(+)
 
-> Changes since v2:
-> - Dump canonical address in etnaviv_core_dump_registers
-> - Misc fixes from review by Lucas
-> 
-> Changes from v1->v2:
-> - Move power register address remapping to new gpu_read_power and
->   gpu_write_power accessors instead of modifying gpu_read and gpu_write.
-> 
-> Doug Brown (2):
->   drm/etnaviv: add missing quirks for GC300
->   drm/etnaviv: fix power register offset on GC300
-> 
->  drivers/gpu/drm/etnaviv/etnaviv_dump.c |  7 +++++-
->  drivers/gpu/drm/etnaviv/etnaviv_gpu.c  | 31 ++++++++++++++++----------
->  drivers/gpu/drm/etnaviv/etnaviv_gpu.h  | 21 +++++++++++++++++
->  3 files changed, 46 insertions(+), 13 deletions(-)
-> 
-
+diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+index 68317d3a7a27..5dbe826d498d 100644
+--- a/drivers/gpu/drm/scheduler/sched_main.c
++++ b/drivers/gpu/drm/scheduler/sched_main.c
+@@ -852,6 +852,12 @@ drm_sched_get_cleanup_job(struct drm_gpu_scheduler *sched)
+ 
+ 	spin_unlock(&sched->job_list_lock);
+ 
++	if (job) {
++		job->entity->elapsed_ns += ktime_to_ns(
++			ktime_sub(job->s_fence->finished.timestamp,
++				  job->s_fence->scheduled.timestamp));
++	}
++
+ 	return job;
+ }
+ 
+diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+index addb135eeea6..573bef640664 100644
+--- a/include/drm/gpu_scheduler.h
++++ b/include/drm/gpu_scheduler.h
+@@ -196,6 +196,13 @@ struct drm_sched_entity {
+ 	 * drm_sched_entity_fini().
+ 	 */
+ 	struct completion		entity_idle;
++	/**
++	 * @elapsed_ns
++	 *
++	 * Records the amount of time where jobs from this entity were active
++	 * on the GPU.
++	 */
++	uint64_t elapsed_ns;
+ };
+ 
+ /**
+-- 
+2.30.2
 
