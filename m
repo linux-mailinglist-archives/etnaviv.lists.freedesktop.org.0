@@ -1,36 +1,37 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B26D5BA7B8
-	for <lists+etnaviv@lfdr.de>; Fri, 16 Sep 2022 10:03:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 675C85BA90E
+	for <lists+etnaviv@lfdr.de>; Fri, 16 Sep 2022 11:12:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D944410ECCD;
-	Fri, 16 Sep 2022 08:03:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC9FE10ED03;
+	Fri, 16 Sep 2022 09:12:10 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4031410ECCD
- for <etnaviv@lists.freedesktop.org>; Fri, 16 Sep 2022 08:03:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C8DE10ED03
+ for <etnaviv@lists.freedesktop.org>; Fri, 16 Sep 2022 09:12:08 +0000 (UTC)
 Received: from gallifrey.ext.pengutronix.de
  ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <l.stach@pengutronix.de>)
- id 1oZ6Jw-0007mn-84; Fri, 16 Sep 2022 10:03:32 +0200
-Message-ID: <22d3a4d54fbc0a527315f25c0a97441f3102c0bd.camel@pengutronix.de>
-Subject: Re: [PATCH] drm/etnaviv: don't truncate physical page address
+ id 1oZ7OI-00086D-FG; Fri, 16 Sep 2022 11:12:06 +0200
+Message-ID: <e862234a3aef84bbf7fbe6258b634f81fb691972.camel@pengutronix.de>
+Subject: Re: [PATCH 1/3] drm/scheduler: track GPU active time per entity
 From: Lucas Stach <l.stach@pengutronix.de>
-To: Philipp Zabel <p.zabel@pengutronix.de>, etnaviv@lists.freedesktop.org
-Date: Fri, 16 Sep 2022 10:03:31 +0200
-In-Reply-To: <b3377fc111a704e8666cd6a71e2762dff63a6b75.camel@pengutronix.de>
-References: <20220915141941.3408991-1-l.stach@pengutronix.de>
- <b3377fc111a704e8666cd6a71e2762dff63a6b75.camel@pengutronix.de>
+To: Andrey Grodzovsky <andrey.grodzovsky@amd.com>, 
+ etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Date: Fri, 16 Sep 2022 11:12:05 +0200
+In-Reply-To: <69924bc6-d249-35b2-a942-a43a9293558e@amd.com>
+References: <20220908181013.3214205-1-l.stach@pengutronix.de>
+ <69924bc6-d249-35b2-a942-a43a9293558e@amd.com>
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
 X-SA-Exim-Mail-From: l.stach@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
@@ -49,49 +50,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
 Cc: Christian Gmeiner <christian.gmeiner@gmail.com>,
  patchwork-lst@pengutronix.de, kernel@pengutronix.de,
- dri-devel@lists.freedesktop.org, Russell King <linux+etnaviv@armlinux.org.uk>
+ Russell King <linux+etnaviv@armlinux.org.uk>
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Hi Philipp,
-
-Am Donnerstag, dem 15.09.2022 um 16:40 +0200 schrieb Philipp Zabel:
-> Hi Lucas,
-> 
-> On Do, 2022-09-15 at 16:19 +0200, Lucas Stach wrote:
-> > While the interface for the MMU mapping takes phys_addr_t to hold a
-> > full 64bit address when necessary and MMUv2 is able to map physical
-> > addresses with up to 40bit, etnaviv_iommu_map() truncates the address
-> > to 32bits. Fix this by using the correct type.
+Am Donnerstag, dem 08.09.2022 um 14:33 -0400 schrieb Andrey Grodzovsky:
+> On 2022-09-08 14:10, Lucas Stach wrote:
+> > Track the accumulated time that jobs from this entity were active
+> > on the GPU. This allows drivers using the scheduler to trivially
+> > implement the DRM fdinfo when the hardware doesn't provide more
+> > specific information than signalling job completion anyways.
 > > 
-> > Fixes: 931e97f3afd8 ("drm/etnaviv: mmuv2: support 40 bit phys address")
 > > Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
 > > ---
-> >  drivers/gpu/drm/etnaviv/etnaviv_mmu.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >   drivers/gpu/drm/scheduler/sched_main.c | 6 ++++++
+> >   include/drm/gpu_scheduler.h            | 7 +++++++
+> >   2 files changed, 13 insertions(+)
 > > 
-> > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_mmu.c b/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
-> > index dc1aa738c4f1..2ff80d5ccf07 100644
-> > --- a/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
-> > +++ b/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
-> > @@ -80,7 +80,7 @@ static int etnaviv_iommu_map(struct etnaviv_iommu_context *context, u32 iova,
-> >  		return -EINVAL;
-> >  
-> > 
-> >  	for_each_sgtable_dma_sg(sgt, sg, i) {
-> > -		u32 pa = sg_dma_address(sg) - sg->offset;
-> > +		phys_addr_t pa = sg_dma_address(sg) - sg->offset;
-> >  		size_t bytes = sg_dma_len(sg) + sg->offset;
-> >  
-> > 
-> >  		VERB("map[%d]: %08x %08x(%zx)", i, iova, pa, bytes);
->                                     ^^^^                 ^^
-> Use %pap, &pa here?
+> > diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+> > index 76fd2904c7c6..24c77a6a157f 100644
+> > --- a/drivers/gpu/drm/scheduler/sched_main.c
+> > +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> > @@ -847,6 +847,12 @@ drm_sched_get_cleanup_job(struct drm_gpu_scheduler *sched)
+> >   
+> >   	spin_unlock(&sched->job_list_lock);
+> >   
+> > +	if (job) {
+> > +		job->entity->elapsed_ns += ktime_to_ns(
+> > +			ktime_sub(job->s_fence->finished.timestamp,
+> > +				  job->s_fence->scheduled.timestamp));
+> > +	}
+> > +
+> >   	return job;
 > 
-Yep, I actually thought about this when writing the patch, but then got
-distracted and forgot to add this change. :/
+> 
+> Looks like you making as assumption that drm_sched_entity will always be 
+> allocated using kzalloc ? Isn't it a bit dangerous assumption ?
+> 
+No, drm_sched_entity_init() memsets the whole struct to 0 before
+initializing any members that need more specific init values.
 
 Regards,
 Lucas
+
+> Andrey
+> 
+> 
+> >   }
+> >   
+> > diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+> > index addb135eeea6..573bef640664 100644
+> > --- a/include/drm/gpu_scheduler.h
+> > +++ b/include/drm/gpu_scheduler.h
+> > @@ -196,6 +196,13 @@ struct drm_sched_entity {
+> >   	 * drm_sched_entity_fini().
+> >   	 */
+> >   	struct completion		entity_idle;
+> > +	/**
+> > +	 * @elapsed_ns
+> > +	 *
+> > +	 * Records the amount of time where jobs from this entity were active
+> > +	 * on the GPU.
+> > +	 */
+> > +	uint64_t elapsed_ns;
+> >   };
+> >   
+> >   /**
 
 
