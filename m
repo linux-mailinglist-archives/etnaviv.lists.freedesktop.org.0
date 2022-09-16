@@ -1,51 +1,41 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 450285BA376
-	for <lists+etnaviv@lfdr.de>; Fri, 16 Sep 2022 02:23:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B26D5BA7B8
+	for <lists+etnaviv@lfdr.de>; Fri, 16 Sep 2022 10:03:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 647BE10EC38;
-	Fri, 16 Sep 2022 00:23:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D944410ECCD;
+	Fri, 16 Sep 2022 08:03:36 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 05D6410EC37;
- Fri, 16 Sep 2022 00:23:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1663287781; x=1694823781;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=DsplFUFECkFFHGJgLVl4kYJYra7mGZGyjzGrKuIfWyU=;
- b=CCFCI/ttglbAA8Nqeii6Z5PHz4PM5cfoX2cnTHUkCEHtv2VbMgtHqrZY
- PtpQzG3/t++rHeA6slBoW8AvbgPRDB9j9fu15loeZfJPPr0bbSFA3xh51
- EpEo2Qi1UWPGsMBNQoUJaOVWJNbqwH1NdpJ1ryHQSlWDv4oznA5Xd8Esl
- Mu9g1/mQKi9gXT6QDRMqloPV20kW4Ukk8KQFkNGgQAghyDGa2tSYBSW+F
- ai+LPhEgKCePltIoSjEKT/jynnPl8wspwmY2jMVWp37IU+CPB1IZe6glB
- 67rH368emkD+eeqoWjxv0LUwPxm1WICb/jURMh+ZAVQKdjf7t78H4/HWV A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10471"; a="298868505"
-X-IronPort-AV: E=Sophos;i="5.93,319,1654585200"; d="scan'208";a="298868505"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Sep 2022 17:23:00 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,319,1654585200"; d="scan'208";a="685937009"
-Received: from lkp-server02.sh.intel.com (HELO 41300c7200ea) ([10.239.97.151])
- by fmsmga004.fm.intel.com with ESMTP; 15 Sep 2022 17:22:58 -0700
-Received: from kbuild by 41300c7200ea with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1oYz8E-0001DH-01;
- Fri, 16 Sep 2022 00:22:58 +0000
-Date: Fri, 16 Sep 2022 08:22:57 +0800
-From: kernel test robot <lkp@intel.com>
-To: Lucas Stach <l.stach@pengutronix.de>, etnaviv@lists.freedesktop.org
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4031410ECCD
+ for <etnaviv@lists.freedesktop.org>; Fri, 16 Sep 2022 08:03:34 +0000 (UTC)
+Received: from gallifrey.ext.pengutronix.de
+ ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1oZ6Jw-0007mn-84; Fri, 16 Sep 2022 10:03:32 +0200
+Message-ID: <22d3a4d54fbc0a527315f25c0a97441f3102c0bd.camel@pengutronix.de>
 Subject: Re: [PATCH] drm/etnaviv: don't truncate physical page address
-Message-ID: <202209160813.srwkRhUH-lkp@intel.com>
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Philipp Zabel <p.zabel@pengutronix.de>, etnaviv@lists.freedesktop.org
+Date: Fri, 16 Sep 2022 10:03:31 +0200
+In-Reply-To: <b3377fc111a704e8666cd6a71e2762dff63a6b75.camel@pengutronix.de>
 References: <20220915141941.3408991-1-l.stach@pengutronix.de>
+ <b3377fc111a704e8666cd6a71e2762dff63a6b75.camel@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220915141941.3408991-1-l.stach@pengutronix.de>
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,155 +47,51 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: Russell King <linux+etnaviv@armlinux.org.uk>, kbuild-all@lists.01.org,
- dri-devel@lists.freedesktop.org, kernel@pengutronix.de,
- patchwork-lst@pengutronix.de
+Cc: Christian Gmeiner <christian.gmeiner@gmail.com>,
+ patchwork-lst@pengutronix.de, kernel@pengutronix.de,
+ dri-devel@lists.freedesktop.org, Russell King <linux+etnaviv@armlinux.org.uk>
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Hi Lucas,
+Hi Philipp,
 
-I love your patch! Perhaps something to improve:
+Am Donnerstag, dem 15.09.2022 um 16:40 +0200 schrieb Philipp Zabel:
+> Hi Lucas,
+> 
+> On Do, 2022-09-15 at 16:19 +0200, Lucas Stach wrote:
+> > While the interface for the MMU mapping takes phys_addr_t to hold a
+> > full 64bit address when necessary and MMUv2 is able to map physical
+> > addresses with up to 40bit, etnaviv_iommu_map() truncates the address
+> > to 32bits. Fix this by using the correct type.
+> > 
+> > Fixes: 931e97f3afd8 ("drm/etnaviv: mmuv2: support 40 bit phys address")
+> > Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+> > ---
+> >  drivers/gpu/drm/etnaviv/etnaviv_mmu.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_mmu.c b/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
+> > index dc1aa738c4f1..2ff80d5ccf07 100644
+> > --- a/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
+> > +++ b/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
+> > @@ -80,7 +80,7 @@ static int etnaviv_iommu_map(struct etnaviv_iommu_context *context, u32 iova,
+> >  		return -EINVAL;
+> >  
+> > 
+> >  	for_each_sgtable_dma_sg(sgt, sg, i) {
+> > -		u32 pa = sg_dma_address(sg) - sg->offset;
+> > +		phys_addr_t pa = sg_dma_address(sg) - sg->offset;
+> >  		size_t bytes = sg_dma_len(sg) + sg->offset;
+> >  
+> > 
+> >  		VERB("map[%d]: %08x %08x(%zx)", i, iova, pa, bytes);
+>                                     ^^^^                 ^^
+> Use %pap, &pa here?
+> 
+Yep, I actually thought about this when writing the patch, but then got
+distracted and forgot to add this change. :/
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on linus/master v6.0-rc5 next-20220915]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Lucas-Stach/drm-etnaviv-don-t-truncate-physical-page-address/20220915-222156
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-config: ia64-allyesconfig (https://download.01.org/0day-ci/archive/20220916/202209160813.srwkRhUH-lkp@intel.com/config)
-compiler: ia64-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/941356fb766e7f49216d44f0df7614c2e4610a11
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Lucas-Stach/drm-etnaviv-don-t-truncate-physical-page-address/20220915-222156
-        git checkout 941356fb766e7f49216d44f0df7614c2e4610a11
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash drivers/gpu/
-
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
-
-All warnings (new ones prefixed by >>):
-
-   In file included from include/drm/drm_mm.h:51,
-                    from include/drm/drm_vma_manager.h:26,
-                    from include/drm/drm_gem.h:40,
-                    from drivers/gpu/drm/etnaviv/etnaviv_drv.h:16,
-                    from drivers/gpu/drm/etnaviv/etnaviv_mmu.c:11:
-   drivers/gpu/drm/etnaviv/etnaviv_mmu.c: In function 'etnaviv_iommu_map':
->> drivers/gpu/drm/etnaviv/etnaviv_mmu.c:86:22: warning: format '%x' expects argument of type 'unsigned int', but argument 5 has type 'phys_addr_t' {aka 'long long unsigned int'} [-Wformat=]
-      86 |                 VERB("map[%d]: %08x %08x(%zx)", i, iova, pa, bytes);
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~           ~~
-         |                                                          |
-         |                                                          phys_addr_t {aka long long unsigned int}
-   include/drm/drm_print.h:526:32: note: in definition of macro 'DRM_DEBUG'
-     526 |         __drm_dbg(DRM_UT_CORE, fmt, ##__VA_ARGS__)
-         |                                ^~~
-   drivers/gpu/drm/etnaviv/etnaviv_mmu.c:86:17: note: in expansion of macro 'VERB'
-      86 |                 VERB("map[%d]: %08x %08x(%zx)", i, iova, pa, bytes);
-         |                 ^~~~
-   drivers/gpu/drm/etnaviv/etnaviv_mmu.c:86:40: note: format string is defined here
-      86 |                 VERB("map[%d]: %08x %08x(%zx)", i, iova, pa, bytes);
-         |                                     ~~~^
-         |                                        |
-         |                                        unsigned int
-         |                                     %08llx
-   {standard input}: Assembler messages:
-   {standard input}:2347: Error: Register number out of range 0..3
-   {standard input}:2347: Warning: Use of 'mov' violates WAW dependency 'GR%, % in 1 - 127' (impliedf), specific resource number is 40
-   {standard input}:2347: Warning: Only the first path encountering the conflict is reported
-   {standard input}:2342: Warning: This is the location of the conflicting usage
-   {standard input}:2348: Error: Register number out of range 0..3
-   {standard input}:2348: Warning: Use of 'mov' violates WAW dependency 'GR%, % in 1 - 127' (impliedf), specific resource number is 40
-   {standard input}:2348: Warning: Only the first path encountering the conflict is reported
-   {standard input}:2342: Warning: This is the location of the conflicting usage
-   {standard input}:2348: Warning: Use of 'mov' violates WAW dependency 'GR%, % in 1 - 127' (impliedf), specific resource number is 40
-   {standard input}:2348: Warning: Only the first path encountering the conflict is reported
-   {standard input}:2347: Warning: This is the location of the conflicting usage
-   {standard input}:2351: Error: Register number out of range 0..3
-   {standard input}:2352: Error: Register number out of range 0..3
-   {standard input}:2352: Warning: Use of 'mov' violates WAW dependency 'GR%, % in 1 - 127' (impliedf), specific resource number is 40
-   {standard input}:2352: Warning: Only the first path encountering the conflict is reported
-   {standard input}:2351: Warning: This is the location of the conflicting usage
-   {standard input}:2532: Error: Register number out of range 0..2
-   {standard input}:2532: Warning: Use of 'mov' violates WAW dependency 'GR%, % in 1 - 127' (impliedf), specific resource number is 37
-   {standard input}:2532: Warning: Only the first path encountering the conflict is reported
-   {standard input}:2528: Warning: This is the location of the conflicting usage
-   {standard input}:2533: Error: Register number out of range 0..2
-   {standard input}:2533: Warning: Use of 'mov' violates WAW dependency 'GR%, % in 1 - 127' (impliedf), specific resource number is 37
-   {standard input}:2533: Warning: Only the first path encountering the conflict is reported
-   {standard input}:2528: Warning: This is the location of the conflicting usage
-   {standard input}:2533: Warning: Use of 'mov' violates WAW dependency 'GR%, % in 1 - 127' (impliedf), specific resource number is 37
-   {standard input}:2533: Warning: Only the first path encountering the conflict is reported
-   {standard input}:2532: Warning: This is the location of the conflicting usage
-   {standard input}:2534: Error: Register number out of range 0..2
-   {standard input}:2534: Warning: Use of 'mov' violates WAW dependency 'GR%, % in 1 - 127' (impliedf), specific resource number is 37
-   {standard input}:2534: Warning: Only the first path encountering the conflict is reported
-   {standard input}:2528: Warning: This is the location of the conflicting usage
-   {standard input}:2534: Warning: Use of 'mov' violates WAW dependency 'GR%, % in 1 - 127' (impliedf), specific resource number is 37
-   {standard input}:2534: Warning: Only the first path encountering the conflict is reported
-   {standard input}:2532: Warning: This is the location of the conflicting usage
-   {standard input}:2534: Warning: Use of 'mov' violates WAW dependency 'GR%, % in 1 - 127' (impliedf), specific resource number is 37
-   {standard input}:2534: Warning: Only the first path encountering the conflict is reported
-   {standard input}:2533: Warning: This is the location of the conflicting usage
-   {standard input}:2537: Error: Register number out of range 0..2
-   {standard input}:2538: Error: Register number out of range 0..2
-   {standard input}:2538: Warning: Use of 'mov' violates WAW dependency 'GR%, % in 1 - 127' (impliedf), specific resource number is 37
-   {standard input}:2538: Warning: Only the first path encountering the conflict is reported
-   {standard input}:2537: Warning: This is the location of the conflicting usage
-   {standard input}:3788: Error: Register number out of range 0..4
-   {standard input}:3788: Warning: Use of 'mov' violates WAW dependency 'GR%, % in 1 - 127' (impliedf), specific resource number is 38
-   {standard input}:3788: Warning: Only the first path encountering the conflict is reported
-   {standard input}:3782: Warning: This is the location of the conflicting usage
-   {standard input}:3791: Error: Register number out of range 0..4
-   {standard input}:3792: Error: Register number out of range 0..4
-   {standard input}:3792: Warning: Use of 'mov' violates WAW dependency 'GR%, % in 1 - 127' (impliedf), specific resource number is 38
-   {standard input}:3792: Warning: Only the first path encountering the conflict is reported
-   {standard input}:3791: Warning: This is the location of the conflicting usage
+Regards,
+Lucas
 
 
-vim +86 drivers/gpu/drm/etnaviv/etnaviv_mmu.c
-
-50073cf98d1635 Lucas Stach         2017-09-07   71  
-27b67278e007b5 Lucas Stach         2019-07-05   72  static int etnaviv_iommu_map(struct etnaviv_iommu_context *context, u32 iova,
-a8c21a5451d831 The etnaviv authors 2015-12-03   73  			     struct sg_table *sgt, unsigned len, int prot)
-27b67278e007b5 Lucas Stach         2019-07-05   74  {	struct scatterlist *sg;
-a8c21a5451d831 The etnaviv authors 2015-12-03   75  	unsigned int da = iova;
-182354a526a054 Marek Szyprowski    2020-04-28   76  	unsigned int i;
-a8c21a5451d831 The etnaviv authors 2015-12-03   77  	int ret;
-a8c21a5451d831 The etnaviv authors 2015-12-03   78  
-27b67278e007b5 Lucas Stach         2019-07-05   79  	if (!context || !sgt)
-a8c21a5451d831 The etnaviv authors 2015-12-03   80  		return -EINVAL;
-a8c21a5451d831 The etnaviv authors 2015-12-03   81  
-182354a526a054 Marek Szyprowski    2020-04-28   82  	for_each_sgtable_dma_sg(sgt, sg, i) {
-941356fb766e7f Lucas Stach         2022-09-15   83  		phys_addr_t pa = sg_dma_address(sg) - sg->offset;
-a8c21a5451d831 The etnaviv authors 2015-12-03   84  		size_t bytes = sg_dma_len(sg) + sg->offset;
-a8c21a5451d831 The etnaviv authors 2015-12-03   85  
-a8c21a5451d831 The etnaviv authors 2015-12-03  @86  		VERB("map[%d]: %08x %08x(%zx)", i, iova, pa, bytes);
-a8c21a5451d831 The etnaviv authors 2015-12-03   87  
-27b67278e007b5 Lucas Stach         2019-07-05   88  		ret = etnaviv_context_map(context, da, pa, bytes, prot);
-a8c21a5451d831 The etnaviv authors 2015-12-03   89  		if (ret)
-a8c21a5451d831 The etnaviv authors 2015-12-03   90  			goto fail;
-a8c21a5451d831 The etnaviv authors 2015-12-03   91  
-a8c21a5451d831 The etnaviv authors 2015-12-03   92  		da += bytes;
-a8c21a5451d831 The etnaviv authors 2015-12-03   93  	}
-a8c21a5451d831 The etnaviv authors 2015-12-03   94  
-9247fcca3982a2 Lucas Stach         2022-03-23   95  	context->flush_seq++;
-9247fcca3982a2 Lucas Stach         2022-03-23   96  
-a8c21a5451d831 The etnaviv authors 2015-12-03   97  	return 0;
-a8c21a5451d831 The etnaviv authors 2015-12-03   98  
-a8c21a5451d831 The etnaviv authors 2015-12-03   99  fail:
-182354a526a054 Marek Szyprowski    2020-04-28  100  	etnaviv_context_unmap(context, iova, da - iova);
-a8c21a5451d831 The etnaviv authors 2015-12-03  101  	return ret;
-a8c21a5451d831 The etnaviv authors 2015-12-03  102  }
-a8c21a5451d831 The etnaviv authors 2015-12-03  103  
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
