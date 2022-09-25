@@ -1,35 +1,39 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 582AF5E8C28
-	for <lists+etnaviv@lfdr.de>; Sat, 24 Sep 2022 14:16:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 33C4A5E937F
+	for <lists+etnaviv@lfdr.de>; Sun, 25 Sep 2022 15:51:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 93C0D10EBF2;
-	Sat, 24 Sep 2022 12:16:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 01A9910E1B0;
+	Sun, 25 Sep 2022 13:50:57 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C00710EBE9
- for <etnaviv@lists.freedesktop.org>; Sat, 24 Sep 2022 12:16:31 +0000 (UTC)
-Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
- by metis.ext.pengutronix.de with esmtp (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1oc457-0005CC-DL; Sat, 24 Sep 2022 14:16:29 +0200
-From: Lucas Stach <l.stach@pengutronix.de>
-To: etnaviv@lists.freedesktop.org
-Subject: [PATCH v2] drm/etnaviv: add HWDB entry for GC7000 r6203
-Date: Sat, 24 Sep 2022 14:16:28 +0200
-Message-Id: <20220924121628.393058-1-l.stach@pengutronix.de>
-X-Mailer: git-send-email 2.30.2
+Received: from smtp.smtpout.orange.fr (smtp03.smtpout.orange.fr
+ [80.12.242.125])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 4280110E1B6
+ for <etnaviv@lists.freedesktop.org>; Sun, 25 Sep 2022 13:50:52 +0000 (UTC)
+Received: from pop-os.home ([86.243.100.34]) by smtp.orange.fr with ESMTPA
+ id cRuaoxFHkPMmacRuao7pdV; Sun, 25 Sep 2022 15:43:18 +0200
+X-ME-Helo: pop-os.home
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Sun, 25 Sep 2022 15:43:18 +0200
+X-ME-IP: 86.243.100.34
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To: Russell King <linux@armlinux.org.uk>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Lucas Stach <l.stach@pengutronix.de>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Alim Akhtar <alim.akhtar@samsung.com>
+Subject: [PATCH] headers: Remove some left-over license text in
+ include/uapi/drm/
+Date: Sun, 25 Sep 2022 15:43:00 +0200
+Message-Id: <e5cacd121ddb2a595cede602036b1bdfbee020d5.1664113376.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:1101:1d::28
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,68 +45,103 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: Christian Gmeiner <christian.gmeiner@gmail.com>,
- patchwork-lst@pengutronix.de, kernel@pengutronix.de,
- dri-devel@lists.freedesktop.org, Russell King <linux+etnaviv@armlinux.org.uk>
+Cc: linux-samsung-soc@vger.kernel.org, kernel-janitors@vger.kernel.org,
+ etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-From: Marco Felsch <m.felsch@pengutronix.de>
+There is already a SPDX-License-Identifier tag, so the corresponding
+license text can be removed.
 
-The GPU is found on the NXP i.MX8MN SoC. The feature bits are taken from
-the NXP downstream kernel driver 6.4.3.p2.
-
-Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 ---
-v2: Make match more specific, as there are some other GPUs with the
-same model/revision, so we should also look at the customer and product
-IDs.
----
- drivers/gpu/drm/etnaviv/etnaviv_hwdb.c | 31 ++++++++++++++++++++++++++
- 1 file changed, 31 insertions(+)
+ include/uapi/drm/armada_drm.h  |  4 ----
+ include/uapi/drm/etnaviv_drm.h | 12 ------------
+ include/uapi/drm/exynos_drm.h  |  5 -----
+ include/uapi/drm/omap_drm.h    | 12 ------------
+ 4 files changed, 33 deletions(-)
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c b/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
-index f2fc645c7956..57f334e24189 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
-@@ -68,6 +68,37 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
- 		.minor_features10 = 0x00004040,
- 		.minor_features11 = 0x00000024,
- 	},
-+	{
-+		.model = 0x7000,
-+		.revision = 0x6203,
-+		.product_id = 0x70003,
-+		.customer_id = 0x4,
-+		.eco_id = 0,
-+		.stream_count = 16,
-+		.register_max = 64,
-+		.thread_count = 512,
-+		.shader_core_count = 2,
-+		.vertex_cache_size = 16,
-+		.vertex_output_buffer_size = 1024,
-+		.pixel_pipes = 1,
-+		.instruction_count = 512,
-+		.num_constants = 320,
-+		.buffer_size = 0,
-+		.varyings_count = 16,
-+		.features = 0xe0287c8d,
-+		.minor_features0 = 0xc1589eff,
-+		.minor_features1 = 0xfefbfad9,
-+		.minor_features2 = 0xeb9d4fbf,
-+		.minor_features3 = 0xedfffced,
-+		.minor_features4 = 0xdb0dafc7,
-+		.minor_features5 = 0x3b5ac333,
-+		.minor_features6 = 0xfcce6000,
-+		.minor_features7 = 0xfffbfa6f,
-+		.minor_features8 = 0x00e10ef3,
-+		.minor_features9 = 0x00c8003c,
-+		.minor_features10 = 0x00004040,
-+		.minor_features11 = 0x00000024,
-+	},
- 	{
- 		.model = 0x7000,
- 		.revision = 0x6204,
+diff --git a/include/uapi/drm/armada_drm.h b/include/uapi/drm/armada_drm.h
+index af1c14c837c5..f711e63a9758 100644
+--- a/include/uapi/drm/armada_drm.h
++++ b/include/uapi/drm/armada_drm.h
+@@ -2,10 +2,6 @@
+ /*
+  * Copyright (C) 2012 Russell King
+  *  With inspiration from the i915 driver
+- *
+- * This program is free software; you can redistribute it and/or modify
+- * it under the terms of the GNU General Public License version 2 as
+- * published by the Free Software Foundation.
+  */
+ #ifndef DRM_ARMADA_IOCTL_H
+ #define DRM_ARMADA_IOCTL_H
+diff --git a/include/uapi/drm/etnaviv_drm.h b/include/uapi/drm/etnaviv_drm.h
+index af024d90453d..13dd1d1a9d41 100644
+--- a/include/uapi/drm/etnaviv_drm.h
++++ b/include/uapi/drm/etnaviv_drm.h
+@@ -1,18 +1,6 @@
+ /* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
+ /*
+  * Copyright (C) 2015 Etnaviv Project
+- *
+- * This program is free software; you can redistribute it and/or modify it
+- * under the terms of the GNU General Public License version 2 as published by
+- * the Free Software Foundation.
+- *
+- * This program is distributed in the hope that it will be useful, but WITHOUT
+- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+- * more details.
+- *
+- * You should have received a copy of the GNU General Public License along with
+- * this program.  If not, see <http://www.gnu.org/licenses/>.
+  */
+ 
+ #ifndef __ETNAVIV_DRM_H__
+diff --git a/include/uapi/drm/exynos_drm.h b/include/uapi/drm/exynos_drm.h
+index a51aa1c618c1..a96fa566433c 100644
+--- a/include/uapi/drm/exynos_drm.h
++++ b/include/uapi/drm/exynos_drm.h
+@@ -6,11 +6,6 @@
+  *	Inki Dae <inki.dae@samsung.com>
+  *	Joonyoung Shim <jy0922.shim@samsung.com>
+  *	Seung-Woo Kim <sw0312.kim@samsung.com>
+- *
+- * This program is free software; you can redistribute  it and/or modify it
+- * under  the terms of  the GNU General  Public License as published by the
+- * Free Software Foundation;  either version 2 of the  License, or (at your
+- * option) any later version.
+  */
+ 
+ #ifndef _UAPI_EXYNOS_DRM_H_
+diff --git a/include/uapi/drm/omap_drm.h b/include/uapi/drm/omap_drm.h
+index 5a142fad473c..b51dad32122d 100644
+--- a/include/uapi/drm/omap_drm.h
++++ b/include/uapi/drm/omap_drm.h
+@@ -4,18 +4,6 @@
+  *
+  * Copyright (C) 2011 Texas Instruments
+  * Author: Rob Clark <rob@ti.com>
+- *
+- * This program is free software; you can redistribute it and/or modify it
+- * under the terms of the GNU General Public License version 2 as published by
+- * the Free Software Foundation.
+- *
+- * This program is distributed in the hope that it will be useful, but WITHOUT
+- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+- * more details.
+- *
+- * You should have received a copy of the GNU General Public License along with
+- * this program.  If not, see <http://www.gnu.org/licenses/>.
+  */
+ 
+ #ifndef __OMAP_DRM_H__
 -- 
-2.30.2
+2.34.1
 
