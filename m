@@ -1,46 +1,48 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 565EF5EBF21
-	for <lists+etnaviv@lfdr.de>; Tue, 27 Sep 2022 12:02:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B9D3B5F7435
+	for <lists+etnaviv@lfdr.de>; Fri,  7 Oct 2022 08:29:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F053110E572;
-	Tue, 27 Sep 2022 10:02:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 16C2E10E916;
+	Fri,  7 Oct 2022 06:29:18 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C6BA10E3E4
- for <etnaviv@lists.freedesktop.org>; Tue, 27 Sep 2022 10:02:02 +0000 (UTC)
-Received: from gallifrey.ext.pengutronix.de
- ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1od7PL-0008JS-DY; Tue, 27 Sep 2022 12:01:43 +0200
-Message-ID: <69b833f3e386018999f258b27bef0baeb27fb256.camel@pengutronix.de>
-Subject: Re: [PATCH] headers: Remove some left-over license text in
- include/uapi/drm/
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>, Russell King
- <linux@armlinux.org.uk>, David Airlie <airlied@linux.ie>, Daniel Vetter
- <daniel@ffwll.ch>, Christian Gmeiner <christian.gmeiner@gmail.com>, Inki
- Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>, Krzysztof Kozlowski
- <krzysztof.kozlowski@linaro.org>, Alim Akhtar <alim.akhtar@samsung.com>
-Date: Tue, 27 Sep 2022 12:01:39 +0200
-In-Reply-To: <e5cacd121ddb2a595cede602036b1bdfbee020d5.1664113376.git.christophe.jaillet@wanadoo.fr>
-References: <e5cacd121ddb2a595cede602036b1bdfbee020d5.1664113376.git.christophe.jaillet@wanadoo.fr>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
+Received: from mail.codeweavers.com (mail.codeweavers.com [65.103.31.132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E1D0310E299;
+ Thu, 29 Sep 2022 12:55:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=codeweavers.com; s=6377696661; h=Content-Transfer-Encoding:Content-Type:
+ Subject:From:To:MIME-Version:Date:Message-ID:Sender:Reply-To:Cc:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=sLRVBiowlV3tgU9aNfa7uL8HAclPzQwxQlHwwavoEO4=; b=MojYtUJRl8xO+X4QxgC3u5xer8
+ zhKa4ZNMN3KOOlNDjCx4QcE7qWgbUR7wngGBdOpD9qVqXXJbWVpk3VTi+dgH7gmc9C43bYkRnLHVF
+ XWxmGESyyUch0KKrU3UXzf3ZGOTKfSKkaXryLOWFp6RJW2/8ESTXELWQM/mA7Y/x0+DM=;
+Received: from jwhite.vpn.codeweavers.com ([10.69.141.101] helo=[10.0.0.18])
+ by mail.codeweavers.com with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.94.2)
+ (envelope-from <jwhite@codeweavers.com>)
+ id 1odt4P-00087X-TW; Thu, 29 Sep 2022 07:55:18 -0500
+Message-ID: <0dff419f-1c40-16ba-b067-a88ba46305eb@codeweavers.com>
+Date: Thu, 29 Sep 2022 07:55:17 -0500
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Content-Language: en-US
+To: events@lists.x.org, xorg-devel@lists.freedesktop.org,
+ wayland-devel@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ mesa-dev@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ etnaviv@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ libre-soc-dev@lists.libre-soc.org
+From: Jeremy White <jwhite@codeweavers.com>
+Subject: Information about XDC 2022 - next week!
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Fri, 07 Oct 2022 06:29:08 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,108 +54,58 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc@vger.kernel.org, kernel-janitors@vger.kernel.org,
- etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Russell King <linux+etnaviv@armlinux.org.uk>,
- linux-arm-kernel@lists.infradead.org
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Am Sonntag, dem 25.09.2022 um 15:43 +0200 schrieb Christophe JAILLET:
-> There is already a SPDX-License-Identifier tag, so the corresponding
-> license text can be removed.
-> 
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+﻿Hi folks,
 
-For the etnaviv part:
-Acked-by: Lucas Stach <l.stach@pengutronix.de>
+We are excited to welcome you in person to the 2022 X.Org Developers 
+Conference, held in conjunction with WineConf and FOSS XR conference.
 
-Regards,
-Lucas
+The conference will start officially on Tuesday morning, October 4th. 
+The program is here:
+   https://indico.freedesktop.org/event/2/timetable/#all.detailed
+The official events start at 8:30 am, but we will have coffee and 
+pastries available from 7:30 on Tuesday and 8 on Wednesday and Thursday.
 
-> ---
->  include/uapi/drm/armada_drm.h  |  4 ----
->  include/uapi/drm/etnaviv_drm.h | 12 ------------
->  include/uapi/drm/exynos_drm.h  |  5 -----
->  include/uapi/drm/omap_drm.h    | 12 ------------
->  4 files changed, 33 deletions(-)
-> 
-> diff --git a/include/uapi/drm/armada_drm.h b/include/uapi/drm/armada_drm.h
-> index af1c14c837c5..f711e63a9758 100644
-> --- a/include/uapi/drm/armada_drm.h
-> +++ b/include/uapi/drm/armada_drm.h
-> @@ -2,10 +2,6 @@
->  /*
->   * Copyright (C) 2012 Russell King
->   *  With inspiration from the i915 driver
-> - *
-> - * This program is free software; you can redistribute it and/or modify
-> - * it under the terms of the GNU General Public License version 2 as
-> - * published by the Free Software Foundation.
->   */
->  #ifndef DRM_ARMADA_IOCTL_H
->  #define DRM_ARMADA_IOCTL_H
-> diff --git a/include/uapi/drm/etnaviv_drm.h b/include/uapi/drm/etnaviv_drm.h
-> index af024d90453d..13dd1d1a9d41 100644
-> --- a/include/uapi/drm/etnaviv_drm.h
-> +++ b/include/uapi/drm/etnaviv_drm.h
-> @@ -1,18 +1,6 @@
->  /* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
->  /*
->   * Copyright (C) 2015 Etnaviv Project
-> - *
-> - * This program is free software; you can redistribute it and/or modify it
-> - * under the terms of the GNU General Public License version 2 as published by
-> - * the Free Software Foundation.
-> - *
-> - * This program is distributed in the hope that it will be useful, but WITHOUT
-> - * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-> - * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-> - * more details.
-> - *
-> - * You should have received a copy of the GNU General Public License along with
-> - * this program.  If not, see <http://www.gnu.org/licenses/>.
->   */
->  
->  #ifndef __ETNAVIV_DRM_H__
-> diff --git a/include/uapi/drm/exynos_drm.h b/include/uapi/drm/exynos_drm.h
-> index a51aa1c618c1..a96fa566433c 100644
-> --- a/include/uapi/drm/exynos_drm.h
-> +++ b/include/uapi/drm/exynos_drm.h
-> @@ -6,11 +6,6 @@
->   *	Inki Dae <inki.dae@samsung.com>
->   *	Joonyoung Shim <jy0922.shim@samsung.com>
->   *	Seung-Woo Kim <sw0312.kim@samsung.com>
-> - *
-> - * This program is free software; you can redistribute  it and/or modify it
-> - * under  the terms of  the GNU General  Public License as published by the
-> - * Free Software Foundation;  either version 2 of the  License, or (at your
-> - * option) any later version.
->   */
->  
->  #ifndef _UAPI_EXYNOS_DRM_H_
-> diff --git a/include/uapi/drm/omap_drm.h b/include/uapi/drm/omap_drm.h
-> index 5a142fad473c..b51dad32122d 100644
-> --- a/include/uapi/drm/omap_drm.h
-> +++ b/include/uapi/drm/omap_drm.h
-> @@ -4,18 +4,6 @@
->   *
->   * Copyright (C) 2011 Texas Instruments
->   * Author: Rob Clark <rob@ti.com>
-> - *
-> - * This program is free software; you can redistribute it and/or modify it
-> - * under the terms of the GNU General Public License version 2 as published by
-> - * the Free Software Foundation.
-> - *
-> - * This program is distributed in the hope that it will be useful, but WITHOUT
-> - * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-> - * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-> - * more details.
-> - *
-> - * You should have received a copy of the GNU General Public License along with
-> - * this program.  If not, see <http://www.gnu.org/licenses/>.
->   */
->  
->  #ifndef __OMAP_DRM_H__
+We expect everyone attending to be vaccinated and to be respectful of 
+people that are trying to avoid catching COVID. Masks are mandatory, 
+except when presenting or eating.
 
+A small number of us will gather informally at Brit’s Pub, starting at 
+around 4:00 pm on Monday, October 3rd.  We’ll try to have a table with 
+some sort of a sign, and folks can connect, have a drink, and then 
+perhaps group up to explore alternate food.  Note that if the weather is 
+nice, we may be up on the roof, so explore far to find us.
 
+We will be on the Minneapolis campus of St. Thomas, which is a mildly 
+confusing campus.  We have given instructions and a picture to guide you 
+here:
+ 
+https://indico.freedesktop.org/event/2/page/10-attending-xdc-wineconf-foss-xr
+We are working on the remote experience, and expect to have streaming of 
+all events available. The above page will have those details just as 
+soon as they are finalized.
+
+We have a page of instructions for folks that will be presenting:
+   https://indico.freedesktop.org/event/2/page/18-speaker-instructions
+
+We are also excited to announce the happy hour taking place on 
+Wednesday, from 6:00 pm until 8:00 pm.  The hope is that all three 
+projects can mingle and socialize and enjoy the return of in person 
+meetings.
+
+Also, this year we plan to adopt the Wine strategy of using a deliberate 
+Matrix chat room just for the conference.  Matrix has a variety of apps, 
+and Element, the default one is easy to configure on many devices, 
+including mobile phones.  The link to that channel is here:
+   https://matrix.to/#/#xdc-wineconf-fossxr-2022:matrix.org
+We find the chat channel a good place to learn what restaurants and bars 
+are chosen, and just a good way to track the social aspects of the 
+conference.
+
+We look forward to seeing you next week!
+
+Cheers,
+
+Jeremy
