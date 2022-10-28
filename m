@@ -1,76 +1,45 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEC4E62C861
-	for <lists+etnaviv@lfdr.de>; Wed, 16 Nov 2022 19:55:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A37362C871
+	for <lists+etnaviv@lfdr.de>; Wed, 16 Nov 2022 19:55:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A3CA10E4EB;
-	Wed, 16 Nov 2022 18:55:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC5D710E50C;
+	Wed, 16 Nov 2022 18:55:34 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-X-Greylist: delayed 903 seconds by postgrey-1.36 at gabe;
- Thu, 20 Oct 2022 11:10:57 UTC
-Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 761EC10E1DA;
- Thu, 20 Oct 2022 11:10:57 +0000 (UTC)
-Received: from [192.168.1.103] (31.173.87.29) by msexch01.omp.ru (10.188.4.12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.986.14; Thu, 20 Oct
- 2022 13:55:44 +0300
-Subject: Re: [PATCH 03/21] drm/ingenic: Don't set struct drm_driver.lastclose
-To: Thomas Zimmermann <tzimmermann@suse.de>, <daniel@ffwll.ch>,
- <airlied@gmail.com>, <sam@ravnborg.org>, <javierm@redhat.com>,
- <mripard@kernel.org>, <maarten.lankhorst@linux.intel.com>
-References: <20221020103755.24058-1-tzimmermann@suse.de>
- <20221020103755.24058-4-tzimmermann@suse.de>
-From: Sergey Shtylyov <s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-Message-ID: <013ea55b-3d51-c89c-eff8-b8d355ded352@omp.ru>
-Date: Thu, 20 Oct 2022 13:55:44 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+Received: from smtp-out-07.comm2000.it (smtp-out-07.comm2000.it [212.97.32.77])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 162CD10E785;
+ Fri, 28 Oct 2022 07:02:32 +0000 (UTC)
+Received: from francesco-nb.int.toradex.com (93-49-2-63.ip317.fastwebnet.it
+ [93.49.2.63])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: francesco@dolcini.it)
+ by smtp-out-07.comm2000.it (Postfix) with ESMTPSA id A22183C5EB4;
+ Fri, 28 Oct 2022 09:02:15 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailserver.it;
+ s=mailsrv; t=1666940550;
+ bh=lQ4N2jZr9hH7PT3M0QTKHRgyOTKxYsUa8t9J2223fqA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To;
+ b=hVVEVLFXcD8oMZ42lhd4lEMhG0bN5bsP/U+7LUfMEl7Jejpaq0HTOeBaFfSfVEkAp
+ ZgnWskN0ltqZwPh5/TBGwpdLd57M9DLa11pivIbL4KKkIl0+CfjOU2YUGuy7ZGoUVZ
+ /zovVL0HQmOB5v/PxQzl9g7m+Pdvh50k0CFB6tvT9OUDISo6L/aY4giM2jRdjVq1S5
+ XWXa70pZAgMEYNcfSiOu+0pVDHKzbc07OBJxOdMr3pHH7ReZElXvGSsYum7C8O4u8n
+ AOq4oN5+5RcvbgdHWFtuU6tB7LriOiRv7AqEFGmkDfvaJS6adqGWXeYslEXNhdgSsG
+ FoYb2gpU0tn6w==
+Date: Fri, 28 Oct 2022 09:02:10 +0200
+From: Francesco Dolcini <francesco@dolcini.it>
+To: etnaviv@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ dri-devel@lists.freedesktop.org
+Subject: Re: etnaviv OOPS, NULL pointer dereference on Linux 6.0.2
+Message-ID: <Y1t+cn8hjxCxyMON@francesco-nb.int.toradex.com>
+References: <Y1Ar4wnv4zeh9Bmw@francesco-nb.int.toradex.com>
 MIME-Version: 1.0
-In-Reply-To: <20221020103755.24058-4-tzimmermann@suse.de>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [31.173.87.29]
-X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
- (10.188.4.12)
-X-KSE-ServerInfo: msexch01.omp.ru, 9
-X-KSE-AntiSpam-Interceptor-Info: scan successful
-X-KSE-AntiSpam-Version: 5.9.20, Database issued on: 10/20/2022 10:25:24
-X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
-X-KSE-AntiSpam-Method: none
-X-KSE-AntiSpam-Rate: 59
-X-KSE-AntiSpam-Info: Lua profiles 173210 [Oct 20 2022]
-X-KSE-AntiSpam-Info: Version: 5.9.20.0
-X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
-X-KSE-AntiSpam-Info: LuaCore: 502 502 69dee8ef46717dd3cb3eeb129cb7cc8dab9e30f6
-X-KSE-AntiSpam-Info: {rep_avail}
-X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
-X-KSE-AntiSpam-Info: {relay has no DNS name}
-X-KSE-AntiSpam-Info: {SMTP from is not routable}
-X-KSE-AntiSpam-Info: {Found in DNSBL: 31.173.87.29 in (user)
- b.barracudacentral.org}
-X-KSE-AntiSpam-Info: omp.ru:7.1.1; 127.0.0.199:7.1.2;
- d41d8cd98f00b204e9800998ecf8427e.com:7.1.1
-X-KSE-AntiSpam-Info: ApMailHostAddress: 31.173.87.29
-X-KSE-AntiSpam-Info: {DNS response errors}
-X-KSE-AntiSpam-Info: Rate: 59
-X-KSE-AntiSpam-Info: Status: not_detected
-X-KSE-AntiSpam-Info: Method: none
-X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
- smtp.mailfrom=omp.ru;dkim=none
-X-KSE-Antiphishing-Info: Clean
-X-KSE-Antiphishing-ScanningType: Heuristic
-X-KSE-Antiphishing-Method: None
-X-KSE-Antiphishing-Bases: 10/20/2022 10:32:00
-X-KSE-AttachmentFiltering-Interceptor-Info: protection disabled
-X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: Clean, bases: 10/20/2022 7:12:00 AM
-X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y1Ar4wnv4zeh9Bmw@francesco-nb.int.toradex.com>
 X-Mailman-Approved-At: Wed, 16 Nov 2022 18:55:06 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -83,35 +52,100 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-hyperv@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-samsung-soc@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
- xen-devel@lists.xenproject.org, linux-sunxi@lists.linux.dev,
- linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- etnaviv@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- spice-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
- linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-mips@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- freedreno@lists.freedesktop.org
+Cc: Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Francesco Dolcini <francesco@dolcini.it>, Lucas Stach <l.stach@pengutronix.de>
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Hello!
-
-On 10/20/22 1:37 PM, Thomas Zimmermann wrote:
-
-> Don't set struct drm_mode_config.output_poll_changed. It's used to
-> inform the fbdev console about conncetor changes. But as ingenic
-
-   Connector. :-)
-
-> uses generic fbdev emulation, the console is being informed by the
-> DRM client helpers already. See the calls to drm_client_dev_hotplug()
-> in drm_probe_helper.c.
+On Wed, Oct 19, 2022 at 06:54:59PM +0200, Francesco Dolcini wrote:
+> Hello all,
+> I got the following Oops, on a Apalis iMX6 Dual with 512MB RAM,
+> running glmark2 tests with the system under memory pressure (OOM
+> Killer!).
 > 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-[...]
+> It's not something systematic and I cannot tell if this is a regression
+> or not, any suggestion? The system just froze afterward.
 
-MBR, Sergey
+> 
+> [  480.994256] Out of memory: Killed process 1740 (Qt5_CinematicEx) total-vm:242656kB, anon-rss:105212kB, file-rss:9864kB, shmem-rss:1304kB, UID:0 pgtables:192kB oom_score_adj:0
+> [  481.068691] 8<--- cut here ---
+> [  481.072037] Unable to handle kernel NULL pointer dereference at virtual address 00000004
+> [  481.080366] [00000004] *pgd=00000000
+> [  481.083994] Internal error: Oops: 805 [#1] SMP ARM
+> [  481.088813] Modules linked in: 8021q imx_sdma virt_dma coda_vpu v4l2_jpeg imx_vdoa dw_hdmi_ahb_audio fuse
+> [  481.098458] CPU: 1 PID: 1755 Comm: QSGRenderThread Not tainted 6.0.2-6.1.0-devel+git.dab08f7eecdf #1
+> [  481.107619] Hardware name: Freescale i.MX6 Quad/DualLite (Device Tree)
+> [  481.114157] PC is at etnaviv_gem_free_object+0x40/0x128
+> [  481.119412] LR is at lock_is_held_type+0xa4/0x15c
+
+Just hit another OOPS in etnaviv/DRM, but in another function (FWIW kernel
+6.0.5 now). Unfortunately I have no systematic reproducer for this
+either.
+
+[  127.887596] Out of memory: Killed process 1358 (weston) total-vm:57820kB, anon-rss:11228kB, file-rss:1836kB, shmem-rss:16456kB, UID:0 pgtables:60kB oom_score_adj:0
+[  127.985396] 8<--- cut here ---
+[  127.988856] Unable to handle kernel NULL pointer dereference at virtual address 00000054
+[  127.997042] [00000054] *pgd=00000000
+[  128.000660] Internal error: Oops: 5 [#1] SMP ARM
+[  128.005290] Modules linked in: 8021q cfg80211 imx_sdma virt_dma coda_vpu v4l2_jpeg imx_vdoa dw_hdmi_ahb_audio fuse
+[  128.015690] CPU: 1 PID: 1358 Comm: weston Not tainted 6.0.5-6.1.0-devel+git.3829606fc5df #1
+[  128.024056] Hardware name: Freescale i.MX6 Quad/DualLite (Device Tree)
+[  128.030591] PC is at drm_sched_job_cleanup+0x1c/0x13c
+[  128.035663] LR is at etnaviv_ioctl_gem_submit+0x9ac/0x1364
+[  128.041164] pc : [<c07716c0>]    lr : [<c0785334>]    psr: a00d0013
+[  128.047438] sp : e0f69d78  ip : 00000003  fp : fffffff4
+[  128.052670] r10: c2d07000  r9 : dd581a00  r8 : c1bf2298
+[  128.057901] r7 : dd581a00  r6 : c2d07000  r5 : c37fe500  r4 : e0f69e6c
+[  128.064435] r3 : 7ff302d8  r2 : 7ff302d8  r1 : 00000000  r0 : 00000000
+[  128.070970] Flags: NzCv  IRQs on  FIQs on  Mode SVC_32  ISA ARM  Segment none
+[  128.078115] Control: 10c5387d  Table: 1337404a  DAC: 00000051
+[  128.083866] Register r0 information: NULL pointer
+[  128.088585] Register r1 information: NULL pointer
+[  128.093300] Register r2 information: non-paged memory
+[  128.098361] Register r3 information: non-paged memory
+[  128.103422] Register r4 information: 2-page vmalloc region starting at 0xe0f68000 allocated at kernel_clone+0x50/0x40c
+[  128.114167] Register r5 information: slab kmalloc-128 start c37fe500 pointer offset 0 size 128
+[  128.122826] Register r6 information: slab task_struct start c2d07000 pointer offset 0
+[  128.130706] Register r7 information: slab kmalloc-512 start dd581a00 pointer offset 0 size 512
+[  128.139357] Register r8 information: non-slab/vmalloc memory
+[  128.145039] Register r9 information: slab kmalloc-512 start dd581a00 pointer offset 0 size 512
+[  128.153733] Register r10 information: slab task_struct start c2d07000 pointer offset 0
+[  128.161683] Register r11 information: non-paged memory
+[  128.166845] Register r12 information: non-paged memory
+[  128.172007] Process weston (pid: 1358, stack limit = 0x9a050b52)
+[  128.178036] Stack: (0xe0f69d78 to 0xe0f6a000)
+[  128.182405] 9d60:                                                       c1bf2298 7ff302d8
+[  128.190592] 9d80: 00000cc0 e0f69e6c c37fe500 00000010 c2aff800 c0785334 0000000a 00000000
+[  128.198783] 9da0: c0721238 00000000 c308b600 00000010 c37fe500 e0f69e6c 00000005 00000001
+[  128.206972] 9dc0: 00000028 c3467078 00000010 c37fe500 c25e0380 e0f69e6c c25f8000 c2d07000
+[  128.215158] 9de0: 00000aab 00000005 00010000 00000001 c156b860 00000000 c156b864 c1a4c018
+[  128.223345] 9e00: 00000000 c119fe5c c3000000 00000001 00000007 7ff302d8 00000000 c0486446
+[  128.231531] 9e20: 00000048 c2d07000 00000048 c0e87b40 e0f69e6c c3467000 00000048 c0721238
+[  128.239717] 9e40: 0000e280 00000001 c1197448 c2d07000 be9d0fb0 e0f69e6c 00000046 c37f0c80
+[  128.247903] 9e60: c0784988 00000051 00000000 00000000 00000000 00000000 00000005 0000000a
+[  128.256089] 9e80: 000005b8 01fd0bf8 00000000 01fd0a10 00000000 01b72868 00000000 00000004
+[  128.264274] 9ea0: 00000000 00000000 00000000 00000000 00000000 7ff302d8 00000013 00004000
+[  128.272460] 9ec0: c2d07000 c2d22dc0 00000001 c37f0c80 00000005 c0351d6c 00000000 00000000
+[  128.280651] 9ee0: c0351c6c 00000000 00000000 7ff302d8 be9d0fb0 c0486446 c37f0c81 c0100080
+[  128.288840] 9f00: be9d0fb0 c2d07000 c37f0c80 c25a8710 00000013 c0342ab0 00000000 c2d07000
+[  128.297026] 9f20: e0f69fb0 c022e258 c2d07000 e0f69fb0 00000000 c01002b4 c01002b4 c010b924
+[  128.305212] 9f40: c03511c4 c136055c 60070013 c01936d0 00000028 c2d22dc0 c3972b00 00000001
+[  128.313413] 9f60: 00000000 7ff302d8 c2d07000 c15e4ea0 01fd1d98 c2d07000 c136629c 7ff302d8
+[  128.321616] 9f80: b6e9048c 01b72380 be9d0fb0 c0486446 00000036 c01002b4 c2d07000 00000036
+[  128.329821] 9fa0: 00000000 c0100080 01b72380 be9d0fb0 00000013 c0486446 be9d0fb0 be9d0f78
+[  128.338020] 9fc0: 01b72380 be9d0fb0 c0486446 00000036 be9d1028 be9d0fb0 01b176e8 00000000
+[  128.346220] 9fe0: 00000036 be9d0f60 b6ec8089 b6e41ae6 00070030 00000013 00000000 00000000
+[  128.354428]  drm_sched_job_cleanup from etnaviv_ioctl_gem_submit+0x9ac/0x1364
+[  128.361611]  etnaviv_ioctl_gem_submit from drm_ioctl+0x1e8/0x3a0
+[  128.367660]  drm_ioctl from sys_ioctl+0x530/0xdbc
+[  128.372409]  sys_ioctl from ret_fast_syscall+0x0/0x1c
+[  128.377504] Exception stack(0xe0f69fa8 to 0xe0f69ff0)
+[  128.382585] 9fa0:                   01b72380 be9d0fb0 00000013 c0486446 be9d0fb0 be9d0f78
+[  128.390775] 9fc0: 01b72380 be9d0fb0 c0486446 00000036 be9d1028 be9d0fb0 01b176e8 00000000
+[  128.398979] 9fe0: 00000036 be9d0f60 b6ec8089 b6e41ae6
+[  128.404053] Code: e24dd00c ee1d6f70 e5963530 e58d3004 (e5903054)
+[  128.410383] ---[ end trace 0000000000000000 ]---
+
+
+Francesco
