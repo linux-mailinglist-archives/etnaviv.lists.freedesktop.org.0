@@ -2,75 +2,75 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FA5962C84D
-	for <lists+etnaviv@lfdr.de>; Wed, 16 Nov 2022 19:55:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADDED62C85D
+	for <lists+etnaviv@lfdr.de>; Wed, 16 Nov 2022 19:55:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 28E0810E4EB;
-	Wed, 16 Nov 2022 18:55:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 401E410E4FC;
+	Wed, 16 Nov 2022 18:55:16 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 03AE610E21D
- for <etnaviv@lists.freedesktop.org>; Mon, 31 Oct 2022 12:21:53 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 03CBA10E236
+ for <etnaviv@lists.freedesktop.org>; Mon, 31 Oct 2022 12:22:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667218912;
+ s=mimecast20190719; t=1667218949;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Sz8PAZx0cLc5RAaRO0sQR4MZQyCy7VtrjJT7yq4jHuw=;
- b=dtQVGo+IZpIyUJY4zXXEG/jalqF9M1pfn2IdTmrz7mYYRpF87IBrQkBlR5B3RpuR3G+aTI
- k40MuyKuCdqnmW1jG7fFCXifOR3s3Ok4Quh2y1JHM0a5/wUppWpI1Ut0YG88m5KLySqOoG
- LhUFfBKyizj5dA8s/Vl8MiAhsJnE5hc=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=xVJodACOlUyVw6jJB0o/QffeIPQi24/sF6MmyMfBvgg=;
+ b=AD3YqiH6p2ttr44BpYQxrxqMRTPybN7R/b6HdOO7WVOug/Q1OjwZu85lR+0dhw9vB0ZNLp
+ v7HafG6DmjwvnlLt3brJJxuyUzEl6cdvpUV5fqKr5ZAt+IBZq1/R/Xx18Uo02XSc4VOIrG
+ Mu6cRHxrbzkM8L0aY3CeC+LMDI6BwZY=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-103-3joPk-D1OoKtrzD12c_6Kg-1; Mon, 31 Oct 2022 08:21:51 -0400
-X-MC-Unique: 3joPk-D1OoKtrzD12c_6Kg-1
-Received: by mail-wm1-f71.google.com with SMTP id
- bg25-20020a05600c3c9900b003cf3ed7e27bso5232491wmb.4
- for <etnaviv@lists.freedesktop.org>; Mon, 31 Oct 2022 05:21:51 -0700 (PDT)
+ us-mta-655-rcqK_KCLMbSjLXVBkefAZA-1; Mon, 31 Oct 2022 08:22:28 -0400
+X-MC-Unique: rcqK_KCLMbSjLXVBkefAZA-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ p7-20020adfba87000000b0022cc6f805b1so3023143wrg.21
+ for <etnaviv@lists.freedesktop.org>; Mon, 31 Oct 2022 05:22:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Sz8PAZx0cLc5RAaRO0sQR4MZQyCy7VtrjJT7yq4jHuw=;
- b=WcZw8OskAse79vwNESyheEoh4WJYKdY0iM2OhPPmGWIUF6ymmUb5EUbNXhgUV9p8+Q
- zRTfOZSoORw4BwRFiV9Lj3CrPryALM+rk0NZBTiSuknV774wPe3c8nDX3S5tRDbtecY2
- OTd1bYeh7oLDzshm4XpxL2col8g4f8erBNOPhovLOZrwOQbCHv9Zs7B8aJqUJCbgEVt5
- M58+eCudcQZczLXvI7R3ra9KSNrc6Kn3FpQ9tFwvA9fd17DBoIjdROBQkOuehWBIRA3w
- /cVBvZaYSjW76Rx3pA/r7jITE1antE2UxDJosdlDX0Tjc04fIgclbsMr3UO5uGw1438b
- /DJw==
-X-Gm-Message-State: ACrzQf35i6hjSRjPSN6bISBoEw3JHE1dAKzIoB7zSOHm1T1Z90n2NExz
- MLtP75DujAPTLdc5J9QrtTAIPReh7ZsFKsQyocBiz8l3ItMNwoMJpT4IaQR4iNyuslXOvI7K1j9
- cHSxw6PdtgdBebIJJayn4tijIuQ==
-X-Received: by 2002:a05:600c:3c8e:b0:3b4:d224:ae27 with SMTP id
- bg14-20020a05600c3c8e00b003b4d224ae27mr7935982wmb.187.1667218910335; 
- Mon, 31 Oct 2022 05:21:50 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7kQh5/EvsJvI9K3W2EFLXezwgTMZr8BgFr4Dt+IxgUiTtboeKKAu1FK4Es/7ETyez8XSTV6g==
-X-Received: by 2002:a05:600c:3c8e:b0:3b4:d224:ae27 with SMTP id
- bg14-20020a05600c3c8e00b003b4d224ae27mr7935971wmb.187.1667218910155; 
- Mon, 31 Oct 2022 05:21:50 -0700 (PDT)
+ bh=xVJodACOlUyVw6jJB0o/QffeIPQi24/sF6MmyMfBvgg=;
+ b=WI3joeGzga+rCEB62MLYEZ3ssRz2qD8TE3HI0exXdVjtfWTatz/4EsIYI1sqvcjh4v
+ gAAOajnWgjtqGCVsGqvvBidpOsBBUZTEBP3Q7v09N833ImeWuM5X8U8jatuV5LGd/ub7
+ 4VRdanPJzbvpERC944P0a/pMmhyP5CJjbVE0uOEX+kfl6f1qIVT4fjmIltaM3nn3WEC7
+ AYjMTARo5a0hrYlIA+O0IBpfM4IZFQ6HOAugBSAPAKL7cMdiSr5evAyJMIHpQpTeJSxQ
+ lOs1ylbb5C+y8I8xgxmm1pBIzHIDw2lvJECvyKv94+BnPqheTXoARMQvbIRgoLpVkFXO
+ eHTg==
+X-Gm-Message-State: ACrzQf2q5d1eWcqhN9fTjhCJFJhrXBht2Y6nPuZdO4fnUjt+SQPt2JXE
+ yHAFOMAxY9IHa4eSxJ4acibVYtxZkI3x81F4Ucm03Y7P/DrKN3YO99+UVJH9Otw+4jeYzScmy6Z
+ CQVsYKg6u8D6rYmK3/+0POXmUpA==
+X-Received: by 2002:a05:600c:46ce:b0:3c6:f274:33b2 with SMTP id
+ q14-20020a05600c46ce00b003c6f27433b2mr7860184wmo.27.1667218947038; 
+ Mon, 31 Oct 2022 05:22:27 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4zVdpLNc1mYDp74XAWVtjpPddzcwMDONTh4D+G0X15w3fKqsphKr/pP9hn5PrcknLAkhJ5Mg==
+X-Received: by 2002:a05:600c:46ce:b0:3c6:f274:33b2 with SMTP id
+ q14-20020a05600c46ce00b003c6f27433b2mr7860165wmo.27.1667218946788; 
+ Mon, 31 Oct 2022 05:22:26 -0700 (PDT)
 Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- i4-20020a05600c354400b003cf4c1e211fsm7421692wmq.38.2022.10.31.05.21.48
+ f16-20020a05600c4e9000b003cf568a736csm5157904wmq.20.2022.10.31.05.22.25
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 31 Oct 2022 05:21:49 -0700 (PDT)
-Message-ID: <e9192382-f04c-4ebd-ca1c-b2fceaa29f86@redhat.com>
-Date: Mon, 31 Oct 2022 13:21:48 +0100
+ Mon, 31 Oct 2022 05:22:26 -0700 (PDT)
+Message-ID: <ea046b06-fb0e-b7c2-8f70-b299401d9adf@redhat.com>
+Date: Mon, 31 Oct 2022 13:22:24 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.3.1
-Subject: Re: [PATCH v2 09/21] drm/panel-ili9341: Include <linux/backlight.h>
+Subject: Re: [PATCH v2 10/21] drm/tve200: Include <linux/of.h>
 To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
  airlied@gmail.com, sam@ravnborg.org, mripard@kernel.org,
  maarten.lankhorst@linux.intel.com
 References: <20221024111953.24307-1-tzimmermann@suse.de>
- <20221024111953.24307-10-tzimmermann@suse.de>
+ <20221024111953.24307-11-tzimmermann@suse.de>
 From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20221024111953.24307-10-tzimmermann@suse.de>
+In-Reply-To: <20221024111953.24307-11-tzimmermann@suse.de>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
@@ -104,7 +104,7 @@ Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
 On 10/24/22 13:19, Thomas Zimmermann wrote:
-> Include <linux/backlight.h> for devm_of_find_backlight().
+> Include <linux/of.h> for of_match_ptr().
 > 
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
