@@ -1,65 +1,65 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 534F362C84C
-	for <lists+etnaviv@lfdr.de>; Wed, 16 Nov 2022 19:55:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 55BE962C86E
+	for <lists+etnaviv@lfdr.de>; Wed, 16 Nov 2022 19:55:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D6AD10E432;
-	Wed, 16 Nov 2022 18:55:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1CF9E10E4F8;
+	Wed, 16 Nov 2022 18:55:32 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD88C10E1B0
- for <etnaviv@lists.freedesktop.org>; Mon, 31 Oct 2022 12:08:23 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E533910E1B0
+ for <etnaviv@lists.freedesktop.org>; Mon, 31 Oct 2022 12:13:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667218103;
+ s=mimecast20190719; t=1667218423;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UzviKTRQBMSKwIl6kvNWZgMaFQwic4ec30sKv7m652k=;
- b=LpLJfPfmj+XC6XNC7o+Sxep4QWmQC83qWDlmf5HJgoqCc+RDLxfCSVb8ABzyelE2ikVN05
- 5PI9xAEeJ1FeXxXUlsskv/HhD2BbpFIkHjb7yUnipcsApQM1TlOYBU6UmeRL4GC1GRonRD
- IKr2qu+X5e/I/jih3oxjJwF0mSaW7X4=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=2H8Fq04+XbNugdc6Ty/YSDXQIs5WWNt9cW9u1MIkjOA=;
+ b=LyZfO8oK7WZg4YiS9L3p0sPvSDxJCNdr2Me/YfWcIWtG3BRFZltcOhxxLIrtskFui509hE
+ xsInseEH2yFmN84gB9WUs/gQuBrkKynCG9+fUX6R3pQXdXRJ3+3lDQY7Th6RTNKRybZc4i
+ Jd+OU8QSZF05D6AMylsox0LmSDOrFXE=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-222-up5qsUF7OGqs-iTtRAdhTQ-1; Mon, 31 Oct 2022 08:08:19 -0400
-X-MC-Unique: up5qsUF7OGqs-iTtRAdhTQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- f26-20020a7bcc1a000000b003c03db14864so2532084wmh.6
- for <etnaviv@lists.freedesktop.org>; Mon, 31 Oct 2022 05:08:19 -0700 (PDT)
+ us-mta-640-EiSONG_8MOCt36C50krdTg-1; Mon, 31 Oct 2022 08:13:42 -0400
+X-MC-Unique: EiSONG_8MOCt36C50krdTg-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ d23-20020adfa417000000b002364a31b7c9so2988194wra.15
+ for <etnaviv@lists.freedesktop.org>; Mon, 31 Oct 2022 05:13:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=UzviKTRQBMSKwIl6kvNWZgMaFQwic4ec30sKv7m652k=;
- b=3GfSnKD54dExu7d9Qut/H261BcT33CVx4GiEK0U0wJGo2+XGOzAjXJhygJS4/tDfdq
- diDdFeJ3X8sJrvQmu0Wgmnk+j1tRLmWCE0uuDhR4po9mq/3UNIYFwILN5oxn4z3BYK+2
- GQ/gW+zMk5k/SVuiJlkNJSmlJ8koHtRGVfv0CJblkweDHCARDFoDuCVzGrDUAFT1YTz4
- pcjMk+NTEiz55jXdk1l2BOBSeoNb3GfSknqw50SJ8R2Fa+e++c/JWv8Z69meo+gwS+Zu
- GUX8uTPfhFKYvjhVHPh4nZT9KtPAVyMGrLjs4oenr38JPN5jkwBQwNJ48295HIJpMt8A
- rsQA==
-X-Gm-Message-State: ACrzQf3c2zm4YiW3kQQlQpbVw4aSol3JmkxhvlgUN2OBCgP+pYtMmBd/
- QpZNAi7lraLNddVCfS8SywMty286IAaurkG3YStpxcEi1R+uf+4JcYg6ab1vag5eKb5UZMkJ1yJ
- 8EPYKMCwrE1CXa8ng/2DVMw41dg==
-X-Received: by 2002:a05:6000:15cd:b0:236:9701:7939 with SMTP id
- y13-20020a05600015cd00b0023697017939mr7691191wry.248.1667218098870; 
- Mon, 31 Oct 2022 05:08:18 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6Xfc/ao13H30KX93ABjLq4iUJ6oQF+1EOXF8gvz+3LvWSBMjjIijdjEWsEsBBK0GpYNHL8UA==
-X-Received: by 2002:a05:6000:15cd:b0:236:9701:7939 with SMTP id
- y13-20020a05600015cd00b0023697017939mr7691171wry.248.1667218098682; 
- Mon, 31 Oct 2022 05:08:18 -0700 (PDT)
+ bh=2H8Fq04+XbNugdc6Ty/YSDXQIs5WWNt9cW9u1MIkjOA=;
+ b=FzUYdFVwXoOECooPNnH1mj1on40+PnY4gze+BJ5bYhTSeDIjWqefNSW+NA3LsFapea
+ Z1ONyHGjZlbdcyi5oY3i6H3C58yKJEJAZMRWtCjWv2Q0/ZgZ49ioiEUcwk+ht1af7DXo
+ nmNwMtqwneTsgoBSswmc5sPs3Ofx9ai81AeUPxwNDmlxJCsBRc1UwjT/MdYav3qKwQ+/
+ utCAbsJXRslSDRJ9kOysXcWthLwe2zCVkPd1uTWn7qb2DERasgyzojs6d2sNtTMqLa/a
+ 6Dtv+1maTgLnjLNwpQIRJLekyDj9p8RgjTnZra+JWAOhAFAG3o3ZZN7CaW1u3gPT5M0l
+ hYsw==
+X-Gm-Message-State: ACrzQf0s2hvarO9b13bTphhO0wXKsCoe0Ei3PVUjlSxKHRt5TMnumD2L
+ bWKzN7PBXDIfiubxqVI3ojUg6JEzN4TJ5hN5rZh43BWFSTU1FMOxUJ6q1uiSXrT5EKJwE1AiM2r
+ njsPF0nd8AaZ6xHFsuz9yL9khXw==
+X-Received: by 2002:a5d:64cd:0:b0:236:6d1c:c1a2 with SMTP id
+ f13-20020a5d64cd000000b002366d1cc1a2mr8196701wri.360.1667218420935; 
+ Mon, 31 Oct 2022 05:13:40 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6+QX10ZDmjvc1IfL0XXmvBimtEQHEjFBrrHb50hNQes1zzurNnpW//og1SN1o9c/o5tX548g==
+X-Received: by 2002:a5d:64cd:0:b0:236:6d1c:c1a2 with SMTP id
+ f13-20020a5d64cd000000b002366d1cc1a2mr8196664wri.360.1667218420692; 
+ Mon, 31 Oct 2022 05:13:40 -0700 (PDT)
 Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- bn26-20020a056000061a00b0022cd0c8c696sm6948033wrb.103.2022.10.31.05.08.17
+ az29-20020a05600c601d00b003cdf141f363sm7207444wmb.11.2022.10.31.05.13.38
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 31 Oct 2022 05:08:18 -0700 (PDT)
-Message-ID: <fd53a4f9-34a8-f5f3-1b1f-baf4a456bcc9@redhat.com>
-Date: Mon, 31 Oct 2022 13:08:16 +0100
+ Mon, 31 Oct 2022 05:13:40 -0700 (PDT)
+Message-ID: <231be619-96b7-b725-0735-0275e07477d8@redhat.com>
+Date: Mon, 31 Oct 2022 13:13:38 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.3.1
@@ -118,13 +118,6 @@ On 10/24/22 13:19, Thomas Zimmermann wrote:
 > ---
 
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-
-Do you think that the fbdev helpers kernel doc has to be updated to mention
-that drm_fb_helper_lastclose() and drm_fb_helper_output_poll_changed() are
-not needed when generic fbdev emulation is used? Because by reading that is
-not clear that's the case:
-
-https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/drm_fb_helper.c#L86
 
 -- 
 Best regards,
