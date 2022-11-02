@@ -2,76 +2,78 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B52A62C86F
-	for <lists+etnaviv@lfdr.de>; Wed, 16 Nov 2022 19:55:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3480762C860
+	for <lists+etnaviv@lfdr.de>; Wed, 16 Nov 2022 19:55:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E82E10E509;
-	Wed, 16 Nov 2022 18:55:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F0F5710E0A2;
+	Wed, 16 Nov 2022 18:55:18 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B041310E46A
- for <etnaviv@lists.freedesktop.org>; Wed,  2 Nov 2022 10:02:33 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F092410E477
+ for <etnaviv@lists.freedesktop.org>; Wed,  2 Nov 2022 10:46:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667383352;
+ s=mimecast20190719; t=1667386007;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lYDm2f88uo7N+T5CuGh2kGVIDaWbYMjQLaRZ3nU/m+Y=;
- b=Q7leAYZqc3S236QbrWd5JH7lcPBXB8R+bp7eqqQlt+z6eCMQ8px+gxzxnMworn2TL77lNM
- FVdbbhiCE0IYf1RdcQkjXSdr6asP0r/zf+/CmUI6+px2J5NuNgKaDePz9WpBYZwpK3UrJG
- 5pkA39pvy2xfMh8gPmXyv9Xp1UlJIms=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=iUJvEUx8gtjx3iaw6xY22YZZMkx+Fxj3A7QQSAUB80Y=;
+ b=IdsGxcpc/b9eri3/F2vdOUh/cr0GJaUlcfrvfXm5M1ivFv5rIhWx6/D/pKE538YSPP5rTI
+ dnD7I+fjmyuhuvWBoCiKKCvwlRz6YgWk+A/vS3qXmahAei/2tst2AFgeuCYRtXXo0TJL7L
+ IuJ/qqE+hcToYJ3azmb4wt9N7PXsAw8=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-467-EMIYAHsUMISx1_hZSwFTxA-1; Wed, 02 Nov 2022 06:02:31 -0400
-X-MC-Unique: EMIYAHsUMISx1_hZSwFTxA-1
-Received: by mail-wr1-f69.google.com with SMTP id
- t12-20020adfa2cc000000b0022adcbb248bso4614941wra.1
- for <etnaviv@lists.freedesktop.org>; Wed, 02 Nov 2022 03:02:31 -0700 (PDT)
+ us-mta-34-zypOO66oP1WGyD63Lyj23Q-1; Wed, 02 Nov 2022 06:46:46 -0400
+X-MC-Unique: zypOO66oP1WGyD63Lyj23Q-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ m34-20020a05600c3b2200b003cf549cb32bso929426wms.1
+ for <etnaviv@lists.freedesktop.org>; Wed, 02 Nov 2022 03:46:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=lYDm2f88uo7N+T5CuGh2kGVIDaWbYMjQLaRZ3nU/m+Y=;
- b=md92E+bQAItQ2T/O62EtWe6IIS1qIEfzMljLw9fMm/gV7QlOONDC4PV58B5/akO3FW
- aeleW/18pgX+wSVc9TrtBUed6kuzL79N17zimTGDug2Fg222CYaW7wNXbCogkh1OYbrC
- a0EzDxiz7pvPe7Wh6R3DOQZgzgNrH0vIT49MinwwK3cku88U9LzMmI7Q1hatouQOCvN6
- aKHjRfK1dgx5cDy1B4L1iAlR2zdp3mPe3D1BzpvRwScWrlk4P/HxXqFhu0s+Pd19jQSQ
- A8zFsK60/ziyuUM5iuqeDJ07RqMuwCgnfXqDUg1j04KrhXxdnpv0CY+010DPNb/lgCyq
- WlGA==
-X-Gm-Message-State: ACrzQf1O6HXyPAxovTZqlbilM1G/5UjQb6NXUzY869Qmp31qvyoe/EkY
- EUtpI4nlsMdiwIptVLdLMYRz1qsLNAu+kqKkzrF788HL++sDYuQYAjOEdSedDGsKIsYn9HkDm0F
- s6+qAqFknCbuLFankpRtSYMq0xg==
-X-Received: by 2002:adf:f9cf:0:b0:236:6a26:c055 with SMTP id
- w15-20020adff9cf000000b002366a26c055mr14584870wrr.195.1667383350613; 
- Wed, 02 Nov 2022 03:02:30 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6OHHkFmpcUlQhLx4VZSF/FNGP0hsrmpEExWtKIxFg2Jf6dmbAckk/gQVQTytU8dXpfU2B04w==
-X-Received: by 2002:adf:f9cf:0:b0:236:6a26:c055 with SMTP id
- w15-20020adff9cf000000b002366a26c055mr14584846wrr.195.1667383350420; 
- Wed, 02 Nov 2022 03:02:30 -0700 (PDT)
+ bh=iUJvEUx8gtjx3iaw6xY22YZZMkx+Fxj3A7QQSAUB80Y=;
+ b=kyI0woe0cgrVwvEAV2D+kVxF4i1Mm3Yt1WSDq4k6K8++8Qo9cia3c/Ycr18bHTIjNh
+ 05s/4ocfvXqaWd8yxnn29WCHfO8iZUN7jwA2Tnv95aFjMnkqxInivxmgA2S3RsYHySrw
+ /b3wU99B7NzExUJ6GJhiFy4mcitbCa5ST3MyToSGrckAL5HJb5DrVWIPzWZ78zhM83/D
+ Cv2SI+Q454VwnnrhoJh8YBQFhjWpXglIc9wmVeWgKuOurKsV3HfBfDhv44nC4awE88uA
+ LlNhIPVgpu+jMs8NwEkzHtj+aHaohEmRSZKwM59iML5hXOLXaO3jD7pgYAayvbieK7Q/
+ MUYw==
+X-Gm-Message-State: ACrzQf1WwGTWmOMZES4lKrm0gdB/ahbr9Lb6FVVVaEx1MYLSOkNuSi25
+ fllADxLdZpqP2AWbPlnuJBPI3rW6/57orgxRehZ8RAuHRbOUzhVP/kJ8ZuAaZN8uxCk+Ty2V3IA
+ KZLqaUsrqly9kcZPoX5cvBUqPYg==
+X-Received: by 2002:a05:600c:3556:b0:3ca:771d:701a with SMTP id
+ i22-20020a05600c355600b003ca771d701amr14652032wmq.61.1667386004923; 
+ Wed, 02 Nov 2022 03:46:44 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5jzv0egtLEIAVaxEN/tayyZgqvKvq+1qzahuWoTfzpPIfJE04AyAO6MvJnCllXJsp0I0J18w==
+X-Received: by 2002:a05:600c:3556:b0:3ca:771d:701a with SMTP id
+ i22-20020a05600c355600b003ca771d701amr14651998wmq.61.1667386004691; 
+ Wed, 02 Nov 2022 03:46:44 -0700 (PDT)
 Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- fn13-20020a05600c688d00b003a3170a7af9sm1564836wmb.4.2022.11.02.03.02.29
+ c18-20020a05600c0a5200b003b3365b38f9sm1701531wmq.10.2022.11.02.03.46.43
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 02 Nov 2022 03:02:30 -0700 (PDT)
-Message-ID: <68309442-ad39-36da-b1ec-680dd4129a7f@redhat.com>
-Date: Wed, 2 Nov 2022 11:02:28 +0100
+ Wed, 02 Nov 2022 03:46:44 -0700 (PDT)
+Message-ID: <5abf94d6-9a48-525e-c562-605529c5793a@redhat.com>
+Date: Wed, 2 Nov 2022 11:46:42 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.3.1
-Subject: Re: [PATCH v2 21/21] drm/fb-helper: Remove unnecessary include
- statements
+Subject: Re: [PATCH v2 17/21] drm/fb-helper: Perform all fbdev I/O with the
+ same implementation
 To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
  airlied@gmail.com, sam@ravnborg.org, mripard@kernel.org,
  maarten.lankhorst@linux.intel.com
 References: <20221024111953.24307-1-tzimmermann@suse.de>
- <20221024111953.24307-22-tzimmermann@suse.de>
+ <20221024111953.24307-18-tzimmermann@suse.de>
+ <3ab32fc3-f2aa-1b42-fd87-557482ab56d5@redhat.com>
+ <0ca70b76-c24a-4fdb-cf0d-2647d37379df@suse.de>
 From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20221024111953.24307-22-tzimmermann@suse.de>
+In-Reply-To: <0ca70b76-c24a-4fdb-cf0d-2647d37379df@suse.de>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
@@ -104,13 +106,44 @@ Cc: linux-hyperv@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-On 10/24/22 13:19, Thomas Zimmermann wrote:
-> Remove include statements for <drm/drm_fb_helper.h> where it is not
-> required (i.e., most of them). In a few places include other header
-> files that are required by the source code.
+On 11/2/22 11:33, Thomas Zimmermann wrote:
+
+[...]
+
+>>
+>>> +static ssize_t __drm_fb_helper_write(struct fb_info *info, const char __user *buf, size_t count,
+>>> +				     loff_t *ppos, drm_fb_helper_write_screen write_screen)
+>>> +{
+>>
+>> [...]
+>>
+>>> +	/*
+>>> +	 * Copy to framebuffer even if we already logged an error. Emulates
+>>> +	 * the behavior of the original fbdev implementation.
+>>> +	 */
+>>> +	ret = write_screen(info, buf, count, pos);
+>>> +	if (ret < 0)
+>>> +		return ret; /* return last error, if any */
+>>> +	else if (!ret)
+>>> +		return err; /* return previous error, if any */
+>>> +
+>>> +	*ppos += ret;
+>>> +
+>>
+>> Should *ppos be incremented even if the previous error is returned?
 > 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
+> Yes. It emulates the original fbdev code at [1]. Further down in that 
+> function, the position is being updated even if an error occured. We 
+> only return the initial error if no bytes got written.
+> 
+> It could happen that some userspace program hits to error, but still 
+> relies on the output and position being updated. IIRC I even added 
+> validation of this behavior to the IGT fbdev tests.  I agree that this 
+> is somewhat bogus behavior, but changing it would change long-standing 
+> userspace semantics.
+>
+
+Thanks for the explanation, feel free then to also add to this patch:
 
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
