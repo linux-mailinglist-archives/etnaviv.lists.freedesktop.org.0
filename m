@@ -1,77 +1,77 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C62E262C84F
-	for <lists+etnaviv@lfdr.de>; Wed, 16 Nov 2022 19:55:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FAB562C872
+	for <lists+etnaviv@lfdr.de>; Wed, 16 Nov 2022 19:55:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 484BD10E4ED;
-	Wed, 16 Nov 2022 18:55:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D3BA710E50D;
+	Wed, 16 Nov 2022 18:55:34 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C260810E469
- for <etnaviv@lists.freedesktop.org>; Wed,  2 Nov 2022 09:40:20 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E70B610E46B
+ for <etnaviv@lists.freedesktop.org>; Wed,  2 Nov 2022 10:01:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667382019;
+ s=mimecast20190719; t=1667383286;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BsLrquRWckXT1s1aby8jZXWvTG60TzDOu2w8x1+2PdY=;
- b=eEAnBVkZJbwzOPCO+Ba00Yn0YLXfCYE/kW0GIiTKFGtZptXm2xdCv81hCkTt6G0W0+ckN1
- J3PQXDl4JZhhShU3rM6gg6Y9waiTMUIagw1GBGYxxmc2wXNu80JqKkN2IjYPSz5ToaFAtc
- JLhaW78yBy/xS+nq1+oPvVRgjM4PvtA=
+ bh=QoVTRIE06q1gLaA+FiGPh2NoY5TNtlfidxMdk3t+aTM=;
+ b=fuSs/eA4/7vZhV+X35FsnJlEhJ/20+W2k2LZenlQ7FIAvrb5mWjQpHZEEE3G7/vkuBezcY
+ ci/Smj7q/Z7hIgWVlQx1F2hNiJZQuFSvdEElWEudDf6CzncUGzYGNXoMcPmOQDpm4N2pDn
+ leC3TPAoQgZGNS5Qf5k3LtPYa4n+dVI=
 Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
  [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-351-JGTo1yWBOsqbp7j5CAy55Q-1; Wed, 02 Nov 2022 05:40:18 -0400
-X-MC-Unique: JGTo1yWBOsqbp7j5CAy55Q-1
+ us-mta-275-x5MMXP66MGOjWOQHFATGNQ-1; Wed, 02 Nov 2022 06:01:25 -0400
+X-MC-Unique: x5MMXP66MGOjWOQHFATGNQ-1
 Received: by mail-wm1-f72.google.com with SMTP id
- v191-20020a1cacc8000000b003bdf7b78dccso7731253wme.3
- for <etnaviv@lists.freedesktop.org>; Wed, 02 Nov 2022 02:40:18 -0700 (PDT)
+ v188-20020a1cacc5000000b003cf76c4ae66so862177wme.7
+ for <etnaviv@lists.freedesktop.org>; Wed, 02 Nov 2022 03:01:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=BsLrquRWckXT1s1aby8jZXWvTG60TzDOu2w8x1+2PdY=;
- b=3u8LpXhSdnKua7eQH9NQFiqmDB6dkL7uD7UwCtwCiFn2wwptvIz1GaBukEZJErEoUT
- azxckjM8pW4S+yLtXucElE/PMpvgSEgosMwAgCiV/KjSlJNj9zpG+/5u88anH37VmydX
- kwGr2alauxSMhkZeBLj4B635m2WGKHGVjX5YEMYwH8nyPiuSHew2w+vqplIwwTfxI0IW
- fe3bAHANt1mDz+39Kl2/9UFbhxGu6tN+Y7po+MbXtsBiQZXjbhihlhrn2XK61dwVxQ9Q
- +UXziRaYyfN0BuK4f3KwE4bdHRV6F3qh/wNh/XENG8DM0MRUdqAsRD84gwTYNw5HwdPp
- 2M+Q==
-X-Gm-Message-State: ACrzQf2CIiA/LUAtQgcMIZIFb/w74jbXRXQeu5zO6KpTcxegMS2URPFp
- kbEpJ3Rkp+l3wy+j4VnLGAKS6EgOwMJ/lcGbR+JyUqmK5QiqZ0UQgmLZKGrbGLshwyRPzwJnFU7
- I8VBZr5oCzqrMRW1sZkYWV2PLeg==
-X-Received: by 2002:adf:ba8f:0:b0:22c:def3:1179 with SMTP id
- p15-20020adfba8f000000b0022cdef31179mr14547821wrg.571.1667382017694; 
- Wed, 02 Nov 2022 02:40:17 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5M29YlmTkXAEgNYduNYpaEq18eaSYaR/je5Gn7y2xNrovwH6Pttvb6rYpMLmmOPDm/qr+vag==
-X-Received: by 2002:adf:ba8f:0:b0:22c:def3:1179 with SMTP id
- p15-20020adfba8f000000b0022cdef31179mr14547781wrg.571.1667382017447; 
- Wed, 02 Nov 2022 02:40:17 -0700 (PDT)
+ bh=QoVTRIE06q1gLaA+FiGPh2NoY5TNtlfidxMdk3t+aTM=;
+ b=XtASP7sx6cbvgOcSpaknkTZIEYvX/OXVIwAQY6yJsW9itc+Eduy0S0VeI6PyUeUI4Z
+ CtAJBtTmafJmOwMk4wuVwDQJ/gOQjcLotHTUkHVyp/stxIS6lruMwpuH/iUhDtY2ocQK
+ q1APaNs/ct5W2yUOhsu8KQ9/+sdXiShJAdl2iafuUvct9Sqo13CjStsP5Jk2Pqd6Mb3d
+ 28/HsZ3lFszoMK5I3X24VeLtIFZsw19doozsjf3Yx4ANd5Adfrwn9VUg6N5wuWRezC/l
+ PHE9muzOD8Tw94H4HWdDcJ4gDq1tl3TYw0d0scZDdcoZ5yA/Y7IR3ip4LyRXjpHu/L8I
+ A3gA==
+X-Gm-Message-State: ACrzQf2RdsUAeIxGzbb6S9vOialvHjt5E76QkQMy/UCyK3FWlYkqDsm0
+ WlV+zqU7le80OfrlCRxaNKA5oFmrjNKxtQpMOWAVMCWVonZ0v0UddAL3GK6rJQyVP2AphNvxL7V
+ 3JRgkFvttuC2cbkB0P+YGfE8rZg==
+X-Received: by 2002:a5d:5505:0:b0:236:582b:7eb0 with SMTP id
+ b5-20020a5d5505000000b00236582b7eb0mr14405773wrv.68.1667383284458; 
+ Wed, 02 Nov 2022 03:01:24 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5ieiweFPtXW5w3c0VZoUXMoQohTPuy1WtQBfT29g+UzlDhvHMzFOjUUUPFpm0LZwMa5DV8ag==
+X-Received: by 2002:a5d:5505:0:b0:236:582b:7eb0 with SMTP id
+ b5-20020a5d5505000000b00236582b7eb0mr14405736wrv.68.1667383284200; 
+ Wed, 02 Nov 2022 03:01:24 -0700 (PDT)
 Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- j20-20020a05600c191400b003b47e8a5d22sm1924445wmq.23.2022.11.02.02.40.15
+ b13-20020a5d550d000000b002366b17ca8bsm14230263wrv.108.2022.11.02.03.01.22
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 02 Nov 2022 02:40:16 -0700 (PDT)
-Message-ID: <7ac0da2c-0a43-4c02-4199-f48a50347171@redhat.com>
-Date: Wed, 2 Nov 2022 10:40:15 +0100
+ Wed, 02 Nov 2022 03:01:23 -0700 (PDT)
+Message-ID: <1d2b9809-857f-48cc-1177-72e6fc67b8e5@redhat.com>
+Date: Wed, 2 Nov 2022 11:01:22 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.3.1
-Subject: Re: [PATCH v2 19/21] drm/fb-helper: Always initialize generic fbdev
- emulation
+Subject: Re: [PATCH v2 20/21] drm/fb-helper: Move generic fbdev emulation into
+ separate source file
 To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
  airlied@gmail.com, sam@ravnborg.org, mripard@kernel.org,
  maarten.lankhorst@linux.intel.com
 References: <20221024111953.24307-1-tzimmermann@suse.de>
- <20221024111953.24307-20-tzimmermann@suse.de>
+ <20221024111953.24307-21-tzimmermann@suse.de>
 From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20221024111953.24307-20-tzimmermann@suse.de>
+In-Reply-To: <20221024111953.24307-21-tzimmermann@suse.de>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
@@ -105,16 +105,12 @@ Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
 On 10/24/22 13:19, Thomas Zimmermann wrote:
-> Initialize the generic fbdev emulation even if it has been disabled
-> on the kernel command line. The hotplug and mode initialization will
-> fail accordingly.
-> 
-> The kernel parameter can still be changed at runtime and the emulation
-> will initialize after hotplugging the connector.
+> Move the generic fbdev implementation into its own source and header
+> file. Adapt drivers. No functonal changes, but some of the internal
+> helpers have been renamed to fit into the drm_fbdev_ naming scheme.
 > 
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
-
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
 -- 
