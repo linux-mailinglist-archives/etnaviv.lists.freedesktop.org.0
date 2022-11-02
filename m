@@ -2,75 +2,76 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 252E962C855
-	for <lists+etnaviv@lfdr.de>; Wed, 16 Nov 2022 19:55:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C62E262C84F
+	for <lists+etnaviv@lfdr.de>; Wed, 16 Nov 2022 19:55:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D63FC10E4F3;
-	Wed, 16 Nov 2022 18:55:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 484BD10E4ED;
+	Wed, 16 Nov 2022 18:55:09 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E52F310E460
- for <etnaviv@lists.freedesktop.org>; Wed,  2 Nov 2022 09:39:27 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C260810E469
+ for <etnaviv@lists.freedesktop.org>; Wed,  2 Nov 2022 09:40:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667381966;
+ s=mimecast20190719; t=1667382019;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RgeOXsRJ+XKaYoOYvxoyhBylXQrWD/HUrGfmQUHOZZs=;
- b=Jio9JFQacF7FMi0mPUb743H5F84vjCUoxUEdOs4aCfEtqSNexXzNQhBZqnP+aEdEkKHJXh
- URmHGjTMdLlBZMQtpImG0Y4/SH1ck9czoq54M3olm1njxLJsVz+LHQL3sTJgt66SNaM5Ds
- +mvqMM0BCfe4PNY5ygcY3NKi7w2CfF8=
+ bh=BsLrquRWckXT1s1aby8jZXWvTG60TzDOu2w8x1+2PdY=;
+ b=eEAnBVkZJbwzOPCO+Ba00Yn0YLXfCYE/kW0GIiTKFGtZptXm2xdCv81hCkTt6G0W0+ckN1
+ J3PQXDl4JZhhShU3rM6gg6Y9waiTMUIagw1GBGYxxmc2wXNu80JqKkN2IjYPSz5ToaFAtc
+ JLhaW78yBy/xS+nq1+oPvVRgjM4PvtA=
 Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
  [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-315-Uewz97BLOVihcTiFEXUMug-1; Wed, 02 Nov 2022 05:39:25 -0400
-X-MC-Unique: Uewz97BLOVihcTiFEXUMug-1
+ us-mta-351-JGTo1yWBOsqbp7j5CAy55Q-1; Wed, 02 Nov 2022 05:40:18 -0400
+X-MC-Unique: JGTo1yWBOsqbp7j5CAy55Q-1
 Received: by mail-wm1-f72.google.com with SMTP id
- f62-20020a1c3841000000b003cf6d9aacbbso3519348wma.8
- for <etnaviv@lists.freedesktop.org>; Wed, 02 Nov 2022 02:39:25 -0700 (PDT)
+ v191-20020a1cacc8000000b003bdf7b78dccso7731253wme.3
+ for <etnaviv@lists.freedesktop.org>; Wed, 02 Nov 2022 02:40:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=RgeOXsRJ+XKaYoOYvxoyhBylXQrWD/HUrGfmQUHOZZs=;
- b=Cm1Oqu3Xx1osbM0Gp/5PIQUfBDoLzrBnlcTOR9PSIC6A71LWTxW2jwQts5mqVNfole
- 30wHGhutsxfQsgfJphuXH7L53xzmmymqdv5Xvs20qJg2dWHX9QU2NEavTXIwQG3WWJmQ
- ai87P0Vybu6hO6PoRyiAkj60at8BWxTVtXngRIj289vxRIK9xyeDWIO2o3JZKuxTsE8e
- PwdWscFgRuNL0iDAci1Kw5jn7QakhCoXV02pi9EKlrOJ8xmGKFk3JNcwVM07P+7TK4eN
- Pa27Ffo5d0dUIswB7EmH/LNNz/vPTGmgWoCLnr5xuUC4I85TlGjdZ841pHIAavHfT3S7
- eyTA==
-X-Gm-Message-State: ACrzQf0RsF5lKaxAk8cljFSyIo4nDtx8xxEQbiB4C6ImrdWjdr+w5Rb9
- 7Zm/2FfqcVgRqf6LO2UwvzbZmAbymDCdBge8olBfeej5J7ytlm7XYpoEasmlHoKPy03UCUmXn/s
- fKISfUq0eC1ygLtGI22xxnDfN1A==
-X-Received: by 2002:a5d:40d1:0:b0:236:786d:611e with SMTP id
- b17-20020a5d40d1000000b00236786d611emr14871557wrq.355.1667381964725; 
- Wed, 02 Nov 2022 02:39:24 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4/k2KHrjikPXyIbTE3cWGjPi0EsRobUeOg55XAJjnO250x+w4Sp4JFFeS1nRK3GUJGY3QPnQ==
-X-Received: by 2002:a5d:40d1:0:b0:236:786d:611e with SMTP id
- b17-20020a5d40d1000000b00236786d611emr14871522wrq.355.1667381964509; 
- Wed, 02 Nov 2022 02:39:24 -0700 (PDT)
+ bh=BsLrquRWckXT1s1aby8jZXWvTG60TzDOu2w8x1+2PdY=;
+ b=3u8LpXhSdnKua7eQH9NQFiqmDB6dkL7uD7UwCtwCiFn2wwptvIz1GaBukEZJErEoUT
+ azxckjM8pW4S+yLtXucElE/PMpvgSEgosMwAgCiV/KjSlJNj9zpG+/5u88anH37VmydX
+ kwGr2alauxSMhkZeBLj4B635m2WGKHGVjX5YEMYwH8nyPiuSHew2w+vqplIwwTfxI0IW
+ fe3bAHANt1mDz+39Kl2/9UFbhxGu6tN+Y7po+MbXtsBiQZXjbhihlhrn2XK61dwVxQ9Q
+ +UXziRaYyfN0BuK4f3KwE4bdHRV6F3qh/wNh/XENG8DM0MRUdqAsRD84gwTYNw5HwdPp
+ 2M+Q==
+X-Gm-Message-State: ACrzQf2CIiA/LUAtQgcMIZIFb/w74jbXRXQeu5zO6KpTcxegMS2URPFp
+ kbEpJ3Rkp+l3wy+j4VnLGAKS6EgOwMJ/lcGbR+JyUqmK5QiqZ0UQgmLZKGrbGLshwyRPzwJnFU7
+ I8VBZr5oCzqrMRW1sZkYWV2PLeg==
+X-Received: by 2002:adf:ba8f:0:b0:22c:def3:1179 with SMTP id
+ p15-20020adfba8f000000b0022cdef31179mr14547821wrg.571.1667382017694; 
+ Wed, 02 Nov 2022 02:40:17 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5M29YlmTkXAEgNYduNYpaEq18eaSYaR/je5Gn7y2xNrovwH6Pttvb6rYpMLmmOPDm/qr+vag==
+X-Received: by 2002:adf:ba8f:0:b0:22c:def3:1179 with SMTP id
+ p15-20020adfba8f000000b0022cdef31179mr14547781wrg.571.1667382017447; 
+ Wed, 02 Nov 2022 02:40:17 -0700 (PDT)
 Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- dn12-20020a05600c654c00b003cf537ec2efsm1653185wmb.36.2022.11.02.02.39.22
+ j20-20020a05600c191400b003b47e8a5d22sm1924445wmq.23.2022.11.02.02.40.15
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 02 Nov 2022 02:39:24 -0700 (PDT)
-Message-ID: <23b6c3ca-828a-5376-ae80-0b04202e190b@redhat.com>
-Date: Wed, 2 Nov 2022 10:39:22 +0100
+ Wed, 02 Nov 2022 02:40:16 -0700 (PDT)
+Message-ID: <7ac0da2c-0a43-4c02-4199-f48a50347171@redhat.com>
+Date: Wed, 2 Nov 2022 10:40:15 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.3.1
-Subject: Re: [PATCH v2 18/21] drm/fb_helper: Minimize damage-helper overhead
+Subject: Re: [PATCH v2 19/21] drm/fb-helper: Always initialize generic fbdev
+ emulation
 To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
  airlied@gmail.com, sam@ravnborg.org, mripard@kernel.org,
  maarten.lankhorst@linux.intel.com
 References: <20221024111953.24307-1-tzimmermann@suse.de>
- <20221024111953.24307-19-tzimmermann@suse.de>
+ <20221024111953.24307-20-tzimmermann@suse.de>
 From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20221024111953.24307-19-tzimmermann@suse.de>
+In-Reply-To: <20221024111953.24307-20-tzimmermann@suse.de>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
@@ -104,33 +105,17 @@ Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
 On 10/24/22 13:19, Thomas Zimmermann wrote:
-> Pull the test for fb_dirty into the caller to avoid extra work
-> if no callback has been set. In this case no damage handling is
-> required and no damage area needs to be computed. Print a warning
-> if the damage worker runs without getting an fb_dirty callback.
+> Initialize the generic fbdev emulation even if it has been disabled
+> on the kernel command line. The hotplug and mode initialization will
+> fail accordingly.
+> 
+> The kernel parameter can still be changed at runtime and the emulation
+> will initialize after hotplugging the connector.
 > 
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
 
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-
-But I've a trivial comment below:
-
->  drivers/gpu/drm/drm_fb_helper.c | 90 ++++++++++++++++++++++-----------
->  1 file changed, 60 insertions(+), 30 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
-> index 836523aef6a27..fbc5c5445fdb0 100644
-> --- a/drivers/gpu/drm/drm_fb_helper.c
-> +++ b/drivers/gpu/drm/drm_fb_helper.c
-> @@ -449,12 +449,13 @@ static int drm_fb_helper_damage_blit(struct drm_fb_helper *fb_helper,
->  static void drm_fb_helper_damage_work(struct work_struct *work)
->  {
->  	struct drm_fb_helper *helper = container_of(work, struct drm_fb_helper, damage_work);
-> +	struct drm_device *dev = helper->dev;
-
-You removed this in patch #15, maybe just leaving it in that patch if you
-plan to use it again here?
 
 -- 
 Best regards,
