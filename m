@@ -2,41 +2,113 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4129E62C874
-	for <lists+etnaviv@lfdr.de>; Wed, 16 Nov 2022 19:55:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 039B962C859
+	for <lists+etnaviv@lfdr.de>; Wed, 16 Nov 2022 19:55:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E2A9610E50F;
-	Wed, 16 Nov 2022 18:55:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0553B10E4F6;
+	Wed, 16 Nov 2022 18:55:14 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-X-Greylist: delayed 450 seconds by postgrey-1.36 at gabe;
- Mon, 07 Nov 2022 18:00:42 UTC
-Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 937B610E50E
- for <etnaviv@lists.freedesktop.org>; Mon,  7 Nov 2022 18:00:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1667843586; h=from:from:sender:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=U/tEoyaSzgCjLFBBFxGEhWlA0ueX0gH414aDBJ34Uqk=;
- b=s5x6gJB0oQvdi9PxxKMObWjBnPttc+tIKgp3iV4JP6g4i87boCxDyjZA/XoT/rKmnXe7t8
- xsktO8YC1dL/BiuJLBoa6YnWHzQMKkXinVg2EN+ugTEBlcoleFv5aHpBsM8lZV+SEHRZnV
- LW/vSG/9vQPVgw8OhbbX7mHviYNoaEE=
-From: Paul Cercueil <paul@crapouillou.net>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH 12/26] drm: etnaviv: Remove #ifdef guards for PM related
- functions
-Date: Mon,  7 Nov 2022 17:52:42 +0000
-Message-Id: <20221107175256.360839-2-paul@crapouillou.net>
-In-Reply-To: <20221107175256.360839-1-paul@crapouillou.net>
-References: <20221107175106.360578-1-paul@crapouillou.net>
- <20221107175256.360839-1-paul@crapouillou.net>
+Received: from DM6PR05CU003-vft-obe.outbound.protection.outlook.com
+ (mail-centralusazon11013004.outbound.protection.outlook.com [52.101.64.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B176310E053;
+ Mon,  7 Nov 2022 19:03:51 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=joxD3CxbdvtT9/U8n0cSDvZ16HlOtT5519Gs9qHTmYbodKBGmwf7+xq+KCWiiqm+l6NVJVXor3bK+13OBRfhBzg4jz8BPNW21SK6suKyctGqC9jgTqTMP+n5Kcz9MduAtGSbPSEeVoSDMdeG7r8Hel5uN7VJattnn+onEd+y2i4SehWfNkj9JVhrjMBDHoi6Yv/W86acSQm0yVe4G3TvZ/zH8uyY2dlfipepTJg4kDuTBHJl0jo8A+U7SzamzN/Y25hJZRXALggdxGKOHb7K2HXYKioXo0totlENAZiefRfrrBSz0WJVoX6FYHTYIRQFaa/1lPUlE60Cm8VTOVIl5g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=MMm1F9kmDsUV3YAItctwDvww/eBkRcX8E/vAlxrs7Qs=;
+ b=HfI/6SATN3paV8BN8nmdBEsqqq2aqoluljRb4yKNB9u/AkgBfksalMKq2SuAUegbbj3B+1EYMujXIT44olNrO4faXy03/N60nWYYt1VW2aLUZUZDKbB2bfo3ayzS6KrOJxGf7nQasD7II8J5JMyvHJH4EkQkPEQ2g1RCh9NLUl/MN1Ahd6DlnNjG3XTTR8lmD86a34VUgEbBuRON7XZ3MqRtYhuwC21nWmBBo6URjwhYZuywG+qUTBZKcZoqYoegwMEfjSD4ZsOC6jkv/e0OcY6iim1VF1lPWdPYfIE+4qjFvhYc9WDuyn2E7enlVGqQpvooHAOkEXQjcKJjKoQNvg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vmware.com; dmarc=pass action=none header.from=vmware.com;
+ dkim=pass header.d=vmware.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vmware.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=MMm1F9kmDsUV3YAItctwDvww/eBkRcX8E/vAlxrs7Qs=;
+ b=nRS0d1aTB+odpfReEG9+bshqLvSaojXdlRynMOvwC0RceA0iqFegldKekhx3Fn6tQ49/kkluaTXuX7WQvIyATfwoMqGtjS+Y3+eesc9Z+Iv/5VBfdn76boc8S4kZyEmLkek1Kn4ERUM6qCHcOKZ1UwF9Tv589A7IeWv7FBQ1DmM=
+Received: from SA1PR05MB8534.namprd05.prod.outlook.com (2603:10b6:806:1dd::19)
+ by BY5PR05MB7190.namprd05.prod.outlook.com (2603:10b6:a03:1da::11)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5791.9; Mon, 7 Nov
+ 2022 19:03:48 +0000
+Received: from SA1PR05MB8534.namprd05.prod.outlook.com
+ ([fe80::ca89:ffc2:7e20:16fd]) by SA1PR05MB8534.namprd05.prod.outlook.com
+ ([fe80::ca89:ffc2:7e20:16fd%5]) with mapi id 15.20.5791.027; Mon, 7 Nov 2022
+ 19:03:48 +0000
+From: Nadav Amit <namit@vmware.com>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH RFC 05/19] mm: add early FAULT_FLAG_WRITE consistency
+ checks
+Thread-Topic: [PATCH RFC 05/19] mm: add early FAULT_FLAG_WRITE consistency
+ checks
+Thread-Index: AQHY8sSPsuqGQZcSwkqSjFQS9Nwjx64z0cqA
+Date: Mon, 7 Nov 2022 19:03:48 +0000
+Message-ID: <E1E8C21A-EAEB-4FA3-A9B9-1DFF81FCDA70@vmware.com>
+References: <20221107161740.144456-1-david@redhat.com>
+ <20221107161740.144456-6-david@redhat.com>
+In-Reply-To: <20221107161740.144456-6-david@redhat.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3696.120.41.1.1)
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vmware.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SA1PR05MB8534:EE_|BY5PR05MB7190:EE_
+x-ms-office365-filtering-correlation-id: 58691cf8-f0a5-4dc9-95e2-08dac0f2cd1e
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: V4ZgqZJ/nZo+t6bBykyeqlDysQg7OBj666BnOWgLCZqpArReQEDoOOTAkXgM9HkAOmw10Pdv1miyNP82OyEToEOKp6YGCtXrM0gDBVDCvRd3DcfIMsYqIQWFGzwUorYMa4C1dhap2x/A9AqWHHhtvPlVfgGgVFjCiZMEZ8cJoQH/iBO1svyWLEKoLdcoPyy1olH8E3vj4MBcnBGoOk8v6Be5ZFVDFMykrKtpuvUcD+tBrDmfBTCMDkjXGukxrsiiZKYB56A9AEV6yYkxnhanjqPrT0WYNoY/Ez/Zmn04S/dikfX+tcLj3UJQ/QXM4FEppfqc2uBlqX4CKnkPCqi6LK5S0wOliIOFjQZmGPGUo4srtHw/pCxCg1SIHYaymNkSZRXz10nkcUYlCzeSKX64O2q9YYUT9TTpHPq5bJ+sLQgTSWfunMgmV9B7PmeXwygk2fOIhSSfjsOPODKSsbK++U/BMhqk92MPyG5++K+YjJUJUHblYfJpwIb3kLLN497zVy0jp+Ouk5q0N/8EW5Kpo36qhe1YFKaTQOfQi+O2V0HMn+TYGNFkqqP3VME2lz7aerDow+O9lpPTLh1ZQbvrgQSdc9llzO24bix/XUYsO2sV6i/a/Ev+vtWuac/py7mKD2h1YDdOWcoUvImWH0W9DtLpOxr/4ew3EsVMdt2vD752nMTv5AAy2iVAFPlVXlXBnDIgCswPQcXqTmHQj7hgwgyK8qMuV/3GidPPAN3LIlMmAETZRZZKsoZ2bkxI3sTQmqt9ep7N8twQLWTjCJOIqJB46scaEqrY0K7Gs14bgvQ=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SA1PR05MB8534.namprd05.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(136003)(376002)(366004)(396003)(39860400002)(346002)(451199015)(36756003)(186003)(38100700002)(122000001)(2616005)(64756008)(86362001)(41300700001)(5660300002)(7416002)(2906002)(8936002)(4326008)(8676002)(33656002)(6486002)(6512007)(26005)(478600001)(6916009)(316002)(54906003)(71200400001)(6506007)(53546011)(38070700005)(91956017)(76116006)(66446008)(66476007)(66556008)(66946007)(45980500001);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?Vvly9o6KLAbVhCRPuWL1UNYXFJkT5nQ9vNVn7m1WSzmr4vzk9DFzyOqPKiVg?=
+ =?us-ascii?Q?xNlyZrLWR874tpGRpmcGQcobhw3/UJfS0FEcv+QthTazB0aezS/oafSaPhgO?=
+ =?us-ascii?Q?y7HHRVlV+erEtN6/pjby4WX8JJkbdaCAFlQ9advIT0O+DX/SqytcAF3Ip03P?=
+ =?us-ascii?Q?x62COCXsB5SVlu11nxcPozTGf7kGGrlZ3kzV+Ifthwewu3gRU94PlgEl33UA?=
+ =?us-ascii?Q?qjQxJ8TDThJ0MjH3VvOaYwwj9iF66gcsM+/oZoyj4PVTRctKDfHqVgT68Q9f?=
+ =?us-ascii?Q?SvmMx2wMtWIIZBd97QyE57DWs+lrFjY79CQCWcgYEAx5NkSVJ4w5jW9MSe3b?=
+ =?us-ascii?Q?6Pujf9W8bMKeiYQVeFi/4TBamyWxqi3rzOrML/SwcClLEmfn1HW6DW93esR9?=
+ =?us-ascii?Q?xPdTsiZjrs47NRsSV9JthzHcPDVwpSqq4+E44Opk5W4HDTZrfxhlrGIavy93?=
+ =?us-ascii?Q?JX6MirHulSQ+umPEF4MZ/++ox+p9RcKi9PAwamENOnxjTvTdoeRk3UAxf6Ix?=
+ =?us-ascii?Q?/fHAWIa0HKQ/BBlghdp/27a46YJofz39jbxb1i46ZUu6SEUDTekh9FAPkQDK?=
+ =?us-ascii?Q?DOx95yKhQCkZqlAIzcynD08atClkFfZi2PvuzbdARe/5In3AP086Cdv/5uYR?=
+ =?us-ascii?Q?nzDHuh7U1z5q/0g3FdnGzYVeBp3JlvXd5ZPUDm+Rag3ZCqqhC/yH5HUwPPG+?=
+ =?us-ascii?Q?8GDHuKIZ5i0ptFhmT4d75Q6lDGCF48ANsp4HJszVVy7xtdAhsbvij+dZAtXk?=
+ =?us-ascii?Q?B8vegZTdl24uJl3+4PCyZfe1G3TED3wYYI8vsebc5PmjcXIBpZOq43Dw/j+s?=
+ =?us-ascii?Q?aDtle7uRCZdnhYUjn/CmtxlXFf1Z4WaN8Yzy3EV6Nb3A5uhdGK1laNz6zdOs?=
+ =?us-ascii?Q?S1qP3tjgZM5Uq0flU5JBvwv2K9Su87kyZGh5jyAOtzyyo8rxqGB7NRRMGnX+?=
+ =?us-ascii?Q?4tsUv9k4ifOA+K5W5WDB/AyLmqSi5jm2fBOLUvcWpo1bEJRHMqYCV27T89mz?=
+ =?us-ascii?Q?H81DuB3KBSZL9GoZTn81qTkTkAdWVOupwaJMrk9I2dr03cCwRxkERa0A4TDF?=
+ =?us-ascii?Q?RgE8YIiSGyNS8besmEHUpQWDMyJXrFKXCElcK8Z1R4+qZtEF7u4Nw9kAUjaD?=
+ =?us-ascii?Q?MKR4gFSnxEJdZ/yRH8f3pDGU4/2s+5dZSPzUg7oIkTIXa4kk8ljcPkEmcExa?=
+ =?us-ascii?Q?uZ+rY2PUa00lxia2gOXwrdhBO01X4VmLdS4uD0mCfqqF2x9K31i0JKJT29yJ?=
+ =?us-ascii?Q?TaEotixZ1CqIKm6cX4LiFz78ZM9zP22TTtrWdjdkDqyDYpJx+t/bPk3aByji?=
+ =?us-ascii?Q?NQOBmyuSzLcnAuC50Fvl7pvi+XodzLBSxhIFbH7FhmEKuQ720j+aLEnvU35I?=
+ =?us-ascii?Q?XRd5kU4SLEH80r3A6Z7k10NmR+shal8RREJAa5NBb5h5ga1+beS74gmt4ijy?=
+ =?us-ascii?Q?dtwwkeLkixHqWc4a5/i/S+cpHiQI4bXX4tws9nXyVymcsID4dG8N4beGKeHI?=
+ =?us-ascii?Q?IDQNQBkGN4pzpm0ruFZWVbk6r+M9rtLP5MnPDb5v3U79Gmw9G+XdyTKhSD5U?=
+ =?us-ascii?Q?6udjOHHxfJk8g8wI8KMQnJ42HQW/ANmAfBRr9YPi?=
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <936CE9F434A0C84C92D104C436CD7D04@namprd05.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: vmware.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SA1PR05MB8534.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 58691cf8-f0a5-4dc9-95e2-08dac0f2cd1e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Nov 2022 19:03:48.1830 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b39138ca-3cee-4b4a-a4d6-cd83d9dd62f0
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: KfSM0iTEhYfCVrJe4QTKrVUTq2AdsVnmQAy3rNSQzzpUbV1I6knQSA1bZfitlCjDq6rH6cbaztTwAKdz2I1oOQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR05MB7190
 X-Mailman-Approved-At: Wed, 16 Nov 2022 18:55:06 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -49,128 +121,72 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- etnaviv@lists.freedesktop.org, Paul Cercueil <paul@crapouillou.net>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Linux-MM <linux-mm@kvack.org>,
+ "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+ David Airlie <airlied@gmail.com>, Andrea Arcangeli <aarcange@redhat.com>,
+ "linux-samsung-soc@vger.kernel.org" <linux-samsung-soc@vger.kernel.org>,
+ "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+ Hugh Dickins <hughd@google.com>, Matthew Wilcox <willy@infradead.org>,
+ Jason Gunthorpe <jgg@ziepe.ca>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ Arnd Bergmann <arnd@arndb.de>, John Hubbard <jhubbard@nvidia.com>,
+ "etnaviv@lists.freedesktop.org" <etnaviv@lists.freedesktop.org>,
+ Peter Xu <peterx@redhat.com>, Muchun Song <songmuchun@bytedance.com>,
+ Vlastimil Babka <vbabka@suse.cz>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Oded Gabbay <ogabbay@kernel.org>, kernel list <linux-kernel@vger.kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Mike Kravetz <mike.kravetz@oracle.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
  Lucas Stach <l.stach@pengutronix.de>
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Use the RUNTIME_PM_OPS() and pm_ptr() macros to handle the
-.runtime_suspend/.runtime_resume callbacks.
+On Nov 7, 2022, at 8:17 AM, David Hildenbrand <david@redhat.com> wrote:
 
-These macros allow the suspend and resume functions to be automatically
-dropped by the compiler when CONFIG_PM is disabled, without having
-to use #ifdef guards.
+> !! External Email
+>=20
+> Let's catch abuse of FAULT_FLAG_WRITE early, such that we don't have to
+> care in all other handlers and might get "surprises" if we forget to do
+> so.
+>=20
+> Write faults without VM_MAYWRITE don't make any sense, and our
+> maybe_mkwrite() logic could have hidden such abuse for now.
+>=20
+> Write faults without VM_WRITE on something that is not a COW mapping is
+> similarly broken, and e.g., do_wp_page() could end up placing an
+> anonymous page into a shared mapping, which would be bad.
+>=20
+> This is a preparation for reliable R/O long-term pinning of pages in
+> private mappings, whereby we want to make sure that we will never break
+> COW in a read-only private mapping.
+>=20
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+> ---
+> mm/memory.c | 8 ++++++++
+> 1 file changed, 8 insertions(+)
+>=20
+> diff --git a/mm/memory.c b/mm/memory.c
+> index fe131273217a..826353da7b23 100644
+> --- a/mm/memory.c
+> +++ b/mm/memory.c
+> @@ -5159,6 +5159,14 @@ static vm_fault_t sanitize_fault_flags(struct vm_a=
+rea_struct *vma,
+>                 */
+>                if (!is_cow_mapping(vma->vm_flags))
+>                        *flags &=3D ~FAULT_FLAG_UNSHARE;
+> +       } else if (*flags & FAULT_FLAG_WRITE) {
+> +               /* Write faults on read-only mappings are impossible ... =
+*/
+> +               if (WARN_ON_ONCE(!(vma->vm_flags & VM_MAYWRITE)))
+> +                       return VM_FAULT_SIGSEGV;
+> +               /* ... and FOLL_FORCE only applies to COW mappings. */
+> +               if (WARN_ON_ONCE(!(vma->vm_flags & VM_WRITE) &&
+> +                                !is_cow_mapping(vma->vm_flags)))
+> +                       return VM_FAULT_SIGSEGV;
 
-This has the advantage of always compiling these functions in,
-independently of any Kconfig option. Thanks to that, bugs and other
-regressions are subsequently easier to catch.
-
-Some #ifdef CONFIG_PM guards were protecting simple statements, and were
-also converted to "if (IS_ENABLED(CONFIG_PM))".
-
-Note that this driver should probably use the
-DEFINE_RUNTIME_DEV_PM_OPS() macro instead, which will provide
-.suspend/.resume callbacks, pointing to pm_runtime_force_suspend() and
-pm_runtime_force_resume() respectively; unless those callbacks really
-aren't needed.
-
-Signed-off-by: Paul Cercueil <paul@crapouillou.net>
----
-Cc: Lucas Stach <l.stach@pengutronix.de>
-Cc: Russell King <linux+etnaviv@armlinux.org.uk>
-Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
-Cc: etnaviv@lists.freedesktop.org
----
- drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 30 +++++++++++----------------
- 1 file changed, 12 insertions(+), 18 deletions(-)
-
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-index 37018bc55810..e9a5444ec1c7 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-@@ -1605,7 +1605,6 @@ static int etnaviv_gpu_hw_suspend(struct etnaviv_gpu *gpu)
- 	return etnaviv_gpu_clk_disable(gpu);
- }
- 
--#ifdef CONFIG_PM
- static int etnaviv_gpu_hw_resume(struct etnaviv_gpu *gpu)
- {
- 	int ret;
-@@ -1621,7 +1620,6 @@ static int etnaviv_gpu_hw_resume(struct etnaviv_gpu *gpu)
- 
- 	return 0;
- }
--#endif
- 
- static int
- etnaviv_gpu_cooling_get_max_state(struct thermal_cooling_device *cdev,
-@@ -1689,11 +1687,10 @@ static int etnaviv_gpu_bind(struct device *dev, struct device *master,
- 	if (ret)
- 		goto out_workqueue;
- 
--#ifdef CONFIG_PM
--	ret = pm_runtime_get_sync(gpu->dev);
--#else
--	ret = etnaviv_gpu_clk_enable(gpu);
--#endif
-+	if (IS_ENABLED(CONFIG_PM))
-+		ret = pm_runtime_get_sync(gpu->dev);
-+	else
-+		ret = etnaviv_gpu_clk_enable(gpu);
- 	if (ret < 0)
- 		goto out_sched;
- 
-@@ -1737,12 +1734,12 @@ static void etnaviv_gpu_unbind(struct device *dev, struct device *master,
- 
- 	etnaviv_sched_fini(gpu);
- 
--#ifdef CONFIG_PM
--	pm_runtime_get_sync(gpu->dev);
--	pm_runtime_put_sync_suspend(gpu->dev);
--#else
--	etnaviv_gpu_hw_suspend(gpu);
--#endif
-+	if (IS_ENABLED(CONFIG_PM)) {
-+		pm_runtime_get_sync(gpu->dev);
-+		pm_runtime_put_sync_suspend(gpu->dev);
-+	} else {
-+		etnaviv_gpu_hw_suspend(gpu);
-+	}
- 
- 	if (gpu->mmu_context)
- 		etnaviv_iommu_context_put(gpu->mmu_context);
-@@ -1856,7 +1853,6 @@ static int etnaviv_gpu_platform_remove(struct platform_device *pdev)
- 	return 0;
- }
- 
--#ifdef CONFIG_PM
- static int etnaviv_gpu_rpm_suspend(struct device *dev)
- {
- 	struct etnaviv_gpu *gpu = dev_get_drvdata(dev);
-@@ -1899,18 +1895,16 @@ static int etnaviv_gpu_rpm_resume(struct device *dev)
- 
- 	return 0;
- }
--#endif
- 
- static const struct dev_pm_ops etnaviv_gpu_pm_ops = {
--	SET_RUNTIME_PM_OPS(etnaviv_gpu_rpm_suspend, etnaviv_gpu_rpm_resume,
--			   NULL)
-+	RUNTIME_PM_OPS(etnaviv_gpu_rpm_suspend, etnaviv_gpu_rpm_resume, NULL)
- };
- 
- struct platform_driver etnaviv_gpu_driver = {
- 	.driver = {
- 		.name = "etnaviv-gpu",
- 		.owner = THIS_MODULE,
--		.pm = &etnaviv_gpu_pm_ops,
-+		.pm = pm_ptr(&etnaviv_gpu_pm_ops),
- 		.of_match_table = etnaviv_gpu_match,
- 	},
- 	.probe = etnaviv_gpu_platform_probe,
--- 
-2.35.1
+Not sure about the WARN_*(). Seems as if it might trigger in benign even if
+rare scenarios, e.g., mprotect() racing with page-fault.
 
