@@ -1,46 +1,85 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C319861FCD2
-	for <lists+etnaviv@lfdr.de>; Mon,  7 Nov 2022 19:08:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D27161FE9A
+	for <lists+etnaviv@lfdr.de>; Mon,  7 Nov 2022 20:27:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5FBBE10E8AB;
-	Mon,  7 Nov 2022 18:08:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD0F510E3A7;
+	Mon,  7 Nov 2022 19:27:19 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BDE2410E8A6
- for <etnaviv@lists.freedesktop.org>; Mon,  7 Nov 2022 18:07:57 +0000 (UTC)
-Received: from gallifrey.ext.pengutronix.de
- ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1os6X0-0005Ct-6o; Mon, 07 Nov 2022 19:07:34 +0100
-Message-ID: <d63e2214c464b029a15967d81968c27a5a4a88d4.camel@pengutronix.de>
-Subject: Re: [PATCH 12/26] drm: etnaviv: Remove #ifdef guards for PM related
- functions
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Paul Cercueil <paul@crapouillou.net>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Date: Mon, 07 Nov 2022 19:07:32 +0100
-In-Reply-To: <20221107175256.360839-2-paul@crapouillou.net>
-References: <20221107175106.360578-1-paul@crapouillou.net>
- <20221107175256.360839-1-paul@crapouillou.net>
- <20221107175256.360839-2-paul@crapouillou.net>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB5CB10E3A7
+ for <etnaviv@lists.freedesktop.org>; Mon,  7 Nov 2022 19:27:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1667849234;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=patZqZFG+VP3DSfi5ljEiY21OGL00v17le5HXIzu3EI=;
+ b=VRdhnkhUl+iWTk9TtiNrq1Evcl6myw1og64CiR7QLYU6nbfscD9wjjtJTAJeQTIIS4xKso
+ EZ2jlOm7soFbDyKiGryMSqxC3bGe4v5D7xNqcblPQcyYKTd4TcKfZ2dHS1wd3pNUpc7Xyt
+ W7203K45N7CBuYjAnbedPGy2Xh1p1o4=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-448-d3nND2HvNKWCPg-tv_UaAw-1; Mon, 07 Nov 2022 14:27:13 -0500
+X-MC-Unique: d3nND2HvNKWCPg-tv_UaAw-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ o13-20020adfa10d000000b00232c00377a0so3172568wro.13
+ for <etnaviv@lists.freedesktop.org>; Mon, 07 Nov 2022 11:27:13 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:organization:from
+ :content-language:references:cc:to:subject:user-agent:mime-version
+ :date:message-id:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=patZqZFG+VP3DSfi5ljEiY21OGL00v17le5HXIzu3EI=;
+ b=Mij5gg+CxkG9TCHSglBF8XWiSx7C7b4/OIJOFmlsUeTsOwM3hLCvdQlWPsjSJqCklV
+ EtuZ6DAkv8sSdFE2Fh8pP+JixwOZqIyG3seZEByj92aRDLXsoMi0Jln+V8bYv7i0c0A/
+ kg9zRiwNWxY43ZJO4kfZmOwBZwx1EcxkHiTz7e8ZbS+U/OvYum0zWADh4GxhbkrjHidp
+ Yd8nLjZJCzfk5fuFU4h3RwNBQEXC1qW73o5AmRrJVxUJ3t/us9uzk3p/zjG2vkevtMhg
+ FmSyIns/SvU6EDOCVgn4lwGC8rIvdI7HNnmXrfDKW6PGkzQOSNlzkdx4XsOAIootKt3k
+ AWVg==
+X-Gm-Message-State: ACrzQf2aEYZkm/aVS7l/r+vHJ6rpbuAbjPhQtxf46K3ruwpIsHavh730
+ acg5wD03PLi7cR4p36Hx2Xp1C/FM1uXszqGJyZpElMSeXa8NwN23VMeA1zr/i61/OPvqYB7JnR4
+ CVDKjeCBcZHDdYS07BRr0+NBi6Q==
+X-Received: by 2002:a5d:4487:0:b0:22e:3292:75ab with SMTP id
+ j7-20020a5d4487000000b0022e329275abmr614291wrq.166.1667849232533; 
+ Mon, 07 Nov 2022 11:27:12 -0800 (PST)
+X-Google-Smtp-Source: AMsMyM7WA0QO9a9aE/aCsv95kc1/GI2mA1rxsv3w8NpMMhNZXKsgaEBfixEFS4BMiXoamohO6ncLKQ==
+X-Received: by 2002:a5d:4487:0:b0:22e:3292:75ab with SMTP id
+ j7-20020a5d4487000000b0022e329275abmr614274wrq.166.1667849232188; 
+ Mon, 07 Nov 2022 11:27:12 -0800 (PST)
+Received: from ?IPV6:2003:cb:c704:7800:3f13:77ac:9360:5e22?
+ (p200300cbc70478003f1377ac93605e22.dip0.t-ipconnect.de.
+ [2003:cb:c704:7800:3f13:77ac:9360:5e22])
+ by smtp.gmail.com with ESMTPSA id
+ t20-20020a05600c199400b003cf9bf5208esm10877851wmq.19.2022.11.07.11.27.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 07 Nov 2022 11:27:11 -0800 (PST)
+Message-ID: <c58fe356-62b5-bdec-92a7-6153a27e19b7@redhat.com>
+Date: Mon, 7 Nov 2022 20:27:08 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.0
+Subject: Re: [PATCH RFC 05/19] mm: add early FAULT_FLAG_WRITE consistency
+ checks
+To: Nadav Amit <namit@vmware.com>
+References: <20221107161740.144456-1-david@redhat.com>
+ <20221107161740.144456-6-david@redhat.com>
+ <E1E8C21A-EAEB-4FA3-A9B9-1DFF81FCDA70@vmware.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <E1E8C21A-EAEB-4FA3-A9B9-1DFF81FCDA70@vmware.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,139 +91,85 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: Christian Gmeiner <christian.gmeiner@gmail.com>,
- etnaviv@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Russell King <linux+etnaviv@armlinux.org.uk>
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Linux-MM <linux-mm@kvack.org>,
+ "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+ David Airlie <airlied@gmail.com>, Andrea Arcangeli <aarcange@redhat.com>,
+ "linux-samsung-soc@vger.kernel.org" <linux-samsung-soc@vger.kernel.org>,
+ "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+ Hugh Dickins <hughd@google.com>, Matthew Wilcox <willy@infradead.org>,
+ Jason Gunthorpe <jgg@ziepe.ca>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ Arnd Bergmann <arnd@arndb.de>, John Hubbard <jhubbard@nvidia.com>,
+ "etnaviv@lists.freedesktop.org" <etnaviv@lists.freedesktop.org>,
+ Peter Xu <peterx@redhat.com>, Muchun Song <songmuchun@bytedance.com>,
+ Vlastimil Babka <vbabka@suse.cz>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Oded Gabbay <ogabbay@kernel.org>, kernel list <linux-kernel@vger.kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Mike Kravetz <mike.kravetz@oracle.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Lucas Stach <l.stach@pengutronix.de>
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Am Montag, dem 07.11.2022 um 17:52 +0000 schrieb Paul Cercueil:
-> Use the RUNTIME_PM_OPS() and pm_ptr() macros to handle the
-> .runtime_suspend/.runtime_resume callbacks.
+On 07.11.22 20:03, Nadav Amit wrote:
+> On Nov 7, 2022, at 8:17 AM, David Hildenbrand <david@redhat.com> wrote:
 > 
-> These macros allow the suspend and resume functions to be automatically
-> dropped by the compiler when CONFIG_PM is disabled, without having
-> to use #ifdef guards.
+>> !! External Email
+>>
+>> Let's catch abuse of FAULT_FLAG_WRITE early, such that we don't have to
+>> care in all other handlers and might get "surprises" if we forget to do
+>> so.
+>>
+>> Write faults without VM_MAYWRITE don't make any sense, and our
+>> maybe_mkwrite() logic could have hidden such abuse for now.
+>>
+>> Write faults without VM_WRITE on something that is not a COW mapping is
+>> similarly broken, and e.g., do_wp_page() could end up placing an
+>> anonymous page into a shared mapping, which would be bad.
+>>
+>> This is a preparation for reliable R/O long-term pinning of pages in
+>> private mappings, whereby we want to make sure that we will never break
+>> COW in a read-only private mapping.
+>>
+>> Signed-off-by: David Hildenbrand <david@redhat.com>
+>> ---
+>> mm/memory.c | 8 ++++++++
+>> 1 file changed, 8 insertions(+)
+>>
+>> diff --git a/mm/memory.c b/mm/memory.c
+>> index fe131273217a..826353da7b23 100644
+>> --- a/mm/memory.c
+>> +++ b/mm/memory.c
+>> @@ -5159,6 +5159,14 @@ static vm_fault_t sanitize_fault_flags(struct vm_area_struct *vma,
+>>                  */
+>>                 if (!is_cow_mapping(vma->vm_flags))
+>>                         *flags &= ~FAULT_FLAG_UNSHARE;
+>> +       } else if (*flags & FAULT_FLAG_WRITE) {
+>> +               /* Write faults on read-only mappings are impossible ... */
+>> +               if (WARN_ON_ONCE(!(vma->vm_flags & VM_MAYWRITE)))
+>> +                       return VM_FAULT_SIGSEGV;
+>> +               /* ... and FOLL_FORCE only applies to COW mappings. */
+>> +               if (WARN_ON_ONCE(!(vma->vm_flags & VM_WRITE) &&
+>> +                                !is_cow_mapping(vma->vm_flags)))
+>> +                       return VM_FAULT_SIGSEGV;
 > 
-> This has the advantage of always compiling these functions in,
-> independently of any Kconfig option. Thanks to that, bugs and other
-> regressions are subsequently easier to catch.
+> Not sure about the WARN_*(). Seems as if it might trigger in benign even if
+> rare scenarios, e.g., mprotect() racing with page-fault.
 > 
-> Some #ifdef CONFIG_PM guards were protecting simple statements, and were
-> also converted to "if (IS_ENABLED(CONFIG_PM))".
-> 
-Reasoning and the change itself look good.
 
-> Note that this driver should probably use the
-> DEFINE_RUNTIME_DEV_PM_OPS() macro instead, which will provide
-> .suspend/.resume callbacks, pointing to pm_runtime_force_suspend() and
-> pm_runtime_force_resume() respectively; unless those callbacks really
-> aren't needed.
+We most certainly would want to catch any such broken/racy cases. There 
+are no benign cases I could possibly think of.
 
-This however isn't true, specifically this driver can _not_ use
-pm_runtime_force_suspend, as the GPU can't be forced into suspend by
-calling the rpm callback. A real suspend implementation would first
-need to make sure the GPU finished working on the current queued jobs,
-only then it would be able to power it down via the rpm suspend
-callback.
+Page faults need the mmap lock in read. mprotect() / VMA changes need 
+the mmap lock in write. Whoever calls handle_mm_fault() is supposed to 
+properly check VMA permissions.
 
-Regards,
-Lucas
 
-> 
-> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-> ---
-> Cc: Lucas Stach <l.stach@pengutronix.de>
-> Cc: Russell King <linux+etnaviv@armlinux.org.uk>
-> Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
-> Cc: etnaviv@lists.freedesktop.org
-> ---
->  drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 30 +++++++++++----------------
->  1 file changed, 12 insertions(+), 18 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> index 37018bc55810..e9a5444ec1c7 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> @@ -1605,7 +1605,6 @@ static int etnaviv_gpu_hw_suspend(struct etnaviv_gpu *gpu)
->  	return etnaviv_gpu_clk_disable(gpu);
->  }
->  
-> -#ifdef CONFIG_PM
->  static int etnaviv_gpu_hw_resume(struct etnaviv_gpu *gpu)
->  {
->  	int ret;
-> @@ -1621,7 +1620,6 @@ static int etnaviv_gpu_hw_resume(struct etnaviv_gpu *gpu)
->  
->  	return 0;
->  }
-> -#endif
->  
->  static int
->  etnaviv_gpu_cooling_get_max_state(struct thermal_cooling_device *cdev,
-> @@ -1689,11 +1687,10 @@ static int etnaviv_gpu_bind(struct device *dev, struct device *master,
->  	if (ret)
->  		goto out_workqueue;
->  
-> -#ifdef CONFIG_PM
-> -	ret = pm_runtime_get_sync(gpu->dev);
-> -#else
-> -	ret = etnaviv_gpu_clk_enable(gpu);
-> -#endif
-> +	if (IS_ENABLED(CONFIG_PM))
-> +		ret = pm_runtime_get_sync(gpu->dev);
-> +	else
-> +		ret = etnaviv_gpu_clk_enable(gpu);
->  	if (ret < 0)
->  		goto out_sched;
->  
-> @@ -1737,12 +1734,12 @@ static void etnaviv_gpu_unbind(struct device *dev, struct device *master,
->  
->  	etnaviv_sched_fini(gpu);
->  
-> -#ifdef CONFIG_PM
-> -	pm_runtime_get_sync(gpu->dev);
-> -	pm_runtime_put_sync_suspend(gpu->dev);
-> -#else
-> -	etnaviv_gpu_hw_suspend(gpu);
-> -#endif
-> +	if (IS_ENABLED(CONFIG_PM)) {
-> +		pm_runtime_get_sync(gpu->dev);
-> +		pm_runtime_put_sync_suspend(gpu->dev);
-> +	} else {
-> +		etnaviv_gpu_hw_suspend(gpu);
-> +	}
->  
->  	if (gpu->mmu_context)
->  		etnaviv_iommu_context_put(gpu->mmu_context);
-> @@ -1856,7 +1853,6 @@ static int etnaviv_gpu_platform_remove(struct platform_device *pdev)
->  	return 0;
->  }
->  
-> -#ifdef CONFIG_PM
->  static int etnaviv_gpu_rpm_suspend(struct device *dev)
->  {
->  	struct etnaviv_gpu *gpu = dev_get_drvdata(dev);
-> @@ -1899,18 +1895,16 @@ static int etnaviv_gpu_rpm_resume(struct device *dev)
->  
->  	return 0;
->  }
-> -#endif
->  
->  static const struct dev_pm_ops etnaviv_gpu_pm_ops = {
-> -	SET_RUNTIME_PM_OPS(etnaviv_gpu_rpm_suspend, etnaviv_gpu_rpm_resume,
-> -			   NULL)
-> +	RUNTIME_PM_OPS(etnaviv_gpu_rpm_suspend, etnaviv_gpu_rpm_resume, NULL)
->  };
->  
->  struct platform_driver etnaviv_gpu_driver = {
->  	.driver = {
->  		.name = "etnaviv-gpu",
->  		.owner = THIS_MODULE,
-> -		.pm = &etnaviv_gpu_pm_ops,
-> +		.pm = pm_ptr(&etnaviv_gpu_pm_ops),
->  		.of_match_table = etnaviv_gpu_match,
->  	},
->  	.probe = etnaviv_gpu_platform_probe,
+-- 
+Thanks,
 
+David / dhildenb
 
