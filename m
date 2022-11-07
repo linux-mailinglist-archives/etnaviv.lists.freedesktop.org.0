@@ -1,41 +1,53 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99ABD62C869
-	for <lists+etnaviv@lfdr.de>; Wed, 16 Nov 2022 19:55:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6167D62C863
+	for <lists+etnaviv@lfdr.de>; Wed, 16 Nov 2022 19:55:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 504B610E503;
-	Wed, 16 Nov 2022 18:55:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1AD0210E4FF;
+	Wed, 16 Nov 2022 18:55:20 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 67308889BE;
- Mon,  7 Nov 2022 21:03:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1667855015; h=from:from:sender:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=tDDMWehjStUKzxDj8AQ3yj4jAUcHg/wL+FdI4UGEYak=;
- b=tF2tE0ECl5xddLeriyqewGoNdsb1ah7nWOtlBzty7Z9VFPnvW1mRRdA9YkjqCfm2gPN1p0
- 39DWKJmDNuNEFEAjoee2BKdESSLjZmsap5+07ciQXRhKF1yvqkxRFKFd6T98WME1ZNL0+j
- zsafOP+xHMGkY6KpeUiOLfw0tbosStc=
-Date: Mon, 07 Nov 2022 21:03:22 +0000
-From: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH 12/26] drm: etnaviv: Remove #ifdef guards for PM related
- functions
-To: Lucas Stach <l.stach@pengutronix.de>
-Message-Id: <M5XZKR.3DW6QGFX6KVP1@crapouillou.net>
-In-Reply-To: <d63e2214c464b029a15967d81968c27a5a4a88d4.camel@pengutronix.de>
-References: <20221107175106.360578-1-paul@crapouillou.net>
- <20221107175256.360839-1-paul@crapouillou.net>
- <20221107175256.360839-2-paul@crapouillou.net>
- <d63e2214c464b029a15967d81968c27a5a4a88d4.camel@pengutronix.de>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC85D10E4CF;
+ Mon,  7 Nov 2022 21:26:03 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 257536130E;
+ Mon,  7 Nov 2022 21:26:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8111FC43470;
+ Mon,  7 Nov 2022 21:26:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1667856362;
+ bh=SwQyXyRosovtBDcr7GfPt6fsp4ng05oq/t3fG7dB68g=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=ffvHIqojBVLH/R8RQOQEgXCeTITmfwvIoxefm2/kBiEz2OyLI9Io4TDxW06ogg/sN
+ 3fWSVwLP7C1LXRhdThBd1UCmwrb62aNwnwPhsnjD194IsHOpRrxOtn/gP3z8BLEjEE
+ 3a6gLv9bTBbYeKfi6puWXH9+gHFk4yKiM4mbbf1kJMaVXq4O7YS4IPezgSwqAiw6dg
+ aWWwBH05mwWpElBiERd2AjzW1oA4IQ2N8kMYhhPV076879Sxylya1gjvFB6S75Ki6D
+ YSxGBZQ+IsbaVRLSlTBJcnreOKfX2foV+YDEFOPtCI4Hb73C8fJ5KP2ecXZ+zVPCe3
+ Yxz5zRAEx0Q+g==
+Received: by mail-yb1-f171.google.com with SMTP id o70so15158519yba.7;
+ Mon, 07 Nov 2022 13:26:02 -0800 (PST)
+X-Gm-Message-State: ANoB5pmsQ27aYCJ0gGCvqVvx7H7C6awYPetTzb+JZy8rzFEIPHGuQBDg
+ 9z59er6eUx1ZScZG3mXTeakk4RTankyEGff+/pM=
+X-Google-Smtp-Source: AA0mqf57IeLMapCs6BKe1PyHfS6JiZC8g/49BGtedtXgLWmUCCwX95DungbNLQq9eDdaj9K/AImhyOL53rs80CSF5uA=
+X-Received: by 2002:a25:2389:0:b0:6d8:7f81:edaf with SMTP id
+ j131-20020a252389000000b006d87f81edafmr3849061ybj.443.1667856361598; Mon, 07
+ Nov 2022 13:26:01 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Transfer-Encoding: quoted-printable
+References: <20221107161740.144456-1-david@redhat.com>
+ <20221107161740.144456-20-david@redhat.com>
+In-Reply-To: <20221107161740.144456-20-david@redhat.com>
+From: Oded Gabbay <ogabbay@kernel.org>
+Date: Mon, 7 Nov 2022 23:25:35 +0200
+X-Gmail-Original-Message-ID: <CAFCwf12AtZ3jqJf8fTmq+bK5Z109N_k4WG1nuDmMXoBNA3KMmA@mail.gmail.com>
+Message-ID: <CAFCwf12AtZ3jqJf8fTmq+bK5Z109N_k4WG1nuDmMXoBNA3KMmA@mail.gmail.com>
+Subject: Re: [PATCH RFC 19/19] habanalabs: remove FOLL_FORCE usage
+To: David Hildenbrand <david@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 X-Mailman-Approved-At: Wed, 16 Nov 2022 18:55:06 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -48,167 +60,59 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- etnaviv@lists.freedesktop.org, Christian Gmeiner <christian.gmeiner@gmail.com>,
- Maxime Ripard <mripard@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
- Russell King <linux+etnaviv@armlinux.org.uk>, David Airlie <airlied@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
+ Nadav Amit <namit@vmware.com>, linux-kselftest@vger.kernel.org,
+ David Airlie <airlied@gmail.com>, Andrea Arcangeli <aarcange@redhat.com>,
+ linux-samsung-soc@vger.kernel.org, linux-rdma@vger.kernel.org,
+ Hugh Dickins <hughd@google.com>, Matthew Wilcox <willy@infradead.org>,
+ Jason Gunthorpe <jgg@ziepe.ca>, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+ John Hubbard <jhubbard@nvidia.com>, etnaviv@lists.freedesktop.org,
+ Peter Xu <peterx@redhat.com>, Muchun Song <songmuchun@bytedance.com>,
+ Vlastimil Babka <vbabka@suse.cz>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Lucas Stach <l.stach@pengutronix.de>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Mike Kravetz <mike.kravetz@oracle.com>
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Hi Lucas,
-
-Le lun. 7 nov. 2022 =E0 19:07:32 +0100, Lucas Stach=20
-<l.stach@pengutronix.de> a =E9crit :
-> Am Montag, dem 07.11.2022 um 17:52 +0000 schrieb Paul Cercueil:
->>  Use the RUNTIME_PM_OPS() and pm_ptr() macros to handle the
->>  .runtime_suspend/.runtime_resume callbacks.
->>=20
->>  These macros allow the suspend and resume functions to be=20
->> automatically
->>  dropped by the compiler when CONFIG_PM is disabled, without having
->>  to use #ifdef guards.
->>=20
->>  This has the advantage of always compiling these functions in,
->>  independently of any Kconfig option. Thanks to that, bugs and other
->>  regressions are subsequently easier to catch.
->>=20
->>  Some #ifdef CONFIG_PM guards were protecting simple statements, and=20
->> were
->>  also converted to "if (IS_ENABLED(CONFIG_PM))".
->>=20
-> Reasoning and the change itself look good.
-
-That's an ack? :)
-
->>  Note that this driver should probably use the
->>  DEFINE_RUNTIME_DEV_PM_OPS() macro instead, which will provide
->>  .suspend/.resume callbacks, pointing to pm_runtime_force_suspend()=20
->> and
->>  pm_runtime_force_resume() respectively; unless those callbacks=20
->> really
->>  aren't needed.
->=20
-> This however isn't true, specifically this driver can _not_ use
-> pm_runtime_force_suspend, as the GPU can't be forced into suspend by
-> calling the rpm callback. A real suspend implementation would first
-> need to make sure the GPU finished working on the current queued jobs,
-> only then it would be able to power it down via the rpm suspend
-> callback.
-
-Understood. I'll remove this paragraph if I have to V2.
-
-Cheers,
--Paul
-
->>=20
->>  Signed-off-by: Paul Cercueil <paul@crapouillou.net>
->>  ---
->>  Cc: Lucas Stach <l.stach@pengutronix.de>
->>  Cc: Russell King <linux+etnaviv@armlinux.org.uk>
->>  Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
->>  Cc: etnaviv@lists.freedesktop.org
->>  ---
->>   drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 30=20
->> +++++++++++----------------
->>   1 file changed, 12 insertions(+), 18 deletions(-)
->>=20
->>  diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c=20
->> b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
->>  index 37018bc55810..e9a5444ec1c7 100644
->>  --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
->>  +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
->>  @@ -1605,7 +1605,6 @@ static int etnaviv_gpu_hw_suspend(struct=20
->> etnaviv_gpu *gpu)
->>   	return etnaviv_gpu_clk_disable(gpu);
->>   }
->>=20
->>  -#ifdef CONFIG_PM
->>   static int etnaviv_gpu_hw_resume(struct etnaviv_gpu *gpu)
->>   {
->>   	int ret;
->>  @@ -1621,7 +1620,6 @@ static int etnaviv_gpu_hw_resume(struct=20
->> etnaviv_gpu *gpu)
->>=20
->>   	return 0;
->>   }
->>  -#endif
->>=20
->>   static int
->>   etnaviv_gpu_cooling_get_max_state(struct thermal_cooling_device=20
->> *cdev,
->>  @@ -1689,11 +1687,10 @@ static int etnaviv_gpu_bind(struct device=20
->> *dev, struct device *master,
->>   	if (ret)
->>   		goto out_workqueue;
->>=20
->>  -#ifdef CONFIG_PM
->>  -	ret =3D pm_runtime_get_sync(gpu->dev);
->>  -#else
->>  -	ret =3D etnaviv_gpu_clk_enable(gpu);
->>  -#endif
->>  +	if (IS_ENABLED(CONFIG_PM))
->>  +		ret =3D pm_runtime_get_sync(gpu->dev);
->>  +	else
->>  +		ret =3D etnaviv_gpu_clk_enable(gpu);
->>   	if (ret < 0)
->>   		goto out_sched;
->>=20
->>  @@ -1737,12 +1734,12 @@ static void etnaviv_gpu_unbind(struct=20
->> device *dev, struct device *master,
->>=20
->>   	etnaviv_sched_fini(gpu);
->>=20
->>  -#ifdef CONFIG_PM
->>  -	pm_runtime_get_sync(gpu->dev);
->>  -	pm_runtime_put_sync_suspend(gpu->dev);
->>  -#else
->>  -	etnaviv_gpu_hw_suspend(gpu);
->>  -#endif
->>  +	if (IS_ENABLED(CONFIG_PM)) {
->>  +		pm_runtime_get_sync(gpu->dev);
->>  +		pm_runtime_put_sync_suspend(gpu->dev);
->>  +	} else {
->>  +		etnaviv_gpu_hw_suspend(gpu);
->>  +	}
->>=20
->>   	if (gpu->mmu_context)
->>   		etnaviv_iommu_context_put(gpu->mmu_context);
->>  @@ -1856,7 +1853,6 @@ static int etnaviv_gpu_platform_remove(struct=20
->> platform_device *pdev)
->>   	return 0;
->>   }
->>=20
->>  -#ifdef CONFIG_PM
->>   static int etnaviv_gpu_rpm_suspend(struct device *dev)
->>   {
->>   	struct etnaviv_gpu *gpu =3D dev_get_drvdata(dev);
->>  @@ -1899,18 +1895,16 @@ static int etnaviv_gpu_rpm_resume(struct=20
->> device *dev)
->>=20
->>   	return 0;
->>   }
->>  -#endif
->>=20
->>   static const struct dev_pm_ops etnaviv_gpu_pm_ops =3D {
->>  -	SET_RUNTIME_PM_OPS(etnaviv_gpu_rpm_suspend,=20
->> etnaviv_gpu_rpm_resume,
->>  -			   NULL)
->>  +	RUNTIME_PM_OPS(etnaviv_gpu_rpm_suspend, etnaviv_gpu_rpm_resume,=20
->> NULL)
->>   };
->>=20
->>   struct platform_driver etnaviv_gpu_driver =3D {
->>   	.driver =3D {
->>   		.name =3D "etnaviv-gpu",
->>   		.owner =3D THIS_MODULE,
->>  -		.pm =3D &etnaviv_gpu_pm_ops,
->>  +		.pm =3D pm_ptr(&etnaviv_gpu_pm_ops),
->>   		.of_match_table =3D etnaviv_gpu_match,
->>   	},
->>   	.probe =3D etnaviv_gpu_platform_probe,
->=20
->=20
-
-
+On Mon, Nov 7, 2022 at 6:19 PM David Hildenbrand <david@redhat.com> wrote:
+>
+> FOLL_FORCE is really only for debugger access. As we unpin the pinned pages
+> using unpin_user_pages_dirty_lock(true), the assumption is that all these
+> pages are writable.
+>
+> FOLL_FORCE in this case seems to be due to copy-and-past from other
+> drivers. Let's just remove it.
+>
+> Cc: Oded Gabbay <ogabbay@kernel.org>
+> Cc: Arnd Bergmann <arnd@arndb.de>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+> ---
+>  drivers/misc/habanalabs/common/memory.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+>
+> diff --git a/drivers/misc/habanalabs/common/memory.c b/drivers/misc/habanalabs/common/memory.c
+> index ef28f3b37b93..e35cca96bbef 100644
+> --- a/drivers/misc/habanalabs/common/memory.c
+> +++ b/drivers/misc/habanalabs/common/memory.c
+> @@ -2312,8 +2312,7 @@ static int get_user_memory(struct hl_device *hdev, u64 addr, u64 size,
+>         if (!userptr->pages)
+>                 return -ENOMEM;
+>
+> -       rc = pin_user_pages_fast(start, npages,
+> -                                FOLL_FORCE | FOLL_WRITE | FOLL_LONGTERM,
+> +       rc = pin_user_pages_fast(start, npages, FOLL_WRITE | FOLL_LONGTERM,
+>                                  userptr->pages);
+>
+>         if (rc != npages) {
+> --
+> 2.38.1
+>
+>
+Acked-by: Oded Gabbay <ogabbay@kernel.org>
+Thanks,
+Oded
