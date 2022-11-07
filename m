@@ -2,115 +2,57 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4858362C85B
-	for <lists+etnaviv@lfdr.de>; Wed, 16 Nov 2022 19:55:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B596562C86A
+	for <lists+etnaviv@lfdr.de>; Wed, 16 Nov 2022 19:55:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 07A2210E4FA;
-	Wed, 16 Nov 2022 18:55:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E0A010E504;
+	Wed, 16 Nov 2022 18:55:22 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from na01-obe.outbound.protection.outlook.com
- (mail-eastusazon11012010.outbound.protection.outlook.com [52.101.53.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BDEB810E3F0;
- Mon,  7 Nov 2022 19:50:12 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hVoibnH0Pqnp5UTFVEDVCbhkVW2oTFPtd0RrNrOVDv/YeL5QF2IrZ2tTpbDX4RkgkTY3eiqTcRIbgNEq/FxME5HlDPjKqJYST4PDGXGZHknNI09QA+LkcEVJVJ8e1UqSFhJMN6LuJwPAh0oy6uk1VPq1p2ZgSUaTH2nosG9OlwtF12iE2rjhPJ9Etj/VCAZO4KIaicKdzNKSjk3lsXUb3kyzMYo49whWHcWn+ZPmK/RQI7kjXP/K8ArYxulQuBFo/jMrrsenS8++9B5j9p7rF91DHT1dUGofheAhB/F02vmTlN4KrZdK7L9MENsHjmeNviRVEFkBLLhaTex8iI8WAQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=EnNg2Il4RO9/ce79b2Zrey4obWiapbVIMkkdKBeuinA=;
- b=HpqGAVsYgcSKlFLKKJzKj585aX4/QVB0GyDwpD2pHFWpz0onvJ0JGCPPX5mYlzO4EkrYN2EQyzcK5KwKckGS29TghdseFVqak4VpG90SPRkvVNfqLkp00CqB1/I8IH9LcAVNG2tyh8DLLtwkcVN0njnRTWIQI+znJPhcGSQgjpS4LHZk4mnB0cVP0tD0rdoKJtfP8YSv91cORg7XPrYhpB9p1jrKbGnxu3IZNZZEIICwX/u1FH87pBqR/fLhV4e2fF7Dc5RVf2MEMIGQTEq9dypHQfuhww3iMTTPqvisx+0Poa0clNTeytBMPbapgfVqTfqKMDOH05bSrsAamll5Cg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vmware.com; dmarc=pass action=none header.from=vmware.com;
- dkim=pass header.d=vmware.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vmware.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EnNg2Il4RO9/ce79b2Zrey4obWiapbVIMkkdKBeuinA=;
- b=KIucidNVirnKmQTz4cSVvz8zCvq0iNKh+RXJZbSpx/gChVfjT3N3NAbTcL9AYkkmr971OxgtFZpAkbS9amXvYRTdGEtqdMVzlgx+0JJYADxeGD7iUVPCT5fh8XXdNRnEoZd4brBXxzrRxNhpxRyGNzcqxH2ZqeRYkvUDhNlIG2g=
-Received: from SA1PR05MB8534.namprd05.prod.outlook.com (2603:10b6:806:1dd::19)
- by BYAPR05MB6344.namprd05.prod.outlook.com (2603:10b6:a03:e2::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5791.17; Mon, 7 Nov
- 2022 19:50:06 +0000
-Received: from SA1PR05MB8534.namprd05.prod.outlook.com
- ([fe80::ca89:ffc2:7e20:16fd]) by SA1PR05MB8534.namprd05.prod.outlook.com
- ([fe80::ca89:ffc2:7e20:16fd%5]) with mapi id 15.20.5791.027; Mon, 7 Nov 2022
- 19:50:06 +0000
-From: Nadav Amit <namit@vmware.com>
-To: David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH RFC 05/19] mm: add early FAULT_FLAG_WRITE consistency
- checks
-Thread-Topic: [PATCH RFC 05/19] mm: add early FAULT_FLAG_WRITE consistency
- checks
-Thread-Index: AQHY8sSPsuqGQZcSwkqSjFQS9Nwjx64z0cqAgAAGhgCAAAZqgA==
-Date: Mon, 7 Nov 2022 19:50:05 +0000
-Message-ID: <6589BFC5-9DF4-4757-9B32-483294E03CAE@vmware.com>
-References: <20221107161740.144456-1-david@redhat.com>
- <20221107161740.144456-6-david@redhat.com>
- <E1E8C21A-EAEB-4FA3-A9B9-1DFF81FCDA70@vmware.com>
- <c58fe356-62b5-bdec-92a7-6153a27e19b7@redhat.com>
-In-Reply-To: <c58fe356-62b5-bdec-92a7-6153a27e19b7@redhat.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3696.120.41.1.1)
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vmware.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SA1PR05MB8534:EE_|BYAPR05MB6344:EE_
-x-ms-office365-filtering-correlation-id: 18076b9a-bab2-4f3c-c81d-08dac0f944da
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: k94A2HZItKMXowC3irT5iUB2n/5eN59MnO2Dz72cm5eM1IAl+Rr5MDxyqqMDccLV42c7yshOWjmJ0SJ0YJ0LtzG9iGGNzHRpihXQj10+ZkjHNf2I4JOq8H7AHFvO7xhRFGeafkxjgM9T5q0hSWYo6zhq5q9OzGcfowbf40KaEF1g9FWmcOu7x05WLugeyF8WQr7tax0xOhZRHOgCATTHOdRCSGt06ij/y+AuXffyyzdcFM8AdRjajD0Tw4aRPCVRqFL/qrC0NmZSTFhw3VSmNdqlzLyMuBrjA4yezzUs1Blhgs+4rW3rKJOsKCp0kWstMOu+zy+1sh1MnnXcXlwevMED0YoSQNvqSzYsB2QL/pE30TAmI41DGxhY68u5GNuljYT718d60PB0te2IOzrwTzjTbubeeQNMSdYH81+OtkxDrU9wUWmsyyx/9UhukXl6FxcE/zdATdpdqydC2XNou2YoVRl/zaiv6Ea7zb7TxdDeqqFsQihUHBkLUBeToT7n0XRBOvTjQ3OGVQr071h6isn7FXtILG5cazKsezfbD8BI+CNplGn0mxXDo5rrS4+IolaH1uZ8Iftwwr0uGecInZmu+yQlNmM4Wm8BZsNW+r6P1t9GYOq86Y87Jw8wKqrwBKtTFXo1GqqEH1JCaVJYRIrUsj5xliMwH2xB3/j++tzj4lVnrInoxNQsziHYRnXqhU24cpXEygjGQgO5CwATw491dTwHWv7bUYZeWtHTFhAS4Qlvk/9SQaDznpeEODb77wp8TpSesPxL7zJKCNARWTcTz3CinTUZVhA99vwfe0FhytvUvZiDZxl2gQMnQoOxU5C+Xtpje23YIfc6KPT9A7bmYCL4+JeymmplmS7RTXw=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SA1PR05MB8534.namprd05.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(39860400002)(366004)(396003)(346002)(136003)(376002)(451199015)(186003)(2906002)(66476007)(66556008)(33656002)(38070700005)(64756008)(8936002)(66446008)(71200400001)(4326008)(6916009)(478600001)(26005)(76116006)(41300700001)(54906003)(5660300002)(7416002)(316002)(83380400001)(2616005)(53546011)(6506007)(38100700002)(91956017)(8676002)(6486002)(6512007)(122000001)(86362001)(66946007)(36756003)(45980500001);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?dsy9Su5N5SFQEkY27QaUmJWDTKzFrM0EsRgxovSoXA5J529RgpiI/Fk/06Ku?=
- =?us-ascii?Q?CAJoT3NrWebEFelOB1/stts/pYe8uv0D+A/QHKo5hzS+Zj2Vq0uRVDnmDEtx?=
- =?us-ascii?Q?5falIcGCJRd39Aoi9Stub/JBWgUYD9ra8Bm8wbRnMKEOe0kSmjVlAPa5AFxv?=
- =?us-ascii?Q?lSvtRgilWlE9rN0x1HidynXfsHWY/76AC6CQ2pF/662cONfwXoNnRQMrh+lp?=
- =?us-ascii?Q?FRbnoEpY2DmQ6YRB9MgIt5mrpT+yLH25bo7cwrjrZk1AgGNvGwURNGOHESba?=
- =?us-ascii?Q?pWZZUtMqApORFP+sg6oxRmUbPM3KX3ng2gPeVwAQR5Amf+vYDFaksQlpfPKT?=
- =?us-ascii?Q?apr7W7cwGuKwUZe8iL8GwjsjeTgS6KOFjYbIkST8uyAXm8T7f7rPJNakK4Sv?=
- =?us-ascii?Q?iOTLCiO7kGku0li7/rSiqLdU9C5YH1gE1RPtscPB8LFS2iuH4ExTnAN4zS3K?=
- =?us-ascii?Q?E4HHNBQRhxXjLGbSvwE23rEB+17iVUu2ZHttVHHkimzCbEBkdkExuVmRYvbH?=
- =?us-ascii?Q?Waa99s4r6GAtpPCOhdEYT60LEFEJ8Ca5ukDOhBdeHaxLPPKV7Gu05WrbeeeL?=
- =?us-ascii?Q?TNzncRT+2SEdaJoWmcBV3eipm6yU7cYVXigxAdiSREgZNvhJwe2WpM5t1jJ1?=
- =?us-ascii?Q?gt17Bsi1Fm4Gu7hj8T4AYTkbYM1K/MA4B0zhKG9yU4kk8nDo0osFQ82hmWQQ?=
- =?us-ascii?Q?M8kzSeDoqETqzZ3e299PFva3geV0pwYJXHx6xJrmS9lyUK7x86PxYn/l6Lcd?=
- =?us-ascii?Q?erMBlGr7QfLyTNXbrAdLrIluIjzhbh+vvN6eYEprU/aBOlIjy5YFVUldQAmQ?=
- =?us-ascii?Q?aNbKPn5WN1KFeyJ0pNT1519oFy1EkF2iMMm1vqfZvXnuYlzgnYkvvt9RCK+f?=
- =?us-ascii?Q?TQKnIV5ofcyuKRYfDbJroil+zKU9glwjLrtUWAJ9FWud1AB+xqOTDkPVAOLH?=
- =?us-ascii?Q?dSPK3vG/v+6vl2g3rjWF0g97uZU7uFG59TFpAexS3yF3c2EplRLSX1hBmR/M?=
- =?us-ascii?Q?jecqsBtT80IvL8Z1ctbDuzrzc0V+vvwKXjGDZK1HWL2kiUpvD9UmZOom+SSV?=
- =?us-ascii?Q?3cgkxN2HMyAZC+Mq3oTw3jE93c4Y+q2sPBZg3WmMt7hv4mXFthanoZ9WRxe+?=
- =?us-ascii?Q?Wq0p9yQzS8kJYu4o+9vShqTE1tCVA5pontwnoNIlgkPQWZP6vxMgzUclmEgw?=
- =?us-ascii?Q?9nQff2TdkJT2IbWhK6wxh9h4OyUN5CoUjBraWq4rZbq8wolj/e1DETSADx6g?=
- =?us-ascii?Q?a/kwREcpdqIMGA+wAvKBHVEz8kbUNeJtzYZmh1sEyYBpcWmE+Dc4ieBf/Hbu?=
- =?us-ascii?Q?8YMyjd6WmxgI4SCtiRHlqcFXJdjLWfifH2Zva30WzzU2HZI5OPGA/5VKWiEd?=
- =?us-ascii?Q?txsjYrBo0IhzXx4qr5IQ03STnJZaQ9d3WoiOIOuOUwN7gem7LWRVsgwIuNqH?=
- =?us-ascii?Q?xYwFcZ1ejtL6gELtigx+HiA8NT/ORUSObPv7gYZh4cmJ4M2nU5UqkAS+umqh?=
- =?us-ascii?Q?jSeSPX00PRPdButahjjG5l1PiRBzay4l6HSpa4TB0f3/PlG7C2dvI5Twu5q8?=
- =?us-ascii?Q?HHNBj9XwSWElSqSUrLrtdnrknImO2taodl/fusQt?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <B4F787E81DF28345BCCAE10419209411@namprd05.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+X-Greylist: delayed 2710 seconds by postgrey-1.36 at gabe;
+ Mon, 07 Nov 2022 21:12:47 UTC
+Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9EB6410E4C1;
+ Mon,  7 Nov 2022 21:12:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
+ s=20161220; h=Subject:References:Cc:To:Message-ID:From:
+ Content-Transfer-Encoding:Content-Type:Date:MIME-Version:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Id:List-Help:
+ List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=k3Hc9VlT5IfcVarqA/4VLSa+Nt0/6JpM9DtmCHRop6A=; b=05q59jeVHkJM4t8M9hhAvhJ1ys
+ 65amkC2aluXsjhUi+v+944MSikNitpecdWkxHZLz8u1liQdwCPXoaBHJWO16dK/qx+bLVt0x4xFQ/
+ fzWTkW9oNTxs7WS0+IpJvlc7BWX9UcxcB4mr9MOY4Rr8qytQuo1sI1dJPN17k7ZdHbaCr7Yc/dC9d
+ 9Fo3VYgCJXLuMTqhkbbBqhJRFRnkyxbZsqHxYNevlGOWofY+3xvaKkRkBppMO69pUDCOtOMAlXrxr
+ U0qbXD3gLReAP7EC6E9VAxU4RMtiK5G/0CkZ44lEScXK+/k/nY2KVnG7LtHMI38Ze7cszyHeXz+fY
+ bRd9nHLg==;
+Received: from [2001:67c:1be8::200] (helo=rainloop.kapsi.fi)
+ by mail.kapsi.fi with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <sarha@kapsi.fi>)
+ id 1os8hz-00CfOn-1k; Mon, 07 Nov 2022 22:27:03 +0200
 MIME-Version: 1.0
-X-OriginatorOrg: vmware.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR05MB8534.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 18076b9a-bab2-4f3c-c81d-08dac0f944da
-X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Nov 2022 19:50:06.0143 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b39138ca-3cee-4b4a-a4d6-cd83d9dd62f0
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Lk2vhXp5y0Z8RPR/TrGVeOBXqG1eDKYFmzz3bgnXI8PlzaTBUi4eX8ivEHk9j1pGgXrWZGpl2grMQERyifZgpg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR05MB6344
+Date: Mon, 07 Nov 2022 20:27:02 +0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+From: sarha@kapsi.fi
+Message-ID: <4ad0beebfea802c1caec176f4d71955407cd5c4f@kapsi.fi>
+To: "Sean Anderson" <sean.anderson@seco.com>, "David Airlie"
+ <airlied@gmail.com>, "Daniel Vetter" <daniel@ffwll.ch>, "Maarten
+ Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime Ripard"
+ <mripard@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org
+References: undefined <20221103182222.2247724-1-sean.anderson@seco.com>
+X-SA-Exim-Connect-IP: 2001:67c:1be8::200
+X-SA-Exim-Mail-From: sarha@kapsi.fi
+X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on mail
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
+ autolearn=no autolearn_force=no version=3.4.6
+Subject: Re: [PATCH 2/2] drm: Convert users of drm_of_component_match_add
+ to component_match_add_of
+X-SA-Exim-Version: 4.2.1 (built Sat, 13 Feb 2021 17:57:42 +0000)
+X-SA-Exim-Scanned: Yes (on mail.kapsi.fi)
 X-Mailman-Approved-At: Wed, 16 Nov 2022 18:55:06 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -123,87 +65,432 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Linux-MM <linux-mm@kvack.org>,
- "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
- David Airlie <airlied@gmail.com>, Andrea Arcangeli <aarcange@redhat.com>,
- "linux-samsung-soc@vger.kernel.org" <linux-samsung-soc@vger.kernel.org>,
- "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
- Hugh Dickins <hughd@google.com>, Matthew Wilcox <willy@infradead.org>,
- Jason Gunthorpe <jgg@ziepe.ca>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- Arnd Bergmann <arnd@arndb.de>, John Hubbard <jhubbard@nvidia.com>,
- "etnaviv@lists.freedesktop.org" <etnaviv@lists.freedesktop.org>,
- Peter Xu <peterx@redhat.com>, Muchun Song <songmuchun@bytedance.com>,
- Vlastimil Babka <vbabka@suse.cz>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Oded Gabbay <ogabbay@kernel.org>, kernel list <linux-kernel@vger.kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Mike Kravetz <mike.kravetz@oracle.com>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Lucas Stach <l.stach@pengutronix.de>
+Cc: Xinliang Liu <xinliang.liu@linaro.org>, Liviu Dudau <liviu.dudau@arm.com>,
+ linux-mips@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>,
+ John Stultz <jstultz@google.com>, Mihail Atanassov <mihail.atanassov@arm.com>,
+ Samuel Holland <samuel@sholland.org>, Russell King <linux@armlinux.org.uk>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Mali DP Maintainers <malidp@foss.arm.com>, linux-arm-msm@vger.kernel.org,
+ Alain Volmat <alain.volmat@foss.st.com>,
+ Xinwei Kong <kong.kongxinwei@hisilicon.com>, linux-sunxi@lists.linux.dev,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, Chen Feng <puck.chen@hisilicon.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, etnaviv@lists.freedesktop.org,
+ Christian
+ Gmeiner <christian.gmeiner@gmail.com>, linux-mediatek@lists.infradead.org,
+ Matthias Brugger <matthias.bgg@gmail.com>, Sean Paul <sean@poorly.run>,
+ linux-arm-kernel@lists.infradead.org, Tomi Valkeinen <tomba@kernel.org>,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, Rob
+ Clark <robdclark@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Tian Tao <tiantao6@hisilicon.com>, Jyri
+ Sarha <jyri.sarha@iki.fi>, Brian Starkey <brian.starkey@arm.com>, Lucas
+ Stach <l.stach@pengutronix.de>
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-On Nov 7, 2022, at 11:27 AM, David Hildenbrand <david@redhat.com> wrote:
+November 3, 2022 at 8:22 PM, "Sean Anderson" <sean.anderson@seco.com mail=
+to:sean.anderson@seco.com?to=3D%22Sean%20Anderson%22%20%3Csean.anderson%4=
+0seco.com%3E > wrote:
 
-> !! External Email
 >=20
-> On 07.11.22 20:03, Nadav Amit wrote:
->> On Nov 7, 2022, at 8:17 AM, David Hildenbrand <david@redhat.com> wrote:
->>=20
->>> !! External Email
->>>=20
->>> Let's catch abuse of FAULT_FLAG_WRITE early, such that we don't have to
->>> care in all other handlers and might get "surprises" if we forget to do
->>> so.
->>>=20
->>> Write faults without VM_MAYWRITE don't make any sense, and our
->>> maybe_mkwrite() logic could have hidden such abuse for now.
->>>=20
->>> Write faults without VM_WRITE on something that is not a COW mapping is
->>> similarly broken, and e.g., do_wp_page() could end up placing an
->>> anonymous page into a shared mapping, which would be bad.
->>>=20
->>> This is a preparation for reliable R/O long-term pinning of pages in
->>> private mappings, whereby we want to make sure that we will never break
->>> COW in a read-only private mapping.
->>>=20
->>> Signed-off-by: David Hildenbrand <david@redhat.com>
->>> ---
->>> mm/memory.c | 8 ++++++++
->>> 1 file changed, 8 insertions(+)
->>>=20
->>> diff --git a/mm/memory.c b/mm/memory.c
->>> index fe131273217a..826353da7b23 100644
->>> --- a/mm/memory.c
->>> +++ b/mm/memory.c
->>> @@ -5159,6 +5159,14 @@ static vm_fault_t sanitize_fault_flags(struct vm=
-_area_struct *vma,
->>>                 */
->>>                if (!is_cow_mapping(vma->vm_flags))
->>>                        *flags &=3D ~FAULT_FLAG_UNSHARE;
->>> +       } else if (*flags & FAULT_FLAG_WRITE) {
->>> +               /* Write faults on read-only mappings are impossible ..=
-. */
->>> +               if (WARN_ON_ONCE(!(vma->vm_flags & VM_MAYWRITE)))
->>> +                       return VM_FAULT_SIGSEGV;
->>> +               /* ... and FOLL_FORCE only applies to COW mappings. */
->>> +               if (WARN_ON_ONCE(!(vma->vm_flags & VM_WRITE) &&
->>> +                                !is_cow_mapping(vma->vm_flags)))
->>> +                       return VM_FAULT_SIGSEGV;
->>=20
->> Not sure about the WARN_*(). Seems as if it might trigger in benign even=
- if
->> rare scenarios, e.g., mprotect() racing with page-fault.
+>=20Every user of this function either uses component_compare_of or
+> something equivalent. Most of them immediately put the device node as
+> well. Convert these users to component_match_add_of and remove
+> drm_of_component_match_add.
 >=20
-> We most certainly would want to catch any such broken/racy cases. There
-> are no benign cases I could possibly think of.
->=20
-> Page faults need the mmap lock in read. mprotect() / VMA changes need
-> the mmap lock in write. Whoever calls handle_mm_fault() is supposed to
-> properly check VMA permissions.
+>=20Signed-off-by: Sean Anderson <sean.anderson@seco.com>
 
-My bad. I now see it. Thanks for explaining.
+Acked-by: Jyri Sarha <jyri.sarha=C4=B1@iki.fi>
 
+Also tested that Beaglebone-Black HDMI audio, that relies on componet sys=
+tem, still works. So for tilcdc:
+
+Tested-by: Jyri Sarha <jyri.sarha@iki.fi>
+
+> ---
+>=20
+>=20.../gpu/drm/arm/display/komeda/komeda_drv.c | 6 ++--
+> drivers/gpu/drm/arm/hdlcd_drv.c | 9 +-----
+> drivers/gpu/drm/arm/malidp_drv.c | 11 +------
+> drivers/gpu/drm/armada/armada_drv.c | 10 ++++---
+> drivers/gpu/drm/drm_of.c | 29 +++----------------
+> drivers/gpu/drm/etnaviv/etnaviv_drv.c | 4 +--
+> .../gpu/drm/hisilicon/kirin/kirin_drm_drv.c | 3 +-
+> drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 3 +-
+> drivers/gpu/drm/mediatek/mtk_drm_drv.c | 4 +--
+> drivers/gpu/drm/msm/msm_drv.c | 14 ++++-----
+> drivers/gpu/drm/sti/sti_drv.c | 3 +-
+> drivers/gpu/drm/sun4i/sun4i_drv.c | 3 +-
+> drivers/gpu/drm/tilcdc/tilcdc_external.c | 10 ++-----
+> include/drm/drm_of.h | 12 --------
+> 14 files changed, 33 insertions(+), 88 deletions(-)
+>=20
+>=20diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_drv.c b/driver=
+s/gpu/drm/arm/display/komeda/komeda_drv.c
+> index 9fce4239d4ad..e5bf439b799f 100644
+> --- a/drivers/gpu/drm/arm/display/komeda/komeda_drv.c
+> +++ b/drivers/gpu/drm/arm/display/komeda/komeda_drv.c
+> @@ -103,10 +103,8 @@ static void komeda_add_slave(struct device *master=
+,
+>  struct device_node *remote;
+>=20
+>=20 remote =3D of_graph_get_remote_node(np, port, endpoint);
+> - if (remote) {
+> - drm_of_component_match_add(master, match, component_compare_of, remot=
+e);
+> - of_node_put(remote);
+> - }
+> + if (remote)
+> + component_match_add_of(master, match, remote);
+> }
+>=20
+>=20static int komeda_platform_probe(struct platform_device *pdev)
+> diff --git a/drivers/gpu/drm/arm/hdlcd_drv.c b/drivers/gpu/drm/arm/hdlc=
+d_drv.c
+> index a032003c340c..18e58863a2f1 100644
+> --- a/drivers/gpu/drm/arm/hdlcd_drv.c
+> +++ b/drivers/gpu/drm/arm/hdlcd_drv.c
+> @@ -352,11 +352,6 @@ static const struct component_master_ops hdlcd_mas=
+ter_ops =3D {
+>  .unbind =3D hdlcd_drm_unbind,
+> };
+>=20
+>=20-static int compare_dev(struct device *dev, void *data)
+> -{
+> - return dev->of_node =3D=3D data;
+> -}
+> -
+> static int hdlcd_probe(struct platform_device *pdev)
+> {
+>  struct device_node *port;
+> @@ -367,9 +362,7 @@ static int hdlcd_probe(struct platform_device *pdev=
+)
+>  if (!port)
+>  return -ENODEV;
+>=20
+>=20- drm_of_component_match_add(&pdev->dev, &match, compare_dev, port);
+> - of_node_put(port);
+> -
+> + component_match_add_of(&pdev->dev, &match, port);
+>  return component_master_add_with_match(&pdev->dev, &hdlcd_master_ops,
+>  match);
+> }
+> diff --git a/drivers/gpu/drm/arm/malidp_drv.c b/drivers/gpu/drm/arm/mal=
+idp_drv.c
+> index 1d0b0c54ccc7..aace8b87c6d3 100644
+> --- a/drivers/gpu/drm/arm/malidp_drv.c
+> +++ b/drivers/gpu/drm/arm/malidp_drv.c
+> @@ -926,13 +926,6 @@ static const struct component_master_ops malidp_ma=
+ster_ops =3D {
+>  .unbind =3D malidp_unbind,
+> };
+>=20
+>=20-static int malidp_compare_dev(struct device *dev, void *data)
+> -{
+> - struct device_node *np =3D data;
+> -
+> - return dev->of_node =3D=3D np;
+> -}
+> -
+> static int malidp_platform_probe(struct platform_device *pdev)
+> {
+>  struct device_node *port;
+> @@ -946,9 +939,7 @@ static int malidp_platform_probe(struct platform_de=
+vice *pdev)
+>  if (!port)
+>  return -ENODEV;
+>=20
+>=20- drm_of_component_match_add(&pdev->dev, &match, malidp_compare_dev,
+> - port);
+> - of_node_put(port);
+> + component_match_add_of(&pdev->dev, &match, port);
+>  return component_master_add_with_match(&pdev->dev, &malidp_master_ops,
+>  match);
+> }
+> diff --git a/drivers/gpu/drm/armada/armada_drv.c b/drivers/gpu/drm/arma=
+da/armada_drv.c
+> index 0643887800b4..c0211ad7a45d 100644
+> --- a/drivers/gpu/drm/armada/armada_drv.c
+> +++ b/drivers/gpu/drm/armada/armada_drv.c
+> @@ -184,10 +184,12 @@ static void armada_add_endpoints(struct device *d=
+ev,
+>=20
+>=20 for_each_endpoint_of_node(dev_node, ep) {
+>  remote =3D of_graph_get_remote_port_parent(ep);
+> - if (remote of_device_is_available(remote))
+> - drm_of_component_match_add(dev, match, component_compare_of,
+> - remote);
+> - of_node_put(remote);
+> + if (remote) {
+> + if (of_device_is_available(remote))
+> + component_match_add_of(dev, match, remote);
+> + else
+> + of_node_put(remote);
+> + }
+>  }
+> }
+>=20
+>=20diff --git a/drivers/gpu/drm/drm_of.c b/drivers/gpu/drm/drm_of.c
+> index 7bbcb999bb75..0a474729ddf6 100644
+> --- a/drivers/gpu/drm/drm_of.c
+> +++ b/drivers/gpu/drm/drm_of.c
+> @@ -78,24 +78,6 @@ uint32_t drm_of_find_possible_crtcs(struct drm_devic=
+e *dev,
+> }
+> EXPORT_SYMBOL(drm_of_find_possible_crtcs);
+>=20
+>=20-/**
+> - * drm_of_component_match_add - Add a component helper OF node match r=
+ule
+> - * @master: master device
+> - * @matchptr: component match pointer
+> - * @compare: compare function used for matching component
+> - * @node: of_node
+> - */
+> -void drm_of_component_match_add(struct device *master,
+> - struct component_match **matchptr,
+> - int (*compare)(struct device *, void *),
+> - struct device_node *node)
+> -{
+> - of_node_get(node);
+> - component_match_add_release(master, matchptr, component_release_of,
+> - compare, node);
+> -}
+> -EXPORT_SYMBOL_GPL(drm_of_component_match_add);
+> -
+> /**
+> * drm_of_component_probe - Generic probe function for a component based=
+ master
+> * @dev: master device containing the OF node
+> @@ -130,10 +112,9 @@ int drm_of_component_probe(struct device *dev,
+>  break;
+>=20
+>=20 if (of_device_is_available(port->parent))
+> - drm_of_component_match_add(dev, &match, compare_of,
+> - port);
+> -
+> - of_node_put(port);
+> + component_match_add_of(dev, &match, port);
+> + else
+> + of_node_put(port);
+>  }
+>=20
+>=20 if (i =3D=3D 0) {
+> @@ -171,9 +152,7 @@ int drm_of_component_probe(struct device *dev,
+>  continue;
+>  }
+>=20
+>=20- drm_of_component_match_add(dev, &match, compare_of,
+> - remote);
+> - of_node_put(remote);
+> + component_match_add_of(dev, &match, remote);
+>  }
+>  of_node_put(port);
+>  }
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/et=
+naviv/etnaviv_drv.c
+> index 1d2b4fb4bcf8..4a0dba34a6e7 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> @@ -590,8 +590,8 @@ static int etnaviv_pdev_probe(struct platform_devic=
+e *pdev)
+>  if (!first_node)
+>  first_node =3D core_node;
+>=20
+>=20- drm_of_component_match_add(&pdev->dev, &match,
+> - component_compare_of, core_node);
+> + of_node_get(core_node);
+> + component_match_add_of(&pdev->dev, &match, core_node);
+>  }
+>  } else {
+>  char **names =3D dev->platform_data;
+> diff --git a/drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.c b/drivers/=
+gpu/drm/hisilicon/kirin/kirin_drm_drv.c
+> index 73ee7f25f734..fc736759274f 100644
+> --- a/drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.c
+> +++ b/drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.c
+> @@ -273,8 +273,7 @@ static int kirin_drm_platform_probe(struct platform=
+_device *pdev)
+>  if (!remote)
+>  return -ENODEV;
+>=20
+>=20- drm_of_component_match_add(dev, &match, component_compare_of, remot=
+e);
+> - of_node_put(remote);
+> + component_match_add_of(dev, &match, remote);
+>=20
+>=20 return component_master_add_with_match(dev, &kirin_drm_ops, match);
+> }
+> diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/dr=
+m/ingenic/ingenic-drm-drv.c
+> index ab0515d2c420..75a19e6b85c0 100644
+> --- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+> +++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+> @@ -1445,8 +1445,7 @@ static int ingenic_drm_probe(struct platform_devi=
+ce *pdev)
+>  if (!np)
+>  return ingenic_drm_bind(dev, false);
+>=20
+>=20- drm_of_component_match_add(dev, &match, component_compare_of, np);
+> - of_node_put(np);
+> + component_match_add_of(dev, &match, np);
+>=20
+>  return component_master_add_with_match(dev, &ingenic_master_ops, match=
+);
+> }
+> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/m=
+ediatek/mtk_drm_drv.c
+> index 91f58db5915f..9ca265129659 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+> @@ -779,8 +779,8 @@ static int mtk_drm_probe(struct platform_device *pd=
+ev)
+>  comp_type =3D=3D MTK_DSI) {
+>  dev_info(dev, "Adding component match for %pOF\n",
+>  node);
+> - drm_of_component_match_add(dev, &match, component_compare_of,
+> - node);
+> + of_node_get(node);
+> + component_match_add_of(dev, &match, node);
+>  }
+>=20
+>=20 ret =3D mtk_ddp_comp_init(node, &private->ddp_comp[comp_id], comp_id=
+);
+> diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_dr=
+v.c
+> index 28034c21f6bc..1152da3d58dc 100644
+> --- a/drivers/gpu/drm/msm/msm_drv.c
+> +++ b/drivers/gpu/drm/msm/msm_drv.c
+> @@ -5,6 +5,7 @@
+> * Author: Rob Clark <robdclark@gmail.com>
+> */
+>=20
+>=20+#include <linux/component.h>
+> #include <linux/dma-mapping.h>
+> #include <linux/fault-inject.h>
+> #include <linux/kthread.h>
+> @@ -1148,10 +1149,9 @@ static int add_components_mdp(struct device *mas=
+ter_dev,
+>  continue;
+>=20
+>=20 if (of_device_is_available(intf))
+> - drm_of_component_match_add(master_dev, matchptr,
+> - component_compare_of, intf);
+> -
+> - of_node_put(intf);
+> + component_match_add_of(master_dev, matchptr, intf);
+> + else
+> + of_node_put(intf);
+>  }
+>=20
+>=20 return 0;
+> @@ -1180,9 +1180,9 @@ static int add_gpu_components(struct device *dev,
+>  return 0;
+>=20
+>=20 if (of_device_is_available(np))
+> - drm_of_component_match_add(dev, matchptr, component_compare_of, np);
+> -
+> - of_node_put(np);
+> + component_match_add_of(dev, matchptr, np);
+> + else
+> + of_node_put(np);
+>=20
+>=20 return 0;
+> }
+> diff --git a/drivers/gpu/drm/sti/sti_drv.c b/drivers/gpu/drm/sti/sti_dr=
+v.c
+> index 7abf010a3293..3ae4b73dfa92 100644
+> --- a/drivers/gpu/drm/sti/sti_drv.c
+> +++ b/drivers/gpu/drm/sti/sti_drv.c
+> @@ -238,8 +238,7 @@ static int sti_platform_probe(struct platform_devic=
+e *pdev)
+>  child_np =3D of_get_next_available_child(node, NULL);
+>=20
+>=20 while (child_np) {
+> - drm_of_component_match_add(dev, &match, component_compare_of,
+> - child_np);
+> + component_match_add_of(dev, &match, child_np);
+>  child_np =3D of_get_next_available_child(node, child_np);
+>  }
+>=20
+>=20diff --git a/drivers/gpu/drm/sun4i/sun4i_drv.c b/drivers/gpu/drm/sun4=
+i/sun4i_drv.c
+> index d06ffd99d86e..a67c2010c7a2 100644
+> --- a/drivers/gpu/drm/sun4i/sun4i_drv.c
+> +++ b/drivers/gpu/drm/sun4i/sun4i_drv.c
+> @@ -323,7 +323,8 @@ static int sun4i_drv_add_endpoints(struct device *d=
+ev,
+>  of_device_is_available(node))) {
+>  /* Add current component */
+>  DRM_DEBUG_DRIVER("Adding component %pOF\n", node);
+> - drm_of_component_match_add(dev, match, component_compare_of, node);
+> + of_node_get(node);
+> + component_match_add_of(dev, match, node);
+>  count++;
+>  }
+>=20
+>=20diff --git a/drivers/gpu/drm/tilcdc/tilcdc_external.c b/drivers/gpu/d=
+rm/tilcdc/tilcdc_external.c
+> index 3b86d002ef62..0138ce02a64f 100644
+> --- a/drivers/gpu/drm/tilcdc/tilcdc_external.c
+> +++ b/drivers/gpu/drm/tilcdc/tilcdc_external.c
+> @@ -155,11 +155,6 @@ int tilcdc_attach_external_device(struct drm_devic=
+e *ddev)
+>  return ret;
+> }
+>=20
+>=20-static int dev_match_of(struct device *dev, void *data)
+> -{
+> - return dev->of_node =3D=3D data;
+> -}
+> -
+> int tilcdc_get_external_components(struct device *dev,
+>  struct component_match **match)
+> {
+> @@ -173,7 +168,8 @@ int tilcdc_get_external_components(struct device *d=
+ev,
+>  }
+>=20
+>=20 if (match)
+> - drm_of_component_match_add(dev, match, dev_match_of, node);
+> - of_node_put(node);
+> + component_match_add_of(dev, match, node);
+> + else
+> + of_node_put(node);
+>  return 1;
+> }
+> diff --git a/include/drm/drm_of.h b/include/drm/drm_of.h
+> index 10ab58c40746..685c44dc1dae 100644
+> --- a/include/drm/drm_of.h
+> +++ b/include/drm/drm_of.h
+> @@ -33,10 +33,6 @@ uint32_t drm_of_crtc_port_mask(struct drm_device *de=
+v,
+>  struct device_node *port);
+> uint32_t drm_of_find_possible_crtcs(struct drm_device *dev,
+>  struct device_node *port);
+> -void drm_of_component_match_add(struct device *master,
+> - struct component_match **matchptr,
+> - int (*compare)(struct device *, void *),
+> - struct device_node *node);
+> int drm_of_component_probe(struct device *dev,
+>  int (*compare_of)(struct device *, void *),
+>  const struct component_master_ops *m_ops);
+> @@ -69,14 +65,6 @@ static inline uint32_t drm_of_find_possible_crtcs(st=
+ruct drm_device *dev,
+>  return 0;
+> }
+>=20
+>=20-static inline void
+> -drm_of_component_match_add(struct device *master,
+> - struct component_match **matchptr,
+> - int (*compare)(struct device *, void *),
+> - struct device_node *node)
+> -{
+> -}
+> -
+> static inline int
+> drm_of_component_probe(struct device *dev,
+>  int (*compare_of)(struct device *, void *),
+> --=20
+>=202.35.1.1320.gc452695387.dirty
+>
