@@ -2,67 +2,83 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4843362086A
-	for <lists+etnaviv@lfdr.de>; Tue,  8 Nov 2022 05:46:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 410DF620C31
+	for <lists+etnaviv@lfdr.de>; Tue,  8 Nov 2022 10:29:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B8B5E10E479;
-	Tue,  8 Nov 2022 04:46:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0479110E0E8;
+	Tue,  8 Nov 2022 09:29:27 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com
- [IPv6:2a00:1450:4864:20::52b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1BB5E10E479
- for <etnaviv@lists.freedesktop.org>; Tue,  8 Nov 2022 04:46:13 +0000 (UTC)
-Received: by mail-ed1-x52b.google.com with SMTP id u24so20659240edd.13
- for <etnaviv@lists.freedesktop.org>; Mon, 07 Nov 2022 20:46:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Fra4yIWv6TZGqY5e50Ht4t7fKg9qXIteCxj5r9JD6vc=;
- b=k5nrvygDjfG84Jq8usw3TAeubZw8DjisC8BDW/Nl99poBxOVm3b4Emj6HmmfjmpRDg
- 6UqJx+Zje8uwbw0492FSt+SP9nPZpSClhlI2a7jkV8gf4dZ+NQhHw/+vcVeKfiMshCy8
- l5vHZxgwLrsSFmUFQ9k9AqBdcglrJDMAIuZNg=
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2FFEC10E0E8
+ for <etnaviv@lists.freedesktop.org>; Tue,  8 Nov 2022 09:29:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1667899762;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=G/IvXa3Gtc42ocSwbE6e2PTXEI1xHOCM/WDymiGQVjk=;
+ b=EclQgB/BAXWPmHv1CQSriGjM01041EmwLWXrYJNK4SB8YG848WwPaT3gtRThNKwuxzmdw5
+ WIGW9R+7AM/5gAAZRH/0L5G44XvsMJQpHiO/l6SjGpDw5LLZtlzG5p9K4gQknYqLCl5Jpf
+ 5BIWRtsM4d1QsnoJfX3bzespR7vjkbA=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-376-n70wNdeoNlyi9WDcOi6TaQ-1; Tue, 08 Nov 2022 04:29:21 -0500
+X-MC-Unique: n70wNdeoNlyi9WDcOi6TaQ-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ f62-20020a1c3841000000b003cf6d9aacbbso6690104wma.8
+ for <etnaviv@lists.freedesktop.org>; Tue, 08 Nov 2022 01:29:21 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Fra4yIWv6TZGqY5e50Ht4t7fKg9qXIteCxj5r9JD6vc=;
- b=YuQMXDyJoliDkLhWo+YeeUI9wl+UiGfpnupeL/KSmi4SuZCgXO4wJGkDLbOxOkoaRe
- A2bwKdcFR8dFaquLrFR9DQhO3JRoZFtM/ngNgaYSBxL/7dez+cOb2HDoTdJqu3UMtkH9
- xE+2P2vACc1wI1yoziRkjOoFc/u+zmkMAECZO/4GeImqDnN6e9qhpJbD+GmBVPxOwLHZ
- SA0HYF+gV8r6TlLWM4/nPjjUZjNpL83cezGdM5aVrDa4MVzoCW7epV7KlOdwyefgRqh7
- rL0gRQBUn8DcKPKSzH5jQ+cZOqJN5JKRWvQAt31j/kXYWBuTYDqCgBBlzEnKOn6OJ7DW
- paAA==
-X-Gm-Message-State: ACrzQf0zzpj1/z3MNzQ24tnEdBXJVJrrCyGoXyBI8S3xIGyunMvwKnBu
- a816V9SJFxeli8Ag2vcLRK29qRFBBpuziA==
-X-Google-Smtp-Source: AMsMyM4s/v26wFyWyAA+eIWHE8vRDAqTrOlvNyHVcVncWBixnOgf9LUuYPBIRO3gboSNK0L+9enc7Q==
-X-Received: by 2002:a05:6402:2989:b0:44e:90d0:b9ff with SMTP id
- eq9-20020a056402298900b0044e90d0b9ffmr52695031edb.110.1667882771387; 
- Mon, 07 Nov 2022 20:46:11 -0800 (PST)
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com.
- [209.85.218.44]) by smtp.gmail.com with ESMTPSA id
- wj13-20020a170907050d00b0072a881b21d8sm4188245ejb.119.2022.11.07.20.46.09
- for <etnaviv@lists.freedesktop.org>
+ h=content-transfer-encoding:in-reply-to:organization:from
+ :content-language:references:cc:to:subject:user-agent:mime-version
+ :date:message-id:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=G/IvXa3Gtc42ocSwbE6e2PTXEI1xHOCM/WDymiGQVjk=;
+ b=MD51Syy6RB+72VQXW0IB+kC5rT0Kz4rq/S/v70WpdAD1MgBEJ6/wNI+z6VaMPlCfPo
+ VVEGI4TRoNM9yEOajaX/dozhZVwdZFTzRqeX86Um/7ZW7lQNflHGVglia9wy5V66FMEl
+ 4YzVr6auSisDOl5qgRfvtiD2HXbW0D6rHxyFnSvII4gEVfyOwlR19ZgKF7O2Ii0JeDaO
+ HSpRyHp4f6lNgmVV8VSZZFl4YfDA28eEVStds+Xm8WpvnfYJQufY3WfhkcmFH7O6Rzxd
+ el4yy2/eS+ZyAC8zoTsTuoAGoE8DKZcMRYSZs98jr7ypl16YQ9h6wVy5eep0pRS8dScW
+ brQQ==
+X-Gm-Message-State: ACrzQf30oRhJt4Po6T2OdMI+QSVjjHzWcZ412QLQAjrWX9d9t5JX8OiF
+ iTSnmCVui2pKs9ORoivmt2lMxPNfzHfF9aRA9QORoOn7QbA49ODV0tSfFPI+DKSjd8jtTL7ToQA
+ COM4eYaOL/vn2p+DPRhnCNCAIag==
+X-Received: by 2002:a1c:7418:0:b0:3cf:703a:4f0c with SMTP id
+ p24-20020a1c7418000000b003cf703a4f0cmr31192086wmc.63.1667899760174; 
+ Tue, 08 Nov 2022 01:29:20 -0800 (PST)
+X-Google-Smtp-Source: AMsMyM5StZVkpugFYppLkRHp5xlGTjmqFOUyferk1nDQuYzjbb+gdKwEthZaHv8SGYCGJ8Geu++6Xg==
+X-Received: by 2002:a1c:7418:0:b0:3cf:703a:4f0c with SMTP id
+ p24-20020a1c7418000000b003cf703a4f0cmr31192042wmc.63.1667899759842; 
+ Tue, 08 Nov 2022 01:29:19 -0800 (PST)
+Received: from ?IPV6:2003:cb:c708:db00:6510:da8d:df40:abbb?
+ (p200300cbc708db006510da8ddf40abbb.dip0.t-ipconnect.de.
+ [2003:cb:c708:db00:6510:da8d:df40:abbb])
+ by smtp.gmail.com with ESMTPSA id
+ n10-20020a5d420a000000b0023682011c1dsm9563940wrq.104.2022.11.08.01.29.18
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 07 Nov 2022 20:46:09 -0800 (PST)
-Received: by mail-ej1-f44.google.com with SMTP id bj12so35434549ejb.13
- for <etnaviv@lists.freedesktop.org>; Mon, 07 Nov 2022 20:46:09 -0800 (PST)
-X-Received: by 2002:a17:906:ee8e:b0:730:3646:d178 with SMTP id
- wt14-20020a170906ee8e00b007303646d178mr51989213ejb.426.1667882769115; Mon, 07
- Nov 2022 20:46:09 -0800 (PST)
+ Tue, 08 Nov 2022 01:29:19 -0800 (PST)
+Message-ID: <ee9fceb8-f928-8754-d94f-54b662bb0c74@redhat.com>
+Date: Tue, 8 Nov 2022 10:29:17 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.0
+Subject: Re: [PATCH RFC 00/19] mm/gup: remove FOLL_FORCE usage from drivers
+ (reliable R/O long-term pinning)
+To: Linus Torvalds <torvalds@linux-foundation.org>
 References: <20221107161740.144456-1-david@redhat.com>
- <20221107161740.144456-17-david@redhat.com>
-In-Reply-To: <20221107161740.144456-17-david@redhat.com>
-From: Tomasz Figa <tfiga@chromium.org>
-Date: Tue, 8 Nov 2022 13:45:57 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5C3Ba1WhjYJF_7tW06mgvzoz9KTakNo+Tz8h_f6dGKzHQ@mail.gmail.com>
-Message-ID: <CAAFQd5C3Ba1WhjYJF_7tW06mgvzoz9KTakNo+Tz8h_f6dGKzHQ@mail.gmail.com>
-Subject: Re: [PATCH RFC 16/19] mm/frame-vector: remove FOLL_FORCE usage
-To: David Hildenbrand <david@redhat.com>, Hans Verkuil <hverkuil@xs4all.nl>, 
- Marek Szyprowski <m.szyprowski@samsung.com>
-Content-Type: text/plain; charset="UTF-8"
+ <CAHk-=wj51-dtxf8BQBYP+9Kc3ejq4Y0=-6hCbf_XAnkT3fsgDQ@mail.gmail.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <CAHk-=wj51-dtxf8BQBYP+9Kc3ejq4Y0=-6hCbf_XAnkT3fsgDQ@mail.gmail.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,60 +99,33 @@ Cc: dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
  linux-media@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
  John Hubbard <jhubbard@nvidia.com>, etnaviv@lists.freedesktop.org,
  Peter Xu <peterx@redhat.com>, Muchun Song <songmuchun@bytedance.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Vlastimil Babka <vbabka@suse.cz>,
+ Vlastimil Babka <vbabka@suse.cz>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Oded Gabbay <ogabbay@kernel.org>, linux-kernel@vger.kernel.org,
  Andrew Morton <akpm@linux-foundation.org>,
- Lucas Stach <l.stach@pengutronix.de>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Mike Kravetz <mike.kravetz@oracle.com>
+ Mike Kravetz <mike.kravetz@oracle.com>, Lucas Stach <l.stach@pengutronix.de>
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Hi David,
+On 07.11.22 18:27, Linus Torvalds wrote:
+> On Mon, Nov 7, 2022 at 8:18 AM David Hildenbrand <david@redhat.com> wrote:
+>>
+>> So instead, make R/O long-term pinning work as expected, by breaking COW
+>> in a COW mapping early, such that we can remove any FOLL_FORCE usage from
+>> drivers.
+> 
+> Nothing makes me unhappy from a quick scan through these patches.
+> 
+> And I'd really love to just have this long saga ended, and FOLL_FORCE
+> finally relegated to purely ptrace accesses.
+> 
+> So an enthusiastic Ack from me.
 
-On Tue, Nov 8, 2022 at 1:19 AM David Hildenbrand <david@redhat.com> wrote:
->
-> FOLL_FORCE is really only for debugger access. According to commit
-> 707947247e95 ("media: videobuf2-vmalloc: get_userptr: buffers are always
-> writable"), the pinned pages are always writable.
+Thanks Linus! My hope is that we can remove it from all drivers and not 
+have to leave it in for some corner cases; so far it looks promising.
 
-Actually that patch is only a workaround to temporarily disable
-support for read-only pages as they seemed to suffer from some
-corruption issues in the retrieved user pages. We expect to support
-read-only pages as hardware input after. That said, FOLL_FORCE doesn't
-sound like the right thing even in that case, but I don't know the
-background behind it being added here in the first place. +Hans
-Verkuil +Marek Szyprowski do you happen to remember anything about it?
+-- 
+Thanks,
 
-Best regards,
-Tomasz
+David / dhildenb
 
->
-> FOLL_FORCE in this case seems to be a legacy leftover. Let's just remove
-> it.
->
-> Cc: Tomasz Figa <tfiga@chromium.org>
-> Cc: Marek Szyprowski <m.szyprowski@samsung.com>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Signed-off-by: David Hildenbrand <david@redhat.com>
-> ---
->  drivers/media/common/videobuf2/frame_vector.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/media/common/videobuf2/frame_vector.c b/drivers/media/common/videobuf2/frame_vector.c
-> index 542dde9d2609..062e98148c53 100644
-> --- a/drivers/media/common/videobuf2/frame_vector.c
-> +++ b/drivers/media/common/videobuf2/frame_vector.c
-> @@ -50,7 +50,7 @@ int get_vaddr_frames(unsigned long start, unsigned int nr_frames,
->         start = untagged_addr(start);
->
->         ret = pin_user_pages_fast(start, nr_frames,
-> -                                 FOLL_FORCE | FOLL_WRITE | FOLL_LONGTERM,
-> +                                 FOLL_WRITE | FOLL_LONGTERM,
->                                   (struct page **)(vec->ptrs));
->         if (ret > 0) {
->                 vec->got_ref = true;
-> --
-> 2.38.1
->
