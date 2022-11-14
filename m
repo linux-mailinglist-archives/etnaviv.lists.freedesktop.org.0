@@ -2,52 +2,44 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6167D62C863
-	for <lists+etnaviv@lfdr.de>; Wed, 16 Nov 2022 19:55:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EB5962C853
+	for <lists+etnaviv@lfdr.de>; Wed, 16 Nov 2022 19:55:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1AD0210E4FF;
-	Wed, 16 Nov 2022 18:55:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DFEE10E4F0;
+	Wed, 16 Nov 2022 18:55:10 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC85D10E4CF;
- Mon,  7 Nov 2022 21:26:03 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 49ECB10E080;
+ Mon, 14 Nov 2022 08:30:17 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 257536130E;
- Mon,  7 Nov 2022 21:26:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8111FC43470;
- Mon,  7 Nov 2022 21:26:02 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id AD71D60F0E;
+ Mon, 14 Nov 2022 08:30:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC080C433C1;
+ Mon, 14 Nov 2022 08:30:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1667856362;
- bh=SwQyXyRosovtBDcr7GfPt6fsp4ng05oq/t3fG7dB68g=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=ffvHIqojBVLH/R8RQOQEgXCeTITmfwvIoxefm2/kBiEz2OyLI9Io4TDxW06ogg/sN
- 3fWSVwLP7C1LXRhdThBd1UCmwrb62aNwnwPhsnjD194IsHOpRrxOtn/gP3z8BLEjEE
- 3a6gLv9bTBbYeKfi6puWXH9+gHFk4yKiM4mbbf1kJMaVXq4O7YS4IPezgSwqAiw6dg
- aWWwBH05mwWpElBiERd2AjzW1oA4IQ2N8kMYhhPV076879Sxylya1gjvFB6S75Ki6D
- YSxGBZQ+IsbaVRLSlTBJcnreOKfX2foV+YDEFOPtCI4Hb73C8fJ5KP2ecXZ+zVPCe3
- Yxz5zRAEx0Q+g==
-Received: by mail-yb1-f171.google.com with SMTP id o70so15158519yba.7;
- Mon, 07 Nov 2022 13:26:02 -0800 (PST)
-X-Gm-Message-State: ANoB5pmsQ27aYCJ0gGCvqVvx7H7C6awYPetTzb+JZy8rzFEIPHGuQBDg
- 9z59er6eUx1ZScZG3mXTeakk4RTankyEGff+/pM=
-X-Google-Smtp-Source: AA0mqf57IeLMapCs6BKe1PyHfS6JiZC8g/49BGtedtXgLWmUCCwX95DungbNLQq9eDdaj9K/AImhyOL53rs80CSF5uA=
-X-Received: by 2002:a25:2389:0:b0:6d8:7f81:edaf with SMTP id
- j131-20020a252389000000b006d87f81edafmr3849061ybj.443.1667856361598; Mon, 07
- Nov 2022 13:26:01 -0800 (PST)
-MIME-Version: 1.0
-References: <20221107161740.144456-1-david@redhat.com>
- <20221107161740.144456-20-david@redhat.com>
-In-Reply-To: <20221107161740.144456-20-david@redhat.com>
-From: Oded Gabbay <ogabbay@kernel.org>
-Date: Mon, 7 Nov 2022 23:25:35 +0200
-X-Gmail-Original-Message-ID: <CAFCwf12AtZ3jqJf8fTmq+bK5Z109N_k4WG1nuDmMXoBNA3KMmA@mail.gmail.com>
-Message-ID: <CAFCwf12AtZ3jqJf8fTmq+bK5Z109N_k4WG1nuDmMXoBNA3KMmA@mail.gmail.com>
-Subject: Re: [PATCH RFC 19/19] habanalabs: remove FOLL_FORCE usage
+ s=k20201202; t=1668414615;
+ bh=M5Go57T18KU3kovwfaSoPQkXTIJ9pU/x8zoi9VefwW4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=SdH1QQKcLZQv3AKSNRqZgc4tXzBdMXgXKDuK3MoPQQRFpIYn6+O1nQZvg7Lp1GOYn
+ QE742J9xLRn5ra6lGaVDnYoZgTzRjS0XJQSharaM9uVu6TJ//f4uH4suR3r5UAk5PK
+ EjsXAoDr8CJU0bttAruYJ+pnYM1kFvmZR3cBw8CkWNisnUsoXW1ZUF1QcRRiDm7Y3L
+ oMXJbnHupIRPsjq+jbJhGZzXY9uFf9StdS9G4A+jFvbnURqB8ZwRSbqvO+FUa98HIw
+ VRhvftCN3zogKZ7mhH3RYpIiQTD/5vXd1uPM6Tw59jiLpnVXiTCkuHHIHG2JgSWt2/
+ SIDKXJb6O8rcQ==
+Date: Mon, 14 Nov 2022 10:30:11 +0200
+From: Leon Romanovsky <leon@kernel.org>
 To: David Hildenbrand <david@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH RFC 10/19] RDMA/umem: remove FOLL_FORCE usage
+Message-ID: <Y3H8kys/B4u/gYLe@unreal>
+References: <20221107161740.144456-1-david@redhat.com>
+ <20221107161740.144456-11-david@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221107161740.144456-11-david@redhat.com>
 X-Mailman-Approved-At: Wed, 16 Nov 2022 18:55:06 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,7 +62,8 @@ Cc: dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
  John Hubbard <jhubbard@nvidia.com>, etnaviv@lists.freedesktop.org,
  Peter Xu <peterx@redhat.com>, Muchun Song <songmuchun@bytedance.com>,
  Vlastimil Babka <vbabka@suse.cz>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Oded Gabbay <ogabbay@kernel.org>, linux-kernel@vger.kernel.org,
  Andrew Morton <akpm@linux-foundation.org>,
  Lucas Stach <l.stach@pengutronix.de>,
  Linus Torvalds <torvalds@linux-foundation.org>,
@@ -78,41 +71,23 @@ Cc: dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-On Mon, Nov 7, 2022 at 6:19 PM David Hildenbrand <david@redhat.com> wrote:
->
-> FOLL_FORCE is really only for debugger access. As we unpin the pinned pages
-> using unpin_user_pages_dirty_lock(true), the assumption is that all these
-> pages are writable.
->
-> FOLL_FORCE in this case seems to be due to copy-and-past from other
-> drivers. Let's just remove it.
->
-> Cc: Oded Gabbay <ogabbay@kernel.org>
-> Cc: Arnd Bergmann <arnd@arndb.de>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+On Mon, Nov 07, 2022 at 05:17:31PM +0100, David Hildenbrand wrote:
+> GUP now supports reliable R/O long-term pinning in COW mappings, such
+> that we break COW early. MAP_SHARED VMAs only use the shared zeropage so
+> far in one corner case (DAXFS file with holes), which can be ignored
+> because GUP does not support long-term pinning in fsdax (see
+> check_vma_flags()).
+> 
+> Consequently, FOLL_FORCE | FOLL_WRITE | FOLL_LONGTERM is no longer required
+> for reliable R/O long-term pinning: FOLL_LONGTERM is sufficient. So stop
+> using FOLL_FORCE, which is really only for debugger access.
+> 
+> Cc: Jason Gunthorpe <jgg@ziepe.ca>
+> Cc: Leon Romanovsky <leon@kernel.org>
 > Signed-off-by: David Hildenbrand <david@redhat.com>
 > ---
->  drivers/misc/habanalabs/common/memory.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
->
-> diff --git a/drivers/misc/habanalabs/common/memory.c b/drivers/misc/habanalabs/common/memory.c
-> index ef28f3b37b93..e35cca96bbef 100644
-> --- a/drivers/misc/habanalabs/common/memory.c
-> +++ b/drivers/misc/habanalabs/common/memory.c
-> @@ -2312,8 +2312,7 @@ static int get_user_memory(struct hl_device *hdev, u64 addr, u64 size,
->         if (!userptr->pages)
->                 return -ENOMEM;
->
-> -       rc = pin_user_pages_fast(start, npages,
-> -                                FOLL_FORCE | FOLL_WRITE | FOLL_LONGTERM,
-> +       rc = pin_user_pages_fast(start, npages, FOLL_WRITE | FOLL_LONGTERM,
->                                  userptr->pages);
->
->         if (rc != npages) {
-> --
-> 2.38.1
->
->
-Acked-by: Oded Gabbay <ogabbay@kernel.org>
+>  drivers/infiniband/core/umem.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+
 Thanks,
-Oded
+Tested-by: Leon Romanovsky <leonro@nvidia.com> # Over mlx4 and mlx5.
