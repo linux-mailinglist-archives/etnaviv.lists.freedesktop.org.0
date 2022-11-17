@@ -2,61 +2,69 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 109E862E8E1
-	for <lists+etnaviv@lfdr.de>; Thu, 17 Nov 2022 23:58:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0781162E974
+	for <lists+etnaviv@lfdr.de>; Fri, 18 Nov 2022 00:20:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 687B110E6BC;
-	Thu, 17 Nov 2022 22:58:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A0C2610E6C6;
+	Thu, 17 Nov 2022 23:20:23 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com
- [IPv6:2607:f8b0:4864:20::533])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9BC9610E6BE
- for <etnaviv@lists.freedesktop.org>; Thu, 17 Nov 2022 22:58:21 +0000 (UTC)
-Received: by mail-pg1-x533.google.com with SMTP id 62so3399583pgb.13
- for <etnaviv@lists.freedesktop.org>; Thu, 17 Nov 2022 14:58:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=gB4fu8WxG++brcac1xEx09Jo8IsSv6jaRuNq5hahL+I=;
- b=Fy4BdUGW9a1WNEtqYFLG188KBaVxCW7dlYHJCJYByhqbYzWtrREex26XefPtc0cld6
- YCRtECSkUML5k6sMmax4MrQy/8YHDQGVY6nBvl6IgyA0kq1FCwf8z9yqhcxsos46Zhwv
- H1rDgpoCNHoreRPMRNhXYMHZ9u7/T1h/SC+nQ=
+Received: from mail-qk1-x72d.google.com (mail-qk1-x72d.google.com
+ [IPv6:2607:f8b0:4864:20::72d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6FD4C10E6C6
+ for <etnaviv@lists.freedesktop.org>; Thu, 17 Nov 2022 23:20:21 +0000 (UTC)
+Received: by mail-qk1-x72d.google.com with SMTP id k4so2357572qkj.8
+ for <etnaviv@lists.freedesktop.org>; Thu, 17 Nov 2022 15:20:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linux-foundation.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=Y0Zl62KafxDJ8AwrDahi1bqb4Xk/32bDlmDdXpQC/2I=;
+ b=McHst7l/f7KmgETncU4ax8Cz1+X0pDSSDz+NpOo85KKRbSTGF3eq2IAlrIRy/FELSJ
+ Y7C0SIlyu5mGQyhzPLIjsCXMOXUrzD5TZH+dJcbaF2LHrVuVcof8hyWOL3D9pZZx4wAD
+ 8LINQRolzJh6QXumNwKV51jsDIdF9sMEo4+5s=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=gB4fu8WxG++brcac1xEx09Jo8IsSv6jaRuNq5hahL+I=;
- b=tuf6scVCxNE/J0adea/jRlvF4n2gaDaGcpIOZMieJoBBheeReoQx5DcKnNsGNxDf8r
- 2Jlg7AaUSaXNbf7ScrvJLml8kJa3PeqbssDjTS0UV8PfVbFnQ1rPbLCaU9ZGKPH3M1EI
- aDJ+xdZyDAyokm/ptH8dl+79tkaPV46Kj9PWRrVJCXcVzU2ZRY517vqKf5Ov1FP2iTZ9
- NSPZywWfEd5blSVzqpldY+HGvWKJF9TODieU2Xcek/0wcUbPty9nr9HXlCGWekD18Saa
- PMy8ah/2USIX7EwvFhc5u5TQEhis0bqODKH0OEy7WFUACTy/pRvyA4Nc5ETtPBHBRle4
- 9Tdw==
-X-Gm-Message-State: ANoB5pnT9lAsX8e5fbkYkcZpf/xi0XTboPn8WTuW2nthhSEp4FLSiquX
- JvIYXkYacuYFkeCjZmkTYajlqw==
-X-Google-Smtp-Source: AA0mqf6WctuXnFpA5+6mUDbrkWFd9cOPvCXdH+vpFiVVPZ82O749B2W9Fe6xlTKz0BNICgCat8tmyw==
-X-Received: by 2002:aa7:80d0:0:b0:565:c4e2:2634 with SMTP id
- a16-20020aa780d0000000b00565c4e22634mr5143922pfn.0.1668725901160; 
- Thu, 17 Nov 2022 14:58:21 -0800 (PST)
-Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net.
- [198.0.35.241]) by smtp.gmail.com with ESMTPSA id
- u139-20020a627991000000b00561cf757749sm1677934pfc.183.2022.11.17.14.58.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Nov 2022 14:58:20 -0800 (PST)
-Date: Thu, 17 Nov 2022 14:58:19 -0800
-From: Kees Cook <keescook@chromium.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Subject: Re: [PATCH mm-unstable v1 20/20] mm: rename FOLL_FORCE to FOLL_PTRACE
-Message-ID: <202211171439.CDE720EAD@keescook>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Y0Zl62KafxDJ8AwrDahi1bqb4Xk/32bDlmDdXpQC/2I=;
+ b=maI1wiPdlRLFD1t25d56xJamNWt8bnA0WXtGHVRYJnV60iISE6Ni5rCRLT2bb1/DAV
+ 4QEbUDC0zXf84kdNac4IuId7PczQfLTr9asCG4I/gyxPeoLhrA55aJoW8QZE/1cpKx9a
+ cVFCIhn3SFXEgcqh9tSG7qaal61Rx8537BxN9LkuSNPlrXx7eAWXF16C/tTJdvPo1Je9
+ ME0ipWbyXurEufAy9/9WWoByaGWywYMhYGoapVu1MKgl4I5kjex49opN6zCQuAiPCevH
+ wDxBvOFb45SrHtL7JKFD8vZEFpFCE5v5K51KI5Sb9okTZLar2DeWoA70z8DoPt/zTeO1
+ ckGg==
+X-Gm-Message-State: ANoB5pm4gqPmXqCBXgr+6CTj3rzibDyumBmGG6EXTrYkm+6Ni+JnC18u
+ bygSlDwMVDVOCNYprjCuryc1OgK3z7IyMg==
+X-Google-Smtp-Source: AA0mqf5UvBnEnvS5HVQ3lquqdcLaVumt++RjS3rIsBENjj6nSqq9qWedRW87H2KxBob8o8p0oB8stg==
+X-Received: by 2002:a37:6381:0:b0:6ee:4d91:4523 with SMTP id
+ x123-20020a376381000000b006ee4d914523mr3643791qkb.574.1668727220063; 
+ Thu, 17 Nov 2022 15:20:20 -0800 (PST)
+Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com.
+ [209.85.219.50]) by smtp.gmail.com with ESMTPSA id
+ ay20-20020a05620a179400b006faa88ba2b5sm1369593qkb.7.2022.11.17.15.20.17
+ for <etnaviv@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 17 Nov 2022 15:20:17 -0800 (PST)
+Received: by mail-qv1-f50.google.com with SMTP id j6so2266418qvn.12
+ for <etnaviv@lists.freedesktop.org>; Thu, 17 Nov 2022 15:20:17 -0800 (PST)
+X-Received: by 2002:ad4:4101:0:b0:4b1:856b:4277 with SMTP id
+ i1-20020ad44101000000b004b1856b4277mr4665856qvp.129.1668727216978; Thu, 17
+ Nov 2022 15:20:16 -0800 (PST)
+MIME-Version: 1.0
 References: <20221116102659.70287-1-david@redhat.com>
  <20221116102659.70287-21-david@redhat.com>
  <CAHk-=wgtEwpR-rE_=cXzecHMZ+zgrx5zf9UfvH0w-mKgckn4=Q@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHk-=wgtEwpR-rE_=cXzecHMZ+zgrx5zf9UfvH0w-mKgckn4=Q@mail.gmail.com>
+ <202211171439.CDE720EAD@keescook>
+In-Reply-To: <202211171439.CDE720EAD@keescook>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Thu, 17 Nov 2022 15:20:01 -0800
+X-Gmail-Original-Message-ID: <CAHk-=wjykbz-4xVTWF7vkvGJnFoTSXNVeMzfsXaLnGm3CRd8rQ@mail.gmail.com>
+Message-ID: <CAHk-=wjykbz-4xVTWF7vkvGJnFoTSXNVeMzfsXaLnGm3CRd8rQ@mail.gmail.com>
+Subject: Re: [PATCH mm-unstable v1 20/20] mm: rename FOLL_FORCE to FOLL_PTRACE
+To: Kees Cook <keescook@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -113,14 +121,24 @@ Cc: Mark Rutland <mark.rutland@arm.com>, linux-ia64@vger.kernel.org,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-On Wed, Nov 16, 2022 at 10:16:34AM -0800, Linus Torvalds wrote:
-> There _are_ also small random cases too, like get_cmdline(). Maybe
-> that counts as ptrace, but the execve() case most definitely does not.
+On Thu, Nov 17, 2022 at 2:58 PM Kees Cook <keescook@chromium.org> wrote:
+>
+> Oh, er, why does get_arg_page() even need FOLL_FORCE? This is writing the
+> new stack contents to the nascent brpm->vma, which was newly allocated
+> with VM_STACK_FLAGS, which an arch can override, but they all appear to include
+> VM_WRITE | VM_MAYWRITE.
 
-Oh, er, why does get_arg_page() even need FOLL_FORCE? This is writing the
-new stack contents to the nascent brpm->vma, which was newly allocated
-with VM_STACK_FLAGS, which an arch can override, but they all appear to include
-VM_WRITE | VM_MAYWRITE.
+Yeah, it does seem entirely superfluous.
 
--- 
-Kees Cook
+It's been there since the very beginning (although in that original
+commit b6a2fea39318 it was there as a '1' to the 'force' argument to
+get_user_pages()).
+
+I *think* it can be just removed. But as long as it exists, it should
+most definitely not be renamed to FOLL_PTRACE.
+
+There's a slight worry that it currently hides some other setup issue
+that makes it matter, since it's been that way so long, but I can't
+see what it is.
+
+             Linus
