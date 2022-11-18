@@ -1,63 +1,63 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1E0465A67E
-	for <lists+etnaviv@lfdr.de>; Sat, 31 Dec 2022 20:48:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EDFFD65A66B
+	for <lists+etnaviv@lfdr.de>; Sat, 31 Dec 2022 20:48:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 734DD10E4BC;
-	Sat, 31 Dec 2022 19:48:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 67CD510E4A7;
+	Sat, 31 Dec 2022 19:48:10 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1492D10E735;
- Fri, 18 Nov 2022 16:20:09 +0000 (UTC)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B14410E0A3;
+ Fri, 18 Nov 2022 16:45:35 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id AE6541FD2A;
- Fri, 18 Nov 2022 16:20:07 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id B457722809;
+ Fri, 18 Nov 2022 16:45:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
- t=1668788407; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1668789932; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZdCAdBuUfE3Rqc7NKln9hVuWsUdVVMVjbpiUee2vmvc=;
- b=gFn628LRme6mgJaZwZXeXxqjVHZ1dhRwig/bm8/PJr2zPCzCtNxBMW9LTId3gWUCMDCXyK
- TtXWbFh2gTikA3YMbaaroxv4l1XPLUH9rONQd0Dr+UuiMwnQoW4bEdHtBzAdzRgdfTZpOo
- z5sm6N12GAAOBYVJKj61R24kx7azRZk=
+ bh=gGWCBwR6W7N/T/oKVxq15JaXduGL74ybELQMLEOROjQ=;
+ b=oTTvOF9em1RBHrcDz3sPtZD55HB28JQKz0rq8O6fqbEdz69a/AXJF4jT92zC2TnMfoTP5o
+ N+/92zbPBa11XH4uj3j1PVuX4IFT5iMf+cuDaOPUiGYk17AhOFewCKsW2Vloee6rUH2cev
+ ywRRIq+dF6sPyizq6eVC4qLT8N+v1Fc=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
- s=susede2_ed25519; t=1668788407;
+ s=susede2_ed25519; t=1668789932;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZdCAdBuUfE3Rqc7NKln9hVuWsUdVVMVjbpiUee2vmvc=;
- b=TNP3u8Xx8uZo+sUiWVVILNS2hk5mwr0qssvrZKBXcmmjqp8qeTg4rudZW0WqfwYAgYNMk2
- poai8KIFEEpddcDw==
+ bh=gGWCBwR6W7N/T/oKVxq15JaXduGL74ybELQMLEOROjQ=;
+ b=w1a8SK5GtUV98VIRjCKPQTv/uTPpGl8AZCdCXalMKOScuLDWEelI6GTSk7XWYEsOviak8d
+ 9ZPPVSaQ1GZLctAg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 10E861345B;
- Fri, 18 Nov 2022 16:20:07 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2CE531345B;
+ Fri, 18 Nov 2022 16:45:32 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id uA9uA7ewd2PXAwAAMHmgww
- (envelope-from <vbabka@suse.cz>); Fri, 18 Nov 2022 16:20:07 +0000
-Message-ID: <5104fc7b-7b38-652a-9a3f-6116e48d4129@suse.cz>
-Date: Fri, 18 Nov 2022 17:20:06 +0100
+ by imap2.suse-dmz.suse.de with ESMTPSA id /+1SCqy2d2MoEAAAMHmgww
+ (envelope-from <vbabka@suse.cz>); Fri, 18 Nov 2022 16:45:32 +0000
+Message-ID: <f427422c-9af3-dc0a-dcc3-2a1114eb77ea@suse.cz>
+Date: Fri, 18 Nov 2022 17:45:31 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH mm-unstable v1 01/20] selftests/vm: anon_cow: prepare for
- non-anonymous COW tests
+Subject: Re: [PATCH mm-unstable v1 04/20] mm: add early FAULT_FLAG_UNSHARE
+ consistency checks
 Content-Language: en-US
 To: David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org
 References: <20221116102659.70287-1-david@redhat.com>
- <20221116102659.70287-2-david@redhat.com>
+ <20221116102659.70287-5-david@redhat.com>
 From: Vlastimil Babka <vbabka@suse.cz>
-In-Reply-To: <20221116102659.70287-2-david@redhat.com>
+In-Reply-To: <20221116102659.70287-5-david@redhat.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Mailman-Approved-At: Sat, 31 Dec 2022 19:48:05 +0000
@@ -96,14 +96,22 @@ Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
 On 11/16/22 11:26, David Hildenbrand wrote:
-> Originally, the plan was to have a separate tests for testing COW of
-> non-anonymous (e.g., shared zeropage) pages.
+> For now, FAULT_FLAG_UNSHARE only applies to anonymous pages, which
+> implies a COW mapping. Let's hide FAULT_FLAG_UNSHARE early if we're not
+> dealing with a COW mapping, such that we treat it like a read fault as
+> documented and don't have to worry about the flag throughout all fault
+> handlers.
 > 
-> Turns out, that we'd need a lot of similar functionality and that there
-> isn't a really good reason to separate it. So let's prepare for non-anon
-> tests by renaming to "cow".
+> While at it, centralize the check for mutual exclusion of
+> FAULT_FLAG_UNSHARE and FAULT_FLAG_WRITE and just drop the check that
+> either flag is set in the WP handler.
 > 
 > Signed-off-by: David Hildenbrand <david@redhat.com>
+> ---
+>  mm/huge_memory.c |  3 ---
+>  mm/hugetlb.c     |  5 -----
+>  mm/memory.c      | 23 ++++++++++++++++++++---
+>  3 files changed, 20 insertions(+), 11 deletions(-)
 
-Acked-by: Vlastimil Babka <vbabka@suse.cz>
+Reviewed-by: Vlastimil Babka <vbabka@suse.cz>
 
