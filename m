@@ -2,69 +2,63 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0781162E974
-	for <lists+etnaviv@lfdr.de>; Fri, 18 Nov 2022 00:20:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C19762EA4A
+	for <lists+etnaviv@lfdr.de>; Fri, 18 Nov 2022 01:31:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0C2610E6C6;
-	Thu, 17 Nov 2022 23:20:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 68E6510E6BF;
+	Fri, 18 Nov 2022 00:31:28 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-qk1-x72d.google.com (mail-qk1-x72d.google.com
- [IPv6:2607:f8b0:4864:20::72d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6FD4C10E6C6
- for <etnaviv@lists.freedesktop.org>; Thu, 17 Nov 2022 23:20:21 +0000 (UTC)
-Received: by mail-qk1-x72d.google.com with SMTP id k4so2357572qkj.8
- for <etnaviv@lists.freedesktop.org>; Thu, 17 Nov 2022 15:20:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux-foundation.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Y0Zl62KafxDJ8AwrDahi1bqb4Xk/32bDlmDdXpQC/2I=;
- b=McHst7l/f7KmgETncU4ax8Cz1+X0pDSSDz+NpOo85KKRbSTGF3eq2IAlrIRy/FELSJ
- Y7C0SIlyu5mGQyhzPLIjsCXMOXUrzD5TZH+dJcbaF2LHrVuVcof8hyWOL3D9pZZx4wAD
- 8LINQRolzJh6QXumNwKV51jsDIdF9sMEo4+5s=
+Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com
+ [IPv6:2607:f8b0:4864:20::634])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DEE6510E6BF
+ for <etnaviv@lists.freedesktop.org>; Fri, 18 Nov 2022 00:31:25 +0000 (UTC)
+Received: by mail-pl1-x634.google.com with SMTP id j12so3170687plj.5
+ for <etnaviv@lists.freedesktop.org>; Thu, 17 Nov 2022 16:31:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=SdXW0qNT9EJ55g7ZecMibSPRKy2hZHqw3Yh8nMlwERE=;
+ b=aU25zccRjTs3wP43k0MIJn4DgVbsnZCNuzNnI2CpXWYIZxXulCGxIQevzOUHHZBnNX
+ P9dqjL6CLaVk8Gd/8VV9yHkQnYw6wZLIF25d9n4/Hz+qw11dfo4C3uVe8ugX4akyWpVq
+ 2j/LOKCC5xRDK3aE2eqqxuB+wZP/Rdy2IY2yY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Y0Zl62KafxDJ8AwrDahi1bqb4Xk/32bDlmDdXpQC/2I=;
- b=maI1wiPdlRLFD1t25d56xJamNWt8bnA0WXtGHVRYJnV60iISE6Ni5rCRLT2bb1/DAV
- 4QEbUDC0zXf84kdNac4IuId7PczQfLTr9asCG4I/gyxPeoLhrA55aJoW8QZE/1cpKx9a
- cVFCIhn3SFXEgcqh9tSG7qaal61Rx8537BxN9LkuSNPlrXx7eAWXF16C/tTJdvPo1Je9
- ME0ipWbyXurEufAy9/9WWoByaGWywYMhYGoapVu1MKgl4I5kjex49opN6zCQuAiPCevH
- wDxBvOFb45SrHtL7JKFD8vZEFpFCE5v5K51KI5Sb9okTZLar2DeWoA70z8DoPt/zTeO1
- ckGg==
-X-Gm-Message-State: ANoB5pm4gqPmXqCBXgr+6CTj3rzibDyumBmGG6EXTrYkm+6Ni+JnC18u
- bygSlDwMVDVOCNYprjCuryc1OgK3z7IyMg==
-X-Google-Smtp-Source: AA0mqf5UvBnEnvS5HVQ3lquqdcLaVumt++RjS3rIsBENjj6nSqq9qWedRW87H2KxBob8o8p0oB8stg==
-X-Received: by 2002:a37:6381:0:b0:6ee:4d91:4523 with SMTP id
- x123-20020a376381000000b006ee4d914523mr3643791qkb.574.1668727220063; 
- Thu, 17 Nov 2022 15:20:20 -0800 (PST)
-Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com.
- [209.85.219.50]) by smtp.gmail.com with ESMTPSA id
- ay20-20020a05620a179400b006faa88ba2b5sm1369593qkb.7.2022.11.17.15.20.17
- for <etnaviv@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 17 Nov 2022 15:20:17 -0800 (PST)
-Received: by mail-qv1-f50.google.com with SMTP id j6so2266418qvn.12
- for <etnaviv@lists.freedesktop.org>; Thu, 17 Nov 2022 15:20:17 -0800 (PST)
-X-Received: by 2002:ad4:4101:0:b0:4b1:856b:4277 with SMTP id
- i1-20020ad44101000000b004b1856b4277mr4665856qvp.129.1668727216978; Thu, 17
- Nov 2022 15:20:16 -0800 (PST)
-MIME-Version: 1.0
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=SdXW0qNT9EJ55g7ZecMibSPRKy2hZHqw3Yh8nMlwERE=;
+ b=7/12xu+lxndFrphy5zVD/Yr5JzzCC9TTMK6E6vSPcMws03efn4lFgZHgqgNpM7+uuP
+ j5mVtxn1alseTvigxiMMYtIcvKeRaH88Kt7zqDGGx7BIHN0vSniWJGJ+SNIafLWRhXTs
+ 7lTaV7U1Obc2dV523Pdh7a9FdNbW6M7deFirFSiS7XVstGplDd5AArlsKhAJymuP0Q82
+ A2M5cnJYxcuuOf+HakanOiG6ftu/Gu+K1dahn8WxoeDAbG0ITyqpNUTL0m1UgY0oSayD
+ aERaFZXdk2bqApznZeJiG07/W9Lh3QkTO83BQFBl8loTBGWuD3nAAVhv9CcGmkqqM9Sp
+ uzFA==
+X-Gm-Message-State: ANoB5pk7BadHWJQXSjenr6EzJWANi/2DDmmj6hy+wfVXfz+StoB4Qxkc
+ aWmXXJuPMUokIQv4S9u8XovYfg==
+X-Google-Smtp-Source: AA0mqf5v9a25yS9udq+0hjAH7K4QJBzDVw1q+3i4WQlXa259MMuJPBokO+S42xwRehI9PQV15PiKuw==
+X-Received: by 2002:a17:902:a508:b0:17c:7aaa:c67d with SMTP id
+ s8-20020a170902a50800b0017c7aaac67dmr4961099plq.171.1668731485478; 
+ Thu, 17 Nov 2022 16:31:25 -0800 (PST)
+Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net.
+ [198.0.35.241]) by smtp.gmail.com with ESMTPSA id
+ u11-20020a17090a1d4b00b0020aacde1964sm4046602pju.32.2022.11.17.16.31.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 17 Nov 2022 16:31:25 -0800 (PST)
+Date: Thu, 17 Nov 2022 16:31:24 -0800
+From: Kees Cook <keescook@chromium.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Subject: Re: [PATCH mm-unstable v1 20/20] mm: rename FOLL_FORCE to FOLL_PTRACE
+Message-ID: <202211171630.8EABF5EDD@keescook>
 References: <20221116102659.70287-1-david@redhat.com>
  <20221116102659.70287-21-david@redhat.com>
  <CAHk-=wgtEwpR-rE_=cXzecHMZ+zgrx5zf9UfvH0w-mKgckn4=Q@mail.gmail.com>
  <202211171439.CDE720EAD@keescook>
-In-Reply-To: <202211171439.CDE720EAD@keescook>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Thu, 17 Nov 2022 15:20:01 -0800
-X-Gmail-Original-Message-ID: <CAHk-=wjykbz-4xVTWF7vkvGJnFoTSXNVeMzfsXaLnGm3CRd8rQ@mail.gmail.com>
-Message-ID: <CAHk-=wjykbz-4xVTWF7vkvGJnFoTSXNVeMzfsXaLnGm3CRd8rQ@mail.gmail.com>
-Subject: Re: [PATCH mm-unstable v1 20/20] mm: rename FOLL_FORCE to FOLL_PTRACE
-To: Kees Cook <keescook@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+ <CAHk-=wjykbz-4xVTWF7vkvGJnFoTSXNVeMzfsXaLnGm3CRd8rQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHk-=wjykbz-4xVTWF7vkvGJnFoTSXNVeMzfsXaLnGm3CRd8rQ@mail.gmail.com>
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -121,24 +115,29 @@ Cc: Mark Rutland <mark.rutland@arm.com>, linux-ia64@vger.kernel.org,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-On Thu, Nov 17, 2022 at 2:58 PM Kees Cook <keescook@chromium.org> wrote:
->
-> Oh, er, why does get_arg_page() even need FOLL_FORCE? This is writing the
-> new stack contents to the nascent brpm->vma, which was newly allocated
-> with VM_STACK_FLAGS, which an arch can override, but they all appear to include
-> VM_WRITE | VM_MAYWRITE.
+On Thu, Nov 17, 2022 at 03:20:01PM -0800, Linus Torvalds wrote:
+> On Thu, Nov 17, 2022 at 2:58 PM Kees Cook <keescook@chromium.org> wrote:
+> >
+> > Oh, er, why does get_arg_page() even need FOLL_FORCE? This is writing the
+> > new stack contents to the nascent brpm->vma, which was newly allocated
+> > with VM_STACK_FLAGS, which an arch can override, but they all appear to include
+> > VM_WRITE | VM_MAYWRITE.
+> 
+> Yeah, it does seem entirely superfluous.
+> 
+> It's been there since the very beginning (although in that original
+> commit b6a2fea39318 it was there as a '1' to the 'force' argument to
+> get_user_pages()).
+> 
+> I *think* it can be just removed. But as long as it exists, it should
+> most definitely not be renamed to FOLL_PTRACE.
+> 
+> There's a slight worry that it currently hides some other setup issue
+> that makes it matter, since it's been that way so long, but I can't
+> see what it is.
 
-Yeah, it does seem entirely superfluous.
+My test system boots happily with it removed. I'll throw it into -next
+and see if anything melts...
 
-It's been there since the very beginning (although in that original
-commit b6a2fea39318 it was there as a '1' to the 'force' argument to
-get_user_pages()).
-
-I *think* it can be just removed. But as long as it exists, it should
-most definitely not be renamed to FOLL_PTRACE.
-
-There's a slight worry that it currently hides some other setup issue
-that makes it matter, since it's been that way so long, but I can't
-see what it is.
-
-             Linus
+-- 
+Kees Cook
