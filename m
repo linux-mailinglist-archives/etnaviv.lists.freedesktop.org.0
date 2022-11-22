@@ -1,63 +1,39 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41CB965A662
-	for <lists+etnaviv@lfdr.de>; Sat, 31 Dec 2022 20:48:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DB58365A65F
+	for <lists+etnaviv@lfdr.de>; Sat, 31 Dec 2022 20:48:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 60FBE10E49D;
-	Sat, 31 Dec 2022 19:48:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F06C610E1D1;
+	Sat, 31 Dec 2022 19:48:06 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2DF2D10E799;
- Fri, 18 Nov 2022 17:03:03 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE82110E0CD;
+ Tue, 22 Nov 2022 12:25:54 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id D4BF31FDA4;
- Fri, 18 Nov 2022 17:03:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
- t=1668790981; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fK2sdLfZqlxwdzyzeVC6Yy7wx8vYkqbsaxCq7BgcB58=;
- b=LS+hNeQ4geGgj4IXWO5+0pS41T+O+kbhrtYk+pP+vVRIoeuKs+oW13F6Ht+tR7USTuEyYF
- w44h38vtDK2kFPU+O2RCals0tqkM1nJKUf86qC24NucyatqLyr4TTvgkMY8PsBAD2uBX+L
- cHUUR5s7utA0uOsl3r11W1mUfWblbh8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
- s=susede2_ed25519; t=1668790981;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fK2sdLfZqlxwdzyzeVC6Yy7wx8vYkqbsaxCq7BgcB58=;
- b=khb2AjlSZXqyWGI6UYbr+/ZmYWHGQEHMU8He9yK4yvl4DWCKZ0jYtp3ha5rFTfTmR/yC2u
- C7/yrrNfpsGvyLBA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 41DED1345B;
- Fri, 18 Nov 2022 17:03:01 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id kEZlD8W6d2PfGAAAMHmgww
- (envelope-from <vbabka@suse.cz>); Fri, 18 Nov 2022 17:03:01 +0000
-Message-ID: <e4dd50b8-7ae9-a6fd-8765-2b2dd90ea1a8@suse.cz>
-Date: Fri, 18 Nov 2022 18:03:00 +0100
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 4970B61557;
+ Tue, 22 Nov 2022 12:25:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8585C433C1;
+ Tue, 22 Nov 2022 12:25:47 +0000 (UTC)
+Message-ID: <6175d780-3307-854c-448a-8e6c7ad0772c@xs4all.nl>
+Date: Tue, 22 Nov 2022 13:25:45 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH mm-unstable v1 05/20] mm: add early FAULT_FLAG_WRITE
- consistency checks
+ Thunderbird/102.3.0
+Subject: Re: [PATCH RFC 16/19] mm/frame-vector: remove FOLL_FORCE usage
 Content-Language: en-US
-To: David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org
-References: <20221116102659.70287-1-david@redhat.com>
- <20221116102659.70287-6-david@redhat.com>
-From: Vlastimil Babka <vbabka@suse.cz>
-In-Reply-To: <20221116102659.70287-6-david@redhat.com>
+To: Tomasz Figa <tfiga@chromium.org>, David Hildenbrand <david@redhat.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>
+References: <20221107161740.144456-1-david@redhat.com>
+ <20221107161740.144456-17-david@redhat.com>
+ <CAAFQd5C3Ba1WhjYJF_7tW06mgvzoz9KTakNo+Tz8h_f6dGKzHQ@mail.gmail.com>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <CAAFQd5C3Ba1WhjYJF_7tW06mgvzoz9KTakNo+Tz8h_f6dGKzHQ@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Mailman-Approved-At: Sat, 31 Dec 2022 19:48:05 +0000
@@ -72,22 +48,18 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-ia64@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
+Cc: dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
  Nadav Amit <namit@vmware.com>, linux-kselftest@vger.kernel.org,
- sparclinux@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
- Andrea Arcangeli <aarcange@redhat.com>, linux-samsung-soc@vger.kernel.org,
- linux-rdma@vger.kernel.org, David Airlie <airlied@gmail.com>, x86@kernel.org,
+ David Airlie <airlied@gmail.com>, Andrea Arcangeli <aarcange@redhat.com>,
+ linux-samsung-soc@vger.kernel.org, linux-rdma@vger.kernel.org,
  Hugh Dickins <hughd@google.com>, Matthew Wilcox <willy@infradead.org>,
- Christoph Hellwig <hch@infradead.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Jason Gunthorpe <jgg@ziepe.ca>, linux-arm-kernel@lists.infradead.org,
  linux-media@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
- John Hubbard <jhubbard@nvidia.com>, linux-um@lists.infradead.org,
- etnaviv@lists.freedesktop.org, Alex Williamson <alex.williamson@redhat.com>,
+ John Hubbard <jhubbard@nvidia.com>, etnaviv@lists.freedesktop.org,
  Peter Xu <peterx@redhat.com>, Muchun Song <songmuchun@bytedance.com>,
- linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
- Oded Gabbay <ogabbay@kernel.org>, linux-mips@vger.kernel.org,
- linux-perf-users@vger.kernel.org, linux-security-module@vger.kernel.org,
- linux-alpha@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Vlastimil Babka <vbabka@suse.cz>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Oded Gabbay <ogabbay@kernel.org>, linux-kernel@vger.kernel.org,
  Andrew Morton <akpm@linux-foundation.org>,
  Lucas Stach <l.stach@pengutronix.de>,
  Linus Torvalds <torvalds@linux-foundation.org>,
@@ -95,47 +67,80 @@ Cc: linux-ia64@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-On 11/16/22 11:26, David Hildenbrand wrote:
-> Let's catch abuse of FAULT_FLAG_WRITE early, such that we don't have to
-> care in all other handlers and might get "surprises" if we forget to do
-> so.
-> 
-> Write faults without VM_MAYWRITE don't make any sense, and our
-> maybe_mkwrite() logic could have hidden such abuse for now.
-> 
-> Write faults without VM_WRITE on something that is not a COW mapping is
-> similarly broken, and e.g., do_wp_page() could end up placing an
-> anonymous page into a shared mapping, which would be bad.
-> 
-> This is a preparation for reliable R/O long-term pinning of pages in
-> private mappings, whereby we want to make sure that we will never break
-> COW in a read-only private mapping.
-> 
-> Signed-off-by: David Hildenbrand <david@redhat.com>
+Hi Tomasz, David,
 
-Reviewed-by: Vlastimil Babka <vbabka@suse.cz>
-
-> ---
->  mm/memory.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
+On 11/8/22 05:45, Tomasz Figa wrote:
+> Hi David,
 > 
-> diff --git a/mm/memory.c b/mm/memory.c
-> index e014435a87db..c4fa378ec2a0 100644
-> --- a/mm/memory.c
-> +++ b/mm/memory.c
-> @@ -5170,6 +5170,14 @@ static vm_fault_t sanitize_fault_flags(struct vm_area_struct *vma,
->  		 */
->  		if (!is_cow_mapping(vma->vm_flags))
->  			*flags &= ~FAULT_FLAG_UNSHARE;
-> +	} else if (*flags & FAULT_FLAG_WRITE) {
-> +		/* Write faults on read-only mappings are impossible ... */
-> +		if (WARN_ON_ONCE(!(vma->vm_flags & VM_MAYWRITE)))
-> +			return VM_FAULT_SIGSEGV;
-> +		/* ... and FOLL_FORCE only applies to COW mappings. */
-> +		if (WARN_ON_ONCE(!(vma->vm_flags & VM_WRITE) &&
-> +				 !is_cow_mapping(vma->vm_flags)))
-> +			return VM_FAULT_SIGSEGV;
->  	}
->  	return 0;
->  }
+> On Tue, Nov 8, 2022 at 1:19 AM David Hildenbrand <david@redhat.com> wrote:
+>>
+>> FOLL_FORCE is really only for debugger access. According to commit
+>> 707947247e95 ("media: videobuf2-vmalloc: get_userptr: buffers are always
+>> writable"), the pinned pages are always writable.
+> 
+> Actually that patch is only a workaround to temporarily disable
+> support for read-only pages as they seemed to suffer from some
+> corruption issues in the retrieved user pages. We expect to support
+> read-only pages as hardware input after. That said, FOLL_FORCE doesn't
+> sound like the right thing even in that case, but I don't know the
+> background behind it being added here in the first place. +Hans
+> Verkuil +Marek Szyprowski do you happen to remember anything about it?
+
+I tracked the use of 'force' all the way back to the first git commit
+(2.6.12-rc1) in the very old video-buf.c. So it is very, very old and the
+reason is lost in the mists of time.
+
+I'm not sure if the 'force' argument of get_user_pages() at that time
+even meant the same as FOLL_FORCE today. From what I can tell it has just
+been faithfully used ever since, but I have my doubt that anyone understands
+the reason behind it since it was never explained.
+
+Looking at this old LWN article https://lwn.net/Articles/28548/ suggests
+that it might be related to calling get_user_pages for write buffers
+(non-zero write argument) where you also want to be able to read from the
+buffer. That is certainly something that some drivers need to do post-capture
+fixups.
+
+But 'force' was also always set for read buffers, and I don't know if that
+was something that was actually needed, or just laziness.
+
+I assume that removing FOLL_FORCE from 'FOLL_FORCE|FOLL_WRITE' will still
+allow drivers to read from the buffer?
+
+Regards,
+
+	Hans
+
+> 
+> Best regards,
+> Tomasz
+> 
+>>
+>> FOLL_FORCE in this case seems to be a legacy leftover. Let's just remove
+>> it.
+>>
+>> Cc: Tomasz Figa <tfiga@chromium.org>
+>> Cc: Marek Szyprowski <m.szyprowski@samsung.com>
+>> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+>> Signed-off-by: David Hildenbrand <david@redhat.com>
+>> ---
+>>  drivers/media/common/videobuf2/frame_vector.c | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/media/common/videobuf2/frame_vector.c b/drivers/media/common/videobuf2/frame_vector.c
+>> index 542dde9d2609..062e98148c53 100644
+>> --- a/drivers/media/common/videobuf2/frame_vector.c
+>> +++ b/drivers/media/common/videobuf2/frame_vector.c
+>> @@ -50,7 +50,7 @@ int get_vaddr_frames(unsigned long start, unsigned int nr_frames,
+>>         start = untagged_addr(start);
+>>
+>>         ret = pin_user_pages_fast(start, nr_frames,
+>> -                                 FOLL_FORCE | FOLL_WRITE | FOLL_LONGTERM,
+>> +                                 FOLL_WRITE | FOLL_LONGTERM,
+>>                                   (struct page **)(vec->ptrs));
+>>         if (ret > 0) {
+>>                 vec->got_ref = true;
+>> --
+>> 2.38.1
+>>
 
