@@ -2,36 +2,38 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CAB765A665
-	for <lists+etnaviv@lfdr.de>; Sat, 31 Dec 2022 20:48:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3AE965A663
+	for <lists+etnaviv@lfdr.de>; Sat, 31 Dec 2022 20:48:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 969C610E4A0;
-	Sat, 31 Dec 2022 19:48:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9871B10E49E;
+	Sat, 31 Dec 2022 19:48:07 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A959110E54E;
- Wed, 23 Nov 2022 13:26:21 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C1A5E10E1EF;
+ Wed, 23 Nov 2022 14:28:37 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 394E2B81FC0;
- Wed, 23 Nov 2022 13:26:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB42CC433C1;
- Wed, 23 Nov 2022 13:26:11 +0000 (UTC)
-Message-ID: <36dd800b-d96b-af39-d0de-a5a8ca1034dd@xs4all.nl>
-Date: Wed, 23 Nov 2022 14:26:10 +0100
+ by ams.source.kernel.org (Postfix) with ESMTPS id 19562B8202D;
+ Wed, 23 Nov 2022 14:28:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B521C433D6;
+ Wed, 23 Nov 2022 14:28:28 +0000 (UTC)
+Message-ID: <0da1813a-7e37-bc35-cf8d-8c41590f3b1a@xs4all.nl>
+Date: Wed, 23 Nov 2022 15:28:27 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.1
+Subject: Re: [PATCH mm-unstable v1 16/20] mm/frame-vector: remove FOLL_FORCE
+ usage
 Content-Language: en-US
+From: Hans Verkuil <hverkuil@xs4all.nl>
 To: David Hildenbrand <david@redhat.com>, Tomasz Figa <tfiga@chromium.org>
 References: <20221116102659.70287-1-david@redhat.com>
  <20221116102659.70287-17-david@redhat.com>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Subject: Re: [PATCH mm-unstable v1 16/20] mm/frame-vector: remove FOLL_FORCE
- usage
-In-Reply-To: <20221116102659.70287-17-david@redhat.com>
+ <36dd800b-d96b-af39-d0de-a5a8ca1034dd@xs4all.nl>
+In-Reply-To: <36dd800b-d96b-af39-d0de-a5a8ca1034dd@xs4all.nl>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Mailman-Approved-At: Sat, 31 Dec 2022 19:48:05 +0000
@@ -72,56 +74,67 @@ Cc: linux-ia64@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Hi David, Tomasz,
+On 23/11/2022 14:26, Hans Verkuil wrote:
+> Hi David, Tomasz,
+> 
+> On 16/11/2022 11:26, David Hildenbrand wrote:
+>> FOLL_FORCE is really only for ptrace access. According to commit
+>> 707947247e95 ("media: videobuf2-vmalloc: get_userptr: buffers are always
+>> writable"), get_vaddr_frames() currently pins all pages writable as a
+>> workaround for issues with read-only buffers.
+> 
+> I've decided to revert 707947247e95: I have not been able to reproduce the problem
+> described in that commit, and Tomasz reported that it caused problems with a
+> specific use-case they encountered. I'll post that patch soon and I expect it
+> to land in 6.2. It will cause a conflict with this patch, though.
+> 
+> If the problem described in that patch occurs again, then I will revisit it
+> and hopefully do a better job than I did before. That commit was not my
+> finest moment.
 
-On 16/11/2022 11:26, David Hildenbrand wrote:
-> FOLL_FORCE is really only for ptrace access. According to commit
-> 707947247e95 ("media: videobuf2-vmalloc: get_userptr: buffers are always
-> writable"), get_vaddr_frames() currently pins all pages writable as a
-> workaround for issues with read-only buffers.
+In any case, for this patch:
 
-I've decided to revert 707947247e95: I have not been able to reproduce the problem
-described in that commit, and Tomasz reported that it caused problems with a
-specific use-case they encountered. I'll post that patch soon and I expect it
-to land in 6.2. It will cause a conflict with this patch, though.
-
-If the problem described in that patch occurs again, then I will revisit it
-and hopefully do a better job than I did before. That commit was not my
-finest moment.
+Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
 Regards,
 
 	Hans
 
 > 
-> FOLL_FORCE, however, seems to be a legacy leftover as it predates
-> commit 707947247e95 ("media: videobuf2-vmalloc: get_userptr: buffers are
-> always writable"). Let's just remove it.
+> Regards,
 > 
-> Once the read-only buffer issue has been resolved, FOLL_WRITE could
-> again be set depending on the DMA direction.
+> 	Hans
 > 
-> Cc: Hans Verkuil <hverkuil@xs4all.nl>
-> Cc: Marek Szyprowski <m.szyprowski@samsung.com>
-> Cc: Tomasz Figa <tfiga@chromium.org>
-> Cc: Marek Szyprowski <m.szyprowski@samsung.com>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Signed-off-by: David Hildenbrand <david@redhat.com>
-> ---
->  drivers/media/common/videobuf2/frame_vector.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> FOLL_FORCE, however, seems to be a legacy leftover as it predates
+>> commit 707947247e95 ("media: videobuf2-vmalloc: get_userptr: buffers are
+>> always writable"). Let's just remove it.
+>>
+>> Once the read-only buffer issue has been resolved, FOLL_WRITE could
+>> again be set depending on the DMA direction.
+>>
+>> Cc: Hans Verkuil <hverkuil@xs4all.nl>
+>> Cc: Marek Szyprowski <m.szyprowski@samsung.com>
+>> Cc: Tomasz Figa <tfiga@chromium.org>
+>> Cc: Marek Szyprowski <m.szyprowski@samsung.com>
+>> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+>> Signed-off-by: David Hildenbrand <david@redhat.com>
+>> ---
+>>  drivers/media/common/videobuf2/frame_vector.c | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/media/common/videobuf2/frame_vector.c b/drivers/media/common/videobuf2/frame_vector.c
+>> index 542dde9d2609..062e98148c53 100644
+>> --- a/drivers/media/common/videobuf2/frame_vector.c
+>> +++ b/drivers/media/common/videobuf2/frame_vector.c
+>> @@ -50,7 +50,7 @@ int get_vaddr_frames(unsigned long start, unsigned int nr_frames,
+>>  	start = untagged_addr(start);
+>>  
+>>  	ret = pin_user_pages_fast(start, nr_frames,
+>> -				  FOLL_FORCE | FOLL_WRITE | FOLL_LONGTERM,
+>> +				  FOLL_WRITE | FOLL_LONGTERM,
+>>  				  (struct page **)(vec->ptrs));
+>>  	if (ret > 0) {
+>>  		vec->got_ref = true;
 > 
-> diff --git a/drivers/media/common/videobuf2/frame_vector.c b/drivers/media/common/videobuf2/frame_vector.c
-> index 542dde9d2609..062e98148c53 100644
-> --- a/drivers/media/common/videobuf2/frame_vector.c
-> +++ b/drivers/media/common/videobuf2/frame_vector.c
-> @@ -50,7 +50,7 @@ int get_vaddr_frames(unsigned long start, unsigned int nr_frames,
->  	start = untagged_addr(start);
->  
->  	ret = pin_user_pages_fast(start, nr_frames,
-> -				  FOLL_FORCE | FOLL_WRITE | FOLL_LONGTERM,
-> +				  FOLL_WRITE | FOLL_LONGTERM,
->  				  (struct page **)(vec->ptrs));
->  	if (ret > 0) {
->  		vec->got_ref = true;
 
