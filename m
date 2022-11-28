@@ -1,71 +1,61 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 091BA63A3C9
-	for <lists+etnaviv@lfdr.de>; Mon, 28 Nov 2022 09:58:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 506A163A6F1
+	for <lists+etnaviv@lfdr.de>; Mon, 28 Nov 2022 12:18:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5116A10E2B6;
-	Mon, 28 Nov 2022 08:58:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B154910E1F4;
+	Mon, 28 Nov 2022 11:18:03 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
- [IPv6:2a00:1450:4864:20::62f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EFFA910E200
- for <etnaviv@lists.freedesktop.org>; Mon, 28 Nov 2022 08:58:06 +0000 (UTC)
-Received: by mail-ej1-x62f.google.com with SMTP id n20so24111811ejh.0
- for <etnaviv@lists.freedesktop.org>; Mon, 28 Nov 2022 00:58:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=iRo5DYRndKCx9sGSXzsZxPr88K/zqtuLTLl1O32mcFE=;
- b=XOKEpyQaMH8DtU4ghoeum5LLPSyZKKSeL9ukREYJEhE5Pet4ng53VcgxrNVIVOiN3z
- qM9BvX69vBwubqV7gI66eEPgV5zFoyHzRXj6Y/c3o1k6BVytkDV23dS8hW9lN3urO8Q7
- YycsWj1XAMOHph6L7v2J+A4VSfKO7i7WBHunk=
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
+ [IPv6:2a00:1450:4864:20::42b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D2E010E203;
+ Mon, 28 Nov 2022 11:17:57 +0000 (UTC)
+Received: by mail-wr1-x42b.google.com with SMTP id v1so16200311wrt.11;
+ Mon, 28 Nov 2022 03:17:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:sender:from:to:cc:subject:date:message-id:reply-to;
+ bh=xi6pBFQ2Iy9JcIpqhAKb8IIPjJ3///r7Dh4vpWsLSDI=;
+ b=Afqs52V6ygFs3v3SzJpElSKc8n8lhgdoNoJoZh8moM1X7PpFmU1sIZnqdJWIW0T+8o
+ IjrgAsMN/2zOlpN4w1GjijMH/r6PP2NJMtpPq3pRzaCiV7AQ6eLN6pOMsB7pgaZJWTqB
+ T+v+2Dhd+g2EcmUwPza5x3GkMfh7hA1ZGCR6UA6U9lVWLI1mYC00Cs+4OteWMpR2Du9p
+ kHv0ITGPXKP05U8RAS8REcRtBAzSwu+ikWpAG2rJh1y8XMQVWQ+fTSlsKaydSt/uTwhX
+ 0RaJth+7+or+j0k+fnceSzvDSREhrEhTCZYY+biGdfsQ2HhH7Pg2fDisgf5qk43wb+uz
+ GD1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=iRo5DYRndKCx9sGSXzsZxPr88K/zqtuLTLl1O32mcFE=;
- b=geDsx9uuVZidv6X/tvHpkXNAyqtFujRzTmTW7NabDpnTmj/OBAwxGlX+X8xAgJPiDz
- 5gmT70EJn8wGbZW7v+JrZdhI55xYOj6g/nVhEeLbvlAz86STc5uzTApzuzcp5eJw5LYo
- tNG8oilMalyhxLoQEKku2Z9g6j9hkCGqzyHqetE+HAv7Oi3wRr/U6UUT0vpaW1D51HJa
- QGijOtCxfj4Q+afDWY7nbR3u1KYdgVvkhhuPgxdRwrvyfc7Q3iMPz3lc3o7ks9wYNH4N
- jl2zw7XcMbOhIPDwI9dDD1BjfS6m9OQxEvj8SjmZ4D09gqflST61CucV5ycj1ZOQQPCD
- q0zQ==
-X-Gm-Message-State: ANoB5plTdyk17MHvvCl00UghXiu62jDBscKOGnXdS7ECWOgvsUt1H9wG
- O3+jlZOak2/HXsDHeKKtrM+AeXmpITrCeg==
-X-Google-Smtp-Source: AA0mqf67DA647QfWM9tdY4nxclduDIM7ieF3ffxlNBRhozBYWaOFfv0phpMo1D+Wn3HcOdFjWVgX3A==
-X-Received: by 2002:a17:906:583:b0:78d:9e18:b8f7 with SMTP id
- 3-20020a170906058300b0078d9e18b8f7mr40886005ejn.657.1669625885318; 
- Mon, 28 Nov 2022 00:58:05 -0800 (PST)
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com.
- [209.85.208.47]) by smtp.gmail.com with ESMTPSA id
- ge21-20020a170907909500b007bd57d8f78bsm3161566ejb.32.2022.11.28.00.58.04
- for <etnaviv@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 28 Nov 2022 00:58:04 -0800 (PST)
-Received: by mail-ed1-f47.google.com with SMTP id z18so14441560edb.9
- for <etnaviv@lists.freedesktop.org>; Mon, 28 Nov 2022 00:58:04 -0800 (PST)
-X-Received: by 2002:aa7:db98:0:b0:46a:d57:d9d0 with SMTP id
- u24-20020aa7db98000000b0046a0d57d9d0mr25216647edt.113.1669625884043; Mon, 28
- Nov 2022 00:58:04 -0800 (PST)
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:sender:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=xi6pBFQ2Iy9JcIpqhAKb8IIPjJ3///r7Dh4vpWsLSDI=;
+ b=getrS5GdqBak8qUNyOXSzerMQV4Zi31MTdiiCr9Ce1Qhbd1LnZWsvk70/Lp1t8fvZK
+ iLkM6tF4Y8/rO5qVMCKnYABmByFOOOskJGjat8mrA+zo86JXJQeJZPdUpvAHUgiLA4gi
+ pJijo+EsIv5Yd+IfCf722v0uX7o1yxWi9zMz/dFb3DShsnQPwDrxvgV3NpVVjZT3uVqn
+ 4+9NDeeOco+u1ojhbbGD15NuNWPtc8hT51JtzNkyR6jPeHiCI/HndIyG3O8JnRJA3hJH
+ vTlD+fj5NSzn8h5D6KG0hQnKwEOcwpf4tuelkzr3m4kzARluPQK/V7DxxTobpIkoHGwR
+ vDow==
+X-Gm-Message-State: ANoB5pkO8hzXELItFF45NNvern1W0W6zCj3ZnbDoRgZro+S7Lk60WFa/
+ UMlSy6GPsB/IQVO1UvwBcuk=
+X-Google-Smtp-Source: AA0mqf4GXJ9ZPIdgGqed8M0XM3SA8kk373G85PorjEdJ2qU7LCAoGh5UUBa4ygk+8Y0CVY8ueeVo8Q==
+X-Received: by 2002:a5d:688c:0:b0:242:1059:2118 with SMTP id
+ h12-20020a5d688c000000b0024210592118mr4869395wru.245.1669634275707; 
+ Mon, 28 Nov 2022 03:17:55 -0800 (PST)
+Received: from cizrna.home (cst-prg-44-69.cust.vodafone.cz. [46.135.44.69])
+ by smtp.gmail.com with ESMTPSA id
+ g3-20020adffc83000000b0024207ed4ce0sm7711817wrr.58.2022.11.28.03.17.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 28 Nov 2022 03:17:54 -0800 (PST)
+From: Tomeu Vizoso <tomeu.vizoso@collabora.com>
+To: 
+Subject: [PATCH v2 0/5] Support for the NPU in Vim3
+Date: Mon, 28 Nov 2022 12:17:33 +0100
+Message-Id: <20221128111740.39003-1-tomeu.vizoso@collabora.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-References: <20221116102659.70287-1-david@redhat.com>
- <20221116102659.70287-17-david@redhat.com>
- <81fb0fa3-2e06-b765-56ac-a7d981194e59@redhat.com>
- <08b65ac6-6786-1080-18f8-d2be109c85fc@xs4all.nl>
- <9d0bf98a-3d6a-1082-e992-1338e1525935@redhat.com>
-In-Reply-To: <9d0bf98a-3d6a-1082-e992-1338e1525935@redhat.com>
-From: Tomasz Figa <tfiga@chromium.org>
-Date: Mon, 28 Nov 2022 17:57:51 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5BQBsBiY48o3FxmQT7H4063=dvDDwSB4S=AyLxXbXuJeA@mail.gmail.com>
-Message-ID: <CAAFQd5BQBsBiY48o3FxmQT7H4063=dvDDwSB4S=AyLxXbXuJeA@mail.gmail.com>
-Subject: Re: [PATCH mm-unstable v1 16/20] mm/frame-vector: remove FOLL_FORCE
- usage
-To: David Hildenbrand <david@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,109 +67,59 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-ia64@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org,
- Hans Verkuil <hverkuil@xs4all.nl>, linux-mm@kvack.org,
- Nadav Amit <namit@vmware.com>, linux-kselftest@vger.kernel.org,
- sparclinux@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Andrea Arcangeli <aarcange@redhat.com>, linux-samsung-soc@vger.kernel.org,
- linux-rdma@vger.kernel.org, David Airlie <airlied@gmail.com>, x86@kernel.org,
- Hugh Dickins <hughd@google.com>, Matthew Wilcox <willy@infradead.org>,
- Christoph Hellwig <hch@infradead.org>, Jason Gunthorpe <jgg@ziepe.ca>,
- Vlastimil Babka <vbabka@suse.cz>, linux-media@vger.kernel.org,
- Arnd Bergmann <arnd@arndb.de>, John Hubbard <jhubbard@nvidia.com>,
- linux-um@lists.infradead.org, etnaviv@lists.freedesktop.org,
- Alex Williamson <alex.williamson@redhat.com>, Peter Xu <peterx@redhat.com>,
- Muchun Song <songmuchun@bytedance.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
- Oded Gabbay <ogabbay@kernel.org>, linux-kernel@vger.kernel.org,
- linux-perf-users@vger.kernel.org, linux-security-module@vger.kernel.org,
- linux-alpha@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- Andrew Morton <akpm@linux-foundation.org>,
- Lucas Stach <l.stach@pengutronix.de>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Mike Kravetz <mike.kravetz@oracle.com>
+Cc: Philipp Zabel <p.zabel@pengutronix.de>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Kevin Hilman <khilman@baylibre.com>, italonicola@collabora.com,
+ "moderated list:DRM DRIVERS FOR VIVANTE GPU IP"
+ <etnaviv@lists.freedesktop.org>,
+ "open list:DRM DRIVERS FOR VIVANTE GPU IP" <dri-devel@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Rob Herring <robh+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ "open list:ARM/Amlogic Meson SoC support" <linux-amlogic@lists.infradead.org>,
+ Lucas Stach <l.stach@pengutronix.de>, David Airlie <airlied@gmail.com>,
+ "moderated list:ARM/Amlogic Meson SoC support"
+ <linux-arm-kernel@lists.infradead.org>, Jerome Brunet <jbrunet@baylibre.com>
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-On Mon, Nov 28, 2022 at 5:19 PM David Hildenbrand <david@redhat.com> wrote:
->
-> On 28.11.22 09:17, Hans Verkuil wrote:
-> > Hi David,
-> >
-> > On 27/11/2022 11:35, David Hildenbrand wrote:
-> >> On 16.11.22 11:26, David Hildenbrand wrote:
-> >>> FOLL_FORCE is really only for ptrace access. According to commit
-> >>> 707947247e95 ("media: videobuf2-vmalloc: get_userptr: buffers are always
-> >>> writable"), get_vaddr_frames() currently pins all pages writable as a
-> >>> workaround for issues with read-only buffers.
-> >>>
-> >>> FOLL_FORCE, however, seems to be a legacy leftover as it predates
-> >>> commit 707947247e95 ("media: videobuf2-vmalloc: get_userptr: buffers are
-> >>> always writable"). Let's just remove it.
-> >>>
-> >>> Once the read-only buffer issue has been resolved, FOLL_WRITE could
-> >>> again be set depending on the DMA direction.
-> >>>
-> >>> Cc: Hans Verkuil <hverkuil@xs4all.nl>
-> >>> Cc: Marek Szyprowski <m.szyprowski@samsung.com>
-> >>> Cc: Tomasz Figa <tfiga@chromium.org>
-> >>> Cc: Marek Szyprowski <m.szyprowski@samsung.com>
-> >>> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> >>> Signed-off-by: David Hildenbrand <david@redhat.com>
-> >>> ---
-> >>>    drivers/media/common/videobuf2/frame_vector.c | 2 +-
-> >>>    1 file changed, 1 insertion(+), 1 deletion(-)
-> >>>
-> >>> diff --git a/drivers/media/common/videobuf2/frame_vector.c b/drivers/media/common/videobuf2/frame_vector.c
-> >>> index 542dde9d2609..062e98148c53 100644
-> >>> --- a/drivers/media/common/videobuf2/frame_vector.c
-> >>> +++ b/drivers/media/common/videobuf2/frame_vector.c
-> >>> @@ -50,7 +50,7 @@ int get_vaddr_frames(unsigned long start, unsigned int nr_frames,
-> >>>        start = untagged_addr(start);
-> >>>          ret = pin_user_pages_fast(start, nr_frames,
-> >>> -                  FOLL_FORCE | FOLL_WRITE | FOLL_LONGTERM,
-> >>> +                  FOLL_WRITE | FOLL_LONGTERM,
-> >>>                      (struct page **)(vec->ptrs));
-> >>>        if (ret > 0) {
-> >>>            vec->got_ref = true;
-> >>
-> >>
-> >> Hi Andrew,
-> >>
-> >> see the discussion at [1] regarding a conflict and how to proceed with
-> >> upstreaming. The conflict would be easy to resolve, however, also
-> >> the patch description doesn't make sense anymore with [1].
-> >
-> > Might it be easier and less confusing if you post a v2 of this series
-> > with my patch first? That way it is clear that 1) my patch has to come
-> > first, and 2) that it is part of a single series and should be merged
-> > by the mm subsystem.
-> >
-> > Less chances of things going wrong that way.
-> >
-> > Just mention in the v2 cover letter that the first patch was added to
-> > make it easy to backport that fix without being hampered by merge
-> > conflicts if it was added after your frame_vector.c patch.
->
-> Yes, that's the way I would naturally do, it, however, Andrew prefers
-> delta updates for minor changes.
->
-> @Andrew, whatever you prefer!
->
-> Thanks!
->
+Hi,
 
-However you folks proceed with taking this patch, feel free to add my
-Acked-by. Thanks!
+This series adds support for the Verisilicon VIPNano-QI NPU in the A311D
+as in the VIM3 board.
 
-Best regards,
-Tomasz
+The IP is very closeley based on previous Vivante GPUs, so the etnaviv
+kernel driver works basically unchanged.
 
-> --
-> Thanks,
->
-> David / dhildenb
->
+The userspace part of the driver is being reviewed at:
+
+https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/18986
+
+Regards,
+
+Tomeu
+
+Tomeu Vizoso (5):
+  dt-bindings: reset: meson-g12a: Add missing NNA reset
+  dt-bindings: power: Add NNA power domain
+  soc: amlogic: meson-pwrc: Add NNA power domain for A311D
+  arm64: dts: Add DT node for the VIPNano-QI on the A311D
+  drm/etnaviv: add HWDB entry for VIPNano-QI.7120.0055
+
+ .../boot/dts/amlogic/meson-g12-common.dtsi    | 11 +++++++
+ .../amlogic/meson-g12b-a311d-khadas-vim3.dts  |  4 +++
+ drivers/gpu/drm/etnaviv/etnaviv_hwdb.c        | 31 +++++++++++++++++++
+ drivers/soc/amlogic/meson-ee-pwrc.c           | 17 ++++++++++
+ include/dt-bindings/power/meson-g12a-power.h  |  1 +
+ .../reset/amlogic,meson-g12a-reset.h          |  4 ++-
+ 6 files changed, 67 insertions(+), 1 deletion(-)
+
+-- 
+2.38.1
+
