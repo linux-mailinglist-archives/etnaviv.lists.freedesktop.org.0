@@ -1,40 +1,42 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AFE065A676
-	for <lists+etnaviv@lfdr.de>; Sat, 31 Dec 2022 20:48:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E31C765A680
+	for <lists+etnaviv@lfdr.de>; Sat, 31 Dec 2022 20:48:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4861810E4B3;
-	Sat, 31 Dec 2022 19:48:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B9ABB10E4B9;
+	Sat, 31 Dec 2022 19:48:22 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 234F710E2A3;
- Mon, 28 Nov 2022 08:17:12 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D1B210E2AB;
+ Mon, 28 Nov 2022 08:26:14 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 7EBFBB80C81;
- Mon, 28 Nov 2022 08:17:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF774C433D6;
- Mon, 28 Nov 2022 08:17:01 +0000 (UTC)
-Message-ID: <08b65ac6-6786-1080-18f8-d2be109c85fc@xs4all.nl>
-Date: Mon, 28 Nov 2022 09:17:00 +0100
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 7A51260F9E;
+ Mon, 28 Nov 2022 08:26:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75F8BC433D6;
+ Mon, 28 Nov 2022 08:26:05 +0000 (UTC)
+Message-ID: <0a52ed02-cf9d-eb67-8d68-e3d9dbe4e7b2@xs4all.nl>
+Date: Mon, 28 Nov 2022 09:26:04 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.5.0
+Subject: Re: [PATCH mm-unstable v1 16/20] mm/frame-vector: remove FOLL_FORCE
+ usage
 Content-Language: en-US
 To: David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org,
  Andrew Morton <akpm@linux-foundation.org>
 References: <20221116102659.70287-1-david@redhat.com>
  <20221116102659.70287-17-david@redhat.com>
  <81fb0fa3-2e06-b765-56ac-a7d981194e59@redhat.com>
+ <08b65ac6-6786-1080-18f8-d2be109c85fc@xs4all.nl>
+ <9d0bf98a-3d6a-1082-e992-1338e1525935@redhat.com>
 From: Hans Verkuil <hverkuil@xs4all.nl>
-Subject: Re: [PATCH mm-unstable v1 16/20] mm/frame-vector: remove FOLL_FORCE
- usage
-In-Reply-To: <81fb0fa3-2e06-b765-56ac-a7d981194e59@redhat.com>
+In-Reply-To: <9d0bf98a-3d6a-1082-e992-1338e1525935@redhat.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Sat, 31 Dec 2022 19:48:05 +0000
@@ -74,111 +76,76 @@ Cc: linux-ia64@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Hi David,
-
-On 27/11/2022 11:35, David Hildenbrand wrote:
-> On 16.11.22 11:26, David Hildenbrand wrote:
->> FOLL_FORCE is really only for ptrace access. According to commit
->> 707947247e95 ("media: videobuf2-vmalloc: get_userptr: buffers are always
->> writable"), get_vaddr_frames() currently pins all pages writable as a
->> workaround for issues with read-only buffers.
+On 28/11/2022 09:18, David Hildenbrand wrote:
+> On 28.11.22 09:17, Hans Verkuil wrote:
+>> Hi David,
 >>
->> FOLL_FORCE, however, seems to be a legacy leftover as it predates
->> commit 707947247e95 ("media: videobuf2-vmalloc: get_userptr: buffers are
->> always writable"). Let's just remove it.
+>> On 27/11/2022 11:35, David Hildenbrand wrote:
+>>> On 16.11.22 11:26, David Hildenbrand wrote:
+>>>> FOLL_FORCE is really only for ptrace access. According to commit
+>>>> 707947247e95 ("media: videobuf2-vmalloc: get_userptr: buffers are always
+>>>> writable"), get_vaddr_frames() currently pins all pages writable as a
+>>>> workaround for issues with read-only buffers.
+>>>>
+>>>> FOLL_FORCE, however, seems to be a legacy leftover as it predates
+>>>> commit 707947247e95 ("media: videobuf2-vmalloc: get_userptr: buffers are
+>>>> always writable"). Let's just remove it.
+>>>>
+>>>> Once the read-only buffer issue has been resolved, FOLL_WRITE could
+>>>> again be set depending on the DMA direction.
+>>>>
+>>>> Cc: Hans Verkuil <hverkuil@xs4all.nl>
+>>>> Cc: Marek Szyprowski <m.szyprowski@samsung.com>
+>>>> Cc: Tomasz Figa <tfiga@chromium.org>
+>>>> Cc: Marek Szyprowski <m.szyprowski@samsung.com>
+>>>> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+>>>> Signed-off-by: David Hildenbrand <david@redhat.com>
+>>>> ---
+>>>>    drivers/media/common/videobuf2/frame_vector.c | 2 +-
+>>>>    1 file changed, 1 insertion(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/drivers/media/common/videobuf2/frame_vector.c b/drivers/media/common/videobuf2/frame_vector.c
+>>>> index 542dde9d2609..062e98148c53 100644
+>>>> --- a/drivers/media/common/videobuf2/frame_vector.c
+>>>> +++ b/drivers/media/common/videobuf2/frame_vector.c
+>>>> @@ -50,7 +50,7 @@ int get_vaddr_frames(unsigned long start, unsigned int nr_frames,
+>>>>        start = untagged_addr(start);
+>>>>          ret = pin_user_pages_fast(start, nr_frames,
+>>>> -                  FOLL_FORCE | FOLL_WRITE | FOLL_LONGTERM,
+>>>> +                  FOLL_WRITE | FOLL_LONGTERM,
+>>>>                      (struct page **)(vec->ptrs));
+>>>>        if (ret > 0) {
+>>>>            vec->got_ref = true;
+>>>
+>>>
+>>> Hi Andrew,
+>>>
+>>> see the discussion at [1] regarding a conflict and how to proceed with
+>>> upstreaming. The conflict would be easy to resolve, however, also
+>>> the patch description doesn't make sense anymore with [1].
 >>
->> Once the read-only buffer issue has been resolved, FOLL_WRITE could
->> again be set depending on the DMA direction.
+>> Might it be easier and less confusing if you post a v2 of this series
+>> with my patch first? That way it is clear that 1) my patch has to come
+>> first, and 2) that it is part of a single series and should be merged
+>> by the mm subsystem.
 >>
->> Cc: Hans Verkuil <hverkuil@xs4all.nl>
->> Cc: Marek Szyprowski <m.szyprowski@samsung.com>
->> Cc: Tomasz Figa <tfiga@chromium.org>
->> Cc: Marek Szyprowski <m.szyprowski@samsung.com>
->> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
->> Signed-off-by: David Hildenbrand <david@redhat.com>
->> ---
->>   drivers/media/common/videobuf2/frame_vector.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
+>> Less chances of things going wrong that way.
 >>
->> diff --git a/drivers/media/common/videobuf2/frame_vector.c b/drivers/media/common/videobuf2/frame_vector.c
->> index 542dde9d2609..062e98148c53 100644
->> --- a/drivers/media/common/videobuf2/frame_vector.c
->> +++ b/drivers/media/common/videobuf2/frame_vector.c
->> @@ -50,7 +50,7 @@ int get_vaddr_frames(unsigned long start, unsigned int nr_frames,
->>       start = untagged_addr(start);
->>         ret = pin_user_pages_fast(start, nr_frames,
->> -                  FOLL_FORCE | FOLL_WRITE | FOLL_LONGTERM,
->> +                  FOLL_WRITE | FOLL_LONGTERM,
->>                     (struct page **)(vec->ptrs));
->>       if (ret > 0) {
->>           vec->got_ref = true;
+>> Just mention in the v2 cover letter that the first patch was added to
+>> make it easy to backport that fix without being hampered by merge
+>> conflicts if it was added after your frame_vector.c patch.
 > 
+> Yes, that's the way I would naturally do, it, however, Andrew prefers delta updates for minor changes.
 > 
-> Hi Andrew,
-> 
-> see the discussion at [1] regarding a conflict and how to proceed with
-> upstreaming. The conflict would be easy to resolve, however, also
-> the patch description doesn't make sense anymore with [1].
+> @Andrew, whatever you prefer!
 
-Might it be easier and less confusing if you post a v2 of this series
-with my patch first? That way it is clear that 1) my patch has to come
-first, and 2) that it is part of a single series and should be merged
-by the mm subsystem.
-
-Less chances of things going wrong that way.
-
-Just mention in the v2 cover letter that the first patch was added to
-make it easy to backport that fix without being hampered by merge
-conflicts if it was added after your frame_vector.c patch.
+Andrew, I've resent my patch, this time with you CCed as well.
 
 Regards,
 
 	Hans
 
 > 
+> Thanks!
 > 
-> On top of mm-unstable, reverting this patch and applying [1] gives me
-> an updated patch:
-> 
-> 
-> From 1e66c25f1467c1f1e5f275312f2c6df29308d4df Mon Sep 17 00:00:00 2001
-> From: David Hildenbrand <david@redhat.com>
-> Date: Wed, 16 Nov 2022 11:26:55 +0100
-> Subject: [PATCH] mm/frame-vector: remove FOLL_FORCE usage
-> 
-> GUP now supports reliable R/O long-term pinning in COW mappings, such
-> that we break COW early. MAP_SHARED VMAs only use the shared zeropage so
-> far in one corner case (DAXFS file with holes), which can be ignored
-> because GUP does not support long-term pinning in fsdax (see
-> check_vma_flags()).
-> 
-> Consequently, FOLL_FORCE | FOLL_WRITE | FOLL_LONGTERM is no longer required
-> for reliable R/O long-term pinning: FOLL_LONGTERM is sufficient. So stop
-> using FOLL_FORCE, which is really only for ptrace access.
-> 
-> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> Cc: Hans Verkuil <hverkuil@xs4all.nl>
-> Cc: Marek Szyprowski <m.szyprowski@samsung.com>
-> Cc: Tomasz Figa <tfiga@chromium.org>
-> Cc: Marek Szyprowski <m.szyprowski@samsung.com>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Signed-off-by: David Hildenbrand <david@redhat.com>
-> ---
->  drivers/media/common/videobuf2/frame_vector.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/common/videobuf2/frame_vector.c b/drivers/media/common/videobuf2/frame_vector.c
-> index aad72640f055..8606fdacf5b8 100644
-> --- a/drivers/media/common/videobuf2/frame_vector.c
-> +++ b/drivers/media/common/videobuf2/frame_vector.c
-> @@ -41,7 +41,7 @@ int get_vaddr_frames(unsigned long start, unsigned int nr_frames, bool write,
->      int ret_pin_user_pages_fast = 0;
->      int ret = 0;
->      int err;
-> -    unsigned int gup_flags = FOLL_FORCE | FOLL_LONGTERM;
-> +    unsigned int gup_flags = FOLL_LONGTERM;
->  
->      if (nr_frames == 0)
->          return 0;
 
