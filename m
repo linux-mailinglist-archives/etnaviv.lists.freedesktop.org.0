@@ -2,63 +2,87 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 852D163A6F4
-	for <lists+etnaviv@lfdr.de>; Mon, 28 Nov 2022 12:18:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D61363BBFA
+	for <lists+etnaviv@lfdr.de>; Tue, 29 Nov 2022 09:48:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4AADA10E203;
-	Mon, 28 Nov 2022 11:18:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E4B6A10E39B;
+	Tue, 29 Nov 2022 08:48:46 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
- [IPv6:2a00:1450:4864:20::330])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 91F8510E203;
- Mon, 28 Nov 2022 11:18:06 +0000 (UTC)
-Received: by mail-wm1-x330.google.com with SMTP id o30so8205344wms.2;
- Mon, 28 Nov 2022 03:18:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:sender:from:to:cc:subject:date
- :message-id:reply-to;
- bh=j/wAlj9+lbLEBeIqsdF+yfeUS1s2V84+JTVk1VCdcTE=;
- b=eLtpnITDJBZ4eC9WuN+NwFAZ7Z6Q9wtGvKkEguievQ+59Mk2Ve17OmAit8TaOcxvKM
- 9ZVS4Ku1Nbf2k5IO7W8uxcSf/xPiLO/HtBHmKUuAPB48FVoe7n0eO2FwZD5M1i94g2FS
- afj8vKngWtKaGuxQQ59gHYv0zRK6ZGxdOVzWZA2sYo4g87HI3JnSqci+zlw/ZzoSyfWz
- o79Ua3SmWjCeMIkSmoyJYckXE1qH8nQRbGgNFMmC+JQPfN91W26JPbkdF5+b1h+NyUCD
- ovpRky4zA4/Tt+nO4cQ56RGCL94I9sx9n0gEHo/QXuuVIQCPX1VYYfcgkbuPt+FJFFHS
- 1J6Q==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4850210E39B
+ for <etnaviv@lists.freedesktop.org>; Tue, 29 Nov 2022 08:48:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1669711721;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+9/SG262uJs5aEn47977HgvoOkAGZaXesrmlGYL/QQU=;
+ b=Pr15GyKpSnrqBVWsKNCx5qDo8hFah0EZIOB3tYZUpJ4Gbq/QiFdhu1ARAfQnqW7JaC7UH8
+ boW3Mc5wCWICm0078A2VhWhea0v6GihYqwJcbHnIiNgKm7K4QZOQcAYPAG7VQQ8MzShV4z
+ npJyvFyoBcSlp8ZJoMNobPe+3PmZeMU=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-103-wtLtyCAwMq6Ul_lojRj2aQ-1; Tue, 29 Nov 2022 03:48:37 -0500
+X-MC-Unique: wtLtyCAwMq6Ul_lojRj2aQ-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ bi19-20020a05600c3d9300b003cf9d6c4016so9851584wmb.8
+ for <etnaviv@lists.freedesktop.org>; Tue, 29 Nov 2022 00:48:37 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:sender:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=j/wAlj9+lbLEBeIqsdF+yfeUS1s2V84+JTVk1VCdcTE=;
- b=7ZtnQpZkb2gNjvy96fYzjnglEDx5PUVC/AnsYFFM/Xa+Hx4ZP8vYQd0Gs3yhbtZVx3
- unuMngIxQiJZPuEWHCIYpxdUmbuGltA/0BqzIg+sGT5dIJMq7wj6EnVKe2qU3fCSQlxg
- oOaA4KBWw/j9HgkJhHJAQSrjo7wJoh3jxDxFXrolMMbpEJIn96r8TW+5sWJ/BFZku1fb
- yHJpRzkWS7S3KU1EpzLpqRLzsi5nYO+rDE97ghrT9ZfmcxvSVP76qwsucaEyWMd6F7mx
- a3UuDUonKYlvIPxDFVBOWtm5x6I56y4SQmvCHhhWsHt9YJ8jOW3Nm8ZOja9bnOmeF1ea
- B2LA==
-X-Gm-Message-State: ANoB5pnFmQVr9UzcFQMWlMW6mjmuhNkNJAbPeA62yk7S45ORA7nUuA9o
- c9MJJiUJBrQrBArP8ZFX1Fs=
-X-Google-Smtp-Source: AA0mqf69eWYyZgMKdOGsUq0UPtisowcqx0w0ysK/Ur6civ9KWMfHY8SUYDhnxbdliyF6bhrfjnFrfQ==
-X-Received: by 2002:a05:600c:3d94:b0:3d0:552e:8d86 with SMTP id
- bi20-20020a05600c3d9400b003d0552e8d86mr4812413wmb.112.1669634284975; 
- Mon, 28 Nov 2022 03:18:04 -0800 (PST)
-Received: from cizrna.home (cst-prg-44-69.cust.vodafone.cz. [46.135.44.69])
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=+9/SG262uJs5aEn47977HgvoOkAGZaXesrmlGYL/QQU=;
+ b=XgsbBW3zXkxcH6JX4bOBGZBrXB26STfkiDaDpAkzbkRr9e2ZDwn7nv9o/tvmOaqCMp
+ Z5OQbrE1XEKBIP5WeS02S3xF426Q8C/XzvqtKHvc+ypQCOWgSRtDYsTYGuWVUIO2K62L
+ oXGHW27uer64+ukeHlvJX3rFmIiq0f83gR9sdlUmauvewMISg/++Vv1k7cwhVZ2W9epr
+ IpWb5YC3NtwUTWocHXf0lO5fYxqFC1zvR+r37a1mrMs8fd3wpNG+64ZGA46YEnelArh4
+ mgmdur3JqFD1eJPyjwigLt3fhYGvIv087FU0Hzd2du+YMlGB9EWrz3PL+M4AXDdMtWLw
+ W1hw==
+X-Gm-Message-State: ANoB5plNC4TMLNbFS4wQurm8QwmRRT7n52EQtZmISX6LkuU5QC23Stdy
+ LqO8d32krfM6dh1nrMlAenEaJ6PyFXyrkATEAxKI8j0OtQe2QoDRyxQrLpY/h7VYLoa5dzAdETC
+ SwzCZs0q8mxU9J55YMDy4Ft4grQ==
+X-Received: by 2002:adf:ed86:0:b0:236:4930:2468 with SMTP id
+ c6-20020adfed86000000b0023649302468mr27266642wro.221.1669711716558; 
+ Tue, 29 Nov 2022 00:48:36 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf5WObKFiHoIvjAvSDGoBWk7nZS9J8pydo8v+yQ7WbXm3jibFRxv0v14chgZsAxfMxQqYFXPxw==
+X-Received: by 2002:adf:ed86:0:b0:236:4930:2468 with SMTP id
+ c6-20020adfed86000000b0023649302468mr27266600wro.221.1669711716176; 
+ Tue, 29 Nov 2022 00:48:36 -0800 (PST)
+Received: from ?IPV6:2003:cb:c705:ca00:3fb8:c253:3bf7:b60e?
+ (p200300cbc705ca003fb8c2533bf7b60e.dip0.t-ipconnect.de.
+ [2003:cb:c705:ca00:3fb8:c253:3bf7:b60e])
  by smtp.gmail.com with ESMTPSA id
- g3-20020adffc83000000b0024207ed4ce0sm7711817wrr.58.2022.11.28.03.18.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 28 Nov 2022 03:18:04 -0800 (PST)
-From: Tomeu Vizoso <tomeu.vizoso@collabora.com>
-To: 
-Subject: [PATCH v2 5/5] drm/etnaviv: add HWDB entry for VIPNano-QI.7120.0055
-Date: Mon, 28 Nov 2022 12:17:38 +0100
-Message-Id: <20221128111740.39003-6-tomeu.vizoso@collabora.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221128111740.39003-1-tomeu.vizoso@collabora.com>
-References: <20221128111740.39003-1-tomeu.vizoso@collabora.com>
+ j5-20020a5d5645000000b00225307f43fbsm13057331wrw.44.2022.11.29.00.48.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 29 Nov 2022 00:48:35 -0800 (PST)
+Message-ID: <22b1107b-0acc-5772-a883-8f3c4682eb1b@redhat.com>
+Date: Tue, 29 Nov 2022 09:48:33 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.1
+Subject: Re: [PATCH mm-unstable v1 16/20] mm/frame-vector: remove FOLL_FORCE
+ usage
+To: Andrew Morton <akpm@linux-foundation.org>
+References: <20221116102659.70287-1-david@redhat.com>
+ <20221116102659.70287-17-david@redhat.com>
+ <81fb0fa3-2e06-b765-56ac-a7d981194e59@redhat.com>
+ <08b65ac6-6786-1080-18f8-d2be109c85fc@xs4all.nl>
+ <9d0bf98a-3d6a-1082-e992-1338e1525935@redhat.com>
+ <20221128145927.df895bf1966cfa125cae9668@linux-foundation.org>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <20221128145927.df895bf1966cfa125cae9668@linux-foundation.org>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,71 +94,60 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>, italonicola@collabora.com,
- "moderated list:DRM DRIVERS FOR VIVANTE GPU IP"
- <etnaviv@lists.freedesktop.org>,
- "open list:DRM DRIVERS FOR VIVANTE GPU IP" <dri-devel@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Russell King <linux+etnaviv@armlinux.org.uk>,
- David Airlie <airlied@gmail.com>, Lucas Stach <l.stach@pengutronix.de>
+Cc: linux-ia64@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org,
+ Hans Verkuil <hverkuil@xs4all.nl>, linux-mm@kvack.org,
+ Nadav Amit <namit@vmware.com>, linux-kselftest@vger.kernel.org,
+ sparclinux@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Andrea Arcangeli <aarcange@redhat.com>, linux-samsung-soc@vger.kernel.org,
+ linux-rdma@vger.kernel.org, David Airlie <airlied@gmail.com>, x86@kernel.org,
+ Hugh Dickins <hughd@google.com>, Matthew Wilcox <willy@infradead.org>,
+ Christoph Hellwig <hch@infradead.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Vlastimil Babka <vbabka@suse.cz>, linux-media@vger.kernel.org,
+ Arnd Bergmann <arnd@arndb.de>, John Hubbard <jhubbard@nvidia.com>,
+ linux-um@lists.infradead.org, etnaviv@lists.freedesktop.org,
+ Alex Williamson <alex.williamson@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Muchun Song <songmuchun@bytedance.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+ Oded Gabbay <ogabbay@kernel.org>, linux-kernel@vger.kernel.org,
+ Tomasz Figa <tfiga@chromium.org>, linux-perf-users@vger.kernel.org,
+ linux-security-module@vger.kernel.org, linux-alpha@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, Lucas Stach <l.stach@pengutronix.de>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Mike Kravetz <mike.kravetz@oracle.com>
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-This is a compute-only module marketed towards AI and vision
-acceleration. This particular version can be found on the Amlogic A311D
-SoC.
+On 28.11.22 23:59, Andrew Morton wrote:
+> On Mon, 28 Nov 2022 09:18:47 +0100 David Hildenbrand <david@redhat.com> wrote:
+> 
+>>> Less chances of things going wrong that way.
+>>>
+>>> Just mention in the v2 cover letter that the first patch was added to
+>>> make it easy to backport that fix without being hampered by merge
+>>> conflicts if it was added after your frame_vector.c patch.
+>>
+>> Yes, that's the way I would naturally do, it, however, Andrew prefers
+>> delta updates for minor changes.
+>>
+>> @Andrew, whatever you prefer!
+> 
+> I'm inclined to let things sit as they are.  Cross-tree conflicts
+> happen, and Linus handles them.  I'll flag this (very simple) conflict
+> in the pull request, if MM merges second.  If v4l merges second then
+> hopefully they will do the same.  But this one is so simple that Linus
+> hardly needs our help.
+> 
+> But Linus won't be editing changelogs so that the changelog makes more
+> sense after both trees are joined.  I'm inclined to let the changelog
+> sit as it is as well.
 
-The feature bits are taken from the Khadas downstream kernel driver
-6.4.4.3.310723AAA.
+Works for me. Thanks Andrew!
 
-Signed-off-by: Tomeu Vizoso <tomeu.vizoso@collabora.com>
----
- drivers/gpu/drm/etnaviv/etnaviv_hwdb.c | 31 ++++++++++++++++++++++++++
- 1 file changed, 31 insertions(+)
-
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c b/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
-index f2fc645c7956..3f6fd9a3c088 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
-@@ -130,6 +130,37 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
- 		.minor_features10 = 0x90044250,
- 		.minor_features11 = 0x00000024,
- 	},
-+	{
-+		.model = 0x8000,
-+		.revision = 0x7120,
-+		.product_id = 0x45080009,
-+		.customer_id = 0x88,
-+		.eco_id = 0,
-+		.stream_count = 8,
-+		.register_max = 64,
-+		.thread_count = 256,
-+		.shader_core_count = 1,
-+		.vertex_cache_size = 16,
-+		.vertex_output_buffer_size = 1024,
-+		.pixel_pipes = 1,
-+		.instruction_count = 512,
-+		.num_constants = 320,
-+		.buffer_size = 0,
-+		.varyings_count = 16,
-+		.features = 0xe0287cac,
-+		.minor_features0 = 0xc1799eff,
-+		.minor_features1 = 0xfefbfadb,
-+		.minor_features2 = 0xeb9d6fbf,
-+		.minor_features3 = 0xedfffced,
-+		.minor_features4 = 0xd30dafc7,
-+		.minor_features5 = 0x7b5ac333,
-+		.minor_features6 = 0xfc8ee200,
-+		.minor_features7 = 0x03fffa6f,
-+		.minor_features8 = 0x00fe0ef0,
-+		.minor_features9 = 0x0088003c,
-+		.minor_features10 = 0x108048c0,
-+		.minor_features11 = 0x00000010,
-+	},
- };
- 
- bool etnaviv_fill_identity_from_hwdb(struct etnaviv_gpu *gpu)
 -- 
-2.38.1
+Thanks,
+
+David / dhildenb
 
