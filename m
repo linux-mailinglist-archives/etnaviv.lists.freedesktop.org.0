@@ -1,47 +1,45 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61A9F65A674
-	for <lists+etnaviv@lfdr.de>; Sat, 31 Dec 2022 20:48:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A7B765A670
+	for <lists+etnaviv@lfdr.de>; Sat, 31 Dec 2022 20:48:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8DC0A10E4B0;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F10410E4AC;
 	Sat, 31 Dec 2022 19:48:11 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9ED5110E24A;
- Mon, 28 Nov 2022 22:59:34 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3CC2689B57;
+ Tue, 29 Nov 2022 09:08:52 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by sin.source.kernel.org (Postfix) with ESMTPS id 7ACDFCE109D;
- Mon, 28 Nov 2022 22:59:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A99DC433D6;
- Mon, 28 Nov 2022 22:59:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
- s=korg; t=1669676369;
- bh=8eUsQnXrojDc3xf/FA0TCQqqadaNCz4PLnjHT4xDE/M=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=p/c6sfRX9un7PSA9WHRKHQPKKlq0P4NHxZWk+3LaBZS7DQenvFmjKk0jQBgH6o535
- rwsyByROkiEJmDN58P/Z53hmZWo4xmybXT0VaPtvGqyQZyuQQjThzncIMjLPHHFdpc
- 3v4hl13h6A47jhJOM5850oDp2I/9vqahh0Q1uqps=
-Date: Mon, 28 Nov 2022 14:59:27 -0800
-From: Andrew Morton <akpm@linux-foundation.org>
-To: David Hildenbrand <david@redhat.com>
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 82AE4615E9;
+ Tue, 29 Nov 2022 09:08:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9EBBAC433D6;
+ Tue, 29 Nov 2022 09:08:43 +0000 (UTC)
+Message-ID: <c2681582-1e24-7ed9-e4fb-e2dd17a93aed@xs4all.nl>
+Date: Tue, 29 Nov 2022 10:08:41 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
 Subject: Re: [PATCH mm-unstable v1 16/20] mm/frame-vector: remove FOLL_FORCE
  usage
-Message-Id: <20221128145927.df895bf1966cfa125cae9668@linux-foundation.org>
-In-Reply-To: <9d0bf98a-3d6a-1082-e992-1338e1525935@redhat.com>
+Content-Language: en-US
+To: David Hildenbrand <david@redhat.com>,
+ Andrew Morton <akpm@linux-foundation.org>
 References: <20221116102659.70287-1-david@redhat.com>
  <20221116102659.70287-17-david@redhat.com>
  <81fb0fa3-2e06-b765-56ac-a7d981194e59@redhat.com>
  <08b65ac6-6786-1080-18f8-d2be109c85fc@xs4all.nl>
  <9d0bf98a-3d6a-1082-e992-1338e1525935@redhat.com>
-X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+ <20221128145927.df895bf1966cfa125cae9668@linux-foundation.org>
+ <22b1107b-0acc-5772-a883-8f3c4682eb1b@redhat.com>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <22b1107b-0acc-5772-a883-8f3c4682eb1b@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Sat, 31 Dec 2022 19:48:05 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -55,11 +53,10 @@ List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
 Cc: linux-ia64@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org,
- Hans Verkuil <hverkuil@xs4all.nl>, linux-mm@kvack.org,
- Nadav Amit <namit@vmware.com>, linux-kselftest@vger.kernel.org,
- sparclinux@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org, Nadav Amit <namit@vmware.com>,
+ linux-kselftest@vger.kernel.org, sparclinux@vger.kernel.org,
+ Shuah Khan <shuah@kernel.org>, Marek Szyprowski <m.szyprowski@samsung.com>,
  Andrea Arcangeli <aarcange@redhat.com>, linux-samsung-soc@vger.kernel.org,
  linux-rdma@vger.kernel.org, David Airlie <airlied@gmail.com>, x86@kernel.org,
  Hugh Dickins <hughd@google.com>, Matthew Wilcox <willy@infradead.org>,
@@ -71,7 +68,7 @@ Cc: linux-ia64@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Muchun Song <songmuchun@bytedance.com>,
  Mauro Carvalho Chehab <mchehab@kernel.org>,
  linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
- Oded Gabbay <ogabbay@kernel.org>, linux-kernel@vger.kernel.org,
+ Oded Gabbay <ogabbay@kernel.org>, linux-mips@vger.kernel.org,
  Tomasz Figa <tfiga@chromium.org>, linux-perf-users@vger.kernel.org,
  linux-security-module@vger.kernel.org, linux-alpha@vger.kernel.org,
  linux-fsdevel@vger.kernel.org, Lucas Stach <l.stach@pengutronix.de>,
@@ -80,25 +77,47 @@ Cc: linux-ia64@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-On Mon, 28 Nov 2022 09:18:47 +0100 David Hildenbrand <david@redhat.com> wrote:
+On 29/11/2022 09:48, David Hildenbrand wrote:
+> On 28.11.22 23:59, Andrew Morton wrote:
+>> On Mon, 28 Nov 2022 09:18:47 +0100 David Hildenbrand <david@redhat.com> wrote:
+>>
+>>>> Less chances of things going wrong that way.
+>>>>
+>>>> Just mention in the v2 cover letter that the first patch was added to
+>>>> make it easy to backport that fix without being hampered by merge
+>>>> conflicts if it was added after your frame_vector.c patch.
+>>>
+>>> Yes, that's the way I would naturally do, it, however, Andrew prefers
+>>> delta updates for minor changes.
+>>>
+>>> @Andrew, whatever you prefer!
+>>
+>> I'm inclined to let things sit as they are.  Cross-tree conflicts
+>> happen, and Linus handles them.  I'll flag this (very simple) conflict
+>> in the pull request, if MM merges second.  If v4l merges second then
+>> hopefully they will do the same.  But this one is so simple that Linus
+>> hardly needs our help.
 
-> > Less chances of things going wrong that way.
-> > 
-> > Just mention in the v2 cover letter that the first patch was added to
-> > make it easy to backport that fix without being hampered by merge
-> > conflicts if it was added after your frame_vector.c patch.
+It's not about cross-tree conflicts, it's about the fact that my patch is
+a fix that needs to be backported to older kernels. It should apply cleanly
+to those older kernels if my patch goes in first, but if it is the other way
+around I would have to make a new patch for the stable kernels.
+
+Also, the updated changelog in David's patch that sits on top of mine
+makes a lot more sense.
+
+If you really don't want to take my patch as part of this, then let me know
+and I'll take it through the media subsystem and hope for the best :-)
+
+Regards,
+
+	Hans
+
+>>
+>> But Linus won't be editing changelogs so that the changelog makes more
+>> sense after both trees are joined.  I'm inclined to let the changelog
+>> sit as it is as well.
 > 
-> Yes, that's the way I would naturally do, it, however, Andrew prefers 
-> delta updates for minor changes.
+> Works for me. Thanks Andrew!
 > 
-> @Andrew, whatever you prefer!
 
-I'm inclined to let things sit as they are.  Cross-tree conflicts
-happen, and Linus handles them.  I'll flag this (very simple) conflict
-in the pull request, if MM merges second.  If v4l merges second then
-hopefully they will do the same.  But this one is so simple that Linus
-hardly needs our help.
-
-But Linus won't be editing changelogs so that the changelog makes more
-sense after both trees are joined.  I'm inclined to let the changelog
-sit as it is as well.
