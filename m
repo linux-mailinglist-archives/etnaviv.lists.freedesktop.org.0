@@ -1,36 +1,57 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97C9D63E00A
-	for <lists+etnaviv@lfdr.de>; Wed, 30 Nov 2022 19:53:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 40FF063E0FB
+	for <lists+etnaviv@lfdr.de>; Wed, 30 Nov 2022 20:46:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 430F110E4B0;
-	Wed, 30 Nov 2022 18:53:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E94F10E4CD;
+	Wed, 30 Nov 2022 19:46:36 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 53C5210E4A3
- for <etnaviv@lists.freedesktop.org>; Wed, 30 Nov 2022 18:53:05 +0000 (UTC)
-Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
- by metis.ext.pengutronix.de with esmtp (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1p0SCd-0004kZ-Fy; Wed, 30 Nov 2022 19:53:03 +0100
-From: Lucas Stach <l.stach@pengutronix.de>
-To: etnaviv@lists.freedesktop.org,
- Christian Gmeiner <christian.gmeiner@gmail.com>
-Subject: [PATCH] drm/etnaviv: print MMU exception cause
-Date: Wed, 30 Nov 2022 19:53:03 +0100
-Message-Id: <20221130185303.2025810-1-l.stach@pengutronix.de>
-X-Mailer: git-send-email 2.30.2
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
+ [IPv6:2a00:1450:4864:20::432])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF34B10E4CB;
+ Wed, 30 Nov 2022 19:46:31 +0000 (UTC)
+Received: by mail-wr1-x432.google.com with SMTP id d1so28835587wrs.12;
+ Wed, 30 Nov 2022 11:46:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=S32eNcmKc8BsmSbNdo6lcSB9y3EoyZdyaRpNrZM6V6w=;
+ b=UUC+BzboTsI/n8m9fvee51hT11xqTpN47g5tWD6UNGEd0OskMBYqwsFGs+nlqrHxOV
+ BALt2Er3U+8TaK2n9tMbS/fAfkCj+hgqrO+alT8s+LMQYk5yimS7kZN2CR89RPoY4uhc
+ cQHJmo0wolfI7WM3+OYlzqzf2j21B28uz8u3NBJbsAK5PW+ruOOMvYC3tlcqE4af10wD
+ 4TjzpFRTZwbi8F845S9wOe99qbWANR+cxFohuUNS1Wqr6G1ZK6t0dgfZi1wQC37RFJEW
+ c0XNawXhOUoNJ9MBGTTLrZB2bizUd2E4n7ou5BnZGCLL42p+vxiweDzll9tLfzVwShVY
+ 268g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=S32eNcmKc8BsmSbNdo6lcSB9y3EoyZdyaRpNrZM6V6w=;
+ b=7pTmRrzsJhnmw3mBQA/WWUHgMkBVz1l9G9uYzazMT/AC4ZA9+YCzl1Brf3wnLW0e+G
+ jpCSrpMfnfgPgLCXO2qVxoziyRsxot6fwXDD8P4cZ+4HfrkuNHjv2WRe1z5kIeH7W+j1
+ QpD4LSrTzOuZEvOtT4Io5Uj4TJrqt+o1IIWaZKIoI9CZ1UM3fcatDH0Vg79rixxovyuM
+ wQBVNM6JdgQ8FKnql730Lo4ZsIX6aMdYScZDfZ8U4erWNazQVlYmItPjq+nAdu3TY3Et
+ In3cecbMcM77UeJo6cP4rvzes5TWcesrM7DrNImJca+lpFrVjleMJOVCbKHjFnKvHqQi
+ Cetg==
+X-Gm-Message-State: ANoB5plBAaj1/XlNzABbHtUL+qiJJXBZWBEDwpnM7blTWovUUFPd+wSX
+ MeDPkNuXIlAN2dXH1QmucYCb8gYUF0VYJAX7XAo=
+X-Google-Smtp-Source: AA0mqf4PKRUbif6CgUNomAtwiz3jn7Z3YoJwcbdsvCiOBKRH/bmt2dSlVK8lTZQ72Sy4tBtIjHo0ep7oKlFsqMxqhKA=
+X-Received: by 2002:adf:e68a:0:b0:242:1926:7838 with SMTP id
+ r10-20020adfe68a000000b0024219267838mr9824800wrm.200.1669837590039; Wed, 30
+ Nov 2022 11:46:30 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:1101:1d::28
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
+References: <20221130185303.2025810-1-l.stach@pengutronix.de>
+In-Reply-To: <20221130185303.2025810-1-l.stach@pengutronix.de>
+From: Christian Gmeiner <christian.gmeiner@gmail.com>
+Date: Wed, 30 Nov 2022 20:46:17 +0100
+Message-ID: <CAH9NwWcR1hxHY83UiyyR=J30CMsi=Qd=KbTmrGAuO6K+ptrwSw@mail.gmail.com>
+Subject: Re: [PATCH] drm/etnaviv: print MMU exception cause
+To: Lucas Stach <l.stach@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,77 +63,38 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: patchwork-lst@pengutronix.de, kernel@pengutronix.de,
- dri-devel@lists.freedesktop.org, Russell King <linux+etnaviv@armlinux.org.uk>
+Cc: kernel@pengutronix.de, patchwork-lst@pengutronix.de,
+ etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Russell King <linux+etnaviv@armlinux.org.uk>
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-From: Christian Gmeiner <christian.gmeiner@gmail.com>
+Hi Lucas
 
-The MMU tells us the fault status. While the raw register value is
-already printed, it's a bit more user friendly to translate the
-fault reasons into human readable format.
+Am Mi., 30. Nov. 2022 um 19:53 Uhr schrieb Lucas Stach <l.stach@pengutronix.de>:
+>
+> From: Christian Gmeiner <christian.gmeiner@gmail.com>
+>
+> The MMU tells us the fault status. While the raw register value is
+> already printed, it's a bit more user friendly to translate the
+> fault reasons into human readable format.
+>
+> Signed-off-by: Christian Gmeiner <christian.gmeiner@gmail.com>
+> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+> ---
+> I've rewritten parts of the patch to properly cover multiple
+> MMUs and squashed the reason into the existing message. Christian,
+> please tell me if you are fine with having your name attached to
+> this patch.
+> ---
 
-Signed-off-by: Christian Gmeiner <christian.gmeiner@gmail.com>
-Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
----
-I've rewritten parts of the patch to properly cover multiple
-MMUs and squashed the reason into the existing message. Christian,
-please tell me if you are fine with having your name attached to
-this patch.
----
- drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 22 +++++++++++++++++++---
- 1 file changed, 19 insertions(+), 3 deletions(-)
+Uff.. and old patch I forgot to send an updated version - sorry for
+that. I am happy to
+finally see this patch with your improvements landing - thanks!
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-index 37018bc55810..f79203b774d9 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-@@ -1426,6 +1426,15 @@ static void sync_point_worker(struct work_struct *work)
- 
- static void dump_mmu_fault(struct etnaviv_gpu *gpu)
- {
-+	static const char *fault_reasons[] = {
-+		"slave not present",
-+		"page not present",
-+		"write violation",
-+		"out of bounds",
-+		"read security violation",
-+		"write security violation",
-+	};
-+
- 	u32 status_reg, status;
- 	int i;
- 
-@@ -1438,18 +1447,25 @@ static void dump_mmu_fault(struct etnaviv_gpu *gpu)
- 	dev_err_ratelimited(gpu->dev, "MMU fault status 0x%08x\n", status);
- 
- 	for (i = 0; i < 4; i++) {
-+		const char *reason = "unknown";
- 		u32 address_reg;
-+		u32 mmu_status;
- 
--		if (!(status & (VIVS_MMUv2_STATUS_EXCEPTION0__MASK << (i * 4))))
-+		mmu_status = (status >> (i * 4)) & VIVS_MMUv2_STATUS_EXCEPTION0__MASK;
-+		if (!mmu_status)
- 			continue;
- 
-+		if ((mmu_status - 1) < ARRAY_SIZE(fault_reasons))
-+			reason = fault_reasons[mmu_status - 1];
-+
- 		if (gpu->sec_mode == ETNA_SEC_NONE)
- 			address_reg = VIVS_MMUv2_EXCEPTION_ADDR(i);
- 		else
- 			address_reg = VIVS_MMUv2_SEC_EXCEPTION_ADDR;
- 
--		dev_err_ratelimited(gpu->dev, "MMU %d fault addr 0x%08x\n", i,
--				    gpu_read(gpu, address_reg));
-+		dev_err_ratelimited(gpu->dev,
-+				    "MMU %d fault (%s) addr 0x%08x\n",
-+				    i, reason, gpu_read(gpu, address_reg));
- 	}
- }
- 
 -- 
-2.30.2
+greets
+--
+Christian Gmeiner, MSc
 
+https://christian-gmeiner.info/privacypolicy
