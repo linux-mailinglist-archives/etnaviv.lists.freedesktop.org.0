@@ -1,33 +1,37 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0773463F6C1
-	for <lists+etnaviv@lfdr.de>; Thu,  1 Dec 2022 18:48:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 52F2163F707
+	for <lists+etnaviv@lfdr.de>; Thu,  1 Dec 2022 19:01:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B153010E65E;
-	Thu,  1 Dec 2022 17:48:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D232410E66E;
+	Thu,  1 Dec 2022 18:01:28 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A08310E65F
- for <etnaviv@lists.freedesktop.org>; Thu,  1 Dec 2022 17:48:49 +0000 (UTC)
-Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
- by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 829FC10E66A
+ for <etnaviv@lists.freedesktop.org>; Thu,  1 Dec 2022 18:01:22 +0000 (UTC)
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
+ helo=[IPv6:::1]) by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <l.stach@pengutronix.de>)
- id 1p0nfz-0000lh-KO; Thu, 01 Dec 2022 18:48:47 +0100
+ id 1p0ns8-0002aO-Av; Thu, 01 Dec 2022 19:01:20 +0100
+Message-ID: <948b6cb80a07f71b97fa950a6d15fa3b7db98754.camel@pengutronix.de>
+Subject: Re: [PATCH v5 5/7] drm/etnaviv: Add nn_core_count to chip feature
+ struct
 From: Lucas Stach <l.stach@pengutronix.de>
-To: etnaviv@lists.freedesktop.org
-Subject: [PATCH 2/2] drm/etnaviv: convert user fence tracking to XArray
-Date: Thu,  1 Dec 2022 18:48:46 +0100
-Message-Id: <20221201174846.2732578-2-l.stach@pengutronix.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20221201174846.2732578-1-l.stach@pengutronix.de>
-References: <20221201174846.2732578-1-l.stach@pengutronix.de>
+To: Tomeu Vizoso <tomeu.vizoso@collabora.com>
+Date: Thu, 01 Dec 2022 19:01:18 +0100
+In-Reply-To: <20221201103026.53234-6-tomeu.vizoso@collabora.com>
+References: <20221201103026.53234-1-tomeu.vizoso@collabora.com>
+ <20221201103026.53234-6-tomeu.vizoso@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:1101:1d::28
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
 X-SA-Exim-Mail-From: l.stach@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
  SAEximRunCond expanded to false
@@ -43,143 +47,79 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: Christian Gmeiner <christian.gmeiner@gmail.com>,
- patchwork-lst@pengutronix.de, kernel@pengutronix.de,
- dri-devel@lists.freedesktop.org, Russell King <linux+etnaviv@armlinux.org.uk>
+Cc: italonicola@collabora.com, "moderated list:DRM DRIVERS FOR VIVANTE GPU
+ IP" <etnaviv@lists.freedesktop.org>, "open list:DRM DRIVERS FOR VIVANTE GPU
+ IP" <dri-devel@lists.freedesktop.org>, open list <linux-kernel@vger.kernel.org>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Russell King <linux+etnaviv@armlinux.org.uk>,
+ David Airlie <airlied@gmail.com>
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-This simplifies the driver code a bit, as XArray already provides
-internal locking. IDRs are implemented using XArrays anyways, so
-this drops one level of unneeded abstraction.
+Am Donnerstag, dem 01.12.2022 um 11:30 +0100 schrieb Tomeu Vizoso:
+> We will use these for differentiating between GPUs and NPUs, as the
+> downstream driver does.
+> 
+Thanks, patches 5-7 applied to my etnaviv/next branch.
 
-Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
----
- drivers/gpu/drm/etnaviv/etnaviv_drv.h        |  1 +
- drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c |  9 +++++----
- drivers/gpu/drm/etnaviv/etnaviv_gpu.c        |  7 +++----
- drivers/gpu/drm/etnaviv/etnaviv_gpu.h        |  4 ++--
- drivers/gpu/drm/etnaviv/etnaviv_sched.c      | 13 +++++--------
- 5 files changed, 16 insertions(+), 18 deletions(-)
+Regards,
+Lucas
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.h b/drivers/gpu/drm/etnaviv/etnaviv_drv.h
-index f32f4771dada..778394e85c3d 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_drv.h
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.h
-@@ -11,6 +11,7 @@
- #include <linux/sizes.h>
- #include <linux/time64.h>
- #include <linux/types.h>
-+#include <linux/xarray.h>
- 
- #include <drm/drm_fb_helper.h>
- #include <drm/drm_gem.h>
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-index 2337b24b05b0..cc9d8b8f76f0 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-@@ -393,10 +393,11 @@ static void submit_cleanup(struct kref *kref)
- 	wake_up_all(&submit->gpu->fence_event);
- 
- 	if (submit->out_fence) {
--		/* first remove from IDR, so fence can not be found anymore */
--		mutex_lock(&submit->gpu->idr_lock);
--		idr_remove(&submit->gpu->fence_idr, submit->out_fence_id);
--		mutex_unlock(&submit->gpu->idr_lock);
-+		/*
-+		 * Remove from user fence array before dropping the reference,
-+		 * so fence can not be found in lookup anymore.
-+		 */
-+		xa_erase(&submit->gpu->user_fences, submit->out_fence_id);
- 		dma_fence_put(submit->out_fence);
- 	}
- 	kfree(submit->pmrs);
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-index 30d7c1d8d6c0..f7375d9e1716 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-@@ -1216,7 +1216,7 @@ int etnaviv_gpu_wait_fence_interruptible(struct etnaviv_gpu *gpu,
- 	 * pretends we didn't find a fence in that case.
- 	 */
- 	rcu_read_lock();
--	fence = idr_find(&gpu->fence_idr, id);
-+	fence = xa_load(&gpu->user_fences, id);
- 	if (fence)
- 		fence = dma_fence_get_rcu(fence);
- 	rcu_read_unlock();
-@@ -1700,7 +1700,7 @@ static int etnaviv_gpu_bind(struct device *dev, struct device *master,
- 
- 	gpu->drm = drm;
- 	gpu->fence_context = dma_fence_context_alloc(1);
--	idr_init(&gpu->fence_idr);
-+	xa_init_flags(&gpu->user_fences, XA_FLAGS_ALLOC);
- 	spin_lock_init(&gpu->fence_spinlock);
- 
- 	INIT_WORK(&gpu->sync_point_work, sync_point_worker);
-@@ -1754,7 +1754,7 @@ static void etnaviv_gpu_unbind(struct device *dev, struct device *master,
- 	}
- 
- 	gpu->drm = NULL;
--	idr_destroy(&gpu->fence_idr);
-+	xa_destroy(&gpu->user_fences);
- 
- 	if (IS_ENABLED(CONFIG_DRM_ETNAVIV_THERMAL))
- 		thermal_cooling_device_unregister(gpu->cooling);
-@@ -1787,7 +1787,6 @@ static int etnaviv_gpu_platform_probe(struct platform_device *pdev)
- 	gpu->dev = &pdev->dev;
- 	mutex_init(&gpu->lock);
- 	mutex_init(&gpu->sched_lock);
--	mutex_init(&gpu->idr_lock);
- 
- 	/* Map registers: */
- 	gpu->mmio = devm_platform_ioremap_resource(pdev, 0);
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
-index 267d8ec97f11..9b6773051773 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
-@@ -117,8 +117,8 @@ struct etnaviv_gpu {
- 	u32 idle_mask;
- 
- 	/* Fencing support */
--	struct mutex idr_lock;
--	struct idr fence_idr;
-+	struct xarray user_fences;
-+	u32 next_user_fence;
- 	u32 next_fence;
- 	u32 completed_fence;
- 	wait_queue_head_t fence_event;
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sched.c b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-index 27448431a45c..39ca04cf2dd5 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-@@ -98,7 +98,7 @@ static const struct drm_sched_backend_ops etnaviv_sched_ops = {
- int etnaviv_sched_push_job(struct etnaviv_gem_submit *submit)
- {
- 	struct etnaviv_gpu *gpu = submit->gpu;
--	int ret = 0;
-+	int ret;
- 
- 	/*
- 	 * Hold the sched lock across the whole operation to avoid jobs being
-@@ -110,14 +110,11 @@ int etnaviv_sched_push_job(struct etnaviv_gem_submit *submit)
- 	drm_sched_job_arm(&submit->sched_job);
- 
- 	submit->out_fence = dma_fence_get(&submit->sched_job.s_fence->finished);
--	mutex_lock(&gpu->idr_lock);
--	submit->out_fence_id = idr_alloc_cyclic(&gpu->fence_idr,
--						submit->out_fence, 0,
--						INT_MAX, GFP_KERNEL);
--	mutex_unlock(&gpu->idr_lock);
--	if (submit->out_fence_id < 0) {
-+	ret = xa_alloc_cyclic(&gpu->user_fences, &submit->out_fence_id,
-+			      submit->out_fence, xa_limit_32b,
-+			      &gpu->next_user_fence, GFP_KERNEL);
-+	if (ret < 0) {
- 		drm_sched_job_cleanup(&submit->sched_job);
--		ret = -ENOMEM;
- 		goto out_unlock;
- 	}
- 
--- 
-2.30.2
+> Signed-off-by: Tomeu Vizoso <tomeu.vizoso@collabora.com>
+> ---
+>  drivers/gpu/drm/etnaviv/etnaviv_gpu.h  | 3 +++
+>  drivers/gpu/drm/etnaviv/etnaviv_hwdb.c | 4 ++++
+>  2 files changed, 7 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
+> index 85eddd492774..c8f3ad2031ce 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
+> @@ -50,6 +50,9 @@ struct etnaviv_chip_identity {
+>  	/* Number of shader cores. */
+>  	u32 shader_core_count;
+>  
+> +	/* Number of Neural Network cores. */
+> +	u32 nn_core_count;
+> +
+>  	/* Size of the vertex cache. */
+>  	u32 vertex_cache_size;
+>  
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c b/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
+> index f2fc645c7956..44df273a5aae 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
+> @@ -16,6 +16,7 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
+>  		.register_max = 64,
+>  		.thread_count = 128,
+>  		.shader_core_count = 1,
+> +		.nn_core_count = 0,
+>  		.vertex_cache_size = 8,
+>  		.vertex_output_buffer_size = 1024,
+>  		.pixel_pipes = 1,
+> @@ -47,6 +48,7 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
+>  		.register_max = 64,
+>  		.thread_count = 512,
+>  		.shader_core_count = 2,
+> +		.nn_core_count = 0,
+>  		.vertex_cache_size = 16,
+>  		.vertex_output_buffer_size = 1024,
+>  		.pixel_pipes = 1,
+> @@ -78,6 +80,7 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
+>  		.register_max = 64,
+>  		.thread_count = 512,
+>  		.shader_core_count = 2,
+> +		.nn_core_count = 0,
+>  		.vertex_cache_size = 16,
+>  		.vertex_output_buffer_size = 1024,
+>  		.pixel_pipes = 1,
+> @@ -109,6 +112,7 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
+>  		.register_max = 64,
+>  		.thread_count = 1024,
+>  		.shader_core_count = 4,
+> +		.nn_core_count = 0,
+>  		.vertex_cache_size = 16,
+>  		.vertex_output_buffer_size = 1024,
+>  		.pixel_pipes = 2,
+
 
