@@ -2,40 +2,60 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95D5063EC2B
-	for <lists+etnaviv@lfdr.de>; Thu,  1 Dec 2022 10:17:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F7A563EC45
+	for <lists+etnaviv@lfdr.de>; Thu,  1 Dec 2022 10:22:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3CE1110E58F;
-	Thu,  1 Dec 2022 09:17:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 12C9510E5A5;
+	Thu,  1 Dec 2022 09:22:05 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F2F810E588
- for <etnaviv@lists.freedesktop.org>; Thu,  1 Dec 2022 09:17:55 +0000 (UTC)
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
- helo=[IPv6:::1]) by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1p0fhX-0005A8-Fd; Thu, 01 Dec 2022 10:17:51 +0100
-Message-ID: <cfe79acef967b26b6071ac712b42f28716aa4025.camel@pengutronix.de>
-Subject: Re: [PATCH] drm/etnaviv: print MMU exception cause
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Philipp Zabel <p.zabel@pengutronix.de>, etnaviv@lists.freedesktop.org, 
- Christian Gmeiner <christian.gmeiner@gmail.com>
-Date: Thu, 01 Dec 2022 10:17:50 +0100
-In-Reply-To: <d5d5ef3c8e4a1ca075ced3af4eeab1da8d86c338.camel@pengutronix.de>
-References: <20221130185303.2025810-1-l.stach@pengutronix.de>
- <d5d5ef3c8e4a1ca075ced3af4eeab1da8d86c338.camel@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
+ [IPv6:2a00:1450:4864:20::636])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA23410E58E;
+ Thu,  1 Dec 2022 09:21:59 +0000 (UTC)
+Received: by mail-ej1-x636.google.com with SMTP id b2so2706069eja.7;
+ Thu, 01 Dec 2022 01:21:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:sender:from:to:cc:subject:date:message-id:reply-to;
+ bh=D4GMG59V6FeZymcJDpr/Ed9DLLQeE59Ry2O920ck0QI=;
+ b=HSmShfYANbJDMjl8pkqcdgD+IxVD2GxDxg+y3Ge4ZK1rg9vO/pdbZeZOZaiFMKkY8O
+ BG1ax4x2uVfk2bcfv0HXXgKiaRThvqzYv5tLa2Tl3vSQR11ZIMwg/0ehIQUB4AISF4sV
+ vc1KJjb4O3Tr98nvcTXzuxr90rYQvX5Iv4MO604v2wjCkIYP9yLtOE7Nomx2klxuT2Pc
+ VDh4Y/s+Si0rd0BVsLXaRHPNc/QMAcZPxwB34bdgfuJaMQbvx8sKk66W4JJpUoc+Drpw
+ 4ubmTbp7/WwT3ESDIUix7rIMNeCm9VqH2jvu7je3HYaPaLVMHOt4h8UgTh3b9i1Ozz4g
+ 4B5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:sender:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=D4GMG59V6FeZymcJDpr/Ed9DLLQeE59Ry2O920ck0QI=;
+ b=nFHF7+tuMrWGfRoN++Oef1ffTwTX/CCRS8vpdke4T6qVoXmN2tqd47Wf2dj5xzdo7G
+ 6h+J4tZVGQvI/42HLi6+9K98Y5R7Y9X9Fp/27uLQ6xzoxCkcuEZ18fRU2DNz5r0gSyQg
+ a1uA7HP5pSEgBAq/XdCtOaZ3SlQAWtHl6H5i5r7ad484YQLreljG3usqndKo7j0AShWr
+ L59+RUlsDdS9/x4ZS2oQpRtPpU3S9aUnatoCduUVk+DYT6YUxwHRJNipSIxrqZL8enjh
+ ARdA653EiKGCu5pfZ9Gb+08nVztL7FEJzjFMPrAVQRqVyleJhq3gkS/3InXLR1VapBlc
+ IlLw==
+X-Gm-Message-State: ANoB5plE59woE5UfeDlAk0+ffEIPz5gqjfM5rzffDhq4Fz0sDhwQSsV3
+ da7hLhumPy3kTPMoSyH4eOo=
+X-Google-Smtp-Source: AA0mqf6f4lVGT4CKfMKN/i+FgTMcHP2+I0vW+kDXBs6t4YjojlLCLzJcqhVgDVLzAPZAQR/1g2HNZg==
+X-Received: by 2002:a17:906:4cc1:b0:7ae:50c6:fd0a with SMTP id
+ q1-20020a1709064cc100b007ae50c6fd0amr21346768ejt.184.1669886518206; 
+ Thu, 01 Dec 2022 01:21:58 -0800 (PST)
+Received: from cizrna.home (cst-prg-44-69.cust.vodafone.cz. [46.135.44.69])
+ by smtp.gmail.com with ESMTPSA id
+ 18-20020a170906211200b007b29eb8a4dbsm1587879ejt.13.2022.12.01.01.21.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 01 Dec 2022 01:21:57 -0800 (PST)
+From: Tomeu Vizoso <tomeu.vizoso@collabora.com>
+To: 
+Subject: [PATCH v4 0/7] Support for the NPU in Vim3
+Date: Thu,  1 Dec 2022 10:21:21 +0100
+Message-Id: <20221201092131.62867-1-tomeu.vizoso@collabora.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,86 +67,67 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: Russell King <linux+etnaviv@armlinux.org.uk>,
- dri-devel@lists.freedesktop.org, kernel@pengutronix.de,
- patchwork-lst@pengutronix.de
+Cc: Philipp Zabel <p.zabel@pengutronix.de>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Kevin Hilman <khilman@baylibre.com>, italonicola@collabora.com,
+ "moderated list:DRM DRIVERS FOR VIVANTE GPU IP"
+ <etnaviv@lists.freedesktop.org>,
+ "open list:DRM DRIVERS FOR VIVANTE GPU IP" <dri-devel@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Rob Herring <robh+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ "open list:ARM/Amlogic Meson SoC support" <linux-amlogic@lists.infradead.org>,
+ Lucas Stach <l.stach@pengutronix.de>, David Airlie <airlied@gmail.com>,
+ "moderated list:ARM/Amlogic Meson SoC support"
+ <linux-arm-kernel@lists.infradead.org>, Jerome Brunet <jbrunet@baylibre.com>
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Hi Philipp,
+Hi,
 
-Am Donnerstag, dem 01.12.2022 um 09:40 +0100 schrieb Philipp Zabel:
-> On Mi, 2022-11-30 at 19:53 +0100, Lucas Stach wrote:
-> From: Christian Gmeiner <christian.gmeiner@gmail.com>
-> 
-> The MMU tells us the fault status. While the raw register value is
-> already printed, it's a bit more user friendly to translate the
-> fault reasons into human readable format.
-> 
-> Signed-off-by: Christian Gmeiner <christian.gmeiner@gmail.com>
-> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
-> ---
-> I've rewritten parts of the patch to properly cover multiple
-> MMUs and squashed the reason into the existing message. Christian,
-> please tell me if you are fine with having your name attached to
-> this patch.
-> ---
->  drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 22 +++++++++++++++++++---
->  1 file changed, 19 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> index 37018bc55810..f79203b774d9 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> @@ -1426,6 +1426,15 @@ static void sync_point_worker(struct work_struct *work)
->  
-> 
->  static void dump_mmu_fault(struct etnaviv_gpu *gpu)
->  {
-> +	static const char *fault_reasons[] = {
-> +		"slave not present",
-> +		"page not present",
-> +		"write violation",
-> +		"out of bounds",
-> +		"read security violation",
-> +		"write security violation",
-> +	};
-> +
->  	u32 status_reg, status;
->  	int i;
->  
-> 
-> @@ -1438,18 +1447,25 @@ static void dump_mmu_fault(struct etnaviv_gpu *gpu)
->  	dev_err_ratelimited(gpu->dev, "MMU fault status 0x%08x\n", status);
->  
-> 
->  	for (i = 0; i < 4; i++) {
-> +		const char *reason = "unknown";
->  		u32 address_reg;
-> +		u32 mmu_status;
->  
-> 
-> -		if (!(status & (VIVS_MMUv2_STATUS_EXCEPTION0__MASK << (i * 4))))
-> +		mmu_status = (status >> (i * 4)) & VIVS_MMUv2_STATUS_EXCEPTION0__MASK;
-> 
-> VIVS_MMUv2_STATUS_EXCEPTION0__MASK is 0x3 ...
-> 
-> +		if (!mmu_status)
->  			continue;
->  
-> 
-> +		if ((mmu_status - 1) < ARRAY_SIZE(fault_reasons))
-> +			reason = fault_reasons[mmu_status - 1];
-> 
-Your mail quoting seems to be broken, again.
+This series adds support for the Verisilicon VIPNano-QI NPU in the A311D
+as in the VIM3 board.
 
-> ... so (mmu_status - 1) can be 2 at most. This leaves me wondering how
-> "out of bounds" and the "security violation" errors can be reached. I
-> think this requires the exception bitfield masks to be extended to 0x7.
+The IP is very closely based on previous Vivante GPUs, so the etnaviv
+kernel driver works basically unchanged.
 
-Good catch! That's a inconsistency in rnndb, where we claim to be able
-to stuff the full exception enum into 2 bits. Will fix!
+The userspace part of the driver is being reviewed at:
+
+https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/18986
+
+v2: Move reference to RESET_NNA to npu node (Neil)
+v3: Fix indentation mistake (Neil)
+v4: Add warning when etnaviv probes on a NPU
 
 Regards,
-Lucas
+
+Tomeu
+
+Tomeu Vizoso (7):
+  dt-bindings: reset: meson-g12a: Add missing NNA reset
+  dt-bindings: power: Add G12A NNA power domain
+  soc: amlogic: meson-pwrc: Add NNA power domain for A311D
+  arm64: dts: Add DT node for the VIPNano-QI on the A311D
+  drm/etnaviv: add HWDB entry for VIPNano-QI.7120.0055
+  drm/etnaviv: Add nn_core_count to chip feature struct
+  drm/etnaviv: Warn when probing on NPUs
+
+ .../boot/dts/amlogic/meson-g12-common.dtsi    | 11 ++++++
+ .../amlogic/meson-g12b-a311d-khadas-vim3.dts  |  4 +++
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c         |  4 +++
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.h         |  3 ++
+ drivers/gpu/drm/etnaviv/etnaviv_hwdb.c        | 36 +++++++++++++++++++
+ drivers/soc/amlogic/meson-ee-pwrc.c           | 17 +++++++++
+ include/dt-bindings/power/meson-g12a-power.h  |  1 +
+ .../reset/amlogic,meson-g12a-reset.h          |  4 ++-
+ 8 files changed, 79 insertions(+), 1 deletion(-)
+
+-- 
+2.38.1
 
