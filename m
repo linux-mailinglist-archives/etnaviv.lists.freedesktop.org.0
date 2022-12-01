@@ -2,40 +2,60 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D22BB63ECE1
-	for <lists+etnaviv@lfdr.de>; Thu,  1 Dec 2022 10:48:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FF2E63EDC8
+	for <lists+etnaviv@lfdr.de>; Thu,  1 Dec 2022 11:31:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF00D10E59C;
-	Thu,  1 Dec 2022 09:48:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 37F6910E02D;
+	Thu,  1 Dec 2022 10:31:00 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7ABB410E59C
- for <etnaviv@lists.freedesktop.org>; Thu,  1 Dec 2022 09:48:29 +0000 (UTC)
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
- helo=[IPv6:::1]) by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1p0gB9-00014v-6n; Thu, 01 Dec 2022 10:48:27 +0100
-Message-ID: <22044896a2cbb1aae3c05facd367d29177c2448e.camel@pengutronix.de>
-Subject: Re: [PATCH v4 5/7] drm/etnaviv: add HWDB entry for
- VIPNano-QI.7120.0055
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Tomeu Vizoso <tomeu.vizoso@collabora.com>
-Date: Thu, 01 Dec 2022 10:48:25 +0100
-In-Reply-To: <20221201092131.62867-6-tomeu.vizoso@collabora.com>
-References: <20221201092131.62867-1-tomeu.vizoso@collabora.com>
- <20221201092131.62867-6-tomeu.vizoso@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
+ [IPv6:2a00:1450:4864:20::631])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3DD3689B01;
+ Thu,  1 Dec 2022 10:30:55 +0000 (UTC)
+Received: by mail-ej1-x631.google.com with SMTP id n21so3087849ejb.9;
+ Thu, 01 Dec 2022 02:30:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:sender:from:to:cc:subject:date:message-id:reply-to;
+ bh=b6S0scQh8yy8m15dX2Y4lOBnYQdGXad7fSn2qrpTdRk=;
+ b=HFcyySkPqaTM7WBiMKlZeWgslSqeqpLPwySBhEvlh80264v7CzkSuBaMbhEX/C0Lv8
+ 759cQ5lN9Q4+zZd2pxh/WhTBAYMgx6J9bimo23yhBDYKWmCONcTeIZ3WkuPbp4mY68Rs
+ jbyAqWPRz7DNe60YBJ6iIB+8no69TZvtEewnV525c2K70Y6iptETbQty4DLTChFHwo27
+ H//Mgfh9Q8x2ZAmjS+wHf9NCHIQ2mn8kKGY1Sk3dYRAhn13VTEepvZ1v+uNrXVpLLQnC
+ lYdfDjmtVVIoXL1K/Q9PpGeLwgDSjwS/rFhZW2iEzu2Rhg7uvq1TNSGK7v9pYDRMRs1I
+ FjYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:sender:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=b6S0scQh8yy8m15dX2Y4lOBnYQdGXad7fSn2qrpTdRk=;
+ b=osGp2PJ1ooJRKoEnAK7MP8gEN4YLj86Ug5VCe52mz4Qytt33Z+dAPCVHgtWrPvE0yT
+ LQx1MOBTp2Gl650gohwagvWkwI0AP66q3VKAC7VFnOS+w1VetF0NhiNAP4OhuIOPtnt+
+ BHNLM6Di8Gx3wNS3vhklUkkHCxTg6Xeg3aB1z3VEJgjHEMG3Bcm1UUSCo9tiWy5FBODG
+ fuVDChQ/2PpdUkiEwFJ6Y+zX99KP7/VG18dWx5HPrxGC+uo4DHDVxxTmlZTDy0DNi/Ld
+ c22/S10IYMA2L1bDkh2gxYn49mZgtrcl73y4PIlItDSo/dnZ25Rlghtq317Xj6Vv6+8l
+ tmdg==
+X-Gm-Message-State: ANoB5plpwAH3UUq980GUxY2/q+OYRkSiktUusm2ZTLvynH3E3l/PVWvw
+ kTQNIGlVxp5Bet8hrK/MJyk=
+X-Google-Smtp-Source: AA0mqf6Ku5iWPl8X7VDR/8A9LQk+tuRf8R4xRAp9qx7nZWslQnUcAyrE5bu2txEmOsaNWiv265OUag==
+X-Received: by 2002:a17:907:11cb:b0:7a6:598f:1fb1 with SMTP id
+ va11-20020a17090711cb00b007a6598f1fb1mr56078222ejb.606.1669890653698; 
+ Thu, 01 Dec 2022 02:30:53 -0800 (PST)
+Received: from cizrna.home (cst-prg-44-69.cust.vodafone.cz. [46.135.44.69])
+ by smtp.gmail.com with ESMTPSA id
+ g1-20020a17090604c100b007c07b23a79bsm1592400eja.213.2022.12.01.02.30.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 01 Dec 2022 02:30:53 -0800 (PST)
+From: Tomeu Vizoso <tomeu.vizoso@collabora.com>
+To: 
+Subject: [PATCH v5 0/7] Support for the NPU in Vim3
+Date: Thu,  1 Dec 2022 11:30:16 +0100
+Message-Id: <20221201103026.53234-1-tomeu.vizoso@collabora.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
+Content-Transfer-Encoding: 8bit
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,84 +67,68 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: italonicola@collabora.com, "moderated list:DRM DRIVERS FOR VIVANTE GPU
- IP" <etnaviv@lists.freedesktop.org>, "open list:DRM DRIVERS FOR VIVANTE GPU
- IP" <dri-devel@lists.freedesktop.org>, open list <linux-kernel@vger.kernel.org>,
+Cc: Philipp Zabel <p.zabel@pengutronix.de>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Kevin Hilman <khilman@baylibre.com>, italonicola@collabora.com,
+ "moderated list:DRM DRIVERS FOR VIVANTE GPU IP"
+ <etnaviv@lists.freedesktop.org>,
+ "open list:DRM DRIVERS FOR VIVANTE GPU IP" <dri-devel@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>,
  Christian Gmeiner <christian.gmeiner@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Russell King <linux+etnaviv@armlinux.org.uk>,
- David Airlie <airlied@gmail.com>
+ Rob Herring <robh+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ "open list:ARM/Amlogic Meson SoC support" <linux-amlogic@lists.infradead.org>,
+ Lucas Stach <l.stach@pengutronix.de>, David Airlie <airlied@gmail.com>,
+ "moderated list:ARM/Amlogic Meson SoC support"
+ <linux-arm-kernel@lists.infradead.org>, Jerome Brunet <jbrunet@baylibre.com>
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Hi Tomeu,
+Hi,
 
-the changes itself look good to me now, I was just very confused about
-the ordering of the patches.
+This series adds support for the Verisilicon VIPNano-QI NPU in the A311D
+as in the VIM3 board.
 
-I would have expected them to be in this order:
-1. Add NN cores to chip identities struct (set to 0 for all existing
-entries in HWDB)
-2. Add UAPI warning
-3. Add HWDB entry for VIPNano-QI.7120.0055 (having NN cores set to
-correct value, so you don't touch the entry twice in the same series)
+The IP is very closely based on previous Vivante GPUs, so the etnaviv
+kernel driver works basically unchanged.
+
+The userspace part of the driver is being reviewed at:
+
+https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/18986
+
+v2: Move reference to RESET_NNA to npu node (Neil)
+v3: Fix indentation mistake (Neil)
+v4: Add warning when etnaviv probes on a NPU (Lucas)
+v5: Reorder HWDB commit to be the last (Lucas)
 
 Regards,
-Lucas
 
-Am Donnerstag, dem 01.12.2022 um 10:21 +0100 schrieb Tomeu Vizoso:
-> This is a compute-only module marketed towards AI and vision
-> acceleration. This particular version can be found on the Amlogic A311D
-> SoC.
-> 
-> The feature bits are taken from the Khadas downstream kernel driver
-> 6.4.4.3.310723AAA.
-> 
-> Signed-off-by: Tomeu Vizoso <tomeu.vizoso@collabora.com>
-> ---
->  drivers/gpu/drm/etnaviv/etnaviv_hwdb.c | 31 ++++++++++++++++++++++++++
->  1 file changed, 31 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c b/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
-> index f2fc645c7956..3f6fd9a3c088 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
-> @@ -130,6 +130,37 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
->  		.minor_features10 = 0x90044250,
->  		.minor_features11 = 0x00000024,
->  	},
-> +	{
-> +		.model = 0x8000,
-> +		.revision = 0x7120,
-> +		.product_id = 0x45080009,
-> +		.customer_id = 0x88,
-> +		.eco_id = 0,
-> +		.stream_count = 8,
-> +		.register_max = 64,
-> +		.thread_count = 256,
-> +		.shader_core_count = 1,
-> +		.vertex_cache_size = 16,
-> +		.vertex_output_buffer_size = 1024,
-> +		.pixel_pipes = 1,
-> +		.instruction_count = 512,
-> +		.num_constants = 320,
-> +		.buffer_size = 0,
-> +		.varyings_count = 16,
-> +		.features = 0xe0287cac,
-> +		.minor_features0 = 0xc1799eff,
-> +		.minor_features1 = 0xfefbfadb,
-> +		.minor_features2 = 0xeb9d6fbf,
-> +		.minor_features3 = 0xedfffced,
-> +		.minor_features4 = 0xd30dafc7,
-> +		.minor_features5 = 0x7b5ac333,
-> +		.minor_features6 = 0xfc8ee200,
-> +		.minor_features7 = 0x03fffa6f,
-> +		.minor_features8 = 0x00fe0ef0,
-> +		.minor_features9 = 0x0088003c,
-> +		.minor_features10 = 0x108048c0,
-> +		.minor_features11 = 0x00000010,
-> +	},
->  };
->  
->  bool etnaviv_fill_identity_from_hwdb(struct etnaviv_gpu *gpu)
+Tomeu
 
+Tomeu Vizoso (7):
+  dt-bindings: reset: meson-g12a: Add missing NNA reset
+  dt-bindings: power: Add G12A NNA power domain
+  soc: amlogic: meson-pwrc: Add NNA power domain for A311D
+  arm64: dts: Add DT node for the VIPNano-QI on the A311D
+  drm/etnaviv: Add nn_core_count to chip feature struct
+  drm/etnaviv: Warn when probing on NPUs
+  drm/etnaviv: add HWDB entry for VIPNano-QI.7120.0055
+
+ .../boot/dts/amlogic/meson-g12-common.dtsi    | 11 ++++++
+ .../amlogic/meson-g12b-a311d-khadas-vim3.dts  |  4 +++
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c         |  4 +++
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.h         |  3 ++
+ drivers/gpu/drm/etnaviv/etnaviv_hwdb.c        | 35 +++++++++++++++++++
+ drivers/soc/amlogic/meson-ee-pwrc.c           | 17 +++++++++
+ include/dt-bindings/power/meson-g12a-power.h  |  1 +
+ .../reset/amlogic,meson-g12a-reset.h          |  4 ++-
+ 8 files changed, 78 insertions(+), 1 deletion(-)
+
+-- 
+2.38.1
 
