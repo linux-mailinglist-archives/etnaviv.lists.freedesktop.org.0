@@ -2,63 +2,34 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56E2963EDD2
-	for <lists+etnaviv@lfdr.de>; Thu,  1 Dec 2022 11:31:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBE5D63F65F
+	for <lists+etnaviv@lfdr.de>; Thu,  1 Dec 2022 18:44:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A925B10E5AE;
-	Thu,  1 Dec 2022 10:31:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1904510E65E;
+	Thu,  1 Dec 2022 17:43:59 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com
- [IPv6:2a00:1450:4864:20::632])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8FA5510E125;
- Thu,  1 Dec 2022 10:31:05 +0000 (UTC)
-Received: by mail-ej1-x632.google.com with SMTP id ha10so3144430ejb.3;
- Thu, 01 Dec 2022 02:31:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:sender:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Q2njBXO/jcTn1hW9BCGP1JQWTyTb5ivQ7E5VaL+5F8g=;
- b=cc2+71zSLRd6aORczf6VwydiioGC5ERV4dEKqnoGWiupso+Zv97xJSaSUG9NoDOC4L
- Ox8vRi1EW3ddGkNSkgRnFIfJF4Z1HJ+IqQzf6OMKQVUoXcDDzo6wQ/7T5G+PMfoqF2HT
- YHqD1xge3JGgEmQ4bp37AjPDJ5KlrfVRSPDWi+VadiEDN504svPMnqkzxq2E2YWemhoJ
- 69UTZGCNiYHy6FZ+dJgUR0l6zpobBAk663+rjTcWedCXVKNJJliORPf1dJdGo+UvW3z2
- VTsYOkcE+SYDqeSA5RY2mBDon1V/qwuQUF9nrkPADmDUHbWMWwJWP1lU2bWA9ZgXMAdZ
- tzvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:sender:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=Q2njBXO/jcTn1hW9BCGP1JQWTyTb5ivQ7E5VaL+5F8g=;
- b=dcGFXy+iysasmx0+LtbaztobCtoIKMe4gPdtNxRQsiM9WorEMwx5z7tuW09VqJK9vS
- Y6LUv3ryiZatSw9QBOSVF0wc1dv1bW1ka+KevxOIwM0dmDCmLFpwkyZ3mFg5slDSPAtF
- 9geEr+6HOb2r33hpC9ZXvVUlr/YAny0Y3LmTeXi3Ij09QI+gbWvXmRo9hL+SNiRudHQF
- E+uf1UfNzwu4++DyNvDNpt6Ra1E+45dJRRL5drnVQV4IIweNkYNJcX+8yqLgguo/xCST
- LM4w4xKRFAtXvwV6yHM81RStwLN+ecptMo/t7/qlRgY5UePYPdhC9uqa7V7PzDEq6BqX
- lk2A==
-X-Gm-Message-State: ANoB5plZI1yiZ6wAwspR8IfLEzG1iQv3i7ScV7c7fguN16aBYR/+oIny
- qdsOSJOv+ARdUE0TlbK/Npo=
-X-Google-Smtp-Source: AA0mqf4roDdJ7X5AOMeo4c+BOzUOX3iZ5+TSETAMFDa6FBYU0p4nnryzGSyIFtBehtaFMD5MYiKeew==
-X-Received: by 2002:a17:907:7670:b0:78d:b713:7247 with SMTP id
- kk16-20020a170907767000b0078db7137247mr33837303ejc.706.1669890663829; 
- Thu, 01 Dec 2022 02:31:03 -0800 (PST)
-Received: from cizrna.home (cst-prg-44-69.cust.vodafone.cz. [46.135.44.69])
- by smtp.gmail.com with ESMTPSA id
- g1-20020a17090604c100b007c07b23a79bsm1592400eja.213.2022.12.01.02.31.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Dec 2022 02:31:03 -0800 (PST)
-From: Tomeu Vizoso <tomeu.vizoso@collabora.com>
-To: 
-Subject: [PATCH v5 7/7] drm/etnaviv: add HWDB entry for VIPNano-QI.7120.0055
-Date: Thu,  1 Dec 2022 11:30:23 +0100
-Message-Id: <20221201103026.53234-8-tomeu.vizoso@collabora.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221201103026.53234-1-tomeu.vizoso@collabora.com>
-References: <20221201103026.53234-1-tomeu.vizoso@collabora.com>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 542BE10E06D
+ for <etnaviv@lists.freedesktop.org>; Thu,  1 Dec 2022 17:43:54 +0000 (UTC)
+Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
+ by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1p0nbE-000057-JG; Thu, 01 Dec 2022 18:43:52 +0100
+From: Lucas Stach <l.stach@pengutronix.de>
+To: etnaviv@lists.freedesktop.org
+Subject: [PATCH v2 1/2] drm/etnaviv: update hardware headers from rnndb
+Date: Thu,  1 Dec 2022 18:43:50 +0100
+Message-Id: <20221201174351.2731785-1-l.stach@pengutronix.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:1101:1d::28
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,71 +41,176 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>, italonicola@collabora.com,
- "moderated list:DRM DRIVERS FOR VIVANTE GPU IP"
- <etnaviv@lists.freedesktop.org>,
- "open list:DRM DRIVERS FOR VIVANTE GPU IP" <dri-devel@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Russell King <linux+etnaviv@armlinux.org.uk>,
- David Airlie <airlied@gmail.com>, Lucas Stach <l.stach@pengutronix.de>
+Cc: Christian Gmeiner <christian.gmeiner@gmail.com>,
+ patchwork-lst@pengutronix.de, kernel@pengutronix.de,
+ dri-devel@lists.freedesktop.org, Russell King <linux+etnaviv@armlinux.org.uk>
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-This is a compute-only module marketed towards AI and vision
-acceleration. This particular version can be found on the Amlogic A311D
-SoC.
+Update the state HI header from the rnndb commit
+5bf18f7d9a97 ("rnndb: expand MMU exception bitfields").
 
-The feature bits are taken from the Khadas downstream kernel driver
-6.4.4.3.310723AAA.
-
-Signed-off-by: Tomeu Vizoso <tomeu.vizoso@collabora.com>
+Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
 ---
- drivers/gpu/drm/etnaviv/etnaviv_hwdb.c | 31 ++++++++++++++++++++++++++
- 1 file changed, 31 insertions(+)
+ drivers/gpu/drm/etnaviv/state_hi.xml.h | 86 +++++++++++++++++++++-----
+ 1 file changed, 70 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c b/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
-index 44df273a5aae..66b8ad6c7d26 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
-@@ -134,6 +134,37 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
- 		.minor_features10 = 0x90044250,
- 		.minor_features11 = 0x00000024,
- 	},
-+	{
-+		.model = 0x8000,
-+		.revision = 0x7120,
-+		.product_id = 0x45080009,
-+		.customer_id = 0x88,
-+		.eco_id = 0,
-+		.stream_count = 8,
-+		.register_max = 64,
-+		.thread_count = 256,
-+		.shader_core_count = 1,
-+		.vertex_cache_size = 16,
-+		.vertex_output_buffer_size = 1024,
-+		.pixel_pipes = 1,
-+		.instruction_count = 512,
-+		.num_constants = 320,
-+		.buffer_size = 0,
-+		.varyings_count = 16,
-+		.features = 0xe0287cac,
-+		.minor_features0 = 0xc1799eff,
-+		.minor_features1 = 0xfefbfadb,
-+		.minor_features2 = 0xeb9d6fbf,
-+		.minor_features3 = 0xedfffced,
-+		.minor_features4 = 0xd30dafc7,
-+		.minor_features5 = 0x7b5ac333,
-+		.minor_features6 = 0xfc8ee200,
-+		.minor_features7 = 0x03fffa6f,
-+		.minor_features8 = 0x00fe0ef0,
-+		.minor_features9 = 0x0088003c,
-+		.minor_features10 = 0x108048c0,
-+		.minor_features11 = 0x00000010,
-+	},
- };
+diff --git a/drivers/gpu/drm/etnaviv/state_hi.xml.h b/drivers/gpu/drm/etnaviv/state_hi.xml.h
+index deaaa99fa654..138adb8eb68e 100644
+--- a/drivers/gpu/drm/etnaviv/state_hi.xml.h
++++ b/drivers/gpu/drm/etnaviv/state_hi.xml.h
+@@ -8,17 +8,17 @@ This file was generated by the rules-ng-ng headergen tool in this git repository
+ git clone git://0x04.net/rules-ng-ng
  
- bool etnaviv_fill_identity_from_hwdb(struct etnaviv_gpu *gpu)
+ The rules-ng-ng source files this header was generated from are:
+-- state.xml     (  26666 bytes, from 2019-12-20 21:20:35)
+-- common.xml    (  35468 bytes, from 2018-02-10 13:09:26)
+-- common_3d.xml (  15058 bytes, from 2019-12-28 20:02:03)
+-- state_hi.xml  (  30552 bytes, from 2019-12-28 20:02:48)
+-- copyright.xml (   1597 bytes, from 2018-02-10 13:09:26)
+-- state_2d.xml  (  51552 bytes, from 2018-02-10 13:09:26)
+-- state_3d.xml  (  83098 bytes, from 2019-12-28 20:02:03)
+-- state_blt.xml (  14252 bytes, from 2019-10-20 19:59:15)
+-- state_vg.xml  (   5975 bytes, from 2018-02-10 13:09:26)
+-
+-Copyright (C) 2012-2019 by the following authors:
++- state.xml     (  27198 bytes, from 2022-04-22 10:35:24)
++- common.xml    (  35468 bytes, from 2020-10-28 12:56:03)
++- common_3d.xml (  15058 bytes, from 2020-10-28 12:56:03)
++- state_hi.xml  (  34804 bytes, from 2022-12-01 09:25:17)
++- copyright.xml (   1597 bytes, from 2020-10-28 12:56:03)
++- state_2d.xml  (  51552 bytes, from 2020-10-28 12:56:03)
++- state_3d.xml  (  84445 bytes, from 2022-11-15 15:59:38)
++- state_blt.xml (  14424 bytes, from 2022-11-07 11:18:41)
++- state_vg.xml  (   5975 bytes, from 2020-10-28 12:56:03)
++
++Copyright (C) 2012-2022 by the following authors:
+ - Wladimir J. van der Laan <laanwj@gmail.com>
+ - Christian Gmeiner <christian.gmeiner@gmail.com>
+ - Lucas Stach <l.stach@pengutronix.de>
+@@ -321,16 +321,16 @@ DEALINGS IN THE SOFTWARE.
+ #define VIVS_MMUv2_CONFIGURATION_ADDRESS(x)			(((x) << VIVS_MMUv2_CONFIGURATION_ADDRESS__SHIFT) & VIVS_MMUv2_CONFIGURATION_ADDRESS__MASK)
+ 
+ #define VIVS_MMUv2_STATUS					0x00000188
+-#define VIVS_MMUv2_STATUS_EXCEPTION0__MASK			0x00000003
++#define VIVS_MMUv2_STATUS_EXCEPTION0__MASK			0x0000000f
+ #define VIVS_MMUv2_STATUS_EXCEPTION0__SHIFT			0
+ #define VIVS_MMUv2_STATUS_EXCEPTION0(x)				(((x) << VIVS_MMUv2_STATUS_EXCEPTION0__SHIFT) & VIVS_MMUv2_STATUS_EXCEPTION0__MASK)
+-#define VIVS_MMUv2_STATUS_EXCEPTION1__MASK			0x00000030
++#define VIVS_MMUv2_STATUS_EXCEPTION1__MASK			0x000000f0
+ #define VIVS_MMUv2_STATUS_EXCEPTION1__SHIFT			4
+ #define VIVS_MMUv2_STATUS_EXCEPTION1(x)				(((x) << VIVS_MMUv2_STATUS_EXCEPTION1__SHIFT) & VIVS_MMUv2_STATUS_EXCEPTION1__MASK)
+-#define VIVS_MMUv2_STATUS_EXCEPTION2__MASK			0x00000300
++#define VIVS_MMUv2_STATUS_EXCEPTION2__MASK			0x00000f00
+ #define VIVS_MMUv2_STATUS_EXCEPTION2__SHIFT			8
+ #define VIVS_MMUv2_STATUS_EXCEPTION2(x)				(((x) << VIVS_MMUv2_STATUS_EXCEPTION2__SHIFT) & VIVS_MMUv2_STATUS_EXCEPTION2__MASK)
+-#define VIVS_MMUv2_STATUS_EXCEPTION3__MASK			0x00003000
++#define VIVS_MMUv2_STATUS_EXCEPTION3__MASK			0x0000f000
+ #define VIVS_MMUv2_STATUS_EXCEPTION3__SHIFT			12
+ #define VIVS_MMUv2_STATUS_EXCEPTION3(x)				(((x) << VIVS_MMUv2_STATUS_EXCEPTION3__SHIFT) & VIVS_MMUv2_STATUS_EXCEPTION3__MASK)
+ 
+@@ -465,7 +465,13 @@ DEALINGS IN THE SOFTWARE.
+ #define VIVS_MC_PROFILE_CONFIG0					0x00000470
+ #define VIVS_MC_PROFILE_CONFIG0_FE__MASK			0x000000ff
+ #define VIVS_MC_PROFILE_CONFIG0_FE__SHIFT			0
++#define VIVS_MC_PROFILE_CONFIG0_FE_DRAW_COUNT			0x0000000a
++#define VIVS_MC_PROFILE_CONFIG0_FE_OUT_VERTEX_COUNT		0x0000000b
++#define VIVS_MC_PROFILE_CONFIG0_FE_CACHE_MISS_COUNT		0x0000000c
+ #define VIVS_MC_PROFILE_CONFIG0_FE_RESET			0x0000000f
++#define VIVS_MC_PROFILE_CONFIG0_FE_CACHE_LK_COUNT		0x00000010
++#define VIVS_MC_PROFILE_CONFIG0_FE_STALL_COUNT			0x00000011
++#define VIVS_MC_PROFILE_CONFIG0_FE_PROCESS_COUNT		0x00000012
+ #define VIVS_MC_PROFILE_CONFIG0_DE__MASK			0x0000ff00
+ #define VIVS_MC_PROFILE_CONFIG0_DE__SHIFT			8
+ #define VIVS_MC_PROFILE_CONFIG0_DE_RESET			0x00000f00
+@@ -499,11 +505,14 @@ DEALINGS IN THE SOFTWARE.
+ #define VIVS_MC_PROFILE_CONFIG1_PA_DEPTH_CLIPPED_COUNTER	0x00000006
+ #define VIVS_MC_PROFILE_CONFIG1_PA_TRIVIAL_REJECTED_COUNTER	0x00000007
+ #define VIVS_MC_PROFILE_CONFIG1_PA_CULLED_COUNTER		0x00000008
++#define VIVS_MC_PROFILE_CONFIG1_PA_DROPED_PRIM_COUNTER		0x00000009
++#define VIVS_MC_PROFILE_CONFIG1_PA_FRUSTUM_CLIPPED_PRIM_COUNTER	0x0000000a
+ #define VIVS_MC_PROFILE_CONFIG1_PA_RESET			0x0000000f
+ #define VIVS_MC_PROFILE_CONFIG1_SE__MASK			0x0000ff00
+ #define VIVS_MC_PROFILE_CONFIG1_SE__SHIFT			8
+ #define VIVS_MC_PROFILE_CONFIG1_SE_CULLED_TRIANGLE_COUNT	0x00000000
+ #define VIVS_MC_PROFILE_CONFIG1_SE_CULLED_LINES_COUNT		0x00000100
++#define VIVS_MC_PROFILE_CONFIG1_SE_TRIVIAL_REJECTED_LINE_COUNT	0x00000400
+ #define VIVS_MC_PROFILE_CONFIG1_SE_RESET			0x00000f00
+ #define VIVS_MC_PROFILE_CONFIG1_RA__MASK			0x00ff0000
+ #define VIVS_MC_PROFILE_CONFIG1_RA__SHIFT			16
+@@ -515,6 +524,8 @@ DEALINGS IN THE SOFTWARE.
+ #define VIVS_MC_PROFILE_CONFIG1_RA_PREFETCH_CACHE_MISS_COUNTER	0x000a0000
+ #define VIVS_MC_PROFILE_CONFIG1_RA_CULLED_QUAD_COUNT		0x000b0000
+ #define VIVS_MC_PROFILE_CONFIG1_RA_RESET			0x000f0000
++#define VIVS_MC_PROFILE_CONFIG1_RA_PIPE_HZ_CACHE_MISS_COUNTER	0x00110000
++#define VIVS_MC_PROFILE_CONFIG1_RA_PREFETCH_HZ_CACHE_MISS_COUNTER	0x00120000
+ #define VIVS_MC_PROFILE_CONFIG1_TX__MASK			0xff000000
+ #define VIVS_MC_PROFILE_CONFIG1_TX__SHIFT			24
+ #define VIVS_MC_PROFILE_CONFIG1_TX_TOTAL_BILINEAR_REQUESTS	0x00000000
+@@ -535,13 +546,48 @@ DEALINGS IN THE SOFTWARE.
+ #define VIVS_MC_PROFILE_CONFIG2_MC_TOTAL_READ_REQ_8B_FROM_PIPELINE	0x00000001
+ #define VIVS_MC_PROFILE_CONFIG2_MC_TOTAL_READ_REQ_8B_FROM_IP	0x00000002
+ #define VIVS_MC_PROFILE_CONFIG2_MC_TOTAL_WRITE_REQ_8B_FROM_PIPELINE	0x00000003
+-#define VIVS_MC_PROFILE_CONFIG2_MC_RESET			0x0000000f
++#define VIVS_MC_PROFILE_CONFIG2_MC_TOTAL_READ_REQ_SENTOUT_FROM_COLORPIPE	0x00000004
++#define VIVS_MC_PROFILE_CONFIG2_MC_TOTAL_WRITE_REQ_FROM_COLORPIPE	0x00000005
++#define VIVS_MC_PROFILE_CONFIG2_MC_TOTAL_READ_REQ_8B_FROM_DEPTHPIPE	0x00000007
++#define VIVS_MC_PROFILE_CONFIG2_MC_TOTAL_READ_REQ_8B_SENTOUT_FROM_DEPTHPIPE	0x00000008
++#define VIVS_MC_PROFILE_CONFIG2_MC_TOTAL_WRITE_REQ_8B_FROM_DEPTHPIPE	0x00000009
++#define VIVS_MC_PROFILE_CONFIG2_MC_TOTAL_READ_REQ_SENTOUT_FROM_DEPTHPIPE	0x0000000a
++#define VIVS_MC_PROFILE_CONFIG2_MC_TOTAL_WRITE_REQ_FROM_DEPTHPIPE	0x0000000b
++#define VIVS_MC_PROFILE_CONFIG2_MC_TOTAL_READ_REQ_8B_FROM_OTHERS	0x0000000c
++#define VIVS_MC_PROFILE_CONFIG2_MC_TOTAL_WRITE_REQ_8B_FROM_OTHERS	0x0000000d
++#define VIVS_MC_PROFILE_CONFIG2_MC_TOTAL_READ_REQ_FROM_OTHERS	0x0000000e
++#define VIVS_MC_PROFILE_CONFIG2_MC_TOTAL_WRITE_REQ_FROM_OTHERS	0x0000000f
++#define VIVS_MC_PROFILE_CONFIG2_MC_FE_READ_BANDWIDTH		0x00000015
++#define VIVS_MC_PROFILE_CONFIG2_MC_MMU_READ_BANDWIDTH		0x00000016
++#define VIVS_MC_PROFILE_CONFIG2_MC_BLT_READ_BANDWIDTH		0x00000017
++#define VIVS_MC_PROFILE_CONFIG2_MC_SH0_READ_BANDWIDTH		0x00000018
++#define VIVS_MC_PROFILE_CONFIG2_MC_SH1_READ_BANDWIDTH		0x00000019
++#define VIVS_MC_PROFILE_CONFIG2_MC_PE_WRITE_BANDWIDTH		0x0000001a
++#define VIVS_MC_PROFILE_CONFIG2_MC_BLT_WRITE_BANDWIDTH		0x0000001b
++#define VIVS_MC_PROFILE_CONFIG2_MC_SH0_WRITE_BANDWIDTH		0x0000001c
++#define VIVS_MC_PROFILE_CONFIG2_MC_SH1_WRITE_BANDWIDTH		0x0000001d
+ #define VIVS_MC_PROFILE_CONFIG2_HI__MASK			0x0000ff00
+ #define VIVS_MC_PROFILE_CONFIG2_HI__SHIFT			8
+ #define VIVS_MC_PROFILE_CONFIG2_HI_AXI_CYCLES_READ_REQUEST_STALLED	0x00000000
+ #define VIVS_MC_PROFILE_CONFIG2_HI_AXI_CYCLES_WRITE_REQUEST_STALLED	0x00000100
+ #define VIVS_MC_PROFILE_CONFIG2_HI_AXI_CYCLES_WRITE_DATA_STALLED	0x00000200
+ #define VIVS_MC_PROFILE_CONFIG2_HI_RESET			0x00000f00
++#define VIVS_MC_PROFILE_CONFIG2_L2__MASK			0x00ff0000
++#define VIVS_MC_PROFILE_CONFIG2_L2__SHIFT			16
++#define VIVS_MC_PROFILE_CONFIG2_L2_TOTAL_AXI0_READ_REQUEST_COUNT	0x00000000
++#define VIVS_MC_PROFILE_CONFIG2_L2_TOTAL_AXI0_WRITE_REQUEST_COUNT	0x00040000
++#define VIVS_MC_PROFILE_CONFIG2_L2_TOTAL_AXI1_WRITE_REQUEST_COUNT	0x00050000
++#define VIVS_MC_PROFILE_CONFIG2_L2_TOTAL_READ_TRANSACTIONS_REQUEST_BY_AXI0	0x00080000
++#define VIVS_MC_PROFILE_CONFIG2_L2_TOTAL_READ_TRANSACTIONS_REQUEST_BY_AXI1	0x00090000
++#define VIVS_MC_PROFILE_CONFIG2_L2_TOTAL_WRITE_TRANSACTIONS_REQUEST_BY_AXI0	0x000c0000
++#define VIVS_MC_PROFILE_CONFIG2_L2_TOTAL_WRITE_TRANSACTIONS_REQUEST_BY_AXI1	0x000d0000
++#define VIVS_MC_PROFILE_CONFIG2_L2_RESET			0x000f0000
++#define VIVS_MC_PROFILE_CONFIG2_L2_AXI0_MINMAX_LATENCY		0x00100000
++#define VIVS_MC_PROFILE_CONFIG2_L2_AXI0_TOTAL_LATENCY		0x00110000
++#define VIVS_MC_PROFILE_CONFIG2_L2_AXI0_TOTAL_REQUEST_COUNT	0x00120000
++#define VIVS_MC_PROFILE_CONFIG2_L2_AXI1_MINMAX_LATENCY		0x00130000
++#define VIVS_MC_PROFILE_CONFIG2_L2_AXI1_TOTAL_LATENCY		0x00140000
++#define VIVS_MC_PROFILE_CONFIG2_L2_AXI0_TOTAL_REQUEST_COUNT	0x00150000
+ #define VIVS_MC_PROFILE_CONFIG2_BLT__MASK			0xff000000
+ #define VIVS_MC_PROFILE_CONFIG2_BLT__SHIFT			24
+ #define VIVS_MC_PROFILE_CONFIG2_BLT_UNK0			0x00000000
+@@ -566,5 +612,13 @@ DEALINGS IN THE SOFTWARE.
+ 
+ #define VIVS_MC_PROFILE_L2_READ					0x00000564
+ 
++#define VIVS_MC_MC_LATENCY_RESET				0x00000568
++
++#define VIVS_MC_MC_AXI_MAX_MIN_LATENCY				0x0000056c
++
++#define VIVS_MC_MC_AXI_TOTAL_LATENCY				0x00000570
++
++#define VIVS_MC_MC_AXI_SAMPLE_COUNT				0x00000574
++
+ 
+ #endif /* STATE_HI_XML */
 -- 
-2.38.1
+2.30.2
 
