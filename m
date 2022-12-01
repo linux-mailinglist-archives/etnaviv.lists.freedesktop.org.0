@@ -2,56 +2,46 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40FF063E0FB
-	for <lists+etnaviv@lfdr.de>; Wed, 30 Nov 2022 20:46:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC4B663EB49
+	for <lists+etnaviv@lfdr.de>; Thu,  1 Dec 2022 09:40:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E94F10E4CD;
-	Wed, 30 Nov 2022 19:46:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C88210E55F;
+	Thu,  1 Dec 2022 08:40:40 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
- [IPv6:2a00:1450:4864:20::432])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF34B10E4CB;
- Wed, 30 Nov 2022 19:46:31 +0000 (UTC)
-Received: by mail-wr1-x432.google.com with SMTP id d1so28835587wrs.12;
- Wed, 30 Nov 2022 11:46:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=S32eNcmKc8BsmSbNdo6lcSB9y3EoyZdyaRpNrZM6V6w=;
- b=UUC+BzboTsI/n8m9fvee51hT11xqTpN47g5tWD6UNGEd0OskMBYqwsFGs+nlqrHxOV
- BALt2Er3U+8TaK2n9tMbS/fAfkCj+hgqrO+alT8s+LMQYk5yimS7kZN2CR89RPoY4uhc
- cQHJmo0wolfI7WM3+OYlzqzf2j21B28uz8u3NBJbsAK5PW+ruOOMvYC3tlcqE4af10wD
- 4TjzpFRTZwbi8F845S9wOe99qbWANR+cxFohuUNS1Wqr6G1ZK6t0dgfZi1wQC37RFJEW
- c0XNawXhOUoNJ9MBGTTLrZB2bizUd2E4n7ou5BnZGCLL42p+vxiweDzll9tLfzVwShVY
- 268g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=S32eNcmKc8BsmSbNdo6lcSB9y3EoyZdyaRpNrZM6V6w=;
- b=7pTmRrzsJhnmw3mBQA/WWUHgMkBVz1l9G9uYzazMT/AC4ZA9+YCzl1Brf3wnLW0e+G
- jpCSrpMfnfgPgLCXO2qVxoziyRsxot6fwXDD8P4cZ+4HfrkuNHjv2WRe1z5kIeH7W+j1
- QpD4LSrTzOuZEvOtT4Io5Uj4TJrqt+o1IIWaZKIoI9CZ1UM3fcatDH0Vg79rixxovyuM
- wQBVNM6JdgQ8FKnql730Lo4ZsIX6aMdYScZDfZ8U4erWNazQVlYmItPjq+nAdu3TY3Et
- In3cecbMcM77UeJo6cP4rvzes5TWcesrM7DrNImJca+lpFrVjleMJOVCbKHjFnKvHqQi
- Cetg==
-X-Gm-Message-State: ANoB5plBAaj1/XlNzABbHtUL+qiJJXBZWBEDwpnM7blTWovUUFPd+wSX
- MeDPkNuXIlAN2dXH1QmucYCb8gYUF0VYJAX7XAo=
-X-Google-Smtp-Source: AA0mqf4PKRUbif6CgUNomAtwiz3jn7Z3YoJwcbdsvCiOBKRH/bmt2dSlVK8lTZQ72Sy4tBtIjHo0ep7oKlFsqMxqhKA=
-X-Received: by 2002:adf:e68a:0:b0:242:1926:7838 with SMTP id
- r10-20020adfe68a000000b0024219267838mr9824800wrm.200.1669837590039; Wed, 30
- Nov 2022 11:46:30 -0800 (PST)
-MIME-Version: 1.0
-References: <20221130185303.2025810-1-l.stach@pengutronix.de>
-In-Reply-To: <20221130185303.2025810-1-l.stach@pengutronix.de>
-From: Christian Gmeiner <christian.gmeiner@gmail.com>
-Date: Wed, 30 Nov 2022 20:46:17 +0100
-Message-ID: <CAH9NwWcR1hxHY83UiyyR=J30CMsi=Qd=KbTmrGAuO6K+ptrwSw@mail.gmail.com>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C3E9D10E55E
+ for <etnaviv@lists.freedesktop.org>; Thu,  1 Dec 2022 08:40:34 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <p.zabel@pengutronix.de>)
+ id 1p0f7Q-0006Cj-DI; Thu, 01 Dec 2022 09:40:32 +0100
+Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
+ by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+ (envelope-from <p.zabel@pengutronix.de>)
+ id 1p0f7O-001WLa-S2; Thu, 01 Dec 2022 09:40:31 +0100
+Received: from pza by lupine with local (Exim 4.94.2)
+ (envelope-from <p.zabel@pengutronix.de>)
+ id 1p0f7O-0001gk-Mi; Thu, 01 Dec 2022 09:40:30 +0100
+Message-ID: <d5d5ef3c8e4a1ca075ced3af4eeab1da8d86c338.camel@pengutronix.de>
 Subject: Re: [PATCH] drm/etnaviv: print MMU exception cause
-To: Lucas Stach <l.stach@pengutronix.de>
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: Lucas Stach <l.stach@pengutronix.de>, etnaviv@lists.freedesktop.org, 
+ Christian Gmeiner <christian.gmeiner@gmail.com>
+Date: Thu, 01 Dec 2022 09:40:30 +0100
+In-Reply-To: <20221130185303.2025810-1-l.stach@pengutronix.de>
+References: <20221130185303.2025810-1-l.stach@pengutronix.de>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.38.3-1 
+MIME-Version: 1.0
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,38 +53,79 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@pengutronix.de, patchwork-lst@pengutronix.de,
- etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Russell King <linux+etnaviv@armlinux.org.uk>
+Cc: Russell King <linux+etnaviv@armlinux.org.uk>,
+ dri-devel@lists.freedesktop.org, kernel@pengutronix.de,
+ patchwork-lst@pengutronix.de
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Hi Lucas
+On Mi, 2022-11-30 at 19:53 +0100, Lucas Stach wrote:
+From: Christian Gmeiner <christian.gmeiner@gmail.com>
 
-Am Mi., 30. Nov. 2022 um 19:53 Uhr schrieb Lucas Stach <l.stach@pengutronix.de>:
->
-> From: Christian Gmeiner <christian.gmeiner@gmail.com>
->
-> The MMU tells us the fault status. While the raw register value is
-> already printed, it's a bit more user friendly to translate the
-> fault reasons into human readable format.
->
-> Signed-off-by: Christian Gmeiner <christian.gmeiner@gmail.com>
-> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
-> ---
-> I've rewritten parts of the patch to properly cover multiple
-> MMUs and squashed the reason into the existing message. Christian,
-> please tell me if you are fine with having your name attached to
-> this patch.
-> ---
+The MMU tells us the fault status. While the raw register value is
+already printed, it's a bit more user friendly to translate the
+fault reasons into human readable format.
 
-Uff.. and old patch I forgot to send an updated version - sorry for
-that. I am happy to
-finally see this patch with your improvements landing - thanks!
+Signed-off-by: Christian Gmeiner <christian.gmeiner@gmail.com>
+Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+---
+I've rewritten parts of the patch to properly cover multiple
+MMUs and squashed the reason into the existing message. Christian,
+please tell me if you are fine with having your name attached to
+this patch.
+---
+=C2=A0drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 22 +++++++++++++++++++---
+=C2=A01 file changed, 19 insertions(+), 3 deletions(-)
 
--- 
-greets
---
-Christian Gmeiner, MSc
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnavi=
+v/etnaviv_gpu.c
+index 37018bc55810..f79203b774d9 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+@@ -1426,6 +1426,15 @@ static void sync_point_worker(struct work_struct *wo=
+rk)
+=C2=A0
 
-https://christian-gmeiner.info/privacypolicy
+=C2=A0static void dump_mmu_fault(struct etnaviv_gpu *gpu)
+=C2=A0{
++	static const char *fault_reasons[] =3D {
++		"slave not present",
++		"page not present",
++		"write violation",
++		"out of bounds",
++		"read security violation",
++		"write security violation",
++	};
++
+=C2=A0	u32 status_reg, status;
+=C2=A0	int i;
+=C2=A0
+
+@@ -1438,18 +1447,25 @@ static void dump_mmu_fault(struct etnaviv_gpu *gpu)
+=C2=A0	dev_err_ratelimited(gpu->dev, "MMU fault status 0x%08x\n", status);
+=C2=A0
+
+=C2=A0	for (i =3D 0; i < 4; i++) {
++		const char *reason =3D "unknown";
+=C2=A0		u32 address_reg;
++		u32 mmu_status;
+=C2=A0
+
+-		if (!(status & (VIVS_MMUv2_STATUS_EXCEPTION0__MASK << (i * 4))))
++		mmu_status =3D (status >> (i * 4)) & VIVS_MMUv2_STATUS_EXCEPTION0__MASK;
+
+VIVS_MMUv2_STATUS_EXCEPTION0__MASK is 0x3 ...
+
++		if (!mmu_status)
+=C2=A0			continue;
+=C2=A0
+
++		if ((mmu_status - 1) < ARRAY_SIZE(fault_reasons))
++			reason =3D fault_reasons[mmu_status - 1];
+
+... so (mmu_status - 1) can be 2 at most. This leaves me wondering how
+"out of bounds" and the "security violation" errors can be reached. I
+think this requires the exception bitfield masks to be extended to 0x7.
+
+regards
+Philipp
