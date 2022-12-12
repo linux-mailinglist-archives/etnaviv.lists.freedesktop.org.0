@@ -2,60 +2,61 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE54665A672
-	for <lists+etnaviv@lfdr.de>; Sat, 31 Dec 2022 20:48:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CA3665A677
+	for <lists+etnaviv@lfdr.de>; Sat, 31 Dec 2022 20:48:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 33FFB10E4AE;
-	Sat, 31 Dec 2022 19:48:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9ADC810E4A2;
+	Sat, 31 Dec 2022 19:48:16 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com
- [IPv6:2607:f8b0:4864:20::635])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB61910E11A;
- Sun, 11 Dec 2022 14:09:11 +0000 (UTC)
-Received: by mail-pl1-x635.google.com with SMTP id p24so9520694plw.1;
- Sun, 11 Dec 2022 06:09:11 -0800 (PST)
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com
+ [IPv6:2607:f8b0:4864:20::102b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E68D10E15B;
+ Mon, 12 Dec 2022 06:14:07 +0000 (UTC)
+Received: by mail-pj1-x102b.google.com with SMTP id
+ t11-20020a17090a024b00b0021932afece4so14538820pje.5; 
+ Sun, 11 Dec 2022 22:14:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=nhSojJ9yRAAYuIv29QcWwuo3qzXukFj1p0NiP/vbUAU=;
- b=KgvzcVH6VhLTX0T0yUhpBIYGBPo5c7zDiH5COSkrWoYp1cWtEJ1oCv1Da9OuEROKXx
- 2FJOkLlt/C1oCwA/Vl2yzKYEZ9Ziyrh0Jkyi+zk7Gq/dFHfC6id/u4wpOVXH6RUjOcUJ
- FATR08gCW+6VmuvkdFB5xqmpbA9/9j022gFPev+CIzk7axVyc+MSQu5oSZ4Mz5AT0f+i
- SU37RfpmD3hLVp6B8jWuNMYQR3q2JPaCdMQ5YsoTll9HG+psE9HrVQgKSWDxYlY0IwW7
- fzqeDvLPg0zTGszU2TnTHMVfXZl7G8NsAVKO21MxEgZ52X3zK/SjYMdjLcQ0uWQcMrLU
- 5KsQ==
+ bh=luc8GZ9v/WzkcjEwI6cWOML4BU0hV8T6C9UT/F80Z4g=;
+ b=DHwy13TkPFdGQkYGf29ouxdfwgNIf1tPjx9PHIOeK+Kzk5wrxlmKkscoX21jG39Klf
+ WCpNLsdepU4U/udL6LRmMjwPve6/cLncL9UPPhmUVx4tkZq7aULyd3Ju5KkEbQe76lW2
+ BvyzWj4/d+oa0MFe55XUZUfeKVdCeAN7A9onM2roVnkJkU9AwbQ5vCyUMvp9cYSTNOsP
+ lUVvFAPK+uvEBphDIe470XVSbKx/BPROvFVB1fxrpW57hWW54JZTlezr+/LJTYBDnQ3j
+ SEi3U9LEM0SXRerh80dlHiuARjQldD2HXUVbjrYQOfdX5dQ8HabWUEN6uPtvqrWJ12an
+ skig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=nhSojJ9yRAAYuIv29QcWwuo3qzXukFj1p0NiP/vbUAU=;
- b=CSZcCHbIEF9GZAZjKd5Eqi3Q6w9Qaaa3c7GgGxe+rHGqqlDeecP+rkZFtQ92qyVYe1
- uYjW/vUlCaMa297dozwzlz5Be14FXPSG7s+xa6WrrVl+1MSNtUljR5kRIFMk5eQf+V+G
- 4rb8d3oLYSNSeqZmHEQVdv4e3ush5aA/A08O3N6y3Fs8slDo1IzGNt/kFy6VNJ/I7BGF
- 1mCRwKQQCwBzOBXR6xYjZ02dnZSlzM6bOnKjBTpBads85I36zugKqgnRhYHY5RacyPqN
- +eSfQ7xyXcA5YasMoOs03HhWA2q7g2rYV8aW/dkgClIqIfqvN84In5E8AobnwB06Kon5
- N+JQ==
-X-Gm-Message-State: ANoB5pksD09k0Y2ryJBJZFhiiTyh07n2FEJ1jHUj3xQl8W2/dsTvkf8B
- rwutGmz3OigurIUjhngpvy8nsX/JB8WIL02qxJY=
-X-Google-Smtp-Source: AA0mqf6zImP1+m963p8Iku+ggiohU+Xgzv3zEPE29G5VfW7nDYqOiGwm9V6ehWybc9wu/Y1IqyzQZw==
-X-Received: by 2002:a17:902:da8c:b0:189:da3b:17a4 with SMTP id
- j12-20020a170902da8c00b00189da3b17a4mr17818599plx.18.1670767751142; 
- Sun, 11 Dec 2022 06:09:11 -0800 (PST)
+ bh=luc8GZ9v/WzkcjEwI6cWOML4BU0hV8T6C9UT/F80Z4g=;
+ b=11zDT71pDnGESZApAcD2ZVnVrLcy+vUleXsICQg6iLo5KUkCXw+DlTsV/GNCUHJLMY
+ Wv2CwROd2IjbbGslU2K/MGzq8rjMh04/dKL/YhvFPz8rVpB1S2kZETrG8PRmovC9KNU8
+ VgU4oJ84fh/I3faO8wHsn4V3EtpRd/lh9t/Sbg+UtBVfw41s+us3HR3rg4VvnoFqfZiT
+ l0CLci5I2rJHqIF65DD5Ug+q4tiTitmPoF6l99uHmr0GpmUn+6RAGi0HmGAxr+UfH9ds
+ ug6mmgNu4NfveEn8EF2TkgtCxlJS0YJ+CXMHVSTnmziKVOD+GRcJhtvDpzaqUOasTFd1
+ oKdw==
+X-Gm-Message-State: ANoB5pnU4ndtJCGDzb9OYPXQ/3rPMau1mMBW2KQ5BiLUevlj58MbbLUZ
+ HzYhhHtJj7qpV3in2eu/kLA=
+X-Google-Smtp-Source: AA0mqf63lEL0DF67ZC9IfMRBUla30P+fk+wyDNGBsuLtTuC1/KsheeSvqTX3/ikhmZP1kmfj40Uvpg==
+X-Received: by 2002:a17:902:8ec1:b0:189:2276:30c5 with SMTP id
+ x1-20020a1709028ec100b00189227630c5mr13872426plo.0.1670825646973; 
+ Sun, 11 Dec 2022 22:14:06 -0800 (PST)
 Received: from localhost.localdomain ([14.5.161.132])
  by smtp.gmail.com with ESMTPSA id
- d6-20020a170902654600b00186b8752a78sm4390118pln.80.2022.12.11.06.09.08
+ q3-20020a17090311c300b00189a7fbff33sm5360774plh.170.2022.12.11.22.14.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 11 Dec 2022 06:09:10 -0800 (PST)
+ Sun, 11 Dec 2022 22:14:06 -0800 (PST)
 From: Kang Minchul <tegongkang@gmail.com>
 To: Lucas Stach <l.stach@pengutronix.de>,
  Russell King <linux+etnaviv@armlinux.org.uk>,
  Christian Gmeiner <christian.gmeiner@gmail.com>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH] drm/etnaviv: Remove redundant dev_err()
-Date: Sun, 11 Dec 2022 23:09:05 +0900
-Message-Id: <20221211140905.752805-1-tegongkang@gmail.com>
+Subject: [PATCH v2] drm/etnaviv: Remove redundant dev_err()
+Date: Mon, 12 Dec 2022 15:14:01 +0900
+Message-Id: <20221212061401.766122-1-tegongkang@gmail.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -81,21 +82,28 @@ already prints an error.
 
 Signed-off-by: Kang Minchul <tegongkang@gmail.com>
 ---
- drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 1 -
- 1 file changed, 1 deletion(-)
+Changes in v2:
+  - Removed unnecessary braces.
+
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-index a31eeff2b297..097fa9034ee8 100644
+index a31eeff2b297..6dbe0c45b695 100644
 --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
 +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-@@ -1771,7 +1771,6 @@ static int etnaviv_gpu_platform_probe(struct platform_device *pdev)
+@@ -1770,10 +1770,8 @@ static int etnaviv_gpu_platform_probe(struct platform_device *pdev)
+ 
  	/* Get Interrupt: */
  	gpu->irq = platform_get_irq(pdev, 0);
- 	if (gpu->irq < 0) {
+-	if (gpu->irq < 0) {
 -		dev_err(dev, "failed to get irq: %d\n", gpu->irq);
++	if (gpu->irq < 0)
  		return gpu->irq;
- 	}
+-	}
  
+ 	err = devm_request_irq(&pdev->dev, gpu->irq, irq_handler, 0,
+ 			       dev_name(gpu->dev), gpu);
 -- 
 2.34.1
 
