@@ -1,58 +1,60 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1040E65A65E
-	for <lists+etnaviv@lfdr.de>; Sat, 31 Dec 2022 20:48:09 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C4BF65A67F
+	for <lists+etnaviv@lfdr.de>; Sat, 31 Dec 2022 20:48:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E499710E0F1;
-	Sat, 31 Dec 2022 19:48:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DCE9E10E4BD;
+	Sat, 31 Dec 2022 19:48:21 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-ua1-x931.google.com (mail-ua1-x931.google.com
- [IPv6:2607:f8b0:4864:20::931])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D6AB10E15B;
- Mon, 12 Dec 2022 06:16:20 +0000 (UTC)
-Received: by mail-ua1-x931.google.com with SMTP id x24so2902283uaf.4;
- Sun, 11 Dec 2022 22:16:20 -0800 (PST)
+Received: from mail-vk1-xa29.google.com (mail-vk1-xa29.google.com
+ [IPv6:2607:f8b0:4864:20::a29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CBD6E10E289;
+ Mon, 12 Dec 2022 19:26:01 +0000 (UTC)
+Received: by mail-vk1-xa29.google.com with SMTP id f24so435460vkl.9;
+ Mon, 12 Dec 2022 11:26:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=GsCAWYH/6Ly5RJfxqsLTMIE4sjnj1D21vsbYiQhM/Ms=;
- b=DaPNkFtO2K7zNU7T+6Bg2nDXLAtiOrhJflF2e2joCoAOijPEG0Xq98HlkfeKHaP0f0
- Im6Mn17X+e8pDWh/B0GATWxsy3bilElGn1xgOd5US9JAue4cvvy3A19pQnPSpmez/M/m
- 6JZ5T5lhROrs1AXqJjuMSKPxtBtcs9hJ7ChAmu3SsTITSvZUzX6VOh8q+RPV5eex4Nyx
- O5u8PEFHvuyMFq4II0GCt6KomBp9DVIhHoCgvlcXtGJYec+gdDdPOrKihkCDFN7/kVFL
- u7ZrC+YS2WvnBxvJWSZLyUp1dzyzPBuWID67t9/XO+HZYgOKhV95Ma0R1eF4iNV2ASGV
- G4Ng==
+ bh=A+IspbwnuJ8ErED8Om/cwo+w+s/c5DgTSdlOlBKX81g=;
+ b=bcH85szMTuF+R9+qTKzsygNY0IVyHHWPk17xO0SUgXNcXD/XRK4cdx39nnnSpkZzqP
+ zqPgbWeRCmSR0EYyYOjDAGmcftL9PL93yhIBoVJDn91hJKrCNp8SUv5LhsDDy/6NnT/K
+ kmegf8JHQv2aojVBIfjc8V6Obog7RazuiB6mJorGM3fwyt85FWp4PfQN/fyenZYcR2j1
+ e8ISWXvy1K3nhgK3lvt+hQfiFp3rrj0QgkHisf5dtwLNo5NcttRkHu3HHMiwI66MVBU5
+ RCzjm5CDLSvBXtoM3eH9wjDDiG9G7VKN0jrRnY+T8nKcnyTfVEGy/kxRngIO4QKYOEPE
+ tCpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=GsCAWYH/6Ly5RJfxqsLTMIE4sjnj1D21vsbYiQhM/Ms=;
- b=XncnxfTT5VutRInyl95OVMuWQBsh39O34oo6E9c5knE5zP3+kMhqwivIdf4WoF21Uc
- uyeWJnkatHnMh2jhcB6ylErfKj7iBtKDW7BGrO476X48oic3vakifdopfKuhlK4Q7An6
- BkvhKC8gmLT5Qbx7pT324sLuk0HJUHno6vuXlwfLFyVDeY5HxbERzHyRuC2kMaSYK27k
- l+UpkPijz1XuYj7uTv8U8FIJTmT84XWJ9ldON1oT+xCMdQLYx5nO/HUD0Tg2OdUuYhWe
- R457Bs2xr6/SJ6pMGaJnMXkdorgmzlBYbzB7nzxYR3xaKuivgVNCHVQGS7Nbi3wZT4N7
- ulTQ==
-X-Gm-Message-State: ANoB5pmhqlkNkg7J3Q83rqUFvQuXBRCciMYCtOJLCwl15wel98YehnCz
- GHbPUeOH46g5taH3A7YYMqfBZAnCikOdFjisdx0=
-X-Google-Smtp-Source: AA0mqf5ZxfTivUOs+Nd6gSoZKfIsopKCW+B8tfEdDExLqGNT305LE+CYvmVbfbJTGTlT9hUx0IozHTaZ2xYEuI2mENk=
-X-Received: by 2002:ab0:7c3:0:b0:415:8954:bd51 with SMTP id
- d3-20020ab007c3000000b004158954bd51mr121871uaf.97.1670825779438; Sun, 11 Dec
- 2022 22:16:19 -0800 (PST)
+ bh=A+IspbwnuJ8ErED8Om/cwo+w+s/c5DgTSdlOlBKX81g=;
+ b=cog/FRVNyNzrEtUw93LcsdaLMKndL9rPxfoLCMY6qAnLComsmDDl2kiZzQtJsGhOPX
+ l6g0gufwK0xQRZ03kDPEf7saxgI5VPnJ2ktqSKjcQ6DzdZvWEke8yQGV1EKoHVQBQa6m
+ QwFrt5waZArzNndROFNPwN/W506Ls6wbxf2eOUbVa4nnBCzHwFxWiXKF+hgfiiHIWaVH
+ uOvTmrboQ0MizQpyhikww7Sv95/ALQIoNCW/7vARS6KCZldGLuKZAvncXaqqBKBeFpKx
+ cNgRkAeAjPiPd7c5bmkjMJJfEyxEbEmtIs49sJ/2mxA/NaRDsn5rUg66zKpKKL+pMfBI
+ Lc2Q==
+X-Gm-Message-State: ANoB5plmTOSvuhMqfcWmU6mfTCOFc+oYCbgGwwz2+1nyl2Cr1mlOQnBB
+ axUpXUJdC43XGCp+mGoiEjRxyxQFnEO9U/LeOA0=
+X-Google-Smtp-Source: AA0mqf6xPjsBnfureXx4g2aRO1Y5Gwq2qDk8nBiV8FT/a1vDUTO1pd9UvPLwAW/YokMlFuF+0oK6MxVZ8v7LcAEdaV8=
+X-Received: by 2002:a1f:bfc7:0:b0:3bd:e0b8:e350 with SMTP id
+ p190-20020a1fbfc7000000b003bde0b8e350mr6611968vkf.25.1670873160767; Mon, 12
+ Dec 2022 11:26:00 -0800 (PST)
 MIME-Version: 1.0
-References: <20221211140905.752805-1-tegongkang@gmail.com>
- <CAOMZO5BoiKYJKhgQNW+=n-7KpEr_L8oj1zS2OcJR-B-NA0XqzA@mail.gmail.com>
-In-Reply-To: <CAOMZO5BoiKYJKhgQNW+=n-7KpEr_L8oj1zS2OcJR-B-NA0XqzA@mail.gmail.com>
+References: <20221212061401.766122-1-tegongkang@gmail.com>
+In-Reply-To: <20221212061401.766122-1-tegongkang@gmail.com>
 From: Kang Minchul <tegongkang@gmail.com>
-Date: Mon, 12 Dec 2022 15:16:08 +0900
-Message-ID: <CA+uqrQAyLcHKrooP7jFbu08+rngu8yuVZhSJQgGP7b9oO0gHgQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/etnaviv: Remove redundant dev_err()
-To: Fabio Estevam <festevam@gmail.com>
+Date: Tue, 13 Dec 2022 04:25:49 +0900
+Message-ID: <CA+uqrQBQ2R_5b3BWTa253=HabCxp3qord9h0GpXWHfhKcQa8zQ@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/etnaviv: Remove redundant dev_err()
+To: Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>, 
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Mailman-Approved-At: Sat, 31 Dec 2022 19:48:05 +0000
@@ -67,47 +69,52 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, etnaviv@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Russell King <linux+etnaviv@armlinux.org.uk>,
- Lucas Stach <l.stach@pengutronix.de>
+Cc: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-2022=EB=85=84 12=EC=9B=94 12=EC=9D=BC (=EC=9B=94) =EC=98=A4=EC=A0=84 3:18, =
-Fabio Estevam <festevam@gmail.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
+2022=EB=85=84 12=EC=9B=94 12=EC=9D=BC (=EC=9B=94) =EC=98=A4=ED=9B=84 3:14, =
+Kang Minchul <tegongkang@gmail.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
 >
-> On Sun, Dec 11, 2022 at 3:02 PM Kang Minchul <tegongkang@gmail.com> wrote=
-:
-> >
-> > Function dev_err() is redundant because platform_get_irq()
-> > already prints an error.
-> >
-> > Signed-off-by: Kang Minchul <tegongkang@gmail.com>
-> > ---
-> >  drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 1 -
-> >  1 file changed, 1 deletion(-)
-> >
-> > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/et=
-naviv/etnaviv_gpu.c
-> > index a31eeff2b297..097fa9034ee8 100644
-> > --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> > +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> > @@ -1771,7 +1771,6 @@ static int etnaviv_gpu_platform_probe(struct plat=
-form_device *pdev)
-> >         /* Get Interrupt: */
-> >         gpu->irq =3D platform_get_irq(pdev, 0);
-> >         if (gpu->irq < 0) {
-> > -               dev_err(dev, "failed to get irq: %d\n", gpu->irq);
-> >                 return gpu->irq;
-> >         }
+> Function dev_err() is redundant because platform_get_irq()
+> already prints an error.
 >
-> If the dev_err() line is removed, then the { and } should be removed as w=
-ell.
+> Signed-off-by: Kang Minchul <tegongkang@gmail.com>
+> ---
+> Changes in v2:
+>   - Removed unnecessary braces.
+>
+>  drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etna=
+viv/etnaviv_gpu.c
+> index a31eeff2b297..6dbe0c45b695 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> @@ -1770,10 +1770,8 @@ static int etnaviv_gpu_platform_probe(struct platf=
+orm_device *pdev)
+>
+>         /* Get Interrupt: */
+>         gpu->irq =3D platform_get_irq(pdev, 0);
+> -       if (gpu->irq < 0) {
+> -               dev_err(dev, "failed to get irq: %d\n", gpu->irq);
+> +       if (gpu->irq < 0)
+>                 return gpu->irq;
+> -       }
+>
+>         err =3D devm_request_irq(&pdev->dev, gpu->irq, irq_handler, 0,
+>                                dev_name(gpu->dev), gpu);
+> --
+> 2.34.1
+>
 
-Oh, I see.
-I just sent patch v2 that reflects your feedback.
+I guess problem dealt with by this patch have already been resolved in the =
+past.
+I think I worked on the wrong branch.
+
+Please ignore this patch.
+Sorry for your inconvenience.
 
 Regards,
 Kang Minchul
