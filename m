@@ -2,39 +2,39 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1630F64FF66
-	for <lists+etnaviv@lfdr.de>; Sun, 18 Dec 2022 17:02:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0EC164FFFF
+	for <lists+etnaviv@lfdr.de>; Sun, 18 Dec 2022 17:08:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CBD1D10E1BE;
-	Sun, 18 Dec 2022 16:01:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9DCE810E210;
+	Sun, 18 Dec 2022 16:08:19 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 218F710E1BE;
- Sun, 18 Dec 2022 16:01:56 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E62410E210;
+ Sun, 18 Dec 2022 16:08:15 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 4C6E660DB4;
- Sun, 18 Dec 2022 16:01:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8F97C433D2;
- Sun, 18 Dec 2022 16:01:45 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id E3B7D60C99;
+ Sun, 18 Dec 2022 16:07:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50C62C433EF;
+ Sun, 18 Dec 2022 16:07:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1671379306;
+ s=k20201202; t=1671379664;
  bh=gWX7FAuymLzIe0lTlL9cbB0Xr8qLpez2pdwNDs2A8Yw=;
  h=From:To:Cc:Subject:Date:From;
- b=XZqsANYQ/LXCAICeTwEf6VusWMfkgoCxFP7lToi/Z+3dZupOrLVfNGS7V/p3KtyIN
- bVSpGOOnrWGgYmyjx+NS+bP04bi7zfgbCwv9Fak1oBVdj2LH5CGwqNYaoOACFImG3q
- GUp2FwC9oH938kUfIG0b9f/PN/bQDdhXP9d4idsUTCfj2prgCWnhbSbgjV/l/7fyPl
- ZqVwq7I7wpaC4r5zw04LUg5hfEDX2PorMr028xhrVl4KqYjRGdh4dmlx4esNwL1JCl
- 9woWB3RRhF+PVWLaiQVqnhCH3vUFefKtefN5aHRKa13fzWvL/7VwDvi17Ljork1MnL
- Y/obIKMJKNgIg==
+ b=NJe4WNNsyu2xGRJuBKoyg8NGVdqA9daOHHnYwGOWmteCUUusWL2so8hbBk2FKR2y/
+ TqPLhHg/oQLwI+ZKHxbJrMC2BrJzXsDkeLLRmvuEKxSqVa5ccgirV3PANUY2vofHsd
+ sbijcqqHjlwIhA+g16uqVRH5NQaXp6pazK0a+EvbwbqrXcx31wdPj2GX+OKuJyjUEh
+ frSQ9srxoclqNVEUFRbkxjX8QfkQ94Q2/ArjYfVqEpIcU9Ffi4JEitDOVkr0x71N4Q
+ pz15Sn1xJlFV12Mx55svAdr4oFZDzH7R5wpaaH0Y0hZOSbNbTlrE19N0HnnJpuZj0f
+ C2mgd/CqLWBcQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 01/85] drm/etnaviv: add missing quirks for GC300
-Date: Sun, 18 Dec 2022 11:00:18 -0500
-Message-Id: <20221218160142.925394-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.0 01/73] drm/etnaviv: add missing quirks for GC300
+Date: Sun, 18 Dec 2022 11:06:29 -0500
+Message-Id: <20221218160741.927862-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
 X-stable: review
