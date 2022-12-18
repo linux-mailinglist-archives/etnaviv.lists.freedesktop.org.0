@@ -2,39 +2,39 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7F40650088
-	for <lists+etnaviv@lfdr.de>; Sun, 18 Dec 2022 17:16:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 350136500CA
+	for <lists+etnaviv@lfdr.de>; Sun, 18 Dec 2022 17:19:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 48E3310E262;
-	Sun, 18 Dec 2022 16:16:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7CF410E26B;
+	Sun, 18 Dec 2022 16:19:13 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB6A710E25D;
- Sun, 18 Dec 2022 16:16:33 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 96E9410E26B;
+ Sun, 18 Dec 2022 16:19:10 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 1C79460C99;
- Sun, 18 Dec 2022 16:16:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A6A1C433D2;
- Sun, 18 Dec 2022 16:16:01 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 17F2F60DCF;
+ Sun, 18 Dec 2022 16:18:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 727B7C433D2;
+ Sun, 18 Dec 2022 16:18:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1671380162;
- bh=gyt17c2sM9YeTb6QnjGkkTttJqE24TnHpZ9dG0bwRSo=;
+ s=k20201202; t=1671380319;
+ bh=gek+l7ptYo4Muy3VFVAYVi5zkahpQ0QWpUWgCkA1Nww=;
  h=From:To:Cc:Subject:Date:From;
- b=iAadaTaXiM41a4x1KXOdZb/PwbkLEzliG/w178NcWbcaRRoew4D9qRYmci9TrOmJS
- UH4CFDgWAmMxZSw+YaKJ6Gh+jAM3EpYirh3ZQi3ZUvs+Cv9nVXnHZlxfoASoFiX54G
- CJIbnjaUM9jVIaCLtWhUP4d9xGMy1u1jjalW3KmBxPnwp2EJ78uKIKtaJdG2daOJSt
- 4msmRQvngemE2m8pTPaWZzS8yEXXiRt5e3eZU6aOgoHJ6T0o19TEk1NSzwuYU1KKHQ
- iULvtYItxitRnirGczl4gc/6fCcCs3oH0FoVZTF0L2ov3Mz0SfnqECy2bxVooKZ+/G
- htPhco+c0JgCg==
+ b=SmMNWSw4593ofXE2ILDdErcRLZ8NE4LgpOyeCwIL+eCJYMcnVPWDa0IiD2Dc94nwe
+ 91G6Xj1tfjqBgkITtHRHJLDGh3Ic6Cf5ygRHnm6cJFGotvUzoeEGH4tOiNZEsovQJS
+ YTnPy12DD1Z/M+VAWlIZ24CYfUmvzAXH5dAwesjr7yvyypxdXMUGzw0aaiY237b4C0
+ ofcG1bBxjS+fyOCXE8NGfN7fjXTuGcrWS2tBpKkesyVb7pjGVlekE5hKpcfLMbpjym
+ gCcyiGum3bslctya+5mLw74W/1EvlHUUs9ZoEJVWtwjhhOu6pXG11UZ620IWXJh1N9
+ VLmg6iMs9Bsqw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 01/39] drm/etnaviv: add missing quirks for GC300
-Date: Sun, 18 Dec 2022 11:15:21 -0500
-Message-Id: <20221218161559.932604-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 01/30] drm/etnaviv: add missing quirks for GC300
+Date: Sun, 18 Dec 2022 11:18:06 -0500
+Message-Id: <20221218161836.933697-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
 X-stable: review
@@ -75,10 +75,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 9 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-index 2520b7dad6ce..f3281d56b1d8 100644
+index db35736d47af..8c6f9752692d 100644
 --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
 +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-@@ -408,6 +408,12 @@ static void etnaviv_hw_identify(struct etnaviv_gpu *gpu)
+@@ -392,6 +392,12 @@ static void etnaviv_hw_identify(struct etnaviv_gpu *gpu)
  	if (gpu->identity.model == chipModel_GC700)
  		gpu->identity.features &= ~chipFeatures_FAST_CLEAR;
  
@@ -91,7 +91,7 @@ index 2520b7dad6ce..f3281d56b1d8 100644
  	if ((gpu->identity.model == chipModel_GC500 &&
  	     gpu->identity.revision < 2) ||
  	    (gpu->identity.model == chipModel_GC300 &&
-@@ -441,8 +447,9 @@ static void etnaviv_hw_identify(struct etnaviv_gpu *gpu)
+@@ -425,8 +431,9 @@ static void etnaviv_hw_identify(struct etnaviv_gpu *gpu)
  				gpu_read(gpu, VIVS_HI_CHIP_MINOR_FEATURE_5);
  	}
  
