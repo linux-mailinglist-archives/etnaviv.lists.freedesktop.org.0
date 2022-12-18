@@ -2,41 +2,44 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E79EB64F07F
-	for <lists+etnaviv@lfdr.de>; Fri, 16 Dec 2022 18:42:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1630F64FF66
+	for <lists+etnaviv@lfdr.de>; Sun, 18 Dec 2022 17:02:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E42F810E602;
-	Fri, 16 Dec 2022 17:42:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CBD1D10E1BE;
+	Sun, 18 Dec 2022 16:01:59 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 214C910E0F1;
- Fri, 16 Dec 2022 17:41:55 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A7FD41042;
- Fri, 16 Dec 2022 09:42:33 -0800 (PST)
-Received: from [10.57.88.234] (unknown [10.57.88.234])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DA5E33F5A1;
- Fri, 16 Dec 2022 09:41:45 -0800 (PST)
-Message-ID: <2db73405-464f-6980-a7c1-7fe232611331@arm.com>
-Date: Fri, 16 Dec 2022 17:41:40 +0000
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 218F710E1BE;
+ Sun, 18 Dec 2022 16:01:56 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 4C6E660DB4;
+ Sun, 18 Dec 2022 16:01:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8F97C433D2;
+ Sun, 18 Dec 2022 16:01:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1671379306;
+ bh=gWX7FAuymLzIe0lTlL9cbB0Xr8qLpez2pdwNDs2A8Yw=;
+ h=From:To:Cc:Subject:Date:From;
+ b=XZqsANYQ/LXCAICeTwEf6VusWMfkgoCxFP7lToi/Z+3dZupOrLVfNGS7V/p3KtyIN
+ bVSpGOOnrWGgYmyjx+NS+bP04bi7zfgbCwv9Fak1oBVdj2LH5CGwqNYaoOACFImG3q
+ GUp2FwC9oH938kUfIG0b9f/PN/bQDdhXP9d4idsUTCfj2prgCWnhbSbgjV/l/7fyPl
+ ZqVwq7I7wpaC4r5zw04LUg5hfEDX2PorMr028xhrVl4KqYjRGdh4dmlx4esNwL1JCl
+ 9woWB3RRhF+PVWLaiQVqnhCH3vUFefKtefN5aHRKa13fzWvL/7VwDvi17Ljork1MnL
+ Y/obIKMJKNgIg==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.1 01/85] drm/etnaviv: add missing quirks for GC300
+Date: Sun, 18 Dec 2022 11:00:18 -0500
+Message-Id: <20221218160142.925394-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-Subject: Re: [PATCH 0/2] drm: Add component_match_add_of and convert users of
- drm_of_component_match_add
-Content-Language: en-GB
-To: Sean Anderson <sean.anderson@seco.com>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org
-References: <20221103182222.2247724-1-sean.anderson@seco.com>
- <68562aca-5256-9e4b-bcd5-983e43408a7d@seco.com>
-From: Robin Murphy <robin.murphy@arm.com>
-In-Reply-To: <68562aca-5256-9e4b-bcd5-983e43408a7d@seco.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,77 +51,58 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: alsa-devel@alsa-project.org, Xinliang Liu <xinliang.liu@linaro.org>,
- Liviu Dudau <liviu.dudau@arm.com>, linux-kernel@vger.kernel.org,
- Paul Cercueil <paul@crapouillou.net>, John Stultz <jstultz@google.com>,
- Mihail Atanassov <mihail.atanassov@arm.com>, Will Deacon <will@kernel.org>,
- Samuel Holland <samuel@sholland.org>, Joerg Roedel <joro@8bytes.org>,
- Takashi Iwai <tiwai@suse.com>, Russell King <linux@armlinux.org.uk>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
- Mali DP Maintainers <malidp@foss.arm.com>,
- linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
- Alain Volmat <alain.volmat@foss.st.com>,
- Xinwei Kong <kong.kongxinwei@hisilicon.com>, linux-sunxi@lists.linux.dev,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, Chen Feng <puck.chen@hisilicon.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, etnaviv@lists.freedesktop.org,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- Mark Brown <broonie@kernel.org>, linux-mediatek@lists.infradead.org,
- Matthias Brugger <matthias.bgg@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
- Sean Paul <sean@poorly.run>, Yong Wu <yong.wu@mediatek.com>,
- linux-mips@vger.kernel.org, Tomi Valkeinen <tomba@kernel.org>,
- iommu@lists.linux.dev, freedreno@lists.freedesktop.org,
- Liam Girdwood <lgirdwood@gmail.com>, Rob Clark <robdclark@gmail.com>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Tian Tao <tiantao6@hisilicon.com>, Jyri Sarha <jyri.sarha@iki.fi>,
- Brian Starkey <brian.starkey@arm.com>, Lucas Stach <l.stach@pengutronix.de>
+Cc: Sasha Levin <sashal@kernel.org>, Doug Brown <doug@schmorgal.com>,
+ etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Christian Gmeiner <christian.gmeiner@gmail.com>, daniel@ffwll.ch,
+ airlied@gmail.com, Lucas Stach <l.stach@pengutronix.de>
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-On 2022-12-16 17:08, Sean Anderson wrote:
-> On 11/3/22 14:22, Sean Anderson wrote:
->> This series adds a new function component_match_add_of to simplify the
->> common case of calling component_match_add_release with
->> component_release_of and component_compare_of. There is already
->> drm_of_component_match_add, which allows for a custom compare function.
->> However, all existing users just use component_compare_of (or an
->> equivalent).
->>
->> I can split the second commit up if that is easier to review.
->>
->>
->> Sean Anderson (2):
->>    component: Add helper for device nodes
->>    drm: Convert users of drm_of_component_match_add to
->>      component_match_add_of
->>
->>   .../gpu/drm/arm/display/komeda/komeda_drv.c   |  6 ++--
->>   drivers/gpu/drm/arm/hdlcd_drv.c               |  9 +-----
->>   drivers/gpu/drm/arm/malidp_drv.c              | 11 +------
->>   drivers/gpu/drm/armada/armada_drv.c           | 10 ++++---
->>   drivers/gpu/drm/drm_of.c                      | 29 +++----------------
->>   drivers/gpu/drm/etnaviv/etnaviv_drv.c         |  4 +--
->>   .../gpu/drm/hisilicon/kirin/kirin_drm_drv.c   |  3 +-
->>   drivers/gpu/drm/ingenic/ingenic-drm-drv.c     |  3 +-
->>   drivers/gpu/drm/mediatek/mtk_drm_drv.c        |  4 +--
->>   drivers/gpu/drm/msm/msm_drv.c                 | 14 ++++-----
->>   drivers/gpu/drm/sti/sti_drv.c                 |  3 +-
->>   drivers/gpu/drm/sun4i/sun4i_drv.c             |  3 +-
->>   drivers/gpu/drm/tilcdc/tilcdc_external.c      | 10 ++-----
->>   drivers/iommu/mtk_iommu.c                     |  3 +-
->>   drivers/iommu/mtk_iommu_v1.c                  |  3 +-
->>   include/drm/drm_of.h                          | 12 --------
->>   include/linux/component.h                     |  9 ++++++
->>   sound/soc/codecs/wcd938x.c                    |  6 ++--
->>   18 files changed, 46 insertions(+), 96 deletions(-)
->>
-> 
-> ping?
-> 
-> Should I send a v2 broken up like Mark suggested?
+From: Doug Brown <doug@schmorgal.com>
 
-FWIW you'll need to rebase the IOMMU changes on 6.2-rc1 anyway - 
-mtk_iommu stops using component_match_add_release() at all.
+[ Upstream commit cc7d3fb446a91f24978a6aa59cbb578f92e22242 ]
 
-Thanks,
-Robin.
+The GC300's features register doesn't specify that a 2D pipe is
+available, and like the GC600, its idle register reports zero bits where
+modules aren't present.
+
+Signed-off-by: Doug Brown <doug@schmorgal.com>
+Reviewed-by: Christian Gmeiner <christian.gmeiner@gmail.com>
+Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+index 37018bc55810..f667e7906d1f 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+@@ -416,6 +416,12 @@ static void etnaviv_hw_identify(struct etnaviv_gpu *gpu)
+ 	if (gpu->identity.model == chipModel_GC700)
+ 		gpu->identity.features &= ~chipFeatures_FAST_CLEAR;
+ 
++	/* These models/revisions don't have the 2D pipe bit */
++	if ((gpu->identity.model == chipModel_GC500 &&
++	     gpu->identity.revision <= 2) ||
++	    gpu->identity.model == chipModel_GC300)
++		gpu->identity.features |= chipFeatures_PIPE_2D;
++
+ 	if ((gpu->identity.model == chipModel_GC500 &&
+ 	     gpu->identity.revision < 2) ||
+ 	    (gpu->identity.model == chipModel_GC300 &&
+@@ -449,8 +455,9 @@ static void etnaviv_hw_identify(struct etnaviv_gpu *gpu)
+ 				gpu_read(gpu, VIVS_HI_CHIP_MINOR_FEATURE_5);
+ 	}
+ 
+-	/* GC600 idle register reports zero bits where modules aren't present */
+-	if (gpu->identity.model == chipModel_GC600)
++	/* GC600/300 idle register reports zero bits where modules aren't present */
++	if (gpu->identity.model == chipModel_GC600 ||
++	    gpu->identity.model == chipModel_GC300)
+ 		gpu->idle_mask = VIVS_HI_IDLE_STATE_TX |
+ 				 VIVS_HI_IDLE_STATE_RA |
+ 				 VIVS_HI_IDLE_STATE_SE |
+-- 
+2.35.1
+
