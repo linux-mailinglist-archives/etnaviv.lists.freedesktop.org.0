@@ -1,62 +1,45 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C4BF65A67F
-	for <lists+etnaviv@lfdr.de>; Sat, 31 Dec 2022 20:48:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DFD6665A66E
+	for <lists+etnaviv@lfdr.de>; Sat, 31 Dec 2022 20:48:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DCE9E10E4BD;
-	Sat, 31 Dec 2022 19:48:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A065C10E4AA;
+	Sat, 31 Dec 2022 19:48:10 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-vk1-xa29.google.com (mail-vk1-xa29.google.com
- [IPv6:2607:f8b0:4864:20::a29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CBD6E10E289;
- Mon, 12 Dec 2022 19:26:01 +0000 (UTC)
-Received: by mail-vk1-xa29.google.com with SMTP id f24so435460vkl.9;
- Mon, 12 Dec 2022 11:26:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=A+IspbwnuJ8ErED8Om/cwo+w+s/c5DgTSdlOlBKX81g=;
- b=bcH85szMTuF+R9+qTKzsygNY0IVyHHWPk17xO0SUgXNcXD/XRK4cdx39nnnSpkZzqP
- zqPgbWeRCmSR0EYyYOjDAGmcftL9PL93yhIBoVJDn91hJKrCNp8SUv5LhsDDy/6NnT/K
- kmegf8JHQv2aojVBIfjc8V6Obog7RazuiB6mJorGM3fwyt85FWp4PfQN/fyenZYcR2j1
- e8ISWXvy1K3nhgK3lvt+hQfiFp3rrj0QgkHisf5dtwLNo5NcttRkHu3HHMiwI66MVBU5
- RCzjm5CDLSvBXtoM3eH9wjDDiG9G7VKN0jrRnY+T8nKcnyTfVEGy/kxRngIO4QKYOEPE
- tCpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=A+IspbwnuJ8ErED8Om/cwo+w+s/c5DgTSdlOlBKX81g=;
- b=cog/FRVNyNzrEtUw93LcsdaLMKndL9rPxfoLCMY6qAnLComsmDDl2kiZzQtJsGhOPX
- l6g0gufwK0xQRZ03kDPEf7saxgI5VPnJ2ktqSKjcQ6DzdZvWEke8yQGV1EKoHVQBQa6m
- QwFrt5waZArzNndROFNPwN/W506Ls6wbxf2eOUbVa4nnBCzHwFxWiXKF+hgfiiHIWaVH
- uOvTmrboQ0MizQpyhikww7Sv95/ALQIoNCW/7vARS6KCZldGLuKZAvncXaqqBKBeFpKx
- cNgRkAeAjPiPd7c5bmkjMJJfEyxEbEmtIs49sJ/2mxA/NaRDsn5rUg66zKpKKL+pMfBI
- Lc2Q==
-X-Gm-Message-State: ANoB5plmTOSvuhMqfcWmU6mfTCOFc+oYCbgGwwz2+1nyl2Cr1mlOQnBB
- axUpXUJdC43XGCp+mGoiEjRxyxQFnEO9U/LeOA0=
-X-Google-Smtp-Source: AA0mqf6xPjsBnfureXx4g2aRO1Y5Gwq2qDk8nBiV8FT/a1vDUTO1pd9UvPLwAW/YokMlFuF+0oK6MxVZ8v7LcAEdaV8=
-X-Received: by 2002:a1f:bfc7:0:b0:3bd:e0b8:e350 with SMTP id
- p190-20020a1fbfc7000000b003bde0b8e350mr6611968vkf.25.1670873160767; Mon, 12
- Dec 2022 11:26:00 -0800 (PST)
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 39A4B10E036;
+ Mon, 26 Dec 2022 15:51:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-Id:
+ Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=rma/6l23MS9C4FR5JDIPAjsfEzUFpsYwj7pYGeckqyo=; b=N5x3iBtzXoyvQoAR35OI3Lak1V
+ g1KpUISJgC/cu2CU0L4i4Bplx4TDUC4iUN6Nox34Ql+sdCnZTVENxHDR0/r/kx73mrD190tdSCeRD
+ jsF7/CA4saUhR1oaHHYntVBKLDSpp6SDMY/9c5HttH+DhKaSSegI2FeemZHGRbmQssreMfzuLiDxV
+ TTB2BIkkts0BOupsJuTeMWXyFIeNf+04E59YlDZNEro9fooelnmwBfIxiCVT5HK2+L2zKKRyH85X1
+ DOssx2aN4IyDazepUffDc23GhGVsFPSR0qtDHjFsnNksmRJS7Kb+IdHLsT8NYL9wNt4O3hhKCnlus
+ 0CBOJ3Sg==;
+Received: from [187.36.234.139] (helo=bowie..)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1p9plB-00AXBr-0X; Mon, 26 Dec 2022 16:51:29 +0100
+From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
+To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 0/9] Convert drivers to the new debugfs device-centered
+ functions
+Date: Mon, 26 Dec 2022 12:50:20 -0300
+Message-Id: <20221226155029.244355-1-mcanal@igalia.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-References: <20221212061401.766122-1-tegongkang@gmail.com>
-In-Reply-To: <20221212061401.766122-1-tegongkang@gmail.com>
-From: Kang Minchul <tegongkang@gmail.com>
-Date: Tue, 13 Dec 2022 04:25:49 +0900
-Message-ID: <CA+uqrQBQ2R_5b3BWTa253=HabCxp3qord9h0GpXWHfhKcQa8zQ@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/etnaviv: Remove redundant dev_err()
-To: Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>, 
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Sat, 31 Dec 2022 19:48:05 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,52 +52,59 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
+ Tomi Valkeinen <tomba@kernel.org>, Emma Anholt <emma@anholt.net>,
+ Alexey Brodkin <abrodkin@synopsys.com>, Chia-I Wu <olvaffe@gmail.com>,
+ =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
+ Liviu Dudau <liviu.dudau@arm.com>, etnaviv@lists.freedesktop.org,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Melissa Wen <mwen@igalia.com>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>, noralf@tronnes.org,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ David Airlie <airlied@redhat.com>, Brian Starkey <brian.starkey@arm.com>,
+ Lucas Stach <l.stach@pengutronix.de>
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-2022=EB=85=84 12=EC=9B=94 12=EC=9D=BC (=EC=9B=94) =EC=98=A4=ED=9B=84 3:14, =
-Kang Minchul <tegongkang@gmail.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
->
-> Function dev_err() is redundant because platform_get_irq()
-> already prints an error.
->
-> Signed-off-by: Kang Minchul <tegongkang@gmail.com>
-> ---
-> Changes in v2:
->   - Removed unnecessary braces.
->
->  drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etna=
-viv/etnaviv_gpu.c
-> index a31eeff2b297..6dbe0c45b695 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> @@ -1770,10 +1770,8 @@ static int etnaviv_gpu_platform_probe(struct platf=
-orm_device *pdev)
->
->         /* Get Interrupt: */
->         gpu->irq =3D platform_get_irq(pdev, 0);
-> -       if (gpu->irq < 0) {
-> -               dev_err(dev, "failed to get irq: %d\n", gpu->irq);
-> +       if (gpu->irq < 0)
->                 return gpu->irq;
-> -       }
->
->         err =3D devm_request_irq(&pdev->dev, gpu->irq, irq_handler, 0,
->                                dev_name(gpu->dev), gpu);
-> --
-> 2.34.1
->
+The commit 1c9cacbea880 ("drm/debugfs: create device-centered debugfs functions")
+introduced new device-centered debugfs functions, which center the debugfs files
+management on the drm_device instead of drm_minor. Therefore, this patchset
+converts 8 drivers to this new debugfs device-centered structure as it was already
+performed on the vc4 (f2ede40e46e8), v3d (c0dda238e264), and vkms (03d2673bb757)
+drivers.
 
-I guess problem dealt with by this patch have already been resolved in the =
-past.
-I think I worked on the wrong branch.
+Best Regards,
+- Maíra Canal
 
-Please ignore this patch.
-Sorry for your inconvenience.
+Maíra Canal (9):
+  drm/etnaviv: use new debugfs device-centered functions
+  drm/gud: use new debugfs device-centered functions
+  drm/arm/hdlcd: use new debugfs device-centered functions
+  drm/pl111: use new debugfs device-centered functions
+  drm/arc: use new debugfs device-centered functions
+  drm/virtio: use new debugfs device-centered functions
+  drm/omap: use new debugfs device-centered functions
+  drm/qxl: remove unused debugfs structure
+  drm/qxl: use new debugfs device-centered functions
 
-Regards,
-Kang Minchul
+ drivers/gpu/drm/arm/hdlcd_drv.c          | 24 +++++-------
+ drivers/gpu/drm/etnaviv/etnaviv_drv.c    | 29 ++++++---------
+ drivers/gpu/drm/gud/gud_drv.c            | 17 ++-------
+ drivers/gpu/drm/omapdrm/omap_debugfs.c   | 29 +++++----------
+ drivers/gpu/drm/omapdrm/omap_drv.c       |  7 ++--
+ drivers/gpu/drm/omapdrm/omap_drv.h       |  2 +-
+ drivers/gpu/drm/pl111/pl111_debugfs.c    | 15 ++------
+ drivers/gpu/drm/pl111/pl111_drm.h        |  2 +-
+ drivers/gpu/drm/pl111/pl111_drv.c        |  6 +--
+ drivers/gpu/drm/qxl/qxl_debugfs.c        | 47 ++++--------------------
+ drivers/gpu/drm/qxl/qxl_drv.c            |  5 +--
+ drivers/gpu/drm/qxl/qxl_drv.h            | 22 +----------
+ drivers/gpu/drm/tiny/arcpgu.c            | 22 +++--------
+ drivers/gpu/drm/virtio/virtgpu_debugfs.c | 17 ++++-----
+ drivers/gpu/drm/virtio/virtgpu_drv.c     |  5 +--
+ drivers/gpu/drm/virtio/virtgpu_drv.h     |  2 +-
+ 16 files changed, 74 insertions(+), 177 deletions(-)
+
+-- 
+2.38.1
+
