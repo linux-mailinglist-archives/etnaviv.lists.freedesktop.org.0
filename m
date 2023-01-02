@@ -2,36 +2,65 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A688265C11C
-	for <lists+etnaviv@lfdr.de>; Tue,  3 Jan 2023 14:49:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B95E265C32B
+	for <lists+etnaviv@lfdr.de>; Tue,  3 Jan 2023 16:40:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 345A710E1F3;
-	Tue,  3 Jan 2023 13:49:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C7FC10E1FE;
+	Tue,  3 Jan 2023 15:40:26 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 887F210E1F3
- for <etnaviv@lists.freedesktop.org>; Tue,  3 Jan 2023 13:49:04 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B5158152B
- for <etnaviv@lists.freedesktop.org>; Tue,  3 Jan 2023 05:49:45 -0800 (PST)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
- [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id CF2773F587
- for <etnaviv@lists.freedesktop.org>; Tue,  3 Jan 2023 05:49:03 -0800 (PST)
-Date: Tue, 3 Jan 2023 13:48:54 +0000
-From: Liviu Dudau <liviu.dudau@arm.com>
-To: =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>
-Subject: Re: [PATCH 3/9] drm/arm/hdlcd: use new debugfs device-centered
- functions
-Message-ID: <Y7QyRlrZ2hwnZ+aU@e110455-lin.cambridge.arm.com>
-References: <20221226155029.244355-1-mcanal@igalia.com>
- <20221226155029.244355-4-mcanal@igalia.com>
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
+ [IPv6:2a00:1450:4864:20::42e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 98C7E10E2FA
+ for <etnaviv@lists.freedesktop.org>; Mon,  2 Jan 2023 10:30:08 +0000 (UTC)
+Received: by mail-wr1-x42e.google.com with SMTP id bs20so23833587wrb.3
+ for <etnaviv@lists.freedesktop.org>; Mon, 02 Jan 2023 02:30:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=o3pnp00fAFbCsjrwHeYydTcNOrlFzBbyWXdERp2QJas=;
+ b=nDp7cO36WKjes1Izcci1OZT/KlGLELLQ9Al9dmcUPZK1X1kRSyE+4XNsVd+fPNdoo6
+ Q2753XPoSR3z6VUXYvNp1a0u5NLVEQayrD4YTdAtQVE3iT9+VXEqV4/OUY5s515JHQlp
+ IpFIZLQ4VSKcorsvXHH+dTvXyOHYHSRpzXwkuvZPpL071MfrczEg+55sFkN8o59Ico3J
+ PAfoWUI60jYkusOv0KBtsrok/CgbzkUQ9zTXcYXjrfEilpy8+aqkc4fMfrBE237c9DVb
+ g5rieZWGpAk3GUNI7momneQNCf54Vq67nrXds/J4B1QFHqd1b3wI2mSYUKEHAdfJGXlZ
+ 8JwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=o3pnp00fAFbCsjrwHeYydTcNOrlFzBbyWXdERp2QJas=;
+ b=AHwDYIjhww2Jfi07s5RWFZvmE9xqayUDT8uD+NzfF4Lh4Q43MReaXS2Gt6eMnqzDQO
+ v6wTQEiXVEzzi9EZYsS2sVi4hzbj87ja053hjpAxlX40oRfxghzE3tTlMkwmCOJMTpkE
+ K5H6g1abM23QTcQ5wYQTGPDmiGdcKEWsi2xsxIbbuCyeb53l9HXp4jDUSxA7VKweX2ha
+ VOTd+qZKVqSOyVQ7oQOSZvI6bg0qvXWPB8bmmBdAMaLzU9pXQC75WB3wd9ygyx8cOodc
+ MMN6rStEAIvYzjNQEr55uKSeIg88h9dNXxyEDWTNhPCX4N0NTlmJ/bIjBsKyEYsemrjt
+ Va0w==
+X-Gm-Message-State: AFqh2kpUh/jWoFAPMkJonuuqwOFfo2+seVyCvTOt0oS+5NfzIIhUYj3U
+ PVqcNPZjLReyAwNuY0uS3kzqvQ==
+X-Google-Smtp-Source: AMrXdXu3JhHyb5jnLxTpAVovV90esQPMUhxrIbYN2ov3dmss4CzYWAETVnJ3KJrM+Cv2iPnI6yfXUA==
+X-Received: by 2002:a5d:624d:0:b0:242:4d70:7882 with SMTP id
+ m13-20020a5d624d000000b002424d707882mr24814292wrv.15.1672655407012; 
+ Mon, 02 Jan 2023 02:30:07 -0800 (PST)
+Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:8261:5fff:fe11:bdda])
+ by smtp.gmail.com with ESMTPSA id
+ e10-20020a5d594a000000b0028663fc8f4csm15263318wri.30.2023.01.02.02.30.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 02 Jan 2023 02:30:06 -0800 (PST)
+From: Neil Armstrong <neil.armstrong@linaro.org>
+To: Tomeu Vizoso <tomeu.vizoso@collabora.com>
+In-Reply-To: <20221202115223.39051-1-tomeu.vizoso@collabora.com>
+References: <20221202115223.39051-1-tomeu.vizoso@collabora.com>
+Subject: Re: (subset) [PATCH v6 0/8] Support for the NPU in Vim3
+Message-Id: <167265540588.368935.8530142567394825177.b4-ty@linaro.org>
+Date: Mon, 02 Jan 2023 11:30:05 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221226155029.244355-4-mcanal@igalia.com>
+X-Mailer: b4 0.10.1
+X-Mailman-Approved-At: Tue, 03 Jan 2023 15:40:24 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,113 +72,65 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?utf-8?B?QW5kcsOp?= Almeida <andrealmeid@igalia.com>,
- Emma Anholt <emma@anholt.net>, Tomi Valkeinen <tomba@kernel.org>,
- Alexey Brodkin <abrodkin@synopsys.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
- Melissa Wen <mwen@igalia.com>, noralf@tronnes.org,
- Gerd Hoffmann <kraxel@redhat.com>, Daniel Vetter <daniel@ffwll.ch>,
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Kevin Hilman <khilman@baylibre.com>, italonicola@collabora.com,
+ "moderated list:DRM DRIVERS FOR VIVANTE GPU IP"
+ <etnaviv@lists.freedesktop.org>,
+ "open list:DRM DRIVERS FOR VIVANTE GPU IP" <dri-devel@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Rob Herring <robh+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
  Russell King <linux+etnaviv@armlinux.org.uk>,
- David Airlie <airlied@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- David Airlie <airlied@gmail.com>
+ "open list:ARM/Amlogic Meson SoC support" <linux-amlogic@lists.infradead.org>,
+ Lucas Stach <l.stach@pengutronix.de>, David Airlie <airlied@gmail.com>,
+ "moderated list:ARM/Amlogic Meson SoC support"
+ <linux-arm-kernel@lists.infradead.org>, Jerome Brunet <jbrunet@baylibre.com>
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-On Mon, Dec 26, 2022 at 12:50:23PM -0300, Maíra Canal wrote:
-> Replace the use of drm_debugfs_create_files() with the new
-> drm_debugfs_add_files() function, which center the debugfs files
-> management on the drm_device instead of drm_minor. Moreover, remove the
-> debugfs_init hook and add the debugfs files directly on hdlcd_drm_bind(),
-> before drm_dev_register().
-> 
-> Signed-off-by: Maíra Canal <mcanal@igalia.com>
+Hi,
 
-Acked-by: Liviu Dudau <liviu.dudau@arm.com>
-
-Best regards,
-Liviu
-
-> ---
->  drivers/gpu/drm/arm/hdlcd_drv.c | 24 +++++++++---------------
->  1 file changed, 9 insertions(+), 15 deletions(-)
+On Fri, 2 Dec 2022 12:52:12 +0100, Tomeu Vizoso wrote:
+> This series adds support for the Verisilicon VIPNano-QI NPU in the A311D
+> as in the VIM3 board.
 > 
-> diff --git a/drivers/gpu/drm/arm/hdlcd_drv.c b/drivers/gpu/drm/arm/hdlcd_drv.c
-> index 7043d1c9ed8f..e3507dd6f82a 100644
-> --- a/drivers/gpu/drm/arm/hdlcd_drv.c
-> +++ b/drivers/gpu/drm/arm/hdlcd_drv.c
-> @@ -195,8 +195,8 @@ static int hdlcd_setup_mode_config(struct drm_device *drm)
->  #ifdef CONFIG_DEBUG_FS
->  static int hdlcd_show_underrun_count(struct seq_file *m, void *arg)
->  {
-> -	struct drm_info_node *node = (struct drm_info_node *)m->private;
-> -	struct drm_device *drm = node->minor->dev;
-> +	struct drm_debugfs_entry *entry = m->private;
-> +	struct drm_device *drm = entry->dev;
->  	struct hdlcd_drm_private *hdlcd = drm_to_hdlcd_priv(drm);
->  
->  	seq_printf(m, "underrun : %d\n", atomic_read(&hdlcd->buffer_underrun_count));
-> @@ -208,8 +208,8 @@ static int hdlcd_show_underrun_count(struct seq_file *m, void *arg)
->  
->  static int hdlcd_show_pxlclock(struct seq_file *m, void *arg)
->  {
-> -	struct drm_info_node *node = (struct drm_info_node *)m->private;
-> -	struct drm_device *drm = node->minor->dev;
-> +	struct drm_debugfs_entry *entry = m->private;
-> +	struct drm_device *drm = entry->dev;
->  	struct hdlcd_drm_private *hdlcd = drm_to_hdlcd_priv(drm);
->  	unsigned long clkrate = clk_get_rate(hdlcd->clk);
->  	unsigned long mode_clock = hdlcd->crtc.mode.crtc_clock * 1000;
-> @@ -219,17 +219,10 @@ static int hdlcd_show_pxlclock(struct seq_file *m, void *arg)
->  	return 0;
->  }
->  
-> -static struct drm_info_list hdlcd_debugfs_list[] = {
-> +static struct drm_debugfs_info hdlcd_debugfs_list[] = {
->  	{ "interrupt_count", hdlcd_show_underrun_count, 0 },
->  	{ "clocks", hdlcd_show_pxlclock, 0 },
->  };
-> -
-> -static void hdlcd_debugfs_init(struct drm_minor *minor)
-> -{
-> -	drm_debugfs_create_files(hdlcd_debugfs_list,
-> -				 ARRAY_SIZE(hdlcd_debugfs_list),
-> -				 minor->debugfs_root, minor);
-> -}
->  #endif
->  
->  DEFINE_DRM_GEM_DMA_FOPS(fops);
-> @@ -237,9 +230,6 @@ DEFINE_DRM_GEM_DMA_FOPS(fops);
->  static const struct drm_driver hdlcd_driver = {
->  	.driver_features = DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
->  	DRM_GEM_DMA_DRIVER_OPS,
-> -#ifdef CONFIG_DEBUG_FS
-> -	.debugfs_init = hdlcd_debugfs_init,
-> -#endif
->  	.fops = &fops,
->  	.name = "hdlcd",
->  	.desc = "ARM HDLCD Controller DRM",
-> @@ -303,6 +293,10 @@ static int hdlcd_drm_bind(struct device *dev)
->  	drm_mode_config_reset(drm);
->  	drm_kms_helper_poll_init(drm);
->  
-> +#ifdef CONFIG_DEBUG_FS
-> +	drm_debugfs_add_files(drm, hdlcd_debugfs_list, ARRAY_SIZE(hdlcd_debugfs_list));
-> +#endif
-> +
->  	ret = drm_dev_register(drm, 0);
->  	if (ret)
->  		goto err_register;
-> -- 
-> 2.38.1
+> The IP is very closely based on previous Vivante GPUs, so the etnaviv
+> kernel driver works basically unchanged.
 > 
+> The userspace part of the driver is being reviewed at:
+> 
+> [...]
+
+Thanks, Applied to https://git.kernel.org/pub/scm/linux/kernel/git/amlogic/linux.git (v6.3/bindings)
+
+[1/8] dt-bindings: reset: meson-g12a: Add missing NNA reset
+      https://git.kernel.org/amlogic/c/a439267609f9d57b15991c55550956d7cc5404d8
+[2/8] dt-bindings: power: Add G12A NNA power domain
+      https://git.kernel.org/amlogic/c/340ea839b4306335bd627fe0dd6789df803aef58
+
+These changes has been applied on the intermediate git tree [1].
+
+The v6.3/bindings branch will then be sent via a formal Pull Request to the Linux SoC maintainers
+for inclusion in their intermediate git branches in order to be sent to Linus during
+the next merge window, or sooner if it's a set of fixes.
+
+In the cases of fixes, those will be merged in the current release candidate
+kernel and as soon they appear on the Linux master branch they will be
+backported to the previous Stable and Long-Stable kernels [2].
+
+The intermediate git branches are merged daily in the linux-next tree [3],
+people are encouraged testing these pre-release kernels and report issues on the
+relevant mailing-lists.
+
+If problems are discovered on those changes, please submit a signed-off-by revert
+patch followed by a corrective changeset.
+
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/amlogic/linux.git
+[2] https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git
+[3] https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
 
 -- 
-====================
-| I would like to |
-| fix the world,  |
-| but they're not |
-| giving me the   |
- \ source code!  /
-  ---------------
-    ¯\_(ツ)_/¯
+Neil
