@@ -2,46 +2,36 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E77E365A679
-	for <lists+etnaviv@lfdr.de>; Sat, 31 Dec 2022 20:48:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A688265C11C
+	for <lists+etnaviv@lfdr.de>; Tue,  3 Jan 2023 14:49:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D326510E4B6;
-	Sat, 31 Dec 2022 19:48:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 345A710E1F3;
+	Tue,  3 Jan 2023 13:49:06 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B1B2F10E244;
- Mon, 26 Dec 2022 15:53:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
- In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=5SmaVKwidGFUBxDk6HT8gctynP24Ms6u0M3QIUhvqTc=; b=sqM2assGCvM8FowEX27V/FRsFZ
- KR/pvQOO4i5bL7fpJQpBedM5FiJH8e/I2d5B4ivKliS8hVvNcVpIt83KzlcB8+eDUC5P7LVOUg98m
- lJlhwwQLjrZTbzrJnAyhXH8i72YfsW9AQkTsUI5iSlU6Lyp1EubBhF6PpmJk/emBeC7qTIxIR4EHr
- wvqIsPBxpVSfrstSkLYKoTzupcIktr6WT16TjF4t3iAVT08mdiP6l8pozd6wkkXyus8Gh3s39eXGA
- 8kuPvLHHC1PMcPy4c+aatITAvKEDrckyXqbPgUX0NIzzHndJ8o11sdEanNrIOTcthv6d1UtESJPMh
- bzxClPsQ==;
-Received: from [187.36.234.139] (helo=bowie..)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1p9pmi-00AXBr-FM; Mon, 26 Dec 2022 16:53:05 +0100
-From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
-To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 9/9] drm/qxl: use new debugfs device-centered functions
-Date: Mon, 26 Dec 2022 12:50:29 -0300
-Message-Id: <20221226155029.244355-10-mcanal@igalia.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221226155029.244355-1-mcanal@igalia.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 887F210E1F3
+ for <etnaviv@lists.freedesktop.org>; Tue,  3 Jan 2023 13:49:04 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B5158152B
+ for <etnaviv@lists.freedesktop.org>; Tue,  3 Jan 2023 05:49:45 -0800 (PST)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id CF2773F587
+ for <etnaviv@lists.freedesktop.org>; Tue,  3 Jan 2023 05:49:03 -0800 (PST)
+Date: Tue, 3 Jan 2023 13:48:54 +0000
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>
+Subject: Re: [PATCH 3/9] drm/arm/hdlcd: use new debugfs device-centered
+ functions
+Message-ID: <Y7QyRlrZ2hwnZ+aU@e110455-lin.cambridge.arm.com>
 References: <20221226155029.244355-1-mcanal@igalia.com>
+ <20221226155029.244355-4-mcanal@igalia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Sat, 31 Dec 2022 19:48:05 +0000
+In-Reply-To: <20221226155029.244355-4-mcanal@igalia.com>
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,121 +43,113 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
- Tomi Valkeinen <tomba@kernel.org>, Emma Anholt <emma@anholt.net>,
- Alexey Brodkin <abrodkin@synopsys.com>, Chia-I Wu <olvaffe@gmail.com>,
- =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
- Liviu Dudau <liviu.dudau@arm.com>, etnaviv@lists.freedesktop.org,
- Gurchetan Singh <gurchetansingh@chromium.org>, Melissa Wen <mwen@igalia.com>,
- Christian Gmeiner <christian.gmeiner@gmail.com>, noralf@tronnes.org,
- Gerd Hoffmann <kraxel@redhat.com>,
+Cc: =?utf-8?B?QW5kcsOp?= Almeida <andrealmeid@igalia.com>,
+ Emma Anholt <emma@anholt.net>, Tomi Valkeinen <tomba@kernel.org>,
+ Alexey Brodkin <abrodkin@synopsys.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
+ Melissa Wen <mwen@igalia.com>, noralf@tronnes.org,
+ Gerd Hoffmann <kraxel@redhat.com>, Daniel Vetter <daniel@ffwll.ch>,
  Russell King <linux+etnaviv@armlinux.org.uk>,
- David Airlie <airlied@redhat.com>, Brian Starkey <brian.starkey@arm.com>,
- Lucas Stach <l.stach@pengutronix.de>
+ David Airlie <airlied@redhat.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ David Airlie <airlied@gmail.com>
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Replace the use of drm_debugfs_create_files() with the new
-drm_debugfs_add_files() function, which center the debugfs files
-management on the drm_device instead of drm_minor. Moreover, remove the
-debugfs_init hook and add the debugfs files directly on qxl_pci_probe(),
-before drm_dev_register().
+On Mon, Dec 26, 2022 at 12:50:23PM -0300, Maíra Canal wrote:
+> Replace the use of drm_debugfs_create_files() with the new
+> drm_debugfs_add_files() function, which center the debugfs files
+> management on the drm_device instead of drm_minor. Moreover, remove the
+> debugfs_init hook and add the debugfs files directly on hdlcd_drm_bind(),
+> before drm_dev_register().
+> 
+> Signed-off-by: Maíra Canal <mcanal@igalia.com>
 
-Signed-off-by: Maíra Canal <mcanal@igalia.com>
----
- drivers/gpu/drm/qxl/qxl_debugfs.c | 18 ++++++++----------
- drivers/gpu/drm/qxl/qxl_drv.c     |  5 ++---
- drivers/gpu/drm/qxl/qxl_drv.h     |  2 +-
- 3 files changed, 11 insertions(+), 14 deletions(-)
+Acked-by: Liviu Dudau <liviu.dudau@arm.com>
 
-diff --git a/drivers/gpu/drm/qxl/qxl_debugfs.c b/drivers/gpu/drm/qxl/qxl_debugfs.c
-index bdfce1a8f006..fd18a7b193b3 100644
---- a/drivers/gpu/drm/qxl/qxl_debugfs.c
-+++ b/drivers/gpu/drm/qxl/qxl_debugfs.c
-@@ -38,8 +38,8 @@
- static int
- qxl_debugfs_irq_received(struct seq_file *m, void *data)
- {
--	struct drm_info_node *node = (struct drm_info_node *) m->private;
--	struct qxl_device *qdev = to_qxl(node->minor->dev);
-+	struct drm_debugfs_entry *entry = m->private;
-+	struct qxl_device *qdev = to_qxl(entry->dev);
- 
- 	seq_printf(m, "%d\n", atomic_read(&qdev->irq_received));
- 	seq_printf(m, "%d\n", atomic_read(&qdev->irq_received_display));
-@@ -52,8 +52,8 @@ qxl_debugfs_irq_received(struct seq_file *m, void *data)
- static int
- qxl_debugfs_buffers_info(struct seq_file *m, void *data)
- {
--	struct drm_info_node *node = (struct drm_info_node *) m->private;
--	struct qxl_device *qdev = to_qxl(node->minor->dev);
-+	struct drm_debugfs_entry *entry = m->private;
-+	struct qxl_device *qdev = to_qxl(entry->dev);
- 	struct qxl_bo *bo;
- 
- 	list_for_each_entry(bo, &qdev->gem.objects, list) {
-@@ -76,21 +76,19 @@ qxl_debugfs_buffers_info(struct seq_file *m, void *data)
- 	return 0;
- }
- 
--static struct drm_info_list qxl_debugfs_list[] = {
-+static struct drm_debugfs_info qxl_debugfs_list[] = {
- 	{ "irq_received", qxl_debugfs_irq_received, 0, NULL },
- 	{ "qxl_buffers", qxl_debugfs_buffers_info, 0, NULL },
- };
- #define QXL_DEBUGFS_ENTRIES ARRAY_SIZE(qxl_debugfs_list)
- #endif
- 
--void
--qxl_debugfs_init(struct drm_minor *minor)
-+void qxl_debugfs_init(struct drm_device *drm)
- {
- #if defined(CONFIG_DEBUG_FS)
--	struct qxl_device *dev = to_qxl(minor->dev);
-+	struct qxl_device *dev = to_qxl(drm);
- 
--	drm_debugfs_create_files(qxl_debugfs_list, QXL_DEBUGFS_ENTRIES,
--				 minor->debugfs_root, minor);
-+	drm_debugfs_add_files(drm, qxl_debugfs_list, QXL_DEBUGFS_ENTRIES);
- 
- 	qxl_ttm_debugfs_init(dev);
- #endif
-diff --git a/drivers/gpu/drm/qxl/qxl_drv.c b/drivers/gpu/drm/qxl/qxl_drv.c
-index a3b83f89e061..3ae2db78f671 100644
---- a/drivers/gpu/drm/qxl/qxl_drv.c
-+++ b/drivers/gpu/drm/qxl/qxl_drv.c
-@@ -116,6 +116,8 @@ qxl_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
- 	if (ret)
- 		goto unload;
- 
-+	qxl_debugfs_init(&qdev->ddev);
-+
- 	drm_kms_helper_poll_init(&qdev->ddev);
- 
- 	/* Complete initialization. */
-@@ -287,9 +289,6 @@ static struct drm_driver qxl_driver = {
- 
- 	.dumb_create = qxl_mode_dumb_create,
- 	.dumb_map_offset = drm_gem_ttm_dumb_map_offset,
--#if defined(CONFIG_DEBUG_FS)
--	.debugfs_init = qxl_debugfs_init,
--#endif
- 	.prime_handle_to_fd = drm_gem_prime_handle_to_fd,
- 	.prime_fd_to_handle = drm_gem_prime_fd_to_handle,
- 	.gem_prime_import_sg_table = qxl_gem_prime_import_sg_table,
-diff --git a/drivers/gpu/drm/qxl/qxl_drv.h b/drivers/gpu/drm/qxl/qxl_drv.h
-index 0868d5d2a839..cb84a3bebcec 100644
---- a/drivers/gpu/drm/qxl/qxl_drv.h
-+++ b/drivers/gpu/drm/qxl/qxl_drv.h
-@@ -397,7 +397,7 @@ int qxl_garbage_collect(struct qxl_device *qdev);
- 
- /* debugfs */
- 
--void qxl_debugfs_init(struct drm_minor *minor);
-+void qxl_debugfs_init(struct drm_device *drm);
- void qxl_ttm_debugfs_init(struct qxl_device *qdev);
- 
- /* qxl_prime.c */
+Best regards,
+Liviu
+
+> ---
+>  drivers/gpu/drm/arm/hdlcd_drv.c | 24 +++++++++---------------
+>  1 file changed, 9 insertions(+), 15 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/arm/hdlcd_drv.c b/drivers/gpu/drm/arm/hdlcd_drv.c
+> index 7043d1c9ed8f..e3507dd6f82a 100644
+> --- a/drivers/gpu/drm/arm/hdlcd_drv.c
+> +++ b/drivers/gpu/drm/arm/hdlcd_drv.c
+> @@ -195,8 +195,8 @@ static int hdlcd_setup_mode_config(struct drm_device *drm)
+>  #ifdef CONFIG_DEBUG_FS
+>  static int hdlcd_show_underrun_count(struct seq_file *m, void *arg)
+>  {
+> -	struct drm_info_node *node = (struct drm_info_node *)m->private;
+> -	struct drm_device *drm = node->minor->dev;
+> +	struct drm_debugfs_entry *entry = m->private;
+> +	struct drm_device *drm = entry->dev;
+>  	struct hdlcd_drm_private *hdlcd = drm_to_hdlcd_priv(drm);
+>  
+>  	seq_printf(m, "underrun : %d\n", atomic_read(&hdlcd->buffer_underrun_count));
+> @@ -208,8 +208,8 @@ static int hdlcd_show_underrun_count(struct seq_file *m, void *arg)
+>  
+>  static int hdlcd_show_pxlclock(struct seq_file *m, void *arg)
+>  {
+> -	struct drm_info_node *node = (struct drm_info_node *)m->private;
+> -	struct drm_device *drm = node->minor->dev;
+> +	struct drm_debugfs_entry *entry = m->private;
+> +	struct drm_device *drm = entry->dev;
+>  	struct hdlcd_drm_private *hdlcd = drm_to_hdlcd_priv(drm);
+>  	unsigned long clkrate = clk_get_rate(hdlcd->clk);
+>  	unsigned long mode_clock = hdlcd->crtc.mode.crtc_clock * 1000;
+> @@ -219,17 +219,10 @@ static int hdlcd_show_pxlclock(struct seq_file *m, void *arg)
+>  	return 0;
+>  }
+>  
+> -static struct drm_info_list hdlcd_debugfs_list[] = {
+> +static struct drm_debugfs_info hdlcd_debugfs_list[] = {
+>  	{ "interrupt_count", hdlcd_show_underrun_count, 0 },
+>  	{ "clocks", hdlcd_show_pxlclock, 0 },
+>  };
+> -
+> -static void hdlcd_debugfs_init(struct drm_minor *minor)
+> -{
+> -	drm_debugfs_create_files(hdlcd_debugfs_list,
+> -				 ARRAY_SIZE(hdlcd_debugfs_list),
+> -				 minor->debugfs_root, minor);
+> -}
+>  #endif
+>  
+>  DEFINE_DRM_GEM_DMA_FOPS(fops);
+> @@ -237,9 +230,6 @@ DEFINE_DRM_GEM_DMA_FOPS(fops);
+>  static const struct drm_driver hdlcd_driver = {
+>  	.driver_features = DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
+>  	DRM_GEM_DMA_DRIVER_OPS,
+> -#ifdef CONFIG_DEBUG_FS
+> -	.debugfs_init = hdlcd_debugfs_init,
+> -#endif
+>  	.fops = &fops,
+>  	.name = "hdlcd",
+>  	.desc = "ARM HDLCD Controller DRM",
+> @@ -303,6 +293,10 @@ static int hdlcd_drm_bind(struct device *dev)
+>  	drm_mode_config_reset(drm);
+>  	drm_kms_helper_poll_init(drm);
+>  
+> +#ifdef CONFIG_DEBUG_FS
+> +	drm_debugfs_add_files(drm, hdlcd_debugfs_list, ARRAY_SIZE(hdlcd_debugfs_list));
+> +#endif
+> +
+>  	ret = drm_dev_register(drm, 0);
+>  	if (ret)
+>  		goto err_register;
+> -- 
+> 2.38.1
+> 
+
 -- 
-2.38.1
-
+====================
+| I would like to |
+| fix the world,  |
+| but they're not |
+| giving me the   |
+ \ source code!  /
+  ---------------
+    ¯\_(ツ)_/¯
