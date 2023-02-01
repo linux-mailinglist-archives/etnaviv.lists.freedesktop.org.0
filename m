@@ -1,46 +1,47 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31060686A63
-	for <lists+etnaviv@lfdr.de>; Wed,  1 Feb 2023 16:32:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A0366686C0F
+	for <lists+etnaviv@lfdr.de>; Wed,  1 Feb 2023 17:50:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D9A2A10E40A;
-	Wed,  1 Feb 2023 15:32:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B3B310E424;
+	Wed,  1 Feb 2023 16:50:21 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 10B9F10E40A;
- Wed,  1 Feb 2023 15:32:22 +0000 (UTC)
-Received: from [192.168.1.27] (cst-prg-44-69.cust.vodafone.cz [46.135.44.69])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested) (Authenticated sender: tomeu)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 502D06602ED9;
- Wed,  1 Feb 2023 15:32:20 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1675265540;
- bh=79/7j1adKpBeC2ITLcm3XtfNIwahnDt+R8FVA7DKw/I=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=h6hcV99h2Zav127o+0aZg2/aWhgV1qaajBTYTZ3kF4udFE5WrlXuWjPJF4qdGlquR
- efswTswr2HmA6OaK7DDetrfgTgX81pB6wspfCrMR8FpjjF3ZhrjqbiQ17Dza+m19Rp
- a3+2ovsDv8gFQm7vH/tji5OrcDoz7Nod2laGEmmDEm9K6j1NHovgs6FOWlYs6fu8jS
- nuvREs+FetRwGHRkfUXxgYgqyodiNOuT6l5yvx/2+/lN11SqWPc73WRZRIKbLbV6zB
- aNWyKNZKpDB9fktHvu0AM4FZENKu4LnGJAkYRDMDk7EGzSLqMkYBtmxRIDxF/ASJJn
- efeFaVFR0+8iA==
-Message-ID: <c3f07d72-6fc7-fac7-0d74-3d687f91d3ec@collabora.com>
-Date: Wed, 1 Feb 2023 16:32:15 +0100
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 932D010E426
+ for <etnaviv@lists.freedesktop.org>; Wed,  1 Feb 2023 16:50:18 +0000 (UTC)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <pza@pengutronix.de>)
+ id 1pNGJM-0004qX-A6; Wed, 01 Feb 2023 17:50:16 +0100
+Received: from pza by ptx.hi.pengutronix.de with local (Exim 4.92)
+ (envelope-from <pza@pengutronix.de>)
+ id 1pNGJL-0007yn-Pg; Wed, 01 Feb 2023 17:50:15 +0100
+Date: Wed, 1 Feb 2023 17:50:15 +0100
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: Lucas Stach <l.stach@pengutronix.de>
+Subject: Re: [PATCH v3 2/3] drm/etnaviv: allocate unique ID per drm_file
+Message-ID: <20230201165015.GA16381@pengutronix.de>
+References: <20230201152609.1395525-1-l.stach@pengutronix.de>
+ <20230201152609.1395525-2-l.stach@pengutronix.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-Subject: Re: [PATCH] drm/etnaviv: show number of NN cores in GPU debugfs info
-Content-Language: en-US
-To: Lucas Stach <l.stach@pengutronix.de>, etnaviv@lists.freedesktop.org
-References: <20230201152747.1428179-1-l.stach@pengutronix.de>
-From: Tomeu Vizoso <tomeu.vizoso@collabora.com>
-In-Reply-To: <20230201152747.1428179-1-l.stach@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230201152609.1395525-2-l.stach@pengutronix.de>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: pza@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,41 +53,22 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: Christian Gmeiner <christian.gmeiner@gmail.com>,
- patchwork-lst@pengutronix.de, kernel@pengutronix.de,
- dri-devel@lists.freedesktop.org, Russell King <linux+etnaviv@armlinux.org.uk>
+Cc: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ patchwork-lst@pengutronix.de, Christian Gmeiner <christian.gmeiner@gmail.com>,
+ kernel@pengutronix.de, Russell King <linux+etnaviv@armlinux.org.uk>
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-On 2/1/23 16:27, Lucas Stach wrote:
-> For NPUs the number of NN cores is a interesting property, which is useful
-> to show in the debugfs information.
+On Wed, Feb 01, 2023 at 04:26:08PM +0100, Lucas Stach wrote:
+> Allows to easily track if several fd are pointing to the same
+> execution context due to being dup'ed.
 > 
 > Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
 > ---
->   drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 2 ++
->   1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> index 27c10584773d..de8c9894967c 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> @@ -961,6 +961,8 @@ int etnaviv_gpu_debugfs(struct etnaviv_gpu *gpu, struct seq_file *m)
->   			gpu->identity.vertex_cache_size);
->   	seq_printf(m, "\t shader_core_count: %d\n",
->   			gpu->identity.shader_core_count);
-> +	seq_printf(m, "\t nn_core_count: %d\n",
-> +			gpu->identity.nn_core_count);
->   	seq_printf(m, "\t pixel_pipes: %d\n",
->   			gpu->identity.pixel_pipes);
->   	seq_printf(m, "\t vertex_output_buffer_size: %d\n",
+> v3: use xarray to track the active contexts to avoid issues
+>     on rollover
 
-Hi Lucas,
+Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
 
-That looks good to me.
-
-Reviewed-by: Tomeu Vizoso <tomeu.vizoso@collabora.com>
-
-Cheers,
-
-Tomeu
+regards
+Philipp
