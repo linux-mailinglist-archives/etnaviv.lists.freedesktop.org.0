@@ -1,17 +1,17 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAB74698465
-	for <lists+etnaviv@lfdr.de>; Wed, 15 Feb 2023 20:22:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EE2669869B
+	for <lists+etnaviv@lfdr.de>; Wed, 15 Feb 2023 21:53:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D3BB10E092;
-	Wed, 15 Feb 2023 19:22:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E222B10E142;
+	Wed, 15 Feb 2023 20:53:37 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C54510E162;
- Wed, 15 Feb 2023 15:58:10 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E39B810E142;
+ Wed, 15 Feb 2023 20:53:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=MIME-Version:Content-Transfer-Encoding:Content-Type:Date:Cc:To:
@@ -19,31 +19,30 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
  In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=5kMmQ7eQcRUHs3Kq/pFvqrTP19hP+D8jOA/195A6v+U=; b=CN5JZavErT2GtiRNe7NS/9n4Sj
- EI6/3HoUEtsPZndThG/3XBasMLBnWH2HuTkuC6q9B4DFEOz2yNdd6fCk9pVzuZ2GROSUQe8AAzxTe
- jN1WUwzR1xrMjRtZVXDAq/Nkn6jgzapueLoPGa3fCFv59YOB/11DnkMX9HR4Sye5O+6gqJj+TYTec
- WV1PmnHeyINzjL0kPpfxaal2WzMbWjUSSTxeGJ2XcmkvnpGV5hAvr5XNkOdt6G5Jd/f/gfK54pt0Z
- qtZThkM54Iamz1MLWuxwW6BpbM8W6ba+Gcbj+ttD3W9QCOoX/STkAZW3Yz8b8besgscamYmFi7i/t
- 0I80XCjw==;
+ bh=DbZhMIqbxxxVLTui1okwUmu8iO/ZN5e4U1qMEUfbdtU=; b=ZvFsUU3+u3FgKVWAPWwQbxZW94
+ SdCoE/rVS2BNGSYETy8LJSh7krL6LwpBL+5EWl6D9zhaoiRA+tyDs62+2KF48egXWoDtDANTJtAcl
+ uI5bJ3SWVbIklJ1STLUDs3VaOJFcjoJnyrM70zpeI750DfP2oowqZlKCo/JY6ZRSXE8IzOitNlMDr
+ FQlODtgPes1Pb0zWn68FV+YUPhKNTC0rSC95YyKR0BMQ4nD2CDFKfVYqm9/CG7xRQlawzkgT0q7SD
+ Qp+xCPiFY6LMYm5B+HZWoV3kBWIBCtr96bPvyj85mIUGJ1Aq9ftXvzQkTE+O2d4azajeaTuN3EOmk
+ PkSMYvDQ==;
 Received: from 137.red-83-52-2.dynamicip.rima-tde.net ([83.52.2.137]
  helo=localhost.localdomain) by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1pSKAW-0038Cf-H3; Wed, 15 Feb 2023 16:58:04 +0100
-Message-ID: <ef4e39301a769ef83668074c341274e30db57f95.camel@igalia.com>
-Subject: 2023 X.Org Foundation Membership deadline for voting in the election
+ id 1pSOmQ-003Vjs-Sg; Wed, 15 Feb 2023 21:53:30 +0100
+Message-ID: <c1c2591a7f7c9bcb05b69b08da529ddb8fc8145c.camel@igalia.com>
+Subject: 2023 X.Org Board of Directors Elections Nomination period is NOW
 From: Ricardo Garcia <rgarcia@igalia.com>
 To: members@x.org, events@lists.x.org, xorg-devel@lists.freedesktop.org, 
  wayland-devel@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
  mesa-dev@lists.freedesktop.org, amd-gfx@lists.freedesktop.org, 
  etnaviv@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
- libre-soc-dev@lists.libre-soc.org
-Date: Wed, 15 Feb 2023 16:58:03 +0100
+ nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ libre-soc-dev <libre-soc-dev@lists.libre-soc.org>
+Date: Wed, 15 Feb 2023 21:53:30 +0100
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.46.3 (3.46.3-1.fc37) 
 MIME-Version: 1.0
-X-Mailman-Approved-At: Wed, 15 Feb 2023 19:22:26 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,16 +58,47 @@ Cc: board <board@foundation.x.org>
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-The 2023 X.Org Foundation elections are rapidly approaching. We will be
-forwarding the election schedule and nominating process to the
-membership shortly.
+We are seeking nominations for candidates for election to the X.Org
+Foundation Board of Directors. All X.Org Foundation members are eligible
+for election to the board.
 
-Please note that only current members can vote in the upcoming election,
-and that the deadline for new memberships or renewals to vote in the
-upcoming election is 26 March 2023 at 23:59 UTC.
+Nominations for the 2023 election are now open and will remain open
+until 23:59 UTC on 19 March 2023.
 
-If you are interested in joining the X.Org Foundation or in renewing
-your membership, please visit the membership system site at:
-https://members.x.org/
+The Board consists of directors elected from the membership. Each year,
+an election is held to bring the total number of directors to eight. The
+four members receiving the highest vote totals will serve as directors
+for two year terms.
 
-Ricardo Garcia, on behalf of the X.Org elections committee
+The directors who received two year terms starting in 2022 were Emma
+Anholt, Mark Filion, Alyssa Rosenzweig and Ricardo Garcia. They will
+continue to serve until their term ends in 2024. Current directors whose
+term expires in 2023 are Samuel Iglesias Gons=C3=A1lvez, Manasi D Navare,
+Lyude Paul and Daniel Vetter.
+
+A director is expected to participate in the fortnightly IRC meeting to
+discuss current business and to attend the annual meeting of the X.Org
+Foundation, which will be held at a location determined in advance by
+the Board of Directors.
+
+A member may nominate themselves or any other member they feel is
+qualified. Nominations should be sent to the Election Committee at
+elections at x.org.
+
+Nominees shall be required to be current members of the X.Org
+Foundation, and submit a personal statement of up to 200 words that will
+be provided to prospective voters. The collected statements, along with
+the statement of contribution to the X.Org Foundation in the member's
+account page on http://members.x.org, will be made available to all
+voters to help them make their voting decisions.
+
+Nominations, membership applications or renewals and completed personal
+statements must be received no later than 23:59 UTC on 19 March 2023.
+
+The slate of candidates will be published 26 March 2023 and candidate
+Q&A will begin then. The deadline for Xorg membership applications and
+renewals is 26 March 2023.
+
+Cheers,
+Ricardo Garcia, on behalf of the X.Org BoD
+
