@@ -2,36 +2,48 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B482B68F707
-	for <lists+etnaviv@lfdr.de>; Wed,  8 Feb 2023 19:36:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAB74698465
+	for <lists+etnaviv@lfdr.de>; Wed, 15 Feb 2023 20:22:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 642AD10E80F;
-	Wed,  8 Feb 2023 18:36:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D3BB10E092;
+	Wed, 15 Feb 2023 19:22:27 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 33EAB10E80F
- for <etnaviv@lists.freedesktop.org>; Wed,  8 Feb 2023 18:36:36 +0000 (UTC)
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
- helo=[IPv6:::1]) by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1pPpJ4-0000rv-2H; Wed, 08 Feb 2023 19:36:34 +0100
-Message-ID: <80ceb4eedf7d88e434deeb69607d5ce0a0759581.camel@pengutronix.de>
-Subject: [GIT PULL] etnaviv-next for 6.3
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Wed, 08 Feb 2023 19:36:33 +0100
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C54510E162;
+ Wed, 15 Feb 2023 15:58:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=MIME-Version:Content-Transfer-Encoding:Content-Type:Date:Cc:To:
+ From:Subject:Message-ID:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=5kMmQ7eQcRUHs3Kq/pFvqrTP19hP+D8jOA/195A6v+U=; b=CN5JZavErT2GtiRNe7NS/9n4Sj
+ EI6/3HoUEtsPZndThG/3XBasMLBnWH2HuTkuC6q9B4DFEOz2yNdd6fCk9pVzuZ2GROSUQe8AAzxTe
+ jN1WUwzR1xrMjRtZVXDAq/Nkn6jgzapueLoPGa3fCFv59YOB/11DnkMX9HR4Sye5O+6gqJj+TYTec
+ WV1PmnHeyINzjL0kPpfxaal2WzMbWjUSSTxeGJ2XcmkvnpGV5hAvr5XNkOdt6G5Jd/f/gfK54pt0Z
+ qtZThkM54Iamz1MLWuxwW6BpbM8W6ba+Gcbj+ttD3W9QCOoX/STkAZW3Yz8b8besgscamYmFi7i/t
+ 0I80XCjw==;
+Received: from 137.red-83-52-2.dynamicip.rima-tde.net ([83.52.2.137]
+ helo=localhost.localdomain) by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1pSKAW-0038Cf-H3; Wed, 15 Feb 2023 16:58:04 +0100
+Message-ID: <ef4e39301a769ef83668074c341274e30db57f95.camel@igalia.com>
+Subject: 2023 X.Org Foundation Membership deadline for voting in the election
+From: Ricardo Garcia <rgarcia@igalia.com>
+To: members@x.org, events@lists.x.org, xorg-devel@lists.freedesktop.org, 
+ wayland-devel@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ mesa-dev@lists.freedesktop.org, amd-gfx@lists.freedesktop.org, 
+ etnaviv@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
+ libre-soc-dev@lists.libre-soc.org
+Date: Wed, 15 Feb 2023 16:58:03 +0100
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.46.3 (3.46.3-1.fc37) 
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
+X-Mailman-Approved-At: Wed, 15 Feb 2023 19:22:26 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,73 +55,20 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
- kernel@pengutronix.de
+Cc: board <board@foundation.x.org>
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Hi Dave, hi Daniel,
+The 2023 X.Org Foundation elections are rapidly approaching. We will be
+forwarding the election schedule and nominating process to the
+membership shortly.
 
-please pull the following etnaviv changes for the next merge window.
+Please note that only current members can vote in the upcoming election,
+and that the deadline for new memberships or renewals to vote in the
+upcoming election is 26 March 2023 at 23:59 UTC.
 
-This time we've added support for reporting of GPU load via the common
-fdinfo format, as already supported by multiple other drivers. Improved
-diagnostic messages for MMU faults. And finally added experimental
-support for driving the VeriSilicon NPU cores, which are very close
-relatives to the GPU designs, so close in fact that they can run the
-same compute instruction set, but with a big NN-fabric/matrix/tensor
-execution array glued to the side.
+If you are interested in joining the X.Org Foundation or in renewing
+your membership, please visit the membership system site at:
+https://members.x.org/
 
-Regards,
-Lucas
-
-The following changes since commit 1b929c02afd37871d5afb9d498426f83432e71c2=
-:
-
-  Linux 6.2-rc1 (2022-12-25 13:41:39 -0800)
-
-are available in the Git repository at:
-
-  https://git.pengutronix.de/git/lst/linux etnaviv/next
-
-for you to fetch changes up to 4c22c61e429f004d84eba72d7195bccef33ea0ec:
-
-  drm/etnaviv: show number of NN cores in GPU debugfs info (2023-02-07 20:4=
-9:55 +0100)
-
-----------------------------------------------------------------
-Christian Gmeiner (1):
-      drm/etnaviv: print MMU exception cause
-
-Lucas Stach (7):
-      drm/etnaviv: update hardware headers from rnndb
-      drm/etnaviv: split fence lock
-      drm/etnaviv: convert user fence tracking to XArray
-      drm/scheduler: track GPU active time per entity
-      drm/etnaviv: allocate unique ID per drm_file
-      drm/etnaviv: export client GPU usage statistics via fdinfo
-      drm/etnaviv: show number of NN cores in GPU debugfs info
-
-Paul Cercueil (1):
-      drm/etnaviv: Remove #ifdef guards for PM related functions
-
-Tomeu Vizoso (3):
-      drm/etnaviv: Add nn_core_count to chip feature struct
-      drm/etnaviv: Warn when probing on NPUs
-      drm/etnaviv: add HWDB entry for VIPNano-QI.7120.0055
-
- drivers/gpu/drm/etnaviv/etnaviv_drv.c        | 54 ++++++++++++++++++++++++=
-++++-
- drivers/gpu/drm/etnaviv/etnaviv_drv.h        |  5 +++
- drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c |  9 ++---
- drivers/gpu/drm/etnaviv/etnaviv_gpu.c        | 66 +++++++++++++++++++++---=
------------
- drivers/gpu/drm/etnaviv/etnaviv_gpu.h        |  8 +++--
- drivers/gpu/drm/etnaviv/etnaviv_hwdb.c       | 36 +++++++++++++++++++
- drivers/gpu/drm/etnaviv/etnaviv_sched.c      | 18 +++++-----
- drivers/gpu/drm/etnaviv/state_hi.xml.h       | 86 ++++++++++++++++++++++++=
-+++++++++++++---------
- drivers/gpu/drm/scheduler/sched_main.c       |  6 ++++
- include/drm/gpu_scheduler.h                  |  7 ++++
- 10 files changed, 238 insertions(+), 57 deletions(-)
-
+Ricardo Garcia, on behalf of the X.Org elections committee
