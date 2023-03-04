@@ -1,60 +1,50 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B2206AA0BF
-	for <lists+etnaviv@lfdr.de>; Fri,  3 Mar 2023 21:58:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F6756B456B
+	for <lists+etnaviv@lfdr.de>; Fri, 10 Mar 2023 15:33:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 09C5210E757;
-	Fri,  3 Mar 2023 20:58:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 363DF10E8D5;
+	Fri, 10 Mar 2023 14:33:40 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-oa1-x2c.google.com (mail-oa1-x2c.google.com
- [IPv6:2001:4860:4864:20::2c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E4A310E753;
- Fri,  3 Mar 2023 20:58:43 +0000 (UTC)
-Received: by mail-oa1-x2c.google.com with SMTP id
- 586e51a60fabf-172afa7bee2so4439487fac.6; 
- Fri, 03 Mar 2023 12:58:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1677877122;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=T9Pyj/vm5rNlOjjV6b0BDKla8V0OkG8H114/eAFL1mY=;
- b=QQecMgzEyAPD0IkanEvZ1sfwcHrCM/T70MSHAnA+bsWkLjiBE6aqJFq5snIMZgRyHd
- JsFCsxhRu0fWLnmt23slKvp213K0gi/cZXrgmGCf25P5wGJKFZiTfsAOiMr+5Ql6yN+H
- DidUBftZAKRcqx4fhYQlt4uu8XXkv7F91gY+qjBnin5IY8liaYja+CUZQjr/WReR5sHk
- 5EbRVTfwUO0fEcaLzLk29V+/BMMGpo9/pkB1abIw4mZcS0ntpx7actZ6H+oKv8ZL5TDe
- jxWX5uMzT4OcO6xWYVAARZfU4mSNhvX6KItjvgj7OqxiVV1Dn/tjCKreZ3PY6apgKbb+
- /6Vw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677877122;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=T9Pyj/vm5rNlOjjV6b0BDKla8V0OkG8H114/eAFL1mY=;
- b=ccJp5KPYLid+QEUH2XqfdCWY+TT/JiTrhcLgQAFK2I6UXnJ5uM5e8OjSvcBYLjh8VY
- 9xqAUU/BBg1T1g5Kk00OE2YEQJNBu8rOeKQXDtWNLfg/jTI8/bxY45mvl5uVQvOw6nKN
- ZDv4tIHrVUjIesB4IkH8Z97QtR8mwkC8epUjhd6LfA5kwg2Qd3IW/eONkRqSCi58xgc3
- xEYzjEGp6c/5IrSRUkQEsCIBvmgQzN0D5MVS+gviVA/tqC+o/wjYVuS0uDpWAOEpL5fE
- bO/Iq3vWV0IidB4ZZIX56zwePMUZqX3NTue/tCP+nLPjRCjRUp5K9t/zUngdeD70eRC9
- 8e5A==
-X-Gm-Message-State: AO0yUKUxh/MKsIvFdrUTB9t50bnrxhTa7ZtjSYAGTBvtwbaTloxddYn/
- 6ornqayzx36/990oKdFilD6x19YwDRZG7NgQrbr84Eebzew=
-X-Google-Smtp-Source: AK7set+vyYgBINiehyL0i+7yg3YgTbb6+5Z2pWfDX8ZcLOBddCRvtvo4Kk20f7T0RHvn5fZBALM24XFERZG1DoetSCA=
-X-Received: by 2002:a05:6870:b7b3:b0:16f:375e:329d with SMTP id
- ed51-20020a056870b7b300b0016f375e329dmr1065104oab.4.1677877122556; Fri, 03
- Mar 2023 12:58:42 -0800 (PST)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CAD2010E2C7;
+ Sat,  4 Mar 2023 19:45:13 +0000 (UTC)
+Received: from [192.168.2.210] (109-252-117-89.nat.spd-mgts.ru
+ [109.252.117.89])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ (Authenticated sender: dmitry.osipenko)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 9EFB2660225B;
+ Sat,  4 Mar 2023 19:45:11 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1677959112;
+ bh=oNy76EzJeGgxK1TeAyTVp1ut3oUXg+wGkT9fvttRTTE=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=B0DMh0suit6szFIKFA28VMo7feyaARdf8lpnha4jTjEYf5AEGXvCKpWgQPosOBE5B
+ w/py0e6i8ORVM4PiPDL3q6WsbaRdkOwSwDiWcwQIRmHx5n1cQyDdE8JNiuJc9ORE1T
+ HENVeaxMeYpnaR5/4V39Kgs3fCkgJhxtK1DXYbw0DBJKDC5qzIH/CV/ToIqHbgNxw6
+ R0EH/ksLvQYTEMu+YwqgsXly1uUmXFpUD5HoHc7NGhceA8RDjL+7BNNIgAciew2Nl7
+ 4hHzQgbcQP4wBtvqwms9FfCImJx2iP9u1K1q0+UQ33QhF1mjG9EXr45C8W3samKMUa
+ DG3uzqT8JK//Q==
+Message-ID: <5206f15f-f214-c908-c088-60231d50cae2@collabora.com>
+Date: Sat, 4 Mar 2023 22:45:08 +0300
 MIME-Version: 1.0
-References: <20230228165552.760988-1-l.stach@pengutronix.de>
-In-Reply-To: <20230228165552.760988-1-l.stach@pengutronix.de>
-From: Christian Gmeiner <christian.gmeiner@gmail.com>
-Date: Fri, 3 Mar 2023 21:58:31 +0100
-Message-ID: <CAH9NwWfPr-axoa1iS-khG37qQoknnUMHOu5y6orgMQ_sh5JZfw@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
 Subject: Re: [PATCH] drm/etnaviv: fix reference leak when mmaping imported
  buffer
-To: Lucas Stach <l.stach@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Language: en-US
+To: Lucas Stach <l.stach@pengutronix.de>, etnaviv@lists.freedesktop.org
+References: <20230228165552.760988-1-l.stach@pengutronix.de>
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <20230228165552.760988-1-l.stach@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Mailman-Approved-At: Fri, 10 Mar 2023 14:33:38 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,55 +56,23 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@pengutronix.de, patchwork-lst@pengutronix.de,
- etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Russell King <linux+etnaviv@armlinux.org.uk>
+Cc: Russell King <linux+etnaviv@armlinux.org.uk>,
+ dri-devel@lists.freedesktop.org, kernel@pengutronix.de,
+ patchwork-lst@pengutronix.de
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
->
+On 2/28/23 19:55, Lucas Stach wrote:
 > drm_gem_prime_mmap() takes a reference on the GEM object, but before that
 > drm_gem_mmap_obj() already takes a reference, which will be leaked as only
 > one reference is dropped when the mapping is closed. Drop the extra
 > reference when dma_buf_mmap() succeeds.
->
+> 
 > Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
 
-Reviewed-by: Christian Gmeiner <christian.gmeiner@gmail.com>
-
-> ---
->  drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c | 10 +++++++++-
->  1 file changed, 9 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
-> index 7031db145a77..3524b5811682 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
-> @@ -91,7 +91,15 @@ static void *etnaviv_gem_prime_vmap_impl(struct etnaviv_gem_object *etnaviv_obj)
->  static int etnaviv_gem_prime_mmap_obj(struct etnaviv_gem_object *etnaviv_obj,
->                 struct vm_area_struct *vma)
->  {
-> -       return dma_buf_mmap(etnaviv_obj->base.dma_buf, vma, 0);
-> +       int ret;
-> +
-> +       ret = dma_buf_mmap(etnaviv_obj->base.dma_buf, vma, 0);
-> +       if (!ret) {
-> +               /* Drop the reference acquired by drm_gem_mmap_obj(). */
-> +               drm_gem_object_put(&etnaviv_obj->base);
-> +       }
-> +
-> +       return ret;
->  }
->
->  static const struct etnaviv_gem_ops etnaviv_gem_prime_ops = {
-> --
-> 2.30.2
->
-
+Fixes tag missing
 
 -- 
-greets
---
-Christian Gmeiner, MSc
+Best regards,
+Dmitry
 
-https://christian-gmeiner.info/privacypolicy
