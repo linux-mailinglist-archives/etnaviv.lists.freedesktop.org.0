@@ -2,49 +2,50 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F6756B456B
-	for <lists+etnaviv@lfdr.de>; Fri, 10 Mar 2023 15:33:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF4156B7BD4
+	for <lists+etnaviv@lfdr.de>; Mon, 13 Mar 2023 16:23:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 363DF10E8D5;
-	Fri, 10 Mar 2023 14:33:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7910D8953E;
+	Mon, 13 Mar 2023 15:23:03 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CAD2010E2C7;
- Sat,  4 Mar 2023 19:45:13 +0000 (UTC)
-Received: from [192.168.2.210] (109-252-117-89.nat.spd-mgts.ru
- [109.252.117.89])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 9EFB2660225B;
- Sat,  4 Mar 2023 19:45:11 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1677959112;
- bh=oNy76EzJeGgxK1TeAyTVp1ut3oUXg+wGkT9fvttRTTE=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=B0DMh0suit6szFIKFA28VMo7feyaARdf8lpnha4jTjEYf5AEGXvCKpWgQPosOBE5B
- w/py0e6i8ORVM4PiPDL3q6WsbaRdkOwSwDiWcwQIRmHx5n1cQyDdE8JNiuJc9ORE1T
- HENVeaxMeYpnaR5/4V39Kgs3fCkgJhxtK1DXYbw0DBJKDC5qzIH/CV/ToIqHbgNxw6
- R0EH/ksLvQYTEMu+YwqgsXly1uUmXFpUD5HoHc7NGhceA8RDjL+7BNNIgAciew2Nl7
- 4hHzQgbcQP4wBtvqwms9FfCImJx2iP9u1K1q0+UQ33QhF1mjG9EXr45C8W3samKMUa
- DG3uzqT8JK//Q==
-Message-ID: <5206f15f-f214-c908-c088-60231d50cae2@collabora.com>
-Date: Sat, 4 Mar 2023 22:45:08 +0300
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 98DB48953E;
+ Mon, 13 Mar 2023 15:23:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=MIME-Version:Content-Transfer-Encoding:Content-Type:References:
+ In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=k0fAwcSPZ5GevuplPrulQH/65v6RX1b/K0Kz3BFkfh8=; b=mQ1qFYrP1wZM6444rVsIYeYBWd
+ Stx17QzDLy3sG5NceGKFrtQCVU8YwUqp8tG34fO7PKTLrdTn4mA/X+HGyxsCgXy+Ycy/03vtmugri
+ luDOHctVSnHX5UMHLBOR9liNUbcZxC3SPy2RiqkhIzl2yCnk9TbPfJgL08USGuj7fAS32PH/PjHko
+ g7G8dUea+FAPnAAW+K4Gw8AIVJs5LyP4Aw+B82QyTv3g/4PbpwhViHt7sPnC0fQpJHzi6RJm5pxJc
+ ge9F7joP9y7twayuTGmRlMhzfiMHddx+pJOSAAB6d66FxGY3igB1Jjnqs5/N4N4cdvriu8NKXQ8fx
+ pUhMpieg==;
+Received: from 137.red-83-52-2.dynamicip.rima-tde.net ([83.52.2.137]
+ helo=localhost.localdomain) by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1pbk0l-007leG-BW; Mon, 13 Mar 2023 16:22:55 +0100
+Message-ID: <2b861d289edaab1c53c031f72de192fcddf85b13.camel@igalia.com>
+Subject: Re: 2023 X.Org Foundation Membership deadline for voting in the
+ election
+From: Ricardo Garcia <rgarcia@igalia.com>
+To: members@x.org, events@lists.x.org, xorg-devel@lists.freedesktop.org, 
+ wayland-devel@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ mesa-dev@lists.freedesktop.org, amd-gfx@lists.freedesktop.org, 
+ etnaviv@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
+ libre-soc-dev@lists.libre-soc.org
+Date: Mon, 13 Mar 2023 16:22:54 +0100
+In-Reply-To: <ef4e39301a769ef83668074c341274e30db57f95.camel@igalia.com>
+References: <ef4e39301a769ef83668074c341274e30db57f95.camel@igalia.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH] drm/etnaviv: fix reference leak when mmaping imported
- buffer
-Content-Language: en-US
-To: Lucas Stach <l.stach@pengutronix.de>, etnaviv@lists.freedesktop.org
-References: <20230228165552.760988-1-l.stach@pengutronix.de>
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <20230228165552.760988-1-l.stach@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Mailman-Approved-At: Fri, 10 Mar 2023 14:33:38 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,23 +57,27 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: Russell King <linux+etnaviv@armlinux.org.uk>,
- dri-devel@lists.freedesktop.org, kernel@pengutronix.de,
- patchwork-lst@pengutronix.de
+Cc: board <board@foundation.x.org>
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-On 2/28/23 19:55, Lucas Stach wrote:
-> drm_gem_prime_mmap() takes a reference on the GEM object, but before that
-> drm_gem_mmap_obj() already takes a reference, which will be leaked as only
-> one reference is dropped when the mapping is closed. Drop the extra
-> reference when dma_buf_mmap() succeeds.
-> 
-> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+This is a reminder that the deadline for new memberships and renewals
+finishes in a couple of weeks. Original email follows.
 
-Fixes tag missing
+Thanks for your attention.
 
--- 
-Best regards,
-Dmitry
+On Wed, 2023-02-15 at 16:58 +0100, Ricardo Garcia wrote:
+> The 2023 X.Org Foundation elections are rapidly approaching. We will be
+> forwarding the election schedule and nominating process to the
+> membership shortly.
+>=20
+> Please note that only current members can vote in the upcoming election,
+> and that the deadline for new memberships or renewals to vote in the
+> upcoming election is 26 March 2023 at 23:59 UTC.
+>=20
+> If you are interested in joining the X.Org Foundation or in renewing
+> your membership, please visit the membership system site at:
+> https://members.x.org/
+>=20
+> Ricardo Garcia, on behalf of the X.Org elections committee
 
