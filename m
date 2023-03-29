@@ -1,52 +1,43 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 090116C6232
-	for <lists+etnaviv@lfdr.de>; Thu, 23 Mar 2023 09:50:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C5A816CF4F3
+	for <lists+etnaviv@lfdr.de>; Wed, 29 Mar 2023 23:02:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB2F810E441;
-	Thu, 23 Mar 2023 08:50:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 89B9510EC7A;
+	Wed, 29 Mar 2023 21:02:05 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4825410E43D;
- Thu, 23 Mar 2023 08:50:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=MIME-Version:Content-Transfer-Encoding:Content-Type:References:
- In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=ubX+nnzIxzDny+5k+G0pJbfcXie/ybrhPkiV40AdBmw=; b=c+i7uj8z3jWy25uAUAR45qnaaT
- pF3tyH/ZjP0wTJjtmbOrXnGcW4sql3YaYj6MZSogbloXIZVITUnYxaEhkdkdZGfF44hUx6SPaE9a0
- xBQfiNtm13EsVbjmnrxvpKZ+GhK4HcE6JamresuAMIAPDpsNnMQfN/c2qbLJncaZW+HRMBbuEnUQn
- WlMCQ33hqkQvD8SOdim8Co2aWJXy8H4SUHJsokyAPRKKsuO/m5UFp9AoLoRdsC3NEs7XRMY+IVarW
- NHQUKY0C6P2v9a3OIKypXSqH242vPOXOEd29Ql/vyVbl5+O5iKbzPF1BxoBOL+V7KjlBNHfCp9yYW
- FqQ8q7Xg==;
-Received: from 137.red-83-52-2.dynamicip.rima-tde.net ([83.52.2.137]
- helo=localhost.localdomain) by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1pfGe1-003vRg-Vl; Thu, 23 Mar 2023 09:50:02 +0100
-Message-ID: <b32a52db030cc746ee082fa89078898a7d88ad28.camel@igalia.com>
-Subject: 2023 X.Org Board of Directors Elections timeline extended, request
- for nominations
-From: Ricardo Garcia <rgarcia@igalia.com>
-To: members@x.org, events@lists.x.org, xorg-devel@lists.freedesktop.org, 
- wayland-devel@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- mesa-dev@lists.freedesktop.org, amd-gfx@lists.freedesktop.org, 
- etnaviv@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- libre-soc-dev <libre-soc-dev@lists.libre-soc.org>
-Date: Thu, 23 Mar 2023 09:50:01 +0100
-In-Reply-To: <19f8b5328550abde46a316189c8cd746339819b0.camel@igalia.com>
-References: <c1c2591a7f7c9bcb05b69b08da529ddb8fc8145c.camel@igalia.com>
- <19f8b5328550abde46a316189c8cd746339819b0.camel@igalia.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
+Received: from 189.cn (ptr.189.cn [183.61.185.104])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 01FB510EC84
+ for <etnaviv@lists.freedesktop.org>; Wed, 29 Mar 2023 21:02:01 +0000 (UTC)
+HMM_SOURCE_IP: 10.64.8.43:36106.2084148567
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-114.242.206.180 (unknown [10.64.8.43])
+ by 189.cn (HERMES) with SMTP id 0E05D1002AA;
+ Thu, 30 Mar 2023 04:51:41 +0800 (CST)
+Received: from  ([114.242.206.180])
+ by gateway-151646-dep-7b48884fd-tj646 with ESMTP id
+ f17e6a1ddc374f8faad910570955c89e for l.stach@pengutronix.de; 
+ Thu, 30 Mar 2023 04:51:42 CST
+X-Transaction-ID: f17e6a1ddc374f8faad910570955c89e
+X-Real-From: 15330273260@189.cn
+X-Receive-IP: 114.242.206.180
+X-MEDUSA-Status: 0
+From: Sui Jingfeng <15330273260@189.cn>
+To: Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Li Yi <liyi@loongson.cn>
+Subject: [PATCH v3 0/6] drm/etnaviv: add pci device driver support
+Date: Thu, 30 Mar 2023 04:51:23 +0800
+Message-Id: <20230329205129.1513734-1-15330273260@189.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,56 +49,48 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: board <board@foundation.x.org>
+Cc: Sui Jingfeng <suijingfeng@loongson.cn>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-We are seeking nominations for candidates for election to the X.org
-Foundation Board of Directors. However, as we presently do not have
-enough nominations to start the election - the decision has been made to
-extend the timeline by 2 weeks. Note this is a fairly regular part of
-the elections process.
+From: Sui Jingfeng <suijingfeng@loongson.cn>
 
-The new deadline for nominations to the X.org Board of Directors is
-23:59 UTC on April 2nd, 2023.
+  There is a Vivante GC1000(v5037) in LS2K1000 and LS7A1000, the gpu is a
+  PCI device and it has 2D and 3D core in the same gpu device. Therefore,
+  this patch trying to add PCI device driver support on the great works
+  already done by etnaviv folks.
 
-The new deadline for membership application or renewals is April 9th,
-2023. Membership is required to vote on the elections.
+  LS7A1000 is a bridge chip for LS3A5000(4 core 2.5Ghz loongarch cpu) and
+  LS3A4000(4 core 1.8gHz Mips64r5 cpu), While LS2K1000 is just a slow SoC
+  (2 core 1.0Ghz mips64r2). Loongson CPU support cached coherent caching
+  mode, both the GPU and DC device snoop CPU cache by default firmware
+  configuration.
 
-The Board consists of directors elected from the membership. Each year,
-an election is held to bring the total number of directors to eight. The
-four members receiving the highest vote totals will serve as directors
-for two year terms.
+Sui Jingfeng (6):
+  drm/etnaviv: add a dedicate function to register irq handler for the
+    gpu
+  drm/etnaviv: add a dedicate function to get clock
+  drm/etnaviv: add dedicate functions to create and destroy platform
+    device
+  drm/etnaviv: add helpers for private data construction and destruction
+  drm/etnaviv: expand driver support for the pci devices
+  drm/etnaviv: allow usperspace create cached coherent bo
 
-The directors who received two year terms starting in 2022 were Emma
-Anholt, Mark Filion, Alyssa Rosenzweig and Ricardo Garcia. They will
-continue to serve until their term ends in 2024. Current directors whose
-term expires in 2023 are Samuel Iglesias Gons=C3=A1lvez, Manasi D Navare,
-Lyude Paul and Daniel Vetter.
+ drivers/gpu/drm/etnaviv/Makefile            |   1 +
+ drivers/gpu/drm/etnaviv/etnaviv_drv.c       | 183 +++++++++++++------
+ drivers/gpu/drm/etnaviv/etnaviv_drv.h       |   7 +
+ drivers/gpu/drm/etnaviv/etnaviv_gem.c       |  22 ++-
+ drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c |   9 +-
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c       | 185 ++++++++++++++------
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.h       |  13 ++
+ drivers/gpu/drm/etnaviv/etnaviv_pci_drv.c   |  88 ++++++++++
+ drivers/gpu/drm/etnaviv/etnaviv_pci_drv.h   |  10 ++
+ include/uapi/drm/etnaviv_drm.h              |  11 +-
+ 10 files changed, 415 insertions(+), 114 deletions(-)
+ create mode 100644 drivers/gpu/drm/etnaviv/etnaviv_pci_drv.c
+ create mode 100644 drivers/gpu/drm/etnaviv/etnaviv_pci_drv.h
 
-A director is expected to participate in the fortnightly IRC meeting to
-discuss current business and to attend the annual meeting of the X.Org
-Foundation, which will be held at a location determined in advance by
-the Board of Directors.
-
-A member may nominate themselves or any other member they feel is
-qualified. Nominations should be sent to the Election Committee at
-elections@x.org.
-
-Nominees shall be required to be current members of the X.Org
-Foundation, and submit a personal statement of up to 200 words that will
-be provided to prospective voters. The collected statements, along with
-the statement of contribution to the X.Org Foundation in the member's
-account page on http://members.x.org, will be made available to all
-voters to help them make their voting decisions.
-
-Nominations, membership applications or renewals and completed personal
-statements must be received no later than 23:59 UTC on April 2nd, 2023.
-
-The slate of candidates will be published April 10th 2023 and candidate
-Q&A will begin then. The deadline for Xorg membership applications and
-renewals is April 9th, 2023.
-
-Cheers,
-Ricardo Garcia, on behalf of the X.Org BoD
+-- 
+2.25.1
 
