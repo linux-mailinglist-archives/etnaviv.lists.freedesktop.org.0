@@ -1,45 +1,57 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41B606CF4E4
-	for <lists+etnaviv@lfdr.de>; Wed, 29 Mar 2023 22:58:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A64876CF7EF
+	for <lists+etnaviv@lfdr.de>; Thu, 30 Mar 2023 02:08:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 06F2410EC70;
-	Wed, 29 Mar 2023 20:58:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C5D1210EC86;
+	Thu, 30 Mar 2023 00:08:23 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from 189.cn (ptr.189.cn [183.61.185.104])
- by gabe.freedesktop.org (Postfix) with ESMTP id 3A8E510EC72
- for <etnaviv@lists.freedesktop.org>; Wed, 29 Mar 2023 20:58:02 +0000 (UTC)
-HMM_SOURCE_IP: 10.64.8.43:36106.2084148567
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-114.242.206.180 (unknown [10.64.8.43])
- by 189.cn (HERMES) with SMTP id 29AA2100304;
- Thu, 30 Mar 2023 04:51:45 +0800 (CST)
-Received: from  ([114.242.206.180])
- by gateway-151646-dep-7b48884fd-tj646 with ESMTP id
- 1f901d09156e45989b64af738c892223 for l.stach@pengutronix.de; 
- Thu, 30 Mar 2023 04:51:46 CST
-X-Transaction-ID: 1f901d09156e45989b64af738c892223
-X-Real-From: 15330273260@189.cn
-X-Receive-IP: 114.242.206.180
-X-MEDUSA-Status: 0
-From: Sui Jingfeng <15330273260@189.cn>
-To: Lucas Stach <l.stach@pengutronix.de>,
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E779F10EC83;
+ Thu, 30 Mar 2023 00:08:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1680134901; x=1711670901;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=qReL1NQAo0s/ltkUWifMa5AxIawdGoSXs3VTdwExSJY=;
+ b=EPSWoWVIctwplJA+5WbuL2wAI5u1NFqNL9JswxhSKHn9laJC0BaaW/cx
+ R71qq3/aXkivq+sufSVqjlOxkRZSQCPXMxKqV+goXfSOh+s5Xx3i6g3Fu
+ VsWenbx4uoJNrPyaptXLljuN695I6NzOz2OtVBnJHa2DUZxHR0i0E1kYA
+ aCwvsjT9H7H4ttu3AD5f0913diznnraCJTFwUu/cizIdFaB85x61iJCOO
+ sv7U/wM2S+8cPNoedi7ZQBGMeS9W2X5VTd1eUEbC1KlJ04ojY0ERVets/
+ I0Dn7sXjw00htkU5ROur3r8ygymgyTtc27vR4UpY9TVL+X+LXIl4tZ++T A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="341048613"
+X-IronPort-AV: E=Sophos;i="5.98,301,1673942400"; d="scan'208";a="341048613"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Mar 2023 17:08:20 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="753791960"
+X-IronPort-AV: E=Sophos;i="5.98,301,1673942400"; d="scan'208";a="753791960"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+ by fmsmga004.fm.intel.com with ESMTP; 29 Mar 2023 17:08:17 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1phfpw-000K4W-2s;
+ Thu, 30 Mar 2023 00:08:16 +0000
+Date: Thu, 30 Mar 2023 08:07:32 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sui Jingfeng <15330273260@189.cn>, Lucas Stach <l.stach@pengutronix.de>,
  Russell King <linux+etnaviv@armlinux.org.uk>,
  Christian Gmeiner <christian.gmeiner@gmail.com>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Li Yi <liyi@loongson.cn>
-Subject: [PATCH v3 6/6] drm/etnaviv: allow usperspace create cached coherent bo
-Date: Thu, 30 Mar 2023 04:51:29 +0800
-Message-Id: <20230329205129.1513734-7-15330273260@189.cn>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230329205129.1513734-1-15330273260@189.cn>
-References: <20230329205129.1513734-1-15330273260@189.cn>
+Subject: Re: [PATCH v3 5/6] drm/etnaviv: expand driver support for the pci
+ devices
+Message-ID: <202303300759.E9lbKNTQ-lkp@intel.com>
+References: <20230329205129.1513734-6-15330273260@189.cn>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230329205129.1513734-6-15330273260@189.cn>
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,143 +63,68 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sui Jingfeng <suijingfeng@loongson.cn>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, Sui Jingfeng <suijingfeng@loongson.cn>,
+ linux-kernel@vger.kernel.org, etnaviv@lists.freedesktop.org,
+ oe-kbuild-all@lists.linux.dev
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-From: Sui Jingfeng <suijingfeng@loongson.cn>
+Hi Sui,
 
- As Lucas pointed, there should have some way to let mesa query the kernel
- about the host platform whether support cached coherent mode or not. This
- should touch the ioctl stuff I think, bad design may lead new mesa or
- libdrm crash old kernel. It need more instruction how to implement this,
- maybe another patch to do this. Making this driver works on loongson
- platform is far enough for me.
+Thank you for the patch! Yet something to improve:
 
-Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
----
- drivers/gpu/drm/etnaviv/etnaviv_drv.c       |  2 +-
- drivers/gpu/drm/etnaviv/etnaviv_gem.c       | 22 +++++++++++++++++++--
- drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c |  9 ++++++++-
- include/uapi/drm/etnaviv_drm.h              | 11 ++++++-----
- 4 files changed, 35 insertions(+), 9 deletions(-)
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on drm/drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.3-rc4 next-20230329]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-index dbca3bf7fba2..91aeedb837e9 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-@@ -276,7 +276,7 @@ static int etnaviv_ioctl_gem_new(struct drm_device *dev, void *data,
- 	struct drm_etnaviv_gem_new *args = data;
- 
- 	if (args->flags & ~(ETNA_BO_CACHED | ETNA_BO_WC | ETNA_BO_UNCACHED |
--			    ETNA_BO_FORCE_MMU))
-+			    ETNA_BO_CACHED_COHERENT | ETNA_BO_FORCE_MMU))
- 		return -EINVAL;
- 
- 	return etnaviv_gem_new_handle(dev, file, args->size,
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-index b5f73502e3dd..d8b559bd33d3 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-@@ -343,6 +343,7 @@ void *etnaviv_gem_vmap(struct drm_gem_object *obj)
- static void *etnaviv_gem_vmap_impl(struct etnaviv_gem_object *obj)
- {
- 	struct page **pages;
-+	pgprot_t prot;
- 
- 	lockdep_assert_held(&obj->lock);
- 
-@@ -350,8 +351,20 @@ static void *etnaviv_gem_vmap_impl(struct etnaviv_gem_object *obj)
- 	if (IS_ERR(pages))
- 		return NULL;
- 
--	return vmap(pages, obj->base.size >> PAGE_SHIFT,
--			VM_MAP, pgprot_writecombine(PAGE_KERNEL));
-+	switch (obj->flags) {
-+	case ETNA_BO_CACHED_COHERENT:
-+	case ETNA_BO_CACHED:
-+		prot = PAGE_KERNEL;
-+		break;
-+	case ETNA_BO_UNCACHED:
-+		prot = pgprot_noncached(PAGE_KERNEL);
-+		break;
-+	case ETNA_BO_WC:
-+	default:
-+		prot = pgprot_writecombine(PAGE_KERNEL);
-+	}
-+
-+	return vmap(pages, obj->base.size >> PAGE_SHIFT, VM_MAP, prot);
- }
- 
- static inline enum dma_data_direction etnaviv_op_to_dma_dir(u32 op)
-@@ -545,6 +558,7 @@ static const struct drm_gem_object_funcs etnaviv_gem_object_funcs = {
- static int etnaviv_gem_new_impl(struct drm_device *dev, u32 size, u32 flags,
- 	const struct etnaviv_gem_ops *ops, struct drm_gem_object **obj)
- {
-+	struct etnaviv_drm_private *priv = dev->dev_private;
- 	struct etnaviv_gem_object *etnaviv_obj;
- 	unsigned sz = sizeof(*etnaviv_obj);
- 	bool valid = true;
-@@ -555,6 +569,10 @@ static int etnaviv_gem_new_impl(struct drm_device *dev, u32 size, u32 flags,
- 	case ETNA_BO_CACHED:
- 	case ETNA_BO_WC:
- 		break;
-+	case ETNA_BO_CACHED_COHERENT:
-+		if (priv->has_cached_coherent)
-+			break;
-+		fallthrough;
- 	default:
- 		valid = false;
- 	}
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
-index 7031db145a77..9364874918e3 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
-@@ -104,11 +104,18 @@ static const struct etnaviv_gem_ops etnaviv_gem_prime_ops = {
- struct drm_gem_object *etnaviv_gem_prime_import_sg_table(struct drm_device *dev,
- 	struct dma_buf_attachment *attach, struct sg_table *sgt)
- {
-+	struct etnaviv_drm_private *priv = dev->dev_private;
- 	struct etnaviv_gem_object *etnaviv_obj;
- 	size_t size = PAGE_ALIGN(attach->dmabuf->size);
-+	u32 cache_flags;
- 	int ret, npages;
- 
--	ret = etnaviv_gem_new_private(dev, size, ETNA_BO_WC,
-+	if (priv->has_cached_coherent)
-+		cache_flags = ETNA_BO_CACHED_COHERENT;
-+	else
-+		cache_flags = ETNA_BO_WC;
-+
-+	ret = etnaviv_gem_new_private(dev, size, cache_flags,
- 				      &etnaviv_gem_prime_ops, &etnaviv_obj);
- 	if (ret < 0)
- 		return ERR_PTR(ret);
-diff --git a/include/uapi/drm/etnaviv_drm.h b/include/uapi/drm/etnaviv_drm.h
-index af024d90453d..474b0db286de 100644
---- a/include/uapi/drm/etnaviv_drm.h
-+++ b/include/uapi/drm/etnaviv_drm.h
-@@ -90,13 +90,14 @@ struct drm_etnaviv_param {
-  * GEM buffers:
-  */
- 
--#define ETNA_BO_CACHE_MASK   0x000f0000
-+#define ETNA_BO_CACHE_MASK              0x000f0000
- /* cache modes */
--#define ETNA_BO_CACHED       0x00010000
--#define ETNA_BO_WC           0x00020000
--#define ETNA_BO_UNCACHED     0x00040000
-+#define ETNA_BO_CACHED                  0x00010000
-+#define ETNA_BO_WC                      0x00020000
-+#define ETNA_BO_UNCACHED                0x00040000
-+#define ETNA_BO_CACHED_COHERENT         0x00080000
- /* map flags */
--#define ETNA_BO_FORCE_MMU    0x00100000
-+#define ETNA_BO_FORCE_MMU               0x00100000
- 
- struct drm_etnaviv_gem_new {
- 	__u64 size;           /* in */
+url:    https://github.com/intel-lab-lkp/linux/commits/Sui-Jingfeng/drm-etnaviv-add-a-dedicate-function-to-register-irq-handler-for-the-gpu/20230330-045519
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20230329205129.1513734-6-15330273260%40189.cn
+patch subject: [PATCH v3 5/6] drm/etnaviv: expand driver support for the pci devices
+config: arc-randconfig-r043-20230329 (https://download.01.org/0day-ci/archive/20230330/202303300759.E9lbKNTQ-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/cfc3554b9fbd8ca3f3f6731d45d811bfa7fdf777
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Sui-Jingfeng/drm-etnaviv-add-a-dedicate-function-to-register-irq-handler-for-the-gpu/20230330-045519
+        git checkout cfc3554b9fbd8ca3f3f6731d45d811bfa7fdf777
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash drivers/gpu/drm/etnaviv/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303300759.E9lbKNTQ-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/gpu/drm/etnaviv/etnaviv_pci_drv.c: In function 'etnaviv_gpu_pci_fini':
+>> drivers/gpu/drm/etnaviv/etnaviv_pci_drv.c:32:9: error: implicit declaration of function 'pci_clear_master'; did you mean 'pci_set_master'? [-Werror=implicit-function-declaration]
+      32 |         pci_clear_master(pdev);
+         |         ^~~~~~~~~~~~~~~~
+         |         pci_set_master
+   cc1: some warnings being treated as errors
+
+
+vim +32 drivers/gpu/drm/etnaviv/etnaviv_pci_drv.c
+
+    27	
+    28	static void etnaviv_gpu_pci_fini(struct etnaviv_gpu *gpu, bool component)
+    29	{
+    30		struct pci_dev *pdev = to_pci_dev(gpu->dev);
+    31	
+  > 32		pci_clear_master(pdev);
+    33	
+    34		dev_dbg(gpu->dev, "component is %s\n",
+    35			component ? "enabled" : "disabled");
+    36	}
+    37	
+
 -- 
-2.25.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
