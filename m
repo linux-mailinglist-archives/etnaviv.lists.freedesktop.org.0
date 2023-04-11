@@ -1,60 +1,64 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2523E6DE799
-	for <lists+etnaviv@lfdr.de>; Wed, 12 Apr 2023 00:57:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2ADFE6DE7AE
+	for <lists+etnaviv@lfdr.de>; Wed, 12 Apr 2023 00:58:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3563510E00C;
-	Tue, 11 Apr 2023 22:57:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7AC4A10E6BA;
+	Tue, 11 Apr 2023 22:58:02 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com
- [IPv6:2607:f8b0:4864:20::629])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F47E10E00C;
- Tue, 11 Apr 2023 22:57:42 +0000 (UTC)
-Received: by mail-pl1-x629.google.com with SMTP id la3so9234909plb.11;
- Tue, 11 Apr 2023 15:57:42 -0700 (PDT)
+Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com
+ [IPv6:2607:f8b0:4864:20::433])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BDBCC10E6B3;
+ Tue, 11 Apr 2023 22:57:58 +0000 (UTC)
+Received: by mail-pf1-x433.google.com with SMTP id
+ d2e1a72fcca58-634b28df952so849563b3a.2; 
+ Tue, 11 Apr 2023 15:57:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1681253861;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=nII3QwEycAnovqWQfjWZu+6YGPxxA4KRFjzFYjJblIQ=;
- b=ZAC+uXDhUxji26Ze6K9nnsc/qkqNfO/BNR+cWRfv0hEqJWuCAoTGY1LTVUBy4ONBTf
- d5T8GAeHi8KkynlfafbWzNvIw8wZ0uFodWqaCNwNH0rH6wqDKr5SayKPsyT7ylkMtLcC
- pZX//qJfNqMpJOx/Ig3MPM377p5o6FHoboEBNshuT+8sJ4dqh9QgsSyozzxjDaXnSTQv
- YF+g/WDxpn77tLAABR4mVDSCUoE4ya4pOQ7XFK62nfOirsVqbS5WMoPIH30lmx+68HyH
- YWchXD690VQkVdW5neJpK+KTaD9WQ6vzmlCtQISpk7MCZ4jnFlY4JIi4AKUB6bxeUnAD
- XuAw==
+ d=gmail.com; s=20221208; t=1681253878;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=61YxJCuswj9xA83srgCQq+LpDU/NdlnFqvUJ2L68W28=;
+ b=fzBJIokAts+RXDDaUaHyBMUmEWyCEpqt/q5M5m29gvFIePVvslMTBmgeaXIIOR2Ac0
+ IKD4FDATQxWMrcXusMnMszqhH+ZFJUzNugl40qN33DRbhpmqVksqUaVRyb3TKcBlO3ob
+ vrFgnK/cyair5Bpw1M73oVX/HdIR7gu5m1gkXUM+LiCHGrgYoRPJtmhIVyBoEJFdH50m
+ D/b1pQ5vvmQELw83iKDaFVd4MtyXH2KRsKoLKutQ+Sjsq7U2J3b1JT7ekBAiDG927SoX
+ y9LdBEnPpvAfHEYj+KBiACoG7fYWcLUqxCYeqUa/lu67QCaTVBR+SBy2ukeZ7NGv9x9f
+ pwEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681253861;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=nII3QwEycAnovqWQfjWZu+6YGPxxA4KRFjzFYjJblIQ=;
- b=v4bWjPalvB5VsAEQPwWspZZWziNcHZW1tDc/yKPeQ2aU/oV7RY6h5hQUDD5V6Igvft
- VY5sXLXLc7xMqoqJsojkqatLUGXqk1+BCCZiEkctbepBWzSSepcXQmL+p+Ut1piYSq/F
- L2Iynvq5fXzT/zrU72s1ezDl/Y3Mnqu3KzvAnQ7bz6U073maUU6y8M6/AnG9Y6ppHnZT
- Kc+qwfDkklHcsdempU1RxIMtzZD/q/trQg8SfGhdWPjadA6Cppc0qHzHmYOvBZnR8Ifx
- MjJOysS8HQJzCcE83Rl6PtaEtVjyeCOGRMmzMlUWncaAuTK8zIffcYpGvpB1LE0twRas
- Q0jQ==
-X-Gm-Message-State: AAQBX9cu1qnze7pgOTngDLaDBmNQoY//9Fei1VO5Gq+3r5oqYMVoA4sF
- UqzqGNjH0buDs1w453HXU3zsBtkFf+M=
-X-Google-Smtp-Source: AKy350b3kN3Vv7Rn1Xudjo2ScWIpD4ohPF62kNG35kDDgi5zG4c7QyA4AJOOZxCvGcg2yWirfkC2pA==
-X-Received: by 2002:a05:6a20:1b11:b0:db:4fae:ad15 with SMTP id
- ch17-20020a056a201b1100b000db4faead15mr15979423pzb.42.1681253861084; 
- Tue, 11 Apr 2023 15:57:41 -0700 (PDT)
+ d=1e100.net; s=20210112; t=1681253878;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=61YxJCuswj9xA83srgCQq+LpDU/NdlnFqvUJ2L68W28=;
+ b=TTQE7ptN5QJXZlwK7Kpa1iXb6GTVJctBID3yxC8vK+Nud5zicRg61rhR7Msw+h2j+p
+ GxXMqZQxU9vHJIhd9dE2HTm04yg/dZF2EcSFPcEC1SXnO4NU5sPDr/ayPpxh1VlopE7v
+ Kvi8cXRscTvf+rUSZDcKiXLZ3qkPYhGHnJHigxcebj74jRIil6t0ejUzUchHT7ZdZkB0
+ 06Fg7gL4Iy9GTw7xCeyZ66Zx15Yh1jMm4pMixa6aksmLZfZwGJt4/Y/y4Oh1ipKe05vO
+ /wMRqJfoC/FySwtfXBhh6igDRWg6EvnPIIbTo+A1NCm26D8e4iD+c4/txKuE3AaO3wiT
+ PWmQ==
+X-Gm-Message-State: AAQBX9fJNf87MX0bOUac0b3yXzNP4TwpeprP13cKzxsVnv9yTvm4Ya7D
+ epDF16HUvC9/4WKr9Li4+pWU+uiPjOU=
+X-Google-Smtp-Source: AKy350arI+CyPmWu3SVA1SipRhUdpjuMh/HgAyHw47YA/h5KMXGlVoWtJo9Ttap9MbvO0vk1YV7H6g==
+X-Received: by 2002:a62:3815:0:b0:63a:b1ab:79a5 with SMTP id
+ f21-20020a623815000000b0063ab1ab79a5mr5543199pfa.18.1681253877854; 
+ Tue, 11 Apr 2023 15:57:57 -0700 (PDT)
 Received: from localhost ([2a00:79e1:abd:4a00:61b:48ed:72ab:435b])
  by smtp.gmail.com with ESMTPSA id
- n4-20020aa78a44000000b006338e0a9728sm6657912pfa.109.2023.04.11.15.57.40
+ o12-20020a056a001bcc00b005d866d184b5sm10225457pfw.46.2023.04.11.15.57.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Apr 2023 15:57:40 -0700 (PDT)
+ Tue, 11 Apr 2023 15:57:57 -0700 (PDT)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 0/7] drm: fdinfo memory stats
-Date: Tue, 11 Apr 2023 15:56:05 -0700
-Message-Id: <20230411225725.2032862-1-robdclark@gmail.com>
+Subject: [PATCH v3 5/7] drm/etnaviv: Switch to fdinfo helper
+Date: Tue, 11 Apr 2023 15:56:10 -0700
+Message-Id: <20230411225725.2032862-6-robdclark@gmail.com>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230411225725.2032862-1-robdclark@gmail.com>
+References: <20230411225725.2032862-1-robdclark@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: etnaviv@lists.freedesktop.org
@@ -68,70 +72,77 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>,
- =?UTF-8?q?Michel=20D=C3=A4nzer?= <mdaenzer@redhat.com>,
- YiPeng Chai <YiPeng.Chai@amd.com>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Rob Clark <robdclark@chromium.org>, Guchun Chen <guchun.chen@amd.com>,
- Shashank Sharma <shashank.sharma@amd.com>,
- "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
- linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- "moderated list:DRM DRIVERS FOR VIVANTE GPU IP"
- <etnaviv@lists.freedesktop.org>,
- Christian Gmeiner <christian.gmeiner@gmail.com>, Evan Quan <evan.quan@amd.com>,
- Sean Paul <sean@poorly.run>, Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+Cc: Rob Clark <robdclark@chromium.org>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, linux-arm-msm@vger.kernel.org,
  Emil Velikov <emil.l.velikov@gmail.com>,
  Christopher Healy <healych@amazon.com>,
+ "moderated list:DRM DRIVERS FOR VIVANTE GPU IP"
+ <etnaviv@lists.freedesktop.org>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
  Boris Brezillon <boris.brezillon@collabora.com>,
- Alex Deucher <alexander.deucher@amd.com>, freedreno@lists.freedesktop.org,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Hawking Zhang <Hawking.Zhang@amd.com>
+ Daniel Vetter <daniel@ffwll.ch>, Russell King <linux+etnaviv@armlinux.org.uk>,
+ David Airlie <airlied@gmail.com>, freedreno@lists.freedesktop.org,
+ open list <linux-kernel@vger.kernel.org>, Lucas Stach <l.stach@pengutronix.de>
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
 From: Rob Clark <robdclark@chromium.org>
 
-Similar motivation to other similar recent attempt[1].  But with an
-attempt to have some shared code for this.  As well as documentation.
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+---
+ drivers/gpu/drm/etnaviv/etnaviv_drv.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
-It is probably a bit UMA-centric, I guess devices with VRAM might want
-some placement stats as well.  But this seems like a reasonable start.
-
-Basic gputop support: https://patchwork.freedesktop.org/series/116236/
-And already nvtop support: https://github.com/Syllo/nvtop/pull/204
-
-[1] https://patchwork.freedesktop.org/series/112397/
-
-Rob Clark (7):
-  drm: Add common fdinfo helper
-  drm/msm: Switch to fdinfo helper
-  drm/amdgpu: Switch to fdinfo helper
-  drm/i915: Switch to fdinfo helper
-  drm/etnaviv: Switch to fdinfo helper
-  drm: Add fdinfo memory stats
-  drm/msm: Add memory stats to fdinfo
-
- Documentation/gpu/drm-usage-stats.rst      |  21 ++++
- drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c    |   3 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c |  16 ++-
- drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.h |   2 +-
- drivers/gpu/drm/drm_file.c                 | 115 +++++++++++++++++++++
- drivers/gpu/drm/etnaviv/etnaviv_drv.c      |  10 +-
- drivers/gpu/drm/i915/i915_driver.c         |   3 +-
- drivers/gpu/drm/i915/i915_drm_client.c     |  18 +---
- drivers/gpu/drm/i915/i915_drm_client.h     |   2 +-
- drivers/gpu/drm/msm/msm_drv.c              |  11 +-
- drivers/gpu/drm/msm/msm_gem.c              |  15 +++
- drivers/gpu/drm/msm/msm_gpu.c              |   2 -
- include/drm/drm_drv.h                      |   7 ++
- include/drm/drm_file.h                     |   5 +
- include/drm/drm_gem.h                      |  19 ++++
- 15 files changed, 208 insertions(+), 41 deletions(-)
-
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+index 44ca803237a5..170000d6af94 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+@@ -476,9 +476,8 @@ static const struct drm_ioctl_desc etnaviv_ioctls[] = {
+ 	ETNA_IOCTL(PM_QUERY_SIG, pm_query_sig, DRM_RENDER_ALLOW),
+ };
+ 
+-static void etnaviv_fop_show_fdinfo(struct seq_file *m, struct file *f)
++static void etnaviv_fop_show_fdinfo(struct drm_printer *p, struct drm_file *file)
+ {
+-	struct drm_file *file = f->private_data;
+ 	struct drm_device *dev = file->minor->dev;
+ 	struct etnaviv_drm_private *priv = dev->dev_private;
+ 	struct etnaviv_file_private *ctx = file->driver_priv;
+@@ -487,8 +486,6 @@ static void etnaviv_fop_show_fdinfo(struct seq_file *m, struct file *f)
+ 	 * For a description of the text output format used here, see
+ 	 * Documentation/gpu/drm-usage-stats.rst.
+ 	 */
+-	seq_printf(m, "drm-driver:\t%s\n", dev->driver->name);
+-	seq_printf(m, "drm-client-id:\t%u\n", ctx->id);
+ 
+ 	for (int i = 0; i < ETNA_MAX_PIPES; i++) {
+ 		struct etnaviv_gpu *gpu = priv->gpu[i];
+@@ -507,7 +504,7 @@ static void etnaviv_fop_show_fdinfo(struct seq_file *m, struct file *f)
+ 			cur = snprintf(engine + cur, sizeof(engine) - cur,
+ 				       "%sNN", cur ? "/" : "");
+ 
+-		seq_printf(m, "drm-engine-%s:\t%llu ns\n", engine,
++		drm_printf(p, "drm-engine-%s:\t%llu ns\n", engine,
+ 			   ctx->sched_entity[i].elapsed_ns);
+ 	}
+ }
+@@ -515,7 +512,7 @@ static void etnaviv_fop_show_fdinfo(struct seq_file *m, struct file *f)
+ static const struct file_operations fops = {
+ 	.owner = THIS_MODULE,
+ 	DRM_GEM_FOPS,
+-	.show_fdinfo = etnaviv_fop_show_fdinfo,
++	.show_fdinfo = drm_fop_show_fdinfo,
+ };
+ 
+ static const struct drm_driver etnaviv_drm_driver = {
+@@ -529,6 +526,7 @@ static const struct drm_driver etnaviv_drm_driver = {
+ #ifdef CONFIG_DEBUG_FS
+ 	.debugfs_init       = etnaviv_debugfs_init,
+ #endif
++	.show_fdinfo        = etnaviv_fop_show_fdinfo,
+ 	.ioctls             = etnaviv_ioctls,
+ 	.num_ioctls         = DRM_ETNAVIV_NUM_IOCTLS,
+ 	.fops               = &fops,
 -- 
 2.39.2
 
