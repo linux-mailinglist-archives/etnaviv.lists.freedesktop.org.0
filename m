@@ -2,72 +2,34 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B10F36E01BA
-	for <lists+etnaviv@lfdr.de>; Thu, 13 Apr 2023 00:18:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A8E06E25E5
+	for <lists+etnaviv@lfdr.de>; Fri, 14 Apr 2023 16:38:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 610A310E9C0;
-	Wed, 12 Apr 2023 22:18:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 41B3B10ED89;
+	Fri, 14 Apr 2023 14:38:18 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com
- [IPv6:2607:f8b0:4864:20::235])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BFA4010E0E6;
- Wed, 12 Apr 2023 22:18:38 +0000 (UTC)
-Received: by mail-oi1-x235.google.com with SMTP id bx42so25231760oib.6;
- Wed, 12 Apr 2023 15:18:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1681337917;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=/nX5ZUWZ+h14V2FRkq8UuCb9+sDAe/a4u14goLUk2eQ=;
- b=cE5xZzmiH+xB6rbLmtl0fzBJVegyhjkLsVveqwxO5qbNd4xIuKTR3hTFoqJeF9WUhm
- JlHLAC27LDrFCRNQay/+gqmrXNnoQ8btdgulvP28AuJaWw/c9JRdp4CiPW7KItWgORuP
- X3GdvgE4UN5p2reyTu+wLa1eNhaMkyUyDlipXEMw/uQeYawfDdj847Rp2y1ncrbAMPRR
- Pqh+A+wEisSSGwOy8FrS/bJ6eDtK6RIBn3Bp7m8s0zUaaWShkI3zI4+DluUfRpkSm9TF
- WpiQwT1ks7DbLSHJFmx23w1eXfdDI5y+vXcfAmosXdK406t32J/z2S1j08SeSoPMpb6s
- OSVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681337917;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=/nX5ZUWZ+h14V2FRkq8UuCb9+sDAe/a4u14goLUk2eQ=;
- b=PnbOb2esF56gIDDXkiTT6gDEzzMA9nqtwC5dvW4cgttOR8OIW8pHM1pMCZ3YQRrL47
- p/7P07zs+NOF59X+uN708pyTusWZxU1K7Wc1O6DOQ/kAk0dzJkUU/TKBDd/2gjGQz+SN
- NISVxHqZTyDbN6NPGZLSwdq8/lcDetH4oUt74bUxwudcWeRMaAoAyOQehf17jisd7ZoX
- TKyBPtdvhE+W9MjrCLOZdZzm3RZ3R+Gq0bXww2tXRBXBhRfi9IFnDFMUJvxBRvcYkJ/1
- 5MB2VCbIjYTvsycM4M0OlUS0xB2JJrr/8MdHZULPH3QqRPI29XwDEMeTGflZVnA9D33M
- 61Pw==
-X-Gm-Message-State: AAQBX9dgxRJj5pi1+L6NQBN2+IjorfMyQJgvfMDfPmxYwNxmorzdIcAL
- I8y0VXaqWv/vm85HO2270zpoZeXG8EEbqCz6jHw=
-X-Google-Smtp-Source: AKy350bOhvWIiyhe+J80+lztyliieDNbQlmei33h8VmroEAF5j/kc0QWcldJvL0uwIA2beG8ww2iwFaa8ZM/TtWtX3A=
-X-Received: by 2002:aca:917:0:b0:386:a109:57c8 with SMTP id
- 23-20020aca0917000000b00386a10957c8mr34183oij.5.1681337917575; Wed, 12 Apr
- 2023 15:18:37 -0700 (PDT)
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B9C110ED74
+ for <etnaviv@lists.freedesktop.org>; Fri, 14 Apr 2023 14:38:15 +0000 (UTC)
+Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
+ by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1pnKZ1-0008Tq-2r; Fri, 14 Apr 2023 16:38:11 +0200
+From: Lucas Stach <l.stach@pengutronix.de>
+To: etnaviv@lists.freedesktop.org
+Subject: [PATCH] drm/etnaviv: fix dumping of active MMU context
+Date: Fri, 14 Apr 2023 16:38:10 +0200
+Message-Id: <20230414143810.572237-1-l.stach@pengutronix.de>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-References: <20230411225725.2032862-1-robdclark@gmail.com>
- <20230411225725.2032862-6-robdclark@gmail.com>
- <ZDZk+8uWouvMtWle@phenom.ffwll.local>
-In-Reply-To: <ZDZk+8uWouvMtWle@phenom.ffwll.local>
-From: Rob Clark <robdclark@gmail.com>
-Date: Wed, 12 Apr 2023 15:18:26 -0700
-Message-ID: <CAF6AEGtNANeM4b4Btso8xMreTEMiZSwUfQEJSm=7q+z=C0N9hw@mail.gmail.com>
-Subject: Re: [PATCH v3 5/7] drm/etnaviv: Switch to fdinfo helper
-To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org, 
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org, 
- Boris Brezillon <boris.brezillon@collabora.com>, 
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Christopher Healy <healych@amazon.com>, 
- Emil Velikov <emil.l.velikov@gmail.com>, Rob Clark <robdclark@chromium.org>, 
- Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>, 
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- David Airlie <airlied@gmail.com>, 
- "moderated list:DRM DRIVERS FOR VIVANTE GPU IP"
- <etnaviv@lists.freedesktop.org>, open list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:1101:1d::28
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,102 +41,70 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Christian Gmeiner <christian.gmeiner@gmail.com>,
+ patchwork-lst@pengutronix.de, kernel@pengutronix.de,
+ dri-devel@lists.freedesktop.org, Russell King <linux+etnaviv@armlinux.org.uk>
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-On Wed, Apr 12, 2023 at 12:59=E2=80=AFAM Daniel Vetter <daniel@ffwll.ch> wr=
-ote:
->
-> On Tue, Apr 11, 2023 at 03:56:10PM -0700, Rob Clark wrote:
-> > From: Rob Clark <robdclark@chromium.org>
-> >
-> > Signed-off-by: Rob Clark <robdclark@chromium.org>
->
-> You're on an old tree, this got reverted. But I'm kinda wondering whether
-> another patch on top shouldn't just includ the drm_show_fdinfo in
-> DRM_GEM_FOPS macro ... There's really no good reasons for drivers to not
-> have this I think?
+gpu->mmu_context is the MMU context of the last job in the HW queue, which
+isn't necessarily the same as the context from the bad job. Dump the MMU
+context from the scheduler determined bad submit to make it work as intended.
 
-oh, I'm roughly on msm-next, so didn't see the revert.. I'll drop this
-one.  But with things in flux, this is why I decided against adding it
-to DRM_GEM_FOPS.  Ie. we should do that as a followup cleanup step
-once everyone is moved over to the new helpers to avoid conflicts or
-build breaks when merging things via different driver trees
+Fixes: 17e4660ae3d7 ("drm/etnaviv: implement per-process address spaces on MMUv2")
+Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+---
+ drivers/gpu/drm/etnaviv/etnaviv_dump.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-BR,
--R
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_dump.c b/drivers/gpu/drm/etnaviv/etnaviv_dump.c
+index 44b5f3c35aab..898f84a0fc30 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_dump.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_dump.c
+@@ -130,9 +130,9 @@ void etnaviv_core_dump(struct etnaviv_gem_submit *submit)
+ 		return;
+ 	etnaviv_dump_core = false;
+ 
+-	mutex_lock(&gpu->mmu_context->lock);
++	mutex_lock(&submit->mmu_context->lock);
+ 
+-	mmu_size = etnaviv_iommu_dump_size(gpu->mmu_context);
++	mmu_size = etnaviv_iommu_dump_size(submit->mmu_context);
+ 
+ 	/* We always dump registers, mmu, ring, hanging cmdbuf and end marker */
+ 	n_obj = 5;
+@@ -162,7 +162,7 @@ void etnaviv_core_dump(struct etnaviv_gem_submit *submit)
+ 	iter.start = __vmalloc(file_size, GFP_KERNEL | __GFP_NOWARN |
+ 			__GFP_NORETRY);
+ 	if (!iter.start) {
+-		mutex_unlock(&gpu->mmu_context->lock);
++		mutex_unlock(&submit->mmu_context->lock);
+ 		dev_warn(gpu->dev, "failed to allocate devcoredump file\n");
+ 		return;
+ 	}
+@@ -174,18 +174,18 @@ void etnaviv_core_dump(struct etnaviv_gem_submit *submit)
+ 	memset(iter.hdr, 0, iter.data - iter.start);
+ 
+ 	etnaviv_core_dump_registers(&iter, gpu);
+-	etnaviv_core_dump_mmu(&iter, gpu->mmu_context, mmu_size);
++	etnaviv_core_dump_mmu(&iter, submit->mmu_context, mmu_size);
+ 	etnaviv_core_dump_mem(&iter, ETDUMP_BUF_RING, gpu->buffer.vaddr,
+ 			      gpu->buffer.size,
+ 			      etnaviv_cmdbuf_get_va(&gpu->buffer,
+-					&gpu->mmu_context->cmdbuf_mapping));
++					&submit->mmu_context->cmdbuf_mapping));
+ 
+ 	etnaviv_core_dump_mem(&iter, ETDUMP_BUF_CMD,
+ 			      submit->cmdbuf.vaddr, submit->cmdbuf.size,
+ 			      etnaviv_cmdbuf_get_va(&submit->cmdbuf,
+-					&gpu->mmu_context->cmdbuf_mapping));
++					&submit->mmu_context->cmdbuf_mapping));
+ 
+-	mutex_unlock(&gpu->mmu_context->lock);
++	mutex_unlock(&submit->mmu_context->lock);
+ 
+ 	/* Reserve space for the bomap */
+ 	if (n_bomap_pages) {
+-- 
+2.39.2
 
-> -Daniel
->
-> > ---
-> >  drivers/gpu/drm/etnaviv/etnaviv_drv.c | 10 ++++------
-> >  1 file changed, 4 insertions(+), 6 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/et=
-naviv/etnaviv_drv.c
-> > index 44ca803237a5..170000d6af94 100644
-> > --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-> > +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-> > @@ -476,9 +476,8 @@ static const struct drm_ioctl_desc etnaviv_ioctls[]=
- =3D {
-> >       ETNA_IOCTL(PM_QUERY_SIG, pm_query_sig, DRM_RENDER_ALLOW),
-> >  };
-> >
-> > -static void etnaviv_fop_show_fdinfo(struct seq_file *m, struct file *f=
-)
-> > +static void etnaviv_fop_show_fdinfo(struct drm_printer *p, struct drm_=
-file *file)
-> >  {
-> > -     struct drm_file *file =3D f->private_data;
-> >       struct drm_device *dev =3D file->minor->dev;
-> >       struct etnaviv_drm_private *priv =3D dev->dev_private;
-> >       struct etnaviv_file_private *ctx =3D file->driver_priv;
-> > @@ -487,8 +486,6 @@ static void etnaviv_fop_show_fdinfo(struct seq_file=
- *m, struct file *f)
-> >        * For a description of the text output format used here, see
-> >        * Documentation/gpu/drm-usage-stats.rst.
-> >        */
-> > -     seq_printf(m, "drm-driver:\t%s\n", dev->driver->name);
-> > -     seq_printf(m, "drm-client-id:\t%u\n", ctx->id);
-> >
-> >       for (int i =3D 0; i < ETNA_MAX_PIPES; i++) {
-> >               struct etnaviv_gpu *gpu =3D priv->gpu[i];
-> > @@ -507,7 +504,7 @@ static void etnaviv_fop_show_fdinfo(struct seq_file=
- *m, struct file *f)
-> >                       cur =3D snprintf(engine + cur, sizeof(engine) - c=
-ur,
-> >                                      "%sNN", cur ? "/" : "");
-> >
-> > -             seq_printf(m, "drm-engine-%s:\t%llu ns\n", engine,
-> > +             drm_printf(p, "drm-engine-%s:\t%llu ns\n", engine,
-> >                          ctx->sched_entity[i].elapsed_ns);
-> >       }
-> >  }
-> > @@ -515,7 +512,7 @@ static void etnaviv_fop_show_fdinfo(struct seq_file=
- *m, struct file *f)
-> >  static const struct file_operations fops =3D {
-> >       .owner =3D THIS_MODULE,
-> >       DRM_GEM_FOPS,
-> > -     .show_fdinfo =3D etnaviv_fop_show_fdinfo,
-> > +     .show_fdinfo =3D drm_fop_show_fdinfo,
-> >  };
-> >
-> >  static const struct drm_driver etnaviv_drm_driver =3D {
-> > @@ -529,6 +526,7 @@ static const struct drm_driver etnaviv_drm_driver =
-=3D {
-> >  #ifdef CONFIG_DEBUG_FS
-> >       .debugfs_init       =3D etnaviv_debugfs_init,
-> >  #endif
-> > +     .show_fdinfo        =3D etnaviv_fop_show_fdinfo,
-> >       .ioctls             =3D etnaviv_ioctls,
-> >       .num_ioctls         =3D DRM_ETNAVIV_NUM_IOCTLS,
-> >       .fops               =3D &fops,
-> > --
-> > 2.39.2
-> >
->
-> --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
