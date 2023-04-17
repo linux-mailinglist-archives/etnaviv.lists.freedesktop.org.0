@@ -2,38 +2,39 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7169C6E46A9
-	for <lists+etnaviv@lfdr.de>; Mon, 17 Apr 2023 13:41:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1975C6E4702
+	for <lists+etnaviv@lfdr.de>; Mon, 17 Apr 2023 14:01:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 264C810E448;
-	Mon, 17 Apr 2023 11:41:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 93D5610E478;
+	Mon, 17 Apr 2023 12:01:21 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1DDC510E42C;
- Mon, 17 Apr 2023 11:41:22 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EFB8B10E46E;
+ Mon, 17 Apr 2023 12:01:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
- h=Content-Type:Subject:Cc:To:From:MIME-Version:Date:Message-ID:
- Sender:Reply-To:Content-Transfer-Encoding:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=MgFPRZDdKp3+oH4fjBc8nfCYQpwYyX3bID6hvsik7sg=; b=Nvvh+ZQt3sVQCjFzhMRUXFGw9T
- 5/adxO6QB/OKTAnfUnw8yRzdU8r5jN/6DYLht2i/aFp79pfiOwD8jk8M6csXUEnxA1eor/SColyxJ
- 87izsp3mj9TOZv9Jdc7j9Hf7L7f1HokGsdy7QEOGpTwPsLyKvY9lXw8Lc9Jd9FSjNiqX4Q4WMTQLt
- Acf7VpHZsSc5gb7j2x7pJefIB7rBMJdkso4zEplrIOSeN2LfXCQLDeMkR64cyB4nWjgiFH1diiRsi
- og2LwEwmyxWn5Sl4sJqHrYcQj4seLkv08Ln1mOaH+Ro1jAfR9QfMChRl0032FLwVDt5MusrI0Lwt3
- hYSj44wg==;
+ h=Content-Type:In-Reply-To:References:Cc:To:From:Subject:
+ MIME-Version:Date:Message-ID:Sender:Reply-To:Content-Transfer-Encoding:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=900FOA3upYJAwNMcD78LLSyy6IwQ41wZOYsPseIgrdE=; b=PkXichsHlphGCg38DZjvIK3bjj
+ TO6F39lxqk14VVQU4bTM9VegrwMOTDCe0nohrPK6TdfMvD2Pit2KWc3/VdXedjhq2RMpVS2FGeKjo
+ 5fydrRm6CcjJ6QGQXiM4GoF8iY5tn2FjJ8zfIEfAVQvTBSKLkTI4qq+Ad0V3ddGKDZOB5r4cdsIz/
+ hy0ypCm+H3DymRH8Rj1vKgHkuD2OQUa3Q+ETF/KJEUpp6ghue8O/M4EUBTLKlQZof24Z37pfOWZsJ
+ vJiIRe5TIjXxRz5mDQaS6HAJ1TVOp/eNdf6FDxQS9OiWQKLYtkSGBCJW5bBSqdz7eXr80nG1MLmpI
+ Ty4SppNQ==;
 Received: from [85.50.22.1] (helo=[192.168.1.116])
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1poNET-003N8q-Gx; Mon, 17 Apr 2023 13:41:17 +0200
-Message-ID: <249b7449-c47b-47e6-0582-d87bd323fbbe@igalia.com>
-Date: Mon, 17 Apr 2023 13:41:15 +0200
+ id 1poNXn-003Nhk-Uk; Mon, 17 Apr 2023 14:01:16 +0200
+Message-ID: <023c5acf-8e01-57f7-093b-c6e50cec1088@igalia.com>
+Date: Mon, 17 Apr 2023 14:01:14 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
+Subject: Re: XDC 2023: Registration & Call for Proposals now open!
 Content-Language: en-US
 From: =?UTF-8?Q?Samuel_Iglesias_Gons=c3=a1lvez?= <siglesias@igalia.com>
 To: events@lists.x.org, xorg-devel@lists.freedesktop.org,
@@ -42,10 +43,11 @@ To: events@lists.x.org, xorg-devel@lists.freedesktop.org,
  etnaviv@lists.freedesktop.org, freedreno@lists.freedesktop.org,
  nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  libre-soc-dev@lists.libre-soc.org, members@x.org
-Subject: XDC 2023: Registration & Call for Proposals now open!
+References: <249b7449-c47b-47e6-0582-d87bd323fbbe@igalia.com>
+In-Reply-To: <249b7449-c47b-47e6-0582-d87bd323fbbe@igalia.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="------------QMke06x6c5k7Wevw0x0wfOa1"
+ boundary="------------3fzZKNkFgPJadbJ9o0l62zuQ"
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,8 +64,8 @@ Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------QMke06x6c5k7Wevw0x0wfOa1
-Content-Type: multipart/mixed; boundary="------------K0mWwr95hZ0mMrNOAPSm9Amf";
+--------------3fzZKNkFgPJadbJ9o0l62zuQ
+Content-Type: multipart/mixed; boundary="------------89NjXLm0Nam3XCtyiuEf0tZf";
  protected-headers="v1"
 From: =?UTF-8?Q?Samuel_Iglesias_Gons=c3=a1lvez?= <siglesias@igalia.com>
 To: events@lists.x.org, xorg-devel@lists.freedesktop.org,
@@ -73,141 +75,170 @@ To: events@lists.x.org, xorg-devel@lists.freedesktop.org,
  nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  libre-soc-dev@lists.libre-soc.org, members@x.org
 Cc: "board@foundation.x.org" <board@foundation.x.org>
-Message-ID: <249b7449-c47b-47e6-0582-d87bd323fbbe@igalia.com>
-Subject: XDC 2023: Registration & Call for Proposals now open!
+Message-ID: <023c5acf-8e01-57f7-093b-c6e50cec1088@igalia.com>
+Subject: Re: XDC 2023: Registration & Call for Proposals now open!
+References: <249b7449-c47b-47e6-0582-d87bd323fbbe@igalia.com>
+In-Reply-To: <249b7449-c47b-47e6-0582-d87bd323fbbe@igalia.com>
 
---------------K0mWwr95hZ0mMrNOAPSm9Amf
-Content-Type: multipart/mixed; boundary="------------U0djho2cVREaiyfLP6ijUovS"
+--------------89NjXLm0Nam3XCtyiuEf0tZf
+Content-Type: multipart/mixed; boundary="------------MHCISOTrwSUv99qyL6jow0aE"
 
---------------U0djho2cVREaiyfLP6ijUovS
+--------------MHCISOTrwSUv99qyL6jow0aE
 Content-Type: multipart/alternative;
- boundary="------------YrMf1Wu3jWIZGsIOrICwSKrG"
+ boundary="------------5PU3Wo6sHKU96WJ14MuRYALF"
 
---------------YrMf1Wu3jWIZGsIOrICwSKrG
+--------------5PU3Wo6sHKU96WJ14MuRYALF
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: base64
 
-SGVsbG8hDQoNClJlZ2lzdHJhdGlvbiAmIENhbGwgZm9yIFByb3Bvc2FscyBhcmUgbm93IG9w
-ZW4gZm9yIFhEQyAyMDIzLCB3aGljaCB3aWxsDQp0YWtlIHBsYWNlIG9uIE9jdG9iZXIgMTct
-MTksIDIwMjMuDQoNCmh0dHBzOi8veGRjMjAyMy54Lm9yZw0KDQpBcyB1c3VhbCwgdGhlIGNv
-bmZlcmVuY2UgaXMgZnJlZSBvZiBjaGFyZ2UgYW5kIG9wZW4gdG8gdGhlIGdlbmVyYWwNCnB1
-YmxpYy4gSWYgeW91IHBsYW4gb24gYXR0ZW5kaW5nLCBwbGVhc2UgbWFrZSBzdXJlIHRvIHJl
-Z2lzdGVyIGFzIGVhcmx5DQphcyBwb3NzaWJsZSENCg0KSW4gb3JkZXIgdG8gcmVnaXN0ZXIg
-YXMgYXR0ZW5kZWUsIHlvdSB3aWxsIHRoZXJlZm9yZSBuZWVkIHRvIHJlZ2lzdGVyDQp2aWEg
-dGhlIFhEQyB3ZWJzaXRlLg0KDQpodHRwczovL2luZGljby5mcmVlZGVza3RvcC5vcmcvZXZl
-bnQvNC9yZWdpc3RyYXRpb25zLw0KDQpJbiBhZGRpdGlvbiB0byByZWdpc3RyYXRpb24sIHRo
-ZSBDZlAgaXMgbm93IG9wZW4gZm9yIHRhbGtzLCB3b3Jrc2hvcHMNCmFuZCBkZW1vcyBhdCBY
-REMgMjAyMy4gV2hpbGUgYW55IHNlcmlvdXMgcHJvcG9zYWwgd2lsbCBiZSBncmF0ZWZ1bGx5
-DQpjb25zaWRlcmVkLCB0b3BpY3Mgb2YgaW50ZXJlc3QgdG8gWC5PcmcgYW5kIGZyZWVkZXNr
-dG9wLm9yZyBkZXZlbG9wZXJzDQphcmUgZW5jb3VyYWdlZC4gVGhlIHByb2dyYW0gZm9jdXMg
-aXMgb24gbmV3IGRldmVsb3BtZW50LCBvbmdvaW5nDQpjaGFsbGVuZ2VzIGFuZCBhbnl0aGlu
-ZyBlbHNlIHRoYXQgd2lsbCBzcGFyayBkaXNjdXNzaW9ucyBhbW9uZw0KYXR0ZW5kZWVzIGlu
-IHRoZSBoYWxsd2F5IHRyYWNrLg0KDQpXZSBhcmUgb3BlbiB0byB0YWxrcyBhY3Jvc3MgYWxs
-IGxheWVycyBvZiB0aGUgZ3JhcGhpY3Mgc3RhY2ssIGZyb20gdGhlDQprZXJuZWwgdG8gZGVz
-a3RvcCBlbnZpcm9ubWVudHMgLyBncmFwaGljYWwgYXBwbGljYXRpb25zIGFuZCBhYm91dCBo
-b3cNCnRvIG1ha2UgdGhpbmdzIGJldHRlciBmb3IgdGhlIGRldmVsb3BlcnMgd2hvIGJ1aWxk
-IHRoZW0uIEhlYWQgdG8gdGhlDQpDZlAgcGFnZSB0byBsZWFybiBtb3JlOg0KDQpodHRwczov
-L2luZGljby5mcmVlZGVza3RvcC5vcmcvZXZlbnQvNC9hYnN0cmFjdHMvDQoNClRoZSBkZWFk
-bGluZSBmb3Igc3VibWlzc2lvbnMgaXMgTW9uZGF5LCAxNyBKdWx5IDIwMjMgKDIzOjU5IENF
-U1QpDQoNCkNoZWNrIG91dCBvdXIgUmVpbWJ1cnNlbWVudCBQb2xpY3kgdG8gYWNjZXB0IHNw
-ZWFrZXIgZXhwZW5zZXM6DQoNCmh0dHBzOi8vd3d3Lngub3JnL3dpa2kvWG9yZ0ZvdW5kYXRp
-b24vUG9saWNpZXMvUmVpbWJ1cnNlbWVudC8NCg0KSWYgeW91IGhhdmUgYW55IHF1ZXN0aW9u
-cywgcGxlYXNlIHNlbmQgbWUgYW4gZW1haWwgdG8NCnNpZ2xlc2lhcyBBVCBpZ2FsaWEuY29t
-LCBhZGRpbmcgb24gQ2MgdGhlIFgub3JnIGJvYXJkIChib2FyZA0KYXQgZm91bmRhdGlvbi54
-Lm9yZykuDQoNCkFuZCBwbGVhc2Uga2VlcCBpbiBtaW5kLCB5b3UgY2FuIGZvbGxvdyB1cyBv
-biBUd2l0dGVyIGZvciBhbGwgdGhlIGxhdGVzdA0KdXBkYXRlcyBhbmQgdG8gc3RheSBjb25u
-ZWN0ZWQ6DQoNCmh0dHBzOi8vdHdpdHRlci5jb20vWE9yZ0RldkNvbmYNCg0KQmVzdCwNCg0K
-U2FtDQoNCg==
---------------YrMf1Wu3jWIZGsIOrICwSKrG
+DQpPbiA0LzE3LzIzIDEzOjQxLCBTYW11ZWwgSWdsZXNpYXMgR29uc8OhbHZleiB3cm90ZToN
+Cj4NCj4gSGVsbG8hDQo+DQo+IFJlZ2lzdHJhdGlvbiAmIENhbGwgZm9yIFByb3Bvc2FscyBh
+cmUgbm93IG9wZW4gZm9yIFhEQyAyMDIzLCB3aGljaCB3aWxsDQo+IHRha2UgcGxhY2Ugb24g
+T2N0b2JlciAxNy0xOSwgMjAyMy4NCj4NCkZvcmdvdCB0byBtZW50aW9uLCBpdCB3aWxsIGJl
+IGluIEEgQ29ydcOxYSwgU3BhaW4gOikNCg0KPiBodHRwczovL3hkYzIwMjMueC5vcmcNCj4N
+Cj4gQXMgdXN1YWwsIHRoZSBjb25mZXJlbmNlIGlzIGZyZWUgb2YgY2hhcmdlIGFuZCBvcGVu
+IHRvIHRoZSBnZW5lcmFsDQo+IHB1YmxpYy4gSWYgeW91IHBsYW4gb24gYXR0ZW5kaW5nLCBw
+bGVhc2UgbWFrZSBzdXJlIHRvIHJlZ2lzdGVyIGFzIGVhcmx5DQo+IGFzIHBvc3NpYmxlIQ0K
+Pg0KPiBJbiBvcmRlciB0byByZWdpc3RlciBhcyBhdHRlbmRlZSwgeW91IHdpbGwgdGhlcmVm
+b3JlIG5lZWQgdG8gcmVnaXN0ZXINCj4gdmlhIHRoZSBYREMgd2Vic2l0ZS4NCj4NCj4gaHR0
+cHM6Ly9pbmRpY28uZnJlZWRlc2t0b3Aub3JnL2V2ZW50LzQvcmVnaXN0cmF0aW9ucy8NCj4N
+Cj4gSW4gYWRkaXRpb24gdG8gcmVnaXN0cmF0aW9uLCB0aGUgQ2ZQIGlzIG5vdyBvcGVuIGZv
+ciB0YWxrcywgd29ya3Nob3BzDQo+IGFuZCBkZW1vcyBhdCBYREMgMjAyMy4gV2hpbGUgYW55
+IHNlcmlvdXMgcHJvcG9zYWwgd2lsbCBiZSBncmF0ZWZ1bGx5DQo+IGNvbnNpZGVyZWQsIHRv
+cGljcyBvZiBpbnRlcmVzdCB0byBYLk9yZyBhbmQgZnJlZWRlc2t0b3Aub3JnIGRldmVsb3Bl
+cnMNCj4gYXJlIGVuY291cmFnZWQuIFRoZSBwcm9ncmFtIGZvY3VzIGlzIG9uIG5ldyBkZXZl
+bG9wbWVudCwgb25nb2luZw0KPiBjaGFsbGVuZ2VzIGFuZCBhbnl0aGluZyBlbHNlIHRoYXQg
+d2lsbCBzcGFyayBkaXNjdXNzaW9ucyBhbW9uZw0KPiBhdHRlbmRlZXMgaW4gdGhlIGhhbGx3
+YXkgdHJhY2suDQo+DQo+IFdlIGFyZSBvcGVuIHRvIHRhbGtzIGFjcm9zcyBhbGwgbGF5ZXJz
+IG9mIHRoZSBncmFwaGljcyBzdGFjaywgZnJvbSB0aGUNCj4ga2VybmVsIHRvIGRlc2t0b3Ag
+ZW52aXJvbm1lbnRzIC8gZ3JhcGhpY2FsIGFwcGxpY2F0aW9ucyBhbmQgYWJvdXQgaG93DQo+
+IHRvIG1ha2UgdGhpbmdzIGJldHRlciBmb3IgdGhlIGRldmVsb3BlcnMgd2hvIGJ1aWxkIHRo
+ZW0uIEhlYWQgdG8gdGhlDQo+IENmUCBwYWdlIHRvIGxlYXJuIG1vcmU6DQo+DQo+IGh0dHBz
+Oi8vaW5kaWNvLmZyZWVkZXNrdG9wLm9yZy9ldmVudC80L2Fic3RyYWN0cy8NCj4NCj4gVGhl
+IGRlYWRsaW5lIGZvciBzdWJtaXNzaW9ucyBpcyBNb25kYXksIDE3IEp1bHkgMjAyMyAoMjM6
+NTkgQ0VTVCkNCj4NCj4gQ2hlY2sgb3V0IG91ciBSZWltYnVyc2VtZW50IFBvbGljeSB0byBh
+Y2NlcHQgc3BlYWtlciBleHBlbnNlczoNCj4NCj4gaHR0cHM6Ly93d3cueC5vcmcvd2lraS9Y
+b3JnRm91bmRhdGlvbi9Qb2xpY2llcy9SZWltYnVyc2VtZW50Lw0KPg0KPiBJZiB5b3UgaGF2
+ZSBhbnkgcXVlc3Rpb25zLCBwbGVhc2Ugc2VuZCBtZSBhbiBlbWFpbCB0bw0KPiBzaWdsZXNp
+YXMgQVQgaWdhbGlhLmNvbSwgYWRkaW5nIG9uIENjIHRoZSBYLm9yZyBib2FyZCAoYm9hcmQN
+Cj4gYXQgZm91bmRhdGlvbi54Lm9yZykuDQo+DQo+IEFuZCBwbGVhc2Uga2VlcCBpbiBtaW5k
+LCB5b3UgY2FuIGZvbGxvdyB1cyBvbiBUd2l0dGVyIGZvciBhbGwgdGhlIGxhdGVzdA0KPiB1
+cGRhdGVzIGFuZCB0byBzdGF5IGNvbm5lY3RlZDoNCj4NCj4gaHR0cHM6Ly90d2l0dGVyLmNv
+bS9YT3JnRGV2Q29uZg0KPg0KPiBCZXN0LA0KPg0KPiBTYW0NCj4NCg==
+--------------5PU3Wo6sHKU96WJ14MuRYALF
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <html data-lt-installed=3D"true">
   <head>
-
-    <meta http-equiv=3D"content-type" content=3D"text/html; charset=3DUTF=
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DUTF=
 -8">
     <script data-cookieconsent=3D"ignore" src=3D"moz-extension://eea31378=
 -988a-46ea-af0f-ff8605fa6a0d/content/executor.js"></script>
   </head>
   <body style=3D"padding-bottom: 1px;">
-    <p>Hello!<br>
-      =C2=A0<br>
-      Registration &amp; Call for Proposals are now open for XDC 2023,
-      which will<br>
-      take place on October 17-19, 2023. <br>
-      <br>
-      <a class=3D"moz-txt-link-freetext" href=3D"https://xdc2023.x.org">h=
-ttps://xdc2023.x.org</a><br>
-      =C2=A0<br>
-      As usual, the conference is free of charge and open to the general<=
-br>
-      public. If you plan on attending, please make sure to register as
-      early<br>
-      as possible!<br>
-      =C2=A0<br>
-      In order to register as attendee, you will therefore need to
-      register<br>
-      via the XDC website.<br>
-      =C2=A0<br>
-      <a class=3D"moz-txt-link-freetext" href=3D"https://indico.freedeskt=
-op.org/event/4/registrations/">https://indico.freedesktop.org/event/4/reg=
-istrations/</a><br>
-      =C2=A0<br>
-      In addition to registration, the CfP is now open for talks,
-      workshops<br>
-      and demos at XDC 2023. While any serious proposal will be
-      gratefully<br>
-      considered, topics of interest to X.Org and freedesktop.org
-      developers<br>
-      are encouraged. The program focus is on new development, ongoing<br=
->
-      challenges and anything else that will spark discussions among<br>
-      attendees in the hallway track.<br>
-      =C2=A0<br>
-      We are open to talks across all layers of the graphics stack, from
-      the<br>
-      kernel to desktop environments / graphical applications and about
-      how<br>
-      to make things better for the developers who build them. Head to
-      the<br>
-      CfP page to learn more: <br>
-      =C2=A0<br>
-      <a class=3D"moz-txt-link-freetext" href=3D"https://indico.freedeskt=
-op.org/event/4/abstracts/">https://indico.freedesktop.org/event/4/abstrac=
-ts/</a><br>
-      =C2=A0<br>
-      The deadline for submissions is Monday, 17 July 2023 (23:59 CEST)<b=
-r>
-      =C2=A0<br>
-      Check out our Reimbursement Policy to accept speaker expenses:<br>
-      =C2=A0<br>
-      <a class=3D"moz-txt-link-freetext" href=3D"https://www.x.org/wiki/X=
-orgFoundation/Policies/Reimbursement/">https://www.x.org/wiki/XorgFoundat=
-ion/Policies/Reimbursement/</a><br>
-      =C2=A0<br>
-      If you have any questions, please send me an email to<br>
-      siglesias AT igalia.com, adding on Cc the X.org board (board<br>
-      at foundation.x.org).<br>
-      =C2=A0<br>
-      And please keep in mind, you can follow us on Twitter for all the
-      latest<br>
-      updates and to stay connected:<br>
-      =C2=A0<br>
-      <a class=3D"moz-txt-link-freetext" href=3D"https://twitter.com/XOrg=
-DevConf">https://twitter.com/XOrgDevConf</a><br>
-      =C2=A0<br>
-      Best,<br>
-      =C2=A0<br>
-      Sam<br>
+    <p><br>
     </p>
+    <div class=3D"moz-cite-prefix">On 4/17/23 13:41, Samuel Iglesias
+      Gons=C3=A1lvez wrote:<br>
+    </div>
+    <blockquote type=3D"cite"
+      cite=3D"mid:249b7449-c47b-47e6-0582-d87bd323fbbe@igalia.com">
+      <meta http-equiv=3D"content-type" content=3D"text/html; charset=3DU=
+TF-8">
+      <script data-cookieconsent=3D"ignore" src=3D"moz-extension://eea313=
+78-988a-46ea-af0f-ff8605fa6a0d/content/executor.js"></script>
+      <p>Hello!<br>
+        =C2=A0<br>
+        Registration &amp; Call for Proposals are now open for XDC 2023,
+        which will<br>
+        take place on October 17-19, 2023. <br>
+        <br>
+      </p>
+    </blockquote>
+    <p>Forgot to mention, it will be in A Coru=C3=B1a, Spain :)</p>
+    <blockquote type=3D"cite"
+      cite=3D"mid:249b7449-c47b-47e6-0582-d87bd323fbbe@igalia.com">
+      <p> <a class=3D"moz-txt-link-freetext" href=3D"https://xdc2023.x.or=
+g"
+          moz-do-not-send=3D"true">https://xdc2023.x.org</a><br>
+        =C2=A0<br>
+        As usual, the conference is free of charge and open to the
+        general<br>
+        public. If you plan on attending, please make sure to register
+        as early<br>
+        as possible!<br>
+        =C2=A0<br>
+        In order to register as attendee, you will therefore need to
+        register<br>
+        via the XDC website.<br>
+        =C2=A0<br>
+        <a class=3D"moz-txt-link-freetext"
+          href=3D"https://indico.freedesktop.org/event/4/registrations/"
+          moz-do-not-send=3D"true">https://indico.freedesktop.org/event/4=
+/registrations/</a><br>
+        =C2=A0<br>
+        In addition to registration, the CfP is now open for talks,
+        workshops<br>
+        and demos at XDC 2023. While any serious proposal will be
+        gratefully<br>
+        considered, topics of interest to X.Org and freedesktop.org
+        developers<br>
+        are encouraged. The program focus is on new development, ongoing<=
+br>
+        challenges and anything else that will spark discussions among<br=
+>
+        attendees in the hallway track.<br>
+        =C2=A0<br>
+        We are open to talks across all layers of the graphics stack,
+        from the<br>
+        kernel to desktop environments / graphical applications and
+        about how<br>
+        to make things better for the developers who build them. Head to
+        the<br>
+        CfP page to learn more: <br>
+        =C2=A0<br>
+        <a class=3D"moz-txt-link-freetext"
+          href=3D"https://indico.freedesktop.org/event/4/abstracts/"
+          moz-do-not-send=3D"true">https://indico.freedesktop.org/event/4=
+/abstracts/</a><br>
+        =C2=A0<br>
+        The deadline for submissions is Monday, 17 July 2023 (23:59
+        CEST)<br>
+        =C2=A0<br>
+        Check out our Reimbursement Policy to accept speaker expenses:<br=
+>
+        =C2=A0<br>
+        <a class=3D"moz-txt-link-freetext"
+          href=3D"https://www.x.org/wiki/XorgFoundation/Policies/Reimburs=
+ement/"
+          moz-do-not-send=3D"true">https://www.x.org/wiki/XorgFoundation/=
+Policies/Reimbursement/</a><br>
+        =C2=A0<br>
+        If you have any questions, please send me an email to<br>
+        siglesias AT igalia.com, adding on Cc the X.org board (board<br>
+        at foundation.x.org).<br>
+        =C2=A0<br>
+        And please keep in mind, you can follow us on Twitter for all
+        the latest<br>
+        updates and to stay connected:<br>
+        =C2=A0<br>
+        <a class=3D"moz-txt-link-freetext"
+          href=3D"https://twitter.com/XOrgDevConf" moz-do-not-send=3D"tru=
+e">https://twitter.com/XOrgDevConf</a><br>
+        =C2=A0<br>
+        Best,<br>
+        =C2=A0<br>
+        Sam<br>
+      </p>
+      <lt-container></lt-container>
+    </blockquote>
   </body>
-  <lt-container></lt-container>
 </html>
 
---------------YrMf1Wu3jWIZGsIOrICwSKrG--
+--------------5PU3Wo6sHKU96WJ14MuRYALF--
 
---------------U0djho2cVREaiyfLP6ijUovS
+--------------MHCISOTrwSUv99qyL6jow0aE
 Content-Type: application/pgp-keys; name="OpenPGP_0x7FF4BA32F17DC343.asc"
 Content-Disposition: attachment; filename="OpenPGP_0x7FF4BA32F17DC343.asc"
 Content-Description: OpenPGP public key
@@ -339,29 +370,29 @@ xBHGxDq5oCLu3wC8r+by+n6I+5imIs2GvRb/uhJm5W4/Jw=3D=3D
 =3DzaNC
 -----END PGP PUBLIC KEY BLOCK-----
 
---------------U0djho2cVREaiyfLP6ijUovS--
+--------------MHCISOTrwSUv99qyL6jow0aE--
 
---------------K0mWwr95hZ0mMrNOAPSm9Amf--
+--------------89NjXLm0Nam3XCtyiuEf0tZf--
 
---------------QMke06x6c5k7Wevw0x0wfOa1
+--------------3fzZKNkFgPJadbJ9o0l62zuQ
 Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEEQP+ZAvaXWkfuKXiEf/S6MvF9w0MFAmQ9MFsFAwAAAAAACgkQf/S6MvF9w0Mq
-GBAAlC1GNfSJuduJecn6QnOr/SJk+avS6IqrYQqlTYV8vtZUA52kMm7iTV8J5YMBji7VHWBiKR61
-XqXq7DNMGABeVUCnf45TyYX61bqVV9ipOeQYN07KQdlAWbYAc1A26Z+SrcJzJXxssByDmVAm4iir
-5oTLKdVed0Cw3ZBTtVPy5FJyQ8Nc47YJZbDUE059mJdNq0Y5byolN9HfLzvFcAs65U0DIL4o1VwG
-ilFGtibu1WzaXGI9/tGHlRCwHzi586zIdGSSeoMV0G5CqfkhW2cgDg9VvBP83D4jVXe9LU3aiwIz
-OVT1U/xwwPBkPjQVNQDp6cSJ9uU4aqhjskxB2awSIoifI7/Upd4muiUlhWDV/0sQT6UtvHNhN/sQ
-FVzRJL8GZRMqfjlJPlX6ybQA9wxGyctIxOCWrRKL+v/2gS9I/MM3pzH00fGbh+kbqnU+or4DyInW
-KcdvC5ukcp8rbkhncV1WE1X9kUld/uYiMXJylaLsmKs4qZh4iPIaAAZeLE6Sf8PFbPg/l6ywC3sF
-dHuCGaks9wRI0oHlQSVQuP1iITeD5qEHlbJMqQc9+ce5nQQvTkXUM4r3uD/kk+oSyWabJ7vm82Qq
-9CRXHJNDhoJcIHJr3F5zWn5w6EFmoM1GMUnufIPixqzoZywzXqt+oCsL+4GiCjRfSGDj1uD2OaET
-CaU=
-=U3YP
+wsF5BAABCAAjFiEEQP+ZAvaXWkfuKXiEf/S6MvF9w0MFAmQ9NQoFAwAAAAAACgkQf/S6MvF9w0ON
+yxAAiOowGN7gdIfdGY2zD9S0+iKuw01mQpS2qveYQjJF5pCzdtTVADmfCLbFGV4Cu9HJptCixpVZ
+S2m0YAyFw/OAqLIfuWCXxTD/uouoACgOKF0bRL4aZngvTvkaNOeEsuPghea+PQeQpIsAXAeZUhbH
+Fm+LuES5taLd9aiNe0PYeTukjO1n15zUxkXaMK97x2pD9k0miU7X0tnKFMSjS8B+WXYT25tnRkC1
+dUa5xbqKPg5bSlIIKozCceEZQzK3R/dgLbRNcdBvpmrYhUaZFCvBteC38phIpGv60Bp8m1cnntlb
+MWWqCXcpaTZdTlUU97A/maj5sSKUyNauE7C6YY9k/IQujT8s8AEStPaSF2veHGq2hpzisLCmScuv
+zH0BQ7D7IJzj+TiTppWNbmtRRSUvUM1KTzoSSb7bRe5XCDBPbXaGE5yYbN8zi86TvkF5l0zIeIML
+lMG7+kJkKBNhFKhWO7jmF/a5AgDMlMsbhqu+n+WIhtqHZ4J8WvNnw7v3eHdQIo1PvRqE7ArEcmyF
+xJHF8q0fcQNgQ3hoSB9nsA4RBHv/9J9CrvaFBqn/Xpa0Uo4O0RxHoPH4VZ0C0BScNZx1fimtsQSf
+JLet4U+Fo1nsB+p8rNoigcPxxY1/r+wQPlDXq/Lz/oU77WGRA2h8WvhAVUcCAqiqVeBigvwRQTul
+92w=
+=UXoY
 -----END PGP SIGNATURE-----
 
---------------QMke06x6c5k7Wevw0x0wfOa1--
+--------------3fzZKNkFgPJadbJ9o0l62zuQ--
