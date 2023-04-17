@@ -2,43 +2,61 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1636D6E48EB
-	for <lists+etnaviv@lfdr.de>; Mon, 17 Apr 2023 14:59:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5239B6EBF42
+	for <lists+etnaviv@lfdr.de>; Sun, 23 Apr 2023 14:13:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B331610E4A9;
-	Mon, 17 Apr 2023 12:59:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1ABAC10E3B9;
+	Sun, 23 Apr 2023 12:13:25 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from 189.cn (ptr.189.cn [183.61.185.101])
- by gabe.freedesktop.org (Postfix) with ESMTP id 4F9A510E4A9;
- Mon, 17 Apr 2023 12:59:46 +0000 (UTC)
-HMM_SOURCE_IP: 10.64.8.41:55930.1095974768
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-114.242.206.180 (unknown [10.64.8.41])
- by 189.cn (HERMES) with SMTP id E813C10028A;
- Mon, 17 Apr 2023 20:59:39 +0800 (CST)
-Received: from  ([114.242.206.180])
- by gateway-151646-dep-7b48884fd-ljp89 with ESMTP id
- 25616508114342569af24e7cf09d6c0c for l.stach@pengutronix.de; 
- Mon, 17 Apr 2023 20:59:42 CST
-X-Transaction-ID: 25616508114342569af24e7cf09d6c0c
-X-Real-From: 15330273260@189.cn
-X-Receive-IP: 114.242.206.180
-X-MEDUSA-Status: 0
-Message-ID: <1b9c2895-3200-22dd-9708-cd718ce5ac99@189.cn>
-Date: Mon, 17 Apr 2023 20:59:29 +0800
+Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com
+ [IPv6:2a00:1450:4864:20::236])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 45E3110E07C;
+ Mon, 17 Apr 2023 16:50:41 +0000 (UTC)
+Received: by mail-lj1-x236.google.com with SMTP id o8so6122784ljp.6;
+ Mon, 17 Apr 2023 09:50:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1681750239; x=1684342239;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=kwV4R3ak4q89seFXFlkufBWxBxwbeT/d2E4SMIJOWzo=;
+ b=OByfnH05hL5hNbMqKGQS8rejNTl8sEmoLojWstKWP+T+sc+EqfyJJK4iPlo+uw+vYt
+ jV0FBJXEV39YudDw9YovY9DHWw08JlpMkA05EQzewT663oN071TqTl0XsF6KrOAR72MD
+ srt/4lcfEfW9BriPnU6gIFwfUeE8Ac0xqO6nJCOWyM0dPMkQ2tchHc18CgaFxtr1t+d1
+ 42VLl1R44X4fGWVLYNOCog0Oy2W73yGYEBs4Y/glGJPwhIbJkJwgnuC3ZEAcV8xFKg2R
+ IPmTECO0Qgyf9Lj1OjufXnfeVlbdo+o0EQHPa+A2Gzd9bCNV7ZoSdpP/OKUoz+GjkbzF
+ mMyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681750239; x=1684342239;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=kwV4R3ak4q89seFXFlkufBWxBxwbeT/d2E4SMIJOWzo=;
+ b=XE08LeViJxBBW2QMfrqrWH97/6fMJ8wi1OvQhqflMgS2dabPBF7YYIRIPPYfyIfaa+
+ CiF//jQuT3Q19HPk6qq2QhwJa3WBFmCuEak/AF7UBkSvA3C/dXWEXRY4v8GhDkpnwaKL
+ uSDmfkjXrKkdHRVssYr+xTv6TNmR+wyxehv2N3ZC+B/pOPXjiwrfoPeSGlqtU8GevNtC
+ SwCCkoG3eFJhYtRSHw1jGPvE+reJ+nEM5jluP9NTmKY6HlnkJ1IynZ8Nq4FQB3WJUQax
+ lGXbdCMZRvmrfxlFhdGc6g4jD9XpHzoYVPzK86MNMDrdKgqtYPb8Im7qnZy2g6wEkpFS
+ /GfA==
+X-Gm-Message-State: AAQBX9e0mUQ6/PMYwdRXVBL190a4foMjhHKu/kPFW4eCLkVtVvh44PNy
+ gy/rKIMPivC1E8tgFBXChk7KGJZaxrptt02aoaE=
+X-Google-Smtp-Source: AKy350aML3MlWQZTkrvhFBrj1xFkcEwFuF9+3X/N1SK5fJ9H2aAIA+A29aF+IfbNhSzL7iYgQ9OTCJ6YbxJ+ox2Tt4w=
+X-Received: by 2002:a2e:9082:0:b0:2a7:6bef:bc7f with SMTP id
+ l2-20020a2e9082000000b002a76befbc7fmr4745926ljg.5.1681750238702; Mon, 17 Apr
+ 2023 09:50:38 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: drm/etnaviv: fix dumping of active MMU context
-To: Lucas Stach <l.stach@pengutronix.de>, etnaviv@lists.freedesktop.org
-References: <20230414143810.572237-1-l.stach@pengutronix.de>
-Content-Language: en-US
-From: Sui Jingfeng <15330273260@189.cn>
-In-Reply-To: <20230414143810.572237-1-l.stach@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <249b7449-c47b-47e6-0582-d87bd323fbbe@igalia.com>
+In-Reply-To: <249b7449-c47b-47e6-0582-d87bd323fbbe@igalia.com>
+From: Luna Jernberg <droidbittin@gmail.com>
+Date: Mon, 17 Apr 2023 18:49:59 +0200
+Message-ID: <CADo9pHi-mdWssVYSN6JTi_3QErfjN8SRj3O5hWLvJr7dPhWSkg@mail.gmail.com>
+Subject: Re: [Nouveau] XDC 2023: Registration & Call for Proposals now open!
+To: =?UTF-8?Q?Samuel_Iglesias_Gons=C3=A1lvez?= <siglesias@igalia.com>, 
+ Luna Jernberg <droidbittin@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Mailman-Approved-At: Sun, 23 Apr 2023 12:13:22 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,70 +68,66 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: Russell King <linux+etnaviv@armlinux.org.uk>,
- dri-devel@lists.freedesktop.org, kernel@pengutronix.de,
- patchwork-lst@pengutronix.de
+Cc: xorg-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, wayland-devel@lists.freedesktop.org,
+ "board@foundation.x.org" <board@foundation.x.org>, members@x.org,
+ dri-devel@lists.freedesktop.org, events@lists.x.org,
+ mesa-dev@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ libre-soc-dev@lists.libre-soc.org
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Well, this patch looks good to me!
+Signed up will only attend virtually Online however just fyi
 
-On 2023/4/14 22:38, Lucas Stach wrote:
-> gpu->mmu_context is the MMU context of the last job in the HW queue, which
-> isn't necessarily the same as the context from the bad job. Dump the MMU
-> context from the scheduler determined bad submit to make it work as intended.
+On Mon, Apr 17, 2023 at 1:41=E2=80=AFPM Samuel Iglesias Gons=C3=A1lvez
+<siglesias@igalia.com> wrote:
 >
-> Fixes: 17e4660ae3d7 ("drm/etnaviv: implement per-process address spaces on MMUv2")
-> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
-> ---
->   drivers/gpu/drm/etnaviv/etnaviv_dump.c | 14 +++++++-------
->   1 file changed, 7 insertions(+), 7 deletions(-)
+> Hello!
 >
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_dump.c b/drivers/gpu/drm/etnaviv/etnaviv_dump.c
-> index 44b5f3c35aab..898f84a0fc30 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_dump.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_dump.c
-> @@ -130,9 +130,9 @@ void etnaviv_core_dump(struct etnaviv_gem_submit *submit)
->   		return;
->   	etnaviv_dump_core = false;
->   
-> -	mutex_lock(&gpu->mmu_context->lock);
-> +	mutex_lock(&submit->mmu_context->lock);
->   
-> -	mmu_size = etnaviv_iommu_dump_size(gpu->mmu_context);
-> +	mmu_size = etnaviv_iommu_dump_size(submit->mmu_context);
->   
->   	/* We always dump registers, mmu, ring, hanging cmdbuf and end marker */
->   	n_obj = 5;
-> @@ -162,7 +162,7 @@ void etnaviv_core_dump(struct etnaviv_gem_submit *submit)
->   	iter.start = __vmalloc(file_size, GFP_KERNEL | __GFP_NOWARN |
->   			__GFP_NORETRY);
->   	if (!iter.start) {
-> -		mutex_unlock(&gpu->mmu_context->lock);
-> +		mutex_unlock(&submit->mmu_context->lock);
->   		dev_warn(gpu->dev, "failed to allocate devcoredump file\n");
->   		return;
->   	}
-> @@ -174,18 +174,18 @@ void etnaviv_core_dump(struct etnaviv_gem_submit *submit)
->   	memset(iter.hdr, 0, iter.data - iter.start);
->   
->   	etnaviv_core_dump_registers(&iter, gpu);
-> -	etnaviv_core_dump_mmu(&iter, gpu->mmu_context, mmu_size);
-> +	etnaviv_core_dump_mmu(&iter, submit->mmu_context, mmu_size);
->   	etnaviv_core_dump_mem(&iter, ETDUMP_BUF_RING, gpu->buffer.vaddr,
->   			      gpu->buffer.size,
->   			      etnaviv_cmdbuf_get_va(&gpu->buffer,
-> -					&gpu->mmu_context->cmdbuf_mapping));
-> +					&submit->mmu_context->cmdbuf_mapping));
->   
->   	etnaviv_core_dump_mem(&iter, ETDUMP_BUF_CMD,
->   			      submit->cmdbuf.vaddr, submit->cmdbuf.size,
->   			      etnaviv_cmdbuf_get_va(&submit->cmdbuf,
-> -					&gpu->mmu_context->cmdbuf_mapping));
-> +					&submit->mmu_context->cmdbuf_mapping));
->   
-> -	mutex_unlock(&gpu->mmu_context->lock);
-> +	mutex_unlock(&submit->mmu_context->lock);
->   
->   	/* Reserve space for the bomap */
->   	if (n_bomap_pages) {
+> Registration & Call for Proposals are now open for XDC 2023, which will
+> take place on October 17-19, 2023.
+>
+> https://xdc2023.x.org
+>
+> As usual, the conference is free of charge and open to the general
+> public. If you plan on attending, please make sure to register as early
+> as possible!
+>
+> In order to register as attendee, you will therefore need to register
+> via the XDC website.
+>
+> https://indico.freedesktop.org/event/4/registrations/
+>
+> In addition to registration, the CfP is now open for talks, workshops
+> and demos at XDC 2023. While any serious proposal will be gratefully
+> considered, topics of interest to X.Org and freedesktop.org developers
+> are encouraged. The program focus is on new development, ongoing
+> challenges and anything else that will spark discussions among
+> attendees in the hallway track.
+>
+> We are open to talks across all layers of the graphics stack, from the
+> kernel to desktop environments / graphical applications and about how
+> to make things better for the developers who build them. Head to the
+> CfP page to learn more:
+>
+> https://indico.freedesktop.org/event/4/abstracts/
+>
+> The deadline for submissions is Monday, 17 July 2023 (23:59 CEST)
+>
+> Check out our Reimbursement Policy to accept speaker expenses:
+>
+> https://www.x.org/wiki/XorgFoundation/Policies/Reimbursement/
+>
+> If you have any questions, please send me an email to
+> siglesias AT igalia.com, adding on Cc the X.org board (board
+> at foundation.x.org).
+>
+> And please keep in mind, you can follow us on Twitter for all the latest
+> updates and to stay connected:
+>
+> https://twitter.com/XOrgDevConf
+>
+> Best,
+>
+> Sam
