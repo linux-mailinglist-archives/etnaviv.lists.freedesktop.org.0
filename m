@@ -1,59 +1,53 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF7F26E4F73
-	for <lists+etnaviv@lfdr.de>; Mon, 17 Apr 2023 19:42:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 647A86EBF43
+	for <lists+etnaviv@lfdr.de>; Sun, 23 Apr 2023 14:13:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8589310E0D4;
-	Mon, 17 Apr 2023 17:42:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 29B1D10E3BE;
+	Sun, 23 Apr 2023 12:13:25 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-oa1-x2a.google.com (mail-oa1-x2a.google.com
- [IPv6:2001:4860:4864:20::2a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D39510E0D4;
- Mon, 17 Apr 2023 17:42:28 +0000 (UTC)
-Received: by mail-oa1-x2a.google.com with SMTP id
- 586e51a60fabf-18782426c4bso18237563fac.9; 
- Mon, 17 Apr 2023 10:42:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1681753347; x=1684345347;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=4eNqP05voiY4cJzFVp4818baomQSBjqVrvQ3HutXj9Q=;
- b=I7RqE60/FDZvnlUc/Hc2zHsYwbfRunLUyH7Y5y9+f0ZuBug8YQxH6dI1R1KyXHAK20
- JHQS90XlbNAop7uekRzpuBxJx7IPTYyFORiJjn6eyUp2HqpYSi1/bKZ8/L1WrGBQzRlH
- eLPTGh8vyAflCCykXCLs+JW9MtnCkIJRw2jHB2uhMxlBmEeEn8Yl6nArIgbjM7+vDjiP
- en5GPd2ymIaq3cAMXxbFy3Xw9P06SIvyvyaDl8H0lb8qWs60WRnFmIh27gfS4evLcNCt
- 4bkFuKC/rZNY2hA80iMXpev2sjZDknHayl7h3V0v9JO2mR1bOZUSyBs0eqtWWnWSIX/K
- J7og==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681753347; x=1684345347;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=4eNqP05voiY4cJzFVp4818baomQSBjqVrvQ3HutXj9Q=;
- b=GenLT6PjGVoCX7PAyhe3/2ijx2wcQJb7hKZaBIcbs/0V2xSVV20npbTke+5JqcQboR
- kkFrTgpJwfFIZhxZEZHNcppgY1hMuVfvsE4uAmaF68qdLRh6qRzReEkodcS6PDr+P5DA
- 8Pi30n9ioxiINlKC3x1/4504bTaWN1wbUy8ov6vAin4LSKrnKZyyl9ATRwM0dREOEdWs
- 3a15B1STZdrCUsMwS/HeYfA2aSXZcPjxafcR9H0onGbMnaqVgZYSAl1ZUjK7LcE/CUSp
- d79ZT+HnkHE1TBZyjJx9QD7VeolfhEVfVkH5Pg5Lhg0O74PsmFqT4OoIrd247lk/5qcb
- 2QgQ==
-X-Gm-Message-State: AAQBX9flfh4SdvuF/EmGcqEAFbzf0qsluz6eulSQiV5beM33XPZonAKR
- LGG4GJKZ2AzkT9LpRbtmbqNNb+xzwBnrsbslsTJGPYHppp0=
-X-Google-Smtp-Source: AKy350YVVelr4MCDdF7/v07bFw6Y27tnHKCUjnzrNDgPiUPCHpOrE4KBzNFb2d3SbulgaaeBEDAAYxi4pvwCx8Dm/w4=
-X-Received: by 2002:a05:6870:40d3:b0:187:88f8:e9b5 with SMTP id
- l19-20020a05687040d300b0018788f8e9b5mr7094627oal.6.1681753347093; Mon, 17 Apr
- 2023 10:42:27 -0700 (PDT)
+X-Greylist: delayed 403 seconds by postgrey-1.36 at gabe;
+ Tue, 18 Apr 2023 21:38:19 UTC
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org
+ [IPv6:2001:67c:2050:0:465::101])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A10B10E2FC;
+ Tue, 18 Apr 2023 21:38:18 +0000 (UTC)
+Received: from smtp102.mailbox.org (unknown [10.196.197.102])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4Q1HDH079Cz9t4K;
+ Tue, 18 Apr 2023 23:31:27 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1681853487;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=KC9FUxhkYIrJcl9CTNIj/+D5n5jqJvE6Q6ukjUkKjgU=;
+ b=iOhsPXPQBr3wHW9fEQnn1H5Xxrcndhu5PSan/o9ZRycMM4Pi+GvYMnmTNWAQLJDaCePnPl
+ xk+S7Sd0u1bL5nZdJy0Oip9iNqo4aARvkS6y4jN1qn+q2fCPFi61VwvK3zG91FijKdA22h
+ p7oon1un7Lgvm+DmIPno1GvR6hW2bcOpQx1KxYamqSvADPrcsxNDkSASG4ApgTSZJiZYfQ
+ V08WjFMwTKAUBx/em1qvSkGDJ+FyjzUa1Fq6xrPlO+STrAYJmpTOXlTGuRIokJd4ix07/s
+ fSZoQhrwFwrqQ5zQN5Z/YdcG9HuRXojtoCu0x6dzNZJNWibv1Gdx66nU8nl5fw==
+Date: Mon, 17 Apr 2023 20:48:09 +0200
+From: Harald Koenig <harald@mailbox.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: 2023 X.Org Foundation Membership deadline for voting in the
+ election
+Message-ID: <ZD2UabVlQOBVaVRO@hl.fritz.box>
+References: <ef4e39301a769ef83668074c341274e30db57f95.camel@igalia.com>
+ <2b861d289edaab1c53c031f72de192fcddf85b13.camel@igalia.com>
+ <20230417124502.GB19964@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-References: <20230414143810.572237-1-l.stach@pengutronix.de>
-In-Reply-To: <20230414143810.572237-1-l.stach@pengutronix.de>
-From: Christian Gmeiner <christian.gmeiner@gmail.com>
-Date: Mon, 17 Apr 2023 19:42:15 +0200
-Message-ID: <CAH9NwWfAuyLenoQHHdSZb2O87HHxu53JziL6Ro05F6yHdnZ+8A@mail.gmail.com>
-Subject: Re: [PATCH] drm/etnaviv: fix dumping of active MMU context
-To: Lucas Stach <l.stach@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230417124502.GB19964@pendragon.ideasonboard.com>
+X-MBO-RS-META: 7gitco355spy61a3k3zmf6tukn6cq3nt
+X-MBO-RS-ID: c488dba0842a997c9ba
+X-Mailman-Approved-At: Sun, 23 Apr 2023 12:13:22 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,87 +59,59 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@pengutronix.de, patchwork-lst@pengutronix.de,
- etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Russell King <linux+etnaviv@armlinux.org.uk>
+Cc: xorg-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, wayland-devel@lists.freedesktop.org,
+ board <board@foundation.x.org>, members@x.org, amd-gfx@lists.freedesktop.org,
+ mesa-dev@lists.freedesktop.org, events@lists.x.org,
+ Ricardo Garcia <rgarcia@igalia.com>, freedreno@lists.freedesktop.org,
+ libre-soc-dev@lists.libre-soc.org
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Hi Lucas
+On Apr 17, Laurent Pinchart wrote:
 
->
-> gpu->mmu_context is the MMU context of the last job in the HW queue, which
-> isn't necessarily the same as the context from the bad job. Dump the MMU
-> context from the scheduler determined bad submit to make it work as intended.
->
+> I don't know if I'm the only one affected by this issue, but I've just
+> received today two months of e-mails from x.org, including all the
+> reminders aboud membership renewal and election nomination period. This
+> isn't the first time this happens, and the last time I was told there
+> was no automated process to quick the mail queues when errors happen,
+> making mails pile up forever on x.org's side until someone handles it
+> manually. This is something you really want to automate, or at least
+> monitored.
 
-Good catch!
+same here for me: looking into the mail header,
+both mails were stuck on server "gabe.freedesktop.org" 
 
-> Fixes: 17e4660ae3d7 ("drm/etnaviv: implement per-process address spaces on MMUv2")
-> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+	Received: from gabe.freedesktop.org (localhost [127.0.0.1])
+	        by gabe.freedesktop.org (Postfix) with ESMTP id BD01310E459;
+	        Mon, 17 Apr 2023 11:42:45 +0000 (UTC)
+	X-Original-To: events@lists.x.org
+	Delivered-To: events@lists.x.org
+	Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+	 by gabe.freedesktop.org (Postfix) with ESMTPS id 6C54510E162;
+	 Wed, 15 Feb 2023 15:58:10 +0000 (UTC)
 
-Reviewed-by: Christian Gmeiner <christian.gmeiner@gmail.com>
+and	
 
-> ---
->  drivers/gpu/drm/etnaviv/etnaviv_dump.c | 14 +++++++-------
->  1 file changed, 7 insertions(+), 7 deletions(-)
->
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_dump.c b/drivers/gpu/drm/etnaviv/etnaviv_dump.c
-> index 44b5f3c35aab..898f84a0fc30 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_dump.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_dump.c
-> @@ -130,9 +130,9 @@ void etnaviv_core_dump(struct etnaviv_gem_submit *submit)
->                 return;
->         etnaviv_dump_core = false;
->
-> -       mutex_lock(&gpu->mmu_context->lock);
-> +       mutex_lock(&submit->mmu_context->lock);
->
-> -       mmu_size = etnaviv_iommu_dump_size(gpu->mmu_context);
-> +       mmu_size = etnaviv_iommu_dump_size(submit->mmu_context);
->
->         /* We always dump registers, mmu, ring, hanging cmdbuf and end marker */
->         n_obj = 5;
-> @@ -162,7 +162,7 @@ void etnaviv_core_dump(struct etnaviv_gem_submit *submit)
->         iter.start = __vmalloc(file_size, GFP_KERNEL | __GFP_NOWARN |
->                         __GFP_NORETRY);
->         if (!iter.start) {
-> -               mutex_unlock(&gpu->mmu_context->lock);
-> +               mutex_unlock(&submit->mmu_context->lock);
->                 dev_warn(gpu->dev, "failed to allocate devcoredump file\n");
->                 return;
->         }
-> @@ -174,18 +174,18 @@ void etnaviv_core_dump(struct etnaviv_gem_submit *submit)
->         memset(iter.hdr, 0, iter.data - iter.start);
->
->         etnaviv_core_dump_registers(&iter, gpu);
-> -       etnaviv_core_dump_mmu(&iter, gpu->mmu_context, mmu_size);
-> +       etnaviv_core_dump_mmu(&iter, submit->mmu_context, mmu_size);
->         etnaviv_core_dump_mem(&iter, ETDUMP_BUF_RING, gpu->buffer.vaddr,
->                               gpu->buffer.size,
->                               etnaviv_cmdbuf_get_va(&gpu->buffer,
-> -                                       &gpu->mmu_context->cmdbuf_mapping));
-> +                                       &submit->mmu_context->cmdbuf_mapping));
->
->         etnaviv_core_dump_mem(&iter, ETDUMP_BUF_CMD,
->                               submit->cmdbuf.vaddr, submit->cmdbuf.size,
->                               etnaviv_cmdbuf_get_va(&submit->cmdbuf,
-> -                                       &gpu->mmu_context->cmdbuf_mapping));
-> +                                       &submit->mmu_context->cmdbuf_mapping));
->
-> -       mutex_unlock(&gpu->mmu_context->lock);
-> +       mutex_unlock(&submit->mmu_context->lock);
->
->         /* Reserve space for the bomap */
->         if (n_bomap_pages) {
-> --
-> 2.39.2
->
+	Received: from gabe.freedesktop.org (localhost [127.0.0.1])
+	        by gabe.freedesktop.org (Postfix) with ESMTP id 6735010E46D;
+	        Mon, 17 Apr 2023 11:42:45 +0000 (UTC)
+	X-Original-To: events@lists.x.org
+	Delivered-To: events@lists.x.org
+	Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+	 by gabe.freedesktop.org (Postfix) with ESMTPS id 98DB48953E;
+	 Mon, 13 Mar 2023 15:23:02 +0000 (UTC)
 
 
+
+Harald
 -- 
-greets
---
-Christian Gmeiner, MSc
-
-https://christian-gmeiner.info/privacypolicy
+"I hope to die                                      ___       _____
+before I *have* to use Microsoft Word.",           0--,|    /OOOOOOO\
+Donald E. Knuth, 02-Oct-2001 in Tuebingen.        <_/  /  /OOOOOOOOOOO\
+                                                    \  \/OOOOOOOOOOOOOOO\
+                                                      \ OOOOOOOOOOOOOOOOO|//
+                                                       \/\/\/\/\/\/\/\/\/
+Harald Koenig                                           //  /     \\  \
+harald.koenig@mailbox.org                              ^^^^^       ^^^^^
