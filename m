@@ -2,61 +2,58 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5239B6EBF42
-	for <lists+etnaviv@lfdr.de>; Sun, 23 Apr 2023 14:13:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF7F26E4F73
+	for <lists+etnaviv@lfdr.de>; Mon, 17 Apr 2023 19:42:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1ABAC10E3B9;
-	Sun, 23 Apr 2023 12:13:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8589310E0D4;
+	Mon, 17 Apr 2023 17:42:30 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com
- [IPv6:2a00:1450:4864:20::236])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 45E3110E07C;
- Mon, 17 Apr 2023 16:50:41 +0000 (UTC)
-Received: by mail-lj1-x236.google.com with SMTP id o8so6122784ljp.6;
- Mon, 17 Apr 2023 09:50:41 -0700 (PDT)
+Received: from mail-oa1-x2a.google.com (mail-oa1-x2a.google.com
+ [IPv6:2001:4860:4864:20::2a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D39510E0D4;
+ Mon, 17 Apr 2023 17:42:28 +0000 (UTC)
+Received: by mail-oa1-x2a.google.com with SMTP id
+ 586e51a60fabf-18782426c4bso18237563fac.9; 
+ Mon, 17 Apr 2023 10:42:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1681750239; x=1684342239;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=kwV4R3ak4q89seFXFlkufBWxBxwbeT/d2E4SMIJOWzo=;
- b=OByfnH05hL5hNbMqKGQS8rejNTl8sEmoLojWstKWP+T+sc+EqfyJJK4iPlo+uw+vYt
- jV0FBJXEV39YudDw9YovY9DHWw08JlpMkA05EQzewT663oN071TqTl0XsF6KrOAR72MD
- srt/4lcfEfW9BriPnU6gIFwfUeE8Ac0xqO6nJCOWyM0dPMkQ2tchHc18CgaFxtr1t+d1
- 42VLl1R44X4fGWVLYNOCog0Oy2W73yGYEBs4Y/glGJPwhIbJkJwgnuC3ZEAcV8xFKg2R
- IPmTECO0Qgyf9Lj1OjufXnfeVlbdo+o0EQHPa+A2Gzd9bCNV7ZoSdpP/OKUoz+GjkbzF
- mMyw==
+ d=gmail.com; s=20221208; t=1681753347; x=1684345347;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=4eNqP05voiY4cJzFVp4818baomQSBjqVrvQ3HutXj9Q=;
+ b=I7RqE60/FDZvnlUc/Hc2zHsYwbfRunLUyH7Y5y9+f0ZuBug8YQxH6dI1R1KyXHAK20
+ JHQS90XlbNAop7uekRzpuBxJx7IPTYyFORiJjn6eyUp2HqpYSi1/bKZ8/L1WrGBQzRlH
+ eLPTGh8vyAflCCykXCLs+JW9MtnCkIJRw2jHB2uhMxlBmEeEn8Yl6nArIgbjM7+vDjiP
+ en5GPd2ymIaq3cAMXxbFy3Xw9P06SIvyvyaDl8H0lb8qWs60WRnFmIh27gfS4evLcNCt
+ 4bkFuKC/rZNY2hA80iMXpev2sjZDknHayl7h3V0v9JO2mR1bOZUSyBs0eqtWWnWSIX/K
+ J7og==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681750239; x=1684342239;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=kwV4R3ak4q89seFXFlkufBWxBxwbeT/d2E4SMIJOWzo=;
- b=XE08LeViJxBBW2QMfrqrWH97/6fMJ8wi1OvQhqflMgS2dabPBF7YYIRIPPYfyIfaa+
- CiF//jQuT3Q19HPk6qq2QhwJa3WBFmCuEak/AF7UBkSvA3C/dXWEXRY4v8GhDkpnwaKL
- uSDmfkjXrKkdHRVssYr+xTv6TNmR+wyxehv2N3ZC+B/pOPXjiwrfoPeSGlqtU8GevNtC
- SwCCkoG3eFJhYtRSHw1jGPvE+reJ+nEM5jluP9NTmKY6HlnkJ1IynZ8Nq4FQB3WJUQax
- lGXbdCMZRvmrfxlFhdGc6g4jD9XpHzoYVPzK86MNMDrdKgqtYPb8Im7qnZy2g6wEkpFS
- /GfA==
-X-Gm-Message-State: AAQBX9e0mUQ6/PMYwdRXVBL190a4foMjhHKu/kPFW4eCLkVtVvh44PNy
- gy/rKIMPivC1E8tgFBXChk7KGJZaxrptt02aoaE=
-X-Google-Smtp-Source: AKy350aML3MlWQZTkrvhFBrj1xFkcEwFuF9+3X/N1SK5fJ9H2aAIA+A29aF+IfbNhSzL7iYgQ9OTCJ6YbxJ+ox2Tt4w=
-X-Received: by 2002:a2e:9082:0:b0:2a7:6bef:bc7f with SMTP id
- l2-20020a2e9082000000b002a76befbc7fmr4745926ljg.5.1681750238702; Mon, 17 Apr
- 2023 09:50:38 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1681753347; x=1684345347;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=4eNqP05voiY4cJzFVp4818baomQSBjqVrvQ3HutXj9Q=;
+ b=GenLT6PjGVoCX7PAyhe3/2ijx2wcQJb7hKZaBIcbs/0V2xSVV20npbTke+5JqcQboR
+ kkFrTgpJwfFIZhxZEZHNcppgY1hMuVfvsE4uAmaF68qdLRh6qRzReEkodcS6PDr+P5DA
+ 8Pi30n9ioxiINlKC3x1/4504bTaWN1wbUy8ov6vAin4LSKrnKZyyl9ATRwM0dREOEdWs
+ 3a15B1STZdrCUsMwS/HeYfA2aSXZcPjxafcR9H0onGbMnaqVgZYSAl1ZUjK7LcE/CUSp
+ d79ZT+HnkHE1TBZyjJx9QD7VeolfhEVfVkH5Pg5Lhg0O74PsmFqT4OoIrd247lk/5qcb
+ 2QgQ==
+X-Gm-Message-State: AAQBX9flfh4SdvuF/EmGcqEAFbzf0qsluz6eulSQiV5beM33XPZonAKR
+ LGG4GJKZ2AzkT9LpRbtmbqNNb+xzwBnrsbslsTJGPYHppp0=
+X-Google-Smtp-Source: AKy350YVVelr4MCDdF7/v07bFw6Y27tnHKCUjnzrNDgPiUPCHpOrE4KBzNFb2d3SbulgaaeBEDAAYxi4pvwCx8Dm/w4=
+X-Received: by 2002:a05:6870:40d3:b0:187:88f8:e9b5 with SMTP id
+ l19-20020a05687040d300b0018788f8e9b5mr7094627oal.6.1681753347093; Mon, 17 Apr
+ 2023 10:42:27 -0700 (PDT)
 MIME-Version: 1.0
-References: <249b7449-c47b-47e6-0582-d87bd323fbbe@igalia.com>
-In-Reply-To: <249b7449-c47b-47e6-0582-d87bd323fbbe@igalia.com>
-From: Luna Jernberg <droidbittin@gmail.com>
-Date: Mon, 17 Apr 2023 18:49:59 +0200
-Message-ID: <CADo9pHi-mdWssVYSN6JTi_3QErfjN8SRj3O5hWLvJr7dPhWSkg@mail.gmail.com>
-Subject: Re: [Nouveau] XDC 2023: Registration & Call for Proposals now open!
-To: =?UTF-8?Q?Samuel_Iglesias_Gons=C3=A1lvez?= <siglesias@igalia.com>, 
- Luna Jernberg <droidbittin@gmail.com>
+References: <20230414143810.572237-1-l.stach@pengutronix.de>
+In-Reply-To: <20230414143810.572237-1-l.stach@pengutronix.de>
+From: Christian Gmeiner <christian.gmeiner@gmail.com>
+Date: Mon, 17 Apr 2023 19:42:15 +0200
+Message-ID: <CAH9NwWfAuyLenoQHHdSZb2O87HHxu53JziL6Ro05F6yHdnZ+8A@mail.gmail.com>
+Subject: Re: [PATCH] drm/etnaviv: fix dumping of active MMU context
+To: Lucas Stach <l.stach@pengutronix.de>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Mailman-Approved-At: Sun, 23 Apr 2023 12:13:22 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,66 +65,87 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: xorg-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, wayland-devel@lists.freedesktop.org,
- "board@foundation.x.org" <board@foundation.x.org>, members@x.org,
- dri-devel@lists.freedesktop.org, events@lists.x.org,
- mesa-dev@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- libre-soc-dev@lists.libre-soc.org
+Cc: kernel@pengutronix.de, patchwork-lst@pengutronix.de,
+ etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Russell King <linux+etnaviv@armlinux.org.uk>
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Signed up will only attend virtually Online however just fyi
+Hi Lucas
 
-On Mon, Apr 17, 2023 at 1:41=E2=80=AFPM Samuel Iglesias Gons=C3=A1lvez
-<siglesias@igalia.com> wrote:
 >
-> Hello!
+> gpu->mmu_context is the MMU context of the last job in the HW queue, which
+> isn't necessarily the same as the context from the bad job. Dump the MMU
+> context from the scheduler determined bad submit to make it work as intended.
 >
-> Registration & Call for Proposals are now open for XDC 2023, which will
-> take place on October 17-19, 2023.
+
+Good catch!
+
+> Fixes: 17e4660ae3d7 ("drm/etnaviv: implement per-process address spaces on MMUv2")
+> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+
+Reviewed-by: Christian Gmeiner <christian.gmeiner@gmail.com>
+
+> ---
+>  drivers/gpu/drm/etnaviv/etnaviv_dump.c | 14 +++++++-------
+>  1 file changed, 7 insertions(+), 7 deletions(-)
 >
-> https://xdc2023.x.org
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_dump.c b/drivers/gpu/drm/etnaviv/etnaviv_dump.c
+> index 44b5f3c35aab..898f84a0fc30 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_dump.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_dump.c
+> @@ -130,9 +130,9 @@ void etnaviv_core_dump(struct etnaviv_gem_submit *submit)
+>                 return;
+>         etnaviv_dump_core = false;
 >
-> As usual, the conference is free of charge and open to the general
-> public. If you plan on attending, please make sure to register as early
-> as possible!
+> -       mutex_lock(&gpu->mmu_context->lock);
+> +       mutex_lock(&submit->mmu_context->lock);
 >
-> In order to register as attendee, you will therefore need to register
-> via the XDC website.
+> -       mmu_size = etnaviv_iommu_dump_size(gpu->mmu_context);
+> +       mmu_size = etnaviv_iommu_dump_size(submit->mmu_context);
 >
-> https://indico.freedesktop.org/event/4/registrations/
+>         /* We always dump registers, mmu, ring, hanging cmdbuf and end marker */
+>         n_obj = 5;
+> @@ -162,7 +162,7 @@ void etnaviv_core_dump(struct etnaviv_gem_submit *submit)
+>         iter.start = __vmalloc(file_size, GFP_KERNEL | __GFP_NOWARN |
+>                         __GFP_NORETRY);
+>         if (!iter.start) {
+> -               mutex_unlock(&gpu->mmu_context->lock);
+> +               mutex_unlock(&submit->mmu_context->lock);
+>                 dev_warn(gpu->dev, "failed to allocate devcoredump file\n");
+>                 return;
+>         }
+> @@ -174,18 +174,18 @@ void etnaviv_core_dump(struct etnaviv_gem_submit *submit)
+>         memset(iter.hdr, 0, iter.data - iter.start);
 >
-> In addition to registration, the CfP is now open for talks, workshops
-> and demos at XDC 2023. While any serious proposal will be gratefully
-> considered, topics of interest to X.Org and freedesktop.org developers
-> are encouraged. The program focus is on new development, ongoing
-> challenges and anything else that will spark discussions among
-> attendees in the hallway track.
+>         etnaviv_core_dump_registers(&iter, gpu);
+> -       etnaviv_core_dump_mmu(&iter, gpu->mmu_context, mmu_size);
+> +       etnaviv_core_dump_mmu(&iter, submit->mmu_context, mmu_size);
+>         etnaviv_core_dump_mem(&iter, ETDUMP_BUF_RING, gpu->buffer.vaddr,
+>                               gpu->buffer.size,
+>                               etnaviv_cmdbuf_get_va(&gpu->buffer,
+> -                                       &gpu->mmu_context->cmdbuf_mapping));
+> +                                       &submit->mmu_context->cmdbuf_mapping));
 >
-> We are open to talks across all layers of the graphics stack, from the
-> kernel to desktop environments / graphical applications and about how
-> to make things better for the developers who build them. Head to the
-> CfP page to learn more:
+>         etnaviv_core_dump_mem(&iter, ETDUMP_BUF_CMD,
+>                               submit->cmdbuf.vaddr, submit->cmdbuf.size,
+>                               etnaviv_cmdbuf_get_va(&submit->cmdbuf,
+> -                                       &gpu->mmu_context->cmdbuf_mapping));
+> +                                       &submit->mmu_context->cmdbuf_mapping));
 >
-> https://indico.freedesktop.org/event/4/abstracts/
+> -       mutex_unlock(&gpu->mmu_context->lock);
+> +       mutex_unlock(&submit->mmu_context->lock);
 >
-> The deadline for submissions is Monday, 17 July 2023 (23:59 CEST)
+>         /* Reserve space for the bomap */
+>         if (n_bomap_pages) {
+> --
+> 2.39.2
 >
-> Check out our Reimbursement Policy to accept speaker expenses:
->
-> https://www.x.org/wiki/XorgFoundation/Policies/Reimbursement/
->
-> If you have any questions, please send me an email to
-> siglesias AT igalia.com, adding on Cc the X.org board (board
-> at foundation.x.org).
->
-> And please keep in mind, you can follow us on Twitter for all the latest
-> updates and to stay connected:
->
-> https://twitter.com/XOrgDevConf
->
-> Best,
->
-> Sam
+
+
+-- 
+greets
+--
+Christian Gmeiner, MSc
+
+https://christian-gmeiner.info/privacypolicy
