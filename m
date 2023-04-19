@@ -2,52 +2,47 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 647A86EBF43
-	for <lists+etnaviv@lfdr.de>; Sun, 23 Apr 2023 14:13:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CCE46E7603
+	for <lists+etnaviv@lfdr.de>; Wed, 19 Apr 2023 11:12:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 29B1D10E3BE;
-	Sun, 23 Apr 2023 12:13:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0274610E8FC;
+	Wed, 19 Apr 2023 09:12:00 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-X-Greylist: delayed 403 seconds by postgrey-1.36 at gabe;
- Tue, 18 Apr 2023 21:38:19 UTC
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org
- [IPv6:2001:67c:2050:0:465::101])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A10B10E2FC;
- Tue, 18 Apr 2023 21:38:18 +0000 (UTC)
-Received: from smtp102.mailbox.org (unknown [10.196.197.102])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4Q1HDH079Cz9t4K;
- Tue, 18 Apr 2023 23:31:27 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1681853487;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=KC9FUxhkYIrJcl9CTNIj/+D5n5jqJvE6Q6ukjUkKjgU=;
- b=iOhsPXPQBr3wHW9fEQnn1H5Xxrcndhu5PSan/o9ZRycMM4Pi+GvYMnmTNWAQLJDaCePnPl
- xk+S7Sd0u1bL5nZdJy0Oip9iNqo4aARvkS6y4jN1qn+q2fCPFi61VwvK3zG91FijKdA22h
- p7oon1un7Lgvm+DmIPno1GvR6hW2bcOpQx1KxYamqSvADPrcsxNDkSASG4ApgTSZJiZYfQ
- V08WjFMwTKAUBx/em1qvSkGDJ+FyjzUa1Fq6xrPlO+STrAYJmpTOXlTGuRIokJd4ix07/s
- fSZoQhrwFwrqQ5zQN5Z/YdcG9HuRXojtoCu0x6dzNZJNWibv1Gdx66nU8nl5fw==
-Date: Mon, 17 Apr 2023 20:48:09 +0200
-From: Harald Koenig <harald@mailbox.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: 2023 X.Org Foundation Membership deadline for voting in the
- election
-Message-ID: <ZD2UabVlQOBVaVRO@hl.fritz.box>
-References: <ef4e39301a769ef83668074c341274e30db57f95.camel@igalia.com>
- <2b861d289edaab1c53c031f72de192fcddf85b13.camel@igalia.com>
- <20230417124502.GB19964@pendragon.ideasonboard.com>
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5CB5910E8EE;
+ Wed, 19 Apr 2023 09:11:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=MIME-Version:Content-Transfer-Encoding:Content-Type:Date:Cc:To:
+ From:Subject:Message-ID:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=mW/ELGGt+nNEUAioDFQ7F2YKqEHixe4y/Tu+mBqY3bY=; b=sD6slWErxN+WjXUQ15qGbuB9z3
+ jou8pW5owHP2j8nHACEHInYln2uuJZL4/k/tgAAfWM/kVDG99YOAWt73PTypdh3xYQ8ppYgnoBcWN
+ dFVDTbbWc2qdp283dLXK0PzCboTCXb7gbsO/lbaTbUlVICCPgtW6F0LKtebQJOyPozSfLEP6bU2L1
+ barlVlLGnQhqTb7KnFv9zkMFSjSLSt1kBu35ZiI7gys/JXqw6w6GVlXn3nfMHq9qnClMlXyKnaRLY
+ tETt0A2QOrXv96UaFGsvBenj6qonBKY04307DLujXiFSScHAcmGudUHuJak1wRa+4iXYgs5Ym29OF
+ +aJbYBow==;
+Received: from 137.red-83-52-2.dynamicip.rima-tde.net ([83.52.2.137]
+ helo=localhost.localdomain) by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1pp3qs-004fyJ-RG; Wed, 19 Apr 2023 11:11:46 +0200
+Message-ID: <fa0f5162f38baf2743e3a8e01d4fc9ddc985da69.camel@igalia.com>
+Subject: 2023 X.Org Foundation Membership deadline extended
+From: Ricardo Garcia <rgarcia@igalia.com>
+To: members@x.org, events@lists.x.org, xorg-devel@lists.freedesktop.org, 
+ wayland-devel@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ mesa-dev@lists.freedesktop.org, amd-gfx@lists.freedesktop.org, 
+ etnaviv@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ libre-soc-dev <libre-soc-dev@lists.libre-soc.org>
+Date: Wed, 19 Apr 2023 11:11:45 +0200
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230417124502.GB19964@pendragon.ideasonboard.com>
-X-MBO-RS-META: 7gitco355spy61a3k3zmf6tukn6cq3nt
-X-MBO-RS-ID: c488dba0842a997c9ba
-X-Mailman-Approved-At: Sun, 23 Apr 2023 12:13:22 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,59 +54,37 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: xorg-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, wayland-devel@lists.freedesktop.org,
- board <board@foundation.x.org>, members@x.org, amd-gfx@lists.freedesktop.org,
- mesa-dev@lists.freedesktop.org, events@lists.x.org,
- Ricardo Garcia <rgarcia@igalia.com>, freedreno@lists.freedesktop.org,
- libre-soc-dev@lists.libre-soc.org
+Cc: board <board@foundation.x.org>
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-On Apr 17, Laurent Pinchart wrote:
+Several people reported getting multiple membership and election emails
+recently for the first time when we flushed the queue of messages which
+had been unfortunately held in moderation in the events@lists.x.org
+mailing list queue. Thanks Luc, Laurent and Harald for getting in touch!
 
-> I don't know if I'm the only one affected by this issue, but I've just
-> received today two months of e-mails from x.org, including all the
-> reminders aboud membership renewal and election nomination period. This
-> isn't the first time this happens, and the last time I was told there
-> was no automated process to quick the mail queues when errors happen,
-> making mails pile up forever on x.org's side until someone handles it
-> manually. This is something you really want to automate, or at least
-> monitored.
+Thanks to other mailing lists, we believe to have reached a wide
+audience in any case. Membership numbers look good and we already have 8
+candidates lined up for the upcoming voting process that was scheduled
+to start this week.
 
-same here for me: looking into the mail header,
-both mails were stuck on server "gabe.freedesktop.org" 
+Still, we believe it's fair to extend the membership application/renewal
+deadline until the end of this week for those who haven't had the chance
+to do so yet. The new deadline is April 23rd 23:59 UTC.
 
-	Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	        by gabe.freedesktop.org (Postfix) with ESMTP id BD01310E459;
-	        Mon, 17 Apr 2023 11:42:45 +0000 (UTC)
-	X-Original-To: events@lists.x.org
-	Delivered-To: events@lists.x.org
-	Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
-	 by gabe.freedesktop.org (Postfix) with ESMTPS id 6C54510E162;
-	 Wed, 15 Feb 2023 15:58:10 +0000 (UTC)
+Please note that only current members can vote in the upcoming election.
+If you are interested in joining the X.Org Foundation or in renewing
+your membership, please visit the membership system site at:
+https://members.x.org/
 
-and	
+In order not to delay the process further, however, we will not accept
+new candidates. You can see the current list here:
 
-	Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	        by gabe.freedesktop.org (Postfix) with ESMTP id 6735010E46D;
-	        Mon, 17 Apr 2023 11:42:45 +0000 (UTC)
-	X-Original-To: events@lists.x.org
-	Delivered-To: events@lists.x.org
-	Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
-	 by gabe.freedesktop.org (Postfix) with ESMTPS id 98DB48953E;
-	 Mon, 13 Mar 2023 15:23:02 +0000 (UTC)
+https://wiki.freedesktop.org/xorg/BoardOfDirectors/Elections/2023/
 
+The election will start on April 24th and end on May 1st as was
+initially planned, so members will have 1 week for voting instead of 2.
+Reminders will be sent throughout the election week to members@x.org.
 
-
-Harald
--- 
-"I hope to die                                      ___       _____
-before I *have* to use Microsoft Word.",           0--,|    /OOOOOOO\
-Donald E. Knuth, 02-Oct-2001 in Tuebingen.        <_/  /  /OOOOOOOOOOO\
-                                                    \  \/OOOOOOOOOOOOOOO\
-                                                      \ OOOOOOOOOOOOOOOOO|//
-                                                       \/\/\/\/\/\/\/\/\/
-Harald Koenig                                           //  /     \\  \
-harald.koenig@mailbox.org                              ^^^^^       ^^^^^
+Thanks again for your attention,
+-Ricardo Garcia, on behalf of the X.Org elections committee
