@@ -1,48 +1,41 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CCE46E7603
-	for <lists+etnaviv@lfdr.de>; Wed, 19 Apr 2023 11:12:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 531206E7664
+	for <lists+etnaviv@lfdr.de>; Wed, 19 Apr 2023 11:35:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0274610E8FC;
-	Wed, 19 Apr 2023 09:12:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 590F610E906;
+	Wed, 19 Apr 2023 09:35:10 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5CB5910E8EE;
- Wed, 19 Apr 2023 09:11:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=MIME-Version:Content-Transfer-Encoding:Content-Type:Date:Cc:To:
- From:Subject:Message-ID:Sender:Reply-To:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=mW/ELGGt+nNEUAioDFQ7F2YKqEHixe4y/Tu+mBqY3bY=; b=sD6slWErxN+WjXUQ15qGbuB9z3
- jou8pW5owHP2j8nHACEHInYln2uuJZL4/k/tgAAfWM/kVDG99YOAWt73PTypdh3xYQ8ppYgnoBcWN
- dFVDTbbWc2qdp283dLXK0PzCboTCXb7gbsO/lbaTbUlVICCPgtW6F0LKtebQJOyPozSfLEP6bU2L1
- barlVlLGnQhqTb7KnFv9zkMFSjSLSt1kBu35ZiI7gys/JXqw6w6GVlXn3nfMHq9qnClMlXyKnaRLY
- tETt0A2QOrXv96UaFGsvBenj6qonBKY04307DLujXiFSScHAcmGudUHuJak1wRa+4iXYgs5Ym29OF
- +aJbYBow==;
-Received: from 137.red-83-52-2.dynamicip.rima-tde.net ([83.52.2.137]
- helo=localhost.localdomain) by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1pp3qs-004fyJ-RG; Wed, 19 Apr 2023 11:11:46 +0200
-Message-ID: <fa0f5162f38baf2743e3a8e01d4fc9ddc985da69.camel@igalia.com>
-Subject: 2023 X.Org Foundation Membership deadline extended
-From: Ricardo Garcia <rgarcia@igalia.com>
-To: members@x.org, events@lists.x.org, xorg-devel@lists.freedesktop.org, 
- wayland-devel@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- mesa-dev@lists.freedesktop.org, amd-gfx@lists.freedesktop.org, 
- etnaviv@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- libre-soc-dev <libre-soc-dev@lists.libre-soc.org>
-Date: Wed, 19 Apr 2023 11:11:45 +0200
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2613A10E8F7
+ for <etnaviv@lists.freedesktop.org>; Wed, 19 Apr 2023 09:35:06 +0000 (UTC)
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
+ helo=[IPv6:::1]) by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1pp4DP-0000nw-SN; Wed, 19 Apr 2023 11:35:03 +0200
+Message-ID: <ba65decf8d11bfaeea37ab3217d2846e7ed4a974.camel@pengutronix.de>
+Subject: Re: [PATCH] drm/etnaviv: don't block scheduler when GPU is still
+ active
+From: Lucas Stach <l.stach@pengutronix.de>
+To: etnaviv@lists.freedesktop.org, Christian Gmeiner
+ <christian.gmeiner@gmail.com>
+Date: Wed, 19 Apr 2023 11:35:02 +0200
+In-Reply-To: <20230331110012.69844-1-l.stach@pengutronix.de>
+References: <20230331110012.69844-1-l.stach@pengutronix.de>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
 MIME-Version: 1.0
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,37 +47,89 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: board <board@foundation.x.org>
+Cc: Russell King <linux+etnaviv@armlinux.org.uk>,
+ dri-devel@lists.freedesktop.org, kernel@pengutronix.de,
+ patchwork-lst@pengutronix.de
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Several people reported getting multiple membership and election emails
-recently for the first time when we flushed the queue of messages which
-had been unfortunately held in moderation in the events@lists.x.org
-mailing list queue. Thanks Luc, Laurent and Harald for getting in touch!
+Hi,
 
-Thanks to other mailing lists, we believe to have reached a wide
-audience in any case. Membership numbers look good and we already have 8
-candidates lined up for the upcoming voting process that was scheduled
-to start this week.
+does anyone have some bandwidth to review this?
 
-Still, we believe it's fair to extend the membership application/renewal
-deadline until the end of this week for those who haven't had the chance
-to do so yet. The new deadline is April 23rd 23:59 UTC.
+Regards,
+Lucas
 
-Please note that only current members can vote in the upcoming election.
-If you are interested in joining the X.Org Foundation or in renewing
-your membership, please visit the membership system site at:
-https://members.x.org/
+Am Freitag, dem 31.03.2023 um 13:00 +0200 schrieb Lucas Stach:
+> Since 45ecaea73883 ("drm/sched: Partial revert of 'drm/sched: Keep
+> s_fence->parent pointer'") still active jobs aren't put back in the
+> pending list on drm_sched_start(), as they don't have a active
+> parent fence anymore, so if the GPU is still working and the timeout
+> is extended, all currently active jobs will be freed.
+>=20
+> To avoid prematurely freeing jobs that are still active on the GPU,
+> don't block the scheduler until we are fully committed to actually
+> reset the GPU.
+>=20
+> Cc: stable@vger.kernel.org #6.0
+> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+> ---
+> The behavior change in the scheduler is unfortunate and at least
+> deserves some updated documentation. This change aligns etnaviv with
+> the behavior of other drivers and avoids the issue.
+> ---
+>  drivers/gpu/drm/etnaviv/etnaviv_sched.c | 15 +++++----------
+>  1 file changed, 5 insertions(+), 10 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sched.c b/drivers/gpu/drm/et=
+naviv/etnaviv_sched.c
+> index 1ae87dfd19c4..35d7c2ef7a57 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+> @@ -38,15 +38,12 @@ static enum drm_gpu_sched_stat etnaviv_sched_timedout=
+_job(struct drm_sched_job
+>  	u32 dma_addr;
+>  	int change;
+> =20
+> -	/* block scheduler */
+> -	drm_sched_stop(&gpu->sched, sched_job);
+> -
+>  	/*
+>  	 * If the GPU managed to complete this jobs fence, the timout is
+>  	 * spurious. Bail out.
+>  	 */
+>  	if (dma_fence_is_signaled(submit->out_fence))
+> -		goto out_no_timeout;
+> +		return DRM_GPU_SCHED_STAT_NOMINAL;
+> =20
+>  	/*
+>  	 * If the GPU is still making forward progress on the front-end (which
+> @@ -59,9 +56,12 @@ static enum drm_gpu_sched_stat etnaviv_sched_timedout_=
+job(struct drm_sched_job
+>  	    change < 0 || change > 16) {
+>  		gpu->hangcheck_dma_addr =3D dma_addr;
+>  		gpu->hangcheck_fence =3D gpu->completed_fence;
+> -		goto out_no_timeout;
+> +		return DRM_GPU_SCHED_STAT_NOMINAL;
+>  	}
+> =20
+> +	/* block scheduler */
+> +	drm_sched_stop(&gpu->sched, sched_job);
+> +
+>  	if(sched_job)
+>  		drm_sched_increase_karma(sched_job);
+> =20
+> @@ -73,11 +73,6 @@ static enum drm_gpu_sched_stat etnaviv_sched_timedout_=
+job(struct drm_sched_job
+> =20
+>  	drm_sched_start(&gpu->sched, true);
+>  	return DRM_GPU_SCHED_STAT_NOMINAL;
+> -
+> -out_no_timeout:
+> -	/* restart scheduler after GPU is usable again */
+> -	drm_sched_start(&gpu->sched, true);
+> -	return DRM_GPU_SCHED_STAT_NOMINAL;
+>  }
+> =20
+>  static void etnaviv_sched_free_job(struct drm_sched_job *sched_job)
 
-In order not to delay the process further, however, we will not accept
-new candidates. You can see the current list here:
-
-https://wiki.freedesktop.org/xorg/BoardOfDirectors/Elections/2023/
-
-The election will start on April 24th and end on May 1st as was
-initially planned, so members will have 1 week for voting instead of 2.
-Reminders will be sent throughout the election week to members@x.org.
-
-Thanks again for your attention,
--Ricardo Garcia, on behalf of the X.Org elections committee
