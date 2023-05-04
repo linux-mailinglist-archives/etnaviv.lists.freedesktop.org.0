@@ -2,40 +2,48 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 531206E7664
-	for <lists+etnaviv@lfdr.de>; Wed, 19 Apr 2023 11:35:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CCCF6F6A42
+	for <lists+etnaviv@lfdr.de>; Thu,  4 May 2023 13:41:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 590F610E906;
-	Wed, 19 Apr 2023 09:35:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B89C10E0E2;
+	Thu,  4 May 2023 11:41:09 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2613A10E8F7
- for <etnaviv@lists.freedesktop.org>; Wed, 19 Apr 2023 09:35:06 +0000 (UTC)
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
- helo=[IPv6:::1]) by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1pp4DP-0000nw-SN; Wed, 19 Apr 2023 11:35:03 +0200
-Message-ID: <ba65decf8d11bfaeea37ab3217d2846e7ed4a974.camel@pengutronix.de>
-Subject: Re: [PATCH] drm/etnaviv: don't block scheduler when GPU is still
- active
-From: Lucas Stach <l.stach@pengutronix.de>
-To: etnaviv@lists.freedesktop.org, Christian Gmeiner
- <christian.gmeiner@gmail.com>
-Date: Wed, 19 Apr 2023 11:35:02 +0200
-In-Reply-To: <20230331110012.69844-1-l.stach@pengutronix.de>
-References: <20230331110012.69844-1-l.stach@pengutronix.de>
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2648910E087;
+ Thu,  4 May 2023 11:41:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=MIME-Version:Content-Transfer-Encoding:Content-Type:Date:To:
+ From:Subject:Message-ID:Sender:Reply-To:Cc:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=DY2Ok8279LYbukTn4RyVDpj5MbcGHsCyoi1DnlySgWk=; b=coqZ51PvbgUdFwIKttmgO2Wczt
+ rNJcEsJlXANwIm5gE46wTOvrfBWb2mskizyrA1UwrsZB/iKxW5/54r63SZEFAcIdZIZ1EAPhhEUYY
+ CYVzeVefmvYA63395H0nHKEB3vz3Jbzl9y0LYb4BDn4ay7pRR3rus5b6/9qO60EbBo7r7ASiegCa5
+ KCLX+scCQQLqKdB69QSty1zn7PvOaKKYTpSJsGL+uiretyyQpQ8aHMcGd8K2wtX65IhlDi+lzO+Ie
+ zT02dI85ukQjm6EKZLxuk1pMmIaNZYcYTMNa11dlT0UpHNuSonulW8ZXuI2HP6l4RW/S5jlGfuCkd
+ mGz8l/dQ==;
+Received: from 137.red-83-52-2.dynamicip.rima-tde.net ([83.52.2.137]
+ helo=localhost.localdomain) by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1puXKZ-001506-AJ; Thu, 04 May 2023 13:41:03 +0200
+Message-ID: <bd27b87dc34f5ff00d346a8115cbf3bbb22b911b.camel@igalia.com>
+Subject: 2023 X.Org Foundation Election vote results
+From: Ricardo Garcia <rgarcia@igalia.com>
+To: events@lists.x.org, xorg-devel@lists.x.org, 
+ wayland-devel@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ mesa-dev@lists.freedesktop.org, amd-gfx@lists.freedesktop.org, 
+ etnaviv@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
+ libre-soc-dev@lists.libre-soc.org, elections@x.org, members@x.org, 
+ xorg@lists.freedesktop.org
+Date: Thu, 04 May 2023 13:41:02 +0200
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,89 +55,50 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: Russell King <linux+etnaviv@armlinux.org.uk>,
- dri-devel@lists.freedesktop.org, kernel@pengutronix.de,
- patchwork-lst@pengutronix.de
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Hi,
+The Board of Directors election and the vote on the By-laws concluded at
+14:00 UTC on May 1st 2023 and these are the results:
 
-does anyone have some bandwidth to review this?
+- We had 75 members this year, of which 55 cast a vote, so the turnout
+is 73.3%.
 
-Regards,
-Lucas
+- On the question "Do you accept the proposed By-Law changes to make SFC
+the new fiscal sponsor of the X.Org foundation, replacing SPI?" 52 of
+the 55 members voted yes (94.5%). Among all 75 members, approval is
+69.3% (52/75, over 2/3), so we can consider this change approved using
+the current by-law rules.
 
-Am Freitag, dem 31.03.2023 um 13:00 +0200 schrieb Lucas Stach:
-> Since 45ecaea73883 ("drm/sched: Partial revert of 'drm/sched: Keep
-> s_fence->parent pointer'") still active jobs aren't put back in the
-> pending list on drm_sched_start(), as they don't have a active
-> parent fence anymore, so if the GPU is still working and the timeout
-> is extended, all currently active jobs will be freed.
->=20
-> To avoid prematurely freeing jobs that are still active on the GPU,
-> don't block the scheduler until we are fully committed to actually
-> reset the GPU.
->=20
-> Cc: stable@vger.kernel.org #6.0
-> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
-> ---
-> The behavior change in the scheduler is unfortunate and at least
-> deserves some updated documentation. This change aligns etnaviv with
-> the behavior of other drivers and avoids the issue.
-> ---
->  drivers/gpu/drm/etnaviv/etnaviv_sched.c | 15 +++++----------
->  1 file changed, 5 insertions(+), 10 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sched.c b/drivers/gpu/drm/et=
-naviv/etnaviv_sched.c
-> index 1ae87dfd19c4..35d7c2ef7a57 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-> @@ -38,15 +38,12 @@ static enum drm_gpu_sched_stat etnaviv_sched_timedout=
-_job(struct drm_sched_job
->  	u32 dma_addr;
->  	int change;
-> =20
-> -	/* block scheduler */
-> -	drm_sched_stop(&gpu->sched, sched_job);
-> -
->  	/*
->  	 * If the GPU managed to complete this jobs fence, the timout is
->  	 * spurious. Bail out.
->  	 */
->  	if (dma_fence_is_signaled(submit->out_fence))
-> -		goto out_no_timeout;
-> +		return DRM_GPU_SCHED_STAT_NOMINAL;
-> =20
->  	/*
->  	 * If the GPU is still making forward progress on the front-end (which
-> @@ -59,9 +56,12 @@ static enum drm_gpu_sched_stat etnaviv_sched_timedout_=
-job(struct drm_sched_job
->  	    change < 0 || change > 16) {
->  		gpu->hangcheck_dma_addr =3D dma_addr;
->  		gpu->hangcheck_fence =3D gpu->completed_fence;
-> -		goto out_no_timeout;
-> +		return DRM_GPU_SCHED_STAT_NOMINAL;
->  	}
-> =20
-> +	/* block scheduler */
-> +	drm_sched_stop(&gpu->sched, sched_job);
-> +
->  	if(sched_job)
->  		drm_sched_increase_karma(sched_job);
-> =20
-> @@ -73,11 +73,6 @@ static enum drm_gpu_sched_stat etnaviv_sched_timedout_=
-job(struct drm_sched_job
-> =20
->  	drm_sched_start(&gpu->sched, true);
->  	return DRM_GPU_SCHED_STAT_NOMINAL;
-> -
-> -out_no_timeout:
-> -	/* restart scheduler after GPU is usable again */
-> -	drm_sched_start(&gpu->sched, true);
-> -	return DRM_GPU_SCHED_STAT_NOMINAL;
->  }
-> =20
->  static void etnaviv_sched_free_job(struct drm_sched_job *sched_job)
+- On the question "Do you accept the proposed By-Law changes to modify
+the special voting quorum requirements to be limited to present (meaning
+voting) members?" 48 of the 55 members voted yes (87.3%). Despite this,
+48 votes represent only 64% of the members, which means the by-laws
+change does not pass.
+
+- In the election of the Directors to the Board of the X.Org Foundation,
+the results were that Daniel Vetter, Lyude Paul, Arkadiusz Hiler and
+Christopher Michael were elected for two-year terms.
+
+The old full board is: Emma Anholt, Mark Filion, Ricardo Garcia, Samuel
+Iglesias Gons=C3=A1lvez, Manasi D Navare, Lyude Paul, Alyssa Rosenzweig and
+Daniel Vetter.
+
+The new full board is: Emma Anholt, Mark Filion, Ricardo Garcia,
+Arkadiusz Hiler, Christopher Michael, Lyude Paul, Alyssa Rosenzweig and
+Daniel Vetter.
+
+Full election results, sorted by points:
+
+* Daniel Vetter (367 points)
+* Lyude Paul (348 points)
+* Arkadiusz Hiler (286 points)
+* Christopher Michael (263 points)
+* Manasi Navare (195 points)
+* Uma Shankar (157 points)
+* Thomas Adam (105 points)
+* William Weeks-Balconi (51 points)
+
+Thanks everyone,
+-Ricardo Garcia, on behalf of the X.Org elections committee
 
