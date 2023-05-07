@@ -2,48 +2,59 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CCCF6F6A42
-	for <lists+etnaviv@lfdr.de>; Thu,  4 May 2023 13:41:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70D726F99B7
+	for <lists+etnaviv@lfdr.de>; Sun,  7 May 2023 18:26:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B89C10E0E2;
-	Thu,  4 May 2023 11:41:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2AAE810E204;
+	Sun,  7 May 2023 16:26:37 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2648910E087;
- Thu,  4 May 2023 11:41:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=MIME-Version:Content-Transfer-Encoding:Content-Type:Date:To:
- From:Subject:Message-ID:Sender:Reply-To:Cc:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=DY2Ok8279LYbukTn4RyVDpj5MbcGHsCyoi1DnlySgWk=; b=coqZ51PvbgUdFwIKttmgO2Wczt
- rNJcEsJlXANwIm5gE46wTOvrfBWb2mskizyrA1UwrsZB/iKxW5/54r63SZEFAcIdZIZ1EAPhhEUYY
- CYVzeVefmvYA63395H0nHKEB3vz3Jbzl9y0LYb4BDn4ay7pRR3rus5b6/9qO60EbBo7r7ASiegCa5
- KCLX+scCQQLqKdB69QSty1zn7PvOaKKYTpSJsGL+uiretyyQpQ8aHMcGd8K2wtX65IhlDi+lzO+Ie
- zT02dI85ukQjm6EKZLxuk1pMmIaNZYcYTMNa11dlT0UpHNuSonulW8ZXuI2HP6l4RW/S5jlGfuCkd
- mGz8l/dQ==;
-Received: from 137.red-83-52-2.dynamicip.rima-tde.net ([83.52.2.137]
- helo=localhost.localdomain) by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1puXKZ-001506-AJ; Thu, 04 May 2023 13:41:03 +0200
-Message-ID: <bd27b87dc34f5ff00d346a8115cbf3bbb22b911b.camel@igalia.com>
-Subject: 2023 X.Org Foundation Election vote results
-From: Ricardo Garcia <rgarcia@igalia.com>
-To: events@lists.x.org, xorg-devel@lists.x.org, 
- wayland-devel@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- mesa-dev@lists.freedesktop.org, amd-gfx@lists.freedesktop.org, 
- etnaviv@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
- libre-soc-dev@lists.libre-soc.org, elections@x.org, members@x.org, 
- xorg@lists.freedesktop.org
-Date: Thu, 04 May 2023 13:41:02 +0200
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C630D10E208
+ for <etnaviv@lists.freedesktop.org>; Sun,  7 May 2023 16:26:35 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1pvhDS-0001kG-Se; Sun, 07 May 2023 18:26:30 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1pvhDS-001nCQ-8m; Sun, 07 May 2023 18:26:30 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1pvhDR-002Agi-JH; Sun, 07 May 2023 18:26:29 +0200
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Lucas Stach <l.stach@pengutronix.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH 17/53] drm/etnaviv: Convert to platform remove callback
+ returning void
+Date: Sun,  7 May 2023 18:25:40 +0200
+Message-Id: <20230507162616.1368908-18-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230507162616.1368908-1-u.kleine-koenig@pengutronix.de>
+References: <20230507162616.1368908-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2546;
+ i=u.kleine-koenig@pengutronix.de; h=from:subject;
+ bh=LGWRACpyXOQNyHkdacYcXEPxMrPtXUYIVDimy4ZnAMQ=;
+ b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkV9D3ZE3TDbK2iwkNWfrp21JRUdMH1kusifiOC
+ jAwa5djrkyJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZFfQ9wAKCRCPgPtYfRL+
+ TsjvB/0XKCq+uqfNqVwAyaJu6A7dx1wg2qP4JIBqXmfaZIDE4bHAx4/AQhCQ8tnuCk1EpmhUqJ9
+ WBKpUDwjngWZwNXgZK7/v5a3Crw7xPrlveTcO5tn0TdMRayRQBK61X+kOApUW35ac1kGdzQ62Z1
+ WN70Qb+HxLaygixS01cGi/g3R1RKadhnm6tDoyqmOajRayudFS1z7JczjUI/zlLYt+3vGu3SAxR
+ BGQZhV75HNfXTkZ1MfdIA5GRKjPUbCtyw+lHIi2r6J75UwaAanf3igJtsywb4sGQNXwlKxZfEq/
+ WMW6TpyAIYnJukja9x/lL058Y3p8V2323bhDehZhTKqRHzsC
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp;
+ fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,50 +66,77 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
+Cc: kernel@pengutronix.de, Christian Gmeiner <christian.gmeiner@gmail.com>,
+ etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Russell King <linux+etnaviv@armlinux.org.uk>
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-The Board of Directors election and the vote on the By-laws concluded at
-14:00 UTC on May 1st 2023 and these are the results:
+The .remove() callback for a platform driver returns an int which makes
+many driver authors wrongly assume it's possible to do error handling by
+returning an error code. However the value returned is (mostly) ignored
+and this typically results in resource leaks. To improve here there is a
+quest to make the remove callback return void. In the first step of this
+quest all drivers are converted to .remove_new() which already returns
+void.
 
-- We had 75 members this year, of which 55 cast a vote, so the turnout
-is 73.3%.
+Trivially convert the etnaviv drm driver from always returning zero in
+the remove callback to the void returning variant.
 
-- On the question "Do you accept the proposed By-Law changes to make SFC
-the new fiscal sponsor of the X.Org foundation, replacing SPI?" 52 of
-the 55 members voted yes (94.5%). Among all 75 members, approval is
-69.3% (52/75, over 2/3), so we can consider this change approved using
-the current by-law rules.
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+---
+ drivers/gpu/drm/etnaviv/etnaviv_drv.c | 6 ++----
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 5 ++---
+ 2 files changed, 4 insertions(+), 7 deletions(-)
 
-- On the question "Do you accept the proposed By-Law changes to modify
-the special voting quorum requirements to be limited to present (meaning
-voting) members?" 48 of the 55 members voted yes (87.3%). Despite this,
-48 votes represent only 64% of the members, which means the by-laws
-change does not pass.
-
-- In the election of the Directors to the Board of the X.Org Foundation,
-the results were that Daniel Vetter, Lyude Paul, Arkadiusz Hiler and
-Christopher Michael were elected for two-year terms.
-
-The old full board is: Emma Anholt, Mark Filion, Ricardo Garcia, Samuel
-Iglesias Gons=C3=A1lvez, Manasi D Navare, Lyude Paul, Alyssa Rosenzweig and
-Daniel Vetter.
-
-The new full board is: Emma Anholt, Mark Filion, Ricardo Garcia,
-Arkadiusz Hiler, Christopher Michael, Lyude Paul, Alyssa Rosenzweig and
-Daniel Vetter.
-
-Full election results, sorted by points:
-
-* Daniel Vetter (367 points)
-* Lyude Paul (348 points)
-* Arkadiusz Hiler (286 points)
-* Christopher Michael (263 points)
-* Manasi Navare (195 points)
-* Uma Shankar (157 points)
-* Thomas Adam (105 points)
-* William Weeks-Balconi (51 points)
-
-Thanks everyone,
--Ricardo Garcia, on behalf of the X.Org elections committee
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+index 31a7f59ccb49..071254653cf3 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+@@ -641,16 +641,14 @@ static int etnaviv_pdev_probe(struct platform_device *pdev)
+ 	return component_master_add_with_match(dev, &etnaviv_master_ops, match);
+ }
+ 
+-static int etnaviv_pdev_remove(struct platform_device *pdev)
++static void etnaviv_pdev_remove(struct platform_device *pdev)
+ {
+ 	component_master_del(&pdev->dev, &etnaviv_master_ops);
+-
+-	return 0;
+ }
+ 
+ static struct platform_driver etnaviv_platform_driver = {
+ 	.probe      = etnaviv_pdev_probe,
+-	.remove     = etnaviv_pdev_remove,
++	.remove_new = etnaviv_pdev_remove,
+ 	.driver     = {
+ 		.name   = "etnaviv",
+ 	},
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+index de8c9894967c..52ab18a30b85 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+@@ -1892,11 +1892,10 @@ static int etnaviv_gpu_platform_probe(struct platform_device *pdev)
+ 	return 0;
+ }
+ 
+-static int etnaviv_gpu_platform_remove(struct platform_device *pdev)
++static void etnaviv_gpu_platform_remove(struct platform_device *pdev)
+ {
+ 	component_del(&pdev->dev, &gpu_ops);
+ 	pm_runtime_disable(&pdev->dev);
+-	return 0;
+ }
+ 
+ static int etnaviv_gpu_rpm_suspend(struct device *dev)
+@@ -1954,6 +1953,6 @@ struct platform_driver etnaviv_gpu_driver = {
+ 		.of_match_table = etnaviv_gpu_match,
+ 	},
+ 	.probe = etnaviv_gpu_platform_probe,
+-	.remove = etnaviv_gpu_platform_remove,
++	.remove_new = etnaviv_gpu_platform_remove,
+ 	.id_table = gpu_ids,
+ };
+-- 
+2.39.2
 
