@@ -1,44 +1,55 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26C5D715F7F
-	for <lists+etnaviv@lfdr.de>; Tue, 30 May 2023 14:31:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD371715F8F
+	for <lists+etnaviv@lfdr.de>; Tue, 30 May 2023 14:31:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D146610E054;
-	Tue, 30 May 2023 12:31:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1BA8810E38C;
+	Tue, 30 May 2023 12:31:29 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail.nfschina.com (unknown [42.101.60.195])
- by gabe.freedesktop.org (Postfix) with SMTP id B532F10E7D7;
- Fri, 26 May 2023 10:18:16 +0000 (UTC)
-Received: from [172.30.38.103] (unknown [180.167.10.98])
- by mail.nfschina.com (Maildata Gateway V2.8.8) with ESMTPSA id CBC5B1801278C3; 
- Fri, 26 May 2023 18:18:09 +0800 (CST)
-Message-ID: <5f2f2e0e-506d-8527-dd8f-2ec6da4601a6@nfschina.com>
-Date: Fri, 26 May 2023 18:18:09 +0800
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C768710E2CA;
+ Mon, 29 May 2023 17:14:19 +0000 (UTC)
+Received: from loongson.cn (unknown [10.20.42.43])
+ by gateway (Coremail) with SMTP id _____8AxBvFp3XRkiUkCAA--.5385S3;
+ Tue, 30 May 2023 01:14:18 +0800 (CST)
+Received: from openarena.loongson.cn (unknown [10.20.42.43])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8DxD79p3XRkLUJ_AA--.10654S2; 
+ Tue, 30 May 2023 01:14:17 +0800 (CST)
+From: Sui Jingfeng <suijingfeng@loongson.cn>
+To: Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH v4 0/6] drm/etnaviv: add pci device driver support
+Date: Tue, 30 May 2023 01:14:11 +0800
+Message-Id: <20230529171417.2146323-1-suijingfeng@loongson.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH] drm: Remove unnecessary (void*) conversions
-Content-Language: en-US
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, Xinhui.Pan@amd.com,
- airlied@gmail.com, daniel@ffwll.ch, evan.quan@amd.com,
- l.stach@pengutronix.de, linux+etnaviv@armlinux.org.uk,
- christian.gmeiner@gmail.com, bskeggs@redhat.com, kherbst@redhat.com,
- lyude@redhat.com, tomba@kernel.org, emma@anholt.net, airlied@redhat.com,
- kraxel@redhat.com, abrodkin@synopsys.com, ray.huang@amd.com,
- gurchetansingh@chromium.org, olvaffe@gmail.com, zackr@vmware.com,
- linux-graphics-maintainer@vmware.com, sumit.semwal@linaro.org
-X-MD-Sfrom: suhui@nfschina.com
-X-MD-SrcIP: 180.167.10.98
-From: Su Hui <suhui@nfschina.com>
-In-Reply-To: <5b5c7b06-ef99-d275-3693-b2e3d114cac9@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8DxD79p3XRkLUJ_AA--.10654S2
+X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBjvJXoW7uFy8XF4UZFyDXr1rGF1Dtrb_yoW8GF1rpF
+ 47JFyYyry0vrW2k343AFn8XFy3C3WxWF9Yk3srt3sI9w4rAr1jvryDKa15Jr9xJr1fJr42
+ qrnIkry3WF17ArJanT9S1TB71UUUUjDqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+ qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
+ bfkYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
+ 1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
+ wVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
+ x0Y4vEx4A2jsIE14v26r4j6F4UM28EF7xvwVC2z280aVCY1x0267AKxVW8JVW8Jr1ln4kS
+ 14v26r126r1DM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx
+ 1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26rWY6Fy7McIj6I8E87Iv
+ 67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lc7CjxVAaw2
+ AFwI0_JF0_Jw1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xF
+ xVAFwI0_JF0_Jw1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWw
+ C2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Xr0_
+ Ar1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJV
+ WUCwCI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIY
+ CTnIWIevJa73UjIFyTuYvjxUsoUDDUUUU
 X-Mailman-Approved-At: Tue, 30 May 2023 12:31:26 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -51,272 +62,39 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, kernel-janitors@vger.kernel.org,
- etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org, linaro-mm-sig@lists.linaro.org,
- amd-gfx@lists.freedesktop.org, spice-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Cc: loongson-kernel@lists.loongnix.cn, Li Yi <liyi@loongson.cn>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ etnaviv@lists.freedesktop.org
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-On 2023/5/26 15:27, Christian König wrote:
-> Am 26.05.23 um 05:32 schrieb Su Hui:
->> Pointer variables of (void*) type do not require type cast.
->
-> Please split that up by subsystem/driver. Taking it through the misc 
-> tree might just cause merge conflicts.
->
-Sorry for that, I will split it and send again.
-Thanks for your reply!
+There is a Vivante GC1000 (v5037) in LS2K1000 and LS7A1000, this GPU is a
+PCI device, and it has 2D and 3D cores in the same device. Thus, this
+series is trying to add PCI device driver support to etnaviv.
 
-Su Hui
+Sui Jingfeng (6):
+  drm/etnaviv: add a dedicated function to register an irq handler
+  drm/etnaviv: add a dedicated function to get various clocks
+  drm/etnaviv: add dedicated functions to create and destroy platform
+    devices
+  drm/etnaviv: add helpers for private data construction and destruction
+  drm/etnaviv: expand driver support for the PCI devices
+  drm/etnaviv: allow usperspace create cached coherent bo
 
-> Christian.
->
->>
->> Signed-off-by: Su Hui <suhui@nfschina.com>
->> ---
->>   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c | 2 +-
->>   drivers/gpu/drm/amd/pm/amdgpu_pm.c                        | 2 +-
->>   drivers/gpu/drm/etnaviv/etnaviv_drv.c                     | 4 ++--
->>   drivers/gpu/drm/nouveau/nouveau_debugfs.c                 | 2 +-
->>   drivers/gpu/drm/omapdrm/omap_debugfs.c                    | 6 +++---
->>   drivers/gpu/drm/pl111/pl111_debugfs.c                     | 2 +-
->>   drivers/gpu/drm/qxl/qxl_debugfs.c                         | 4 ++--
->>   drivers/gpu/drm/tiny/arcpgu.c                             | 2 +-
->>   drivers/gpu/drm/ttm/ttm_resource.c                        | 3 +--
->>   drivers/gpu/drm/virtio/virtgpu_debugfs.c                  | 6 +++---
->>   drivers/gpu/drm/vmwgfx/ttm_object.c                       | 5 ++---
->>   drivers/gpu/drm/vmwgfx/vmwgfx_gem.c                       | 2 +-
->>   12 files changed, 19 insertions(+), 21 deletions(-)
->>
->> diff --git 
->> a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c 
->> b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
->> index 827fcb4fb3b3..8a2c39927167 100644
->> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
->> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
->> @@ -3312,7 +3312,7 @@ static ssize_t dtn_log_write(
->>     static int mst_topo_show(struct seq_file *m, void *unused)
->>   {
->> -    struct amdgpu_device *adev = (struct amdgpu_device *)m->private;
->> +    struct amdgpu_device *adev = m->private;
->>       struct drm_device *dev = adev_to_drm(adev);
->>       struct drm_connector *connector;
->>       struct drm_connector_list_iter conn_iter;
->> diff --git a/drivers/gpu/drm/amd/pm/amdgpu_pm.c 
->> b/drivers/gpu/drm/amd/pm/amdgpu_pm.c
->> index 58c2246918fd..e6c870bd307b 100644
->> --- a/drivers/gpu/drm/amd/pm/amdgpu_pm.c
->> +++ b/drivers/gpu/drm/amd/pm/amdgpu_pm.c
->> @@ -3671,7 +3671,7 @@ static void amdgpu_parse_cg_state(struct 
->> seq_file *m, u64 flags)
->>     static int amdgpu_debugfs_pm_info_show(struct seq_file *m, void 
->> *unused)
->>   {
->> -    struct amdgpu_device *adev = (struct amdgpu_device *)m->private;
->> +    struct amdgpu_device *adev = m->private;
->>       struct drm_device *dev = adev_to_drm(adev);
->>       u64 flags = 0;
->>       int r;
->> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c 
->> b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
->> index 31a7f59ccb49..dd57f7164e9a 100644
->> --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
->> +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
->> @@ -198,7 +198,7 @@ static int etnaviv_ring_show(struct etnaviv_gpu 
->> *gpu, struct seq_file *m)
->>     static int show_unlocked(struct seq_file *m, void *arg)
->>   {
->> -    struct drm_info_node *node = (struct drm_info_node *) m->private;
->> +    struct drm_info_node *node = m->private;
->>       struct drm_device *dev = node->minor->dev;
->>       int (*show)(struct drm_device *dev, struct seq_file *m) =
->>               node->info_ent->data;
->> @@ -208,7 +208,7 @@ static int show_unlocked(struct seq_file *m, void 
->> *arg)
->>     static int show_each_gpu(struct seq_file *m, void *arg)
->>   {
->> -    struct drm_info_node *node = (struct drm_info_node *) m->private;
->> +    struct drm_info_node *node = m->private;
->>       struct drm_device *dev = node->minor->dev;
->>       struct etnaviv_drm_private *priv = dev->dev_private;
->>       struct etnaviv_gpu *gpu;
->> diff --git a/drivers/gpu/drm/nouveau/nouveau_debugfs.c 
->> b/drivers/gpu/drm/nouveau/nouveau_debugfs.c
->> index 2a36d1ca8fda..96b59d5d68ed 100644
->> --- a/drivers/gpu/drm/nouveau/nouveau_debugfs.c
->> +++ b/drivers/gpu/drm/nouveau/nouveau_debugfs.c
->> @@ -37,7 +37,7 @@
->>   static int
->>   nouveau_debugfs_vbios_image(struct seq_file *m, void *data)
->>   {
->> -    struct drm_info_node *node = (struct drm_info_node *) m->private;
->> +    struct drm_info_node *node = m->private;
->>       struct nouveau_drm *drm = nouveau_drm(node->minor->dev);
->>       int i;
->>   diff --git a/drivers/gpu/drm/omapdrm/omap_debugfs.c 
->> b/drivers/gpu/drm/omapdrm/omap_debugfs.c
->> index a3d470468e5b..a94ce502e152 100644
->> --- a/drivers/gpu/drm/omapdrm/omap_debugfs.c
->> +++ b/drivers/gpu/drm/omapdrm/omap_debugfs.c
->> @@ -19,7 +19,7 @@
->>     static int gem_show(struct seq_file *m, void *arg)
->>   {
->> -    struct drm_info_node *node = (struct drm_info_node *) m->private;
->> +    struct drm_info_node *node = m->private;
->>       struct drm_device *dev = node->minor->dev;
->>       struct omap_drm_private *priv = dev->dev_private;
->>   @@ -33,7 +33,7 @@ static int gem_show(struct seq_file *m, void *arg)
->>     static int mm_show(struct seq_file *m, void *arg)
->>   {
->> -    struct drm_info_node *node = (struct drm_info_node *) m->private;
->> +    struct drm_info_node *node = m->private;
->>       struct drm_device *dev = node->minor->dev;
->>       struct drm_printer p = drm_seq_file_printer(m);
->>   @@ -45,7 +45,7 @@ static int mm_show(struct seq_file *m, void *arg)
->>   #ifdef CONFIG_DRM_FBDEV_EMULATION
->>   static int fb_show(struct seq_file *m, void *arg)
->>   {
->> -    struct drm_info_node *node = (struct drm_info_node *) m->private;
->> +    struct drm_info_node *node = m->private;
->>       struct drm_device *dev = node->minor->dev;
->>       struct drm_fb_helper *helper = dev->fb_helper;
->>       struct drm_framebuffer *fb;
->> diff --git a/drivers/gpu/drm/pl111/pl111_debugfs.c 
->> b/drivers/gpu/drm/pl111/pl111_debugfs.c
->> index 6744fa16f464..4df03ec5d368 100644
->> --- a/drivers/gpu/drm/pl111/pl111_debugfs.c
->> +++ b/drivers/gpu/drm/pl111/pl111_debugfs.c
->> @@ -32,7 +32,7 @@ static const struct {
->>     static int pl111_debugfs_regs(struct seq_file *m, void *unused)
->>   {
->> -    struct drm_info_node *node = (struct drm_info_node *)m->private;
->> +    struct drm_info_node *node = m->private;
->>       struct drm_device *dev = node->minor->dev;
->>       struct pl111_drm_dev_private *priv = dev->dev_private;
->>       int i;
->> diff --git a/drivers/gpu/drm/qxl/qxl_debugfs.c 
->> b/drivers/gpu/drm/qxl/qxl_debugfs.c
->> index 2d9ed3b94574..5b4fe3049529 100644
->> --- a/drivers/gpu/drm/qxl/qxl_debugfs.c
->> +++ b/drivers/gpu/drm/qxl/qxl_debugfs.c
->> @@ -38,7 +38,7 @@
->>   static int
->>   qxl_debugfs_irq_received(struct seq_file *m, void *data)
->>   {
->> -    struct drm_info_node *node = (struct drm_info_node *) m->private;
->> +    struct drm_info_node *node = m->private;
->>       struct qxl_device *qdev = to_qxl(node->minor->dev);
->>         seq_printf(m, "%d\n", atomic_read(&qdev->irq_received));
->> @@ -52,7 +52,7 @@ qxl_debugfs_irq_received(struct seq_file *m, void 
->> *data)
->>   static int
->>   qxl_debugfs_buffers_info(struct seq_file *m, void *data)
->>   {
->> -    struct drm_info_node *node = (struct drm_info_node *) m->private;
->> +    struct drm_info_node *node = m->private;
->>       struct qxl_device *qdev = to_qxl(node->minor->dev);
->>       struct qxl_bo *bo;
->>   diff --git a/drivers/gpu/drm/tiny/arcpgu.c 
->> b/drivers/gpu/drm/tiny/arcpgu.c
->> index e5b10e41554a..09f728355aba 100644
->> --- a/drivers/gpu/drm/tiny/arcpgu.c
->> +++ b/drivers/gpu/drm/tiny/arcpgu.c
->> @@ -338,7 +338,7 @@ static int arcpgu_unload(struct drm_device *drm)
->>   #ifdef CONFIG_DEBUG_FS
->>   static int arcpgu_show_pxlclock(struct seq_file *m, void *arg)
->>   {
->> -    struct drm_info_node *node = (struct drm_info_node *)m->private;
->> +    struct drm_info_node *node = m->private;
->>       struct drm_device *drm = node->minor->dev;
->>       struct arcpgu_drm_private *arcpgu = dev_to_arcpgu(drm);
->>       unsigned long clkrate = clk_get_rate(arcpgu->clk);
->> diff --git a/drivers/gpu/drm/ttm/ttm_resource.c 
->> b/drivers/gpu/drm/ttm/ttm_resource.c
->> index 7333f7a87a2f..540faabcf8a4 100644
->> --- a/drivers/gpu/drm/ttm/ttm_resource.c
->> +++ b/drivers/gpu/drm/ttm/ttm_resource.c
->> @@ -727,9 +727,8 @@ ttm_kmap_iter_linear_io_fini(struct 
->> ttm_kmap_iter_linear_io *iter_io,
->>     static int ttm_resource_manager_show(struct seq_file *m, void 
->> *unused)
->>   {
->> -    struct ttm_resource_manager *man =
->> -        (struct ttm_resource_manager *)m->private;
->>       struct drm_printer p = drm_seq_file_printer(m);
->> +    struct ttm_resource_manager *man = m->private;
->>       ttm_resource_manager_debug(man, &p);
->>       return 0;
->>   }
->> diff --git a/drivers/gpu/drm/virtio/virtgpu_debugfs.c 
->> b/drivers/gpu/drm/virtio/virtgpu_debugfs.c
->> index 853dd9aa397e..577691af9707 100644
->> --- a/drivers/gpu/drm/virtio/virtgpu_debugfs.c
->> +++ b/drivers/gpu/drm/virtio/virtgpu_debugfs.c
->> @@ -43,7 +43,7 @@ static void virtio_gpu_add_int(struct seq_file *m, 
->> const char *name, int value)
->>     static int virtio_gpu_features(struct seq_file *m, void *data)
->>   {
->> -    struct drm_info_node *node = (struct drm_info_node *)m->private;
->> +    struct drm_info_node *node = m->private;
->>       struct virtio_gpu_device *vgdev = node->minor->dev->dev_private;
->>         virtio_gpu_add_bool(m, "virgl", vgdev->has_virgl_3d);
->> @@ -68,7 +68,7 @@ static int virtio_gpu_features(struct seq_file *m, 
->> void *data)
->>   static int
->>   virtio_gpu_debugfs_irq_info(struct seq_file *m, void *data)
->>   {
->> -    struct drm_info_node *node = (struct drm_info_node *) m->private;
->> +    struct drm_info_node *node = m->private;
->>       struct virtio_gpu_device *vgdev = node->minor->dev->dev_private;
->>         seq_printf(m, "fence %llu %lld\n",
->> @@ -80,7 +80,7 @@ virtio_gpu_debugfs_irq_info(struct seq_file *m, 
->> void *data)
->>   static int
->>   virtio_gpu_debugfs_host_visible_mm(struct seq_file *m, void *data)
->>   {
->> -    struct drm_info_node *node = (struct drm_info_node *)m->private;
->> +    struct drm_info_node *node = m->private;
->>       struct virtio_gpu_device *vgdev = node->minor->dev->dev_private;
->>       struct drm_printer p;
->>   diff --git a/drivers/gpu/drm/vmwgfx/ttm_object.c 
->> b/drivers/gpu/drm/vmwgfx/ttm_object.c
->> index ddf8373c1d77..e9e3cc8f5b49 100644
->> --- a/drivers/gpu/drm/vmwgfx/ttm_object.c
->> +++ b/drivers/gpu/drm/vmwgfx/ttm_object.c
->> @@ -513,8 +513,7 @@ static void ttm_prime_refcount_release(struct 
->> ttm_base_object **p_base)
->>    */
->>   static void ttm_prime_dmabuf_release(struct dma_buf *dma_buf)
->>   {
->> -    struct ttm_prime_object *prime =
->> -        (struct ttm_prime_object *) dma_buf->priv;
->> +    struct ttm_prime_object *prime = dma_buf->priv;
->>       struct ttm_base_object *base = &prime->base;
->>       struct ttm_object_device *tdev = base->tfile->tdev;
->>   @@ -554,7 +553,7 @@ int ttm_prime_fd_to_handle(struct 
->> ttm_object_file *tfile,
->>       if (dma_buf->ops != &tdev->ops)
->>           return -ENOSYS;
->>   -    prime = (struct ttm_prime_object *) dma_buf->priv;
->> +    prime = dma_buf->priv;
->>       base = &prime->base;
->>       *handle = base->handle;
->>       ret = ttm_ref_object_add(tfile, base, NULL, false);
->> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c 
->> b/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
->> index c0da89e16e6f..3267a4e61382 100644
->> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
->> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
->> @@ -220,7 +220,7 @@ static void vmw_bo_print_info(int id, struct 
->> vmw_bo *bo, struct seq_file *m)
->>     static int vmw_debugfs_gem_info_show(struct seq_file *m, void 
->> *unused)
->>   {
->> -    struct vmw_private *vdev = (struct vmw_private *)m->private;
->> +    struct vmw_private *vdev = m->private;
->>       struct drm_device *dev = &vdev->drm;
->>       struct drm_file *file;
->>       int r;
->
+ drivers/gpu/drm/etnaviv/Makefile            |   1 +
+ drivers/gpu/drm/etnaviv/etnaviv_drv.c       | 183 +++++++++++++------
+ drivers/gpu/drm/etnaviv/etnaviv_drv.h       |   7 +
+ drivers/gpu/drm/etnaviv/etnaviv_gem.c       |  22 ++-
+ drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c |   9 +-
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c       | 185 ++++++++++++++------
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.h       |  13 ++
+ drivers/gpu/drm/etnaviv/etnaviv_pci_drv.c   |  88 ++++++++++
+ drivers/gpu/drm/etnaviv/etnaviv_pci_drv.h   |  10 ++
+ include/uapi/drm/etnaviv_drm.h              |  11 +-
+ 10 files changed, 415 insertions(+), 114 deletions(-)
+ create mode 100644 drivers/gpu/drm/etnaviv/etnaviv_pci_drv.c
+ create mode 100644 drivers/gpu/drm/etnaviv/etnaviv_pci_drv.h
+
+-- 
+2.25.1
+
