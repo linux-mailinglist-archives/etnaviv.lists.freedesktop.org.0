@@ -1,57 +1,51 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8620C715946
-	for <lists+etnaviv@lfdr.de>; Tue, 30 May 2023 11:00:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 50A39716104
+	for <lists+etnaviv@lfdr.de>; Tue, 30 May 2023 15:04:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 49FDF10E157;
-	Tue, 30 May 2023 09:00:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 24B6510E13B;
+	Tue, 30 May 2023 13:04:06 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A14C10E157;
- Tue, 30 May 2023 09:00:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1685437221; x=1716973221;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=rTflTYiV3VKyBm981Ml2WLipgh57SbrnaZBjjFs8J7A=;
- b=l/JPiFzk9GF0lbMZ1NSX2MVq2g0fYtmSFGUUNGnQkeb+rx2cgE55IT/x
- 0QpqzHK+mYICQw4lu/+DDHfJJkYO/jsKsSlJE3R0FHhksmySKrZN/t3s8
- 0Kr3P04eYC1S5u0XQvu3ksy3BYWg2jkV9Pf7rMY1vsXExY+EEYkx0bC9m
- oyFt/BhLeBdrLPbwfry75xuX/OdlMf2+GEMIEdrOwtnTfZuLZ1D0A3lAz
- GRow4YpBD+QuHUF+MUqpFHeJTtdRubPscEy4wrAkfNV6ot+sZKxfsf+7e
- ivex6A/hSSfPPjY7/POW8jAK9GTrWBQaYzaT0+va/3uSIqdjveSi6RtEB A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10725"; a="335207059"
-X-IronPort-AV: E=Sophos;i="6.00,203,1681196400"; d="scan'208";a="335207059"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 May 2023 02:00:20 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10725"; a="880689121"
-X-IronPort-AV: E=Sophos;i="6.00,203,1681196400"; d="scan'208";a="880689121"
-Received: from lkp-server01.sh.intel.com (HELO fd90924b3b99) ([10.239.97.150])
- by orsmga005.jf.intel.com with ESMTP; 30 May 2023 02:00:16 -0700
-Received: from kbuild by fd90924b3b99 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1q3vDE-0000Eo-2X;
- Tue, 30 May 2023 09:00:16 +0000
-Date: Tue, 30 May 2023 17:00:10 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sui Jingfeng <suijingfeng@loongson.cn>,
- Lucas Stach <l.stach@pengutronix.de>,
+X-Greylist: delayed 349 seconds by postgrey-1.36 at gabe;
+ Tue, 30 May 2023 13:04:03 UTC
+Received: from 189.cn (ptr.189.cn [183.61.185.103])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 3F8D510E13F
+ for <etnaviv@lists.freedesktop.org>; Tue, 30 May 2023 13:04:03 +0000 (UTC)
+HMM_SOURCE_IP: 10.64.8.43:36042.1831460184
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-114.242.206.180 (unknown [10.64.8.43])
+ by 189.cn (HERMES) with SMTP id EB33C100198;
+ Tue, 30 May 2023 20:58:09 +0800 (CST)
+Received: from  ([114.242.206.180])
+ by gateway-151646-dep-75648544bd-7vx9t with ESMTP id
+ 74c4c7cd99da4575ac5fd10594e22a3e for lkp@intel.com; 
+ Tue, 30 May 2023 20:58:10 CST
+X-Transaction-ID: 74c4c7cd99da4575ac5fd10594e22a3e
+X-Real-From: 15330273260@189.cn
+X-Receive-IP: 114.242.206.180
+X-MEDUSA-Status: 0
+Message-ID: <c3d67084-df46-6ea4-2f37-43cc03147ef9@189.cn>
+Date: Tue, 30 May 2023 20:58:08 +0800
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v5 5/6] drm/etnaviv: expand driver support for the PCI
+ devices
+To: kernel test robot <lkp@intel.com>, Lucas Stach <l.stach@pengutronix.de>,
  Russell King <linux+etnaviv@armlinux.org.uk>,
  Christian Gmeiner <christian.gmeiner@gmail.com>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH v5 5/6] drm/etnaviv: expand driver support for the PCI
- devices
-Message-ID: <202305301659.4guSLavL-lkp@intel.com>
 References: <20230529172452.2148819-6-suijingfeng@loongson.cn>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230529172452.2148819-6-suijingfeng@loongson.cn>
+ <202305301659.4guSLavL-lkp@intel.com>
+Content-Language: en-US
+From: Sui Jingfeng <15330273260@189.cn>
+In-Reply-To: <202305301659.4guSLavL-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,63 +63,87 @@ Cc: loongson-kernel@lists.loongnix.cn, dri-devel@lists.freedesktop.org,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Hi Sui,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on drm/drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.4-rc4 next-20230530]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Sui-Jingfeng/drm-etnaviv-add-a-dedicated-function-to-register-an-irq-handler/20230530-012547
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230529172452.2148819-6-suijingfeng%40loongson.cn
-patch subject: [PATCH v5 5/6] drm/etnaviv: expand driver support for the PCI devices
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20230530/202305301659.4guSLavL-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.3.0
-reproduce (this is a W=1 build):
-        mkdir -p ~/bin
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/1d05a5fa048dd4b2a934ffbb07c330ddd9279287
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Sui-Jingfeng/drm-etnaviv-add-a-dedicated-function-to-register-an-irq-handler/20230530-012547
-        git checkout 1d05a5fa048dd4b2a934ffbb07c330ddd9279287
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/gpu/drm/etnaviv/
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202305301659.4guSLavL-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   drivers/gpu/drm/etnaviv/etnaviv_pci_drv.c: In function 'etnaviv_gpu_pci_fini':
->> drivers/gpu/drm/etnaviv/etnaviv_pci_drv.c:32:9: error: implicit declaration of function 'pci_clear_master'; did you mean 'pci_set_master'? [-Werror=implicit-function-declaration]
-      32 |         pci_clear_master(pdev);
-         |         ^~~~~~~~~~~~~~~~
-         |         pci_set_master
-   cc1: some warnings being treated as errors
+Hi,
 
 
-vim +32 drivers/gpu/drm/etnaviv/etnaviv_pci_drv.c
+Previously, I don't realize some arch doesn't enable CONFIG_PCI by default.
 
-    27	
-    28	static void etnaviv_gpu_pci_fini(struct etnaviv_gpu *gpu, bool component)
-    29	{
-    30		struct pci_dev *pdev = to_pci_dev(gpu->dev);
-    31	
-  > 32		pci_clear_master(pdev);
-    33	
-    34		dev_dbg(gpu->dev, "component is %s\n",
-    35			component ? "enabled" : "disabled");
-    36	}
-    37	
+This problem only happens on the arch which CONFIG_PCI isn't being enabled.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+This problem also caused by the fact that pci_clear_master don't have a 
+dummy implement.
+
+I have create a patch to fix that, see [1].
+
+
+This problem is easy to fix,  with some #ifdef and #endif definition guard,
+
+make the PCI driver support don't get compiled on the architecture which 
+don't have  CONFIG_PCI enable. Originally, I want it always built-in.
+
+
+Should I fix this problem at driver side and respin this patch?
+
+
+[1] 
+https://patchwork.kernel.org/project/linux-pci/patch/20230530101655.2275731-1-suijingfeng@loongson.cn/
+
+
+On 2023/5/30 17:00, kernel test robot wrote:
+> Hi Sui,
+>
+> kernel test robot noticed the following build errors:
+>
+> [auto build test ERROR on drm-misc/drm-misc-next]
+> [also build test ERROR on drm/drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.4-rc4 next-20230530]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Sui-Jingfeng/drm-etnaviv-add-a-dedicated-function-to-register-an-irq-handler/20230530-012547
+> base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+> patch link:    https://lore.kernel.org/r/20230529172452.2148819-6-suijingfeng%40loongson.cn
+> patch subject: [PATCH v5 5/6] drm/etnaviv: expand driver support for the PCI devices
+> config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20230530/202305301659.4guSLavL-lkp@intel.com/config)
+> compiler: m68k-linux-gcc (GCC) 12.3.0
+> reproduce (this is a W=1 build):
+>          mkdir -p ~/bin
+>          wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>          chmod +x ~/bin/make.cross
+>          # https://github.com/intel-lab-lkp/linux/commit/1d05a5fa048dd4b2a934ffbb07c330ddd9279287
+>          git remote add linux-review https://github.com/intel-lab-lkp/linux
+>          git fetch --no-tags linux-review Sui-Jingfeng/drm-etnaviv-add-a-dedicated-function-to-register-an-irq-handler/20230530-012547
+>          git checkout 1d05a5fa048dd4b2a934ffbb07c330ddd9279287
+>          # save the config file
+>          mkdir build_dir && cp config build_dir/.config
+>          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=m68k olddefconfig
+>          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/gpu/drm/etnaviv/
+>
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202305301659.4guSLavL-lkp@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+>     drivers/gpu/drm/etnaviv/etnaviv_pci_drv.c: In function 'etnaviv_gpu_pci_fini':
+>>> drivers/gpu/drm/etnaviv/etnaviv_pci_drv.c:32:9: error: implicit declaration of function 'pci_clear_master'; did you mean 'pci_set_master'? [-Werror=implicit-function-declaration]
+>        32 |         pci_clear_master(pdev);
+>           |         ^~~~~~~~~~~~~~~~
+>           |         pci_set_master
+>     cc1: some warnings being treated as errors
+>
+>
+> vim +32 drivers/gpu/drm/etnaviv/etnaviv_pci_drv.c
+>
+>      27	
+>      28	static void etnaviv_gpu_pci_fini(struct etnaviv_gpu *gpu, bool component)
+>      29	{
+>      30		struct pci_dev *pdev = to_pci_dev(gpu->dev);
+>      31	
+>    > 32		pci_clear_master(pdev);
+>      33	
+>      34		dev_dbg(gpu->dev, "component is %s\n",
+>      35			component ? "enabled" : "disabled");
+>      36	}
+>      37	
+>
