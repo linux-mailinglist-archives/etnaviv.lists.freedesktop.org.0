@@ -2,62 +2,63 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCDF3719867
-	for <lists+etnaviv@lfdr.de>; Thu,  1 Jun 2023 12:09:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7FEE7198B0
+	for <lists+etnaviv@lfdr.de>; Thu,  1 Jun 2023 12:13:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B08610E227;
-	Thu,  1 Jun 2023 10:09:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8495F10E22F;
+	Thu,  1 Jun 2023 10:13:22 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
 Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id CBEF310E1A2;
- Thu,  1 Jun 2023 10:09:27 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 9437E10E22F;
+ Thu,  1 Jun 2023 10:13:20 +0000 (UTC)
 Received: from loongson.cn (unknown [10.20.42.43])
- by gateway (Coremail) with SMTP id _____8AxBvFUbnhknz8DAA--.7279S3;
- Thu, 01 Jun 2023 18:09:25 +0800 (CST)
+ by gateway (Coremail) with SMTP id _____8BxLes_b3hk4j8DAA--.2732S3;
+ Thu, 01 Jun 2023 18:13:19 +0800 (CST)
 Received: from [10.20.42.43] (unknown [10.20.42.43])
  by localhost.localdomain (Coremail) with SMTP id
- AQAAf8Bxi7ZUbnhklAuEAA--.16817S3; 
- Thu, 01 Jun 2023 18:09:24 +0800 (CST)
-Message-ID: <44072a8e-8f8b-a151-4306-9fe2e5153ea8@loongson.cn>
-Date: Thu, 1 Jun 2023 18:09:24 +0800
+ AQAAf8Bx8a8+b3hkAw2EAA--.18413S3; 
+ Thu, 01 Jun 2023 18:13:18 +0800 (CST)
+Message-ID: <d8d87496-e695-7d48-4433-0be18ec41caf@loongson.cn>
+Date: Thu, 1 Jun 2023 18:13:18 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.11.0
-Subject: Re: [PATCH v6 2/6] drm/etnaviv: add a dedicated function to get
- various clocks
+Subject: Re: [PATCH v6 6/6] drm/etnaviv: allow usperspace create cached
+ coherent bo
 Content-Language: en-US
 To: Lucas Stach <l.stach@pengutronix.de>,
  Russell King <linux+etnaviv@armlinux.org.uk>,
  Christian Gmeiner <christian.gmeiner@gmail.com>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
 References: <20230530160643.2344551-1-suijingfeng@loongson.cn>
- <20230530160643.2344551-3-suijingfeng@loongson.cn>
- <85565974d45b5553035aeabe8a98a667718482d5.camel@pengutronix.de>
+ <20230530160643.2344551-7-suijingfeng@loongson.cn>
+ <35c15c0912b4a9372b9c2194a46b518ce515ce3d.camel@pengutronix.de>
+ <5c2faf7e-002c-dad0-c4fe-63aab04f7e87@loongson.cn>
+ <e0b35447ef41b2dfc92ebba6f841f996b43ef42d.camel@pengutronix.de>
 From: Sui Jingfeng <suijingfeng@loongson.cn>
 Organization: Loongson
-In-Reply-To: <85565974d45b5553035aeabe8a98a667718482d5.camel@pengutronix.de>
+In-Reply-To: <e0b35447ef41b2dfc92ebba6f841f996b43ef42d.camel@pengutronix.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID: AQAAf8Bxi7ZUbnhklAuEAA--.16817S3
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8Bx8a8+b3hkAw2EAA--.18413S3
 X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBjvJXoWxZFy8XF1rAw4UZF1xuw4Uurg_yoW7Gry7pF
- s7J3WYkrW8Zryj9347ZFn8trsakr1xAa4Ik3s0qF9avws0vF4ktryYkFW5XFs5Zry8WF4S
- yr4UKrnrCFyFkrDanT9S1TB71UUUUjDqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+X-Coremail-Antispam: 1Uk129KBjvJXoW3Xw48JFyDKF13Xr4xAr1DZFb_yoWfJw4xpF
+ W7AFyYkrW8ZrWjkw1Iv3Z8A34fKw12qFWvk34ktw1q9398tFsrKr18KFW5Crn5Ar1fCr1a
+ qr1jyry3uF1UArJanT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
  qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
- bqkYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
- 1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
- wVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
- x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1l
- n4kS14v26r126r1DM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6x
- ACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r126r1DMcIj6I8E
- 87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0V
- AS07AlzVAYIcxG8wCY1x0262kKe7AKxVWUAVWUtwCF04k20xvY0x0EwIxGrwCFx2IqxVCF
- s4IE7xkEbVWUJVW8JwCFI7km07C267AKxVWUAVWUtwC20s026c02F40E14v26r1j6r18MI
- 8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41l
- IxAIcVC0I7IYx2IY67AKxVWUCVW8JwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIx
- AIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2
- jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07je4EiUUUUU=
+ bIxYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
+ 1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
+ wVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
+ x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26F4UJVW0owAS
+ 0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI0UMc02F40EFcxC0V
+ AKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUtVWrXwAv7VC2z280aVAFwI0_Cr0_Gr1U
+ McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCYjI0SjxkI62AI1cAE67vIY487Mx
+ AIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_
+ Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwI
+ xGrwCI42IY6xIIjxv20xvE14v26r1I6r4UMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWx
+ JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcV
+ C2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU8jZX5UUUUU==
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,147 +77,217 @@ Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
 Hi,
 
-On 2023/6/1 02:07, Lucas Stach wrote:
-> Am Mittwoch, dem 31.05.2023 um 00:06 +0800 schrieb Sui Jingfeng:
->> Because it is also platform-dependent, there are environments where don't
->> have CLK subsystem support, for example, discreted PCI gpu. So don't rage
->> quit if there is no CLK subsystem.
+On 2023/6/1 01:53, Lucas Stach wrote:
+> Am Donnerstag, dem 01.06.2023 um 01:29 +0800 schrieb Sui Jingfeng:
+>> Hi,
 >>
->> For the GPU in LS7a1000 and LS2k2000, the working frequency of the GPU is
->> tuned by configuring the PLL register directly.
+>> On 2023/6/1 00:33, Lucas Stach wrote:
+>>> Hi Sui Jingfeng,
+>>>
+>>> Am Mittwoch, dem 31.05.2023 um 00:06 +0800 schrieb Sui Jingfeng:
+>>>> cached system RAM is coherent on loongson CPUs, and the GPU and DC allways
+>>>> snoop the CPU's cache. write-combine caching property is not suitiable for
+>>>> us.
+>>>>
+>>> As previously mentioned in the Mesa MR, I don't think this is the right
+>>> approach.
+>>>
+>>> ETNA_BO_CACHED already looks coherent to userspace, as all accesses are
+>>> bracketed via the ETNAVIV_GEM_CPU_PREP and ETNAVIV_GEM_CPU_FINI ioctls,
+>>> which will do the necessary cache maintenance on platforms where device
+>>> coherence isn't enforced by the hardware, so there is no need for a
+>>> separate ETNA_BO_CACHED_COHERENT.
+>> As far as I can see,  ETNA_BO_CACHED_COHERENT could probably help to
+>> bypass the overhead of
 >>
-> Is this PLL under control of system firmware and invisible to Linux?
-Yes, it is registers, both system firmware and kernel space driver can 
-access it.
->> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
->> ---
->>   drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 62 ++++++++++++++++++---------
->>   drivers/gpu/drm/etnaviv/etnaviv_gpu.h |  1 +
->>   2 files changed, 42 insertions(+), 21 deletions(-)
+>> dma_sync_sgtable_for_cpu() and dma_sync_sgtable_for_device() brings to us.
 >>
->> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
->> index 636d3f39ddcb..4937580551a5 100644
->> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
->> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
->> @@ -1565,10 +1565,45 @@ static irqreturn_t irq_handler(int irq, void *data)
->>   	return ret;
->>   }
->>   
->> +static int etnaviv_gpu_clk_get(struct etnaviv_gpu *gpu)
->> +{
->> +	struct device *dev = gpu->dev;
->> +
->> +	if (gpu->no_clk)
->> +		return 0;
->> +
->> +	gpu->clk_reg = devm_clk_get_optional(dev, "reg");
->> +	DBG("clk_reg: %p", gpu->clk_reg);
->> +	if (IS_ERR(gpu->clk_reg))
->> +		return PTR_ERR(gpu->clk_reg);
->> +
->> +	gpu->clk_bus = devm_clk_get_optional(dev, "bus");
->> +	DBG("clk_bus: %p", gpu->clk_bus);
->> +	if (IS_ERR(gpu->clk_bus))
->> +		return PTR_ERR(gpu->clk_bus);
->> +
->> +	gpu->clk_core = devm_clk_get(dev, "core");
->> +	DBG("clk_core: %p", gpu->clk_core);
->> +	if (IS_ERR(gpu->clk_core))
->> +		return PTR_ERR(gpu->clk_core);
->> +	gpu->base_rate_core = clk_get_rate(gpu->clk_core);
->> +
->> +	gpu->clk_shader = devm_clk_get_optional(dev, "shader");
->> +	DBG("clk_shader: %p", gpu->clk_shader);
->> +	if (IS_ERR(gpu->clk_shader))
->> +		return PTR_ERR(gpu->clk_shader);
->> +	gpu->base_rate_shader = clk_get_rate(gpu->clk_shader);
->> +
->> +	return 0;
->> +}
->> +
->>   static int etnaviv_gpu_clk_enable(struct etnaviv_gpu *gpu)
->>   {
->>   	int ret;
->>   
->> +	if (gpu->no_clk)
->> +		return 0;
->> +
-> I don't see why this would be needed? If your platform doesn't provide
-> CONFIG_HAVE_CLK all those functions should be successful no-ops, so
-> there is no need to special case this in the driver.
+>>
+>> I have tested long time ago, there no need call this function on our
+>> platform.
+>>
+>> The glmark2 works as before if I comment out thoes two function.
+>>
+>> Are you serious, sir?
+>>
+> The dma_sync* functions are more or less no-ops when the device is
+> marked as being coherent. ce
+> instance, you might need to propagate the coherent property from the
+> GPU core device to the virtual DRM device, along the lines of how we
+> propagate other DMA properties from the GPU device to the DRM device in
+> etnaviv_pdev_probe.
 >
-> Or does your platform in fact provide a clk subsystem, just the GPU
-> clocks are managed by it?
+> Other than that things should just work with minimal overhead.
+>>> Instead we just need a new ETNAVIV_PARAM to inform userspace about
+>>> hardware cache coherence being available for a specific GPU core,
+>> Ok, let me think about for a while how to implement this.
+>>
+> Simple: add new ETNAVIV_PARAM_GPU_COHERENT to
+> include/uapi/drm/etnaviv_drm.h, return the result from
+> dev_is_dma_coherent in etnaviv_gpu_get_param().
+Okay, agree
+>> But How about we merge this first, I create another patch to improve it
+>>
+>> with a roughly working base first? I'm just asking if the answer is No :-)
+>>
+> The answer is a firm no.
 >
-> Also all those functions are fine with being called on a NULL clk,
-right
-> so
-> shouldn't it be enough to simply avoid calling etnaviv_gpu_clk_get() in
-> the PCI device case?
+> This impacts UAPI, so there is no chance to ever get rid of any wrong
+> decisions here, as any added UAPI needs to be supported indefinitely.
+> I'm not signing up for maintaining something I believe is implemented
+> upside down.
+>
+> Please don't take this the wrong way: I'm pretty excited to see etnaviv
+> used on more architectures and outside of the proven platform device
+> paths, so I'm happy to assist in working out the design and help you
+> get things merged in both kernel and Mesa. But I think we are still
+> quite a few steps away from having things worked out enough to even
+> think about merging those patchsets.
+>
+> Also please allow me to comment on the other patches of the series, so
+> I can get a better understanding of your platform/integration, before
+> sending another revision of those patches.
 
-Yes, I just tried, your are right.
+I go to sleep yesterday.
 
-There also no need to add the 'no_clk' member into struct etnaviv_gpu
+Okay, this sound fine.
 
 > Regards,
 > Lucas
 >
->>   	ret = clk_prepare_enable(gpu->clk_reg);
->>   	if (ret)
->>   		return ret;
->> @@ -1599,6 +1634,9 @@ static int etnaviv_gpu_clk_enable(struct etnaviv_gpu *gpu)
->>   
->>   static int etnaviv_gpu_clk_disable(struct etnaviv_gpu *gpu)
->>   {
->> +	if (gpu->no_clk)
->> +		return 0;
->> +
->>   	clk_disable_unprepare(gpu->clk_shader);
->>   	clk_disable_unprepare(gpu->clk_core);
->>   	clk_disable_unprepare(gpu->clk_bus);
->> @@ -1865,27 +1903,9 @@ static int etnaviv_gpu_platform_probe(struct platform_device *pdev)
->>   		return err;
->>   
->>   	/* Get Clocks: */
->> -	gpu->clk_reg = devm_clk_get_optional(&pdev->dev, "reg");
->> -	DBG("clk_reg: %p", gpu->clk_reg);
->> -	if (IS_ERR(gpu->clk_reg))
->> -		return PTR_ERR(gpu->clk_reg);
->> -
->> -	gpu->clk_bus = devm_clk_get_optional(&pdev->dev, "bus");
->> -	DBG("clk_bus: %p", gpu->clk_bus);
->> -	if (IS_ERR(gpu->clk_bus))
->> -		return PTR_ERR(gpu->clk_bus);
->> -
->> -	gpu->clk_core = devm_clk_get(&pdev->dev, "core");
->> -	DBG("clk_core: %p", gpu->clk_core);
->> -	if (IS_ERR(gpu->clk_core))
->> -		return PTR_ERR(gpu->clk_core);
->> -	gpu->base_rate_core = clk_get_rate(gpu->clk_core);
->> -
->> -	gpu->clk_shader = devm_clk_get_optional(&pdev->dev, "shader");
->> -	DBG("clk_shader: %p", gpu->clk_shader);
->> -	if (IS_ERR(gpu->clk_shader))
->> -		return PTR_ERR(gpu->clk_shader);
->> -	gpu->base_rate_shader = clk_get_rate(gpu->clk_shader);
->> +	err = etnaviv_gpu_clk_get(gpu);
->> +	if (err)
->> +		return err;
->>   
->>   	/* TODO: figure out max mapped size */
->>   	dev_set_drvdata(dev, gpu);
->> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
->> index 98c6f9c320fc..6da5209a7d64 100644
->> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
->> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
->> @@ -148,6 +148,7 @@ struct etnaviv_gpu {
->>   	struct clk *clk_reg;
->>   	struct clk *clk_core;
->>   	struct clk *clk_shader;
->> +	bool no_clk;
->>   
->>   	unsigned int freq_scale;
->>   	unsigned long base_rate_core;
+>>>    in
+>>> which case the userspace driver should switch to preferring
+>>> ETNA_BO_CACHED over ETNA_BO_WC.
+>> Yeah,  ETNA_BO_CACHED is enough.
+>>
+>> ETNA_BO_CACHED_COHERENT is actually a special case of ETNA_BO_CACHED.
+>>
+>>> Regards,
+>>> Lucas
+>>>
+>>>> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
+>>>> ---
+>>>>    drivers/gpu/drm/etnaviv/etnaviv_drv.c       |  2 +-
+>>>>    drivers/gpu/drm/etnaviv/etnaviv_gem.c       | 22 +++++++++++++++++++--
+>>>>    drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c |  9 ++++++++-
+>>>>    include/uapi/drm/etnaviv_drm.h              | 11 ++++++-----
+>>>>    4 files changed, 35 insertions(+), 9 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+>>>> index 052f745cecc0..2816c654c023 100644
+>>>> --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+>>>> +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+>>>> @@ -274,7 +274,7 @@ static int etnaviv_ioctl_gem_new(struct drm_device *dev, void *data,
+>>>>    	struct drm_etnaviv_gem_new *args = data;
+>>>>    
+>>>>    	if (args->flags & ~(ETNA_BO_CACHED | ETNA_BO_WC | ETNA_BO_UNCACHED |
+>>>> -			    ETNA_BO_FORCE_MMU))
+>>>> +			    ETNA_BO_CACHED_COHERENT | ETNA_BO_FORCE_MMU))
+>>>>    		return -EINVAL;
+>>>>    
+>>>>    	return etnaviv_gem_new_handle(dev, file, args->size,
+>>>> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+>>>> index b5f73502e3dd..d8b559bd33d3 100644
+>>>> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+>>>> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+>>>> @@ -343,6 +343,7 @@ void *etnaviv_gem_vmap(struct drm_gem_object *obj)
+>>>>    static void *etnaviv_gem_vmap_impl(struct etnaviv_gem_object *obj)
+>>>>    {
+>>>>    	struct page **pages;
+>>>> +	pgprot_t prot;
+>>>>    
+>>>>    	lockdep_assert_held(&obj->lock);
+>>>>    
+>>>> @@ -350,8 +351,20 @@ static void *etnaviv_gem_vmap_impl(struct etnaviv_gem_object *obj)
+>>>>    	if (IS_ERR(pages))
+>>>>    		return NULL;
+>>>>    
+>>>> -	return vmap(pages, obj->base.size >> PAGE_SHIFT,
+>>>> -			VM_MAP, pgprot_writecombine(PAGE_KERNEL));
+>>>> +	switch (obj->flags) {
+>>>> +	case ETNA_BO_CACHED_COHERENT:
+>>>> +	case ETNA_BO_CACHED:
+>>>> +		prot = PAGE_KERNEL;
+>>>> +		break;
+>>>> +	case ETNA_BO_UNCACHED:
+>>>> +		prot = pgprot_noncached(PAGE_KERNEL);
+>>>> +		break;
+>>>> +	case ETNA_BO_WC:
+>>>> +	default:
+>>>> +		prot = pgprot_writecombine(PAGE_KERNEL);
+>>>> +	}
+>>>> +
+>>>> +	return vmap(pages, obj->base.size >> PAGE_SHIFT, VM_MAP, prot);
+>>>>    }
+>>>>    
+>>>>    static inline enum dma_data_direction etnaviv_op_to_dma_dir(u32 op)
+>>>> @@ -545,6 +558,7 @@ static const struct drm_gem_object_funcs etnaviv_gem_object_funcs = {
+>>>>    static int etnaviv_gem_new_impl(struct drm_device *dev, u32 size, u32 flags,
+>>>>    	const struct etnaviv_gem_ops *ops, struct drm_gem_object **obj)
+>>>>    {
+>>>> +	struct etnaviv_drm_private *priv = dev->dev_private;
+>>>>    	struct etnaviv_gem_object *etnaviv_obj;
+>>>>    	unsigned sz = sizeof(*etnaviv_obj);
+>>>>    	bool valid = true;
+>>>> @@ -555,6 +569,10 @@ static int etnaviv_gem_new_impl(struct drm_device *dev, u32 size, u32 flags,
+>>>>    	case ETNA_BO_CACHED:
+>>>>    	case ETNA_BO_WC:
+>>>>    		break;
+>>>> +	case ETNA_BO_CACHED_COHERENT:
+>>>> +		if (priv->has_cached_coherent)
+>>>> +			break;
+>>>> +		fallthrough;
+>>>>    	default:
+>>>>    		valid = false;
+>>>>    	}
+>>>> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
+>>>> index 3524b5811682..671d91d8f1c6 100644
+>>>> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
+>>>> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
+>>>> @@ -112,11 +112,18 @@ static const struct etnaviv_gem_ops etnaviv_gem_prime_ops = {
+>>>>    struct drm_gem_object *etnaviv_gem_prime_import_sg_table(struct drm_device *dev,
+>>>>    	struct dma_buf_attachment *attach, struct sg_table *sgt)
+>>>>    {
+>>>> +	struct etnaviv_drm_private *priv = dev->dev_private;
+>>>>    	struct etnaviv_gem_object *etnaviv_obj;
+>>>>    	size_t size = PAGE_ALIGN(attach->dmabuf->size);
+>>>> +	u32 cache_flags;
+>>>>    	int ret, npages;
+>>>>    
+>>>> -	ret = etnaviv_gem_new_private(dev, size, ETNA_BO_WC,
+>>>> +	if (priv->has_cached_coherent)
+>>>> +		cache_flags = ETNA_BO_CACHED_COHERENT;
+>>>> +	else
+>>>> +		cache_flags = ETNA_BO_WC;
+>>>> +
+>>>> +	ret = etnaviv_gem_new_private(dev, size, cache_flags,
+>>>>    				      &etnaviv_gem_prime_ops, &etnaviv_obj);
+>>>>    	if (ret < 0)
+>>>>    		return ERR_PTR(ret);
+>>>> diff --git a/include/uapi/drm/etnaviv_drm.h b/include/uapi/drm/etnaviv_drm.h
+>>>> index af024d90453d..474b0db286de 100644
+>>>> --- a/include/uapi/drm/etnaviv_drm.h
+>>>> +++ b/include/uapi/drm/etnaviv_drm.h
+>>>> @@ -90,13 +90,14 @@ struct drm_etnaviv_param {
+>>>>     * GEM buffers:
+>>>>     */
+>>>>    
+>>>> -#define ETNA_BO_CACHE_MASK   0x000f0000
+>>>> +#define ETNA_BO_CACHE_MASK              0x000f0000
+>>>>    /* cache modes */
+>>>> -#define ETNA_BO_CACHED       0x00010000
+>>>> -#define ETNA_BO_WC           0x00020000
+>>>> -#define ETNA_BO_UNCACHED     0x00040000
+>>>> +#define ETNA_BO_CACHED                  0x00010000
+>>>> +#define ETNA_BO_WC                      0x00020000
+>>>> +#define ETNA_BO_UNCACHED                0x00040000
+>>>> +#define ETNA_BO_CACHED_COHERENT         0x00080000
+>>>>    /* map flags */
+>>>> -#define ETNA_BO_FORCE_MMU    0x00100000
+>>>> +#define ETNA_BO_FORCE_MMU               0x00100000
+>>>>    
+>>>>    struct drm_etnaviv_gem_new {
+>>>>    	__u64 size;           /* in */
 
 -- 
 Jingfeng
