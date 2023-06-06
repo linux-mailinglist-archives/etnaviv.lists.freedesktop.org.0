@@ -2,58 +2,43 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 493D9720FE6
-	for <lists+etnaviv@lfdr.de>; Sat,  3 Jun 2023 13:20:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9524724990
+	for <lists+etnaviv@lfdr.de>; Tue,  6 Jun 2023 18:56:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F1E0410E14E;
-	Sat,  3 Jun 2023 11:20:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9DA7410E164;
+	Tue,  6 Jun 2023 16:56:29 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id 3D5B310E14E;
- Sat,  3 Jun 2023 11:20:45 +0000 (UTC)
-Received: from loongson.cn (unknown [10.20.42.43])
- by gateway (Coremail) with SMTP id _____8Bx1fAMIntkoewDAA--.8491S3;
- Sat, 03 Jun 2023 19:20:44 +0800 (CST)
-Received: from [10.20.42.43] (unknown [10.20.42.43])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8BxLL4LIntk9DuHAA--.21806S3; 
- Sat, 03 Jun 2023 19:20:43 +0800 (CST)
-Message-ID: <af174b6c-3330-c054-23e4-32c41972eb53@loongson.cn>
-Date: Sat, 3 Jun 2023 19:20:43 +0800
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5203410E164;
+ Tue,  6 Jun 2023 16:56:27 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 3C90360DC6;
+ Tue,  6 Jun 2023 16:56:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 703B7C433EF;
+ Tue,  6 Jun 2023 16:56:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1686070585;
+ bh=BMLu36IUxc37ZvQrMJzCtwSNIiamnJhdBBXZkaVnkNE=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:From;
+ b=Z7L6fecYO4lOQInrlHAHPHvFzV0S2X7Knd2LX16/DGrdNrKqwswkAC5UUeKvJlGgh
+ Q2zuJ0K7PHz5erFPfNbK8OvphlZxXta+Fcr+mkj0AYnO2Zf0LtFbGHH9c/HxdW3aw6
+ /JVC7skLOkxT5x6FSoGf/xVlwgK2oP7ZRiFs12rHNyRSun/4qA+cgsLvEKhtNa1Y6R
+ q/7jUuJ4cUR9rfXThhWx6xl1x7acWupiy+x0upIxUKs3Lh1ieim3FuS2rxosAlt3Kf
+ rkHUvtGV1frQTzXIQfYnJdfFvN+SlSot00cruDxOjH3Ga45dE4B8lMS+FQW+vPn/bV
+ Jkfnj5sh8bnDg==
+Date: Tue, 6 Jun 2023 11:56:24 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Sui Jingfeng <15330273260@189.cn>
+Subject: Re: [PATCH v7 7/7] drm/etnaviv: add support for the dma coherent
+ device
+Message-ID: <20230606165624.GA1127373@bhelgaas>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v7 0/7] drm/etnaviv: add pci device driver support
-Content-Language: en-US
-To: Sui Jingfeng <15330273260@189.cn>, Lucas Stach <l.stach@pengutronix.de>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Bjorn Helgaas <bhelgaas@google.com>
-References: <20230603105943.3042766-1-15330273260@189.cn>
-From: Sui Jingfeng <suijingfeng@loongson.cn>
-Organization: Loongson
-In-Reply-To: <20230603105943.3042766-1-15330273260@189.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8BxLL4LIntk9DuHAA--.21806S3
-X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBjvJXoWxuryxtr1UJry7AFW7CF1kuFg_yoW5WrWkpF
- 47JFyYyry8ZrW7Kw17AFn8XFyfGa4xWF9Yk3srt3sI9ws0vFyjvry8KFs8Ar9xXr1fJr42
- qr1a9r1fWF13ArJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
- qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
- bf8YFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
- 1l1IIY67AEw4v_JrI_Jryl8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
- wVC0I7IYx2IY67AKxVWUJVWUCwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwA2z4
- x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1l
- e2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27wAqx4xG64xvF2
- IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r4UJVWx
- Jr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4x0Y40E4IxF1VCIxcxG6Fyj6r
- 4UJwCYjI0SjxkI62AI1cAE67vIY487MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY
- 6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17
- CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF
- 0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIx
- AIcVC2z280aVAFwI0_Gr1j6F4UJwCI42IY6I8E87Iv6xkF7I0E14v26r4UJVWxJrUvcSsG
- vfC2KfnxnUUI43ZEXa7IUeLNVDUUUUU==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230603105943.3042766-8-15330273260@189.cn>
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,81 +50,111 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- etnaviv@lists.freedesktop.org
+Cc: Sui Jingfeng <suijingfeng@loongson.cn>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Bjorn Helgaas <bhelgaas@google.com>,
+ Lucas Stach <l.stach@pengutronix.de>
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Hi,
-
-
-Sorry for sending duplicated patches.  Please don't get angry by me.
-
-I'm just sending a patch set, which contain 7 patch. The command is as 
-following:
-
-
-git send-email V7/ --to "Lucas Stach <l.stach@pengutronix.de>" --to 
-"Christian Gmeiner <christian.gmeiner@gmail.com>" --to "Daniel Vetter 
-<daniel@ffwll.ch>" --to "Bjorn Helgaas <bhelgaas@google.com>" --cc 
-"linux-kernel@vger.kernel.org" --cc "etnaviv@lists.freedesktop.org" --cc 
-"dri-devel@lists.freedesktop.org" --cc "loongson-kernel@lists.loongnix.cn"
-
-
-After run the above about command with my company's mailbox,  the 
-termial report  "Too many commands"
-
-which cause the last few patch of the whole patch set did not get send 
-out(get lost).
-
-
-Then,  I changed to another mail to send the patch with the same 
-command, then its works finally.
-
-Please don't get angry by me. Thanks.
-
-
-On 2023/6/3 18:59, Sui Jingfeng wrote:
+On Sat, Jun 03, 2023 at 06:59:43PM +0800, Sui Jingfeng wrote:
 > From: Sui Jingfeng <suijingfeng@loongson.cn>
->
-> There is a Vivante GC1000 (v5037) in LS2K1000 and LS7A1000, this GPU is a
-> PCI device, and it has 2D and 3D cores in the same core. Thus, this patch
-> set is trying to add PCI device driver support to etnaviv.
->
-> v6:
-> 	* Fix build issue on system without CONFIG_PCI enabled
-> v7:
-> 	* Add a separate patch for the platform driver rearrangement (Bjorn)
-> 	* Switch to runtime check if the GPU is dma coherent or not (Lucas)
-> 	* Add ETNAVIV_PARAM_GPU_COHERENT to allow userspace to query (Lucas)
-> 	* Remove etnaviv_gpu.no_clk member (Lucas)
-> 	* Various Typos and coding style fixed (Bjorn)
->
-> Sui Jingfeng (7):
->    drm/etnaviv: add a dedicated function to register an irq handler
->    drm/etnaviv: add a dedicated function to get various clocks
->    drm/etnaviv: add dedicated functions to create and destroy platform
->      devices
->    drm/etnaviv: add helpers for private data construction and destruction
->    drm/etnaviv: allow bypass component framework
->    drm/etnaviv: add driver support for the PCI devices
->    drm/etnaviv: add support for the dma coherent device
->
->   drivers/gpu/drm/etnaviv/Kconfig             |   9 +
->   drivers/gpu/drm/etnaviv/Makefile            |   2 +
->   drivers/gpu/drm/etnaviv/etnaviv_drv.c       | 228 +++++++++++++++-----
->   drivers/gpu/drm/etnaviv/etnaviv_drv.h       |  10 +
->   drivers/gpu/drm/etnaviv/etnaviv_gem.c       |  22 +-
->   drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c |   7 +-
->   drivers/gpu/drm/etnaviv/etnaviv_gpu.c       | 170 ++++++++++-----
->   drivers/gpu/drm/etnaviv/etnaviv_gpu.h       |   9 +
->   drivers/gpu/drm/etnaviv/etnaviv_pci_drv.c   |  75 +++++++
->   drivers/gpu/drm/etnaviv/etnaviv_pci_drv.h   |   9 +
->   include/uapi/drm/etnaviv_drm.h              |   1 +
->   11 files changed, 422 insertions(+), 120 deletions(-)
->   create mode 100644 drivers/gpu/drm/etnaviv/etnaviv_pci_drv.c
->   create mode 100644 drivers/gpu/drm/etnaviv/etnaviv_pci_drv.h
->
--- 
-Jingfeng
+> 
+> Loongson CPUs maintain cache coherency by hardware, which means that the
+> data in the CPU cache is identical to the data in main system memory. As
+> for the peripheral device, most of Loongson chips chose to define the
+> peripherals as DMA coherent by default, device drivers do not need to
+> maintain the coherency between a processor and an I/O device manually.
+> 
+> There are exceptions, for LS2K1000 SoC, part of peripheral device can be
+> configured as dma non-coherent. But there is no released version of such
+> firmware exist in the market. Peripherals of older ls2k1000 is also DMA
+> non-conherent, but they are nearly outdated. So, those are trivial cases.
 
+s/dma/DMA/
+s/non-conherent/non-coherent/
+s/ls2k1000/LS2K1000/
+
+I guess when you say these are "trivial cases," you mean you don't
+care about supporting those devices?
+
+> Nevertheless, kernel space still need to do probe work, because vivante GPU
+> IP has been integrated into various platform. Hence, this patch add runtime
+> detection code to probe if a specific gpu is DMA coherent, If the answer is
+> yes, we are going to utilize such features. On Loongson platfform, When a
+> buffer is accesed by both the GPU and the CPU, The driver should prefer
+> ETNA_BO_CACHED over ETNA_BO_WC.
+
+s/gpu/GPU/
+s/platfform/platform/
+s/accesed/accessed/
+
+I guess the only way to discover this coherency attribute is via the
+DT "vivante,gc" property?  Seems a little weird but I'm really not a
+DT person.
+
+> This patch also add a new parameter: etnaviv_param_gpu_coherent, which
+> allow userspace to know if such a feature is available. Because
+> write-combined BO is still preferred in some case, especially where don't
+> need CPU read, for example, uploading shader bin.
+> ...
+
+> +static struct device_node *etnaviv_of_first_available_node(void)
+> +{
+> +	struct device_node *core_node;
+> +
+> +	for_each_compatible_node(core_node, NULL, "vivante,gc") {
+> +		if (!of_device_is_available(core_node))
+> +			continue;
+> +
+> +		return core_node;
+> +	}
+> +
+> +	return NULL;
+
+Seems like this would be simpler as:
+
+  for_each_compatible_node(core_node, NULL, "vivante,gc") {
+    if (of_device_is_available(core_node))
+      return core_node;
+  }
+
+  return NULL;
+
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> @@ -8,6 +8,7 @@
+>  #include <linux/delay.h>
+>  #include <linux/dma-fence.h>
+>  #include <linux/dma-mapping.h>
+> +#include <linux/dma-map-ops.h>
+
+It looks like this #include might not be needed?  You're only adding a
+new reference to priv->dma_coherent, which looks like it was added to
+etnaviv_drv.h.
+
+>  #include <linux/module.h>
+>  #include <linux/of_device.h>
+>  #include <linux/platform_device.h>
+> @@ -164,6 +165,10 @@ int etnaviv_gpu_get_param(struct etnaviv_gpu *gpu, u32 param, u64 *value)
+>  		*value = gpu->identity.eco_id;
+>  		break;
+>  
+> +	case ETNAVIV_PARAM_GPU_COHERENT:
+> +		*value = priv->dma_coherent;
+> +		break;
+> +
+>  	default:
+>  		DBG("%s: invalid param: %u", dev_name(gpu->dev), param);
+>  		return -EINVAL;
+> @@ -1861,7 +1866,7 @@ static int etnaviv_gpu_register_irq(struct etnaviv_gpu *gpu, int irq)
+>  
+>  	gpu->irq = irq;
+>  
+> -	dev_info(dev, "IRQ handler registered, irq = %d\n", irq);
+> +	dev_info(dev, "irq(%d) handler registered\n", irq);
+
+Looks possibly unnecessary, or at least unrelated to this patch.
+
+>  	return 0;
+>  }
