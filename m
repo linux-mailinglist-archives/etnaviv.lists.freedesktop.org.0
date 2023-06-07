@@ -1,46 +1,35 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D160B725C2D
-	for <lists+etnaviv@lfdr.de>; Wed,  7 Jun 2023 12:56:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 665F7726022
+	for <lists+etnaviv@lfdr.de>; Wed,  7 Jun 2023 14:58:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A610B10E4C3;
-	Wed,  7 Jun 2023 10:56:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2DBA210E4E4;
+	Wed,  7 Jun 2023 12:58:45 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from 189.cn (ptr.189.cn [183.61.185.102])
- by gabe.freedesktop.org (Postfix) with ESMTP id 3BC5F10E4B7;
- Wed,  7 Jun 2023 10:56:15 +0000 (UTC)
-HMM_SOURCE_IP: 10.64.8.31:55208.1520123491
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-114.242.206.180 (unknown [10.64.8.31])
- by 189.cn (HERMES) with SMTP id BBE501002CE;
- Wed,  7 Jun 2023 18:56:13 +0800 (CST)
-Received: from  ([114.242.206.180])
- by gateway-151646-dep-75648544bd-xp9j7 with ESMTP id
- 2d6665bc324c466abda1ee67f04d8d7e for l.stach@pengutronix.de; 
- Wed, 07 Jun 2023 18:56:14 CST
-X-Transaction-ID: 2d6665bc324c466abda1ee67f04d8d7e
-X-Real-From: 15330273260@189.cn
-X-Receive-IP: 114.242.206.180
-X-MEDUSA-Status: 0
-From: Sui Jingfeng <15330273260@189.cn>
-To: Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Li Yi <liyi@loongson.cn>
-Subject: [PATCH v8 8/8] drm/etnaviv: add a dedicated function to create the
- virtual master
-Date: Wed,  7 Jun 2023 18:55:51 +0800
-Message-Id: <20230607105551.568639-9-15330273260@189.cn>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230607105551.568639-1-15330273260@189.cn>
-References: <20230607105551.568639-1-15330273260@189.cn>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 53B8D10E4E4
+ for <etnaviv@lists.freedesktop.org>; Wed,  7 Jun 2023 12:58:44 +0000 (UTC)
+Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
+ by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1q6skM-0003bY-BW; Wed, 07 Jun 2023 14:58:42 +0200
+From: Lucas Stach <l.stach@pengutronix.de>
+To: etnaviv@lists.freedesktop.org
+Subject: [PATCH] drm/etnaviv: disable MLCG and pulse eater on GPU reset
+Date: Wed,  7 Jun 2023 14:58:41 +0200
+Message-Id: <20230607125841.3518385-1-l.stach@pengutronix.de>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:1101:1d::28
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,92 +41,50 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sui Jingfeng <suijingfeng@loongson.cn>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
- Philipp Zabel <p.zabel@pengutronix.de>, Bjorn Helgaas <bhelgaas@google.com>
+Cc: Christian Gmeiner <christian.gmeiner@gmail.com>,
+ patchwork-lst@pengutronix.de, kernel@pengutronix.de,
+ dri-devel@lists.freedesktop.org, Russell King <linux+etnaviv@armlinux.org.uk>
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-From: Sui Jingfeng <suijingfeng@loongson.cn>
+Module level clock gating and the pulse eater might interfere with
+the GPU reset, as they both have the potential to stop the clock
+and thus reset propagation to parts of the GPU.
 
-After introducing the etnaviv_of_first_available_node() helper, the
-creation of the virtual master platform device can also be simplified.
-So, switch to etnaviv_create_virtual_master() function.
-
-Cc: Lucas Stach <l.stach@pengutronix.de>
-Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
-Cc: Philipp Zabel <p.zabel@pengutronix.de>
-Cc: Bjorn Helgaas <bhelgaas@google.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
+Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
 ---
- drivers/gpu/drm/etnaviv/etnaviv_drv.c | 43 ++++++++++++++++-----------
- 1 file changed, 26 insertions(+), 17 deletions(-)
+I'm not aware of any cases where this would have been an issue, but
+it is what the downstream driver does and fundametally seems like
+the right thing to do.
+---
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-index d7e7498826f5..6f2260a76433 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-@@ -769,10 +769,32 @@ static void etnaviv_destroy_platform_device(struct platform_device **ppdev)
- 	*ppdev = NULL;
- }
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+index de8c9894967c..41aab1aa330b 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+@@ -505,8 +505,19 @@ static int etnaviv_hw_reset(struct etnaviv_gpu *gpu)
+ 	timeout = jiffies + msecs_to_jiffies(1000);
  
-+static int etnaviv_create_virtual_master(void)
-+{
-+	struct platform_device **master = &etnaviv_platform_device;
-+	struct device_node *np;
+ 	while (time_is_after_jiffies(timeout)) {
+-		/* enable clock */
+ 		unsigned int fscale = 1 << (6 - gpu->freq_scale);
++		u32 pulse_eater = 0x01590880;
 +
-+	/*
-+	 * If the DT contains at least one available GPU device, instantiate
-+	 * the DRM platform device.
-+	 */
-+	np = etnaviv_of_first_available_node();
-+	if (np) {
-+		int ret;
++		/* disable clock gating */
++		gpu_write_power(gpu, VIVS_PM_POWER_CONTROLS, 0x0);
 +
-+		of_node_put(np);
++		/* disable pulse eater */
++		pulse_eater |= BIT(17);
++		gpu_write_power(gpu, VIVS_PM_PULSE_EATER, pulse_eater);
++		pulse_eater |= BIT(0);
++		gpu_write_power(gpu, VIVS_PM_PULSE_EATER, pulse_eater);
 +
-+		ret = etnaviv_create_platform_device("etnaviv", master);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	return 0;
-+}
-+
- static int __init etnaviv_init(void)
- {
- 	int ret;
--	struct device_node *np;
- 
- 	etnaviv_validate_init();
- 
-@@ -790,22 +812,9 @@ static int __init etnaviv_init(void)
- 		goto unregister_platform_driver;
- #endif
- 
--	/*
--	 * If the DT contains at least one available GPU device, instantiate
--	 * the DRM platform device.
--	 */
--	for_each_compatible_node(np, NULL, "vivante,gc") {
--		if (!of_device_is_available(np))
--			continue;
--		of_node_put(np);
--
--		ret = etnaviv_create_platform_device("etnaviv",
--						     &etnaviv_platform_device);
--		if (ret)
--			goto unregister_platform_driver;
--
--		break;
--	}
-+	ret = etnaviv_create_virtual_master();
-+	if (ret)
-+		goto unregister_platform_driver;
- 
- 	return ret;
++		/* enable clock */
+ 		control = VIVS_HI_CLOCK_CONTROL_FSCALE_VAL(fscale);
+ 		etnaviv_gpu_load_clock(gpu, control);
  
 -- 
-2.25.1
+2.39.2
 
