@@ -1,45 +1,44 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EEC8724BFE
-	for <lists+etnaviv@lfdr.de>; Tue,  6 Jun 2023 21:01:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A36E725C21
+	for <lists+etnaviv@lfdr.de>; Wed,  7 Jun 2023 12:56:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F7A410E244;
-	Tue,  6 Jun 2023 19:01:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A65210E4C1;
+	Wed,  7 Jun 2023 10:56:08 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A6AB10E14B;
- Tue,  6 Jun 2023 19:01:05 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 811956133A;
- Tue,  6 Jun 2023 19:01:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB594C433EF;
- Tue,  6 Jun 2023 19:01:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1686078063;
- bh=8VSP6X5HdznLbwQMYErzABqaXfaxZIW755OS+DXUrX0=;
- h=Date:From:To:Cc:Subject:In-Reply-To:From;
- b=Jc5KjSXvQdpp345q2PX36NiZZ/vb4vcpz8ysOTPRNM4mjZFJ+oos/O2ps7jrZTvBP
- jSAA9yYobIgs5OmhViLvRkVIjz8izi3zcTYQmRpPjXq0doKpN/v8x+3BsmgyVluN3+
- EQgXHGed04Uqq1hXXJxrtwG4B/Z1i4OoECdfdZJwDePA/m0k6UfKk9BKcv4YhNzO3T
- DTp2/96VG1pKXwRvWVfOzey0hlwagGlcRRCmloZY5/g2HyVZ0cNHQy9VouEHgYhW1H
- nJS+P0Nn89MlC8i/xA73J/6+toJBfuuL8Wgs9ZHartLOISG4nVRblkmQtEjKMSVJaJ
- CnqJT76hZA9YA==
-Date: Tue, 6 Jun 2023 14:01:02 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Sui Jingfeng <suijingfeng@loongson.cn>
-Subject: Re: [PATCH v7 7/7] drm/etnaviv: add support for the dma coherent
- device
-Message-ID: <20230606190102.GA1134540@bhelgaas>
+Received: from 189.cn (ptr.189.cn [183.61.185.102])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 1121810E0DB;
+ Wed,  7 Jun 2023 10:56:03 +0000 (UTC)
+HMM_SOURCE_IP: 10.64.8.31:55208.1520123491
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-114.242.206.180 (unknown [10.64.8.31])
+ by 189.cn (HERMES) with SMTP id 595B31002AB;
+ Wed,  7 Jun 2023 18:55:58 +0800 (CST)
+Received: from  ([114.242.206.180])
+ by gateway-151646-dep-75648544bd-xp9j7 with ESMTP id
+ 01a77a006a344abebd1cacd0747ec331 for l.stach@pengutronix.de; 
+ Wed, 07 Jun 2023 18:56:00 CST
+X-Transaction-ID: 01a77a006a344abebd1cacd0747ec331
+X-Real-From: 15330273260@189.cn
+X-Receive-IP: 114.242.206.180
+X-MEDUSA-Status: 0
+From: Sui Jingfeng <15330273260@189.cn>
+To: Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Li Yi <liyi@loongson.cn>
+Subject: [PATCH v8 0/8] drm/etnaviv: add pci device driver support
+Date: Wed,  7 Jun 2023 18:55:43 +0800
+Message-Id: <20230607105551.568639-1-15330273260@189.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <234586a0-995c-b4c4-3b7b-35afeea1a797@loongson.cn>
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,66 +50,57 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: Bjorn Helgaas <bhelgaas@google.com>, etnaviv@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Sui Jingfeng <15330273260@189.cn>
+Cc: Sui Jingfeng <suijingfeng@loongson.cn>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-On Wed, Jun 07, 2023 at 02:43:27AM +0800, Sui Jingfeng wrote:
-> On 2023/6/7 00:56, Bjorn Helgaas wrote:
-> > On Sat, Jun 03, 2023 at 06:59:43PM +0800, Sui Jingfeng wrote:
-> > > From: Sui Jingfeng <suijingfeng@loongson.cn>
-> > > 
-> > > Loongson CPUs maintain cache coherency by hardware, which means that the
-> > > data in the CPU cache is identical to the data in main system memory. As
-> > > for the peripheral device, most of Loongson chips chose to define the
-> > > peripherals as DMA coherent by default, device drivers do not need to
-> > > maintain the coherency between a processor and an I/O device manually.
-> > ...
+From: Sui Jingfeng <suijingfeng@loongson.cn>
 
-> > I guess the only way to discover this coherency attribute is via the
-> > DT "vivante,gc" property?  Seems a little weird but I'm really not a
-> > DT person.
-> 
-> I'm not sure it is *only*, but it is very convenient to achieve such a thing
-> with DT.
+There is a Vivante GC1000 (v5037) in LS2K1000 and LS7A1000, this GPU is a
+PCI device, and it has 2D and 3D cores in the same core. Thus, this patch
+set is trying to add PCI device driver support to etnaviv.
 
-I don't know if this is a property of the PCI device, or a property of
-the system as a whole.  I asked because PCI devices should be
-self-describing (the Device/Vendor ID should be enough to identify the
-correct driver, and the driver should know how to learn anything else
-it needs to know about the device from PCI config space) and should
-not require extra DT properties. 
+v6:
+	* Fix build issue on system without CONFIG_PCI enabled
+v7:
+	* Add a separate patch for the platform driver rearrangement (Bjorn)
+	* Switch to runtime check if the GPU is dma coherent or not (Lucas)
+	* Add ETNAVIV_PARAM_GPU_COHERENT to allow userspace to query (Lucas)
+	* Remove etnaviv_gpu.no_clk member (Lucas)
+	* Various Typos and coding style fixed (Bjorn)
 
-But if this is a CPU or system property, you probably have to use a
-firmware interface like DT or ACPI.
+v8:
+	* Fix typos and remove unnecessary header included (Bjorn).
+	* Add a dedicated function to create the virtual master platform
+	  device.
 
-> > > +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> > > @@ -8,6 +8,7 @@
-> > >   #include <linux/delay.h>
-> > >   #include <linux/dma-fence.h>
-> > >   #include <linux/dma-mapping.h>
-> > > +#include <linux/dma-map-ops.h>
-> >
-> > It looks like this #include might not be needed?
-> 
-> No, the dev_is_dma_coherent() function is declared and defined in
-> dma-map-ops.h.  if remove it, gcc will complain:
-> 
-> drivers/gpu/drm/etnaviv/etnaviv_drv.c: In function
-> ‘etnaviv_is_dma_coherent’:
-> drivers/gpu/drm/etnaviv/etnaviv_drv.c:56:14: error: implicit declaration of
-> function ‘dev_is_dma_coherent’; did you mean ‘etnaviv_is_dma_coherent’?
-> [-Werror=implicit-function-declaration]
->    56 |   coherent = dev_is_dma_coherent(dev);
->       |              ^~~~~~~~~~~~~~~~~~~
+Sui Jingfeng (8):
+  drm/etnaviv: add a dedicated function to register an irq handler
+  drm/etnaviv: add a dedicated function to get various clocks
+  drm/etnaviv: add dedicated functions to create and destroy platform
+    devices
+  drm/etnaviv: add helpers for private data construction and destruction
+  drm/etnaviv: allow bypass component framework
+  drm/etnaviv: add driver support for the PCI devices
+  drm/etnaviv: add support for the dma coherent device
+  drm/etnaviv: add a dedicated function to create the virtual master
 
-Of course, but that warning is for etnaviv_drv.c, not for
-etnaviv_gpu.c.  So etnaviv_drv.c needs to include dma-map-ops.h, but I
-don't think etnaviv_gpu.c does.  I removed this #include from
-etnaviv_gpu.c and it still built without errors.
+ drivers/gpu/drm/etnaviv/Kconfig             |  10 +
+ drivers/gpu/drm/etnaviv/Makefile            |   2 +
+ drivers/gpu/drm/etnaviv/etnaviv_drv.c       | 257 ++++++++++++++------
+ drivers/gpu/drm/etnaviv/etnaviv_drv.h       |  10 +
+ drivers/gpu/drm/etnaviv/etnaviv_gem.c       |  22 +-
+ drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c |   7 +-
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c       | 168 ++++++++-----
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.h       |   9 +
+ drivers/gpu/drm/etnaviv/etnaviv_pci_drv.c   |  75 ++++++
+ drivers/gpu/drm/etnaviv/etnaviv_pci_drv.h   |   9 +
+ include/uapi/drm/etnaviv_drm.h              |   1 +
+ 11 files changed, 440 insertions(+), 130 deletions(-)
+ create mode 100644 drivers/gpu/drm/etnaviv/etnaviv_pci_drv.c
+ create mode 100644 drivers/gpu/drm/etnaviv/etnaviv_pci_drv.h
 
-> > You're only adding a
-> > new reference to priv->dma_coherent, which looks like it was added to
-> > etnaviv_drv.h.
+-- 
+2.25.1
+
