@@ -1,61 +1,43 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E39E728EB5
-	for <lists+etnaviv@lfdr.de>; Fri,  9 Jun 2023 05:55:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 64AC872A1A2
+	for <lists+etnaviv@lfdr.de>; Fri,  9 Jun 2023 19:52:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C30EC10E0A5;
-	Fri,  9 Jun 2023 03:55:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EFF1E10E16C;
+	Fri,  9 Jun 2023 17:52:06 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id 1D3A510E0A5;
- Fri,  9 Jun 2023 03:55:20 +0000 (UTC)
-Received: from loongson.cn (unknown [10.20.42.43])
- by gateway (Coremail) with SMTP id _____8Dxh+mnooJkLOEAAA--.908S3;
- Fri, 09 Jun 2023 11:55:19 +0800 (CST)
-Received: from [10.20.42.43] (unknown [10.20.42.43])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8BxjcqmooJkirIJAA--.21536S3; 
- Fri, 09 Jun 2023 11:55:18 +0800 (CST)
-Message-ID: <2367a21b-507a-5635-260e-73929497275b@loongson.cn>
-Date: Fri, 9 Jun 2023 11:55:18 +0800
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F45910E165;
+ Fri,  9 Jun 2023 17:52:05 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id D933265A4A;
+ Fri,  9 Jun 2023 17:52:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DB2EC433D2;
+ Fri,  9 Jun 2023 17:52:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1686333123;
+ bh=hgWiWkryxacoHHEBtfErD81DDhTgMv1CiCtR2KT1+fk=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:From;
+ b=H5t+R0xrJcTEX4Oc3TbNIlAXuyp46jL+ufcQ4Z4KG6HSdzP3tnexZh/K0OEHZ2j2w
+ aMV/sItKYqtLFjhd8xHIdpFmjwRMDbzVY2QTUBqm6EVut4W1gRCF4jSGpbsEpLJh7P
+ Bvkn7SilgTCb5MCvwn9hDguee6a4S04hcyv85fdtIA0rJ6Obeoi8fnB/OTfQLoiT/N
+ nLLm66IwsLqNvD1ZJAmCwNUX6KXUUaHjg3CD3Xdbz2cOYP74617g9qJUDVy15FcB5U
+ /1LjxTH+00dLuZjZ6nWv8lHXUelO2ZCGDrLIUbq1kKJtaifVjlsvKGr7ky1l4MK06+
+ u6LWn7kWW50mA==
+Date: Fri, 9 Jun 2023 12:52:01 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Sui Jingfeng <suijingfeng@loongson.cn>
+Subject: Re: [PATCH v8 6/8] drm/etnaviv: add driver support for the PCI devices
+Message-ID: <20230609175201.GA1253027@bhelgaas>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v8 0/8] drm/etnaviv: add pci device driver support
-Content-Language: en-US
-To: Sui Jingfeng <15330273260@189.cn>, Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Li Yi <liyi@loongson.cn>
-References: <20230607105551.568639-1-15330273260@189.cn>
-From: Sui Jingfeng <suijingfeng@loongson.cn>
-Organization: Loongson
-In-Reply-To: <20230607105551.568639-1-15330273260@189.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID: AQAAf8BxjcqmooJkirIJAA--.21536S3
-X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBj93XoW7Cw18Wr45ZFWkCw1xuw1fKrX_yoW8tF4kpF
- 47JFyYkry8ZrW7K347AFn8JF93G3WxWF9Yk3srt3sI9w45ZFyjvryqka15Jr9xXr1fAr42
- qr1a9r13WF15ArXCm3ZEXasCq-sJn29KB7ZKAUJUUUU5529EdanIXcx71UUUUU7KY7ZEXa
- sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
- 0xBIdaVrnRJUUUvqb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
- IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
- e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
- 0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
- xVW8Jr0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx
- 1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1Y6r17McIj6I8E87Iv
- 67AKxVWxJVW8Jr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxk0xIA0c2IEe2
- xFo4CEbIxvr21l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAq
- x4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r
- 43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF
- 7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxV
- WxJVW8Jr1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvjDU0xZFpf9x
- 07UEYLkUUUUU=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ec178d79-f96b-072e-aa1b-dd2bf7c9cdd0@loongson.cn>
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,69 +49,47 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- etnaviv@lists.freedesktop.org
+Cc: Li Yi <liyi@loongson.cn>, etnaviv@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Bjorn Helgaas <bhelgaas@google.com>, Sui Jingfeng <15330273260@189.cn>
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Hi,
+On Fri, Jun 09, 2023 at 09:37:02AM +0800, Sui Jingfeng wrote:
+> On 2023/6/9 01:32, Bjorn Helgaas wrote:
+> > On Wed, Jun 07, 2023 at 06:55:49PM +0800, Sui Jingfeng wrote:
+> > > From: Sui Jingfeng <suijingfeng@loongson.cn>
+> > > 
+> > > This patch adds PCI driver support on top of what we already have. Take
+> > > the GC1000 in LS7A1000/LS2K1000 as the first instance of the PCI device
+> > > driver. There is only one GPU core for the GC1000 in the LS7A1000 and
+> > > LS2K1000. Therefore, component frameworks can be avoided.
 
+> > > +	{PCI_VENDOR_ID_LOONGSON, 0x7a15, PCI_ANY_ID, PCI_ANY_ID, 0, 0, 0},
+> > > +	{PCI_VENDOR_ID_LOONGSON, 0x7a05, PCI_ANY_ID, PCI_ANY_ID, 0, 0, 0},
+> >
+> > PCI_VDEVICE()
+> 
+> This make it impossible to hook device-specific data in the future.
+> 
+> But currently there no device specific data associated with the
+> 0x7a05 and 0x7a15,
+> 
+> so it's acceptable for now. Thanks.
 
-Any ideas ? I change it together at next version?
+Haha, ISTR having this conversation before, sorry for repeating it.
 
+Indeed, it's fine as-is.  But PCI_VDEVICE() actually *does* allow for
+vendor-specific data because it doesn't include the data element,
+which defaults to zero if you don't specify it.
 
-@lucas
+So for example, drivers/net/ethernet/realtek/r8169_main.c has this:
 
-@christian
+  { PCI_VDEVICE(REALTEK, 0x8129) },
+  { PCI_VDEVICE(REALTEK, 0x8136), RTL_CFG_NO_GBIT },
 
+where 0x8129 has no driver_data (it defaults to zero), but 0x8136
+does.
 
-On 2023/6/7 18:55, Sui Jingfeng wrote:
-> From: Sui Jingfeng <suijingfeng@loongson.cn>
->
-> There is a Vivante GC1000 (v5037) in LS2K1000 and LS7A1000, this GPU is a
-> PCI device, and it has 2D and 3D cores in the same core. Thus, this patch
-> set is trying to add PCI device driver support to etnaviv.
->
-> v6:
-> 	* Fix build issue on system without CONFIG_PCI enabled
-> v7:
-> 	* Add a separate patch for the platform driver rearrangement (Bjorn)
-> 	* Switch to runtime check if the GPU is dma coherent or not (Lucas)
-> 	* Add ETNAVIV_PARAM_GPU_COHERENT to allow userspace to query (Lucas)
-> 	* Remove etnaviv_gpu.no_clk member (Lucas)
-> 	* Various Typos and coding style fixed (Bjorn)
->
-> v8:
-> 	* Fix typos and remove unnecessary header included (Bjorn).
-> 	* Add a dedicated function to create the virtual master platform
-> 	  device.
->
-> Sui Jingfeng (8):
->    drm/etnaviv: add a dedicated function to register an irq handler
->    drm/etnaviv: add a dedicated function to get various clocks
->    drm/etnaviv: add dedicated functions to create and destroy platform
->      devices
->    drm/etnaviv: add helpers for private data construction and destruction
->    drm/etnaviv: allow bypass component framework
->    drm/etnaviv: add driver support for the PCI devices
->    drm/etnaviv: add support for the dma coherent device
->    drm/etnaviv: add a dedicated function to create the virtual master
->
->   drivers/gpu/drm/etnaviv/Kconfig             |  10 +
->   drivers/gpu/drm/etnaviv/Makefile            |   2 +
->   drivers/gpu/drm/etnaviv/etnaviv_drv.c       | 257 ++++++++++++++------
->   drivers/gpu/drm/etnaviv/etnaviv_drv.h       |  10 +
->   drivers/gpu/drm/etnaviv/etnaviv_gem.c       |  22 +-
->   drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c |   7 +-
->   drivers/gpu/drm/etnaviv/etnaviv_gpu.c       | 168 ++++++++-----
->   drivers/gpu/drm/etnaviv/etnaviv_gpu.h       |   9 +
->   drivers/gpu/drm/etnaviv/etnaviv_pci_drv.c   |  75 ++++++
->   drivers/gpu/drm/etnaviv/etnaviv_pci_drv.h   |   9 +
->   include/uapi/drm/etnaviv_drm.h              |   1 +
->   11 files changed, 440 insertions(+), 130 deletions(-)
->   create mode 100644 drivers/gpu/drm/etnaviv/etnaviv_pci_drv.c
->   create mode 100644 drivers/gpu/drm/etnaviv/etnaviv_pci_drv.h
->
--- 
-Jingfeng
-
+Bjorn
