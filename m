@@ -2,59 +2,58 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D654A72CDC0
-	for <lists+etnaviv@lfdr.de>; Mon, 12 Jun 2023 20:20:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8E9E72E425
+	for <lists+etnaviv@lfdr.de>; Tue, 13 Jun 2023 15:31:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9849A10E1FB;
-	Mon, 12 Jun 2023 18:20:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D4A810E25C;
+	Tue, 13 Jun 2023 13:31:08 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id ED3F510E1FB;
- Mon, 12 Jun 2023 18:20:03 +0000 (UTC)
-Received: from loongson.cn (unknown [10.20.42.43])
- by gateway (Coremail) with SMTP id _____8BxL_DRYYdk0vkDAA--.8719S3;
- Tue, 13 Jun 2023 02:20:01 +0800 (CST)
-Received: from [10.20.42.43] (unknown [10.20.42.43])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8BxjcrQYYdkO+gWAA--.57583S3; 
- Tue, 13 Jun 2023 02:20:00 +0800 (CST)
-Message-ID: <90fb836f-ba54-1d3c-965c-67f91ff89fb0@loongson.cn>
-Date: Tue, 13 Jun 2023 02:20:00 +0800
+Received: from mail-oo1-xc35.google.com (mail-oo1-xc35.google.com
+ [IPv6:2607:f8b0:4864:20::c35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5FC0410E256;
+ Tue, 13 Jun 2023 13:31:06 +0000 (UTC)
+Received: by mail-oo1-xc35.google.com with SMTP id
+ 006d021491bc7-55554c33bf3so4053779eaf.2; 
+ Tue, 13 Jun 2023 06:31:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1686663065; x=1689255065;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=+oJRr1HWHP9JqECQ3VZkz1/hm2pDZyPwBSm4m7w5HBM=;
+ b=X5CFBWZRU88crBNevaA8EZ3Qwq7j0QAypahi0v2mI0PpXen/aCrVq0HQwkdSiB9tdg
+ AHlFtStU+Es90VmcsHyQoK1pxexIbwHVi97R7o6rBIWZLFZs/INTThPOx0RX02Uq5pKB
+ JGRlpzoGDJ/mAnBEidnTXGETHXCb+XOE9DAcmzOVVbpLoEkhoF4A5tXGlCR0tEfP9IEF
+ XGpNSXnxll0V/h9q9ypIo00EeQddQjqOl+vrHBDs2I2WjnTeBInAev7A6XYy8s53YRsn
+ zGRE/k5k+xaPWzdemHOoNPzHoBqtS0ZsCmlpnhFNFb3nh/USd89DlKuSdUBciHeHmmdg
+ fN0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1686663065; x=1689255065;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=+oJRr1HWHP9JqECQ3VZkz1/hm2pDZyPwBSm4m7w5HBM=;
+ b=MZE79dGkHRRHGH4LnFlMd42gvgTTHIUE3fv6Tpt+VfCSRAgIKKuUyeV+TM570Ie06p
+ dvKKSUhipm06u96hjF+kwOBqQSRA88kgv+GngUPL0/KB3IXwJCS2mfCbQ5iKO9+OKXoG
+ SrobIENQ0bN4AmfnF0ELOTdZmp5d+4MXxvEEtF7uh8CRg418eyQ6v30v+Lh1aXfCbMew
+ HukYD/NBbDFKcD+XyU4WoUYA+l8lF/CW572til/jxvZ36LYyS8WsSzSdfvCUE8hJKnRF
+ iUsttAVvhauxlavkpKFJJ8QbBEDAapfntpMUANPOtszHKcdmexfTG7yAGRI2JWXPMDZ8
+ CilA==
+X-Gm-Message-State: AC+VfDxsZyuAjNDRnv94k0A5VqCboDQNZTlYv/vvwtJG2+YSH+s7LtAB
+ hLoXvETXThmCQ+q2cvjQkd03jeLmI292E/rcSUU=
+X-Google-Smtp-Source: ACHHUZ52t43arx1Rkq3eXW9fLgapK+ffELJAuM0B/ToRKDlRMpAaATeQslJvGP2kjGDPZ8nR6LAcwBZEHYKbLv5H+kE=
+X-Received: by 2002:a4a:d0a9:0:b0:558:b5b2:72fe with SMTP id
+ t9-20020a4ad0a9000000b00558b5b272femr6932618oor.2.1686663064998; Tue, 13 Jun
+ 2023 06:31:04 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH] drm: etnaviv: Replace of_platform.h with explicit includes
-Content-Language: en-US
-To: Rob Herring <robh@kernel.org>
-References: <20230410232647.1561308-1-robh@kernel.org>
- <CAL_JsqLeAvEVa8h3qywqESkqGG1O+9QWqA7fc1EJeDGkmAV7Fw@mail.gmail.com>
- <0ce32e34-d53b-4038-ef39-3b0f3e2f8a7f@loongson.cn>
- <CAL_JsqKsa9KQxk6r=ZxtY30Mk5nk9ST5ejJ+8VXZ5vPJAGHMBg@mail.gmail.com>
-From: Sui Jingfeng <suijingfeng@loongson.cn>
-Organization: Loongson
-In-Reply-To: <CAL_JsqKsa9KQxk6r=ZxtY30Mk5nk9ST5ejJ+8VXZ5vPJAGHMBg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8BxjcrQYYdkO+gWAA--.57583S3
-X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBj9xXoWrZr4rWFWUXF1xGr13KrWkKrX_yoWDuFgE9F
- 1I9w4kWr4fGr97Ja90yFyDZr909ry3JF4DZ3Z5tFn3W3sayry5JrykCryrXa43WF1IkFnx
- X3Z3AF93Ar1IgosvyTuYvTs0mTUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvT
- s0mT0YCTnIWjqI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUI
- cSsGvfJTRUUUbx8YFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20x
- vaj40_Wr0E3s1l1IIY67AEw4v_JrI_Jryl8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxS
- w2x7M28EF7xvwVC0I7IYx2IY67AKxVWUJVWUCwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxV
- WUJVW8JwA2z4x0Y4vEx4A2jsIE14v26r1j6r4UM28EF7xvwVC2z280aVCY1x0267AKxVWU
- JVW8JwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI0UMc02F4
- 0EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_
- Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxk0xIA0c2IEe2xFo4CEbI
- xvr21l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AK
- xVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrx
- kI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v2
- 6r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8Jw
- CI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07URa0PUUUUU
- =
+References: <20230607125841.3518385-1-l.stach@pengutronix.de>
+In-Reply-To: <20230607125841.3518385-1-l.stach@pengutronix.de>
+From: Christian Gmeiner <christian.gmeiner@gmail.com>
+Date: Tue, 13 Jun 2023 15:30:53 +0200
+Message-ID: <CAH9NwWd+1DgZoL8SM=+TuEA435Lqi5HoN8eDYwCtCQgHuNhxrA@mail.gmail.com>
+Subject: Re: [PATCH] drm/etnaviv: disable MLCG and pulse eater on GPU reset
+To: Lucas Stach <l.stach@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,45 +65,62 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Christian Gmeiner <christian.gmeiner@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Russell King <linux+etnaviv@armlinux.org.uk>,
- David Airlie <airlied@gmail.com>, Lucas Stach <l.stach@pengutronix.de>
+Cc: kernel@pengutronix.de, patchwork-lst@pengutronix.de,
+ etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Russell King <linux+etnaviv@armlinux.org.uk>
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
+>
+> Module level clock gating and the pulse eater might interfere with
+> the GPU reset, as they both have the potential to stop the clock
+> and thus reset propagation to parts of the GPU.
+>
+> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
 
-On 2023/6/13 02:15, Rob Herring wrote:
-> On Sun, Jun 11, 2023 at 12:49 AM Sui Jingfeng <suijingfeng@loongson.cn> wrote:
->> Reviewed-by: Sui Jingfeng <suijingfeng@loongson.cn>
->>
->>
->> On 2023/6/10 04:17, Rob Herring wrote:
->>> On Mon, Apr 10, 2023 at 5:26 PM Rob Herring <robh@kernel.org> wrote:
->>>> Etnaviv doesn't use anything from of_platform.h, but depends on
->>>> of.h, of_device.h, and platform_device.h which are all implicitly
->>>> included, but that is going to be removed soon.
->>>>
->>>> Signed-off-by: Rob Herring <robh@kernel.org>
->>>> ---
->>>>    drivers/gpu/drm/etnaviv/etnaviv_drv.c | 4 +++-
->>>>    1 file changed, 3 insertions(+), 1 deletion(-)
->>> Ping!
->>
->> of_device.h already has 'linux/of.h' and 'linux/platform_device.h' included,
->>
->> Would it be sufficient by simply including linux/of_device.h ?
-> That's part of what I'm trying to remove. Standard practice is to not
-> rely on implicit includes.
+Reviewed-by: Christian Gmeiner <cgmeiner@igalia.com>
 
-Ok, that's fine then.
+> ---
+> I'm not aware of any cases where this would have been an issue, but
+> it is what the downstream driver does and fundametally seems like
+> the right thing to do.
+> ---
+>  drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 13 ++++++++++++-
+>  1 file changed, 12 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> index de8c9894967c..41aab1aa330b 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> @@ -505,8 +505,19 @@ static int etnaviv_hw_reset(struct etnaviv_gpu *gpu)
+>         timeout = jiffies + msecs_to_jiffies(1000);
+>
+>         while (time_is_after_jiffies(timeout)) {
+> -               /* enable clock */
+>                 unsigned int fscale = 1 << (6 - gpu->freq_scale);
+> +               u32 pulse_eater = 0x01590880;
+> +
+> +               /* disable clock gating */
+> +               gpu_write_power(gpu, VIVS_PM_POWER_CONTROLS, 0x0);
+> +
+> +               /* disable pulse eater */
+> +               pulse_eater |= BIT(17);
+> +               gpu_write_power(gpu, VIVS_PM_PULSE_EATER, pulse_eater);
+> +               pulse_eater |= BIT(0);
+> +               gpu_write_power(gpu, VIVS_PM_PULSE_EATER, pulse_eater);
+> +
+> +               /* enable clock */
+>                 control = VIVS_HI_CLOCK_CONTROL_FSCALE_VAL(fscale);
+>                 etnaviv_gpu_load_clock(gpu, control);
+>
+> --
+> 2.39.2
+>
 
-
-Tested-by: Sui Jingfeng <suijingfeng@loongson.cn>
-
-
-> Rob
 
 -- 
-Jingfeng
+greets
+--
+Christian Gmeiner, MSc
 
+https://christian-gmeiner.info/privacypolicy
