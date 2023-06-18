@@ -2,56 +2,51 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E2F273372B
-	for <lists+etnaviv@lfdr.de>; Fri, 16 Jun 2023 19:09:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31932734642
+	for <lists+etnaviv@lfdr.de>; Sun, 18 Jun 2023 15:21:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05C1510E107;
-	Fri, 16 Jun 2023 17:09:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E951C10E06A;
+	Sun, 18 Jun 2023 13:21:20 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id F071010E107;
- Fri, 16 Jun 2023 17:09:20 +0000 (UTC)
-Received: from loongson.cn (unknown [10.20.42.43])
- by gateway (Coremail) with SMTP id _____8AxW+o+l4xkhwsGAA--.12933S3;
- Sat, 17 Jun 2023 01:09:19 +0800 (CST)
-Received: from [10.20.42.43] (unknown [10.20.42.43])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8BxTMo9l4xkqnsdAA--.9167S3; 
- Sat, 17 Jun 2023 01:09:17 +0800 (CST)
-Message-ID: <57157e11-8aab-7181-0e8b-d336994124d9@loongson.cn>
-Date: Sat, 17 Jun 2023 01:09:17 +0800
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F113110E05D
+ for <etnaviv@lists.freedesktop.org>; Sun, 18 Jun 2023 12:40:59 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1qArh7-0003eY-9M; Sun, 18 Jun 2023 14:39:49 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1qArgb-008HLz-J5; Sun, 18 Jun 2023 14:39:17 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1qArga-00FHNT-AP; Sun, 18 Jun 2023 14:39:16 +0200
+Date: Sun, 18 Jun 2023 14:39:15 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Doug Anderson <dianders@chromium.org>
+Subject: Re: patches dropped from drm-misc-next [Was: Re: [PATCH 00/53] drm:
+ Convert to platform remove callback returning] void
+Message-ID: <20230618123915.hmy66z7e532jhwgk@pengutronix.de>
+References: <20230507162616.1368908-1-u.kleine-koenig@pengutronix.de>
+ <20230601154002.uv2wfatpb7b45duz@pengutronix.de>
+ <CAD=FV=WvP--wJwBQtnSoW_xb57R1Wf9dH0XzWxe+NorczXfeAw@mail.gmail.com>
+ <20230617161222.wy55pbomnrrlfy5u@pengutronix.de>
+ <CAD=FV=U5gbMUNteyyFcTvHVBDWzfthM0aDirJC+yXGovDwMOBA@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [v2] drm/etnaviv: slow down FE idle polling
-To: Lucas Stach <l.stach@pengutronix.de>, etnaviv@lists.freedesktop.org
-References: <20230616110257.2262744-1-l.stach@pengutronix.de>
-Content-Language: en-US
-From: Sui Jingfeng <suijingfeng@loongson.cn>
-Organization: Loongson
-In-Reply-To: <20230616110257.2262744-1-l.stach@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8BxTMo9l4xkqnsdAA--.9167S3
-X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBj93XoWxZry8AF45Gw15ZF15uFyxtFc_yoWrtrWUpF
- 4fKFWjyryqva4jgw47JFn5XF13G3Z7WF9akayDX3s09ws8Jr1DWryUCFZ8Jr98Jr1fWrW7
- tr1YkrnrWF1jyrXCm3ZEXasCq-sJn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXa
- sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
- 0xBIdaVrnRJUUUvYb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
- IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
- e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
- 0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_
- Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx1l5I
- 8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AK
- xVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0VAS07AlzV
- AYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E
- 14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIx
- kGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAF
- wI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F
- 4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07j8sqAU
- UUUU=
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="jxye2q65aavatxzk"
+Content-Disposition: inline
+In-Reply-To: <CAD=FV=U5gbMUNteyyFcTvHVBDWzfthM0aDirJC+yXGovDwMOBA@mail.gmail.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
+X-Mailman-Approved-At: Sun, 18 Jun 2023 13:21:20 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,127 +58,288 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: Russell King <linux+etnaviv@armlinux.org.uk>,
- dri-devel@lists.freedesktop.org, kernel@pengutronix.de,
- patchwork-lst@pengutronix.de
+Cc: Raymond Tan <raymond.tan@intel.com>,
+ Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Akhil P Oommen <quic_akhilpo@quicinc.com>,
+ Linus Walleij <linus.walleij@linaro.org>, dri-devel@lists.freedesktop.org,
+ Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+ Alim Akhtar <alim.akhtar@samsung.com>,
+ Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Steven Price <steven.price@arm.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Jerome Brunet <jbrunet@baylibre.com>, linux-samsung-soc@vger.kernel.org,
+ Robert Foss <rfoss@kernel.org>, Karol Herbst <kherbst@redhat.com>,
+ Samuel Holland <samuel@sholland.org>, Kevin Hilman <khilman@baylibre.com>,
+ =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
+ Michal Simek <michal.simek@xilinx.com>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Xinliang Liu <xinliang.liu@linaro.org>, Danilo Krummrich <dakr@redhat.com>,
+ NXP Linux Team <linux-imx@nxp.com>, linux-sunxi@lists.linux.dev,
+ Rob Clark <robdclark@gmail.com>, Rahul T R <r-ravikumar@ti.com>,
+ Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
+ Jani Nikula <jani.nikula@intel.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+ etnaviv@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ Inki Dae <inki.dae@samsung.com>, Alain Volmat <alain.volmat@foss.st.com>,
+ Sean Paul <sean@poorly.run>, Johan Hovold <johan+linaro@kernel.org>,
+ Hyun Kwon <hyun.kwon@xilinx.com>, Andrew Jeffery <andrew@aj.id.au>,
+ Jingoo Han <jingoohan1@gmail.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>, kernel@pengutronix.de,
+ Alex Deucher <alexander.deucher@amd.com>, freedreno@lists.freedesktop.org,
+ Claudiu Beznea <claudiu.beznea@microchip.com>,
+ Miaoqian Lin <linmq006@gmail.com>, linux-aspeed@lists.ozlabs.org,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Thierry Reding <thierry.reding@gmail.com>, John Stultz <jstultz@google.com>,
+ Mihail Atanassov <mihail.atanassov@arm.com>, Liang He <windhl@126.com>,
+ Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+ lima@lists.freedesktop.org, Chunyan Zhang <zhang.lyra@gmail.com>,
+ Alexey Brodkin <abrodkin@synopsys.com>, Minghao Chi <chi.minghao@zte.com.cn>,
+ Jonathan Hunter <jonathanh@nvidia.com>, linux-rockchip@lists.infradead.org,
+ Ben Skeggs <bskeggs@redhat.com>, Russell King <linux+etnaviv@armlinux.org.uk>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Liu Ying <victor.liu@nxp.com>,
+ linux-arm-msm@vger.kernel.org, Wang Jianzheng <wangjianzheng@vivo.com>,
+ Maxime Ripard <mripard@kernel.org>, linux-amlogic@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Boris Brezillon <bbrezillon@kernel.org>, Sandy Huang <hjc@rock-chips.com>,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ linux-mediatek@lists.infradead.org, Brian Starkey <brian.starkey@arm.com>,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Yuan Can <yuancan@huawei.com>, Stefan Agner <stefan@agner.ch>,
+ Javier Martinez Canillas <javierm@redhat.com>, linux-tegra@vger.kernel.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Rob Herring <robh@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+ Mali DP Maintainers <malidp@foss.arm.com>, Joel Stanley <joel@jms.id.au>,
+ nouveau@lists.freedesktop.org, Orson Zhai <orsonzhai@gmail.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, Lyude Paul <lyude@redhat.com>,
+ Arnd Bergmann <arnd@arndb.de>, Guo Zhengkui <guozhengkui@vivo.com>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Alison Wang <alison.wang@nxp.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Maxime Ripard <maxime@cerno.tech>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Liu Shixin <liushixin2@huawei.com>, Tomi Valkeinen <tomba@kernel.org>,
+ Deepak R Varma <drv@mailo.com>,
+ Karol Wachowski <karol.wachowski@linux.intel.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Ricardo Ribalda <ribalda@chromium.org>, Tian Tao <tiantao6@hisilicon.com>,
+ Shawn Guo <shawnguo@kernel.org>, Yannick Fertre <yannick.fertre@foss.st.com>,
+ linux-stm32@st-md-mailman.stormreply.com, Emma Anholt <emma@anholt.net>,
+ Liviu Dudau <liviu.dudau@arm.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, linux-mips@vger.kernel.org,
+ Paul Cercueil <paul@crapouillou.net>, Laura Nao <laura.nao@collabora.com>,
+ David Airlie <airlied@gmail.com>, Marek Vasut <marex@denx.de>,
+ linux-renesas-soc@vger.kernel.org, Yongqin Liu <yongqin.liu@linaro.org>,
+ Jayshri Pawar <jpawar@cadence.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Russell King <linux@armlinux.org.uk>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Philippe Cornu <philippe.cornu@foss.st.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Melissa Wen <mwen@igalia.com>,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ Fabio Estevam <festevam@gmail.com>,
+ Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Qiang Yu <yuq825@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Jyri Sarha <jyri.sarha@iki.fi>,
+ Lucas Stach <l.stach@pengutronix.de>
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Hi,
 
+--jxye2q65aavatxzk
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 2023/6/16 19:02, Lucas Stach wrote:
-> Currently the FE is spinning way too fast when polling for new work in
-> the FE idleloop. As each poll fetches 16 bytes from memory, a GPU running
-> at 1GHz with the current setting of 200 wait cycle between fetches causes
-> 80 MB/s of memory traffic just to check for new work when the GPU is
-> otherwise idle, which is more FE traffic than in some GPU loaded cases.
->
-> Significantly increase the number of wait cycles to slow down the poll
-> interval to ~30µs, limiting the FE idle memory traffic to 512 KB/s, while
-> providing a max latency which should not hurt most use-cases. The FE WAIT
-> command seems to have some unknown discrete steps in the wait cycles so
-> we may over/undershoot the target a bit, but that should be harmless.
->
-> If the GPU core base frequency is unknown keep the 200 wait cycles as
-> a sane default.
+Hello Doug,
 
-Thanks for the patch, this version still works on our platform.
+On Sat, Jun 17, 2023 at 10:57:23AM -0700, Doug Anderson wrote:
+> On Sat, Jun 17, 2023 at 9:15=E2=80=AFAM Uwe Kleine-K=C3=B6nig
+> <u.kleine-koenig@pengutronix.de> wrote:
+> >
+> > [expanding recipents by the other affected persons]
+> >
+> > On Thu, Jun 08, 2023 at 09:08:15AM -0700, Doug Anderson wrote:
+> > > On Thu, Jun 1, 2023 at 8:40=E2=80=AFAM Uwe Kleine-K=C3=B6nig
+> > > <u.kleine-koenig@pengutronix.de> wrote:
+> > > >
+> > > > Hello,
+> > > >
+> > > > On Sun, May 07, 2023 at 06:25:23PM +0200, Uwe Kleine-K=C3=B6nig wro=
+te:
+> > > > > this patch series adapts the platform drivers below drivers/gpu/d=
+rm
+> > > > > to use the .remove_new() callback. Compared to the traditional .r=
+emove()
+> > > > > callback .remove_new() returns no value. This is a good thing bec=
+ause
+> > > > > the driver core doesn't (and cannot) cope for errors during remov=
+e. The
+> > > > > only effect of a non-zero return value in .remove() is that the d=
+river
+> > > > > core emits a warning. The device is removed anyhow and an early r=
+eturn
+> > > > > from .remove() usually yields a resource leak.
+> > > > >
+> > > > > By changing the remove callback to return void driver authors can=
+not
+> > > > > reasonably (but wrongly) assume any more that there happens some =
+kind of
+> > > > > cleanup later.
+> > > >
+> > > > I wonder if someone would volunteer to add the whole series to
+> > > > drm-misc-next?!
+> > >
+> > > It looks as if Neil applied quite a few of them already, so I looked
+> > > at what was left...
+> > >
+> > > I'm a little hesitant to just apply the whole kit-and-caboodle to
+> > > drm-misc-next since there are specific DRM trees for a bunch of them
+> > > and it would be better if they landed there. ...so I went through all
+> > > the patches that still applied to drm-misc-next, then used
+> > > 'scripts/get_maintainer.pl --scm' to check if they were maintained
+> > > through drm-misc. That still left quite a few patches. I've applied
+> > > those ones and pushed to drm-misc-next:
+> > >
+> > > 71722685cd17 drm/xlnx/zynqmp_dpsub: Convert to platform remove
+> > > callback returning void
+> > > 1ed54a19f3b3 drm/vc4: Convert to platform remove callback returning v=
+oid
+> > > b957812839f8 drm/v3d: Convert to platform remove callback returning v=
+oid
+> > > e2fd3192e267 drm/tve200: Convert to platform remove callback returnin=
+g void
+> > > 84e6da7ad553 drm/tiny: Convert to platform remove callback returning =
+void
+> > > 34cdd1f691ad drm/tidss: Convert to platform remove callback returning=
+ void
+> > > d665e3c9d37a drm/sun4i: Convert to platform remove callback returning=
+ void
+> > > 0c259ab19146 drm/stm: Convert to platform remove callback returning v=
+oid
+> > > 9a865e45884a drm/sti: Convert to platform remove callback returning v=
+oid
+> > > 3c855610840e drm/rockchip: Convert to platform remove callback return=
+ing void
+> > > e41977a83b71 drm/panfrost: Convert to platform remove callback return=
+ing void
+> > > cef3776d0b5a drm/panel: Convert to platform remove callback returning=
+ void
+> > > bd296a594e87 drm/mxsfb: Convert to platform remove callback returning=
+ void
+> > > 38ca2d93d323 drm/meson: Convert to platform remove callback returning=
+ void
+> > > fd1457d84bae drm/mcde: Convert to platform remove callback returning =
+void
+> > > 41a56a18615c drm/logicvc: Convert to platform remove callback returni=
+ng void
+> > > 980ec6444372 drm/lima: Convert to platform remove callback returning =
+void
+> > > 82a2c0cc1a22 drm/hisilicon: Convert to platform remove callback retur=
+ning void
+> > > c3b28b29ac0a drm/fsl-dcu: Convert to platform remove callback returni=
+ng void
+> > > a118fc6e71f9 drm/atmel-hlcdc: Convert to platform remove callback ret=
+urning void
+> > > 9a32dd324c46 drm/aspeed: Convert to platform remove callback returnin=
+g void
+> > > 2c7d291c498c drm/arm/malidp: Convert to platform remove callback retu=
+rning void
+> > > a920028df679 drm/arm/hdlcd: Convert to platform remove callback retur=
+ning void
+> > > 1bf3d76a7d15 drm/komeda: Convert to platform remove callback returnin=
+g void
+> >
+> > Together with the patches that were applied later the topmost commit
+> > from this series is c2807ecb5290 ("drm/omap: Convert to platform remove
+> > callback returning void"). This commit was part for the following next
+> > tags:
+> >
+> >         $ git tag -l --contains c2807ecb5290
+> >         next-20230609
+> >         next-20230613
+> >         next-20230614
+> >         next-20230615
+> >
+> > However in next-20230616 they are missing. In next-20230616
+> > drm-misc/for-linux-next was cf683e8870bd4be0fd6b98639286700a35088660.
+> > Compared to c2807ecb5290 this adds 1149 patches but drops 37 (that are
+> > also not included with a different commit id). The 37 patches dropped
+> > are 13cdd12a9f934158f4ec817cf048fcb4384aa9dc..c2807ecb5290:
+> >
+> >         $ git shortlog -s 13cdd12a9f934158f4ec817cf048fcb4384aa9dc..c28=
+07ecb5290
+> >              1  Christophe JAILLET
+> >              2  Jessica Zhang
+> >              5  Karol Wachowski
+> >              1  Laura Nao
+> >             27  Uwe Kleine-K=C3=B6nig
+> >              1  Wang Jianzheng
+> >
+> >
+> > I guess this was done by mistake because nobody told me about dropping
+> > my/these patches? Can c2807ecb5290 please be merged into drm-misc-next
+> > again?
+>=20
+> Actually, it was probably a mistake that these patches got merged to
+> linuxnext during the 4 days that you noticed. However, your patches
+> aren't dropped and are still present in drm-misc-next.
+>=20
+> drm-misc has a bit of a unique model and it's documented fairly well here:
+>=20
+> https://drm.pages.freedesktop.org/maintainer-tools/drm-misc.html
 
-I add a print, the value is 200 as before.
+Is there a flaw then in this unique model (or its implementation) when
+drm-misc/for-linux-next moves in a non-fast-forward manner? This isn't
+expected, is it?
 
-> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+> The key is that committers can commit to drm-misc-next _at any time_
+> regardless of the merge window. The drm-misc merge strategy makes this
+> OK. Specifically, when it's late in the linux cycle then drm-misc-next
+> is supposed to stop merging to linuxnext. Then, shortly after the
+> merge window closes, patches will start flowing again.
+>=20
+> So basically your patches are landed and should even keep the same git
+> hashes when they eventually make it to Linux. They just won't land for
+> another release cycle of Linux.
 
-Reviewed-by: Sui Jingfeng <suijingfeng@loongson.cn>
+OK, c2807ecb5290 is still included in drm-misc-next. So while I don't
+understand the whole model, the patches at least seem to be scheduled to
+go in during the next merge window.
 
-Tested-by: Sui Jingfeng <suijingfeng@loongson.cn>
+> Hope that makes sense!
 
-> ---
-> v2: Don't speed up when the GPU core frequency is unknown.
-> ---
->   drivers/gpu/drm/etnaviv/etnaviv_buffer.c | 11 ++++++-----
->   drivers/gpu/drm/etnaviv/etnaviv_gpu.c    |  8 ++++++++
->   drivers/gpu/drm/etnaviv/etnaviv_gpu.h    |  1 +
->   3 files changed, 15 insertions(+), 5 deletions(-)
->
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_buffer.c b/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
-> index cf741c5c82d2..384df1659be6 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
-> @@ -53,11 +53,12 @@ static inline void CMD_END(struct etnaviv_cmdbuf *buffer)
->   	OUT(buffer, VIV_FE_END_HEADER_OP_END);
->   }
->   
-> -static inline void CMD_WAIT(struct etnaviv_cmdbuf *buffer)
-> +static inline void CMD_WAIT(struct etnaviv_cmdbuf *buffer,
-> +			    unsigned int waitcycles)
->   {
->   	buffer->user_size = ALIGN(buffer->user_size, 8);
->   
-> -	OUT(buffer, VIV_FE_WAIT_HEADER_OP_WAIT | 200);
-> +	OUT(buffer, VIV_FE_WAIT_HEADER_OP_WAIT | waitcycles);
->   }
->   
->   static inline void CMD_LINK(struct etnaviv_cmdbuf *buffer,
-> @@ -168,7 +169,7 @@ u16 etnaviv_buffer_init(struct etnaviv_gpu *gpu)
->   	/* initialize buffer */
->   	buffer->user_size = 0;
->   
-> -	CMD_WAIT(buffer);
-> +	CMD_WAIT(buffer, gpu->fe_waitcycles);
->   	CMD_LINK(buffer, 2,
->   		 etnaviv_cmdbuf_get_va(buffer, &gpu->mmu_context->cmdbuf_mapping)
->   		 + buffer->user_size - 4);
-> @@ -320,7 +321,7 @@ void etnaviv_sync_point_queue(struct etnaviv_gpu *gpu, unsigned int event)
->   	CMD_END(buffer);
->   
->   	/* Append waitlink */
-> -	CMD_WAIT(buffer);
-> +	CMD_WAIT(buffer, gpu->fe_waitcycles);
->   	CMD_LINK(buffer, 2,
->   		 etnaviv_cmdbuf_get_va(buffer, &gpu->mmu_context->cmdbuf_mapping)
->   		 + buffer->user_size - 4);
-> @@ -503,7 +504,7 @@ void etnaviv_buffer_queue(struct etnaviv_gpu *gpu, u32 exec_state,
->   
->   	CMD_LOAD_STATE(buffer, VIVS_GL_EVENT, VIVS_GL_EVENT_EVENT_ID(event) |
->   		       VIVS_GL_EVENT_FROM_PE);
-> -	CMD_WAIT(buffer);
-> +	CMD_WAIT(buffer, gpu->fe_waitcycles);
->   	CMD_LINK(buffer, 2,
->   		 etnaviv_cmdbuf_get_va(buffer, &gpu->mmu_context->cmdbuf_mapping)
->   		 + buffer->user_size - 4);
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> index de8c9894967c..63b929b1e5d1 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> @@ -493,6 +493,14 @@ static void etnaviv_gpu_update_clock(struct etnaviv_gpu *gpu)
->   		clock |= VIVS_HI_CLOCK_CONTROL_FSCALE_VAL(fscale);
->   		etnaviv_gpu_load_clock(gpu, clock);
->   	}
-> +
-> +	/*
-> +	 * Choose number of wait cycles to target a ~30us (1/32768) max latency
-> +	 * until new work is picked up by the FE when it polls in the idle loop.
-> +	 * If the GPU base frequency is unknown use 200 wait cycles.
-> +	 */
-> +	gpu->fe_waitcycles = clamp(gpu->base_rate_core >> (15 - gpu->freq_scale),
-> +				   200UL, 0xffffUL);
->   }
->   
->   static int etnaviv_hw_reset(struct etnaviv_gpu *gpu)
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
-> index 98c6f9c320fc..e1e1de59c38d 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
-> @@ -150,6 +150,7 @@ struct etnaviv_gpu {
->   	struct clk *clk_shader;
->   
->   	unsigned int freq_scale;
-> +	unsigned int fe_waitcycles;
->   	unsigned long base_rate_core;
->   	unsigned long base_rate_shader;
->   };
+I hope so, too :-)
 
--- 
-Jingfeng
+Best regards
+Uwe
 
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=C3=B6nig         =
+   |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--jxye2q65aavatxzk
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmSO+vMACgkQj4D7WH0S
+/k4tBAf/WJqmqU+5eekUGchlF9m1+XeCRlblrZKJD8OlTBL6PlxHAN/jbFku6GKt
+gjyjPP6HZ9iWXLnvngsdwG8hNFKJvu2Y1IEbPgA5j8Dd68NivIKMuj0eXTLZ29xn
+OUiLHWcA7+wwu14zyDNbB+IcT0uyxwkPhS8SuUhcsbhWhS6+7sjxQvv0CP34/En2
+LzTVFs7CpT/eTDELjFwUNzHDs9+Off9x1XvvYp7UqJBJvpt+6hbH2ovTKx3SLf8Z
+R3If2PYSjGHHQ7iEvQrY1CV4P3asfnmauhG0Fhow3Sn5isYcAjgrt+MTjDti7KjD
+AI9VKh7LunoDs1M1lzZLbZT3DXLMag==
+=zTX8
+-----END PGP SIGNATURE-----
+
+--jxye2q65aavatxzk--
