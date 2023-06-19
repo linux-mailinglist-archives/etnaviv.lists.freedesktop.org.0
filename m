@@ -2,59 +2,58 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93D9773580E
-	for <lists+etnaviv@lfdr.de>; Mon, 19 Jun 2023 15:09:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C860735822
+	for <lists+etnaviv@lfdr.de>; Mon, 19 Jun 2023 15:12:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1389C10E139;
-	Mon, 19 Jun 2023 13:09:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC8BA10E139;
+	Mon, 19 Jun 2023 13:12:43 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-ot1-x330.google.com (mail-ot1-x330.google.com
- [IPv6:2607:f8b0:4864:20::330])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4872F10E0E7;
- Mon, 19 Jun 2023 13:09:54 +0000 (UTC)
-Received: by mail-ot1-x330.google.com with SMTP id
- 46e09a7af769-6b45cfe3110so1940212a34.0; 
- Mon, 19 Jun 2023 06:09:54 -0700 (PDT)
+Received: from mail-oi1-x232.google.com (mail-oi1-x232.google.com
+ [IPv6:2607:f8b0:4864:20::232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D54710E146;
+ Mon, 19 Jun 2023 13:12:42 +0000 (UTC)
+Received: by mail-oi1-x232.google.com with SMTP id
+ 5614622812f47-39e86b3da52so2327645b6e.0; 
+ Mon, 19 Jun 2023 06:12:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1687180193; x=1689772193;
+ d=gmail.com; s=20221208; t=1687180361; x=1689772361;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Df1S5/iV7Bxdte7LRm6epWo1ZbDHSpdd2AzmTDAioKk=;
- b=lQEuuCWUKExMLYkZ2cNSM8y8MPo4u4CHkmMNva15MQK7tK1/raPSNKXS4Zqo/0CPru
- ZIKe5nrkFjiR+70CoLCp0dfQCH1Wa6omUAE590n9rwh2yntQPelKquCxuC/B5QmW70s5
- DuL3TL0rRsPbt+KEXDYjGTyb1fx1sAX96Qor6QRCThx00F4oXIPJrjItnkpHIHstqTk5
- qoUJxGf2bUTgcQN5ckhCx0dn6EiKhNaRStcsEpyKs6HDOqjosDKKTPH5ajvKmu9cBSly
- hGUERxEz9ajrEU3RfsKT4YKUPbsiu4qalpqMIE98zi67tpgn/5r1v/7ndPpJdA6UX8JO
- /H0g==
+ bh=jXJKaQW27Hh8KY98JcVlb1pPjoO3nNvbaxJMGoCtt1o=;
+ b=Bzl8BwpnZOqC4eaquauvlxEPrr8P2GqjiO7BWYrF861Cjx262iJGjAAakn5Wqtp3Ys
+ g8FT/nectn5/NgLQePihKfxTgNYIXbEcS5lPWNMblemHCR/0JZBLXhYxnc2nwyCCItyG
+ 0bZmDQMdG77jvgwdy87G+5VLSwMa0/Tay+2kQA6lmcx6bqm6w5lsG/ya1KtVoygmXWzv
+ 7wQPh+kQ6bY+6y7a52WLdWBxUvMB274uZAK4y66d7VHdeD9FYo5D//5eCAFDw6pmEKlw
+ Pzd7wDmL7IQ4uy6KHjW1ddCmFkX8V5oSiYRGB4NGNCKJeaB3luOkL95t590d/2QgXk7K
+ tMfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1687180193; x=1689772193;
+ d=1e100.net; s=20221208; t=1687180361; x=1689772361;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=Df1S5/iV7Bxdte7LRm6epWo1ZbDHSpdd2AzmTDAioKk=;
- b=EU0qwvleuAcGUeTXhj+iPeivJKxZCN/6KDRroS6f7mxXevbPvfovXdZMBpmEtYwAog
- D75pDiALBvR8/V1zJAIQGt3a+r9mCwGT3//So7/kPBcpsobgRevMq3Vv3K6DdPaNKE7q
- pS6T6irS4NiVpDxoh2dR9gjQkJlj6Js31F7cSLyi+tIaBnGYq8fI15VkPgk/BaUdF425
- 465EhwkqOYq1Vjh+pxfOUmwuVx1vzHVorXkxKXK3ZEi+ph3snD8l6llmXTVaTSdZ6L3P
- w/6kFPzPlKoxL30srMV5/97JsQHL10A9bk+yUaUai5ZGjgjJ/BC91i2pRwFwFiZ3yaIn
- LV7A==
-X-Gm-Message-State: AC+VfDwFUfyRLnCrzi5WFzNdX/uXATxxkofut1HgJsaJbg/GE0Qj5IPV
- toYP5yOF5oOeKioBvBYxX7xP8H/zUPSeoeDdgDQ=
-X-Google-Smtp-Source: ACHHUZ4PlmCzqL6LFNKq8SgVbdI8J5/gzARoi0RL1DXibcfrCEpN7QjSFhGmm4sufxWmZrpEU4xqrVEoh0fqzf2Gxj8=
-X-Received: by 2002:a54:4884:0:b0:39a:bdc8:d4d2 with SMTP id
- r4-20020a544884000000b0039abdc8d4d2mr12219697oic.5.1687180192863; Mon, 19 Jun
- 2023 06:09:52 -0700 (PDT)
+ bh=jXJKaQW27Hh8KY98JcVlb1pPjoO3nNvbaxJMGoCtt1o=;
+ b=Yjn3gw9pGN4FTQES+exhVWLeDKseGRhInaYTZ612gHZMm1CtU7sZCduwwuj3tvryYX
+ WFxo0ESKZrmtg3/vwmhDmrdkbN1nt4KZSvM0E74ZsARBmIDFXaPD6hgaptFuzyn39h6b
+ Hv7tc2Bz7hbyzAGEgMfFup+ztv+XVPjxUw3+SpvVtgl1T3yxVEOiH/qVtFVmI0zaETum
+ 2aBwlxyBO0hrBoUHD/uVgEgBILTny4VN7eG4a5Hd3J/oXyfwZAGtsa2HReh/1gLGLMZG
+ yFd48fD0eObv/iTsvdrx91V+YwjgZy8AFKptpzvRZOgxeid1z6F4Vn1AB+xdGcMSL3Rf
+ f/jw==
+X-Gm-Message-State: AC+VfDxCHRVBzytFBJXxiMAp/9tU6BKO3+M+23R0dZ5dj2RSgN8Gr3pX
+ BdtjbMh+j14h3uhGzJWJZI1uaP6teeQuSoTnCgk=
+X-Google-Smtp-Source: ACHHUZ4kSI3qiFYitQ+nptGwrbozZbn7WoKthjalIV6E2rBC00iDTsFSpZIT52BZMV2mMwWKVyYZCTNBofgg8sThWtU=
+X-Received: by 2002:a05:6808:101:b0:38d:ed4a:52f4 with SMTP id
+ b1-20020a056808010100b0038ded4a52f4mr4998605oie.14.1687180360727; Mon, 19 Jun
+ 2023 06:12:40 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230607130223.3533464-1-l.stach@pengutronix.de>
- <20230607130223.3533464-3-l.stach@pengutronix.de>
- <CAH9NwWfj0CKm3Q_bVjWi7PhhWfxQxeGfu1mo9bWdSe7xXrRW_w@mail.gmail.com>
- <10d769fb8eb39b439b3cc793664a242e443261a7.camel@pengutronix.de>
-In-Reply-To: <10d769fb8eb39b439b3cc793664a242e443261a7.camel@pengutronix.de>
+ <20230607130223.3533464-5-l.stach@pengutronix.de>
+In-Reply-To: <20230607130223.3533464-5-l.stach@pengutronix.de>
 From: Christian Gmeiner <christian.gmeiner@gmail.com>
-Date: Mon, 19 Jun 2023 15:09:41 +0200
-Message-ID: <CAH9NwWfQuXMm25JBLOCd4jQPFMdsUNuJ+43xfosFVEQ4gEZ3wA@mail.gmail.com>
-Subject: Re: [PATCH 3/8] drm/etnaviv: move runtime PM handling to events
+Date: Mon, 19 Jun 2023 15:12:29 +0200
+Message-ID: <CAH9NwWfqQB=pD_d0c5P2VGVYdqtocn75DfxtsMT+vZ54Nhpbrg@mail.gmail.com>
+Subject: Re: [PATCH 5/8] drm/etnaviv: avoid runtime PM usage in
+ etnaviv_gpu_bind
 To: Lucas Stach <l.stach@pengutronix.de>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: etnaviv@lists.freedesktop.org
@@ -74,146 +73,68 @@ Cc: kernel@pengutronix.de, patchwork-lst@pengutronix.de,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Hi Lucas,
+Hi Lucas
 
-Am Do., 15. Juni 2023 um 11:37 Uhr schrieb Lucas Stach <l.stach@pengutronix.de>:
 >
-> Hi Christian,
+> Nothing in this callpath actually touches the GPU, so there is no reason
+> to get it out of suspend state here. Only if runtime PM isn't enabled at
+> all we must make sure to enable the clocks, so the GPU init routine can
+> access the GPU later on.
 >
-> Am Mittwoch, dem 14.06.2023 um 20:41 +0200 schrieb Christian Gmeiner:
-> > Hi Lucas
-> >
-> > >
-> > > Conceptually events are the right abstraction to handle the GPU
-> > > runtime PM state: as long as any event is pending the GPU can not
-> > > be idle. Events are also properly freed and reallocated when the
-> > > GPU has been reset after a hang.
-> > >
-> > > Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
-> > > ---
-> > >  drivers/gpu/drm/etnaviv/etnaviv_gem.h        |  1 -
-> > >  drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c |  3 ---
-> > >  drivers/gpu/drm/etnaviv/etnaviv_gpu.c        | 27 ++++++++++++--------
-> > >  3 files changed, 16 insertions(+), 15 deletions(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.h b/drivers/gpu/drm/etnaviv/etnaviv_gem.h
-> > > index baa81cbf701a..a42d260cac2c 100644
-> > > --- a/drivers/gpu/drm/etnaviv/etnaviv_gem.h
-> > > +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.h
-> > > @@ -97,7 +97,6 @@ struct etnaviv_gem_submit {
-> > >         struct list_head node; /* GPU active submit list */
-> > >         struct etnaviv_cmdbuf cmdbuf;
-> > >         struct pid *pid;       /* submitting process */
-> > > -       bool runtime_resumed;
-> > >         u32 exec_state;
-> > >         u32 flags;
-> > >         unsigned int nr_pmrs;
-> > > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-> > > index 45403ea38906..2416c526f9b0 100644
-> > > --- a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-> > > +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-> > > @@ -362,9 +362,6 @@ static void submit_cleanup(struct kref *kref)
-> > >                         container_of(kref, struct etnaviv_gem_submit, refcount);
-> > >         unsigned i;
-> > >
-> > > -       if (submit->runtime_resumed)
-> > > -               pm_runtime_put_autosuspend(submit->gpu->dev);
-> > > -
-> > >         if (submit->cmdbuf.suballoc)
-> > >                 etnaviv_cmdbuf_free(&submit->cmdbuf);
-> > >
-> > > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> > > index 4e18aa8566c6..54a1249c5bca 100644
-> > > --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> > > +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> > > @@ -1139,7 +1139,8 @@ static int event_alloc(struct etnaviv_gpu *gpu, unsigned nr_events,
-> > >         unsigned int *events)
-> > >  {
-> > >         unsigned long timeout = msecs_to_jiffies(10 * 10000);
-> > > -       unsigned i, acquired = 0;
-> > > +       unsigned i, acquired = 0, rpm_count = 0;
-> >
-> > rpm is the short form of runtime power management?
-> >
-> Yes, it's used in this way in multiple places in the kernel. Do you
-> think it's clear enough from the code what's going on to keep it that
-> way or should I change it to a longer name?
+> This also removes the need to guard against the state where the driver
+> isn't fully initialized yet in the runtime PM resume handler.
 >
-
-Yes it is clear what is going on - even with short variable name :)
+> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
 
 Reviewed-by: Christian Gmeiner <cgmeiner@igalia.com>
 
-> Regards,
-> Lucas
+> ---
+>  drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 15 +++++----------
+>  1 file changed, 5 insertions(+), 10 deletions(-)
 >
-> > > +       int ret;
-> > >
-> > >         for (i = 0; i < nr_events; i++) {
-> > >                 unsigned long ret;
-> > > @@ -1148,6 +1149,7 @@ static int event_alloc(struct etnaviv_gpu *gpu, unsigned nr_events,
-> > >
-> > >                 if (!ret) {
-> > >                         dev_err(gpu->dev, "wait_for_completion_timeout failed");
-> > > +                       ret = -EBUSY;
-> > >                         goto out;
-> > >                 }
-> > >
-> > > @@ -1167,13 +1169,23 @@ static int event_alloc(struct etnaviv_gpu *gpu, unsigned nr_events,
-> > >
-> > >         spin_unlock(&gpu->event_spinlock);
-> > >
-> > > +       for (i = 0; i < nr_events; i++) {
-> > > +               ret = pm_runtime_resume_and_get(gpu->dev);
-> > > +               if (ret)
-> > > +                       goto out_rpm;
-> > > +               rpm_count++;
-> > > +       }
-> > > +
-> > >         return 0;
-> > >
-> > > +out_rpm:
-> > > +       for (i = 0; i < rpm_count; i++)
-> > > +               pm_runtime_put_autosuspend(gpu->dev);
-> > >  out:
-> > >         for (i = 0; i < acquired; i++)
-> > >                 complete(&gpu->event_free);
-> > >
-> > > -       return -EBUSY;
-> > > +       return ret;
-> > >  }
-> > >
-> > >  static void event_free(struct etnaviv_gpu *gpu, unsigned int event)
-> > > @@ -1185,6 +1197,8 @@ static void event_free(struct etnaviv_gpu *gpu, unsigned int event)
-> > >                 clear_bit(event, gpu->event_bitmap);
-> > >                 complete(&gpu->event_free);
-> > >         }
-> > > +
-> > > +       pm_runtime_put_autosuspend(gpu->dev);
-> > >  }
-> > >
-> > >  /*
-> > > @@ -1327,15 +1341,6 @@ struct dma_fence *etnaviv_gpu_submit(struct etnaviv_gem_submit *submit)
-> > >         unsigned int i, nr_events = 1, event[3];
-> > >         int ret;
-> > >
-> > > -       if (!submit->runtime_resumed) {
-> > > -               ret = pm_runtime_get_sync(gpu->dev);
-> > > -               if (ret < 0) {
-> > > -                       pm_runtime_put_noidle(gpu->dev);
-> > > -                       return NULL;
-> > > -               }
-> > > -               submit->runtime_resumed = true;
-> > > -       }
-> > > -
-> > >         /*
-> > >          * if there are performance monitor requests we need to have
-> > >          * - a sync point to re-configure gpu and process ETNA_PM_PROCESS_PRE
-> > > --
-> > > 2.39.2
-> > >
-> >
-> >
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> index 57cf77ed2fcf..fb07d0e73802 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> @@ -1735,13 +1735,11 @@ static int etnaviv_gpu_bind(struct device *dev, struct device *master,
+>         if (ret)
+>                 goto out_workqueue;
+>
+> -       if (IS_ENABLED(CONFIG_PM))
+> -               ret = pm_runtime_get_sync(gpu->dev);
+> -       else
+> +       if (!IS_ENABLED(CONFIG_PM)) {
+>                 ret = etnaviv_gpu_clk_enable(gpu);
+> -       if (ret < 0)
+> -               goto out_sched;
+> -
+> +               if (ret < 0)
+> +                       goto out_sched;
+> +       }
+>
+>         gpu->drm = drm;
+>         gpu->fence_context = dma_fence_context_alloc(1);
+> @@ -1753,9 +1751,6 @@ static int etnaviv_gpu_bind(struct device *dev, struct device *master,
+>
+>         priv->gpu[priv->num_gpus++] = gpu;
+>
+> -       pm_runtime_mark_last_busy(gpu->dev);
+> -       pm_runtime_put_autosuspend(gpu->dev);
+> -
+>         return 0;
+>
+>  out_sched:
+> @@ -1936,7 +1931,7 @@ static int etnaviv_gpu_rpm_resume(struct device *dev)
+>                 return ret;
+>
+>         /* Re-initialise the basic hardware state */
+> -       if (gpu->drm && gpu->initialized) {
+> +       if (gpu->initialized) {
+>                 ret = etnaviv_gpu_hw_resume(gpu);
+>                 if (ret) {
+>                         etnaviv_gpu_clk_disable(gpu);
+> --
+> 2.39.2
 >
 
 
