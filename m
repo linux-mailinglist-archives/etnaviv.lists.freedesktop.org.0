@@ -2,60 +2,47 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C860735822
-	for <lists+etnaviv@lfdr.de>; Mon, 19 Jun 2023 15:12:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31A417358D5
+	for <lists+etnaviv@lfdr.de>; Mon, 19 Jun 2023 15:43:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC8BA10E139;
-	Mon, 19 Jun 2023 13:12:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1DEDC10E210;
+	Mon, 19 Jun 2023 13:43:41 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-oi1-x232.google.com (mail-oi1-x232.google.com
- [IPv6:2607:f8b0:4864:20::232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D54710E146;
- Mon, 19 Jun 2023 13:12:42 +0000 (UTC)
-Received: by mail-oi1-x232.google.com with SMTP id
- 5614622812f47-39e86b3da52so2327645b6e.0; 
- Mon, 19 Jun 2023 06:12:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1687180361; x=1689772361;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=jXJKaQW27Hh8KY98JcVlb1pPjoO3nNvbaxJMGoCtt1o=;
- b=Bzl8BwpnZOqC4eaquauvlxEPrr8P2GqjiO7BWYrF861Cjx262iJGjAAakn5Wqtp3Ys
- g8FT/nectn5/NgLQePihKfxTgNYIXbEcS5lPWNMblemHCR/0JZBLXhYxnc2nwyCCItyG
- 0bZmDQMdG77jvgwdy87G+5VLSwMa0/Tay+2kQA6lmcx6bqm6w5lsG/ya1KtVoygmXWzv
- 7wQPh+kQ6bY+6y7a52WLdWBxUvMB274uZAK4y66d7VHdeD9FYo5D//5eCAFDw6pmEKlw
- Pzd7wDmL7IQ4uy6KHjW1ddCmFkX8V5oSiYRGB4NGNCKJeaB3luOkL95t590d/2QgXk7K
- tMfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1687180361; x=1689772361;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=jXJKaQW27Hh8KY98JcVlb1pPjoO3nNvbaxJMGoCtt1o=;
- b=Yjn3gw9pGN4FTQES+exhVWLeDKseGRhInaYTZ612gHZMm1CtU7sZCduwwuj3tvryYX
- WFxo0ESKZrmtg3/vwmhDmrdkbN1nt4KZSvM0E74ZsARBmIDFXaPD6hgaptFuzyn39h6b
- Hv7tc2Bz7hbyzAGEgMfFup+ztv+XVPjxUw3+SpvVtgl1T3yxVEOiH/qVtFVmI0zaETum
- 2aBwlxyBO0hrBoUHD/uVgEgBILTny4VN7eG4a5Hd3J/oXyfwZAGtsa2HReh/1gLGLMZG
- yFd48fD0eObv/iTsvdrx91V+YwjgZy8AFKptpzvRZOgxeid1z6F4Vn1AB+xdGcMSL3Rf
- f/jw==
-X-Gm-Message-State: AC+VfDxCHRVBzytFBJXxiMAp/9tU6BKO3+M+23R0dZ5dj2RSgN8Gr3pX
- BdtjbMh+j14h3uhGzJWJZI1uaP6teeQuSoTnCgk=
-X-Google-Smtp-Source: ACHHUZ4kSI3qiFYitQ+nptGwrbozZbn7WoKthjalIV6E2rBC00iDTsFSpZIT52BZMV2mMwWKVyYZCTNBofgg8sThWtU=
-X-Received: by 2002:a05:6808:101:b0:38d:ed4a:52f4 with SMTP id
- b1-20020a056808010100b0038ded4a52f4mr4998605oie.14.1687180360727; Mon, 19 Jun
- 2023 06:12:40 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230607130223.3533464-1-l.stach@pengutronix.de>
- <20230607130223.3533464-5-l.stach@pengutronix.de>
-In-Reply-To: <20230607130223.3533464-5-l.stach@pengutronix.de>
-From: Christian Gmeiner <christian.gmeiner@gmail.com>
-Date: Mon, 19 Jun 2023 15:12:29 +0200
-Message-ID: <CAH9NwWfqQB=pD_d0c5P2VGVYdqtocn75DfxtsMT+vZ54Nhpbrg@mail.gmail.com>
-Subject: Re: [PATCH 5/8] drm/etnaviv: avoid runtime PM usage in
- etnaviv_gpu_bind
-To: Lucas Stach <l.stach@pengutronix.de>
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD4D310E200;
+ Mon, 19 Jun 2023 13:43:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=MIME-Version:Content-Transfer-Encoding:Content-Type:Date:Cc:To:
+ From:Subject:Message-ID:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=G21UfM6A11SwSxvpHKE3gLePL0xC/fN+iv9J6MaBAIM=; b=K0k+f7GlGtXd16Q1rTyJy7kA7f
+ drm2wd12XkYl6vAnU2aHtD8wZQ3XMTpt7IWHQP/1DwNRo/pLURiAGq2Ujh/IP5wfDjRdSOR2l5Wv3
+ 63PknZcZatfrsd5r97JaUMgkXwQTKUOEo7Pc1OURStohqGC8aj+JOWO15KHGh5PBAGwVSZ36u0oRL
+ X3ncWu4kjMEP8wOQt6FHCAyYBt62UwBAsHT88mSFiKuoxB7gFpaScFXz5zJw6XSeAJVNISrYWpkpM
+ M3uuCFtqczben1iEm6j3iuBUNaC+WwXG5z1PcGoz5u+7K2lKSSvbgQMlNkjyB6wd1jfdhpB4tpxMO
+ VZseo8yQ==;
+Received: from 145.red-83-52-114.dynamicip.rima-tde.net ([83.52.114.145]
+ helo=localhost.localdomain) by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1qBFAM-0009c4-0L; Mon, 19 Jun 2023 15:43:34 +0200
+Message-ID: <086c491482404be792c72798f5fc840cc5625715.camel@igalia.com>
+Subject: Requests For Proposals for hosting XDC 2024 are now open
+From: Ricardo Garcia <rgarcia@igalia.com>
+To: events@lists.x.org, xorg-devel@lists.freedesktop.org, 
+ wayland-devel@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ mesa-dev@lists.freedesktop.org, amd-gfx@lists.freedesktop.org, 
+ etnaviv@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ libre-soc-dev <libre-soc-dev@lists.libre-soc.org>
+Date: Mon, 19 Jun 2023 15:43:33 +0200
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
+MIME-Version: 1.0
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,80 +54,35 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@pengutronix.de, patchwork-lst@pengutronix.de,
- etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Russell King <linux+etnaviv@armlinux.org.uk>
+Cc: board@foundation.x.org
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Hi Lucas
+Hello everyone!
 
->
-> Nothing in this callpath actually touches the GPU, so there is no reason
-> to get it out of suspend state here. Only if runtime PM isn't enabled at
-> all we must make sure to enable the clocks, so the GPU init routine can
-> access the GPU later on.
->
-> This also removes the need to guard against the state where the driver
-> isn't fully initialized yet in the runtime PM resume handler.
->
-> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+The X.org board is soliciting proposals to host XDC in 2024. Since XDC
+2023 is being held in Europe this year, we've decided to host in North
+America. However, the board is open to other locations, especially if
+there's an interesting co-location with another conference.
 
-Reviewed-by: Christian Gmeiner <cgmeiner@igalia.com>
+If you're considering hosting XDC, we've assembled a wiki page with
+what's generally expected and needed:
 
-> ---
->  drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 15 +++++----------
->  1 file changed, 5 insertions(+), 10 deletions(-)
->
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> index 57cf77ed2fcf..fb07d0e73802 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> @@ -1735,13 +1735,11 @@ static int etnaviv_gpu_bind(struct device *dev, struct device *master,
->         if (ret)
->                 goto out_workqueue;
->
-> -       if (IS_ENABLED(CONFIG_PM))
-> -               ret = pm_runtime_get_sync(gpu->dev);
-> -       else
-> +       if (!IS_ENABLED(CONFIG_PM)) {
->                 ret = etnaviv_gpu_clk_enable(gpu);
-> -       if (ret < 0)
-> -               goto out_sched;
-> -
-> +               if (ret < 0)
-> +                       goto out_sched;
-> +       }
->
->         gpu->drm = drm;
->         gpu->fence_context = dma_fence_context_alloc(1);
-> @@ -1753,9 +1751,6 @@ static int etnaviv_gpu_bind(struct device *dev, struct device *master,
->
->         priv->gpu[priv->num_gpus++] = gpu;
->
-> -       pm_runtime_mark_last_busy(gpu->dev);
-> -       pm_runtime_put_autosuspend(gpu->dev);
-> -
->         return 0;
->
->  out_sched:
-> @@ -1936,7 +1931,7 @@ static int etnaviv_gpu_rpm_resume(struct device *dev)
->                 return ret;
->
->         /* Re-initialise the basic hardware state */
-> -       if (gpu->drm && gpu->initialized) {
-> +       if (gpu->initialized) {
->                 ret = etnaviv_gpu_hw_resume(gpu);
->                 if (ret) {
->                         etnaviv_gpu_clk_disable(gpu);
-> --
-> 2.39.2
->
+https://www.x.org/wiki/Events/RFP/
 
+When submitting your proposal, please make sure to include at least the
+key information about the potential location in question, possible
+dates along with estimated costs. Proposals can be submitted to board
+at foundation.x.org until the deadline of *September 17th, 2023*.=20
 
--- 
-greets
---
-Christian Gmeiner, MSc
+Additionally, an quirk early heads-up to the board if you're
+considering hosting would be appreciated, in case we need to adjust the
+schedule a bit. Also, earlier is better since there generally will be a
+bit of Q&A with organizers.
 
-https://christian-gmeiner.info/privacypolicy
+And if you just have some questions about what organizing XDC entails,
+please feel free to chat with previous organizers, or someone from the
+board.
+
+Thanks,
+Ricardo Garcia, on behalf of X.Org
