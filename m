@@ -1,24 +1,24 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 285B5738D85
-	for <lists+etnaviv@lfdr.de>; Wed, 21 Jun 2023 19:46:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3486B738DCF
+	for <lists+etnaviv@lfdr.de>; Wed, 21 Jun 2023 19:53:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C5FD710E343;
-	Wed, 21 Jun 2023 17:46:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 109AF10E343;
+	Wed, 21 Jun 2023 17:53:47 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E2E010E343
- for <etnaviv@lists.freedesktop.org>; Wed, 21 Jun 2023 17:46:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 87DDE10E32A
+ for <etnaviv@lists.freedesktop.org>; Wed, 21 Jun 2023 17:53:44 +0000 (UTC)
 Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
  helo=[IPv6:::1]) by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <l.stach@pengutronix.de>)
- id 1qC1u6-0002mG-9H; Wed, 21 Jun 2023 19:46:02 +0200
-Message-ID: <62bf84f19318c54c50f154e1eb64a179fb2389ce.camel@pengutronix.de>
+ id 1qC21Q-0003sT-J1; Wed, 21 Jun 2023 19:53:36 +0200
+Message-ID: <ba41b807e3af0a1cabb9ba203a401f41254cea1e.camel@pengutronix.de>
 Subject: Re: [PATCH v10 07/11] drm/etnaviv: Add support for the dma coherent
  device
 From: Lucas Stach <l.stach@pengutronix.de>
@@ -26,14 +26,16 @@ To: Sui Jingfeng <suijingfeng@loongson.cn>, Sui Jingfeng
  <18949883232@163.com>,  Russell King <linux+etnaviv@armlinux.org.uk>,
  Christian Gmeiner <christian.gmeiner@gmail.com>, David Airlie
  <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Date: Wed, 21 Jun 2023 19:45:57 +0200
-In-Reply-To: <fd5dd250-b01e-fd00-1419-88398cb13347@loongson.cn>
+Date: Wed, 21 Jun 2023 19:53:34 +0200
+In-Reply-To: <02c16e9b-0eca-caf4-b80c-53f1c7eab4e9@loongson.cn>
 References: <20230620094716.2231414-1-18949883232@163.com>
  <20230620094716.2231414-8-18949883232@163.com>
  <8f74f0962c8bab6c832919a5340667c54e1a7ddc.camel@pengutronix.de>
- <66fc74ae-299c-a5de-9cfb-07ae24fb3f07@loongson.cn>
- <8212078bd56c54ce508205eae0ed0b69e78d4c38.camel@pengutronix.de>
- <fd5dd250-b01e-fd00-1419-88398cb13347@loongson.cn>
+ <2249b895-84b9-adea-531b-bf190e9c866f@loongson.cn>
+ <030d44e2753b9b2eea0107cdee6c20e2bc2d3efe.camel@pengutronix.de>
+ <3911d448-5613-23a8-cfcb-5ae418677338@loongson.cn>
+ <87deb46db35b028da74c94f5496b721e14db4745.camel@pengutronix.de>
+ <02c16e9b-0eca-caf4-b80c-53f1c7eab4e9@loongson.cn>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
@@ -60,129 +62,93 @@ Cc: Bjorn Helgaas <bhelgaas@google.com>, Philipp Zabel <p.zabel@pengutronix.de>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Am Donnerstag, dem 22.06.2023 um 01:21 +0800 schrieb Sui Jingfeng:
+Am Donnerstag, dem 22.06.2023 um 01:31 +0800 schrieb Sui Jingfeng:
 > Hi,
 >=20
-> On 2023/6/21 23:58, Lucas Stach wrote:
-> > Am Mittwoch, dem 21.06.2023 um 23:30 +0800 schrieb Sui Jingfeng:
-> > > Hi,
-> > >=20
-> > > On 2023/6/21 18:00, Lucas Stach wrote:
-> > > > >    		dma_sync_sgtable_for_cpu(dev->dev, etnaviv_obj->sgt,
-> > > > >    					 etnaviv_op_to_dma_dir(op));
-> > > > >    		etnaviv_obj->last_cpu_prep_op =3D op;
-> > > > > @@ -408,8 +421,9 @@ int etnaviv_gem_cpu_fini(struct drm_gem_objec=
-t *obj)
-> > > > >    {
-> > > > >    	struct drm_device *dev =3D obj->dev;
-> > > > >    	struct etnaviv_gem_object *etnaviv_obj =3D to_etnaviv_bo(obj)=
+> On 2023/6/22 00:07, Lucas Stach wrote:
+> > And as the HW guarantees it on your platform, your platform
+> > implementation makes this function effectively a no-op. Skipping the
+> > call to this function is breaking the DMA API abstraction, as now the
+> > driver is second guessing the DMA API implementation. I really see no
+> > reason to do this.
+>=20
+> It is the same reason you chose the word 'effectively', not 'difinitely'.
+>=20
+> We don't want waste the CPU's time,
+>=20
+>=20
+>  =C2=A0to running the dma_sync_sg_for_cpu funcion() function
+>=20
+>=20
+> ```
+>=20
+> void dma_sync_sg_for_cpu(struct device *dev, struct scatterlist *sg,
+>  =C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 int nelems, enu=
+m dma_data_direction dir)
+> {
+>  =C2=A0=C2=A0 =C2=A0const struct dma_map_ops *ops =3D get_dma_ops(dev);
+>=20
+>  =C2=A0=C2=A0 =C2=A0BUG_ON(!valid_dma_direction(dir));
+>  =C2=A0=C2=A0 =C2=A0if (dma_map_direct(dev, ops))
+>  =C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0 dma_direct_sync_sg_for_cpu(dev, sg=
+, nelems, dir);
+>  =C2=A0=C2=A0 =C2=A0else if (ops->sync_sg_for_cpu)
+>  =C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0 ops->sync_sg_for_cpu(dev, sg, nele=
+ms, dir);
+>  =C2=A0=C2=A0 =C2=A0debug_dma_sync_sg_for_cpu(dev, sg, nelems, dir);
+> }
+>=20
+> ```
+>=20
+>=20
+>  =C2=A0to running the this:
+>=20
+>=20
+> ```
+>=20
+> int etnaviv_gem_cpu_fini(struct drm_gem_object *obj)
+> {
+>  =C2=A0=C2=A0 =C2=A0struct drm_device *dev =3D obj->dev;
+>  =C2=A0=C2=A0 =C2=A0struct etnaviv_gem_object *etnaviv_obj =3D to_etnaviv=
+_bo(obj);
+>  =C2=A0=C2=A0 =C2=A0struct etnaviv_drm_private *priv =3D dev->dev_private=
 ;
-> > > > > +	struct etnaviv_drm_private *priv =3D dev->dev_private;
-> > > > >   =20
-> > > > > -	if (etnaviv_obj->flags & ETNA_BO_CACHED) {
-> > > > > +	if (!priv->dma_coherent && etnaviv_obj->flags & ETNA_BO_CACHED)=
- {
-> > > > >    		/* fini without a prep is almost certainly a userspace error=
- */
-> > > > >    		WARN_ON(etnaviv_obj->last_cpu_prep_op =3D=3D 0);
-> > > > >    		dma_sync_sgtable_for_device(dev->dev, etnaviv_obj->sgt,
-> > > > > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c b/driver=
-s/gpu/drm/etnaviv/etnaviv_gem_prime.c
-> > > > > index 3524b5811682..754126992264 100644
-> > > > > --- a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
-> > > > > +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
-> > > > > @@ -112,11 +112,16 @@ static const struct etnaviv_gem_ops etnaviv=
-_gem_prime_ops =3D {
-> > > > >    struct drm_gem_object *etnaviv_gem_prime_import_sg_table(struc=
-t drm_device *dev,
-> > > > >    	struct dma_buf_attachment *attach, struct sg_table *sgt)
-> > > > >    {
-> > > > > +	struct etnaviv_drm_private *priv =3D dev->dev_private;
-> > > > >    	struct etnaviv_gem_object *etnaviv_obj;
-> > > > >    	size_t size =3D PAGE_ALIGN(attach->dmabuf->size);
-> > > > > +	u32 cache_flags =3D ETNA_BO_WC;
-> > > > >    	int ret, npages;
-> > > > >   =20
-> > > > > -	ret =3D etnaviv_gem_new_private(dev, size, ETNA_BO_WC,
-> > > > > +	if (priv->dma_coherent)
-> > > > > +		cache_flags =3D ETNA_BO_CACHED;
-> > > > > +
-> > > > Drop this change. Instead etnaviv_gem_new_impl() should do the upgr=
-ade
-> > > > from WC to CACHED as necessary by adding something like this:
-> > > I understand you are a profession person in vivante GPU driver domain=
-.
-> > >=20
-> > > I respect you reviews and instruction.
-> > >=20
-> > > But, I'm really reluctant to agree with this, is there any space to
-> > > negotiate?
-> > >=20
-> > > > /*
-> > > >    * Upgrade WC to CACHED when the device is hardware coherent and =
-the
-> > > >    * platform doesn't allow mixing cached and writecombined mapping=
-s to
-> > > >    * the same memory area.
-> > > >    */
-> > > > if ((flags & ETNA_BO_CACHE_MASK) =3D=3D ETNA_BO_WC &&
-> > > >       dev_is_dma_coherent(dev) && !drm_arch_can_wc_memory())
-> > > >           flags =3D (flags & ~ETNA_BO_CACHE_MASK) & ETNA_BO_CACHED;
-> > > This is policy, not a mechanism.
-> > >=20
-> > > Using what cache property is a user-space program's choice.
-> > >=20
-> > > While you are override the WC with CACHED mapping. This is not correc=
-t
-> > > in the concept!
-> > >=20
-> > Please explain why you think that this isn't correct.
 >=20
-> Again,
+>  =C2=A0=C2=A0 =C2=A0if (!priv->dma_coherent && etnaviv_obj->flags & ETNA_=
+BO_CACHED) {
+>  =C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0 /* fini without a prep is almost c=
+ertainly a userspace error */
+>  =C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0 WARN_ON(etnaviv_obj->last_cpu_prep=
+_op =3D=3D 0);
+>  =C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0 dma_sync_sgtable_for_device(dev->d=
+ev, etnaviv_obj->sgt,
+> etnaviv_op_to_dma_dir(etnaviv_obj->last_cpu_prep_op));
+>  =C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0 etnaviv_obj->last_cpu_prep_op =3D =
+0;
+>  =C2=A0=C2=A0 =C2=A0}
 >=20
-> this is user-space things!
+>  =C2=A0=C2=A0 =C2=A0return 0;
+> }
 >=20
-> this is user-space things!
+> ```
 >=20
-> this is user-space things!
->=20
-> I have explained several times.
->=20
-> made the decision for the user-space program is wrong.
->=20
-This mode of communication isn't helpful. Please stop it.
-
-As I tried to explain to you multiple times: if userspace can break
-coherency by selecting the wrong mapping type then this is something
-the kernel should prevent.
+My judgment as the maintainer of this driver is that the small CPU
+overhead of calling this function is very well worth it, if the
+alternative is breaking the DMA API abstractions.
 
 >=20
-> > It allows
-> > userspace to use WC mappings that would potentially cause loss of
-> > coherency between CPU and GPU, which isn't acceptable.
+> But, this is acceptable, because we can kill the GEM_CPU_PREP and=20
+> GEM_CPU_FINI ioctl entirely
 >=20
-> Before made the WC works correctly,=C2=A0 you need the developing environ=
-ment.
->=20
-> userspace program can tune the BO cache mapping easily.
->=20
-> Either environment or supply a conf file.
->=20
->=20
-> While with your implement, we don't have the opportunity to do debugging=
+> at userspace for cached buffer, as this is totally not needed for cached=
 =20
-> and the development.
-
-You can always add a patch to your local kernel to re-allow WC mappings
-while you work on making them behave as expected on your platform. With
-the mainline kernel there is no way that the kernel driver will allow
-broken coherency.
-
-And as I also mentioned before, there is a clear upgrade path here:
-once WC mappings work as expected on your platform we can easily drop
-the upgrading from the kernel driver again. The userspace driver can
-already be changed to use CACHED BOs where beneficial on your platform
-in the meantime.
+> mapping on our platform.
+>=20
+And that statement isn't true either. The CPU_PREP/FINI ioctls also
+provide fence synchronization between CPU and GPU. There are a few very
+specific cases where skipping those ioctls is acceptable (mostly when
+the userspace driver explicitly wants unsynchronized access), but in
+most cases they are required for correctness.
 
 Regards,
 Lucas
