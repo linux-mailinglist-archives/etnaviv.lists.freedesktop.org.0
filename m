@@ -2,47 +2,66 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6272738A8B
-	for <lists+etnaviv@lfdr.de>; Wed, 21 Jun 2023 18:12:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C70BC738B58
+	for <lists+etnaviv@lfdr.de>; Wed, 21 Jun 2023 18:33:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 73AC610E238;
-	Wed, 21 Jun 2023 16:12:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 557AD10E246;
+	Wed, 21 Jun 2023 16:33:07 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E1AF10E178
- for <etnaviv@lists.freedesktop.org>; Wed, 21 Jun 2023 16:12:29 +0000 (UTC)
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
- helo=[IPv6:::1]) by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1qC0RQ-0007gc-08; Wed, 21 Jun 2023 18:12:20 +0200
-Message-ID: <737b07582ef2a4b2f134a1a931b6621ff96adb77.camel@pengutronix.de>
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 7FDEB10E24C;
+ Wed, 21 Jun 2023 16:33:04 +0000 (UTC)
+Received: from loongson.cn (unknown [10.20.42.43])
+ by gateway (Coremail) with SMTP id _____8CxZ8U+JpNkxjMAAA--.344S3;
+ Thu, 22 Jun 2023 00:33:02 +0800 (CST)
+Received: from [10.20.42.43] (unknown [10.20.42.43])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8CxvM49JpNkx+oAAA--.5470S3; 
+ Thu, 22 Jun 2023 00:33:01 +0800 (CST)
+Message-ID: <c8b4697d-733b-f4f0-fbf0-98ee9bb6d3e8@loongson.cn>
+Date: Thu, 22 Jun 2023 00:33:01 +0800
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
 Subject: Re: [PATCH v10 07/11] drm/etnaviv: Add support for the dma coherent
  device
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Sui Jingfeng <suijingfeng@loongson.cn>, Sui Jingfeng
- <18949883232@163.com>,  Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Date: Wed, 21 Jun 2023 18:12:16 +0200
-In-Reply-To: <9c8afcb4-70c0-a920-2a78-78a9ac884c80@loongson.cn>
+Content-Language: en-US
+To: Lucas Stach <l.stach@pengutronix.de>, Sui Jingfeng <18949883232@163.com>, 
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
 References: <20230620094716.2231414-1-18949883232@163.com>
  <20230620094716.2231414-8-18949883232@163.com>
  <8f74f0962c8bab6c832919a5340667c54e1a7ddc.camel@pengutronix.de>
  <aa73348d-5ec8-4ac0-2ec0-0cce24756c63@loongson.cn>
  <87c9576e6ca1b58fa94e0bc1a2f4be3847f0518c.camel@pengutronix.de>
  <9c8afcb4-70c0-a920-2a78-78a9ac884c80@loongson.cn>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
-MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
+ <737b07582ef2a4b2f134a1a931b6621ff96adb77.camel@pengutronix.de>
+From: Sui Jingfeng <suijingfeng@loongson.cn>
+Organization: Loongson
+In-Reply-To: <737b07582ef2a4b2f134a1a931b6621ff96adb77.camel@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID: AQAAf8CxvM49JpNkx+oAAA--.5470S3
+X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBj93XoW7tr43Zw4DAw48Jr1fGFyrKrX_yoW8Kr43pF
+ WDta4YyrWUXr10gw12qw15ZFy3K34fXF929rnrGwn09390yryUKFyrKF45CF90vr18Gr12
+ vFs0qryxXF9ayrXCm3ZEXasCq-sJn29KB7ZKAUJUUUUr529EdanIXcx71UUUUU7KY7ZEXa
+ sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+ 0xBIdaVrnRJUUUBYb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+ IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+ e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+ 0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_
+ Gr0_Gr1UM2kKe7AKxVWUXVWUAwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYI
+ kI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUXVWU
+ AwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMx
+ k0xIA0c2IEe2xFo4CEbIxvr21l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_
+ Gr1l4IxYO2xFxVAFwI0_ZF0_GFyUMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwV
+ AFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv2
+ 0xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4
+ v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x0267AK
+ xVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU8CksDUUUUU==
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,57 +79,71 @@ Cc: Bjorn Helgaas <bhelgaas@google.com>, Philipp Zabel <p.zabel@pengutronix.de>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Am Mittwoch, dem 21.06.2023 um 23:41 +0800 schrieb Sui Jingfeng:
-> On 2023/6/21 23:23, Lucas Stach wrote:
-> > Am Mittwoch, dem 21.06.2023 um 22:44 +0800 schrieb Sui Jingfeng:
-> > > Hi,
-> > >=20
-> > > On 2023/6/21 18:00, Lucas Stach wrote:
-> > > > > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.h b/drivers/gpu/=
-drm/etnaviv/etnaviv_drv.h
-> > > > > index 9cd72948cfad..644e5712c050 100644
-> > > > > --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.h
-> > > > > +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.h
-> > > > > @@ -46,6 +46,12 @@ struct etnaviv_drm_private {
-> > > > >    	struct xarray active_contexts;
-> > > > >    	u32 next_context_id;
-> > > > >   =20
-> > > > > +	/*
-> > > > > +	 * If true, the GPU is capable of snooping cpu cache. Here, it
-> > > > > +	 * also means that cache coherency is enforced by the hardware.
-> > > > > +	 */
-> > > > > +	bool dma_coherent;
-> > > > > +
-> > > > No need for this, I think. Just use dev_is_dma_coherent() where you
-> > > > need to know this.
-> > > >=20
-> > > No, we want this value cached by the driver.
-> > >=20
-> > Why? dev_is_dma_coherent() is a header-only function with a single
-> > pointer chasing operation. Your cache is also a single pointer chasing
-> > access, just that we now need storage for this information in both
-> > struct device and struct etnaviv_gpu.
->=20
->=20
-> You don't need store it in struct etnaviv_gpu.
->=20
-> As this variable is shared across the device, so it is better to be put=
-=20
-> in the struct etnaviv_drm_private.
->=20
-> I don't think another 4 bytes allocation is something what we can't pay f=
-or.
->=20
->=20
-> My patch doesn't mentioned that it need to store it inside of struct=20
-> etnaviv_gpu, do I?
+Hi,
 
-You are right, I was mistaken about the etnaviv struct this is added
-to. However there is still the fundamental question: what's the gain of
-this cache? The information is already available in struct device and
-will be accessed with the same amount of loads if you care that much
-about micro-optimization.
+On 2023/6/22 00:12, Lucas Stach wrote:
+> Am Mittwoch, dem 21.06.2023 um 23:41 +0800 schrieb Sui Jingfeng:
+>> On 2023/6/21 23:23, Lucas Stach wrote:
+>>> Am Mittwoch, dem 21.06.2023 um 22:44 +0800 schrieb Sui Jingfeng:
+>>>> Hi,
+>>>>
+>>>> On 2023/6/21 18:00, Lucas Stach wrote:
+>>>>>> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.h b/drivers/gpu/drm/etnaviv/etnaviv_drv.h
+>>>>>> index 9cd72948cfad..644e5712c050 100644
+>>>>>> --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.h
+>>>>>> +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.h
+>>>>>> @@ -46,6 +46,12 @@ struct etnaviv_drm_private {
+>>>>>>     	struct xarray active_contexts;
+>>>>>>     	u32 next_context_id;
+>>>>>>     
+>>>>>> +	/*
+>>>>>> +	 * If true, the GPU is capable of snooping cpu cache. Here, it
+>>>>>> +	 * also means that cache coherency is enforced by the hardware.
+>>>>>> +	 */
+>>>>>> +	bool dma_coherent;
+>>>>>> +
+>>>>> No need for this, I think. Just use dev_is_dma_coherent() where you
+>>>>> need to know this.
+>>>>>
+>>>> No, we want this value cached by the driver.
+>>>>
+>>> Why? dev_is_dma_coherent() is a header-only function with a single
+>>> pointer chasing operation. Your cache is also a single pointer chasing
+>>> access, just that we now need storage for this information in both
+>>> struct device and struct etnaviv_gpu.
+>>
+>> You don't need store it in struct etnaviv_gpu.
+>>
+>> As this variable is shared across the device, so it is better to be put
+>> in the struct etnaviv_drm_private.
+>>
+>> I don't think another 4 bytes allocation is something what we can't pay for.
+>>
+>>
+>> My patch doesn't mentioned that it need to store it inside of struct
+>> etnaviv_gpu, do I?
+> You are right, I was mistaken about the etnaviv struct this is added
+> to. However there is still the fundamental question: what's the gain of
+> this cache?
 
-Regards,
-Lucas
+Clearness and short
+
+you approach need to de-reference the pointer struct device *dev every 
+time you need to fetch its value.
+
+my name is short, typing it is less time-consuming
+
+>   The information is already available in struct device and
+> will be accessed with the same amount of loads if you care that much
+> about micro-optimization.
+
+I don't want call it everywhere, its too long.
+
+What if the function you recommend get expanded by some programmer someday?
+
+> Regards,
+> Lucas
+
+-- 
+Jingfeng
 
