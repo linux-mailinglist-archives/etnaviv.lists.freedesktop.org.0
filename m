@@ -1,65 +1,60 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A3697389EB
-	for <lists+etnaviv@lfdr.de>; Wed, 21 Jun 2023 17:41:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 67E4C738A04
+	for <lists+etnaviv@lfdr.de>; Wed, 21 Jun 2023 17:44:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E112810E4CE;
-	Wed, 21 Jun 2023 15:41:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E8A810E24F;
+	Wed, 21 Jun 2023 15:44:53 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id 13F4F10E4B5;
- Wed, 21 Jun 2023 15:41:22 +0000 (UTC)
-Received: from loongson.cn (unknown [10.20.42.43])
- by gateway (Coremail) with SMTP id _____8Cx5cQhGpNkGS0AAA--.330S3;
- Wed, 21 Jun 2023 23:41:21 +0800 (CST)
-Received: from [10.20.42.43] (unknown [10.20.42.43])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8CxF80hGpNkvN4AAA--.2969S3; 
- Wed, 21 Jun 2023 23:41:21 +0800 (CST)
-Message-ID: <9c8afcb4-70c0-a920-2a78-78a9ac884c80@loongson.cn>
-Date: Wed, 21 Jun 2023 23:41:21 +0800
+Received: from mail-oo1-xc31.google.com (mail-oo1-xc31.google.com
+ [IPv6:2607:f8b0:4864:20::c31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7776F10E24F;
+ Wed, 21 Jun 2023 15:44:51 +0000 (UTC)
+Received: by mail-oo1-xc31.google.com with SMTP id
+ 006d021491bc7-55e04a83465so3993075eaf.3; 
+ Wed, 21 Jun 2023 08:44:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1687362290; x=1689954290;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=ozXF5QIPe1h+vTDy7+nqY7ReNgmMUT8yQHedMlExsqQ=;
+ b=B6q3aqfsPvCtD6I1EKY7FGkAP1IAfDBy0IB59BtxMekq1+pdzMjca+BYmKY+a1rbii
+ Tvrv9kIz1mgfXzfXBu8laMOXPS5q2x2VQkP94vz8wIgKOjAkC4EmkzszXhAksKk7JHPl
+ W42mGUjRoyvGsy+5faSFq5RqvPUb8VC/+W/tof6HonyDKrc8bKUHrw538rYgUpLe86mD
+ AcCkC89qcSJGK44bOmXZL444RtnuwDLRzvKStmMbsuhZqlT2ForinTBQdsnPe9WGEK1Q
+ TMdVH9WaM0ltJ0EgA2n3aE4YrzG8/3pbf+fZJHNQ6nfolSDtFReuItWXHKdM0Chtn92P
+ cdSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1687362290; x=1689954290;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=ozXF5QIPe1h+vTDy7+nqY7ReNgmMUT8yQHedMlExsqQ=;
+ b=bZMe54sLBWNP3uU+2vEuxJgK8DCcy1wAIsY2aYPGI8zyq9jE3I1ADj/lyqb79jPv/u
+ 3s2ycP7CNDlHnhsWYK8ncCzuGztn7CHP8qA03VHTt0tobvwpcI/V23sjJNMkoAkWKUZG
+ T71PplDQ+UmM5vTEEk14dRjg3IwhrvYw5/pC24s1SR1i5A9LtxywP/xnTCJtkEKcnhfO
+ MiFxbxbE0P4iwiGHZmHp6fV83xNkxJNrWedhlXl4RHEXmpv0Z+wmdH0nnppgRA1J/io/
+ Jau//pX7wmiCyfWkpLS7S/z0dkPTUxos6P04nkhQrIK+ctJv++vlpoHJ31/6peLIqcsZ
+ fL7Q==
+X-Gm-Message-State: AC+VfDyAK/7yrQxVKu6MD8bF6e8NkI9K1lw3lktJpVcO2sA2a9IXsV9q
+ sNjewqe2drvRuDLrYQP6GV9bFZQHmwFnTLl1f3M=
+X-Google-Smtp-Source: ACHHUZ6MMasdZGe8avriMkCRAA4vq9bezLA8BF/DF0gX9sLhxP9GEKELAcWm7MxrptZ2l5Fo4IaPyaKHH2ceg49ChWw=
+X-Received: by 2002:a4a:a645:0:b0:560:b1ce:7025 with SMTP id
+ j5-20020a4aa645000000b00560b1ce7025mr1342917oom.0.1687362290047; Wed, 21 Jun
+ 2023 08:44:50 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v10 07/11] drm/etnaviv: Add support for the dma coherent
- device
-Content-Language: en-US
-To: Lucas Stach <l.stach@pengutronix.de>, Sui Jingfeng <18949883232@163.com>, 
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-References: <20230620094716.2231414-1-18949883232@163.com>
- <20230620094716.2231414-8-18949883232@163.com>
- <8f74f0962c8bab6c832919a5340667c54e1a7ddc.camel@pengutronix.de>
- <aa73348d-5ec8-4ac0-2ec0-0cce24756c63@loongson.cn>
- <87c9576e6ca1b58fa94e0bc1a2f4be3847f0518c.camel@pengutronix.de>
-From: Sui Jingfeng <suijingfeng@loongson.cn>
-Organization: Loongson
-In-Reply-To: <87c9576e6ca1b58fa94e0bc1a2f4be3847f0518c.camel@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8CxF80hGpNkvN4AAA--.2969S3
-X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBj93XoW7CrWkuw48tF43Ww15AF1fGrX_yoW8WryDpF
- 4UGFyFyrWUXr10grnFqw45XF13Kw13XFWI9wnrJwn0v3s0yryUtrn5Kr45CF9Yqw1fGr1a
- va90gFyxZF92yFXCm3ZEXasCq-sJn29KB7ZKAUJUUUU5529EdanIXcx71UUUUU7KY7ZEXa
- sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
- 0xBIdaVrnRJUUU9lb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
- IYs7xG6rWj6s0DM7CIcVAFz4kK6r106r15M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
- e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
- 0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
- xVWxJr0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27w
- Aqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jw0_WrylYx0Ex4A2jsIE
- 14v26r4UJVWxJr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxk0xIA0c2IEe2
- xFo4CEbIxvr21l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xF
- xVAFwI0_Wrv_ZF1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWw
- C2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Gr0_
- Xr1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJV
- WUCwCI42IY6I8E87Iv67AKxVW8Jr0_Cr1UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr1j6F4U
- JbIYCTnIWIevJa73UjIFyTuYvjxU7NtxDUUUU
+References: <20230414143810.572237-1-l.stach@pengutronix.de>
+ <CAH9NwWfAuyLenoQHHdSZb2O87HHxu53JziL6Ro05F6yHdnZ+8A@mail.gmail.com>
+In-Reply-To: <CAH9NwWfAuyLenoQHHdSZb2O87HHxu53JziL6Ro05F6yHdnZ+8A@mail.gmail.com>
+From: Christian Gmeiner <christian.gmeiner@gmail.com>
+Date: Wed, 21 Jun 2023 17:44:38 +0200
+Message-ID: <CAH9NwWcf9tYG9Ua_b-TvvQHRY-j_VsAtGdkPBqwh4KH37B2qjQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/etnaviv: fix dumping of active MMU context
+To: Lucas Stach <l.stach@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,61 +66,97 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: Bjorn Helgaas <bhelgaas@google.com>, Philipp Zabel <p.zabel@pengutronix.de>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- etnaviv@lists.freedesktop.org
+Cc: kernel@pengutronix.de, patchwork-lst@pengutronix.de,
+ etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Russell King <linux+etnaviv@armlinux.org.uk>
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
+Hi Lucas,
 
-On 2023/6/21 23:23, Lucas Stach wrote:
-> Am Mittwoch, dem 21.06.2023 um 22:44 +0800 schrieb Sui Jingfeng:
->> Hi,
->>
->> On 2023/6/21 18:00, Lucas Stach wrote:
->>>> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.h b/drivers/gpu/drm/etnaviv/etnaviv_drv.h
->>>> index 9cd72948cfad..644e5712c050 100644
->>>> --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.h
->>>> +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.h
->>>> @@ -46,6 +46,12 @@ struct etnaviv_drm_private {
->>>>    	struct xarray active_contexts;
->>>>    	u32 next_context_id;
->>>>    
->>>> +	/*
->>>> +	 * If true, the GPU is capable of snooping cpu cache. Here, it
->>>> +	 * also means that cache coherency is enforced by the hardware.
->>>> +	 */
->>>> +	bool dma_coherent;
->>>> +
->>> No need for this, I think. Just use dev_is_dma_coherent() where you
->>> need to know this.
->>>
->> No, we want this value cached by the driver.
->>
-> Why? dev_is_dma_coherent() is a header-only function with a single
-> pointer chasing operation. Your cache is also a single pointer chasing
-> access, just that we now need storage for this information in both
-> struct device and struct etnaviv_gpu.
-
-
-You don't need store it in struct etnaviv_gpu.
-
-As this variable is shared across the device, so it is better to be put 
-in the struct etnaviv_drm_private.
-
-I don't think another 4 bytes allocation is something what we can't pay for.
-
-
-My patch doesn't mentioned that it need to store it inside of struct 
-etnaviv_gpu, do I?
-
-> Regards,
-> Lucas
+Am Mo., 17. Apr. 2023 um 19:42 Uhr schrieb Christian Gmeiner
+<christian.gmeiner@gmail.com>:
 >
->> We only need call  dev_is_dma_coherent() once!
->>
->> We need to reuse this variable on other places.
->>
--- 
-Jingfeng
+> Hi Lucas
+>
+> >
+> > gpu->mmu_context is the MMU context of the last job in the HW queue, which
+> > isn't necessarily the same as the context from the bad job. Dump the MMU
+> > context from the scheduler determined bad submit to make it work as intended.
+> >
+>
+> Good catch!
+>
 
+I think this patch did not land yet. Do you have plans to add it to
+etnaviv/next?
+
+> > Fixes: 17e4660ae3d7 ("drm/etnaviv: implement per-process address spaces on MMUv2")
+> > Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+>
+> Reviewed-by: Christian Gmeiner <christian.gmeiner@gmail.com>
+>
+> > ---
+> >  drivers/gpu/drm/etnaviv/etnaviv_dump.c | 14 +++++++-------
+> >  1 file changed, 7 insertions(+), 7 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_dump.c b/drivers/gpu/drm/etnaviv/etnaviv_dump.c
+> > index 44b5f3c35aab..898f84a0fc30 100644
+> > --- a/drivers/gpu/drm/etnaviv/etnaviv_dump.c
+> > +++ b/drivers/gpu/drm/etnaviv/etnaviv_dump.c
+> > @@ -130,9 +130,9 @@ void etnaviv_core_dump(struct etnaviv_gem_submit *submit)
+> >                 return;
+> >         etnaviv_dump_core = false;
+> >
+> > -       mutex_lock(&gpu->mmu_context->lock);
+> > +       mutex_lock(&submit->mmu_context->lock);
+> >
+> > -       mmu_size = etnaviv_iommu_dump_size(gpu->mmu_context);
+> > +       mmu_size = etnaviv_iommu_dump_size(submit->mmu_context);
+> >
+> >         /* We always dump registers, mmu, ring, hanging cmdbuf and end marker */
+> >         n_obj = 5;
+> > @@ -162,7 +162,7 @@ void etnaviv_core_dump(struct etnaviv_gem_submit *submit)
+> >         iter.start = __vmalloc(file_size, GFP_KERNEL | __GFP_NOWARN |
+> >                         __GFP_NORETRY);
+> >         if (!iter.start) {
+> > -               mutex_unlock(&gpu->mmu_context->lock);
+> > +               mutex_unlock(&submit->mmu_context->lock);
+> >                 dev_warn(gpu->dev, "failed to allocate devcoredump file\n");
+> >                 return;
+> >         }
+> > @@ -174,18 +174,18 @@ void etnaviv_core_dump(struct etnaviv_gem_submit *submit)
+> >         memset(iter.hdr, 0, iter.data - iter.start);
+> >
+> >         etnaviv_core_dump_registers(&iter, gpu);
+> > -       etnaviv_core_dump_mmu(&iter, gpu->mmu_context, mmu_size);
+> > +       etnaviv_core_dump_mmu(&iter, submit->mmu_context, mmu_size);
+> >         etnaviv_core_dump_mem(&iter, ETDUMP_BUF_RING, gpu->buffer.vaddr,
+> >                               gpu->buffer.size,
+> >                               etnaviv_cmdbuf_get_va(&gpu->buffer,
+> > -                                       &gpu->mmu_context->cmdbuf_mapping));
+> > +                                       &submit->mmu_context->cmdbuf_mapping));
+> >
+> >         etnaviv_core_dump_mem(&iter, ETDUMP_BUF_CMD,
+> >                               submit->cmdbuf.vaddr, submit->cmdbuf.size,
+> >                               etnaviv_cmdbuf_get_va(&submit->cmdbuf,
+> > -                                       &gpu->mmu_context->cmdbuf_mapping));
+> > +                                       &submit->mmu_context->cmdbuf_mapping));
+> >
+> > -       mutex_unlock(&gpu->mmu_context->lock);
+> > +       mutex_unlock(&submit->mmu_context->lock);
+> >
+> >         /* Reserve space for the bomap */
+> >         if (n_bomap_pages) {
+> > --
+> > 2.39.2
+> >
+
+
+
+-- 
+greets
+--
+Christian Gmeiner, MSc
+
+https://christian-gmeiner.info/privacypolicy
