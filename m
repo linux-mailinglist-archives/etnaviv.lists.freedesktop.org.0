@@ -2,25 +2,25 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDEE9738CF9
-	for <lists+etnaviv@lfdr.de>; Wed, 21 Jun 2023 19:21:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F19A738D1C
+	for <lists+etnaviv@lfdr.de>; Wed, 21 Jun 2023 19:31:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B574210E33F;
-	Wed, 21 Jun 2023 17:21:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A1F410E341;
+	Wed, 21 Jun 2023 17:31:26 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
 Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id 8B49010E33A;
- Wed, 21 Jun 2023 17:21:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id C671B10E2EC;
+ Wed, 21 Jun 2023 17:31:22 +0000 (UTC)
 Received: from loongson.cn (unknown [10.20.42.43])
- by gateway (Coremail) with SMTP id _____8CxY8SpMZNkyjcAAA--.432S3;
- Thu, 22 Jun 2023 01:21:45 +0800 (CST)
+ by gateway (Coremail) with SMTP id _____8AxQ8TpM5Nk7zgAAA--.421S3;
+ Thu, 22 Jun 2023 01:31:21 +0800 (CST)
 Received: from [10.20.42.43] (unknown [10.20.42.43])
  by localhost.localdomain (Coremail) with SMTP id
- AQAAf8BxrM6oMZNkgPYAAA--.5641S3; 
- Thu, 22 Jun 2023 01:21:44 +0800 (CST)
-Message-ID: <fd5dd250-b01e-fd00-1419-88398cb13347@loongson.cn>
-Date: Thu, 22 Jun 2023 01:21:44 +0800
+ AQAAf8Cx_c7oM5Nkb_kAAA--.5870S3; 
+ Thu, 22 Jun 2023 01:31:20 +0800 (CST)
+Message-ID: <02c16e9b-0eca-caf4-b80c-53f1c7eab4e9@loongson.cn>
+Date: Thu, 22 Jun 2023 01:31:20 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.11.0
@@ -34,32 +34,35 @@ To: Lucas Stach <l.stach@pengutronix.de>, Sui Jingfeng <18949883232@163.com>,
 References: <20230620094716.2231414-1-18949883232@163.com>
  <20230620094716.2231414-8-18949883232@163.com>
  <8f74f0962c8bab6c832919a5340667c54e1a7ddc.camel@pengutronix.de>
- <66fc74ae-299c-a5de-9cfb-07ae24fb3f07@loongson.cn>
- <8212078bd56c54ce508205eae0ed0b69e78d4c38.camel@pengutronix.de>
+ <2249b895-84b9-adea-531b-bf190e9c866f@loongson.cn>
+ <030d44e2753b9b2eea0107cdee6c20e2bc2d3efe.camel@pengutronix.de>
+ <3911d448-5613-23a8-cfcb-5ae418677338@loongson.cn>
+ <87deb46db35b028da74c94f5496b721e14db4745.camel@pengutronix.de>
 From: Sui Jingfeng <suijingfeng@loongson.cn>
 Organization: Loongson
-In-Reply-To: <8212078bd56c54ce508205eae0ed0b69e78d4c38.camel@pengutronix.de>
+In-Reply-To: <87deb46db35b028da74c94f5496b721e14db4745.camel@pengutronix.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8BxrM6oMZNkgPYAAA--.5641S3
+X-CM-TRANSID: AQAAf8Cx_c7oM5Nkb_kAAA--.5870S3
 X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBj93XoWxuFyUCFyrCw43WF1kuw47WrX_yoW5tw1rpF
- W3AFyYyrWUXryUKw1Iv3Z8Zw1Sgr4xXFyxZasxJwn09ws0vFy7GF1rKF1UCFs8GryfCr4Y
- qFWj9ry3JF18ZrXCm3ZEXasCq-sJn29KB7ZKAUJUUUU5529EdanIXcx71UUUUU7KY7ZEXa
+X-Coremail-Antispam: 1Uk129KBj93XoW7KF1DGrykJw1xtr47Cr1Utwc_yoW8ZFWxpF
+ 48AFyayrWkGr40kw18Jrn8ury3Kr4xA3y5AFn8J3ZIkwnYqrsaqF1jvF1j9F1DWFs3Zr47
+ Jayqvr1Yvr1kArXCm3ZEXasCq-sJn29KB7ZKAUJUUUUx529EdanIXcx71UUUUU7KY7ZEXa
  sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
- 0xBIdaVrnRJUUU9Ib4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+ 0xBIdaVrnRJUUUP2b4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
  IYs7xG6rWj6s0DM7CIcVAFz4kK6r106r15M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
- e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
- 0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_
- Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx1l5I
- 8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1Y6r17McIj6I8E87Iv67AK
- xVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0VAS07AlzV
- AYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwCFI7km07C267AK
- xVW3AVW8Zr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zV
- AF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4l
- IxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCw
- CI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnI
- WIevJa73UjIFyTuYvjxUcrWFUUUUU
+ e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+ 0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_
+ Gr0_Gr1UM2kKe7AKxVWUAVWUtwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYI
+ kI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUtVWr
+ XwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMx
+ k0xIA0c2IEe2xFo4CEbIxvr21lc7CjxVAaw2AFwI0_JF0_Jw1l42xK82IYc2Ij64vIr41l
+ 4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xFxVAFwI0_ZF0_GFyUMI8I3I0E5I8CrVAFwI
+ 0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y
+ 0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r4j6ryUMIIF0xvE2Ix0cI8IcVCY1x0267AKxV
+ W8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1l
+ IxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU8KNt3UUUU
+ U==
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,101 +82,74 @@ Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
 Hi,
 
-On 2023/6/21 23:58, Lucas Stach wrote:
-> Am Mittwoch, dem 21.06.2023 um 23:30 +0800 schrieb Sui Jingfeng:
->> Hi,
->>
->> On 2023/6/21 18:00, Lucas Stach wrote:
->>>>    		dma_sync_sgtable_for_cpu(dev->dev, etnaviv_obj->sgt,
->>>>    					 etnaviv_op_to_dma_dir(op));
->>>>    		etnaviv_obj->last_cpu_prep_op = op;
->>>> @@ -408,8 +421,9 @@ int etnaviv_gem_cpu_fini(struct drm_gem_object *obj)
->>>>    {
->>>>    	struct drm_device *dev = obj->dev;
->>>>    	struct etnaviv_gem_object *etnaviv_obj = to_etnaviv_bo(obj);
->>>> +	struct etnaviv_drm_private *priv = dev->dev_private;
->>>>    
->>>> -	if (etnaviv_obj->flags & ETNA_BO_CACHED) {
->>>> +	if (!priv->dma_coherent && etnaviv_obj->flags & ETNA_BO_CACHED) {
->>>>    		/* fini without a prep is almost certainly a userspace error */
->>>>    		WARN_ON(etnaviv_obj->last_cpu_prep_op == 0);
->>>>    		dma_sync_sgtable_for_device(dev->dev, etnaviv_obj->sgt,
->>>> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
->>>> index 3524b5811682..754126992264 100644
->>>> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
->>>> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
->>>> @@ -112,11 +112,16 @@ static const struct etnaviv_gem_ops etnaviv_gem_prime_ops = {
->>>>    struct drm_gem_object *etnaviv_gem_prime_import_sg_table(struct drm_device *dev,
->>>>    	struct dma_buf_attachment *attach, struct sg_table *sgt)
->>>>    {
->>>> +	struct etnaviv_drm_private *priv = dev->dev_private;
->>>>    	struct etnaviv_gem_object *etnaviv_obj;
->>>>    	size_t size = PAGE_ALIGN(attach->dmabuf->size);
->>>> +	u32 cache_flags = ETNA_BO_WC;
->>>>    	int ret, npages;
->>>>    
->>>> -	ret = etnaviv_gem_new_private(dev, size, ETNA_BO_WC,
->>>> +	if (priv->dma_coherent)
->>>> +		cache_flags = ETNA_BO_CACHED;
->>>> +
->>> Drop this change. Instead etnaviv_gem_new_impl() should do the upgrade
->>> from WC to CACHED as necessary by adding something like this:
->> I understand you are a profession person in vivante GPU driver domain.
->>
->> I respect you reviews and instruction.
->>
->> But, I'm really reluctant to agree with this, is there any space to
->> negotiate?
->>
->>> /*
->>>    * Upgrade WC to CACHED when the device is hardware coherent and the
->>>    * platform doesn't allow mixing cached and writecombined mappings to
->>>    * the same memory area.
->>>    */
->>> if ((flags & ETNA_BO_CACHE_MASK) == ETNA_BO_WC &&
->>>       dev_is_dma_coherent(dev) && !drm_arch_can_wc_memory())
->>>           flags = (flags & ~ETNA_BO_CACHE_MASK) & ETNA_BO_CACHED;
->> This is policy, not a mechanism.
->>
->> Using what cache property is a user-space program's choice.
->>
->> While you are override the WC with CACHED mapping. This is not correct
->> in the concept!
->>
-> Please explain why you think that this isn't correct.
+On 2023/6/22 00:07, Lucas Stach wrote:
+> And as the HW guarantees it on your platform, your platform
+> implementation makes this function effectively a no-op. Skipping the
+> call to this function is breaking the DMA API abstraction, as now the
+> driver is second guessing the DMA API implementation. I really see no
+> reason to do this.
 
-Again,
+It is the same reason you chose the word 'effectively', not 'difinitely'.
 
-this is user-space things!
-
-this is user-space things!
-
-this is user-space things!
-
-I have explained several times.
-
-made the decision for the user-space program is wrong.
+We don't want waste the CPU's time,
 
 
-> It allows
-> userspace to use WC mappings that would potentially cause loss of
-> coherency between CPU and GPU, which isn't acceptable.
-
-Before made the WC works correctly,  you need the developing environment.
-
-userspace program can tune the BO cache mapping easily.
-
-Either environment or supply a conf file.
+  to running the dma_sync_sg_for_cpu funcion() function
 
 
-While with your implement, we don't have the opportunity to do debugging 
-and the development.
+```
 
-The kernel space is writing hard-code.
+void dma_sync_sg_for_cpu(struct device *dev, struct scatterlist *sg,
+             int nelems, enum dma_data_direction dir)
+{
+     const struct dma_map_ops *ops = get_dma_ops(dev);
+
+     BUG_ON(!valid_dma_direction(dir));
+     if (dma_map_direct(dev, ops))
+         dma_direct_sync_sg_for_cpu(dev, sg, nelems, dir);
+     else if (ops->sync_sg_for_cpu)
+         ops->sync_sg_for_cpu(dev, sg, nelems, dir);
+     debug_dma_sync_sg_for_cpu(dev, sg, nelems, dir);
+}
+
+```
 
 
-> Regards,
-> Lucas
+  to running the this:
+
+
+```
+
+int etnaviv_gem_cpu_fini(struct drm_gem_object *obj)
+{
+     struct drm_device *dev = obj->dev;
+     struct etnaviv_gem_object *etnaviv_obj = to_etnaviv_bo(obj);
+     struct etnaviv_drm_private *priv = dev->dev_private;
+
+     if (!priv->dma_coherent && etnaviv_obj->flags & ETNA_BO_CACHED) {
+         /* fini without a prep is almost certainly a userspace error */
+         WARN_ON(etnaviv_obj->last_cpu_prep_op == 0);
+         dma_sync_sgtable_for_device(dev->dev, etnaviv_obj->sgt,
+etnaviv_op_to_dma_dir(etnaviv_obj->last_cpu_prep_op));
+         etnaviv_obj->last_cpu_prep_op = 0;
+     }
+
+     return 0;
+}
+
+```
+
+
+But, this is acceptable, because we can kill the GEM_CPU_PREP and 
+GEM_CPU_FINI ioctl entirely
+
+at userspace for cached buffer, as this is totally not needed for cached 
+mapping on our platform.
+
+
+Well leave this for the WC mapping only,
+
+OK ?
 
 -- 
 Jingfeng
