@@ -2,45 +2,62 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B19A27388D2
-	for <lists+etnaviv@lfdr.de>; Wed, 21 Jun 2023 17:23:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A01173891B
+	for <lists+etnaviv@lfdr.de>; Wed, 21 Jun 2023 17:30:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 18DA910E4AD;
-	Wed, 21 Jun 2023 15:23:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 657AF10E4C1;
+	Wed, 21 Jun 2023 15:30:08 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0157610E4AD
- for <etnaviv@lists.freedesktop.org>; Wed, 21 Jun 2023 15:23:33 +0000 (UTC)
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
- helo=[IPv6:::1]) by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1qBzg3-0008SF-2I; Wed, 21 Jun 2023 17:23:23 +0200
-Message-ID: <87c9576e6ca1b58fa94e0bc1a2f4be3847f0518c.camel@pengutronix.de>
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 3C8DD10E4AF;
+ Wed, 21 Jun 2023 15:30:05 +0000 (UTC)
+Received: from loongson.cn (unknown [10.20.42.43])
+ by gateway (Coremail) with SMTP id _____8BxlfB8F5NkbiwAAA--.339S3;
+ Wed, 21 Jun 2023 23:30:04 +0800 (CST)
+Received: from [10.20.42.43] (unknown [10.20.42.43])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8Cx_c58F5Nkd9sAAA--.5186S3; 
+ Wed, 21 Jun 2023 23:30:04 +0800 (CST)
+Message-ID: <66fc74ae-299c-a5de-9cfb-07ae24fb3f07@loongson.cn>
+Date: Wed, 21 Jun 2023 23:30:04 +0800
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
 Subject: Re: [PATCH v10 07/11] drm/etnaviv: Add support for the dma coherent
  device
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Sui Jingfeng <suijingfeng@loongson.cn>, Sui Jingfeng
- <18949883232@163.com>,  Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Date: Wed, 21 Jun 2023 17:23:21 +0200
-In-Reply-To: <aa73348d-5ec8-4ac0-2ec0-0cce24756c63@loongson.cn>
+Content-Language: en-US
+To: Lucas Stach <l.stach@pengutronix.de>, Sui Jingfeng <18949883232@163.com>, 
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
 References: <20230620094716.2231414-1-18949883232@163.com>
  <20230620094716.2231414-8-18949883232@163.com>
  <8f74f0962c8bab6c832919a5340667c54e1a7ddc.camel@pengutronix.de>
- <aa73348d-5ec8-4ac0-2ec0-0cce24756c63@loongson.cn>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
-MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
+From: Sui Jingfeng <suijingfeng@loongson.cn>
+Organization: Loongson
+In-Reply-To: <8f74f0962c8bab6c832919a5340667c54e1a7ddc.camel@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8Cx_c58F5Nkd9sAAA--.5186S3
+X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBj93XoWxAFyxCF4Uur4UKryrAF47Awc_yoW5Ww45pF
+ WfAFyYyrWUXrWUK397Zan8Za4Fgr47W34Iyas8J3Z09w4YyF4qkF1rKFy5CFs8GryfCr1a
+ qa1j9ry5XF48ZrXCm3ZEXasCq-sJn29KB7ZKAUJUUUU5529EdanIXcx71UUUUU7KY7ZEXa
+ sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+ 0xBIdaVrnRJUUU9lb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+ IYs7xG6rWj6s0DM7CIcVAFz4kK6r106r15M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+ e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+ 0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
+ xVWxJr0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27w
+ Aqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jrv_JF1lYx0Ex4A2jsIE
+ 14v26r4UJVWxJr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxk0xIA0c2IEe2
+ xFo4CEbIxvr21l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xF
+ xVAFwI0_Wrv_ZF1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWw
+ C2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_
+ JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJV
+ WUCwCI42IY6I8E87Iv67AKxVW8Jr0_Cr1UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr1j6F4U
+ JbIYCTnIWIevJa73UjIFyTuYvjxU7fHUDUUUU
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,40 +75,82 @@ Cc: Bjorn Helgaas <bhelgaas@google.com>, Philipp Zabel <p.zabel@pengutronix.de>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Am Mittwoch, dem 21.06.2023 um 22:44 +0800 schrieb Sui Jingfeng:
-> Hi,
->=20
-> On 2023/6/21 18:00, Lucas Stach wrote:
-> > > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.h b/drivers/gpu/drm/=
-etnaviv/etnaviv_drv.h
-> > > index 9cd72948cfad..644e5712c050 100644
-> > > --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.h
-> > > +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.h
-> > > @@ -46,6 +46,12 @@ struct etnaviv_drm_private {
-> > >   	struct xarray active_contexts;
-> > >   	u32 next_context_id;
-> > >  =20
-> > > +	/*
-> > > +	 * If true, the GPU is capable of snooping cpu cache. Here, it
-> > > +	 * also means that cache coherency is enforced by the hardware.
-> > > +	 */
-> > > +	bool dma_coherent;
-> > > +
-> > No need for this, I think. Just use dev_is_dma_coherent() where you
-> > need to know this.
-> >=20
-> No, we want this value cached by the driver.
->=20
-Why? dev_is_dma_coherent() is a header-only function with a single
-pointer chasing operation. Your cache is also a single pointer chasing
-access, just that we now need storage for this information in both
-struct device and struct etnaviv_gpu.
+Hi,
 
-Regards,
-Lucas
+On 2023/6/21 18:00, Lucas Stach wrote:
+>>   		dma_sync_sgtable_for_cpu(dev->dev, etnaviv_obj->sgt,
+>>   					 etnaviv_op_to_dma_dir(op));
+>>   		etnaviv_obj->last_cpu_prep_op = op;
+>> @@ -408,8 +421,9 @@ int etnaviv_gem_cpu_fini(struct drm_gem_object *obj)
+>>   {
+>>   	struct drm_device *dev = obj->dev;
+>>   	struct etnaviv_gem_object *etnaviv_obj = to_etnaviv_bo(obj);
+>> +	struct etnaviv_drm_private *priv = dev->dev_private;
+>>   
+>> -	if (etnaviv_obj->flags & ETNA_BO_CACHED) {
+>> +	if (!priv->dma_coherent && etnaviv_obj->flags & ETNA_BO_CACHED) {
+>>   		/* fini without a prep is almost certainly a userspace error */
+>>   		WARN_ON(etnaviv_obj->last_cpu_prep_op == 0);
+>>   		dma_sync_sgtable_for_device(dev->dev, etnaviv_obj->sgt,
+>> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
+>> index 3524b5811682..754126992264 100644
+>> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
+>> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
+>> @@ -112,11 +112,16 @@ static const struct etnaviv_gem_ops etnaviv_gem_prime_ops = {
+>>   struct drm_gem_object *etnaviv_gem_prime_import_sg_table(struct drm_device *dev,
+>>   	struct dma_buf_attachment *attach, struct sg_table *sgt)
+>>   {
+>> +	struct etnaviv_drm_private *priv = dev->dev_private;
+>>   	struct etnaviv_gem_object *etnaviv_obj;
+>>   	size_t size = PAGE_ALIGN(attach->dmabuf->size);
+>> +	u32 cache_flags = ETNA_BO_WC;
+>>   	int ret, npages;
+>>   
+>> -	ret = etnaviv_gem_new_private(dev, size, ETNA_BO_WC,
+>> +	if (priv->dma_coherent)
+>> +		cache_flags = ETNA_BO_CACHED;
+>> +
+> Drop this change. Instead etnaviv_gem_new_impl() should do the upgrade
+> from WC to CACHED as necessary by adding something like this:
 
-> We only need call=C2=A0 dev_is_dma_coherent() once!
->=20
-> We need to reuse this variable on other places.
->=20
+I understand you are a profession person in vivante GPU driver domain.
+
+I respect you reviews and instruction.
+
+But, I'm really reluctant to agree with this, is there any space to 
+negotiate?
+
+> /*
+>   * Upgrade WC to CACHED when the device is hardware coherent and the
+>   * platform doesn't allow mixing cached and writecombined mappings to
+>   * the same memory area.
+>   */
+> if ((flags & ETNA_BO_CACHE_MASK) == ETNA_BO_WC &&
+>      dev_is_dma_coherent(dev) && !drm_arch_can_wc_memory())
+>          flags = (flags & ~ETNA_BO_CACHE_MASK) & ETNA_BO_CACHED;
+
+This is policy, not a mechanism.
+
+Using what cache property is a user-space program's choice.
+
+While you are override the WC with CACHED mapping. This is not correct 
+in the concept!
+
+you approach forbidden any possibility to use the WC BO at anywhere.
+
+
+My approach need only check once, while you approach need at least 3 
+check plus
+
+so much bit-wise logic operations,  plus a function call  (&, ==, &&,  
+&, ~, &) .
+
+and every time you create a BO. This nasty judgement happens.
+
+
+Please keep our original implement, it's simple and clear, Please?
+
+
+-- 
+Jingfeng
 
