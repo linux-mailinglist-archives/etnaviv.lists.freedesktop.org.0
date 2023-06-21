@@ -1,58 +1,58 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7C47737C0C
-	for <lists+etnaviv@lfdr.de>; Wed, 21 Jun 2023 09:33:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A232D737C11
+	for <lists+etnaviv@lfdr.de>; Wed, 21 Jun 2023 09:34:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A9C510E3DB;
-	Wed, 21 Jun 2023 07:33:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7286A10E3DC;
+	Wed, 21 Jun 2023 07:34:19 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-oo1-xc2f.google.com (mail-oo1-xc2f.google.com
- [IPv6:2607:f8b0:4864:20::c2f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D82CF10E096;
- Wed, 21 Jun 2023 07:33:20 +0000 (UTC)
-Received: by mail-oo1-xc2f.google.com with SMTP id
- 006d021491bc7-560a2e87bc7so752013eaf.0; 
- Wed, 21 Jun 2023 00:33:20 -0700 (PDT)
+Received: from mail-oa1-x29.google.com (mail-oa1-x29.google.com
+ [IPv6:2001:4860:4864:20::29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3CDDE10E3DC;
+ Wed, 21 Jun 2023 07:34:17 +0000 (UTC)
+Received: by mail-oa1-x29.google.com with SMTP id
+ 586e51a60fabf-1aa291b3fc9so2886512fac.0; 
+ Wed, 21 Jun 2023 00:34:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1687332799; x=1689924799;
+ d=gmail.com; s=20221208; t=1687332856; x=1689924856;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=yZmJRmvGs63Sbc4+pRuQIRBBoeSOpejn00UglUbiNLI=;
- b=MBs56Sp4fDTWQzFFAKCaTnFs5nYgvfymwUYjbQ5T9XLO2emeLb+BQWt4mRwHEsB1G1
- MySXrqZg/xrlXvok4VJC89xNacmlTHMm5wiqOe6biJhA+fKX6bvopD4g0QGmuYKEYFkX
- JuKzenalIgU4kcEjyQ/gVyjaYe03I0cGCl5iEkXYjZFIakPg1CBePJVoDISsqUlUkX1r
- aoEfSu6Fgwe8b1TW5EPe4VXbL9Zjkyt2kflthPkl2ftPrmDziqkCVMiP7GZRnM5d/z+c
- /5F8Cmulw9i+n59x2gx4nbbigDHD4AbgjstRhQuDeWKimgmsehfgZw3Qhm0k+DA5Expw
- 0H1A==
+ bh=VQZ7QLRGowARVqbu56gXLoyfMnzp8YiaIUml3/XIVg8=;
+ b=REHgQqy/hli0EtNRC4D9KFb7jY3xyjh31ykF4Xvcl4Eh+5qnWkZGGzQfD356cDOADD
+ KBgEKx7SN06VreAZk5Dj9ozg9wRGkWQ4mHfrO5JjLc1lFVvNU5QndVNFuk3JMPHF4AtY
+ G1DB/HFVFuk4MG7nnL5UQFDSvkC62x5cbpLVbiKmjOXKM0lhBmXuohbU6aDPNZi7e7XV
+ IomGr03tFlv60bIVKGx3KVrEWowZeOVF6xQZcpcPTLnxzszbM7VfIddaUbKukdwenci2
+ 0XYrTSNpAmlMS4JCqJ1Zz0CsN/3W7fNFCnv/y/jvDVHdsNf/oP4Y/9HVeWGCZiiex9+r
+ X6tA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1687332799; x=1689924799;
+ d=1e100.net; s=20221208; t=1687332856; x=1689924856;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=yZmJRmvGs63Sbc4+pRuQIRBBoeSOpejn00UglUbiNLI=;
- b=JyjG1e/37o0TW+CAPv05bhjgUtd+smZj0v7k7OOxdxxEDhq6RuEF0c/jeNjmcRZ88H
- c9sjdLa0RyRCFQi9ybODm2GO583rYSnQ4RvHj1w74mHo14lNDgOnU40rSmZfJWPC3JEU
- xG0JpOFZjRt9VCz/X0LHGKkPKpuc/okn7SQc1wFRWfCRNV8aVnB3o10o7Fi5hL1wJab4
- GKZuEC4GctH2wAdN0KVIi9e1Zeitk/ved1Ie267d6bEZ353S8ui+flQKSshccvF/Zwzj
- LlVLxz9BzoZAVaBFgzrMVlh6trPT9A+Jx/H05Ej0S41BPXJ678FqDI62TOhQIPZJnDaD
- ovhg==
-X-Gm-Message-State: AC+VfDyhJG7cpC6m+AqT6UqXRIqyZVZwnQhfORrq2kPxKu3r31TFdB8D
- qOS/aQqS9m99gf2cXqvgodHIU6W65nBMF0Whp37wfhbmq4HQ5Q==
-X-Google-Smtp-Source: ACHHUZ4b6J0VwyWQJWIFL7nuSoy6hildslYaEbuW5h4yF7RMqNQlS/9xY6sWvfDRGwfPBCeiz+RVmZqQB6jvZfX5Q/o=
-X-Received: by 2002:a4a:e64f:0:b0:55e:3fe1:9e72 with SMTP id
- q15-20020a4ae64f000000b0055e3fe19e72mr5958836oot.9.1687332798749; Wed, 21 Jun
- 2023 00:33:18 -0700 (PDT)
+ bh=VQZ7QLRGowARVqbu56gXLoyfMnzp8YiaIUml3/XIVg8=;
+ b=a6JiFCq+TTVkLwIZyc/X6nvYT+Fll0aGr3zVdoy6C6uGlr8znQrOP9crTB3yAdSf8r
+ AhGqFw8nwzgxJ/chMimhislHAxLX1XNlKUymj72A+xEcf/cL9R2s0HVsyMCyq1iIRujg
+ EErDyn629KkwxsrMCHdUBiUxm82RPotl2CTHhki1tw2rYzVd8S02Qq7zDefzrO5BGpYb
+ ke1V6tcxBW2OIKSTSUSfQuN3+zrRfkAo8l9YKCUtEwsomJuur4YirPL1ABFfqfvVHmYg
+ FyKpO4gO3RxFu7HRniEw4HrowUMrS+arl8eh01vfybiurnH/en0WowfnQlUl98wboFcm
+ XREg==
+X-Gm-Message-State: AC+VfDxTGxn0vDo3l+KyWeMRRJWohwSjAv92gdoEDS2dW6TX45OUtxmI
+ Ymrl3sM/UUvRp0BD9BZXMAjC8y8Eoj7yYeVTzA2BHz+sXHwi2w==
+X-Google-Smtp-Source: ACHHUZ4x5iAaXar0vo6e1PJCGsC1nG24xHfpONE7LHD6MpISQ0TzUtXbmKIYr0OB/6J8WcIeA4CMdEe0IvqVo+UqrKs=
+X-Received: by 2002:a05:6870:1a8e:b0:1ac:fc39:1653 with SMTP id
+ ef14-20020a0568701a8e00b001acfc391653mr2678180oab.2.1687332855666; Wed, 21
+ Jun 2023 00:34:15 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230607130223.3533464-1-l.stach@pengutronix.de>
- <20230607130223.3533464-6-l.stach@pengutronix.de>
-In-Reply-To: <20230607130223.3533464-6-l.stach@pengutronix.de>
+ <20230607130223.3533464-7-l.stach@pengutronix.de>
+In-Reply-To: <20230607130223.3533464-7-l.stach@pengutronix.de>
 From: Christian Gmeiner <christian.gmeiner@gmail.com>
-Date: Wed, 21 Jun 2023 09:33:07 +0200
-Message-ID: <CAH9NwWd3rOS57+f8Dx7r-kPXY58HcG3pH4LzibTvo2GvGmx5Gg@mail.gmail.com>
-Subject: Re: [PATCH 6/8] drm/etnaviv: better track GPU state
+Date: Wed, 21 Jun 2023 09:34:04 +0200
+Message-ID: <CAH9NwWdH40-sEP3ue8=L458QPRZ5=d8CHKhkT-xPS1pmpSGQKA@mail.gmail.com>
+Subject: Re: [PATCH 7/8] drm/etnaviv: drop GPU initialized property
 To: Lucas Stach <l.stach@pengutronix.de>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: etnaviv@lists.freedesktop.org
@@ -74,164 +74,91 @@ Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
 Hi Lucas
 
+Am Mi., 7. Juni 2023 um 15:02 Uhr schrieb Lucas Stach <l.stach@pengutronix.de>:
 >
-> Instead of only tracking if the FE is running, use a enum to better
-> describe the various states the GPU can be in. This allows some
-> additional validation to make sure that functions that expect a
-> certain GPU state are only called when the GPU is actually in that
-> state.
+> Now that it is only used to track the driver internal state of
+> the MMU global and cmdbuf objects, we can get rid of this property
+> by making the free/finit functions of those objects safe to call
+> on an uninitialized object.
 >
 > Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
 
 Reviewed-by: Christian Gmeiner <cgmeiner@igalia.com>
 
 > ---
->  drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 25 ++++++++++++++++++-------
->  drivers/gpu/drm/etnaviv/etnaviv_gpu.h | 10 +++++++++-
->  2 files changed, 27 insertions(+), 8 deletions(-)
+>  drivers/gpu/drm/etnaviv/etnaviv_cmdbuf.c | 3 +++
+>  drivers/gpu/drm/etnaviv/etnaviv_gpu.c    | 9 ++-------
+>  drivers/gpu/drm/etnaviv/etnaviv_gpu.h    | 1 -
+>  drivers/gpu/drm/etnaviv/etnaviv_mmu.c    | 3 +++
+>  4 files changed, 8 insertions(+), 8 deletions(-)
 >
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_cmdbuf.c b/drivers/gpu/drm/etnaviv/etnaviv_cmdbuf.c
+> index 9dc20d892c15..721d633aece9 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_cmdbuf.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_cmdbuf.c
+> @@ -121,6 +121,9 @@ void etnaviv_cmdbuf_free(struct etnaviv_cmdbuf *cmdbuf)
+>         int order = order_base_2(ALIGN(cmdbuf->size, SUBALLOC_GRANULE) /
+>                                  SUBALLOC_GRANULE);
+>
+> +       if (!suballoc)
+> +               return;
+> +
+>         mutex_lock(&suballoc->lock);
+>         bitmap_release_region(suballoc->granule_map,
+>                               cmdbuf->suballoc_offset / SUBALLOC_GRANULE,
 > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> index fb07d0e73802..96cbb290b869 100644
+> index 96cbb290b869..e62761032afe 100644
 > --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
 > +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> @@ -576,7 +576,7 @@ static int etnaviv_hw_reset(struct etnaviv_gpu *gpu)
->         /* We rely on the GPU running, so program the clock */
->         etnaviv_gpu_update_clock(gpu);
+> @@ -868,8 +868,6 @@ int etnaviv_gpu_init(struct etnaviv_gpu *gpu)
+>         pm_runtime_mark_last_busy(gpu->dev);
+>         pm_runtime_put_autosuspend(gpu->dev);
 >
-> -       gpu->fe_running = false;
-> +       gpu->state = ETNA_GPU_STATE_RESET;
->         gpu->exec_state = -1;
+> -       gpu->initialized = true;
+> -
+>         return 0;
+>
+>  fail:
+> @@ -1797,11 +1795,8 @@ static void etnaviv_gpu_unbind(struct device *dev, struct device *master,
 >         if (gpu->mmu_context)
 >                 etnaviv_iommu_context_put(gpu->mmu_context);
-> @@ -651,8 +651,6 @@ void etnaviv_gpu_start_fe(struct etnaviv_gpu *gpu, u32 address, u16 prefetch)
->                           VIVS_MMUv2_SEC_COMMAND_CONTROL_ENABLE |
->                           VIVS_MMUv2_SEC_COMMAND_CONTROL_PREFETCH(prefetch));
->         }
-> -
-> -       gpu->fe_running = true;
->  }
 >
->  static void etnaviv_gpu_start_fe_idleloop(struct etnaviv_gpu *gpu,
-> @@ -661,6 +659,8 @@ static void etnaviv_gpu_start_fe_idleloop(struct etnaviv_gpu *gpu,
->         u16 prefetch;
->         u32 address;
->
-> +       WARN_ON(gpu->state != ETNA_GPU_STATE_INITIALIZED);
-> +
->         /* setup the MMU */
->         etnaviv_iommu_restore(gpu, context);
->
-> @@ -670,6 +670,8 @@ static void etnaviv_gpu_start_fe_idleloop(struct etnaviv_gpu *gpu,
->                                         &gpu->mmu_context->cmdbuf_mapping);
->
->         etnaviv_gpu_start_fe(gpu, address, prefetch);
-> +
-> +       gpu->state = ETNA_GPU_STATE_RUNNING;
->  }
->
->  static void etnaviv_gpu_setup_pulse_eater(struct etnaviv_gpu *gpu)
-> @@ -705,6 +707,9 @@ static void etnaviv_gpu_setup_pulse_eater(struct etnaviv_gpu *gpu)
->
->  static void etnaviv_gpu_hw_init(struct etnaviv_gpu *gpu)
->  {
-> +       WARN_ON(!(gpu->state == ETNA_GPU_STATE_IDENTIFIED ||
-> +                 gpu->state == ETNA_GPU_STATE_RESET));
-> +
->         if ((etnaviv_is_model_rev(gpu, GC320, 0x5007) ||
->              etnaviv_is_model_rev(gpu, GC320, 0x5220)) &&
->             gpu_read(gpu, VIVS_HI_CHIP_TIME) != 0x2062400) {
-> @@ -751,6 +756,8 @@ static void etnaviv_gpu_hw_init(struct etnaviv_gpu *gpu)
->         etnaviv_gpu_setup_pulse_eater(gpu);
->
->         gpu_write(gpu, VIVS_HI_INTR_ENBL, ~0U);
-> +
-> +       gpu->state = ETNA_GPU_STATE_INITIALIZED;
->  }
->
->  int etnaviv_gpu_init(struct etnaviv_gpu *gpu)
-> @@ -793,6 +800,8 @@ int etnaviv_gpu_init(struct etnaviv_gpu *gpu)
->             (gpu->identity.minor_features10 & chipMinorFeatures10_SECURITY_AHB))
->                 gpu->sec_mode = ETNA_SEC_KERNEL;
->
-> +       gpu->state = ETNA_GPU_STATE_IDENTIFIED;
-> +
->         ret = etnaviv_hw_reset(gpu);
->         if (ret) {
->                 dev_err(gpu->dev, "GPU reset failed\n");
-> @@ -1368,7 +1377,7 @@ struct dma_fence *etnaviv_gpu_submit(struct etnaviv_gem_submit *submit)
->                 goto out_unlock;
->         }
->
-> -       if (!gpu->fe_running)
-> +       if (gpu->state == ETNA_GPU_STATE_INITIALIZED)
->                 etnaviv_gpu_start_fe_idleloop(gpu, submit->mmu_context);
->
->         if (submit->prev_mmu_context)
-> @@ -1634,7 +1643,7 @@ int etnaviv_gpu_wait_idle(struct etnaviv_gpu *gpu, unsigned int timeout_ms)
->
->  static void etnaviv_gpu_hw_suspend(struct etnaviv_gpu *gpu)
->  {
-> -       if (gpu->initialized && gpu->fe_running) {
-> +       if (gpu->state == ETNA_GPU_STATE_RUNNING) {
->                 /* Replace the last WAIT with END */
->                 mutex_lock(&gpu->lock);
->                 etnaviv_buffer_end(gpu);
-> @@ -1647,7 +1656,7 @@ static void etnaviv_gpu_hw_suspend(struct etnaviv_gpu *gpu)
->                  */
->                 etnaviv_gpu_wait_idle(gpu, 100);
->
-> -               gpu->fe_running = false;
-> +               gpu->state = ETNA_GPU_STATE_INITIALIZED;
->         }
->
->         gpu->exec_state = -1;
-> @@ -1918,6 +1927,8 @@ static int etnaviv_gpu_rpm_suspend(struct device *dev)
->
->         etnaviv_gpu_hw_suspend(gpu);
->
-> +       gpu->state = ETNA_GPU_STATE_IDENTIFIED;
-> +
->         return etnaviv_gpu_clk_disable(gpu);
->  }
->
-> @@ -1931,7 +1942,7 @@ static int etnaviv_gpu_rpm_resume(struct device *dev)
->                 return ret;
->
->         /* Re-initialise the basic hardware state */
 > -       if (gpu->initialized) {
-> +       if (gpu->state == ETNA_GPU_STATE_IDENTIFIED) {
->                 ret = etnaviv_gpu_hw_resume(gpu);
->                 if (ret) {
->                         etnaviv_gpu_clk_disable(gpu);
+> -               etnaviv_cmdbuf_free(&gpu->buffer);
+> -               etnaviv_iommu_global_fini(gpu);
+> -               gpu->initialized = false;
+> -       }
+> +       etnaviv_cmdbuf_free(&gpu->buffer);
+> +       etnaviv_iommu_global_fini(gpu);
+>
+>         gpu->drm = NULL;
+>         xa_destroy(&gpu->user_fences);
 > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
-> index 98c6f9c320fc..33ecc1bf84b1 100644
+> index 33ecc1bf84b1..a4a9253f0d52 100644
 > --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
 > +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
-> @@ -95,6 +95,14 @@ struct clk;
->
->  #define ETNA_NR_EVENTS 30
->
-> +enum etnaviv_gpu_state {
-> +       ETNA_GPU_STATE_UNKNOWN = 0,
-> +       ETNA_GPU_STATE_IDENTIFIED,
-> +       ETNA_GPU_STATE_RESET,
-> +       ETNA_GPU_STATE_INITIALIZED,
-> +       ETNA_GPU_STATE_RUNNING,
-> +};
-> +
->  struct etnaviv_gpu {
->         struct drm_device *drm;
->         struct thermal_cooling_device *cooling;
-> @@ -105,8 +113,8 @@ struct etnaviv_gpu {
->         struct workqueue_struct *wq;
+> @@ -114,7 +114,6 @@ struct etnaviv_gpu {
 >         struct mutex sched_lock;
 >         struct drm_gpu_scheduler sched;
-> +       enum etnaviv_gpu_state state;
->         bool initialized;
-> -       bool fe_running;
+>         enum etnaviv_gpu_state state;
+> -       bool initialized;
 >
 >         /* 'ring'-buffer: */
 >         struct etnaviv_cmdbuf buffer;
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_mmu.c b/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
+> index 67bdce5326c6..4fa72567183a 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
+> @@ -553,6 +553,9 @@ void etnaviv_iommu_global_fini(struct etnaviv_gpu *gpu)
+>         struct etnaviv_drm_private *priv = gpu->drm->dev_private;
+>         struct etnaviv_iommu_global *global = priv->mmu_global;
+>
+> +       if (!global)
+> +               return;
+> +
+>         if (--global->use > 0)
+>                 return;
+>
 > --
 > 2.39.2
 >
