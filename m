@@ -1,59 +1,58 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2288E737C13
-	for <lists+etnaviv@lfdr.de>; Wed, 21 Jun 2023 09:35:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F55F737C89
+	for <lists+etnaviv@lfdr.de>; Wed, 21 Jun 2023 09:55:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC0F410E3DD;
-	Wed, 21 Jun 2023 07:35:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 868C510E3E8;
+	Wed, 21 Jun 2023 07:55:55 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-oi1-x234.google.com (mail-oi1-x234.google.com
- [IPv6:2607:f8b0:4864:20::234])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C371C10E3DF;
- Wed, 21 Jun 2023 07:35:30 +0000 (UTC)
-Received: by mail-oi1-x234.google.com with SMTP id
- 5614622812f47-39cc64e4a44so2942012b6e.0; 
- Wed, 21 Jun 2023 00:35:30 -0700 (PDT)
+Received: from mail-oa1-x34.google.com (mail-oa1-x34.google.com
+ [IPv6:2001:4860:4864:20::34])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 569C110E0BB;
+ Wed, 21 Jun 2023 07:55:53 +0000 (UTC)
+Received: by mail-oa1-x34.google.com with SMTP id
+ 586e51a60fabf-1acfce1fc0bso1076761fac.2; 
+ Wed, 21 Jun 2023 00:55:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1687332930; x=1689924930;
+ d=gmail.com; s=20221208; t=1687334152; x=1689926152;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=L1lue740R0g/t80KBAIxVosZBzBF6vyjp2lWDdY+kew=;
- b=K/9YUFBjQbviQacHFmT9q27DTU5zs94jGz+CJnJvFzUjQLV1LUZNH9D5p2I8CyoQau
- jZwAAxhP49SvEf3FQI4Okk5AobscnneMDcYrpOsya78un7Y+vDwZtt3Y0+LbhzRvjcRE
- rdUjlBRHQNy7wUiAZUdosPa6kjUGd7v/RtdsgllswGIhcYqqWpOlvoSAAhiEUcHkQUwG
- 2xyj/qtVYo29jkoMTVAiICpR8mskJaQ9xJKc8nC1XW2ltPmheWKsGZIoqIRszREaGmIJ
- LUkWg16UdY+/7IJBZCl9/WuCn6whb4mQdIbGHfW6JYlnvvgebdsEl4x/JBUx33PP3WPC
- qmKw==
+ bh=chdbH7mNzgkmuCyhA12j8pNPXGXQu3niNcq2qlGIJcs=;
+ b=LbxvhVwpNqssBmWSmVTSBoOqM3MlXb7DhtqbUE7LEO6cnbME5IpO64HbS9T7taeDtX
+ ailK4VhS9N0EesSXQmFC2QE4SQ5fNtqKFY+87AtZ9U8ZOskme0FDpgkPTSs5lr+hUyTe
+ /Qgvw0ssaER5tRu6uE15GBqc/dQxMJ55TBZdwRPyB3zbeMf7Q6bRTMeZwu/GgnYrbhr7
+ 3sLqgkfyMTQCMhfCqGuLSseBFInIkpKzb76bqT5LDq7xMCwTcqeAGPmEB0OZZt+xemG0
+ Hrlyp5maNwnixWVnA2DEu7A7EBtV9+EE+D94ZZ0WxqnqI5Tfbf1qH/2/HAGL8ZztSsCu
+ HyXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1687332930; x=1689924930;
+ d=1e100.net; s=20221208; t=1687334152; x=1689926152;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=L1lue740R0g/t80KBAIxVosZBzBF6vyjp2lWDdY+kew=;
- b=XqxD2vWm1YsteEh2uAKmlfC2QZOIex57hMd1InkgUHhhxDC7qHll1mF6wLBfs3agdo
- dYpY5bDzCak1n8zYEU5WdG/DpQrV9di+Fn9k5Zu9t4IpPiv0toHTvbCruZWEZDcf9UrO
- rlgChh82sjYPJRQgP5GUIVFuwj8pldaCnmOC/R9f3+5fLIGjzEHXr+SMv2cQnPb0O/0v
- VSzpAeLfDTxmfYacBMvCJTmW/BFdmswMU1dAlT06zDJLncDuRL4IuSLL+y9XQwspL+ah
- K1GheOD66Jdgr0IiioOayngnTd21VPCprYDN+cRk64LbwNHiee8K0B/TEDYFnP/5RNCU
- j2xg==
-X-Gm-Message-State: AC+VfDxKLX/1UonjDW33UcyXpDm9PWseRYDi2e+h3+y6jw+o+TwceQxV
- nmtjRTKLEoPFGhUAh7J+6cPxT2diM9E82fhH4Jp8EsnMyu5gFQ==
-X-Google-Smtp-Source: ACHHUZ4Yb0MXTMssvsAhywNLzyWZdZgNOaRvqnSvGcVOh0J1ntVPKkI/HQp8DShl6zBQRyGrByc5wRC26mrEku1Xo6E=
-X-Received: by 2002:aca:7c5:0:b0:398:1045:17ed with SMTP id
- 188-20020aca07c5000000b00398104517edmr11221423oih.54.1687332929600; Wed, 21
- Jun 2023 00:35:29 -0700 (PDT)
+ bh=chdbH7mNzgkmuCyhA12j8pNPXGXQu3niNcq2qlGIJcs=;
+ b=fO7IuGOO63BIIeQ4W6g9o15r7KAjN8fQMMXZ6SPInogOQFgMb0T+MoDGAFce6s1tD9
+ AYi3yFtXfteR/vyVu9cyaVRRfkmXMQybgfYN3DUQk8TEHPmG1SGLRmIUUFMbAJBVIKi+
+ vbuKCNqsGEwdUCpZDoE9aUKMojspxc3Gs6Bm7tqGPdZSJl4FsY+pmWYIdLfMdOXMsOca
+ Xq5H+qs565DMMjRXn5ybxwAw3f8PVoRKAUDOzC9YeJ3VhZ5co9SFp+wfnheNWC0AF+fw
+ mU1YnIbxtXvEIfyodBizNzBAXh4JlEVGLdZIbCfJzAZcGw48YC6zoZMWOyKbYrDsn5Qo
+ 1gDw==
+X-Gm-Message-State: AC+VfDz0CnFrbQ9Acg2nhmT9JahoJ0UBL8QN7lWgAdnVM58mnUx3BO2B
+ IQ+fRcrYI4P78XlxFahDYxe01T2YI5PCEA/C/6ysfqkCI/h7dQ==
+X-Google-Smtp-Source: ACHHUZ6hf43JL8/RjRnBEVRErt7bEY91oQCXLhTfpmTCVuL+A1sbzEX1l/BiasLu5n6sDvOOkVw+A4kp6AMZvTIKafo=
+X-Received: by 2002:a05:6870:343:b0:1aa:1c3f:4e7 with SMTP id
+ n3-20020a056870034300b001aa1c3f04e7mr4918564oaf.57.1687334151934; Wed, 21 Jun
+ 2023 00:55:51 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230607130223.3533464-1-l.stach@pengutronix.de>
- <20230607130223.3533464-8-l.stach@pengutronix.de>
-In-Reply-To: <20230607130223.3533464-8-l.stach@pengutronix.de>
+References: <20230620094716.2231414-1-18949883232@163.com>
+In-Reply-To: <20230620094716.2231414-1-18949883232@163.com>
 From: Christian Gmeiner <christian.gmeiner@gmail.com>
-Date: Wed, 21 Jun 2023 09:35:18 +0200
-Message-ID: <CAH9NwWciO9LG24kooa9NXRVYTZTtVWOfM0VtR-5SYmmY-arFkQ@mail.gmail.com>
-Subject: Re: [PATCH 8/8] drm/etnaviv: expedited MMU fault handling
-To: Lucas Stach <l.stach@pengutronix.de>
+Date: Wed, 21 Jun 2023 09:55:40 +0200
+Message-ID: <CAH9NwWdfK0DkDA-Fi6TRrS4orm-HbAqBLDpYcMKd69dU6Jh+CA@mail.gmail.com>
+Subject: Re: [PATCH v10 00/11] drm/etnaviv: Add pci device driver support
+To: Sui Jingfeng <18949883232@163.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,78 +65,28 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@pengutronix.de, patchwork-lst@pengutronix.de,
- etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Russell King <linux+etnaviv@armlinux.org.uk>
+Cc: Sui Jingfeng <suijingfeng@loongson.cn>, etnaviv@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Daniel Vetter <daniel@ffwll.ch>, Russell King <linux+etnaviv@armlinux.org.uk>,
+ David Airlie <airlied@gmail.com>, Lucas Stach <l.stach@pengutronix.de>
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Hi Lucas
+Hi
 
 >
-> The GPU is halted when it hits a MMU exception, so there is no point in
-> waiting for the job timeout to expire or try to work out if the GPU is
-> still making progress in the timeout handler, as we know that the GPU
-> won't make any more progress.
+> From: Sui Jingfeng <suijingfeng@loongson.cn>
 >
-> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
-
-Reviewed-by: Christian Gmeiner <cgmeiner@igalia.com>
-
-> ---
->  drivers/gpu/drm/etnaviv/etnaviv_gpu.c   | 2 ++
->  drivers/gpu/drm/etnaviv/etnaviv_gpu.h   | 1 +
->  drivers/gpu/drm/etnaviv/etnaviv_sched.c | 5 +++--
->  3 files changed, 6 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> index e62761032afe..74fdcaf52fc5 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> @@ -1531,6 +1531,8 @@ static irqreturn_t irq_handler(int irq, void *data)
->
->                 if (intr & VIVS_HI_INTR_ACKNOWLEDGE_MMU_EXCEPTION) {
->                         dump_mmu_fault(gpu);
-> +                       gpu->state = ETNA_GPU_STATE_FAULT;
-> +                       drm_sched_fault(&gpu->sched);
->                         intr &= ~VIVS_HI_INTR_ACKNOWLEDGE_MMU_EXCEPTION;
->                 }
->
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
-> index a4a9253f0d52..d4b9a97f2c72 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
-> @@ -101,6 +101,7 @@ enum etnaviv_gpu_state {
->         ETNA_GPU_STATE_RESET,
->         ETNA_GPU_STATE_INITIALIZED,
->         ETNA_GPU_STATE_RUNNING,
-> +       ETNA_GPU_STATE_FAULT,
->  };
->
->  struct etnaviv_gpu {
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sched.c b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-> index 1ae87dfd19c4..345fec6cb1a4 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-> @@ -55,8 +55,9 @@ static enum drm_gpu_sched_stat etnaviv_sched_timedout_job(struct drm_sched_job
->          */
->         dma_addr = gpu_read(gpu, VIVS_FE_DMA_ADDRESS);
->         change = dma_addr - gpu->hangcheck_dma_addr;
-> -       if (gpu->completed_fence != gpu->hangcheck_fence ||
-> -           change < 0 || change > 16) {
-> +       if (gpu->state == ETNA_GPU_STATE_RUNNING &&
-> +           (gpu->completed_fence != gpu->hangcheck_fence ||
-> +            change < 0 || change > 16)) {
->                 gpu->hangcheck_dma_addr = dma_addr;
->                 gpu->hangcheck_fence = gpu->completed_fence;
->                 goto out_no_timeout;
-> --
-> 2.39.2
+> There is a Vivante GC1000 (v5037) in LS2K1000 and LS7A1000, this GPU is a
+> PCI device, and it has 2D and 3D cores in the same core. This series is
+> trying to add PCI device driver support to drm/etnaviv.
 >
 
+Is it possible to get the lspci output for the GPU? Something like
+this: sudo lspci -vvv -s ...
 
--- 
-greets
+
+thanks
 --
 Christian Gmeiner, MSc
 
