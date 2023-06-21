@@ -1,26 +1,26 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE6CF738B9B
-	for <lists+etnaviv@lfdr.de>; Wed, 21 Jun 2023 18:39:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 676BB738C3F
+	for <lists+etnaviv@lfdr.de>; Wed, 21 Jun 2023 18:49:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9467310E0E6;
-	Wed, 21 Jun 2023 16:39:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 003E410E333;
+	Wed, 21 Jun 2023 16:49:52 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
 Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id 0EB8A10E0E6;
- Wed, 21 Jun 2023 16:39:14 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id A3AF210E326;
+ Wed, 21 Jun 2023 16:49:49 +0000 (UTC)
 Received: from loongson.cn (unknown [10.20.42.43])
- by gateway (Coremail) with SMTP id _____8Dx+8axJ5NkUjQAAA--.378S3;
- Thu, 22 Jun 2023 00:39:13 +0800 (CST)
+ by gateway (Coremail) with SMTP id _____8CxY8QsKpNkODUAAA--.420S3;
+ Thu, 22 Jun 2023 00:49:48 +0800 (CST)
 Received: from [10.20.42.43] (unknown [10.20.42.43])
  by localhost.localdomain (Coremail) with SMTP id
- AQAAf8CxF82xJ5NkRewAAA--.3256S3; 
- Thu, 22 Jun 2023 00:39:13 +0800 (CST)
-Message-ID: <0359ffb6-684e-777a-36ec-ad9fe4da6e48@loongson.cn>
-Date: Thu, 22 Jun 2023 00:39:13 +0800
+ AQAAf8DxzM4sKpNkIO8AAA--.5610S3; 
+ Thu, 22 Jun 2023 00:49:48 +0800 (CST)
+Message-ID: <866f4e8d-98be-0aaf-d3a2-f3e5bc94e945@loongson.cn>
+Date: Thu, 22 Jun 2023 00:49:48 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.11.0
@@ -34,34 +34,32 @@ To: Lucas Stach <l.stach@pengutronix.de>, Sui Jingfeng <18949883232@163.com>,
 References: <20230620094716.2231414-1-18949883232@163.com>
  <20230620094716.2231414-8-18949883232@163.com>
  <8f74f0962c8bab6c832919a5340667c54e1a7ddc.camel@pengutronix.de>
- <aa73348d-5ec8-4ac0-2ec0-0cce24756c63@loongson.cn>
- <87c9576e6ca1b58fa94e0bc1a2f4be3847f0518c.camel@pengutronix.de>
- <9c8afcb4-70c0-a920-2a78-78a9ac884c80@loongson.cn>
- <737b07582ef2a4b2f134a1a931b6621ff96adb77.camel@pengutronix.de>
+ <66fc74ae-299c-a5de-9cfb-07ae24fb3f07@loongson.cn>
+ <8212078bd56c54ce508205eae0ed0b69e78d4c38.camel@pengutronix.de>
 From: Sui Jingfeng <suijingfeng@loongson.cn>
 Organization: Loongson
-In-Reply-To: <737b07582ef2a4b2f134a1a931b6621ff96adb77.camel@pengutronix.de>
+In-Reply-To: <8212078bd56c54ce508205eae0ed0b69e78d4c38.camel@pengutronix.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8CxF82xJ5NkRewAAA--.3256S3
+X-CM-TRANSID: AQAAf8DxzM4sKpNkIO8AAA--.5610S3
 X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBj93XoW7tr43Zw4DAw48Jr1fGFyrKrX_yoW8tr1rpF
- 4Dta4YyrW8Xr10gwnFqw45XF13Kw1fXFyI9r9rJwn09ws0yryUKFy5Kr45CF90qr1rGr1a
- van0qryxXFy2yrXCm3ZEXasCq-sJn29KB7ZKAUJUUUU7529EdanIXcx71UUUUU7KY7ZEXa
- sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
- 0xBIdaVrnRJUUUBYb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
- IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
- e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
- 0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_
- Gr0_Gr1UM2kKe7AKxVWUXVWUAwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYI
- kI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUtVWr
- XwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMx
- k0xIA0c2IEe2xFo4CEbIxvr21l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_
- Gr1l4IxYO2xFxVAFwI0_ZF0_GFyUMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwV
- AFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv2
- 0xvE14v26r4j6ryUMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4
- v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x0267AK
- xVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU8EeHDUUUUU==
+X-Coremail-Antispam: 1Uk129KBj9xXoW7Gr4rCw17Cr4rWFW8Jr1rKrX_yoWDtrXEga
+ y7AFyvkw1Utry2gwsxK3y8AF9F9rW8KF1DXrWfZ3yIy3s7Jan7Jr1kKrWfZw1fKrsFgrnx
+ u34fZF1Yya12gosvyTuYvTs0mTUanT9S1TB71UUUUUJqnTZGkaVYY2UrUUUUj1kv1TuYvT
+ s0mT0YCTnIWjqI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUI
+ cSsGvfJTRUUUbfkYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20x
+ vaj40_Wr0E3s1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxS
+ w2x7M28EF7xvwVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxV
+ W8JVWxJwA2z4x0Y4vEx4A2jsIE14v26r4j6F4UM28EF7xvwVC2z280aVCY1x0267AKxVW8
+ JVW8Jr1ln4kS14v26r1Y6r17M2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2
+ x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1q6rW5
+ McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7
+ I2V7IY0VAS07AlzVAYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8
+ JwCFI7km07C267AKxVW3AVW8Zr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67
+ AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8I
+ cVAFwI0_Gr0_Xr1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI
+ 8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF7I0E14v2
+ 6r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxU4AhLUUUUU
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,62 +77,42 @@ Cc: Bjorn Helgaas <bhelgaas@google.com>, Philipp Zabel <p.zabel@pengutronix.de>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Hi,
+Hi
 
-On 2023/6/22 00:12, Lucas Stach wrote:
-> Am Mittwoch, dem 21.06.2023 um 23:41 +0800 schrieb Sui Jingfeng:
->> On 2023/6/21 23:23, Lucas Stach wrote:
->>> Am Mittwoch, dem 21.06.2023 um 22:44 +0800 schrieb Sui Jingfeng:
->>>> Hi,
->>>>
->>>> On 2023/6/21 18:00, Lucas Stach wrote:
->>>>>> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.h b/drivers/gpu/drm/etnaviv/etnaviv_drv.h
->>>>>> index 9cd72948cfad..644e5712c050 100644
->>>>>> --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.h
->>>>>> +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.h
->>>>>> @@ -46,6 +46,12 @@ struct etnaviv_drm_private {
->>>>>>     	struct xarray active_contexts;
->>>>>>     	u32 next_context_id;
->>>>>>     
->>>>>> +	/*
->>>>>> +	 * If true, the GPU is capable of snooping cpu cache. Here, it
->>>>>> +	 * also means that cache coherency is enforced by the hardware.
->>>>>> +	 */
->>>>>> +	bool dma_coherent;
->>>>>> +
->>>>> No need for this, I think. Just use dev_is_dma_coherent() where you
->>>>> need to know this.
->>>>>
->>>> No, we want this value cached by the driver.
->>>>
->>> Why? dev_is_dma_coherent() is a header-only function with a single
->>> pointer chasing operation. Your cache is also a single pointer chasing
->>> access, just that we now need storage for this information in both
->>> struct device and struct etnaviv_gpu.
->>
->> You don't need store it in struct etnaviv_gpu.
->>
->> As this variable is shared across the device, so it is better to be put
->> in the struct etnaviv_drm_private.
->>
->> I don't think another 4 bytes allocation is something what we can't pay for.
+On 2023/6/21 23:58, Lucas Stach wrote:
+>> you approach forbidden any possibility to use the WC BO at anywhere.
 >>
 >>
->> My patch doesn't mentioned that it need to store it inside of struct
->> etnaviv_gpu, do I?
-> You are right, I was mistaken about the etnaviv struct this is added
-> to. However there is still the fundamental question: what's the gain of
-> this cache? The information is already available in struct device and
-> will be accessed with the same amount of loads if you care that much
-> about micro-optimization.
+>> My approach need only check once, while you approach need at least 3
+>> check plus
+>>
+>> so much bit-wise logic operations,  plus a function call  (&, ==, &&,
+>> &, ~, &) .
+>>
+>> and every time you create a BO. This nasty judgement happens.
+>>
+> BO creation again is not a fast path. You are committing to allocate
+> new memory, which is a few orders of magnitude more costly than the few
+> instructions needed for those comparisons.
+>
+What's wrong with you point here is that
 
-Sometime, in some function it is more convenient(easier) to fetch 
-'struct etnaviv_drm_private *priv'
+We are not going make it more worse because it is worse.
 
-than the 'struct device *dev',  I think this is obvious.
+We would like same any single bit of the performance.
 
-> Regards,
-> Lucas
+
+It's about the beauty, and beauty and correctness is every thing.
+
+
+My implement is good both in the perspective of beauty and in the 
+perspective of the performance.
+
+BO creation is fast or not is irrelevant to what the point we are discuss.
+
+You are always introduce non-critical factor to disturb the discuss,
+
+leading the people go a wrong direction.
 
 -- 
 Jingfeng
