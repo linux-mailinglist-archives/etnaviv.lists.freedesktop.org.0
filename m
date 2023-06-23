@@ -2,37 +2,37 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB50473F6BA
-	for <lists+etnaviv@lfdr.de>; Tue, 27 Jun 2023 10:17:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5C5073F6C2
+	for <lists+etnaviv@lfdr.de>; Tue, 27 Jun 2023 10:17:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7DA4E10E2A7;
-	Tue, 27 Jun 2023 08:17:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B66A510E2B2;
+	Tue, 27 Jun 2023 08:17:17 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from out-7.mta0.migadu.com (out-7.mta0.migadu.com [91.218.175.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 77F2610E639
+Received: from out-26.mta0.migadu.com (out-26.mta0.migadu.com
+ [IPv6:2001:41d0:1004:224b::1a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 59A8F10E5E1
  for <etnaviv@lists.freedesktop.org>; Fri, 23 Jun 2023 10:17:06 +0000 (UTC)
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1687514915;
+ t=1687514917;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HapoD/NYZ/OiH+lAomI9HpFCENnwDqcm4Zh/feZWP3Y=;
- b=hpR0WYsUXhqCELG7hJcoQpTmNanUXJvDl9+HBv27lzRFj5gYV/9ygVqGeGk2PYpyMI17Sb
- mu578hE5Urf/rjylw/BPFNt5mI7W9DSpQJwPQtHToFYGInI6Bl3TUnROlqqkBGJMMimOBn
- ncKbpVf952YfeWYqicPaDunD0BrsbHo=
+ bh=mF5gwWREhceV79QC2kAelYl92prkgsyFzXbQ6wC4rh4=;
+ b=BSm1nw4VrOmP8VdV9c5EodP7YP0Z5hbl3KDGUfa8Du91PXb1dpwrhjKUp86e+/jyxxXU1e
+ vZja+Rmj3BD/izV10syp9mrt2A3LY5wHfuhMwrlADqRBka7KcZeSV7XS0oCLWXLGhWzPfS
+ V68pU98aDw5OtnR/vXlTfCT1IKFxm+Q=
 From: Sui Jingfeng <sui.jingfeng@linux.dev>
 To: Lucas Stach <l.stach@pengutronix.de>,
  Russell King <linux+etnaviv@armlinux.org.uk>,
  Christian Gmeiner <christian.gmeiner@gmail.com>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v1 3/8] drm/etnaviv: Drop the second argument of the
- etnaviv_gem_new_impl()
-Date: Fri, 23 Jun 2023 18:08:17 +0800
-Message-Id: <20230623100822.274706-4-sui.jingfeng@linux.dev>
+Subject: [PATCH v1 4/8] drm/etnaviv: Remove surplus else after return
+Date: Fri, 23 Jun 2023 18:08:18 +0800
+Message-Id: <20230623100822.274706-5-sui.jingfeng@linux.dev>
 In-Reply-To: <20230623100822.274706-1-sui.jingfeng@linux.dev>
 References: <20230623100822.274706-1-sui.jingfeng@linux.dev>
 MIME-Version: 1.0
@@ -58,46 +58,32 @@ Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
 From: Sui Jingfeng <suijingfeng@loongson.cn>
 
-Because it is not used by the etnaviv_gem_new_impl() function,
-no functional change.
+Because the 'else' is not generally useful after the 'return'.
 
 Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
 ---
- drivers/gpu/drm/etnaviv/etnaviv_gem.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/etnaviv/etnaviv_gem.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-index b5f73502e3dd..be2f459c66b5 100644
+index be2f459c66b5..271470723d5e 100644
 --- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
 +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-@@ -542,7 +542,7 @@ static const struct drm_gem_object_funcs etnaviv_gem_object_funcs = {
- 	.vm_ops = &vm_ops,
- };
- 
--static int etnaviv_gem_new_impl(struct drm_device *dev, u32 size, u32 flags,
-+static int etnaviv_gem_new_impl(struct drm_device *dev, u32 flags,
- 	const struct etnaviv_gem_ops *ops, struct drm_gem_object **obj)
+@@ -358,10 +358,11 @@ static inline enum dma_data_direction etnaviv_op_to_dma_dir(u32 op)
  {
- 	struct etnaviv_gem_object *etnaviv_obj;
-@@ -591,8 +591,7 @@ int etnaviv_gem_new_handle(struct drm_device *dev, struct drm_file *file,
+ 	if (op & ETNA_PREP_READ)
+ 		return DMA_FROM_DEVICE;
+-	else if (op & ETNA_PREP_WRITE)
++
++	if (op & ETNA_PREP_WRITE)
+ 		return DMA_TO_DEVICE;
+-	else
+-		return DMA_BIDIRECTIONAL;
++
++	return DMA_BIDIRECTIONAL;
+ }
  
- 	size = PAGE_ALIGN(size);
- 
--	ret = etnaviv_gem_new_impl(dev, size, flags,
--				   &etnaviv_gem_shmem_ops, &obj);
-+	ret = etnaviv_gem_new_impl(dev, flags, &etnaviv_gem_shmem_ops, &obj);
- 	if (ret)
- 		goto fail;
- 
-@@ -627,7 +626,7 @@ int etnaviv_gem_new_private(struct drm_device *dev, size_t size, u32 flags,
- 	struct drm_gem_object *obj;
- 	int ret;
- 
--	ret = etnaviv_gem_new_impl(dev, size, flags, ops, &obj);
-+	ret = etnaviv_gem_new_impl(dev, flags, ops, &obj);
- 	if (ret)
- 		return ret;
- 
+ int etnaviv_gem_cpu_prep(struct drm_gem_object *obj, u32 op,
 -- 
 2.25.1
 
