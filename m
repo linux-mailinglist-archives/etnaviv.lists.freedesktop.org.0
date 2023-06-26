@@ -2,68 +2,47 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F319073CE5D
-	for <lists+etnaviv@lfdr.de>; Sun, 25 Jun 2023 06:04:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 833AA73DC95
+	for <lists+etnaviv@lfdr.de>; Mon, 26 Jun 2023 12:58:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A6E0310E07F;
-	Sun, 25 Jun 2023 04:04:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 49B1210E1D2;
+	Mon, 26 Jun 2023 10:58:05 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id 63E8210E07F;
- Sun, 25 Jun 2023 04:04:18 +0000 (UTC)
-Received: from loongson.cn (unknown [10.20.42.43])
- by gateway (Coremail) with SMTP id _____8AxiMXBvJdkzWsBAA--.2272S3;
- Sun, 25 Jun 2023 12:04:17 +0800 (CST)
-Received: from [10.20.42.43] (unknown [10.20.42.43])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8DxzM69vJdkuDcGAA--.30336S3; 
- Sun, 25 Jun 2023 12:04:13 +0800 (CST)
-Message-ID: <abb7dc61-75e8-3e40-f449-37e7bb835bbf@loongson.cn>
-Date: Sun, 25 Jun 2023 12:04:13 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v10 07/11] drm/etnaviv: Add support for the dma coherent
- device
-Content-Language: en-US
-To: Lucas Stach <l.stach@pengutronix.de>, Sui Jingfeng <18949883232@163.com>, 
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D44610E1DE
+ for <etnaviv@lists.freedesktop.org>; Mon, 26 Jun 2023 10:58:03 +0000 (UTC)
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
+ helo=[IPv6:::1]) by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1qDjun-0005JX-Es; Mon, 26 Jun 2023 12:57:49 +0200
+Message-ID: <3927bb24f1f3480bf2d25a9a0f608aec9e58240d.camel@pengutronix.de>
+Subject: Re: [PATCH v10 01/11] drm/etnaviv: Add a dedicated function to
+ register an irq handler
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Sui Jingfeng <suijingfeng@loongson.cn>, Sui Jingfeng
+ <18949883232@163.com>,  Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>, David Airlie
+ <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Date: Mon, 26 Jun 2023 12:57:37 +0200
+In-Reply-To: <c1bac8c0-062a-72ed-e120-802965472191@loongson.cn>
 References: <20230620094716.2231414-1-18949883232@163.com>
- <20230620094716.2231414-8-18949883232@163.com>
- <8f74f0962c8bab6c832919a5340667c54e1a7ddc.camel@pengutronix.de>
- <2249b895-84b9-adea-531b-bf190e9c866f@loongson.cn>
- <030d44e2753b9b2eea0107cdee6c20e2bc2d3efe.camel@pengutronix.de>
- <3911d448-5613-23a8-cfcb-5ae418677338@loongson.cn>
- <87deb46db35b028da74c94f5496b721e14db4745.camel@pengutronix.de>
- <02c16e9b-0eca-caf4-b80c-53f1c7eab4e9@loongson.cn>
- <ba41b807e3af0a1cabb9ba203a401f41254cea1e.camel@pengutronix.de>
-From: Sui Jingfeng <suijingfeng@loongson.cn>
-Organization: Loongson
-In-Reply-To: <ba41b807e3af0a1cabb9ba203a401f41254cea1e.camel@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8DxzM69vJdkuDcGAA--.30336S3
-X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBj93XoWxWrWUtryfAFyxXrWxAF4kZrc_yoW5Kr4xpF
- sYkFyayrZ5uryvqwnFqw45Zry3tr4fJay5AFn8Ja4Y9ws0vr1SgF409r4j9F1UWws3Zr1j
- q3yqvwnxZFn8AFXCm3ZEXasCq-sJn29KB7ZKAUJUUUU5529EdanIXcx71UUUUU7KY7ZEXa
- sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
- 0xBIdaVrnRJUUU9ab4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
- IYs7xG6rWj6s0DM7CIcVAFz4kK6r106r15M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
- e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
- 0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv6xkF7I0E14v2
- 6r4UJVWxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27w
- Aqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jw0_WrylYx0Ex4A2jsIE
- 14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCYjI0SjxkI62AI1c
- AE67vIY487MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMxCIbckI1I0E
- 14v26r1q6r43MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4
- CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r4j6ryU
- MIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF
- 4lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsG
- vfC2KfnxnUUI43ZEXa7IU8QJ57UUUUU==
+ <20230620094716.2231414-2-18949883232@163.com>
+ <77f62814f98dd2728a1e4747f0db6b2a3cfa2c11.camel@pengutronix.de>
+ <52751b55-ce34-f3a8-b3c0-4858ad984622@loongson.cn>
+ <21f781a548cef63312df56cb2265de9a7c9a0901.camel@pengutronix.de>
+ <c1bac8c0-062a-72ed-e120-802965472191@loongson.cn>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
+MIME-Version: 1.0
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,130 +54,208 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: Bjorn Helgaas <bhelgaas@google.com>, Philipp Zabel <p.zabel@pengutronix.de>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+Cc: Bjorn Helgaas <bhelgaas@google.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Philipp Zabel <p.zabel@pengutronix.de>,
  etnaviv@lists.freedesktop.org
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Hi,
+Am Samstag, dem 24.06.2023 um 23:53 +0800 schrieb Sui Jingfeng:
+> Hi,
+>=20
+> On 2023/6/21 18:16, Lucas Stach wrote:
+> > Am Mittwoch, dem 21.06.2023 um 17:20 +0800 schrieb Sui Jingfeng:
+> > > Hi,
+> > >=20
+> > > On 2023/6/21 17:07, Lucas Stach wrote:
+> > > > Am Dienstag, dem 20.06.2023 um 17:47 +0800 schrieb Sui Jingfeng:
+> > > > > From: Sui Jingfeng <suijingfeng@loongson.cn>
+> > > > >=20
+> > > > > Because getting IRQ from a device is platform-dependent, PCI devi=
+ces have
+> > > > > different methods for getting an IRQ. This patch is a preparation=
+ to extend
+> > > > > this driver for supporting the PCI devices.
+> > > > >=20
+> > > > > Cc: Lucas Stach <l.stach@pengutronix.de>
+> > > > > Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
+> > > > > Cc: Philipp Zabel <p.zabel@pengutronix.de>
+> > > > > Cc: Bjorn Helgaas <bhelgaas@google.com>
+> > > > > Cc: Daniel Vetter <daniel@ffwll.ch>
+> > > > > Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
+> > > > > ---
+> > > > >    drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 32 +++++++++++++++++++=
+--------
+> > > > >    1 file changed, 23 insertions(+), 9 deletions(-)
+> > > > >=20
+> > > > > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/=
+drm/etnaviv/etnaviv_gpu.c
+> > > > > index de8c9894967c..a03e81337d8f 100644
+> > > > > --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> > > > > +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> > > > > @@ -1817,6 +1817,27 @@ static const struct of_device_id etnaviv_g=
+pu_match[] =3D {
+> > > > >    };
+> > > > >    MODULE_DEVICE_TABLE(of, etnaviv_gpu_match);
+> > > > >   =20
+> > > > > +static int etnaviv_gpu_register_irq(struct etnaviv_gpu *gpu, int=
+ irq)
+> > > > > +{
+> > > > > +	struct device *dev =3D gpu->dev;
+> > > > > +	int err;
+> > > > > +
+> > > > > +	if (irq < 0)
+> > > > > +		return irq;
+> > > > > +
+> > > > > +	err =3D devm_request_irq(dev, irq, irq_handler, 0, dev_name(dev=
+), gpu);
+> > > > > +	if (err) {
+> > > > > +		dev_err(dev, "failed to request irq %u: %d\n", irq, err);
+> > > > > +		return err;
+> > > > > +	}
+> > > > > +
+> > > > > +	gpu->irq =3D irq;
+> > > > > +
+> > > > > +	dev_info(dev, "irq(%d) handler registered\n", irq);
+> > > > There is no reason to put this into the kernel log.
+> > > I want to see the IRQ of the device when debugging,
+> > >=20
+> > > etnaviv actually print very less.
+> > >=20
+> > > This serve as a minimal signal=C2=A0 to us the etnaviv_gpu_register_i=
+rq()
+> > > function is successful at driver load time.
+> > >=20
+> > And debugging is a very different use-case than normal operation. If
+> > it's needed at all, downgrade this to dev_dbg. This isn't interesting
+> > information for a ordinary user of a system.
+> >=20
+> > > >    It's no different
+> > > > than other resources to the driver and we don't log each one of tho=
+se
+> > > > either.
+> > > >=20
+> > > > In fact I don't see any reason for this change in the first place.
+> > > > Effectively you are moving a single function call into a new functi=
+on,
+> > > > which doesn't seem like an improvement.
+> > > This is to make the patch easy to review, each patch is only introduc=
+e a
+> > > small function,
+> > >=20
+> > What I'm saying is that I don't see the need to introduce this function
+> > at all. All you need to do is move platform_get_irq out into the
+> > platform device code path. The devm_request_irq can stay where it is,
+> > as the only difference between platform and PCI device is how the irq
+> > number is retrieved from the platform.
+>=20
+> Yes, you are right. I understand what are asking, but my point is:
+>=20
+>=20
+> This patch is paving the way for us to introduce the PCI device driver.
+>=20
+> All of the patches before the patch=20
+> v10-0006-drm-etnaviv-Add-driver-support-for-the-PCI-devic.patch
+>=20
+> are actually doing the preparation.
+>=20
+>=20
+> Look at the patch 0006, I achieve the goal by 128 insertions and 7=20
+> deletions.
+>=20
+> while the only 7 deletions are actually for code shading(convert the=20
+> static function to global function).
+>=20
+> There is No large area diff and NO distortion.
+>=20
+> The goal is adding a PCI device driver on the top of what we already have=
+.
+>=20
+>=20
+> Before the cleanup, the etnaviv_gpu_platform_probe() function is just=20
+> like is a *glue*.
+>=20
+> Originally,=C2=A0 it integrate a lot of irrelevant part together.
+>=20
+>=20
+> 1.=C2=A0 Mapping MMIO registers make it platform-dependent;
+>=20
+> 2.=C2=A0 Calling platform_get_irq(pdev, 0) make it platform-dependent;
+>=20
+I get that and I'm fine with moving this out of this function. But
+that's not what you are actually doing in this patch. You are moving
+devm_request_irq out of this function, which isn't necessary, since the
+request IRQ is not platform dependent. It's the retrieval of the IRQ
+number to request (platform_get_irq/pdev->irq) which is platform
+dependent.
 
-On 2023/6/22 01:53, Lucas Stach wrote:
-> Am Donnerstag, dem 22.06.2023 um 01:31 +0800 schrieb Sui Jingfeng:
->> Hi,
->>
->> On 2023/6/22 00:07, Lucas Stach wrote:
->>> And as the HW guarantees it on your platform, your platform
->>> implementation makes this function effectively a no-op. Skipping the
->>> call to this function is breaking the DMA API abstraction, as now the
->>> driver is second guessing the DMA API implementation. I really see no
->>> reason to do this.
->> It is the same reason you chose the word 'effectively', not 'difinitely'.
->>
->> We don't want waste the CPU's time,
->>
->>
->>    to running the dma_sync_sg_for_cpu funcion() function
->>
->>
->> ```
->>
->> void dma_sync_sg_for_cpu(struct device *dev, struct scatterlist *sg,
->>               int nelems, enum dma_data_direction dir)
->> {
->>       const struct dma_map_ops *ops = get_dma_ops(dev);
->>
->>       BUG_ON(!valid_dma_direction(dir));
->>       if (dma_map_direct(dev, ops))
->>           dma_direct_sync_sg_for_cpu(dev, sg, nelems, dir);
->>       else if (ops->sync_sg_for_cpu)
->>           ops->sync_sg_for_cpu(dev, sg, nelems, dir);
->>       debug_dma_sync_sg_for_cpu(dev, sg, nelems, dir);
->> }
->>
->> ```
->>
->>
->>    to running the this:
->>
->>
->> ```
->>
->> int etnaviv_gem_cpu_fini(struct drm_gem_object *obj)
->> {
->>       struct drm_device *dev = obj->dev;
->>       struct etnaviv_gem_object *etnaviv_obj = to_etnaviv_bo(obj);
->>       struct etnaviv_drm_private *priv = dev->dev_private;
->>
->>       if (!priv->dma_coherent && etnaviv_obj->flags & ETNA_BO_CACHED) {
->>           /* fini without a prep is almost certainly a userspace error */
->>           WARN_ON(etnaviv_obj->last_cpu_prep_op == 0);
->>           dma_sync_sgtable_for_device(dev->dev, etnaviv_obj->sgt,
->> etnaviv_op_to_dma_dir(etnaviv_obj->last_cpu_prep_op));
->>           etnaviv_obj->last_cpu_prep_op = 0;
->>       }
->>
->>       return 0;
->> }
->>
->> ```
->>
-> My judgment as the maintainer of this driver is that the small CPU
-> overhead of calling this function is very well worth it, if the
-> alternative is breaking the DMA API abstractions.
->
->> But, this is acceptable, because we can kill the GEM_CPU_PREP and
->> GEM_CPU_FINI ioctl entirely
->>
->> at userspace for cached buffer, as this is totally not needed for cached
->> mapping on our platform.
->>
-> And that statement isn't true either.
+Regards,
+Lucas
 
-Yes, you are right here. I admit.
-
-
-Because I have suffered such problem in the past when developing 
-xf86-video-loongson.
-
-The root cause, I think,  is the CPU don't know when the GPU have 
-finished the rendering.
-
-Or there still some data reside in the GPU's cache.
-
-
-We have to call etna_bo_cpu_prep(etna_bo, DRM_ETNA_PREP_READ) function
-
-to make sure the  data fetch by CPU is the latest.
-
-
-I realized this knowledge(issue) five month ago in this year, see [1] 
-for reference.
-
-I  just forget this thing when doing the debate with you.
-
-
-[1] 
-https://gitlab.freedesktop.org/longxin2019/xf86-video-loongson/-/commit/95f9596eb19223c3109ea1f32c3e086fd1d43bd8
-
-||
-
-
->   The CPU_PREP/FINI ioctls also
-> provide fence synchronization between CPU and GPU.
-
-You are correct here.
-
-> There are a few very
-> specific cases where skipping those ioctls is acceptable (mostly when
-> the userspace driver explicitly wants unsynchronized access), but in
-> most cases they are required for correctness.
-
-OK, you are extremely correct.
-
-> Regards,
-> Lucas
-
--- 
-Jingfeng
+> 3.=C2=A0 Getting Clocks by calling devm_clk_get() make it platform-depend=
+ent;
+>=20
+> 4.=C2=A0 Calling component_add() make it subsytem and framework-dependent=
+;
+>=20
+>=20
+> All of above list item is deny us to introduce the PCI device driver=20
+> wrapper.
+>=20
+> It(sub-functional code) is not relevant to each other.
+>=20
+> Hence the first five patch is actually do the clean,
+>=20
+> for the clarify(and tidy and good looking) of the patch 6.
+>=20
+>=20
+> I will drop the printing, but keep the cleanup function there,
+>=20
+> Is this acceptable?
+>=20
+>=20
+> > Regards,
+> > Lucas
+> >=20
+> > > which is paving the way for we introducing the PCI device driver.
+> > >=20
+> > > Otherwise when we introducing the PCI device driver, the patch is loo=
+ks
+> > > ugly,
+> > >=20
+> > > It is difficult to review.
+> > >=20
+> > > > Regards,
+> > > > Lucas
+> > > >=20
+> > > > > +
+> > > > > +	return 0;
+> > > > > +}
+> > > > > +
+> > > > >    static int etnaviv_gpu_platform_probe(struct platform_device *=
+pdev)
+> > > > >    {
+> > > > >    	struct device *dev =3D &pdev->dev;
+> > > > > @@ -1837,16 +1858,9 @@ static int etnaviv_gpu_platform_probe(stru=
+ct platform_device *pdev)
+> > > > >    		return PTR_ERR(gpu->mmio);
+> > > > >   =20
+> > > > >    	/* Get Interrupt: */
+> > > > > -	gpu->irq =3D platform_get_irq(pdev, 0);
+> > > > > -	if (gpu->irq < 0)
+> > > > > -		return gpu->irq;
+> > > > > -
+> > > > > -	err =3D devm_request_irq(&pdev->dev, gpu->irq, irq_handler, 0,
+> > > > > -			       dev_name(gpu->dev), gpu);
+> > > > > -	if (err) {
+> > > > > -		dev_err(dev, "failed to request IRQ%u: %d\n", gpu->irq, err);
+> > > > > +	err =3D etnaviv_gpu_register_irq(gpu, platform_get_irq(pdev, 0)=
+);
+> > > > > +	if (err)
+> > > > >    		return err;
+> > > > > -	}
+> > > > >   =20
+> > > > >    	/* Get Clocks: */
+> > > > >    	gpu->clk_reg =3D devm_clk_get_optional(&pdev->dev, "reg");
+>=20
 
