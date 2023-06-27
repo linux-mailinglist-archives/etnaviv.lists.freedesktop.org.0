@@ -2,43 +2,50 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C805073F6BB
-	for <lists+etnaviv@lfdr.de>; Tue, 27 Jun 2023 10:17:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16AD573FDBC
+	for <lists+etnaviv@lfdr.de>; Tue, 27 Jun 2023 16:24:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1279D10E2AA;
-	Tue, 27 Jun 2023 08:17:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CFA2E10E2EF;
+	Tue, 27 Jun 2023 14:24:46 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from out-18.mta0.migadu.com (out-18.mta0.migadu.com [91.218.175.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A43310E633
- for <etnaviv@lists.freedesktop.org>; Fri, 23 Jun 2023 10:17:06 +0000 (UTC)
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1687514927;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=1mYSHA82Ggr/qk8LcxRbWw+jtvr8ZShkQNBHi2vnZ+s=;
- b=Lzg3YyZjlP7eRGip2Pkq+Mlkn9hRfaUhzylAQ7XKNRcqwCBYLb1w4P73Ire/0LVeXvDLIz
- MfyjpGmYhjQcQC4Hb+QFcuzk44dUFpduWHPWYF3n1tUjfYU02Rg7J0nHbNxqVTl/9EN6km
- 1KkGyTaVOUxJgeE5C2JJqu6xcW0bLVg=
-From: Sui Jingfeng <sui.jingfeng@linux.dev>
-To: Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v1 8/8] drm/etnaviv: Add a helper to get a pointer to the
- first available node
-Date: Fri, 23 Jun 2023 18:08:22 +0800
-Message-Id: <20230623100822.274706-9-sui.jingfeng@linux.dev>
-In-Reply-To: <20230623100822.274706-1-sui.jingfeng@linux.dev>
-References: <20230623100822.274706-1-sui.jingfeng@linux.dev>
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 987AB10E2EF;
+ Tue, 27 Jun 2023 14:24:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=MIME-Version:Content-Transfer-Encoding:Content-Type:References:
+ In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=iikALXau+kRIX9NJP7tUOOeSXUb0yU7k2GK1eRrP4VM=; b=rskGK9qtC+QAlO6K0metPw8zyG
+ slCLTy8RBoesO2iwR4xGd0HvRAkzunJ6s2dbnRVf9Hhwi6egxFXOuVb5GyaxBYuQh2GvjzHPgXXW0
+ C2Q76j9x+S7WuSYHrpz+mzI0ckEgW0coYmichRB//77LK0N6ykr03lrMk6VS6qr4ZYNW9OFRT/awY
+ v/ZD1zoOCQhFbb+gJCqy7QcgTmTr+kinvd3zfyd3qotGVH3Qj5VXw5f7KieTqf63/PIXgRpq0K6Fo
+ wj2gUGWNs4OSop8GiL1HkPQQ/ORSzQcJvpMMpWbS5jGZZvMyjp6MiJciAftrWe+2BICcx9CV9mBCg
+ XUahvymQ==;
+Received: from 145.red-83-52-114.dynamicip.rima-tde.net ([83.52.114.145]
+ helo=localhost.localdomain) by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1qE9cX-004aie-2p; Tue, 27 Jun 2023 16:24:41 +0200
+Message-ID: <43ee9173619f841ab7aab965441114cf9a6263b5.camel@igalia.com>
+Subject: Re: XDC 2023: Registration & Call for Proposals now open!
+From: Ricardo Garcia <rgarcia@igalia.com>
+To: Samuel Iglesias =?ISO-8859-1?Q?Gons=E1lvez?= <siglesias@igalia.com>, 
+ events@lists.x.org, xorg-devel@lists.freedesktop.org, 
+ wayland-devel@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ mesa-dev@lists.freedesktop.org, amd-gfx@lists.freedesktop.org, 
+ etnaviv@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
+ libre-soc-dev@lists.libre-soc.org, members@x.org
+Date: Tue, 27 Jun 2023 16:24:40 +0200
+In-Reply-To: <249b7449-c47b-47e6-0582-d87bd323fbbe@igalia.com>
+References: <249b7449-c47b-47e6-0582-d87bd323fbbe@igalia.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.3 (3.48.3-1.fc38) 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
-X-Mailman-Approved-At: Tue, 27 Jun 2023 08:17:10 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,102 +57,84 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: loongson-kernel@lists.loongnix.cn, Sui Jingfeng <suijingfeng@loongson.cn>,
- etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: "board@foundation.x.org" <board@foundation.x.org>
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-From: Sui Jingfeng <suijingfeng@loongson.cn>
+This is a reminder that the XDC 2023 Registration and the Call for
+Proposals are still open and will be open for about 2 more weeks. Do not
+forget to submit your proposals before the deadline (July 17)!
 
-This make the code in etnaviv_pdev_probe() less twisted, drop the reference
-to device node after finished. Also kill a double blank line.
+The conference will take place in A Coru=C3=B1a this year, from October 17 =
+to
+19. You can find more information about the conference in the links
+below and you can also follow us on Mastodon for the latest updates.
 
-Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
----
- drivers/gpu/drm/etnaviv/etnaviv_drv.c | 32 ++++++++++++++++++---------
- 1 file changed, 22 insertions(+), 10 deletions(-)
+https://floss.social/@XOrgDevConf
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-index 7d0eeab3e8b7..3446f8eabf59 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-@@ -27,6 +27,19 @@
-  * DRM operations:
-  */
- 
-+/* If the DT contains at least one available GPU, return a pointer to it */
-+
-+static struct device_node *etnaviv_of_first_node(void)
-+{
-+	struct device_node *np;
-+
-+	for_each_compatible_node(np, NULL, "vivante,gc") {
-+		if (of_device_is_available(np))
-+			return np;
-+	}
-+
-+	return NULL;
-+}
- 
- static void load_gpu(struct drm_device *dev)
- {
-@@ -587,7 +600,7 @@ static const struct component_master_ops etnaviv_master_ops = {
- static int etnaviv_pdev_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
--	struct device_node *first_node = NULL;
-+	struct device_node *first_node;
- 	struct component_match *match = NULL;
- 
- 	if (!dev->platform_data) {
-@@ -597,11 +610,10 @@ static int etnaviv_pdev_probe(struct platform_device *pdev)
- 			if (!of_device_is_available(core_node))
- 				continue;
- 
--			if (!first_node)
--				first_node = core_node;
--
- 			drm_of_component_match_add(&pdev->dev, &match,
- 						   component_compare_of, core_node);
-+
-+			of_node_put(core_node);
- 		}
- 	} else {
- 		char **names = dev->platform_data;
-@@ -634,8 +646,11 @@ static int etnaviv_pdev_probe(struct platform_device *pdev)
- 	 * device as the GPU we found. This assumes that all Vivante
- 	 * GPUs in the system share the same DMA constraints.
- 	 */
--	if (first_node)
-+	first_node = etnaviv_of_first_node();
-+	if (first_node) {
- 		of_dma_configure(&pdev->dev, first_node, true);
-+		of_node_put(first_node);
-+	}
- 
- 	return component_master_add_with_match(dev, &etnaviv_master_ops, match);
- }
-@@ -709,17 +724,14 @@ static int __init etnaviv_init(void)
- 	 * If the DT contains at least one available GPU device, instantiate
- 	 * the DRM platform device.
- 	 */
--	for_each_compatible_node(np, NULL, "vivante,gc") {
--		if (!of_device_is_available(np))
--			continue;
-+	np = etnaviv_of_first_node();
-+	if (np) {
- 		of_node_put(np);
- 
- 		ret = etnaviv_create_platform_device("etnaviv",
- 						     &etnaviv_platform_device);
- 		if (ret)
- 			goto unregister_platform_driver;
--
--		break;
- 	}
- 
- 	return 0;
--- 
-2.25.1
+Thanks for your attention,
+-Ricardo
+
+On Mon, 2023-04-17 at 13:41 +0200, Samuel Iglesias Gons=C3=A1lvez wrote:
+> =C2=A0
+> Hello!
+> =C2=A0=C2=A0
+> =C2=A0Registration & Call for Proposals are now open for XDC 2023, which =
+will
+> =C2=A0take place on October 17-19, 2023.=20
+> =C2=A0
+> =C2=A0https://xdc2023.x.org
+> =C2=A0=C2=A0
+> =C2=A0As usual, the conference is free of charge and open to the general
+> =C2=A0public. If you plan on attending, please make sure to register as e=
+arly
+> =C2=A0as possible!
+> =C2=A0=C2=A0
+> =C2=A0In order to register as attendee, you will therefore need to regist=
+er
+> =C2=A0via the XDC website.
+> =C2=A0=C2=A0
+> =C2=A0https://indico.freedesktop.org/event/4/registrations/
+> =C2=A0=C2=A0
+> =C2=A0In addition to registration, the CfP is now open for talks, worksho=
+ps
+> =C2=A0and demos at XDC 2023. While any serious proposal will be gratefull=
+y
+> =C2=A0considered, topics of interest to X.Org and freedesktop.org develop=
+ers
+> =C2=A0are encouraged. The program focus is on new development, ongoing
+> =C2=A0challenges and anything else that will spark discussions among
+> =C2=A0attendees in the hallway track.
+> =C2=A0=C2=A0
+> =C2=A0We are open to talks across all layers of the graphics stack, from =
+the
+> =C2=A0kernel to desktop environments / graphical applications and about h=
+ow
+> =C2=A0to make things better for the developers who build them. Head to th=
+e
+> =C2=A0CfP page to learn more:=20
+> =C2=A0=C2=A0
+> =C2=A0https://indico.freedesktop.org/event/4/abstracts/
+> =C2=A0=C2=A0
+> =C2=A0The deadline for submissions is Monday, 17 July 2023 (23:59 CEST)
+> =C2=A0=C2=A0
+> =C2=A0Check out our Reimbursement Policy to accept speaker expenses:
+> =C2=A0=C2=A0
+> =C2=A0https://www.x.org/wiki/XorgFoundation/Policies/Reimbursement/
+> =C2=A0=C2=A0
+> =C2=A0If you have any questions, please send me an email to
+> =C2=A0siglesias AT igalia.com, adding on Cc the X.org board (board
+> =C2=A0at foundation.x.org).
+> =C2=A0=C2=A0
+> =C2=A0And please keep in mind, you can follow us on Twitter for all the l=
+atest
+> =C2=A0updates and to stay connected:
+> =C2=A0=C2=A0
+> =C2=A0https://twitter.com/XOrgDevConf
+> =C2=A0=C2=A0
+> =C2=A0Best,
+> =C2=A0=C2=A0
+> =C2=A0Sam
+> =C2=A0
+> =C2=A0
 
