@@ -2,59 +2,43 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62E0A755E96
-	for <lists+etnaviv@lfdr.de>; Mon, 17 Jul 2023 10:37:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C67B8755FA0
+	for <lists+etnaviv@lfdr.de>; Mon, 17 Jul 2023 11:43:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2598910E209;
-	Mon, 17 Jul 2023 08:37:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8BCF610E214;
+	Mon, 17 Jul 2023 09:43:57 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id CFB2210E209;
- Mon, 17 Jul 2023 08:37:14 +0000 (UTC)
-Received: from loongson.cn (unknown [10.20.42.43])
- by gateway (Coremail) with SMTP id _____8Bx5fC4_bRkctsFAA--.15658S3;
- Mon, 17 Jul 2023 16:37:12 +0800 (CST)
-Received: from [10.20.42.43] (unknown [10.20.42.43])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8Cx_c6l_bRkmEQxAA--.5661S3; 
- Mon, 17 Jul 2023 16:37:11 +0800 (CST)
-Message-ID: <73307b1e-1e0e-6265-0344-171d2700e495@loongson.cn>
-Date: Mon, 17 Jul 2023 16:36:53 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v1 0/8] drm/etnaviv: Various cleanup
-To: Sui Jingfeng <sui.jingfeng@linux.dev>,
- Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C3D110E214
+ for <etnaviv@lists.freedesktop.org>; Mon, 17 Jul 2023 09:43:55 +0000 (UTC)
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
+ helo=[IPv6:::1]) by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1qLKlM-0005SU-Ml; Mon, 17 Jul 2023 11:43:28 +0200
+Message-ID: <4f80b175f94eaf386354d1f3425208ca6cf20482.camel@pengutronix.de>
+Subject: Re: [PATCH v1 1/8] drm/etnaviv: Using the size_t variable to store
+ the number of pages
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Sui Jingfeng <sui.jingfeng@linux.dev>, Russell King
+ <linux+etnaviv@armlinux.org.uk>, Christian Gmeiner
+ <christian.gmeiner@gmail.com>,  David Airlie <airlied@gmail.com>, Daniel
+ Vetter <daniel@ffwll.ch>
+Date: Mon, 17 Jul 2023 11:43:23 +0200
+In-Reply-To: <20230623100822.274706-2-sui.jingfeng@linux.dev>
 References: <20230623100822.274706-1-sui.jingfeng@linux.dev>
-Content-Language: en-US
-From: suijingfeng <suijingfeng@loongson.cn>
-In-Reply-To: <20230623100822.274706-1-sui.jingfeng@linux.dev>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID: AQAAf8Cx_c6l_bRkmEQxAA--.5661S3
-X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBj9xXoW7JF1UWw4ktr43tw1ruF18Xrc_yoWkKrc_CF
- yqv3srWr43JF1vqF47AryrZFW0kFW8Xan3tw1qqwnag343trZxGF1kCryDXa45JFWUKFn8
- GF9xJr97Ary7WosvyTuYvTs0mTUanT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUj1kv1TuYvT
- s0mT0YCTnIWjqI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUI
- cSsGvfJTRUUUbI8YFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20x
- vaj40_Wr0E3s1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxS
- w2x7M28EF7xvwVC0I7IYx2IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxV
- WUJVW8JwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v2
- 6r4UJVWxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27w
- Aqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jrv_JF1lYx0Ex4A2jsIE
- 14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCYjI0SjxkI62AI1c
- AE67vIY487MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8C
- rVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8Zw
- CIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x02
- 67AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr
- 0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjxU7_Ma
- UUUUU
+ <20230623100822.274706-2-sui.jingfeng@linux.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
+MIME-Version: 1.0
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,47 +50,65 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: loongson-kernel@lists.loongnix.cn, etnaviv@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: loongson-kernel@lists.loongnix.cn, Sui Jingfeng <suijingfeng@loongson.cn>,
+ etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Hi, Dear etnaviv folks
+Hi Jingfeng,
 
-
-Would you like to review this cleanup patch set ?
-
-I am asking because I'm wondering that
-
-if I should re-spin my other patch from the code base
-
-which *with* this series applied or from the code base
-
-*without* this series applied.
-
-
-I think this series looks fine, is it acceptable?
-
-
-On 2023/6/23 18:08, Sui Jingfeng wrote:
+Am Freitag, dem 23.06.2023 um 18:08 +0800 schrieb Sui Jingfeng:
 > From: Sui Jingfeng <suijingfeng@loongson.cn>
->
-> No functional change.
->
-> Sui Jingfeng (8):
->    drm/etnaviv: Using the size_t variable to store the number of pages
->    drm/etnaviv: Using the unsigned int type to count the number of pages
->    drm/etnaviv: Drop the second argument of the etnaviv_gem_new_impl()
->    drm/etnaviv: Remove surplus else after return
->    drm/etnaviv: Keep the curly brace aligned
->    drm/etnaviv: No indentation by double tabs
->    drm/etnaviv: Add dedicated functions to create and destroy platform
->      device
->    drm/etnaviv: Add a helper to get a pointer to the first available node
->
->   drivers/gpu/drm/etnaviv/etnaviv_drv.c       | 100 +++++++++++++-------
->   drivers/gpu/drm/etnaviv/etnaviv_gem.c       |  14 +--
->   drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c |   7 +-
->   3 files changed, 77 insertions(+), 44 deletions(-)
->
+>=20
+> Because the etnaviv_gem_new_private() function receives the size_t argume=
+nt
+> for the number of pages. And the number of pages should be unsigned.
+>=20
+> Note that Most 32-bit architectures use "unsigned int" size_t,
+> and all 64-bit architectures use "unsigned long" size_t.
+> So, let's keep the argument and parameter consistent.
+>=20
+This explanation doesn't add up. npages is just that: a number of
+pages. Why would it make sense to use size_t here?
+
+If you want to be consistent I would have expected this change to
+switch things to unsigned int, as you did in the second patch of this
+series.
+
+Regards,
+Lucas
+
+> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
+> ---
+>  drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c b/drivers/gpu/dr=
+m/etnaviv/etnaviv_gem_prime.c
+> index 3524b5811682..b003481adc2b 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
+> @@ -114,7 +114,8 @@ struct drm_gem_object *etnaviv_gem_prime_import_sg_ta=
+ble(struct drm_device *dev,
+>  {
+>  	struct etnaviv_gem_object *etnaviv_obj;
+>  	size_t size =3D PAGE_ALIGN(attach->dmabuf->size);
+> -	int ret, npages;
+> +	size_t npages =3D size / PAGE_SIZE;
+> +	int ret;
+> =20
+>  	ret =3D etnaviv_gem_new_private(dev, size, ETNA_BO_WC,
+>  				      &etnaviv_gem_prime_ops, &etnaviv_obj);
+> @@ -123,8 +124,6 @@ struct drm_gem_object *etnaviv_gem_prime_import_sg_ta=
+ble(struct drm_device *dev,
+> =20
+>  	lockdep_set_class(&etnaviv_obj->lock, &etnaviv_prime_lock_class);
+> =20
+> -	npages =3D size / PAGE_SIZE;
+> -
+>  	etnaviv_obj->sgt =3D sgt;
+>  	etnaviv_obj->pages =3D kvmalloc_array(npages, sizeof(struct page *), GF=
+P_KERNEL);
+>  	if (!etnaviv_obj->pages) {
 
