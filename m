@@ -2,34 +2,33 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08338755FD5
-	for <lists+etnaviv@lfdr.de>; Mon, 17 Jul 2023 11:51:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 429DF755FE5
+	for <lists+etnaviv@lfdr.de>; Mon, 17 Jul 2023 11:59:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2357510E21A;
-	Mon, 17 Jul 2023 09:51:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A87110E21A;
+	Mon, 17 Jul 2023 09:59:00 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6CC6210E21F
- for <etnaviv@lists.freedesktop.org>; Mon, 17 Jul 2023 09:51:27 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F7F910E219
+ for <etnaviv@lists.freedesktop.org>; Mon, 17 Jul 2023 09:58:58 +0000 (UTC)
 Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
  helo=[IPv6:::1]) by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <l.stach@pengutronix.de>)
- id 1qLKsw-0006l0-7n; Mon, 17 Jul 2023 11:51:18 +0200
-Message-ID: <862358e67a6f118b11ba16fb94828e9d1635cb66.camel@pengutronix.de>
-Subject: Re: [PATCH v1 3/8] drm/etnaviv: Drop the second argument of the
- etnaviv_gem_new_impl()
+ id 1qLL0F-0007XQ-3p; Mon, 17 Jul 2023 11:58:51 +0200
+Message-ID: <4113bbafa3c69526392f9be5dcdff86a72f339a3.camel@pengutronix.de>
+Subject: Re: [PATCH v1 4/8] drm/etnaviv: Remove surplus else after return
 From: Lucas Stach <l.stach@pengutronix.de>
 To: Sui Jingfeng <sui.jingfeng@linux.dev>, Russell King
  <linux+etnaviv@armlinux.org.uk>, Christian Gmeiner
  <christian.gmeiner@gmail.com>,  David Airlie <airlied@gmail.com>, Daniel
  Vetter <daniel@ffwll.ch>
-Date: Mon, 17 Jul 2023 11:51:16 +0200
-In-Reply-To: <20230623100822.274706-4-sui.jingfeng@linux.dev>
+Date: Mon, 17 Jul 2023 11:58:48 +0200
+In-Reply-To: <20230623100822.274706-5-sui.jingfeng@linux.dev>
 References: <20230623100822.274706-1-sui.jingfeng@linux.dev>
- <20230623100822.274706-4-sui.jingfeng@linux.dev>
+ <20230623100822.274706-5-sui.jingfeng@linux.dev>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
@@ -56,63 +55,45 @@ Cc: loongson-kernel@lists.loongnix.cn, Sui Jingfeng <suijingfeng@loongson.cn>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Hi Jingfeng,
-
 Am Freitag, dem 23.06.2023 um 18:08 +0800 schrieb Sui Jingfeng:
 > From: Sui Jingfeng <suijingfeng@loongson.cn>
 >=20
-> Because it is not used by the etnaviv_gem_new_impl() function,
-> no functional change.
->=20
-I think it would make sense to move into the opposite direction: in
-both callsites of etnaviv_gem_new_impl we immediately call
-drm_gem_object_init with the size. A better cleanup would be to make
-use of the size parameter and move this object init call into
-etnaviv_gem_new_impl.
+> Because the 'else' is not generally useful after the 'return'.
+
+While your cleanup is a correct rewrite of the function, the current
+code in this function is bogus, as we need to check for the
+bidirectional (READ | WRITE) case first. Currently we just pick the
+DMA_FROM_DEVICE direction when both flags are set, which is clearly not
+right.
 
 Regards,
 Lucas
 
+>=20
 > Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
 > ---
->  drivers/gpu/drm/etnaviv/etnaviv_gem.c | 7 +++----
->  1 file changed, 3 insertions(+), 4 deletions(-)
+>  drivers/gpu/drm/etnaviv/etnaviv_gem.c | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
 >=20
 > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/etna=
 viv/etnaviv_gem.c
-> index b5f73502e3dd..be2f459c66b5 100644
+> index be2f459c66b5..271470723d5e 100644
 > --- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
 > +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-> @@ -542,7 +542,7 @@ static const struct drm_gem_object_funcs etnaviv_gem_=
-object_funcs =3D {
->  	.vm_ops =3D &vm_ops,
->  };
-> =20
-> -static int etnaviv_gem_new_impl(struct drm_device *dev, u32 size, u32 fl=
-ags,
-> +static int etnaviv_gem_new_impl(struct drm_device *dev, u32 flags,
->  	const struct etnaviv_gem_ops *ops, struct drm_gem_object **obj)
+> @@ -358,10 +358,11 @@ static inline enum dma_data_direction etnaviv_op_to=
+_dma_dir(u32 op)
 >  {
->  	struct etnaviv_gem_object *etnaviv_obj;
-> @@ -591,8 +591,7 @@ int etnaviv_gem_new_handle(struct drm_device *dev, st=
-ruct drm_file *file,
+>  	if (op & ETNA_PREP_READ)
+>  		return DMA_FROM_DEVICE;
+> -	else if (op & ETNA_PREP_WRITE)
+> +
+> +	if (op & ETNA_PREP_WRITE)
+>  		return DMA_TO_DEVICE;
+> -	else
+> -		return DMA_BIDIRECTIONAL;
+> +
+> +	return DMA_BIDIRECTIONAL;
+>  }
 > =20
->  	size =3D PAGE_ALIGN(size);
-> =20
-> -	ret =3D etnaviv_gem_new_impl(dev, size, flags,
-> -				   &etnaviv_gem_shmem_ops, &obj);
-> +	ret =3D etnaviv_gem_new_impl(dev, flags, &etnaviv_gem_shmem_ops, &obj);
->  	if (ret)
->  		goto fail;
-> =20
-> @@ -627,7 +626,7 @@ int etnaviv_gem_new_private(struct drm_device *dev, s=
-ize_t size, u32 flags,
->  	struct drm_gem_object *obj;
->  	int ret;
-> =20
-> -	ret =3D etnaviv_gem_new_impl(dev, size, flags, ops, &obj);
-> +	ret =3D etnaviv_gem_new_impl(dev, flags, ops, &obj);
->  	if (ret)
->  		return ret;
-> =20
+>  int etnaviv_gem_cpu_prep(struct drm_gem_object *obj, u32 op,
 
