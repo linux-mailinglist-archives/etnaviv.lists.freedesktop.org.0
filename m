@@ -1,63 +1,58 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4206E756C2C
-	for <lists+etnaviv@lfdr.de>; Mon, 17 Jul 2023 20:34:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F999757735
+	for <lists+etnaviv@lfdr.de>; Tue, 18 Jul 2023 10:58:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DDE0E10E2A7;
-	Mon, 17 Jul 2023 18:34:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D806210E076;
+	Tue, 18 Jul 2023 08:58:11 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id 6A36410E2A3;
- Mon, 17 Jul 2023 18:34:33 +0000 (UTC)
-Received: from loongson.cn (unknown [10.20.42.43])
- by gateway (Coremail) with SMTP id _____8AxV_G4ibVkDxIGAA--.16371S3;
- Tue, 18 Jul 2023 02:34:32 +0800 (CST)
-Received: from [10.20.42.43] (unknown [10.20.42.43])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8Dx_yOsibVk5dAxAA--.31528S3; 
- Tue, 18 Jul 2023 02:34:31 +0800 (CST)
-Message-ID: <e3a05204-61fe-2318-5f06-fd12addfe2e9@loongson.cn>
-Date: Tue, 18 Jul 2023 02:34:20 +0800
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 356F510E274
+ for <etnaviv@lists.freedesktop.org>; Mon, 17 Jul 2023 15:40:06 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 7459C61123
+ for <etnaviv@lists.freedesktop.org>; Mon, 17 Jul 2023 15:40:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0490C433C7
+ for <etnaviv@lists.freedesktop.org>; Mon, 17 Jul 2023 15:40:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1689608404;
+ bh=tF/K12dcb1AtR13XQY0pq3bgmoCAiVfZHpGq03H1+sk=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=q4KER7a+f1oMRIEffUJKvg6dZFlTmOyBMPRSBcKmepKAxxSTdCR29pxjstsl6Vfyc
+ CazoNl3mrmYEBGvyZnhfcSM3BNdv0OLnQCT9F76fpfHNrpkLmPr18EVIBq1NtesWYK
+ mXMe09NhywuVwpCJVwbQ/2f8vuiDDhY0YVE97fR1RIcXmdJtSbjb+paTArX/KwlnMZ
+ +RMtQnZRoFPqFtj7imcr8D7Pmi3s+fNO5xh3BuQypghh23k3nOoF1yEq5cnfw0Mp9L
+ kxN+PcpeA+ml5bPhvrVLmqLngxd9f9SpfyujJh5WglFdbFaLt3IokAJ5KznR+WjsQc
+ CmXzJUml5PpOQ==
+Received: by mail-oi1-f180.google.com with SMTP id
+ 5614622812f47-3a36b52b4a4so2830670b6e.1
+ for <etnaviv@lists.freedesktop.org>; Mon, 17 Jul 2023 08:40:04 -0700 (PDT)
+X-Gm-Message-State: ABy/qLZ2eK/k7+UtCNoy5oatBUaj5vW60i79CqDKwhhCiTYVHohQ3kJM
+ 3dRMy4mKu046YOz8k625hdxmvvYj0HzOgk30PSv7AA==
+X-Google-Smtp-Source: APBJJlHs9bNlVGErzzDkG3ITNYPrBi9bcbK5hB2pZ5ku9OA6MncccRQ7QQDddVXbZVn5Z/tCXP76UHYBqks/PFSJBmQ=
+X-Received: by 2002:a17:90b:1095:b0:263:3567:f99 with SMTP id
+ gj21-20020a17090b109500b0026335670f99mr13011407pjb.15.1689608384033; Mon, 17
+ Jul 2023 08:39:44 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v1 3/8] drm/etnaviv: Drop the second argument of the
- etnaviv_gem_new_impl()
-To: Lucas Stach <l.stach@pengutronix.de>,
- Sui Jingfeng <sui.jingfeng@linux.dev>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-References: <20230623100822.274706-1-sui.jingfeng@linux.dev>
- <20230623100822.274706-4-sui.jingfeng@linux.dev>
- <862358e67a6f118b11ba16fb94828e9d1635cb66.camel@pengutronix.de>
-Content-Language: en-US
-From: suijingfeng <suijingfeng@loongson.cn>
-In-Reply-To: <862358e67a6f118b11ba16fb94828e9d1635cb66.camel@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8Dx_yOsibVk5dAxAA--.31528S3
-X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBj93XoWxWFy8WrWDZw4DXr1xWF47Jrc_yoWrWw43pF
- sayFyjkrW8Z3yDK3s7XFn5Aw1UWr1Igry0yas0ywn8Kw4YgF1kXF1FkFWDCFsxArs7uF13
- t3W0yF1rK3W5A3gCm3ZEXasCq-sJn29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7KY7ZEXa
- sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
- 0xBIdaVrnRJUUUvYb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
- IYs7xG6rWj6s0DM7CIcVAFz4kK6r106r15M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
- e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
- 0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_
- Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx1l5I
- 8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AK
- xVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0VAS07AlzV
- AYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E
- 14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIx
- kGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAF
- wI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F
- 4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07j0sjUU
- UUUU=
+References: <20230714174545.4056287-1-robh@kernel.org>
+ <114500369.nniJfEyVGO@phil>
+ <CAL_JsqJMo4LHRmsfRQAr-j6oNESbS=q+eFU+B7e720emjf+8nA@mail.gmail.com>
+In-Reply-To: <CAL_JsqJMo4LHRmsfRQAr-j6oNESbS=q+eFU+B7e720emjf+8nA@mail.gmail.com>
+From: Robert Foss <rfoss@kernel.org>
+Date: Mon, 17 Jul 2023 17:39:32 +0200
+X-Gmail-Original-Message-ID: <CAN6tsi5wOhptw4PgP2etkC5KYh_5cfOXZuVhsN6YCMiqn15hog@mail.gmail.com>
+Message-ID: <CAN6tsi5wOhptw4PgP2etkC5KYh_5cfOXZuVhsN6YCMiqn15hog@mail.gmail.com>
+Subject: Re: [PATCH] drm: Explicitly include correct DT includes
+To: Rob Herring <robh@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Mailman-Approved-At: Tue, 18 Jul 2023 08:58:10 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,159 +64,126 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: loongson-kernel@lists.loongnix.cn, etnaviv@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: Heiko Stuebner <heiko@sntech.de>, Xinliang Liu <xinliang.liu@linaro.org>,
+ Linus Walleij <linus.walleij@linaro.org>, dri-devel@lists.freedesktop.org,
+ Alim Akhtar <alim.akhtar@samsung.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Steven Price <steven.price@arm.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, linux-samsung-soc@vger.kernel.org,
+ Samuel Holland <samuel@sholland.org>, Kevin Hilman <khilman@baylibre.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ NXP Linux Team <linux-imx@nxp.com>, linux-rockchip@lists.infradead.org,
+ =?UTF-8?Q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>,
+ Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>, etnaviv@lists.freedesktop.org,
+ Inki Dae <inki.dae@samsung.com>, Sean Paul <sean@poorly.run>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>, linux-kernel@vger.kernel.org,
+ Ondrej Jirman <megi@xff.cz>, Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Icenowy Zheng <icenowy@aosc.io>, freedreno@lists.freedesktop.org,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Yongqin Liu <yongqin.liu@linaro.org>, lima@lists.freedesktop.org,
+ Fabio Estevam <festevam@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>,
+ Liu Ying <victor.liu@nxp.com>, Jagan Teki <jagan@amarulasolutions.com>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Alain Volmat <alain.volmat@foss.st.com>, Jerome Brunet <jbrunet@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ linux-arm-msm@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+ Jianhua Lu <lujianhua000@gmail.com>, linux-rpi-kernel@lists.infradead.org,
+ Tian Tao <tiantao6@hisilicon.com>, linux-amlogic@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>, Sandy Huang <hjc@rock-chips.com>,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, Stefan Agner <stefan@agner.ch>,
+ linux-tegra@vger.kernel.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Orson Zhai <orsonzhai@gmail.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Jonas Karlman <jonas@kwiboo.se>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>, xen-devel@lists.xenproject.org,
+ Tomi Valkeinen <tomba@kernel.org>, linux-sunxi@lists.linux.dev,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ John Stultz <jstultz@google.com>, Shawn Guo <shawnguo@kernel.org>,
+ Ondrej Jirman <megous@megous.com>, linux-stm32@st-md-mailman.stormreply.com,
+ Emma Anholt <emma@anholt.net>, Liviu Dudau <liviu.dudau@arm.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Mikko Perttunen <mperttunen@nvidia.com>, Paul Cercueil <paul@crapouillou.net>,
+ David Airlie <airlied@gmail.com>, Marek Vasut <marex@denx.de>,
+ linux-renesas-soc@vger.kernel.org, Artur Weber <aweber.kernel@gmail.com>,
+ Florian Fainelli <florian.fainelli@broadcom.com>,
+ Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+ Jerry Han <hanxu5@huaqin.corp-partner.google.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Qiang Yu <yuq825@gmail.com>, devicetree@vger.kernel.org,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ linux-mediatek@lists.infradead.org,
+ Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Purism Kernel Team <kernel@puri.sm>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Yannick Fertre <yannick.fertre@foss.st.com>, linux-mips@vger.kernel.org,
+ Rob Clark <robdclark@gmail.com>, Philippe Cornu <philippe.cornu@foss.st.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Chunyan Zhang <zhang.lyra@gmail.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Jyri Sarha <jyri.sarha@iki.fi>,
+ Lucas Stach <l.stach@pengutronix.de>
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Hi,  Lucas
-
-
-Thanks for you guidance!
-
-
-On 2023/7/17 17:51, Lucas Stach wrote:
-> Hi Jingfeng,
+On Mon, Jul 17, 2023 at 4:27=E2=80=AFPM Rob Herring <robh@kernel.org> wrote=
+:
 >
-> Am Freitag, dem 23.06.2023 um 18:08 +0800 schrieb Sui Jingfeng:
->> From: Sui Jingfeng <suijingfeng@loongson.cn>
->>
->> Because it is not used by the etnaviv_gem_new_impl() function,
->> no functional change.
->>
-> I think it would make sense to move into the opposite direction: in
-> both callsites of etnaviv_gem_new_impl we immediately call
-> drm_gem_object_init with the size.
-
-Really?
-
-But there are multiple call path to the etnaviv_gem_new_impl() function.
-
-
-Code path 1 (PRIME):
-
-|- etnaviv_gem_prime_import_sg_table()
-
-|--  etnaviv_gem_new_private()
-
-|--- etnaviv_gem_new_impl(dev, size, flags, ops, &obj)
-
-|--- drm_gem_private_object_init(dev, obj, size)
-
-
-Code path 2 (USERPTR):
-
-|- etnaviv_gem_new_userptr()
-
-|--  etnaviv_gem_new_private()
-
-|--- etnaviv_gem_new_impl(dev, size, flags, ops, &obj)
-
-|--- drm_gem_private_object_init(dev, obj, size)
-
-
-Code path 3 (construct a GEM buffer object for the user-space):
-
-|- etnaviv_ioctl_gem_new()
-
-|-- etnaviv_gem_new_handle()
-
-|--- etnaviv_gem_new_impl(dev, size, flags, &etnaviv_gem_shmem_ops, &obj);
-
-|---  drm_gem_object_init(dev, obj, size);
-
-
-If I understand this correctly:
-
-
-Code path 1 is for cross device (and cross driver) buffer-sharing,
-
-Code path 2 is going to share the buffer the userspace,
-
-
-*Only* the code path 3 is to construct a GEM buffer object for the 
-user-space the userspace,
-
-that is say, *only* the code path 3 need to do the backing memory 
-allocation work for the userspace.
-
-thus it need to call drm_gem_object_init() function, which really the 
-shmem do the backing memory
-
-allocation.
-
-
-The code path 1 and the code path 2 do not need the kernel space 
-allocate the backing memory.
-
-Because they are going to share the buffer already allocated by others.
-
-thus, code path 2 and code path 3 should call drm_gem_private_object_init(),
-
-*not* the drm_gem_object_init() function.
-
-
-When import buffer from the a specific KMS driver,
-
-then etnaviv_gem_prime_import_sg_table() will be called.
-
-
-I guess you means that drm_gem_private_object_init() (not the 
-drm_gem_object_init() function)here ?
-
-
-> A better cleanup would be to make
-> use of the size parameter and move this object init call into
-> etnaviv_gem_new_impl.
-
-If I following you guidance, how do I differentiate the cases
-
-when to call drm_gem_private_object_init() not drm_gem_object_init() ?
-
-and when call drm_gem_object_init() not drm_gem_private_object_init()?
-
-
-I don't think you are right here.
-
+> On Sun, Jul 16, 2023 at 3:26=E2=80=AFAM Heiko Stuebner <heiko@sntech.de> =
+wrote:
+> >
+> > Am Freitag, 14. Juli 2023, 19:45:34 CEST schrieb Rob Herring:
+> > > The DT of_device.h and of_platform.h date back to the separate
+> > > of_platform_bus_type before it as merged into the regular platform bu=
+s.
+> > > As part of that merge prepping Arm DT support 13 years ago, they
+> > > "temporarily" include each other. They also include platform_device.h
+> > > and of.h. As a result, there's a pretty much random mix of those incl=
+ude
+> > > files used throughout the tree. In order to detangle these headers an=
+d
+> > > replace the implicit includes with struct declarations, users need to
+> > > explicitly include the correct includes.
+> > >
+> > > Signed-off-by: Rob Herring <robh@kernel.org>
+> > > ---
+> >
+> > [...]
+> >
+> > > diff --git a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c b/driver=
+s/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
+> > > index 917e79951aac..2744d8f4a6fa 100644
+> > > --- a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
+> > > +++ b/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
+> > > @@ -12,7 +12,9 @@
+> > >  #include <linux/mfd/syscon.h>
+> > >  #include <linux/module.h>
+> > >  #include <linux/of_device.h>
+> > > +#include <linux/of_platform.h>
+> > >  #include <linux/phy/phy.h>
+> > > +#include <linux/platform_device.h>
+> > >  #include <linux/pm_runtime.h>
+> > >  #include <linux/regmap.h>
+> >
+> > I'm not sure if I'm just misreading something, but in all other places
+> > of_device.h gets removed while here is stays as an include. Is this
+> > correct this way?
 >
-> Regards,
-> Lucas
+> Yes, because of_match_device() is used.
 >
->> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
->> ---
->>   drivers/gpu/drm/etnaviv/etnaviv_gem.c | 7 +++----
->>   1 file changed, 3 insertions(+), 4 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
->> index b5f73502e3dd..be2f459c66b5 100644
->> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
->> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
->> @@ -542,7 +542,7 @@ static const struct drm_gem_object_funcs etnaviv_gem_object_funcs = {
->>   	.vm_ops = &vm_ops,
->>   };
->>   
->> -static int etnaviv_gem_new_impl(struct drm_device *dev, u32 size, u32 flags,
->> +static int etnaviv_gem_new_impl(struct drm_device *dev, u32 flags,
->>   	const struct etnaviv_gem_ops *ops, struct drm_gem_object **obj)
->>   {
->>   	struct etnaviv_gem_object *etnaviv_obj;
->> @@ -591,8 +591,7 @@ int etnaviv_gem_new_handle(struct drm_device *dev, struct drm_file *file,
->>   
->>   	size = PAGE_ALIGN(size);
->>   
->> -	ret = etnaviv_gem_new_impl(dev, size, flags,
->> -				   &etnaviv_gem_shmem_ops, &obj);
->> +	ret = etnaviv_gem_new_impl(dev, flags, &etnaviv_gem_shmem_ops, &obj);
->>   	if (ret)
->>   		goto fail;
->>   
->> @@ -627,7 +626,7 @@ int etnaviv_gem_new_private(struct drm_device *dev, size_t size, u32 flags,
->>   	struct drm_gem_object *obj;
->>   	int ret;
->>   
->> -	ret = etnaviv_gem_new_impl(dev, size, flags, ops, &obj);
->> +	ret = etnaviv_gem_new_impl(dev, flags, ops, &obj);
->>   	if (ret)
->>   		return ret;
->>   
+> Rob
+>
 
+For drivers/gpu/drm/bridge/
+
+Acked-by: Robert Foss <rfoss@kernel.org>
