@@ -2,47 +2,45 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40277756092
-	for <lists+etnaviv@lfdr.de>; Mon, 17 Jul 2023 12:36:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 321707560A0
+	for <lists+etnaviv@lfdr.de>; Mon, 17 Jul 2023 12:38:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E0C710E22C;
-	Mon, 17 Jul 2023 10:36:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0631D10E229;
+	Mon, 17 Jul 2023 10:38:21 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from out-37.mta1.migadu.com (out-37.mta1.migadu.com
- [IPv6:2001:41d0:203:375::25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AECE310E22F
- for <etnaviv@lists.freedesktop.org>; Mon, 17 Jul 2023 10:36:29 +0000 (UTC)
-Message-ID: <59365758-a14a-feb6-6a17-729c5b43e581@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1689590187;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qkMjuh1v+2sdz1CZtDe1vdfKbs4DnmbzZ54ExQuiBD0=;
- b=AnX3rHXJKdWUgnb5Bn5ywZJfJbOtkR6Ij/4aELIBsviIyHp0J99iiSthhNGSuHpdj06Qp2
- mLz1nDwqr0SjJSZZMuTs2QKAPsX89UWMeSs2NxjIx/CiNdxXNqUTIUl2VMmtDfxVv0L7x1
- SXF8WtA75aY0V483zNtYXvHLh78yj4Q=
-Date: Mon, 17 Jul 2023 18:36:23 +0800
-MIME-Version: 1.0
-Subject: Re: [PATCH v1 8/8] drm/etnaviv: Add a helper to get a pointer to the
- first available node
-Content-Language: en-US
-To: Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF91F10E22B
+ for <etnaviv@lists.freedesktop.org>; Mon, 17 Jul 2023 10:38:19 +0000 (UTC)
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
+ helo=[IPv6:::1]) by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1qLLcK-0004T1-LC; Mon, 17 Jul 2023 12:38:12 +0200
+Message-ID: <8b0d82d48ff24f578e7a1c7433e56ddaadc3188b.camel@pengutronix.de>
+Subject: Re: [PATCH v1 1/8] drm/etnaviv: Using the size_t variable to store
+ the number of pages
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Sui Jingfeng <sui.jingfeng@linux.dev>, Russell King
+ <linux+etnaviv@armlinux.org.uk>, Christian Gmeiner
+ <christian.gmeiner@gmail.com>,  David Airlie <airlied@gmail.com>, Daniel
+ Vetter <daniel@ffwll.ch>
+Date: Mon, 17 Jul 2023 12:38:10 +0200
+In-Reply-To: <4484c007-132c-ce47-fa71-87f33c87fe07@linux.dev>
 References: <20230623100822.274706-1-sui.jingfeng@linux.dev>
- <20230623100822.274706-9-sui.jingfeng@linux.dev>
- <66749b1b4523d2859b9fbc6e9120e5f1e887d531.camel@pengutronix.de>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Sui Jingfeng <sui.jingfeng@linux.dev>
-In-Reply-To: <66749b1b4523d2859b9fbc6e9120e5f1e887d531.camel@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+ <20230623100822.274706-2-sui.jingfeng@linux.dev>
+ <4f80b175f94eaf386354d1f3425208ca6cf20482.camel@pengutronix.de>
+ <4484c007-132c-ce47-fa71-87f33c87fe07@linux.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
+MIME-Version: 1.0
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,114 +58,113 @@ Cc: loongson-kernel@lists.loongnix.cn, Sui Jingfeng <suijingfeng@loongson.cn>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Hi,
+Am Montag, dem 17.07.2023 um 18:12 +0800 schrieb Sui Jingfeng:
+> Hi
+>=20
+> On 2023/7/17 17:43, Lucas Stach wrote:
+> > Hi Jingfeng,
+> >=20
+> > Am Freitag, dem 23.06.2023 um 18:08 +0800 schrieb Sui Jingfeng:
+> > > From: Sui Jingfeng <suijingfeng@loongson.cn>
+> > >=20
+> > > Because the etnaviv_gem_new_private() function receives the size_t ar=
+gument
+> > > for the number of pages. And the number of pages should be unsigned.
+> > >=20
+> > > Note that Most 32-bit architectures use "unsigned int" size_t,
+> > > and all 64-bit architectures use "unsigned long" size_t.
+> > > So, let's keep the argument and parameter consistent.
+> > >=20
+> > This explanation doesn't add up. npages is just that: a number of
+> > pages. Why would it make sense to use size_t here?
+>=20
+> Because the 'size' variable in the etnaviv_gem_prime_import_sg_table()=
+=20
+> function is declared
+>=20
+> as size_t type. On 64-bit machine, size_t is actually is 64-bit wide and=
+=20
+> it is *unsigned*.
+>=20
+> While 'int' is actually 32-bit wide(at both 32-bit system and 64-bit=20
+> system) and it is *signed*,
+>=20
+> So, my point (argument) is that
+>=20
+>=20
+> 1) This patch help to avoid the unnecessary 64 bit to 32 bit conversion.
+>=20
+> 2) The kvmalloc_array() function also accept=C2=A0 size_t type (see the=
+=20
+> prototype of=C2=A0 kvmalloc_array function include/linux/slab.h)
+>=20
+>=20
+> So my patch do helps to keep the code style consistent.
+>=20
+But then we go on to call drm_prime_sq_to_page_array(), which takes a
+integer as the number of pages parameter, so the parameter types are
+inconsistent before and after your patch, it just switches which
+function call has to do some conversion.
 
-On 2023/7/17 18:07, Lucas Stach wrote:
-> Am Freitag, dem 23.06.2023 um 18:08 +0800 schrieb Sui Jingfeng:
->> From: Sui Jingfeng <suijingfeng@loongson.cn>
->>
->> This make the code in etnaviv_pdev_probe() less twisted, drop the reference
->> to device node after finished. Also kill a double blank line.
->>
-> I can't spot the double blank line you claim to remove.
->
->> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
->> ---
->>   drivers/gpu/drm/etnaviv/etnaviv_drv.c | 32 ++++++++++++++++++---------
->>   1 file changed, 22 insertions(+), 10 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
->> index 7d0eeab3e8b7..3446f8eabf59 100644
->> --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
->> +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
->> @@ -27,6 +27,19 @@
->>    * DRM operations:
->>    */
->>   
->> +/* If the DT contains at least one available GPU, return a pointer to it */
->> +
-> I think the code in the function is simple enough that we don't need a
-> comment explaining what it does.
+>=20
+> > If you want to be consistent I would have expected this change to
+> > switch things to unsigned int,
+>=20
+> This may introduce a truncate operation (from a 64-bit to 32-bit), which=
+=20
+> is necessary.
+>=20
+If this truncation happens in the real world then something else is
+already badly broken. All Vivante GPUs to date can only deal with 32bit
+virtual addresses, so a buffer exhausting 31 bits of pages is way
+larger than we could ever fit into the GPU VM.
 
-Because the DT could disable GPU cores by add "status=disabled" property.
+Regards,
+Lucas
 
-So, only the word *available* in this comments is deserved.
+> And when you pass the 'npages' parameter to kvmalloc_array() function,
+>=20
+> The compiler probably has to do the integer promotion (from a 32-bit to=
+=20
+> 64-bit) for you.
+>=20
+>=20
+> > as you did in the second patch of this
+> > series.
+> >=20
+> > Regards,
+> > Lucas
+> >=20
+> > > Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
+> > > ---
+> > >   drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c | 5 ++---
+> > >   1 file changed, 2 insertions(+), 3 deletions(-)
+> > >=20
+> > > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c b/drivers/gp=
+u/drm/etnaviv/etnaviv_gem_prime.c
+> > > index 3524b5811682..b003481adc2b 100644
+> > > --- a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
+> > > +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
+> > > @@ -114,7 +114,8 @@ struct drm_gem_object *etnaviv_gem_prime_import_s=
+g_table(struct drm_device *dev,
+> > >   {
+> > >   	struct etnaviv_gem_object *etnaviv_obj;
+> > >   	size_t size =3D PAGE_ALIGN(attach->dmabuf->size);
+> > > -	int ret, npages;
+> > > +	size_t npages =3D size / PAGE_SIZE;
+> > > +	int ret;
+> > >  =20
+> > >   	ret =3D etnaviv_gem_new_private(dev, size, ETNA_BO_WC,
+> > >   				      &etnaviv_gem_prime_ops, &etnaviv_obj);
+> > > @@ -123,8 +124,6 @@ struct drm_gem_object *etnaviv_gem_prime_import_s=
+g_table(struct drm_device *dev,
+> > >  =20
+> > >   	lockdep_set_class(&etnaviv_obj->lock, &etnaviv_prime_lock_class);
+> > >  =20
+> > > -	npages =3D size / PAGE_SIZE;
+> > > -
+> > >   	etnaviv_obj->sgt =3D sgt;
+> > >   	etnaviv_obj->pages =3D kvmalloc_array(npages, sizeof(struct page *=
+), GFP_KERNEL);
+> > >   	if (!etnaviv_obj->pages) {
 
-But I'm fine to delete the comment for this function, will be fixed at 
-the next version.
-
-Thanks for reviewing.
-
-> Regards,
-> Lucas
->
->> +static struct device_node *etnaviv_of_first_node(void)
->> +{
->> +	struct device_node *np;
->> +
->> +	for_each_compatible_node(np, NULL, "vivante,gc") {
->> +		if (of_device_is_available(np))
->> +			return np;
->> +	}
->> +
->> +	return NULL;
->> +}
->>   
->>   static void load_gpu(struct drm_device *dev)
->>   {
->> @@ -587,7 +600,7 @@ static const struct component_master_ops etnaviv_master_ops = {
->>   static int etnaviv_pdev_probe(struct platform_device *pdev)
->>   {
->>   	struct device *dev = &pdev->dev;
->> -	struct device_node *first_node = NULL;
->> +	struct device_node *first_node;
->>   	struct component_match *match = NULL;
->>   
->>   	if (!dev->platform_data) {
->> @@ -597,11 +610,10 @@ static int etnaviv_pdev_probe(struct platform_device *pdev)
->>   			if (!of_device_is_available(core_node))
->>   				continue;
->>   
->> -			if (!first_node)
->> -				first_node = core_node;
->> -
->>   			drm_of_component_match_add(&pdev->dev, &match,
->>   						   component_compare_of, core_node);
->> +
->> +			of_node_put(core_node);
->>   		}
->>   	} else {
->>   		char **names = dev->platform_data;
->> @@ -634,8 +646,11 @@ static int etnaviv_pdev_probe(struct platform_device *pdev)
->>   	 * device as the GPU we found. This assumes that all Vivante
->>   	 * GPUs in the system share the same DMA constraints.
->>   	 */
->> -	if (first_node)
->> +	first_node = etnaviv_of_first_node();
->> +	if (first_node) {
->>   		of_dma_configure(&pdev->dev, first_node, true);
->> +		of_node_put(first_node);
->> +	}
->>   
->>   	return component_master_add_with_match(dev, &etnaviv_master_ops, match);
->>   }
->> @@ -709,17 +724,14 @@ static int __init etnaviv_init(void)
->>   	 * If the DT contains at least one available GPU device, instantiate
->>   	 * the DRM platform device.
->>   	 */
->> -	for_each_compatible_node(np, NULL, "vivante,gc") {
->> -		if (!of_device_is_available(np))
->> -			continue;
->> +	np = etnaviv_of_first_node();
->> +	if (np) {
->>   		of_node_put(np);
->>   
->>   		ret = etnaviv_create_platform_device("etnaviv",
->>   						     &etnaviv_platform_device);
->>   		if (ret)
->>   			goto unregister_platform_driver;
->> -
->> -		break;
->>   	}
->>   
->>   	return 0;
