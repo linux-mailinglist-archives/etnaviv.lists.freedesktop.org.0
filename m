@@ -2,46 +2,103 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FCA175650E
-	for <lists+etnaviv@lfdr.de>; Mon, 17 Jul 2023 15:34:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 663FE756714
+	for <lists+etnaviv@lfdr.de>; Mon, 17 Jul 2023 17:03:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 461A810E253;
-	Mon, 17 Jul 2023 13:34:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A33689322;
+	Mon, 17 Jul 2023 15:03:18 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from out-10.mta0.migadu.com (out-10.mta0.migadu.com [91.218.175.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 660F710E257
- for <etnaviv@lists.freedesktop.org>; Mon, 17 Jul 2023 13:34:06 +0000 (UTC)
-Content-Type: multipart/alternative;
- boundary="------------IJqnIXHQHd0oWDiqCHPxgcBt"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1689600843;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=kkckZSA+inAR7TFamVZNuzW5TIQv43tF8fQPgC6ze4U=;
- b=pFcInVz32lzzxaGc48q9cCI+P8pY1nDNyCYMWa9gpPNdfkwe7TRBiqt1ZScQVKuu9zXtF4
- X/01soZdcxtwdtJnAH3+8pQs+08mTOLXTfelaOeZpTu94wT0jhcK0TCDPyg8sopmm+rRwl
- lmgj0sBlzDjsrGa9jsgak6557stfrfc=
-Message-ID: <b224d17b-4889-a913-8856-bad1f4262f9c@linux.dev>
-Date: Mon, 17 Jul 2023 21:33:55 +0800
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 17CA810E0EE;
+ Mon, 17 Jul 2023 11:36:04 +0000 (UTC)
+Received: from pendragon.ideasonboard.com
+ (aztw-30-b2-v4wan-166917-cust845.vm26.cable.virginm.net [82.37.23.78])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id AC0DD16C4;
+ Mon, 17 Jul 2023 13:35:09 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1689593710;
+ bh=Q3mYfdnpaLKlY8/jxmRm80QstU9e0PZzEci91ZZE1j4=;
+ h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+ b=D34b2nk3MBeIsD4Hh9go1cz7KYgQfaVb0QwyTeWrvQudhj3fcvsR86k18n5c2Eh/a
+ 11cp7FnDEwboNqdfvQSni7J+NuSf4nawSesO0QfLQ1Tb/Qq/1vhrC/00e2IYaQomU7
+ muczhfhcRx636pqbzTWg6NH753X76UJuCpEmbpUo=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Subject: Re: [PATCH v1 1/8] drm/etnaviv: Using the size_t variable to store
- the number of pages
-Content-Language: en-US
-To: Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-References: <20230623100822.274706-1-sui.jingfeng@linux.dev>
- <20230623100822.274706-2-sui.jingfeng@linux.dev>
- <4f80b175f94eaf386354d1f3425208ca6cf20482.camel@pengutronix.de>
- <4484c007-132c-ce47-fa71-87f33c87fe07@linux.dev>
- <8b0d82d48ff24f578e7a1c7433e56ddaadc3188b.camel@pengutronix.de>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Sui Jingfeng <sui.jingfeng@linux.dev>
-In-Reply-To: <8b0d82d48ff24f578e7a1c7433e56ddaadc3188b.camel@pengutronix.de>
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20230714174545.4056287-1-robh@kernel.org>
+References: <20230714174545.4056287-1-robh@kernel.org>
+Subject: Re: [PATCH] drm: Explicitly include correct DT includes
+From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Alain Volmat <alain.volmat@foss.st.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Alim Akhtar <alim.akhtar@samsung.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Artur Weber <aweber.kernel@gmail.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+ Chen-Yu Tsai <wens@csie.org>, Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, Chunyan Zhang <zhang.lyra@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Emma Anholt <emma@anholt.net>,
+ Fabio Estevam <festevam@gmail.com>,
+ Florian Fainelli <florian.fainelli@broadcom.com>,
+ Guido =?utf-8?q?G=C3=BCnther?= <agx@sigxcpu.org>,
+ Heiko =?utf-8?q?St=C3=BCbner?= <heiko@sntech.de>, Icenow
+ y Zheng <icenowy@aosc.io>, Inki Dae <inki.dae@samsung.com>,
+ Jagan Teki <jagan@amarulasolutions.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jerome Brunet <jbrunet@baylibre.com>,
+ Jerry Han <hanxu5@huaqin.corp-partner.google.com>,
+ Jianhua Lu <lujianhua000@gmail.com>, John Stultz <jstultz@google.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jonathan Hunter <jonathanh@nvidia.com>,
+ Jyri Sarha <jyri.sarha@iki.fi>, Kevin Hilman <khilman@baylibre.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
+ Linus Walleij <linus.walleij@linaro.org>, Liu Ying <victor.liu@nxp.com>,
+ Liviu Dudau <liviu.dudau@arm.com>, Lucas Stach <l.stach@pengutronix.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, Marek Vasut <marex@denx.de>,
+ Marijn Suijten <marijn.suijten@
+ somainline.org>, Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Maxime Ripard <mripard@kernel.org>, Mikko Perttunen <mperttunen@nvidia.com>,
+ NXP Linux Team <linux-imx@nxp.com>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+ Ondrej Jirman <megi@xff.cz>, Orson Zhai <orsonzhai@gmail.com>,
+ Paul Cercueil <paul@crapouillou.net>,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Philippe Cornu <philippe.cornu@foss.st.com>,
+ Purism Kernel Team <kernel@puri.sm>, Qiang Yu <yuq825@gmail.com>,
+ Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
+ Rob Clark <robdclark@gmail.com>, Rob Herring <robh@kernel.org>,
+ Robert Foss <rfoss@kernel.org>, Russell King <linux+etnaviv@armlinux.org.uk>,
+ Sam Ravnborg <sam@ravnborg.org>, Samuel Holland <samuel@sholland.org
+ >, Sandy Huang <hjc@rock-chips.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Sean Paul <sean@poorly.run>, Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Shawn Guo <shawnguo@kernel.org>, Stefan Agner <stefan@agner.ch>,
+ Steven Price <steven.price@arm.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Tian Tao <tiantao6@hisilicon.com>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>, Tomi Valkeinen <tomba@kernel.org>,
+ Xinliang Liu <xinliang.liu@linaro.org>,
+ Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+ Yannick Fertre <yannick.fertre@foss.st.com>,
+ Yongqin Liu <yongqin.liu@linaro.org>
+Date: Mon, 17 Jul 2023 12:35:59 +0100
+Message-ID: <168959375926.3515353.7529038208688306372@Monstersaurus>
+User-Agent: alot/0.10
+X-Mailman-Approved-At: Mon, 17 Jul 2023 15:03:16 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,147 +110,107 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: loongson-kernel@lists.loongnix.cn, Sui Jingfeng <suijingfeng@loongson.cn>,
+Cc: Ondrej Jirman <megous@megous.com>, devicetree@vger.kernel.org,
+ linux-sunxi@lists.linux.dev, linux-samsung-soc@vger.kernel.org,
+ lima@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
  etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ linux-rpi-kernel@lists.infradead.org, xen-devel@lists.xenproject.org,
+ linux-tegra@vger.kernel.org, linux-amlogic@lists.infradead.org,
+ linux-mips@vger.kernel.org, freedreno@lists.freedesktop.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-This is a multi-part message in MIME format.
---------------IJqnIXHQHd0oWDiqCHPxgcBt
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Quoting Rob Herring (2023-07-14 18:45:34)
+> The DT of_device.h and of_platform.h date back to the separate
+> of_platform_bus_type before it as merged into the regular platform bus.
+> As part of that merge prepping Arm DT support 13 years ago, they
+> "temporarily" include each other. They also include platform_device.h
+> and of.h. As a result, there's a pretty much random mix of those include
+> files used throughout the tree. In order to detangle these headers and
+> replace the implicit includes with struct declarations, users need to
+> explicitly include the correct includes.
+>=20
+> Signed-off-by: Rob Herring <robh@kernel.org>
 
-Hi,
+>  drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c         | 2 +-
+>  drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c         | 2 ++
+>  drivers/gpu/drm/renesas/rcar-du/rcar_du_vsp.c         | 1 +
+>  drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c       | 1 -
+>  drivers/gpu/drm/renesas/rcar-du/rzg2l_mipi_dsi.c      | 1 -
 
-On 2023/7/17 18:38, Lucas Stach wrote:
-> Am Montag, dem 17.07.2023 um 18:12 +0800 schrieb Sui Jingfeng:
->> Hi
->>
->> On 2023/7/17 17:43, Lucas Stach wrote:
->>> Hi Jingfeng,
->>>
->>> Am Freitag, dem 23.06.2023 um 18:08 +0800 schrieb Sui Jingfeng:
->>>> From: Sui Jingfeng<suijingfeng@loongson.cn>
->>>>
->>>> Because the etnaviv_gem_new_private() function receives the size_t argument
->>>> for the number of pages. And the number of pages should be unsigned.
->>>>
->>>> Note that Most 32-bit architectures use "unsigned int" size_t,
->>>> and all 64-bit architectures use "unsigned long" size_t.
->>>> So, let's keep the argument and parameter consistent.
->>>>
->>> This explanation doesn't add up. npages is just that: a number of
->>> pages. Why would it make sense to use size_t here?
->> Because the 'size' variable in the etnaviv_gem_prime_import_sg_table()
->> function is declared
->>
->> as size_t type. On 64-bit machine, size_t is actually is 64-bit wide and
->> it is*unsigned*.
->>
->> While 'int' is actually 32-bit wide(at both 32-bit system and 64-bit
->> system) and it is*signed*,
->>
->> So, my point (argument) is that
->>
->>
->> 1) This patch help to avoid the unnecessary 64 bit to 32 bit conversion.
->>
->> 2) The kvmalloc_array() function also accept  size_t type (see the
->> prototype of  kvmalloc_array function include/linux/slab.h)
->>
->>
->> So my patch do helps to keep the code style consistent.
->>
-> But then we go on to call drm_prime_sq_to_page_array(), which takes a
-> integer as the number of pages parameter, so the parameter types are
-> inconsistent before and after your patch, it just switches which
-> function call has to do some conversion.
->
-But the drm_prime_sg_to_page_array() function is going to be depreciated,
+For drivers/gpu/drm/renesas/rcar-du/
 
-We probably could modified it also to unified it, that is to take size_t 
-arguments.
+> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c b/drivers/gpu/=
+drm/renesas/rcar-du/rcar_du_drv.c
+> index 1ffde19cb87f..3904b0cca814 100644
+> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c
+> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c
+> @@ -12,7 +12,7 @@
+>  #include <linux/io.h>
+>  #include <linux/mm.h>
+>  #include <linux/module.h>
+> -#include <linux/of_device.h>
+> +#include <linux/of.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/pm.h>
+>  #include <linux/slab.h>
+> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c b/drivers/gpu/=
+drm/renesas/rcar-du/rcar_du_kms.c
+> index adfb36b0e815..9ff4537c26c8 100644
+> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
+> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
+> @@ -20,8 +20,10 @@
+> =20
+>  #include <linux/device.h>
+>  #include <linux/dma-buf.h>
+> +#include <linux/of.h>
+>  #include <linux/of_graph.h>
+>  #include <linux/of_platform.h>
+> +#include <linux/platform_device.h>
+>  #include <linux/wait.h>
+> =20
+>  #include "rcar_du_crtc.h"
+> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_vsp.c b/drivers/gpu/=
+drm/renesas/rcar-du/rcar_du_vsp.c
+> index 45c05d0ffc70..9cbb5e6e2cba 100644
+> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_vsp.c
+> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_vsp.c
+> @@ -22,6 +22,7 @@
+>  #include <linux/bitops.h>
+>  #include <linux/dma-mapping.h>
+>  #include <linux/of_platform.h>
+> +#include <linux/platform_device.h>
+>  #include <linux/scatterlist.h>
+>  #include <linux/slab.h>
+>  #include <linux/videodev2.h>
+> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c b/drivers/gp=
+u/drm/renesas/rcar-du/rcar_mipi_dsi.c
+> index e10e4d4b89a2..db2e6f16f954 100644
+> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
+> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
+> @@ -12,7 +12,6 @@
+>  #include <linux/math64.h>
+>  #include <linux/module.h>
+>  #include <linux/of.h>
+> -#include <linux/of_device.h>
+>  #include <linux/of_graph.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/reset.h>
+> diff --git a/drivers/gpu/drm/renesas/rcar-du/rzg2l_mipi_dsi.c b/drivers/g=
+pu/drm/renesas/rcar-du/rzg2l_mipi_dsi.c
+> index aa95b85a2964..8048bdca2d6c 100644
+> --- a/drivers/gpu/drm/renesas/rcar-du/rzg2l_mipi_dsi.c
+> +++ b/drivers/gpu/drm/renesas/rcar-du/rzg2l_mipi_dsi.c
+> @@ -10,7 +10,6 @@
+>  #include <linux/iopoll.h>
+>  #include <linux/module.h>
+>  #include <linux/of.h>
+> -#include <linux/of_device.h>
+>  #include <linux/of_graph.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/pm_runtime.h>
 
---------------IJqnIXHQHd0oWDiqCHPxgcBt
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p>Hi,<br>
-    </p>
-    <div class="moz-cite-prefix">On 2023/7/17 18:38, Lucas Stach wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:8b0d82d48ff24f578e7a1c7433e56ddaadc3188b.camel@pengutronix.de">
-      <pre class="moz-quote-pre" wrap="">Am Montag, dem 17.07.2023 um 18:12 +0800 schrieb Sui Jingfeng:
-</pre>
-      <blockquote type="cite" style="color: #007cff;">
-        <pre class="moz-quote-pre" wrap="">Hi
-
-On 2023/7/17 17:43, Lucas Stach wrote:
-</pre>
-        <blockquote type="cite" style="color: #007cff;">
-          <pre class="moz-quote-pre" wrap="">Hi Jingfeng,
-
-Am Freitag, dem 23.06.2023 um 18:08 +0800 schrieb Sui Jingfeng:
-</pre>
-          <blockquote type="cite" style="color: #007cff;">
-            <pre class="moz-quote-pre" wrap="">From: Sui Jingfeng <a class="moz-txt-link-rfc2396E" href="mailto:suijingfeng@loongson.cn" moz-do-not-send="true">&lt;suijingfeng@loongson.cn&gt;</a>
-
-Because the etnaviv_gem_new_private() function receives the size_t argument
-for the number of pages. And the number of pages should be unsigned.
-
-Note that Most 32-bit architectures use "unsigned int" size_t,
-and all 64-bit architectures use "unsigned long" size_t.
-So, let's keep the argument and parameter consistent.
-
-</pre>
-          </blockquote>
-          <pre class="moz-quote-pre" wrap="">This explanation doesn't add up. npages is just that: a number of
-pages. Why would it make sense to use size_t here?
-</pre>
-        </blockquote>
-        <pre class="moz-quote-pre" wrap="">Because the 'size' variable in the etnaviv_gem_prime_import_sg_table() 
-function is declared
-
-as size_t type. On 64-bit machine, size_t is actually is 64-bit wide and 
-it is <b class="moz-txt-star"><span class="moz-txt-tag">*</span>unsigned<span class="moz-txt-tag">*</span></b>.
-
-While 'int' is actually 32-bit wide(at both 32-bit system and 64-bit 
-system) and it is <b class="moz-txt-star"><span class="moz-txt-tag">*</span>signed<span class="moz-txt-tag">*</span></b>,
-
-So, my point (argument) is that
-
-
-1) This patch help to avoid the unnecessary 64 bit to 32 bit conversion.
-
-2) The kvmalloc_array() function also accept  size_t type (see the 
-prototype of  kvmalloc_array function include/linux/slab.h)
-
-
-So my patch do helps to keep the code style consistent.
-
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">But then we go on to call drm_prime_sq_to_page_array(), which takes a
-integer as the number of pages parameter, so the parameter types are
-inconsistent before and after your patch, it just switches which
-function call has to do some conversion.
-
-</pre>
-    </blockquote>
-    <p>But the drm_prime_sg_to_page_array() function is going to be
-      depreciated, <br>
-    </p>
-    <p>We probably could modified it also to unified it, that is to take
-      size_t arguments.<br>
-    </p>
-  </body>
-</html>
-
---------------IJqnIXHQHd0oWDiqCHPxgcBt--
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
