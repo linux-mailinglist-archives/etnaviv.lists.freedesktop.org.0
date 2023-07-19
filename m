@@ -1,63 +1,61 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57F667595D0
-	for <lists+etnaviv@lfdr.de>; Wed, 19 Jul 2023 14:44:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DFCF7598B9
+	for <lists+etnaviv@lfdr.de>; Wed, 19 Jul 2023 16:42:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3274010E49E;
-	Wed, 19 Jul 2023 12:44:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E6DE110E4BA;
+	Wed, 19 Jul 2023 14:42:36 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
- [IPv6:2a00:1450:4864:20::430])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 722A310E453
- for <etnaviv@lists.freedesktop.org>; Wed, 19 Jul 2023 10:18:03 +0000 (UTC)
-Received: by mail-wr1-x430.google.com with SMTP id
- ffacd0b85a97d-313e742a787so404106f8f.1
- for <etnaviv@lists.freedesktop.org>; Wed, 19 Jul 2023 03:18:03 -0700 (PDT)
+Received: from mail-oo1-xc2e.google.com (mail-oo1-xc2e.google.com
+ [IPv6:2607:f8b0:4864:20::c2e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 37CCC10E4B9;
+ Wed, 19 Jul 2023 14:42:34 +0000 (UTC)
+Received: by mail-oo1-xc2e.google.com with SMTP id
+ 006d021491bc7-56661fe27cbso4374271eaf.3; 
+ Wed, 19 Jul 2023 07:42:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1689761881; x=1690366681;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :from:to:cc:subject:date:message-id:reply-to;
- bh=d6uSqq8iwHxn9/tpT05qWIJPin2r3B4nv+yMTWooWZQ=;
- b=SIOzxz0kITZK8LFNRze7JYjdZtc1YCSgzt3hjwJAeBkNjc+AvJSC1N7/zvWKNFT2fv
- habMlKdbAGHy8hqKFFxFqyYlUrjOI6uRKLk+Ni/S2VBmCgF1LFsed+EYzwSdN5UFx91f
- aezEQDv//EXlkk3QwhCTMiggeTDLMoMyewr9wQvN2WrVfUHviIG2KxRw8tZRLxtNVIiY
- gP5B7vwTv7lxPkt2x42ee8/nZRvPZOh07ZkazAYYdBGTrQm1kl91YnKxjIZZ8Ms8YsBG
- sqUJS0uFKrDKXDHslsHEwC29cDCuqfnJHZXVRKPkhxEOvPpVXdJehP3jJFd4a0GWRWwf
- cLlA==
+ d=gmail.com; s=20221208; t=1689777753; x=1692369753;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=6xRuIs5eE+li5LEspd/uqDVdxyxGYMRY+5qaC71F82w=;
+ b=L8r9oEP1ZyU6QlcUn2O6roGd1MuQKPhfaMHIu0TVSo3w9ZPLIFV2/QFGSBuokHKzDH
+ PBYpjOSRGc865kBg/kQAt4Kk/sjgACgkAc81AeKcNOgUak5XIsV4cFDrbCmQBvZbeRxc
+ M+zJ82MYAZwmMI4K7A6mOvcpLGxdOWVq7UzpHRFsf8+ZTdk1dTWdmmre5WaMNMv2HUWR
+ wOjn/ibVZQR/Wdi06MMw4HRVdw7uhl737ZffWS4aOJKI+QWfMKSNFdtia3CTgdb5SISU
+ HDEg2v64RFGKqQDy1oXXqfQAl2sGD65+mdYx8wMJeZokVuttYJULzO3YIYq8s7dNOBU1
+ fWDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689761881; x=1690366681;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=d6uSqq8iwHxn9/tpT05qWIJPin2r3B4nv+yMTWooWZQ=;
- b=YKAkYWgrehHaFadm1sF6c6sa44D1bz18XVLJetgiew7cix++zcPlUC6vVHjo2tcKK1
- qNJRsTpEd1x4WEOxzfIKrgwqItfT801ktRc7NHwA/TrlQFb5oD5R2vupXaOlXx1M0PxK
- vigd4PyjYpRDQmtG378kKevEb28UeDS6ljf1GRLc7Avd+DmEDGmebJq9rTEy5k8mR2Dp
- 595VFQkPd1zdiH0FPDbD4ZRbwP2qepyti51rsnZaeDYz4VZZm6ApafyWAzcnOIc/Asex
- RA+7Z6iwf8tsvu75CUtTyJ60rJjhcpf+9Gx7byptBSI5PLXaYxKa700eoVD69S9G7dX5
- DiCQ==
-X-Gm-Message-State: ABy/qLZguL1ZZ7J3yhGD439RuK7YqVzP0b2XSVe9Nnv2VXMmly9An8oo
- fpqyYViKv0c4DE3FnEQJ8ClEyA==
-X-Google-Smtp-Source: APBJJlFM7viFvauoAMlySNo6VSSvtQdCoXkaiQxlJ4pgb0dZ2e8PBGcQhfI7IlseoQSuVvfamADMQg==
-X-Received: by 2002:adf:f082:0:b0:314:2c77:681b with SMTP id
- n2-20020adff082000000b003142c77681bmr1387870wro.30.1689761881437; 
- Wed, 19 Jul 2023 03:18:01 -0700 (PDT)
-Received: from localhost ([102.36.222.112]) by smtp.gmail.com with ESMTPSA id
- d15-20020adff84f000000b00313f9085119sm4896291wrq.113.2023.07.19.03.17.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Jul 2023 03:18:00 -0700 (PDT)
-Date: Wed, 19 Jul 2023 13:17:56 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Lucas Stach <l.stach@pengutronix.de>
-Subject: [PATCH] drm/etnaviv: fix error code in event_alloc()
-Message-ID: <53fc5292-669a-4fca-8b99-e35a49da0b0f@moroto.mountain>
+ d=1e100.net; s=20221208; t=1689777753; x=1692369753;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=6xRuIs5eE+li5LEspd/uqDVdxyxGYMRY+5qaC71F82w=;
+ b=OngShJ9DRsvgwTXjno5BAtcjZ6VWKQFn7YiKtLb0U8auOd0bkxfT7DfpkwVSrpNkrA
+ bI9ZOhAPkd1iPg8vEJH1puBLPpk7y1o/s4J3FAhYJGdb5nI1SYSr+Ce2uls/dpjZ1vRb
+ jJHg9gsTGYMuCyFPa0X3+GoLXd4nJtQCITc7JQp+m4gcDSy6X/lQCDiTFKm7B77vibmj
+ UgaHf1bzUuADFZNh9dCJ5UKh69QAAsaN5GlQO7CCMe1HnClSLx9wn806nxVskF+47Zbs
+ ZbkpabTREF42TZ8TcPuyLF/Znh0XeXbNxVXUrnNAZ3m2wGL6NCgXKTBWBB23LRoNh8g+
+ QDSg==
+X-Gm-Message-State: ABy/qLaKLQVuseNCW/bCJw+M/0vu7TSSMNeEmKW77UI7FFovb1dchuIY
+ A9rJtm/1cvnNvS0Pnp5c4I+F1MhGkeZPrSj4IwQ=
+X-Google-Smtp-Source: APBJJlEJwOI05e/ZJ9MQ6f7pTuB7wrtMvnBWQbZdf+Ww6Il1MvB2Wt+yllxrR39rA6xnE0ELIO0NTvIxZxAy40YuPPA=
+X-Received: by 2002:a05:6808:1829:b0:3a4:2c16:da70 with SMTP id
+ bh41-20020a056808182900b003a42c16da70mr23192275oib.24.1689777752888; Wed, 19
+ Jul 2023 07:42:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
-X-Mailman-Approved-At: Wed, 19 Jul 2023 12:44:09 +0000
+References: <20230414143810.572237-1-l.stach@pengutronix.de>
+ <CAH9NwWfAuyLenoQHHdSZb2O87HHxu53JziL6Ro05F6yHdnZ+8A@mail.gmail.com>
+ <CAH9NwWcf9tYG9Ua_b-TvvQHRY-j_VsAtGdkPBqwh4KH37B2qjQ@mail.gmail.com>
+In-Reply-To: <CAH9NwWcf9tYG9Ua_b-TvvQHRY-j_VsAtGdkPBqwh4KH37B2qjQ@mail.gmail.com>
+From: Christian Gmeiner <christian.gmeiner@gmail.com>
+Date: Wed, 19 Jul 2023 16:42:21 +0200
+Message-ID: <CAH9NwWd5TjfeYDCyaUDveGDz=QdUWKyB9UKpnDms3Hom-J3X5g@mail.gmail.com>
+Subject: Re: [PATCH] drm/etnaviv: fix dumping of active MMU context
+To: Lucas Stach <l.stach@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,51 +67,42 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, etnaviv@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Russell King <linux+etnaviv@armlinux.org.uk>,
- David Airlie <airlied@gmail.com>
+Cc: kernel@pengutronix.de, patchwork-lst@pengutronix.de,
+ etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Russell King <linux+etnaviv@armlinux.org.uk>
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-There are two "ret" variables declared in this function so setting
-"ret = -EBUSY;" sets the wrong one.  The function ends up returning an
-uninitialized variable.
+Hi Lucas,
 
-Fixes: f098f9b8042a ("drm/etnaviv: move runtime PM handling to events")
-Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
----
- drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Am Mi., 21. Juni 2023 um 17:44 Uhr schrieb Christian Gmeiner
+<christian.gmeiner@gmail.com>:
+>
+> Hi Lucas,
+>
+> Am Mo., 17. Apr. 2023 um 19:42 Uhr schrieb Christian Gmeiner
+> <christian.gmeiner@gmail.com>:
+> >
+> > Hi Lucas
+> >
+> > >
+> > > gpu->mmu_context is the MMU context of the last job in the HW queue, which
+> > > isn't necessarily the same as the context from the bad job. Dump the MMU
+> > > context from the scheduler determined bad submit to make it work as intended.
+> > >
+> >
+> > Good catch!
+> >
+>
+> I think this patch did not land yet. Do you have plans to add it to
+> etnaviv/next?
+>
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-index f54f12090685..0382cd91eebf 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-@@ -1158,18 +1158,18 @@ static int event_alloc(struct etnaviv_gpu *gpu, unsigned nr_events,
- 	int ret;
- 
- 	for (i = 0; i < nr_events; i++) {
--		unsigned long ret;
-+		unsigned long remaining;
- 
--		ret = wait_for_completion_timeout(&gpu->event_free, timeout);
-+		remaining = wait_for_completion_timeout(&gpu->event_free, timeout);
- 
--		if (!ret) {
-+		if (!remaining) {
- 			dev_err(gpu->dev, "wait_for_completion_timeout failed");
- 			ret = -EBUSY;
- 			goto out;
- 		}
- 
- 		acquired++;
--		timeout = ret;
-+		timeout = remaining;
- 	}
- 
- 	spin_lock(&gpu->event_spinlock);
+I have seen you added it today - great!
+
 -- 
-2.39.2
+greets
+--
+Christian Gmeiner, MSc
 
+https://christian-gmeiner.info/privacypolicy
