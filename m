@@ -1,61 +1,69 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DFCF7598B9
-	for <lists+etnaviv@lfdr.de>; Wed, 19 Jul 2023 16:42:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E7D075C451
+	for <lists+etnaviv@lfdr.de>; Fri, 21 Jul 2023 12:15:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E6DE110E4BA;
-	Wed, 19 Jul 2023 14:42:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DAAD210E64D;
+	Fri, 21 Jul 2023 10:15:39 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-oo1-xc2e.google.com (mail-oo1-xc2e.google.com
- [IPv6:2607:f8b0:4864:20::c2e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 37CCC10E4B9;
- Wed, 19 Jul 2023 14:42:34 +0000 (UTC)
-Received: by mail-oo1-xc2e.google.com with SMTP id
- 006d021491bc7-56661fe27cbso4374271eaf.3; 
- Wed, 19 Jul 2023 07:42:34 -0700 (PDT)
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com
+ [IPv6:2a00:1450:4864:20::630])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D432E10E64A;
+ Fri, 21 Jul 2023 10:15:37 +0000 (UTC)
+Received: by mail-ej1-x630.google.com with SMTP id
+ a640c23a62f3a-98377c5d53eso281087166b.0; 
+ Fri, 21 Jul 2023 03:15:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1689777753; x=1692369753;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=6xRuIs5eE+li5LEspd/uqDVdxyxGYMRY+5qaC71F82w=;
- b=L8r9oEP1ZyU6QlcUn2O6roGd1MuQKPhfaMHIu0TVSo3w9ZPLIFV2/QFGSBuokHKzDH
- PBYpjOSRGc865kBg/kQAt4Kk/sjgACgkAc81AeKcNOgUak5XIsV4cFDrbCmQBvZbeRxc
- M+zJ82MYAZwmMI4K7A6mOvcpLGxdOWVq7UzpHRFsf8+ZTdk1dTWdmmre5WaMNMv2HUWR
- wOjn/ibVZQR/Wdi06MMw4HRVdw7uhl737ZffWS4aOJKI+QWfMKSNFdtia3CTgdb5SISU
- HDEg2v64RFGKqQDy1oXXqfQAl2sGD65+mdYx8wMJeZokVuttYJULzO3YIYq8s7dNOBU1
- fWDw==
+ d=gmail.com; s=20221208; t=1689934536; x=1690539336;
+ h=user-agent:in-reply-to:content-disposition:mime-version:references
+ :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Xtjou4bw3TzoaU4pkxO6dL/R//dx1dOT1P8B0FqrHKA=;
+ b=Tfm+30DQEJ60lYnGshB1LHllAG8vV6tZJlWJu8MaEzgnMoMC4s8xR3p8apQLvVNXrU
+ SsCdfj06a4f9s62gn1+m13FZeT8JIaTbP/QLsdb58Wl+Bx3Sk7VWJYPoYNaVX5mC3+q0
+ Rs2KjsZnmNUozrNcZGl15QnXalxAHlU6ZCHrH5lsGabvw9HEXfz1EAYPQdbs9ZtUgGmu
+ ODgtKVUF0wY54I/IMZWbmr8tof5c0D/hfoTkIzmRnUg+uw27Hm23MiuKX3PpzfRWwdpX
+ JSpcBybDwjUfvHgOaPY78806miQgOTtCRT1cm5IQNhbaumSj/5htxDsdm3D+hUCmwISK
+ gyVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689777753; x=1692369753;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=6xRuIs5eE+li5LEspd/uqDVdxyxGYMRY+5qaC71F82w=;
- b=OngShJ9DRsvgwTXjno5BAtcjZ6VWKQFn7YiKtLb0U8auOd0bkxfT7DfpkwVSrpNkrA
- bI9ZOhAPkd1iPg8vEJH1puBLPpk7y1o/s4J3FAhYJGdb5nI1SYSr+Ce2uls/dpjZ1vRb
- jJHg9gsTGYMuCyFPa0X3+GoLXd4nJtQCITc7JQp+m4gcDSy6X/lQCDiTFKm7B77vibmj
- UgaHf1bzUuADFZNh9dCJ5UKh69QAAsaN5GlQO7CCMe1HnClSLx9wn806nxVskF+47Zbs
- ZbkpabTREF42TZ8TcPuyLF/Znh0XeXbNxVXUrnNAZ3m2wGL6NCgXKTBWBB23LRoNh8g+
- QDSg==
-X-Gm-Message-State: ABy/qLaKLQVuseNCW/bCJw+M/0vu7TSSMNeEmKW77UI7FFovb1dchuIY
- A9rJtm/1cvnNvS0Pnp5c4I+F1MhGkeZPrSj4IwQ=
-X-Google-Smtp-Source: APBJJlEJwOI05e/ZJ9MQ6f7pTuB7wrtMvnBWQbZdf+Ww6Il1MvB2Wt+yllxrR39rA6xnE0ELIO0NTvIxZxAy40YuPPA=
-X-Received: by 2002:a05:6808:1829:b0:3a4:2c16:da70 with SMTP id
- bh41-20020a056808182900b003a42c16da70mr23192275oib.24.1689777752888; Wed, 19
- Jul 2023 07:42:32 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1689934536; x=1690539336;
+ h=user-agent:in-reply-to:content-disposition:mime-version:references
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Xtjou4bw3TzoaU4pkxO6dL/R//dx1dOT1P8B0FqrHKA=;
+ b=OS1vCrZ/y/yZJ34Nyf8r7LvjjD3pdLjqUMbO0qy+6LK3uLMn41A7D86TMBM6MXwfMG
+ 2xJyxCVBb2LUtnG00UhF18cp/5+ZePdfvczSI6NbVAEwK4fVFqAQAWzyhebmi5CH/o67
+ iRtDe8YE6wWOpb3/vfj9uQQRxxph93yBazpDCOgLBV006Dn9jzhemXcQw3WMTVKRf61H
+ N/e1hNDx0PvvrM0B335/mCyxygER8H4HxdAnEcIGUk4PTLgcN4cEDcFSr5zgJI/KGE55
+ 0BVlSBF47PV2xghC7ULQtrSTZZRzLr+uh+3Gk7WINv95H7IH32hbbXi2PxyV+YoKuCOj
+ TKTw==
+X-Gm-Message-State: ABy/qLaVWGvroAQvwgduDE35GTIXLdS+OtUnJQLg6fGgpl5IpnjOa0Go
+ 5Ht7xZGXciBtkxrDer3VPsU=
+X-Google-Smtp-Source: APBJJlFMSTNXVoDP1pttaZXsGetq1EYUvcvS8mVgRKzhexw1wKgMd76fhF1INGqDgTxi6Ne6bb3VQA==
+X-Received: by 2002:a17:906:7691:b0:991:c566:979 with SMTP id
+ o17-20020a170906769100b00991c5660979mr1229678ejm.36.1689934535180; 
+ Fri, 21 Jul 2023 03:15:35 -0700 (PDT)
+Received: from orome (p200300e41f1bd600f22f74fffe1f3a53.dip0.t-ipconnect.de.
+ [2003:e4:1f1b:d600:f22f:74ff:fe1f:3a53])
+ by smtp.gmail.com with ESMTPSA id
+ o19-20020a17090608d300b0098d2f703408sm1960285eje.118.2023.07.21.03.15.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 21 Jul 2023 03:15:34 -0700 (PDT)
+Date: Fri, 21 Jul 2023 12:15:32 +0200
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH] drm: Explicitly include correct DT includes
+Message-ID: <ZLpaYPUI5gPd4jK_@orome>
+References: <20230714174545.4056287-1-robh@kernel.org>
 MIME-Version: 1.0
-References: <20230414143810.572237-1-l.stach@pengutronix.de>
- <CAH9NwWfAuyLenoQHHdSZb2O87HHxu53JziL6Ro05F6yHdnZ+8A@mail.gmail.com>
- <CAH9NwWcf9tYG9Ua_b-TvvQHRY-j_VsAtGdkPBqwh4KH37B2qjQ@mail.gmail.com>
-In-Reply-To: <CAH9NwWcf9tYG9Ua_b-TvvQHRY-j_VsAtGdkPBqwh4KH37B2qjQ@mail.gmail.com>
-From: Christian Gmeiner <christian.gmeiner@gmail.com>
-Date: Wed, 19 Jul 2023 16:42:21 +0200
-Message-ID: <CAH9NwWd5TjfeYDCyaUDveGDz=QdUWKyB9UKpnDms3Hom-J3X5g@mail.gmail.com>
-Subject: Re: [PATCH] drm/etnaviv: fix dumping of active MMU context
-To: Lucas Stach <l.stach@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="qaVvuRtXrCn2kCOF"
+Content-Disposition: inline
+In-Reply-To: <20230714174545.4056287-1-robh@kernel.org>
+User-Agent: Mutt/2.2.10 (2023-03-25)
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,42 +75,65 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@pengutronix.de, patchwork-lst@pengutronix.de,
- etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Russell King <linux+etnaviv@armlinux.org.uk>
+Cc: Liviu Dudau <liviu.dudau@arm.com>, dri-devel@lists.freedesktop.org,
+ linux-mips@vger.kernel.org, David Airlie <airlied@gmail.com>,
+ linux-stm32@st-md-mailman.stormreply.com, linux-samsung-soc@vger.kernel.org,
+ lima@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
+ xen-devel@lists.xenproject.org, linux-sunxi@lists.linux.dev,
+ devicetree@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
+ linux-arm-msm@vger.kernel.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ etnaviv@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>,
+ linux-mediatek@lists.infradead.org, linux-rpi-kernel@lists.infradead.org,
+ linux-tegra@vger.kernel.org, linux-amlogic@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ freedreno@lists.freedesktop.org
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Hi Lucas,
 
-Am Mi., 21. Juni 2023 um 17:44 Uhr schrieb Christian Gmeiner
-<christian.gmeiner@gmail.com>:
->
-> Hi Lucas,
->
-> Am Mo., 17. Apr. 2023 um 19:42 Uhr schrieb Christian Gmeiner
-> <christian.gmeiner@gmail.com>:
-> >
-> > Hi Lucas
-> >
-> > >
-> > > gpu->mmu_context is the MMU context of the last job in the HW queue, which
-> > > isn't necessarily the same as the context from the bad job. Dump the MMU
-> > > context from the scheduler determined bad submit to make it work as intended.
-> > >
-> >
-> > Good catch!
-> >
->
-> I think this patch did not land yet. Do you have plans to add it to
-> etnaviv/next?
->
+--qaVvuRtXrCn2kCOF
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I have seen you added it today - great!
+On Fri, Jul 14, 2023 at 11:45:34AM -0600, Rob Herring wrote:
+> The DT of_device.h and of_platform.h date back to the separate
+> of_platform_bus_type before it as merged into the regular platform bus.
+> As part of that merge prepping Arm DT support 13 years ago, they
+> "temporarily" include each other. They also include platform_device.h
+> and of.h. As a result, there's a pretty much random mix of those include
+> files used throughout the tree. In order to detangle these headers and
+> replace the implicit includes with struct declarations, users need to
+> explicitly include the correct includes.
+>=20
+> Signed-off-by: Rob Herring <robh@kernel.org>
 
--- 
-greets
---
-Christian Gmeiner, MSc
+[Trimming the recipient list so that Google will let me send this]
 
-https://christian-gmeiner.info/privacypolicy
+Test builds were fine, so I've pushed this to drm-misc now.
+
+Thierry
+
+--qaVvuRtXrCn2kCOF
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmS6WsQACgkQ3SOs138+
+s6HK1A//QgDGQj/2Xez0LhGk60CphNT160FLxq+/4O2qQdzBoldz2WfYizMz+Qyv
+OCph/RC4Vp2VJEySeVU8jjojJZtqnu3iVQ9LGC/L7EFFJQOwaNlGusy3FoWAp5i1
+tAMhZUBH/QCvLjoc7kQXt+MjZGx/ccGHcmckwnjP1DVERdSUqXtq8VU1FHDxiQ2Q
+WfE9WhlNsXzJzcGXKC9qEKcn/OdrvPHgmAMJ7ypyjQ9z1x1/oEsJH6Bj0oIaiF2+
+R1Lt+KO5tvnL4ozutwZoHX4rPL9qQ9NvBwvk3DdxxaDs4R5Hhin5rkKhs6SvVbBX
+8bOTy7u1WaKQWaGEhGnnQzpaK3bp1n9L9Ooc/VtUaBx1iRZ8EsJmVfdNC8527L14
+0pH0DNOHHZDuTKd14C/W8JKsSrMtqPml41UClQC8AQ69iSfq95AbcajnFXcpamF6
+nYbTpBL+EOukFj5EJppNc0Bg3R0HdXvz9DmBx0qMt9cFAbq05D+4ke/aTKCDv0nM
+eQij9GV8h4g7wsmXWfFYqnbVk2K8G8KqsjEZakqkbUYE0i4tUs+O8g1piw1aXQis
+gX6QIVmBbi4PjPh2TWik5FCLogKMIqVDCuUfG/LJIQzypr/7QnSP6XpvyqjWiWua
+t1LWo/rbraFTe/hnaRqOUgOfKnfXRN3fZFxHW5CHGIwET0BUK9s=
+=UVD4
+-----END PGP SIGNATURE-----
+
+--qaVvuRtXrCn2kCOF--
