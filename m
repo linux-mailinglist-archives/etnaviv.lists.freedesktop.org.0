@@ -2,56 +2,33 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5939976B282
-	for <lists+etnaviv@lfdr.de>; Tue,  1 Aug 2023 13:02:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C586677E50D
+	for <lists+etnaviv@lfdr.de>; Wed, 16 Aug 2023 17:24:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 071B810E089;
-	Tue,  1 Aug 2023 11:02:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 82D8D10E37C;
+	Wed, 16 Aug 2023 15:24:18 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD72510E3C1
- for <etnaviv@lists.freedesktop.org>; Tue,  1 Aug 2023 11:02:47 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.ext.pengutronix.de with esmtps
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F13810E37C
+ for <etnaviv@lists.freedesktop.org>; Wed, 16 Aug 2023 15:24:16 +0000 (UTC)
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
+ helo=[IPv6:::1]) by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1qQn9I-0006es-HM; Tue, 01 Aug 2023 13:02:44 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
- by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1qQn9H-000MYk-6n; Tue, 01 Aug 2023 13:02:43 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1qQn9G-009bb8-CY; Tue, 01 Aug 2023 13:02:42 +0200
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Lucas Stach <l.stach@pengutronix.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v2 02/12] drm/etnaviv: Convert to platform remove callback
- returning void
-Date: Tue,  1 Aug 2023 13:02:29 +0200
-Message-Id: <20230801110239.831099-3-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230801110239.831099-1-u.kleine-koenig@pengutronix.de>
-References: <20230801110239.831099-1-u.kleine-koenig@pengutronix.de>
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1qWINa-0005Eh-9j; Wed, 16 Aug 2023 17:24:14 +0200
+Message-ID: <f40c65f7ecfde2e61f1a6d7fd463f6f739bc0dd1.camel@pengutronix.de>
+Subject: [GIT PULL] etnaviv-next for 6.6
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Wed, 16 Aug 2023 17:24:13 +0200
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2645;
- i=u.kleine-koenig@pengutronix.de; h=from:subject;
- bh=yjEDXr+Sc74PPur7Ff34fL8m9rPU07C2STabqkRcfus=;
- b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkyOW2cX9D00klhT7ewgJ06N2/K651B+Wo38T+b
- UzfvMAILiuJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZMjltgAKCRCPgPtYfRL+
- Tss/B/9K9+V7aw5GBnFnWX2bjgW7KxUaexkfDxWHiCn8JUpMORT6od1EmcfNCUT3Hw3847t5Tjs
- +BCGenr0Fpvcd/f+ahULgea2ErzWQkLzgwbs29Mq4h19T4/4lN4YsRY907TvhZw9aGLXPl4Eixr
- H4C7NoqzGBJxhDb7TfGgNHaJ8MX4IHGjJjRAjGbVje7FHPIjuhFcZZVZF17NF+Dy1JgrWNlgXSr
- h894QeOFPcT/Lm/+u/oxJUyFyxDn1Ii279Wa9RvpKlX4x7N01mL+YtV//iUcgUPjQXPr+9s03/Y
- Spst5Brqa7s6hm3GP9Um+XeeDp0AIeMAnfYq/9cusWaFfscR
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp;
- fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
  SAEximRunCond expanded to false
 X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
@@ -66,80 +43,70 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, etnaviv@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org,
- Christian Gmeiner <christian.gmeiner@gmail.com>, kernel@pengutronix.de,
- Russell King <linux+etnaviv@armlinux.org.uk>, Jyri Sarha <jyri.sarha@iki.fi>
+Cc: dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
+ kernel@pengutronix.de
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-The .remove() callback for a platform driver returns an int which makes
-many driver authors wrongly assume it's possible to do error handling by
-returning an error code. However the value returned is (mostly) ignored
-and this typically results in resource leaks. To improve here there is a
-quest to make the remove callback return void. In the first step of this
-quest all drivers are converted to .remove_new() which already returns
-void.
+Hi Dave, Daniel,
 
-Trivially convert the etnaviv drm driver from always returning zero in
-the remove callback to the void returning variant.
+please pull the following etnaviv changes for the next merge window.=C2=A0
 
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Jyri Sarha <jyri.sarha@iki.fi>
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
----
- drivers/gpu/drm/etnaviv/etnaviv_drv.c | 6 ++----
- drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 5 ++---
- 2 files changed, 4 insertions(+), 7 deletions(-)
+This time mostly cleanups around the runtime power management handling
+and slightly improved GPU hang handling. Also some additions to the
+HWDB to get the driver working properly on more NXP i.MX8MP IP cores.
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-index ea55f6b7b744..20305df01b57 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-@@ -638,16 +638,14 @@ static int etnaviv_pdev_probe(struct platform_device *pdev)
- 	return component_master_add_with_match(dev, &etnaviv_master_ops, match);
- }
- 
--static int etnaviv_pdev_remove(struct platform_device *pdev)
-+static void etnaviv_pdev_remove(struct platform_device *pdev)
- {
- 	component_master_del(&pdev->dev, &etnaviv_master_ops);
--
--	return 0;
- }
- 
- static struct platform_driver etnaviv_platform_driver = {
- 	.probe      = etnaviv_pdev_probe,
--	.remove     = etnaviv_pdev_remove,
-+	.remove_new = etnaviv_pdev_remove,
- 	.driver     = {
- 		.name   = "etnaviv",
- 	},
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-index bbc9c54871f4..43426ffe4d77 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-@@ -1892,11 +1892,10 @@ static int etnaviv_gpu_platform_probe(struct platform_device *pdev)
- 	return 0;
- }
- 
--static int etnaviv_gpu_platform_remove(struct platform_device *pdev)
-+static void etnaviv_gpu_platform_remove(struct platform_device *pdev)
- {
- 	component_del(&pdev->dev, &gpu_ops);
- 	pm_runtime_disable(&pdev->dev);
--	return 0;
- }
- 
- static int etnaviv_gpu_rpm_suspend(struct device *dev)
-@@ -1954,6 +1953,6 @@ struct platform_driver etnaviv_gpu_driver = {
- 		.of_match_table = etnaviv_gpu_match,
- 	},
- 	.probe = etnaviv_gpu_platform_probe,
--	.remove = etnaviv_gpu_platform_remove,
-+	.remove_new = etnaviv_gpu_platform_remove,
- 	.id_table = gpu_ids,
- };
--- 
-2.39.2
+Sorry for being late, vacation got in the way, all changes have been
+soaking in linux-next for more than 3 weeks.
 
+Regards,
+Lucas
+
+The following changes since commit ac9a78681b921877518763ba0e89202254349d1b=
+:
+
+  Linux 6.4-rc1 (2023-05-07 13:34:35 -0700)
+
+are available in the Git repository at:
+
+  https://git.pengutronix.de/git/lst/linux etnaviv/next
+
+for you to fetch changes up to 88c31d2dd191ab78e9ba9ff967845018aa7ee214:
+
+  drm/etnaviv: fix error code in event_alloc() (2023-07-19 12:36:25 +0200)
+
+----------------------------------------------------------------
+Dan Carpenter (1):
+      drm/etnaviv: fix error code in event_alloc()
+
+Lucas Stach (12):
+      drm/etnaviv: slow down FE idle polling
+      drm/etnaviv: fix dumping of active MMU context
+      drm/etnaviv: add HWDB entry for VIP8000 Nano r8002
+      drm/etnaviv: add HWDB entry for GC520 r5341 c204
+      drm/etnaviv: move down etnaviv_gpu_recover_hang() in file
+      drm/etnaviv: free events the usual way in recover worker
+      drm/etnaviv: move runtime PM handling to events
+      drm/etnaviv: make clock handling symetric between runtime resume and =
+suspend
+      drm/etnaviv: avoid runtime PM usage in etnaviv_gpu_bind
+      drm/etnaviv: better track GPU state
+      drm/etnaviv: drop GPU initialized property
+      drm/etnaviv: expedited MMU fault handling
+
+Rob Herring (1):
+      drm: etnaviv: Replace of_platform.h with explicit includes
+
+ drivers/gpu/drm/etnaviv/etnaviv_buffer.c     |  11 +--
+ drivers/gpu/drm/etnaviv/etnaviv_cmdbuf.c     |   3 +
+ drivers/gpu/drm/etnaviv/etnaviv_drv.c        |   4 +-
+ drivers/gpu/drm/etnaviv/etnaviv_dump.c       |  14 ++--
+ drivers/gpu/drm/etnaviv/etnaviv_gem.h        |   1 -
+ drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c |   3 -
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c        | 188 +++++++++++++++++++++++=
++---------------------
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.h        |  13 +++-
+ drivers/gpu/drm/etnaviv/etnaviv_hwdb.c       |  63 +++++++++++++++
+ drivers/gpu/drm/etnaviv/etnaviv_mmu.c        |   3 +
+ drivers/gpu/drm/etnaviv/etnaviv_sched.c      |   5 +-
+ 11 files changed, 201 insertions(+), 107 deletions(-)
