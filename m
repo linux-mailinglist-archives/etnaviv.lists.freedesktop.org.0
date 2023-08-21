@@ -1,48 +1,48 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B274D783A11
-	for <lists+etnaviv@lfdr.de>; Tue, 22 Aug 2023 08:37:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 19FBD783A12
+	for <lists+etnaviv@lfdr.de>; Tue, 22 Aug 2023 08:37:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7FDDB10E2DB;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9686010E2DD;
 	Tue, 22 Aug 2023 06:37:00 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-X-Greylist: delayed 464 seconds by postgrey-1.36 at gabe;
- Mon, 21 Aug 2023 12:35:35 UTC
-Received: from mail.8bytes.org (mail.8bytes.org
- [IPv6:2a01:238:42d9:3f00:e505:6202:4f0c:f051])
- by gabe.freedesktop.org (Postfix) with ESMTP id 00E0210E23D;
- Mon, 21 Aug 2023 12:35:35 +0000 (UTC)
+X-Greylist: delayed 7740 seconds by postgrey-1.36 at gabe;
+ Mon, 21 Aug 2023 14:36:52 UTC
+Received: from mail.8bytes.org (mail.8bytes.org [85.214.250.239])
+ by gabe.freedesktop.org (Postfix) with ESMTP id A327F10E0BD;
+ Mon, 21 Aug 2023 14:36:52 +0000 (UTC)
 Received: from 8bytes.org (pd9fe95be.dip0.t-ipconnect.de [217.254.149.190])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
  SHA256) (No client certificate requested)
- by mail.8bytes.org (Postfix) with ESMTPSA id 14D6D28194F;
- Mon, 21 Aug 2023 14:27:49 +0200 (CEST)
+ by mail.8bytes.org (Postfix) with ESMTPSA id 4CE0C2819E9;
+ Mon, 21 Aug 2023 16:36:50 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
- s=default; t=1692620870;
- bh=FixGPDbY1JGUzoXJGnGCpBH8LX7vfPyc85NTwmVIvZk=;
+ s=default; t=1692628611;
+ bh=+WiTQ5AG7r8y4G1Zww7KAS8SkcWV0o+RqcA6fs2lTPo=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=1GNfM2qXUHu69LlGLcBH8KY7o7o7XmY+SCrGkW/UUIs2KGTpDHXZZbMpPGz6QSYZs
- UPnFUxDcsVEY3pjS1DruthDw9f83ySojUQCSB+rWg+GUD0/AhHwU/y7CvGp4ChZNfv
- PF0U1t4Yrw0S3cKVt3Z1VBJMi6C4Yubn+JBgQ0h8akaCgHt2/SoukE6zqp52PyQtal
- mSBFlaAtIaUSfX6biqD/5UJPh1qGAUoCalqefQ1b2bqiPcVjHwugqG0e+YrG5Eef+K
- UDBnBPokoAbTS28F+RA/gZgu4I/tGuWG+hC4PlSSGwOqv9iwEYEE1WLsVZflD78r+Z
- CJt+ubMPFXzmw==
-Date: Mon, 21 Aug 2023 14:27:47 +0200
+ b=cCuzifo9x0D9qOt89G/4/PiqD/F+u4B/70l6IQpdB42jnyWjZAjz6KPgC0KIJ5pot
+ yclZplhO935QvwccMrgOtmFHXq3eiyDLUhMvZiDp7Z1uCnQEBb9DWAMAxasIaPyHYq
+ a4eQTWVPUC2Ofc8zeYGvrhV9slFe/AwBVAzPWiByhFvVRg2Dwo6GYRuq1SDa/M6D2R
+ sY0F1aYmy5lkzE3WB90VPyGeQs8XtRdRd40i7Gqc0UnXnz42dsYsAcZAzCYTfLPIIB
+ IeikCsXnKvSGRsvIQ6KRIPv23/3ONC+w0IGRIkYtlssEYICD4kne0F5md7TvoUKscG
+ Wl6tO+kp8hFKw==
+Date: Mon, 21 Aug 2023 16:36:49 +0200
 From: Joerg Roedel <joro@8bytes.org>
-To: Robin Murphy <robin.murphy@arm.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
 Subject: Re: [PATCH] iommu: Remove the device_lock_assert() from
  __iommu_probe_device()
-Message-ID: <ZONYQyMSG17YMc_b@8bytes.org>
+Message-ID: <ZON2gRogBhjmpNIl@8bytes.org>
 References: <0-v1-98d20e768c66+7-of_dma_lock_jgg@nvidia.com>
  <78114fd6-9b83-92ba-418f-6cc7bda9df9b@arm.com>
+ <ZONdwclGOBaxxqtq@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <78114fd6-9b83-92ba-418f-6cc7bda9df9b@arm.com>
+In-Reply-To: <ZONdwclGOBaxxqtq@nvidia.com>
 X-Mailman-Approved-At: Tue, 22 Aug 2023 06:36:58 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -59,7 +59,8 @@ Cc: alsa-devel@alsa-project.org,
  =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>,
  Emma Anholt <emma@anholt.net>, Kevin Tian <kevin.tian@intel.com>,
  dri-devel@lists.freedesktop.org, Mikko Perttunen <mperttunen@nvidia.com>,
- Vikash Garodia <quic_vgarodia@quicinc.com>, Chen-Yu Tsai <wens@csie.org>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Jeff Johnson <quic_jjohnson@quicinc.com>, Chen-Yu Tsai <wens@csie.org>,
  Thierry Reding <thierry.reding@gmail.com>, ath10k@lists.infradead.org,
  Andrzej Hajda <andrzej.hajda@intel.com>,
  Marijn Suijten <marijn.suijten@somainline.org>,
@@ -69,7 +70,7 @@ Cc: alsa-devel@alsa-project.org,
  Takashi Iwai <tiwai@suse.com>, Sinan Kaya <okaya@kernel.org>,
  Vinod Koul <vkoul@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  iommu@lists.linux.dev, Andy Gross <agross@kernel.org>,
- Jason Gunthorpe <jgg@nvidia.com>, Russell King <linux+etnaviv@armlinux.org.uk>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
  Bryan O'Donoghue <bryan.odonoghue@linaro.org>, ath11k@lists.infradead.org,
  linux-media@vger.kernel.org, devicetree@vger.kernel.org,
  Jaroslav Kysela <perex@perex.cz>, Joerg Roedel <jroedel@suse.de>,
@@ -80,7 +81,7 @@ Cc: alsa-devel@alsa-project.org,
  Christian Gmeiner <christian.gmeiner@gmail.com>,
  Mark Brown <broonie@kernel.org>, linux-tegra@vger.kernel.org,
  Mauro Carvalho Chehab <mchehab@kernel.org>, Sean Paul <sean@poorly.run>,
- linux-arm-kernel@lists.infradead.org, Jeff Johnson <quic_jjohnson@quicinc.com>,
+ linux-arm-kernel@lists.infradead.org, freedreno@lists.freedesktop.org,
  Bjorn Andersson <andersson@kernel.org>,
  Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
  linux-wireless@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
@@ -88,22 +89,22 @@ Cc: alsa-devel@alsa-project.org,
  Rob Clark <robdclark@gmail.com>, Rob Herring <robh+dt@kernel.org>,
  Daniel Vetter <daniel@ffwll.ch>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Lu Baolu <baolu.lu@linux.intel.com>, freedreno@lists.freedesktop.org,
+ Lu Baolu <baolu.lu@linux.intel.com>, Robin Murphy <robin.murphy@arm.com>,
  Lucas Stach <l.stach@pengutronix.de>
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-On Mon, Aug 21, 2023 at 12:06:40PM +0100, Robin Murphy wrote:
-> The solution is to drop those locking patches entirely and rethink the whole
-> thing.
+On Mon, Aug 21, 2023 at 09:51:13AM -0300, Jason Gunthorpe wrote:
+> So now that Joerg has dropped it - what is your big idea to make the
+> locking actually work right?
 
-Agreed, that was exactly what I thought when looking at this patch.
+I am not opposed to the general idea. When putting it into the tree I
+wasn't aware how many users still need to be adapted to properly work
+with this.
 
-I dropped the original 10 patches and the 4 fixes on-top from the IOMMU
-tree. This needs more investigation and adaption of the actual API users
-before it can be reconsidered.
+We can do another try once the issues have been sorted out and you have
+agreed with Robin on a workable way forward.
 
 Regards,
 
 	Joerg
-
