@@ -2,60 +2,62 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5684799A73
-	for <lists+etnaviv@lfdr.de>; Sat,  9 Sep 2023 20:50:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB6FC7A14CD
+	for <lists+etnaviv@lfdr.de>; Fri, 15 Sep 2023 06:33:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C998C10E2B6;
-	Sat,  9 Sep 2023 18:50:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70A4010E075;
+	Fri, 15 Sep 2023 04:33:28 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-ot1-x329.google.com (mail-ot1-x329.google.com
- [IPv6:2607:f8b0:4864:20::329])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3112610E2B5;
- Sat,  9 Sep 2023 18:50:18 +0000 (UTC)
-Received: by mail-ot1-x329.google.com with SMTP id
- 46e09a7af769-6c0d6fef60cso328313a34.1; 
- Sat, 09 Sep 2023 11:50:18 -0700 (PDT)
+Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com
+ [IPv6:2607:f8b0:4864:20::42e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1713910E079
+ for <etnaviv@lists.freedesktop.org>; Fri, 15 Sep 2023 04:33:26 +0000 (UTC)
+Received: by mail-pf1-x42e.google.com with SMTP id
+ d2e1a72fcca58-68fc1bbc94eso1449209b3a.3
+ for <etnaviv@lists.freedesktop.org>; Thu, 14 Sep 2023 21:33:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1694285417; x=1694890217; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Nv0vcCCJDOY8Szl35YHmMKgpvY2yGh3tSM+jeI3FBcM=;
- b=sTljuJevE7qRzqrX5Zbw28FsJBvQGZljhVpb0U9DAovXKt4iUknnps7Cd7G36k+4oT
- f11oFUHm3pGGf6nK/0Br7GqdHEgyNQobw6YyGGlzL3XPQifqTCgANNvNL2cMjHDq+eyN
- Xc0/PEqv5+gHtxB9MBkx084UXRGVuXZQz80tnvktjeTkAZimfd3dxr7uLkfjRNHffIBS
- dz1ixEmWujl7sZ6FPTU+xeBfqYhDu6L5Gsj6w98fCc1CbIE0eOTHnNR48HR+IQoSwJ3F
- WB6yQiVCmvX8wn4UpIWbcLSE6AAikiExzhuLo754OcEMStaTx3d2Ngusz40zERsER9vg
- Fpmg==
+ d=chromium.org; s=google; t=1694752406; x=1695357206;
+ darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=ortdfDKvpNIzeJx8TZszObBou7irHmSbSFxDLFsiIb8=;
+ b=TG1vEn+XkHxnqpMzEUy6rWonTVQgdExRLzzEnQBUTt6eE6dV+7jCG+tVFWjdmqVB9x
+ zuAYO7fcWN1LOMxuJzvrCCT7kgsB9Zc3AkQbjCSUfYNTZ8k277xnXdntaHmlIJUIrhnl
+ OqFSHXfhY3S7nIsY1sUvxpD7MZRbYay1aPLFA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1694285417; x=1694890217;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Nv0vcCCJDOY8Szl35YHmMKgpvY2yGh3tSM+jeI3FBcM=;
- b=U5vj5GLyXRGeV9YtOdz5vxqVBe8PSsG9Sg2/EkSmtFUQlm7jtEce8FZXdZdzn1GjT+
- Of6BPJxJrrFG372aFgntBrnTWDgqg8QVllapQYzgQXw3SgHPFtlWcXdLSNz1QQ/VDCY+
- Muammb9egThEcrtCAUcje77JzLpL4cItO5HB6+ont4LfY5zgkuR+bnTWoWAkvsI36Gwv
- HXw7e/vtZ2c7FrItoMNaE/RpGglRQAGS+BTwy7sp0w/rLYCsIQNXiECe0wHvuJ4fcn48
- 7qflqfbqsSorjqXEDjxT4ZI1rD/fKtix6kHP+pK52gMsz1G7eFdlistHp9H/jrdumWHI
- imvQ==
-X-Gm-Message-State: AOJu0YxB2aCpmUk3gWLIwm5UqieNEFGnNCq4LCI81WkCD2vUTe6tloGw
- rINCBM4sKKLyXgNtwFOvDgc8H1y0p1/njN7lhrA=
-X-Google-Smtp-Source: AGHT+IFtlOuD8768hs11Km4XKjNPDJumEzUz1mMxrEHw0y2XOfxyB39SRGHtFBVt4Vc4W1me+uBANkghT88Pcj9+k2s=
-X-Received: by 2002:a05:6870:8a2a:b0:1bb:3f64:bb89 with SMTP id
- p42-20020a0568708a2a00b001bb3f64bb89mr7056188oaq.24.1694285417159; Sat, 09
- Sep 2023 11:50:17 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1694752406; x=1695357206;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ortdfDKvpNIzeJx8TZszObBou7irHmSbSFxDLFsiIb8=;
+ b=CaPRq++1pQWMSugBzKpty/FT26IH/cKBaJkL+DDxitbIvO8JBWBS/cVPXuVEoYEN4R
+ t47OYUrmwyhGeSkpZZ9iA6dCepM5seflbDQr7NMdRPjrv81wDddnZNXaE/p8UVjXnFL3
+ j36a1KkN/zBiOj+O2Er3Ysul2nvN0rj33C3C347rqzYb7/otm7HbAsFOoc7QtNm3bpcd
+ YwJdY7Z3z8BO6rDYYDlSN+FTn0sYKmWVth8kPlTLwhaLH4sNTRXxDkEKy5K1DBXRvW6B
+ iB20c5Sj9KzEBGXMHvcOAitS1m//+9I0EnR3+UZWEQ583rkuaWEBhYTlcFEc+Q5rekcf
+ Hgbw==
+X-Gm-Message-State: AOJu0YzmTEToljuO+WsP17RKiXCA1a0yNyyV8zNA/4sC/opcYEENG25s
+ 3EwqWr7OjSTeCTsDCWp9dBVdJQ==
+X-Google-Smtp-Source: AGHT+IGzXgg9/OWEiL8KkvNzLUOYOIZOZmk5y/PBBVeZQiwFgRA29dMIvxF6haF9oKiYXTr2yUlD5A==
+X-Received: by 2002:a05:6a20:7d8c:b0:131:c760:2a0b with SMTP id
+ v12-20020a056a207d8c00b00131c7602a0bmr967771pzj.52.1694752406562; 
+ Thu, 14 Sep 2023 21:33:26 -0700 (PDT)
+Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net.
+ [198.0.35.241]) by smtp.gmail.com with ESMTPSA id
+ 17-20020a170902ee5100b001bdc209b9a0sm2400126plo.201.2023.09.14.21.33.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 14 Sep 2023 21:33:26 -0700 (PDT)
+Date: Thu, 14 Sep 2023 21:33:25 -0700
+From: Kees Cook <keescook@chromium.org>
+To: Justin Stitt <justinstitt@google.com>
+Subject: Re: [PATCH] drm/etnaviv: refactor deprecated strncpy
+Message-ID: <202309142133.F7FBDD9@keescook>
+References: <20230914-strncpy-drivers-gpu-drm-etnaviv-etnaviv_perfmon-c-v1-1-3adc2d9bfc52@google.com>
 MIME-Version: 1.0
-References: <20230801110239.831099-1-u.kleine-koenig@pengutronix.de>
- <20230801110239.831099-3-u.kleine-koenig@pengutronix.de>
-In-Reply-To: <20230801110239.831099-3-u.kleine-koenig@pengutronix.de>
-From: Christian Gmeiner <christian.gmeiner@gmail.com>
-Date: Sat, 9 Sep 2023 20:49:35 +0200
-Message-ID: <CAH9NwWdzVPrZD3Uo04fWXR0Cv=okK+P+njAR81gprCxKqp5icw@mail.gmail.com>
-Subject: Re: [PATCH v2 02/12] drm/etnaviv: Convert to platform remove callback
- returning void
-To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Content-Type: multipart/alternative; boundary="0000000000007020ea0604f190b0"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230914-strncpy-drivers-gpu-drm-etnaviv-etnaviv_perfmon-c-v1-1-3adc2d9bfc52@google.com>
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,213 +69,74 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sascha Hauer <kernel@pengutronix.de>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- The etnaviv authors <etnaviv@lists.freedesktop.org>,
- DRI mailing list <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel@ffwll.ch>, Russell King <linux+etnaviv@armlinux.org.uk>,
- David Airlie <airlied@gmail.com>, Jyri Sarha <jyri.sarha@iki.fi>,
+Cc: Bo YU <tsu.yubo@gmail.com>, etnaviv@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ linux-hardening@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
+ Russell King <linux+etnaviv@armlinux.org.uk>, David Airlie <airlied@gmail.com>,
  Lucas Stach <l.stach@pengutronix.de>
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
---0000000000007020ea0604f190b0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Thu, Sep 14, 2023 at 06:20:01PM +0000, Justin Stitt wrote:
+> `strncpy` is deprecated for use on NUL-terminated destination strings [1].
+> 
+> We should prefer more robust and less ambiguous string interfaces.
+> 
+> A suitable replacement is `strscpy` [2] due to the fact that it guarantees
+> NUL-termination on the destination buffer.
+> 
+> Link: https://www.kernel.org/doc/html/latest/process/deprecated.html#strncpy-on-nul-terminated-strings [1]
+> Link: https://manpages.debian.org/testing/linux-manual-4.8/strscpy.9.en.html [2]
+> Link: https://github.com/KSPP/linux/issues/90
+> Cc: linux-hardening@vger.kernel.org
+> Cc: Bo YU <tsu.yubo@gmail.com>
+> Signed-off-by: Justin Stitt <justinstitt@google.com>
+> ---
+> Similar to [1] which was never picked up. Let's prefer strscpy to strlcpy, though
+> 
+> [1]: https://lore.kernel.org/all/20190328080918.9290-1-tsu.yubo@gmail.com/
+> ---
+>  drivers/gpu/drm/etnaviv/etnaviv_perfmon.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c b/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
+> index bafdfe49c1d8..9e7bebcf24eb 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
+> @@ -511,7 +511,7 @@ int etnaviv_pm_query_dom(struct etnaviv_gpu *gpu,
+>  
+>  	domain->id = domain->iter;
+>  	domain->nr_signals = dom->nr_signals;
+> -	strncpy(domain->name, dom->name, sizeof(domain->name));
+> +	strscpy(domain->name, dom->name, sizeof(domain->name));
 
-Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de> schrieb am Di., 1. A=
-ug.
-2023, 13:02:
+It looks like this is passing through an ioctl(). Let's use
+strscpy_pad(0 instead...
 
-> The .remove() callback for a platform driver returns an int which makes
-> many driver authors wrongly assume it's possible to do error handling by
-> returning an error code. However the value returned is (mostly) ignored
-> and this typically results in resource leaks. To improve here there is a
-> quest to make the remove callback return void. In the first step of this
-> quest all drivers are converted to .remove_new() which already returns
-> void.
->
-> Trivially convert the etnaviv drm driver from always returning zero in
-> the remove callback to the void returning variant.
->
-> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Reviewed-by: Jyri Sarha <jyri.sarha@iki.fi>
-> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
->
+-Kees
 
-
-Reviewed-by: Christian Gmeiner <cgmeiner@igalia.com>
-
-
-
----
->  drivers/gpu/drm/etnaviv/etnaviv_drv.c | 6 ++----
->  drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 5 ++---
->  2 files changed, 4 insertions(+), 7 deletions(-)
->
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-> b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-> index ea55f6b7b744..20305df01b57 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-> @@ -638,16 +638,14 @@ static int etnaviv_pdev_probe(struct platform_devic=
-e
-> *pdev)
->         return component_master_add_with_match(dev, &etnaviv_master_ops,
-> match);
->  }
->
-> -static int etnaviv_pdev_remove(struct platform_device *pdev)
-> +static void etnaviv_pdev_remove(struct platform_device *pdev)
->  {
->         component_master_del(&pdev->dev, &etnaviv_master_ops);
-> -
-> -       return 0;
->  }
->
->  static struct platform_driver etnaviv_platform_driver =3D {
->         .probe      =3D etnaviv_pdev_probe,
-> -       .remove     =3D etnaviv_pdev_remove,
-> +       .remove_new =3D etnaviv_pdev_remove,
->         .driver     =3D {
->                 .name   =3D "etnaviv",
->         },
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> index bbc9c54871f4..43426ffe4d77 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> @@ -1892,11 +1892,10 @@ static int etnaviv_gpu_platform_probe(struct
-> platform_device *pdev)
->         return 0;
->  }
->
-> -static int etnaviv_gpu_platform_remove(struct platform_device *pdev)
-> +static void etnaviv_gpu_platform_remove(struct platform_device *pdev)
->  {
->         component_del(&pdev->dev, &gpu_ops);
->         pm_runtime_disable(&pdev->dev);
-> -       return 0;
->  }
->
->  static int etnaviv_gpu_rpm_suspend(struct device *dev)
-> @@ -1954,6 +1953,6 @@ struct platform_driver etnaviv_gpu_driver =3D {
->                 .of_match_table =3D etnaviv_gpu_match,
->         },
->         .probe =3D etnaviv_gpu_platform_probe,
-> -       .remove =3D etnaviv_gpu_platform_remove,
-> +       .remove_new =3D etnaviv_gpu_platform_remove,
->         .id_table =3D gpu_ids,
->  };
+>  
+>  	domain->iter++;
+>  	if (domain->iter == nr_domains)
+> @@ -540,7 +540,7 @@ int etnaviv_pm_query_sig(struct etnaviv_gpu *gpu,
+>  	sig = &dom->signal[signal->iter];
+>  
+>  	signal->id = signal->iter;
+> -	strncpy(signal->name, sig->name, sizeof(signal->name));
+> +	strscpy(signal->name, sig->name, sizeof(signal->name));
+>  
+>  	signal->iter++;
+>  	if (signal->iter == dom->nr_signals)
+> 
+> ---
+> base-commit: 3669558bdf354cd352be955ef2764cde6a9bf5ec
+> change-id: 20230914-strncpy-drivers-gpu-drm-etnaviv-etnaviv_perfmon-c-dd095491dfde
+> 
+> Best regards,
 > --
-> 2.39.2
->
->
+> Justin Stitt <justinstitt@google.com>
+> 
 
---0000000000007020ea0604f190b0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">Uwe Kleine-K=C3=B6nig &lt;<a href=3D"mailto:u.kleine-k=
-oenig@pengutronix.de">u.kleine-koenig@pengutronix.de</a>&gt; schrieb am Di.=
-, 1. Aug. 2023, 13:02:<br></div><blockquote class=3D"gmail_quote" style=3D"=
-margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">The .remove(=
-) callback for a platform driver returns an int which makes<br>
-many driver authors wrongly assume it&#39;s possible to do error handling b=
-y<br>
-returning an error code. However the value returned is (mostly) ignored<br>
-and this typically results in resource leaks. To improve here there is a<br=
->
-quest to make the remove callback return void. In the first step of this<br=
->
-quest all drivers are converted to .remove_new() which already returns<br>
-void.<br>
-<br>
-Trivially convert the etnaviv drm driver from always returning zero in<br>
-the remove callback to the void returning variant.<br>
-<br>
-Reviewed-by: Thomas Zimmermann &lt;<a href=3D"mailto:tzimmermann@suse.de" t=
-arget=3D"_blank" rel=3D"noreferrer">tzimmermann@suse.de</a>&gt;<br>
-Reviewed-by: Jyri Sarha &lt;<a href=3D"mailto:jyri.sarha@iki.fi" target=3D"=
-_blank" rel=3D"noreferrer">jyri.sarha@iki.fi</a>&gt;<br>
-Signed-off-by: Uwe Kleine-K=C3=B6nig &lt;<a href=3D"mailto:u.kleine-koenig@=
-pengutronix.de" target=3D"_blank" rel=3D"noreferrer">u.kleine-koenig@pengut=
-ronix.de</a>&gt;<br></blockquote></div></div><div dir=3D"auto"><br></div><d=
-iv dir=3D"auto"><br></div><div dir=3D"auto">Reviewed-by: Christian Gmeiner =
-&lt;<a href=3D"mailto:cgmeiner@igalia.com">cgmeiner@igalia.com</a>&gt;</div=
-><div dir=3D"auto"><br></div><div dir=3D"auto"><br></div><div dir=3D"auto">=
-<br></div><div dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D=
-"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding=
--left:1ex">
----<br>
-=C2=A0drivers/gpu/drm/etnaviv/etnaviv_drv.c | 6 ++----<br>
-=C2=A0drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 5 ++---<br>
-=C2=A02 files changed, 4 insertions(+), 7 deletions(-)<br>
-<br>
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnavi=
-v/etnaviv_drv.c<br>
-index ea55f6b7b744..20305df01b57 100644<br>
---- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c<br>
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c<br>
-@@ -638,16 +638,14 @@ static int etnaviv_pdev_probe(struct platform_device =
-*pdev)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 return component_master_add_with_match(dev, &am=
-p;etnaviv_master_ops, match);<br>
-=C2=A0}<br>
-<br>
--static int etnaviv_pdev_remove(struct platform_device *pdev)<br>
-+static void etnaviv_pdev_remove(struct platform_device *pdev)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 component_master_del(&amp;pdev-&gt;dev, &amp;et=
-naviv_master_ops);<br>
--<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0return 0;<br>
-=C2=A0}<br>
-<br>
-=C2=A0static struct platform_driver etnaviv_platform_driver =3D {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 .probe=C2=A0 =C2=A0 =C2=A0 =3D etnaviv_pdev_pro=
-be,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0.remove=C2=A0 =C2=A0 =C2=A0=3D etnaviv_pdev_rem=
-ove,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0.remove_new =3D etnaviv_pdev_remove,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 .driver=C2=A0 =C2=A0 =C2=A0=3D {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .name=C2=A0 =C2=A0=
-=3D &quot;etnaviv&quot;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 },<br>
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnavi=
-v/etnaviv_gpu.c<br>
-index bbc9c54871f4..43426ffe4d77 100644<br>
---- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c<br>
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c<br>
-@@ -1892,11 +1892,10 @@ static int etnaviv_gpu_platform_probe(struct platfo=
-rm_device *pdev)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 return 0;<br>
-=C2=A0}<br>
-<br>
--static int etnaviv_gpu_platform_remove(struct platform_device *pdev)<br>
-+static void etnaviv_gpu_platform_remove(struct platform_device *pdev)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 component_del(&amp;pdev-&gt;dev, &amp;gpu_ops);=
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 pm_runtime_disable(&amp;pdev-&gt;dev);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0return 0;<br>
-=C2=A0}<br>
-<br>
-=C2=A0static int etnaviv_gpu_rpm_suspend(struct device *dev)<br>
-@@ -1954,6 +1953,6 @@ struct platform_driver etnaviv_gpu_driver =3D {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .of_match_table =3D=
- etnaviv_gpu_match,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 },<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 .probe =3D etnaviv_gpu_platform_probe,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0.remove =3D etnaviv_gpu_platform_remove,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0.remove_new =3D etnaviv_gpu_platform_remove,<br=
->
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 .id_table =3D gpu_ids,<br>
-=C2=A0};<br>
--- <br>
-2.39.2<br>
-<br>
-</blockquote></div></div></div>
-
---0000000000007020ea0604f190b0--
+-- 
+Kees Cook
