@@ -2,62 +2,45 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1067D7AC657
-	for <lists+etnaviv@lfdr.de>; Sun, 24 Sep 2023 04:53:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B6267B168B
+	for <lists+etnaviv@lfdr.de>; Thu, 28 Sep 2023 10:55:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A86010E0D1;
-	Sun, 24 Sep 2023 02:53:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A30E10E5F6;
+	Thu, 28 Sep 2023 08:55:16 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com
- [IPv6:2607:f8b0:4864:20::229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0619910E0D9
- for <etnaviv@lists.freedesktop.org>; Sun, 24 Sep 2023 02:53:42 +0000 (UTC)
-Received: by mail-oi1-x229.google.com with SMTP id
- 5614622812f47-3a76d882080so3010322b6e.2
- for <etnaviv@lists.freedesktop.org>; Sat, 23 Sep 2023 19:53:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1695524022; x=1696128822;
- darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=/d9b/PeADBzIfI3pWZpLK3xrhqpPASs1Sf8duAT6F0E=;
- b=ZZyWtZQ1dFjAjDvOVIDshtLKUOSGCqjFVuYYXo7ODzPCxoxvpiPPM0WdrPzNF5r0+6
- /PwQFKn8XQ/CGK1A8XZCJ5y9Zia4hr4ggV+8PuoshvKrJnArJCPVEIHkxXNnH5LQt4RT
- aDFZEsaBle1h1hsaMrpkrSqZ0x963Wk2yZjAw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1695524022; x=1696128822;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=/d9b/PeADBzIfI3pWZpLK3xrhqpPASs1Sf8duAT6F0E=;
- b=TObil257dGeVF7ediqggXefNCWOF1hlGOLXfgG9DT1MTMAHxqQDYyEfs4nqeslCNS4
- QggYfxBCb5wlhYcx3SNO86823x/1dUkeZMibkKkgc6vfhI8wMWcdtp6mehprwGn5LypJ
- aL0PW5NN/F/6AQGgy+FAVb03oNq+Lxyuvo13NwZxt/J6PYOQRNO6PnYNEGa/BnjwXUJZ
- OCD/bgDXu6Jm6wcng/YO6Rt4sE8rlSDQyXmZ7mnj2bn+qgWEjIKa0IpyLDk3zEqQBgPm
- DOnl4lzWiVnfSNjzxMEN2fHXWK2D8A+Hxl2e7dIJ40y0kNlH0Tjgibw4SIA9Jp1vZhOz
- zViw==
-X-Gm-Message-State: AOJu0YwE9ppXen9L8gf6XGtO4049i+A3G70KkeETRWPi+1QoMwGp+mNW
- jqjqLl6FCX6LeB4+PDL2owNjSA==
-X-Google-Smtp-Source: AGHT+IFC6DSYvUj9536i9d90/GS4ktpilI0BoWD5bQsotIoh2JHoAVTBOKOCB9AQfdY2ieUWLZZx9Q==
-X-Received: by 2002:a05:6808:f8c:b0:3a7:366f:3b01 with SMTP id
- o12-20020a0568080f8c00b003a7366f3b01mr4444965oiw.33.1695524022174; 
- Sat, 23 Sep 2023 19:53:42 -0700 (PDT)
-Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net.
- [198.0.35.241]) by smtp.gmail.com with ESMTPSA id
- h12-20020a170902f54c00b001c55e13bf2asm6022710plf.283.2023.09.23.19.53.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 23 Sep 2023 19:53:41 -0700 (PDT)
-Date: Sat, 23 Sep 2023 19:53:41 -0700
-From: Kees Cook <keescook@chromium.org>
-To: Justin Stitt <justinstitt@google.com>
-Subject: Re: [PATCH v2] drm/etnaviv: refactor deprecated strncpy
-Message-ID: <202309231952.6E01CF3589@keescook>
-References: <20230918-strncpy-drivers-gpu-drm-etnaviv-etnaviv_perfmon-c-v2-1-8ae12071c138@google.com>
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B82110E5F2;
+ Thu, 28 Sep 2023 08:55:14 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by ams.source.kernel.org (Postfix) with ESMTP id 9E3ADB81B7F;
+ Thu, 28 Sep 2023 08:55:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BE99C433C9;
+ Thu, 28 Sep 2023 08:55:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1695891312;
+ bh=xa6vvaBHlOk8UEtDQ/qumgt8/oG5MrDN6yqv+rveHfA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=p1PY+GG3b6sYjxjelG0+JL215yj4GYrBZPKDacGZ255ZosUUSwRanMycZXmoWf5+r
+ o/QT+rpcWQyCJd+2tM5SXTt2P0tR+isIoHJeYw998upipUShznj+Bf5ZNmXBNGnNyW
+ PRWqvWmlVWJ1kZtdyoWK9LP6X/2v7rlnkYeLQH+8f9POG7z9vkFtI/M7qLC+kJtxNn
+ mA0W4el2g7aDWARx7SYohHOC7GZZxenwH0uyicTA4gBrNT7Rlfpq+IPa52sr0hXNIu
+ 2LTEwa6Kq3W7p1HiXer3jXIa8s7naOGsxBWwrZ5GYk90jPjb5KGwbHlog1TYOgLtRs
+ bYIWbKRFLC9ww==
+Date: Thu, 28 Sep 2023 10:55:09 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v2] MAINTAINERS: Update drm-misc entry to match all drivers
+Message-ID: <2f5o6om7zcs5zndhxlmxp5bjdvemwijriewm4of3ktouuwsrtt@h2w6m3uzcvya>
+References: <20230921105743.2611263-1-mripard@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="usopfd3hfhg2tjuk"
 Content-Disposition: inline
-In-Reply-To: <20230918-strncpy-drivers-gpu-drm-etnaviv-etnaviv_perfmon-c-v2-1-8ae12071c138@google.com>
+In-Reply-To: <20230921105743.2611263-1-mripard@kernel.org>
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,38 +52,73 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: Bo YU <tsu.yubo@gmail.com>, etnaviv@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+Cc: Karol Herbst <kherbst@redhat.com>, nouveau@lists.freedesktop.org,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Edmund Dea <edmund.j.dea@intel.com>, dri-devel@lists.freedesktop.org,
+ Mikko Perttunen <mperttunen@nvidia.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Russell King <linux@armlinux.org.uk>, amd-gfx@lists.freedesktop.org,
+ Ben Skeggs <bskeggs@redhat.com>, Kyungmin Park <kyungmin.park@samsung.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, Lyude Paul <lyude@redhat.com>,
+ Jani Nikula <jani.nikula@intel.com>, intel-gfx@lists.freedesktop.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>, etnaviv@lists.freedesktop.org,
+ Inki Dae <inki.dae@samsung.com>, Alex Deucher <alexander.deucher@amd.com>,
  Christian Gmeiner <christian.gmeiner@gmail.com>,
- linux-hardening@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
- Russell King <linux+etnaviv@armlinux.org.uk>, David Airlie <airlied@gmail.com>,
+ Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>, linux-tegra@vger.kernel.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, "Pan,
+ Xinhui" <Xinhui.Pan@amd.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
+ linux-renesas-soc@vger.kernel.org, Rob Clark <robdclark@gmail.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
  Lucas Stach <l.stach@pengutronix.de>
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-On Mon, Sep 18, 2023 at 01:34:08PM +0000, Justin Stitt wrote:
-> `strncpy` is deprecated for use on NUL-terminated destination strings [1].
-> 
-> We should prefer more robust and less ambiguous string interfaces.
-> 
-> A suitable replacement is `strscpy_pad` due to the fact that it
-> guarantees NUL-termination on the destination buffer whilst maintaining
-> the NUL-padding behavior that strncpy provides.
-> 
-> Link: https://www.kernel.org/doc/html/latest/process/deprecated.html#strncpy-on-nul-terminated-strings [1]
-> Link: https://github.com/KSPP/linux/issues/90
-> Cc: linux-hardening@vger.kernel.org
-> Cc: Bo YU <tsu.yubo@gmail.com>
-> Signed-off-by: Justin Stitt <justinstitt@google.com>
 
-Looks good to me now. Thanks!
+--usopfd3hfhg2tjuk
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Kees Cook <keescook@chromium.org>
+Hi,
 
-(Though again if you need a v3, making the Subject more specific would
-be nice, "...: Replace strncpy with strscpy_pad"
+On Thu, Sep 21, 2023 at 12:57:43PM +0200, Maxime Ripard wrote:
+> We've had a number of times when a patch slipped through and we couldn't
+> pick them up either because our MAINTAINERS entry only covers the
+> framework and thus we weren't Cc'd.
+>=20
+> Let's take another approach where we match everything, and remove all
+> the drivers that are not maintained through drm-misc.
+>=20
+> Acked-by: Jani Nikula <jani.nikula@intel.com>
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
 
--Kees
+Applied with Dave's Acked-by given on IRC.
 
--- 
-Kees Cook
+This was conflicting with
+https://lore.kernel.org/r/20230925154929.1.I3287e895ce8e68d41b458494a49a1b5=
+ec5c71013@changeid
+
+So I removed the imx exclusion from that list while applying.
+
+Maxime
+
+--usopfd3hfhg2tjuk
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZRU/bQAKCRDj7w1vZxhR
+xe83APwN1o0Jh3tdI+KSLA0NHED3fMGIHdyRsqt2aHdCbHIyBQD7B49jUKpcY4K8
+lWNF/Y+Q5bEHNDXGZCGyRairFyB/mwY=
+=lA7w
+-----END PGP SIGNATURE-----
+
+--usopfd3hfhg2tjuk--
