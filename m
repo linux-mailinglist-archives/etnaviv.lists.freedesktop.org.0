@@ -1,50 +1,49 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC9F07B2160
-	for <lists+etnaviv@lfdr.de>; Thu, 28 Sep 2023 17:32:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 018507B50EB
+	for <lists+etnaviv@lfdr.de>; Mon,  2 Oct 2023 13:12:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7208410E683;
-	Thu, 28 Sep 2023 15:32:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B0E110E295;
+	Mon,  2 Oct 2023 11:12:20 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C12610E679;
- Thu, 28 Sep 2023 15:32:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=MIME-Version:Content-Transfer-Encoding:Content-Type:References:
- In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=IY6QJvsYOVkfVjESwEsZSzvy5/PW5y+hYpTRWIbF1DE=; b=pO5UG8gbA47CC4mG+FX9JaYnNk
- vAFlPsv/3cTCmvpX2NSU6vkaWRdVD/8C3T1sU481EtvBArnBnu6OnyJ+roHZb80PgZgZfWXIRnZAa
- sr5CvItUmArl+tdgE7lrZvNfSDNwcH+9/+o+3mDqP8WyHf7y6bMUY7E6HtygcBV+AfQwd31oyiloR
- QIEY9lyB54IK9YbOfYfSRluqh5Nq8YM3m+Qg8eAwmqm4WGubGf5uc865NBbTLi6KXirB+YzdT+KIa
- AXibMZXfbavBSrIduDtiv+285Hd/+zDR5nGIXfxyOQGka9NdxG2XyfZ7h0Q8s30Kg79RoJRRo6Ch1
- XCIS5OHg==;
-Received: from [83.53.107.208] (helo=localhost.localdomain)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1qlsze-009KQD-5Y; Thu, 28 Sep 2023 17:31:58 +0200
-Message-ID: <801899ab00d617ece02e84c536ae7f7ee64b6794.camel@igalia.com>
-Subject: Re: Requests For Proposals for hosting XDC 2024 are now open
-From: Ricardo Garcia <rgarcia@igalia.com>
-To: events@lists.x.org, xorg-devel@lists.freedesktop.org, 
- wayland-devel@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- mesa-dev@lists.freedesktop.org, amd-gfx@lists.freedesktop.org, 
- etnaviv@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- libre-soc-dev <libre-soc-dev@lists.libre-soc.org>
-Date: Thu, 28 Sep 2023 17:31:57 +0200
-In-Reply-To: <086c491482404be792c72798f5fc840cc5625715.camel@igalia.com>
-References: <086c491482404be792c72798f5fc840cc5625715.camel@igalia.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 39BD510E291;
+ Mon,  2 Oct 2023 11:12:10 +0000 (UTC)
+Received: from loongson.cn (unknown [10.20.42.43])
+ by gateway (Coremail) with SMTP id _____8AxueqHpRplHpIuAA--.13606S3;
+ Mon, 02 Oct 2023 19:12:08 +0800 (CST)
+Received: from openarena.loongson.cn (unknown [10.20.42.43])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8BxE+SHpRplEh4XAA--.50320S2; 
+ Mon, 02 Oct 2023 19:12:07 +0800 (CST)
+From: Sui Jingfeng <suijingfeng@loongson.cn>
+To: Lucas Stach <l.stach@pengutronix.de>
+Subject: [PATCH v2 0/5] drm/etnaviv: Various cleanup
+Date: Mon,  2 Oct 2023 19:12:02 +0800
+Message-Id: <20231002111207.513297-1-suijingfeng@loongson.cn>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8BxE+SHpRplEh4XAA--.50320S2
+X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7
+ ZEXasCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29K
+ BjDU0xBIdaVrnRJUUU9Sb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26c
+ xKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vE
+ j48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxV
+ AFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv6xkF7I0E
+ 14v26r4j6r4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI
+ 0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUtVWrXwAv7VC2z280
+ aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxAIw28Icx
+ kI7VAKI48JMxAqzxv262kKe7AKxVWUXVWUAwCFx2IqxVCFs4IE7xkEbVWUJVW8JwCFI7km
+ 07C267AKxVWUXVWUAwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r
+ 1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVW5
+ JVW7JwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r
+ 1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1U
+ YxBIdaVFxhVjvjDU0xZFpf9x07j8CztUUUUU=
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,43 +55,27 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: board@foundation.x.org
+Cc: Christian Gmeiner <christian.gmeiner@gmail.com>,
+ etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-The period to submit XDC 2024 hosting proposals has been extended and
-the new deadline is **November 1, 2023**
+v2:
+	* refine on v1 and update
 
-Please, submit your proposals as soon as possible, thank you!
+Sui Jingfeng (5):
+  drm/etnaviv: Drop the second argument of the etnaviv_gem_new_impl()
+  drm/etnaviv: Fix coding style
+  drm/etnaviv: Add helper functions to create and destroy platform
+    device
+  drm/etnaviv: Add a helper to get the first available GPU device node
+  drm/etnaviv: Using 'dev' instead of 'etnaviv_obj->base.dev'
 
-On Mon, 2023-06-19 at 15:43 +0200, Ricardo Garcia wrote:
-> Hello everyone!
->=20
-> The X.org board is soliciting proposals to host XDC in 2024. Since XDC
-> 2023 is being held in Europe this year, we've decided to host in North
-> America. However, the board is open to other locations, especially if
-> there's an interesting co-location with another conference.
->=20
-> If you're considering hosting XDC, we've assembled a wiki page with
-> what's generally expected and needed:
->=20
-> https://www.x.org/wiki/Events/RFP/
->=20
-> When submitting your proposal, please make sure to include at least the
-> key information about the potential location in question, possible
-> dates along with estimated costs. Proposals can be submitted to board
-> at foundation.x.org until the deadline of *September 17th, 2023*.=20
->=20
-> Additionally, an quirk early heads-up to the board if you're
-> considering hosting would be appreciated, in case we need to adjust the
-> schedule a bit. Also, earlier is better since there generally will be a
-> bit of Q&A with organizers.
->=20
-> And if you just have some questions about what organizing XDC entails,
-> please feel free to chat with previous organizers, or someone from the
-> board.
->=20
-> Thanks,
-> Ricardo Garcia, on behalf of X.Org
->=20
+ drivers/gpu/drm/etnaviv/etnaviv_drv.c | 93 ++++++++++++++++++---------
+ drivers/gpu/drm/etnaviv/etnaviv_gem.c | 12 ++--
+ 2 files changed, 67 insertions(+), 38 deletions(-)
+
+-- 
+2.34.1
 
