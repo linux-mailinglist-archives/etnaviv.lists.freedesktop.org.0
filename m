@@ -1,53 +1,63 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EE8A7B67F9
-	for <lists+etnaviv@lfdr.de>; Tue,  3 Oct 2023 13:34:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 059EF7BC041
+	for <lists+etnaviv@lfdr.de>; Fri,  6 Oct 2023 22:24:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A9AD710E1DB;
-	Tue,  3 Oct 2023 11:34:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 71E8F10E563;
+	Fri,  6 Oct 2023 20:24:02 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id 70B1F10E26F;
- Tue,  3 Oct 2023 11:34:00 +0000 (UTC)
-Received: from loongson.cn (unknown [10.20.42.43])
- by gateway (Coremail) with SMTP id _____8DxVugn_BtlHs0uAA--.54253S3;
- Tue, 03 Oct 2023 19:33:59 +0800 (CST)
-Received: from openarena.loongson.cn (unknown [10.20.42.43])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8Cx7y8k_Btl7JAXAA--.48472S7; 
- Tue, 03 Oct 2023 19:33:59 +0800 (CST)
-From: Sui Jingfeng <suijingfeng@loongson.cn>
-To: Lucas Stach <l.stach@pengutronix.de>
-Subject: [PATCH v11 5/5] drm/etnaviv: Add support for cached coherent caching
- mode
-Date: Tue,  3 Oct 2023 19:33:56 +0800
-Message-Id: <20231003113356.645394-6-suijingfeng@loongson.cn>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20231003113356.645394-1-suijingfeng@loongson.cn>
-References: <20231003113356.645394-1-suijingfeng@loongson.cn>
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com
+ [IPv6:2607:f8b0:4864:20::1032])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D383010E568
+ for <etnaviv@lists.freedesktop.org>; Fri,  6 Oct 2023 20:23:59 +0000 (UTC)
+Received: by mail-pj1-x1032.google.com with SMTP id
+ 98e67ed59e1d1-27758c8f579so1831612a91.0
+ for <etnaviv@lists.freedesktop.org>; Fri, 06 Oct 2023 13:23:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1696623839; x=1697228639;
+ darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=yeQqUbIodZOEmRnT0u+h/uvWq4E1WjoaKYarDgehFlU=;
+ b=Pw3kzF5BnM1/J+brTVyeexL0CD8xOPCs8n7DfELrERg4+scF8fm9Vf9uokalehrPHH
+ HzPnpjhHXSxo4efETYnvsI/qRbHprYF4lgGQFpRc+pMOY094omA5CM7n/cR5JTRV+mD0
+ R+YMAavHRzZW+YQWCq2tV7eVcZPMiB9uasz24=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1696623839; x=1697228639;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=yeQqUbIodZOEmRnT0u+h/uvWq4E1WjoaKYarDgehFlU=;
+ b=mF1dxiJ8gWhfTty0ONzBpvi2mnPEAIN2dR60CIQtltrlYxddQAZxMK02DFfNbycb8n
+ VS1UNhiQvbgAxCJoi3mhgGbfB/tgR6ED6K9wUrOEA1C5u77BfCWGuCMyWVeJ3dvDa5Ds
+ NtTsXW60QTyp6bPfu6um0LTT6FqxxYGfcmektzvJw0AWKd7lNxSOXRrSoCTN3OoVCjdA
+ MGmgbidwvtKVowBtwhZNAXGqpBsZ4Se6ghiReCN0FzVnLJKcETfpcwhEYRBWMZgJzPod
+ Bn7slmUeHrfUJchZRosVS27mHRUAuUw6zkaiYZRmbCkH4dpAFFY1Gcbm9GiiaiM061oA
+ wvDQ==
+X-Gm-Message-State: AOJu0YxV9h3qlE3a1DbIOc93ndOLw+NHtHcIGo0MUKC2Lh0aP0rZ+9Vv
+ Sl9e7nissRS6iZEwsjyjAxO15Q==
+X-Google-Smtp-Source: AGHT+IHEr5nv1cWEM1Y3LbpIOqHG/Lj+SrRUHy4wA915uDKNkG765B0Y8Pm/6H1gh2Qpt05VCVwqjA==
+X-Received: by 2002:a17:90a:a085:b0:276:e14a:4991 with SMTP id
+ r5-20020a17090aa08500b00276e14a4991mr8929179pjp.2.1696623839216; 
+ Fri, 06 Oct 2023 13:23:59 -0700 (PDT)
+Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net.
+ [198.0.35.241]) by smtp.gmail.com with ESMTPSA id
+ 13-20020a170902c10d00b001bc68602e54sm4343643pli.142.2023.10.06.13.23.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 06 Oct 2023 13:23:58 -0700 (PDT)
+Date: Fri, 6 Oct 2023 13:23:56 -0700
+From: Kees Cook <keescook@chromium.org>
+To: Justin Stitt <justinstitt@google.com>
+Subject: Re: [PATCH v2] drm/etnaviv: refactor deprecated strncpy
+Message-ID: <202310061323.05B262D@keescook>
+References: <20230918-strncpy-drivers-gpu-drm-etnaviv-etnaviv_perfmon-c-v2-1-8ae12071c138@google.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8Cx7y8k_Btl7JAXAA--.48472S7
-X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBj93XoWxGF4fXr18CFyxAF1DArWrZwc_yoW7JrWxpF
- s7AFyFyrWjvayjkw17AFn5ZFyak3WxWFZYk34Dtwn0v3y5Ar1jqr90kFs8Ar98JryfWrya
- qrsrKry3W3W7ArXCm3ZEXasCq-sJn29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7KY7ZEXa
- sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
- 0xBIdaVrnRJUUUk2b4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
- IYs7xG6rWj6s0DM7CIcVAFz4kK6r126r13M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
- e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
- 0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
- xVW8Jr0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx
- 1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1q6rW5McIj6I8E87Iv
- 67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41l42xK82IYc2
- Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s02
- 6x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0x
- vE2Ix0cI8IcVAFwI0_Gr0_Xr1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE
- 42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6x
- kF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUco7KUUUUU
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230918-strncpy-drivers-gpu-drm-etnaviv-etnaviv_perfmon-c-v2-1-8ae12071c138@google.com>
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,141 +69,79 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: Christian Gmeiner <christian.gmeiner@gmail.com>,
- etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: Bo YU <tsu.yubo@gmail.com>, etnaviv@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ linux-hardening@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
+ Russell King <linux+etnaviv@armlinux.org.uk>, David Airlie <airlied@gmail.com>,
+ Lucas Stach <l.stach@pengutronix.de>
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Loongson CPUs maintain cache coherency by hardware, which means that the
-data in the CPU cache is identical to the data in main system memory.
-As for the peripheral device, most of Loongson chips choose to define the
-peripherals as DMA coherent by default, device drivers do not need to
-maintain the coherency between a processor and an I/O device manually.
+On Mon, Sep 18, 2023 at 01:34:08PM +0000, Justin Stitt wrote:
+> `strncpy` is deprecated for use on NUL-terminated destination strings [1].
+> 
+> We should prefer more robust and less ambiguous string interfaces.
+> 
+> A suitable replacement is `strscpy_pad` due to the fact that it
+> guarantees NUL-termination on the destination buffer whilst maintaining
+> the NUL-padding behavior that strncpy provides.
 
-The above sttement is true for *cached* buffers only, this patch say
-nothing about WC buffers, it is likely implement-dependent. WC buffers
-can be DMA non-coherent on specific platform.
+Friend ping. Who can pick this change up?
 
-Also because vivante GPU IP has been integrated into various platform, we
-need to do the probe work. this patch add code to test if a specific
-platform is cached coherent, utilize such hardware feature where suitable.
-And allow userspace to query.
+Thanks!
 
-Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
----
- drivers/gpu/drm/etnaviv/etnaviv_drv.c |  7 +++++++
- drivers/gpu/drm/etnaviv/etnaviv_drv.h |  8 ++++++++
- drivers/gpu/drm/etnaviv/etnaviv_gem.c | 16 ++++++++++++++--
- drivers/gpu/drm/etnaviv/etnaviv_gpu.c |  4 ++++
- include/uapi/drm/etnaviv_drm.h        |  1 +
- 5 files changed, 34 insertions(+), 2 deletions(-)
+-Kees
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-index 8db86120b11d..3598e2f840b3 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-@@ -5,6 +5,7 @@
- 
- #include <linux/component.h>
- #include <linux/dma-mapping.h>
-+#include <linux/dma-map-ops.h>
- #include <linux/module.h>
- #include <linux/of.h>
- #include <linux/of_device.h>
-@@ -66,6 +67,12 @@ static struct etnaviv_drm_private *etnaviv_alloc_private(struct device *dev)
- 		return ERR_PTR(-ENOMEM);
- 	}
- 
-+	/*
-+	 * The device_get_dma_attr(dev) == DEV_DMA_COHERENT don't work
-+	 * on LoongArch platform, so still use dev_is_dma_coherent(dev).
-+	 */
-+	priv->cached_coherent = dev_is_dma_coherent(dev);
-+
- 	return priv;
- }
- 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.h b/drivers/gpu/drm/etnaviv/etnaviv_drv.h
-index 9cd72948cfad..760048c35481 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_drv.h
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.h
-@@ -46,6 +46,14 @@ struct etnaviv_drm_private {
- 	struct xarray active_contexts;
- 	u32 next_context_id;
- 
-+	/*
-+	 * If true, the GPU is capable of snooping CPU's cache. It means
-+	 * that cached buffer is coherent for both of the CPU and GPU's
-+	 * access. And the coherency is guaranteed by platform hardware.
-+	 * Software enforced coherency does not count here.
-+	 */
-+	bool cached_coherent;
-+
- 	/* list of GEM objects: */
- 	struct mutex gem_lock;
- 	struct list_head gem_list;
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-index 71a6d2b1c80f..a72ca0a6883e 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-@@ -342,6 +342,7 @@ void *etnaviv_gem_vmap(struct drm_gem_object *obj)
- static void *etnaviv_gem_vmap_impl(struct etnaviv_gem_object *obj)
- {
- 	struct page **pages;
-+	pgprot_t prot;
- 
- 	lockdep_assert_held(&obj->lock);
- 
-@@ -349,8 +350,19 @@ static void *etnaviv_gem_vmap_impl(struct etnaviv_gem_object *obj)
- 	if (IS_ERR(pages))
- 		return NULL;
- 
--	return vmap(pages, obj->base.size >> PAGE_SHIFT,
--			VM_MAP, pgprot_writecombine(PAGE_KERNEL));
-+	switch (obj->flags) {
-+	case ETNA_BO_CACHED:
-+		prot = PAGE_KERNEL;
-+		break;
-+	case ETNA_BO_UNCACHED:
-+		prot = pgprot_noncached(PAGE_KERNEL);
-+		break;
-+	case ETNA_BO_WC:
-+	default:
-+		prot = pgprot_writecombine(PAGE_KERNEL);
-+	}
-+
-+	return vmap(pages, obj->base.size >> PAGE_SHIFT, VM_MAP, prot);
- }
- 
- static inline enum dma_data_direction etnaviv_op_to_dma_dir(u32 op)
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-index 330f8a272184..9530dddd4273 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-@@ -164,6 +164,10 @@ int etnaviv_gpu_get_param(struct etnaviv_gpu *gpu, u32 param, u64 *value)
- 		*value = gpu->identity.eco_id;
- 		break;
- 
-+	case ETNAVIV_PARAM_CACHED_COHERENT:
-+		*value = priv->cached_coherent;
-+		break;
-+
- 	default:
- 		DBG("%s: invalid param: %u", dev_name(gpu->dev), param);
- 		return -EINVAL;
-diff --git a/include/uapi/drm/etnaviv_drm.h b/include/uapi/drm/etnaviv_drm.h
-index af024d90453d..61eaa8cd0f5e 100644
---- a/include/uapi/drm/etnaviv_drm.h
-+++ b/include/uapi/drm/etnaviv_drm.h
-@@ -77,6 +77,7 @@ struct drm_etnaviv_timespec {
- #define ETNAVIV_PARAM_GPU_PRODUCT_ID                0x1c
- #define ETNAVIV_PARAM_GPU_CUSTOMER_ID               0x1d
- #define ETNAVIV_PARAM_GPU_ECO_ID                    0x1e
-+#define ETNAVIV_PARAM_CACHED_COHERENT               0x1f
- 
- #define ETNA_MAX_PIPES 4
- 
+> 
+> Link: https://www.kernel.org/doc/html/latest/process/deprecated.html#strncpy-on-nul-terminated-strings [1]
+> Link: https://github.com/KSPP/linux/issues/90
+> Cc: linux-hardening@vger.kernel.org
+> Cc: Bo YU <tsu.yubo@gmail.com>
+> Signed-off-by: Justin Stitt <justinstitt@google.com>
+> ---
+> Changes in v2:
+> - use strscpy_pad (thanks Kees)
+> - Link to v1: https://lore.kernel.org/r/20230914-strncpy-drivers-gpu-drm-etnaviv-etnaviv_perfmon-c-v1-1-3adc2d9bfc52@google.com
+> ---
+> Similar to [2] which was never picked up. Let's prefer strscpy_pad to strlcpy, though
+> 
+> [2]: https://lore.kernel.org/all/20190328080918.9290-1-tsu.yubo@gmail.com/
+> ---
+>  drivers/gpu/drm/etnaviv/etnaviv_perfmon.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c b/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
+> index bafdfe49c1d8..dc9dea664a28 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
+> @@ -511,7 +511,7 @@ int etnaviv_pm_query_dom(struct etnaviv_gpu *gpu,
+>  
+>  	domain->id = domain->iter;
+>  	domain->nr_signals = dom->nr_signals;
+> -	strncpy(domain->name, dom->name, sizeof(domain->name));
+> +	strscpy_pad(domain->name, dom->name, sizeof(domain->name));
+>  
+>  	domain->iter++;
+>  	if (domain->iter == nr_domains)
+> @@ -540,7 +540,7 @@ int etnaviv_pm_query_sig(struct etnaviv_gpu *gpu,
+>  	sig = &dom->signal[signal->iter];
+>  
+>  	signal->id = signal->iter;
+> -	strncpy(signal->name, sig->name, sizeof(signal->name));
+> +	strscpy_pad(signal->name, sig->name, sizeof(signal->name));
+>  
+>  	signal->iter++;
+>  	if (signal->iter == dom->nr_signals)
+> 
+> ---
+> base-commit: 3669558bdf354cd352be955ef2764cde6a9bf5ec
+> change-id: 20230914-strncpy-drivers-gpu-drm-etnaviv-etnaviv_perfmon-c-dd095491dfde
+> 
+> Best regards,
+> --
+> Justin Stitt <justinstitt@google.com>
+> 
+
 -- 
-2.34.1
-
+Kees Cook
