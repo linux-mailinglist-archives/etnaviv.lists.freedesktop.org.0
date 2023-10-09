@@ -2,52 +2,59 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B7717BC554
-	for <lists+etnaviv@lfdr.de>; Sat,  7 Oct 2023 09:03:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C0D67BD681
+	for <lists+etnaviv@lfdr.de>; Mon,  9 Oct 2023 11:13:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 430F410E115;
-	Sat,  7 Oct 2023 07:03:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6511910E24C;
+	Mon,  9 Oct 2023 09:13:16 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id 8E44110E06E;
- Sat,  7 Oct 2023 07:03:14 +0000 (UTC)
-Received: from loongson.cn (unknown [10.20.42.43])
- by gateway (Coremail) with SMTP id _____8AxqOiwAiFlMLsvAA--.55369S3;
- Sat, 07 Oct 2023 15:03:12 +0800 (CST)
-Received: from openarena.loongson.cn (unknown [10.20.42.43])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8AxXNywAiFlmewZAA--.55077S2; 
- Sat, 07 Oct 2023 15:03:12 +0800 (CST)
-From: Sui Jingfeng <suijingfeng@loongson.cn>
-To: Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>
-Subject: [PATCH] drm/etnaviv: Drop the 'len' parameter of etnaviv_iommu_map()
- function
-Date: Sat,  7 Oct 2023 15:03:12 +0800
-Message-Id: <20231007070312.1026296-1-suijingfeng@loongson.cn>
-X-Mailer: git-send-email 2.34.1
+Received: from mail-oa1-x36.google.com (mail-oa1-x36.google.com
+ [IPv6:2001:4860:4864:20::36])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8857110E24C;
+ Mon,  9 Oct 2023 09:13:14 +0000 (UTC)
+Received: by mail-oa1-x36.google.com with SMTP id
+ 586e51a60fabf-1e0ee4e777bso3016088fac.3; 
+ Mon, 09 Oct 2023 02:13:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1696842793; x=1697447593; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=+6j4vvxY4EqozcmVPKocYKAhoEnZR1RKLlrR38PBlyo=;
+ b=PbeU41nl4zfNFRy+W5DTLzhlzvaot7kVIzP455xk0x0pXLnEmAbuNc5c2cCVmiwhkX
+ QVOq2P4vB2TasZ1RkNBNH27j6z2Y+JuYjriG+Oke8kvsBY7jbkg9vXZ1vc6395quXpzr
+ UseiJ6IdCt55GKkusur2/sPkEczHazzFhWJeh65xvbXFI5aBzLMmMjlPF0Qn1jM81aRo
+ iCgPH7WEnx0uiRbWeRXtZmWC1zcTH1O2DSGBXy8KVm8ex62QHi+rLEJvOMEZh2DQeGEC
+ MnjYUaly+U/UUu8wGBo5DLYO8IvvaAZ5f6SYgHptmhkug2f7ClYGhu3SzjVrt4DAEauD
+ cd/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1696842793; x=1697447593;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=+6j4vvxY4EqozcmVPKocYKAhoEnZR1RKLlrR38PBlyo=;
+ b=TBT+0nqu2MiDsiBbc1CL4Syf/1W3WtMHuLM+Y4VGnWKeLu+gpGzJn4i0Pyr9hpiAeK
+ CxTKW+Ob3kq7+1lsVrpb5HgExCgnHeqtRT433tdDX8JWh4VVAym6yw3Z/RM1Ly/21I1h
+ 7YVfK9D5PaSlOnqtFKW1SpK5HqBJ44MlZ3ldZlF54n6SiBYK8+1dQjJcat3iw5cvOzrO
+ tLJ3A4a++jsLg15PUkBaZo95gKT0UYmB347rAlIN91SSANcUW/vD2KzaK+ve1GEjP0FX
+ 9LKkAJg1h+QWsap3YHzK0DyszwUAn3tB8s0uFl0lDhLc2Hm4Ps8wvRb8SilLBK0W3qvx
+ GsHw==
+X-Gm-Message-State: AOJu0Yw2QnY3Vb7FR54y4Mo9F8f8n46BuBche3t9FEMinm6+OVBEp14k
+ wAw/ntAHJmuXVWTra3W6wrKX8NgW2DUKpsDPGjU=
+X-Google-Smtp-Source: AGHT+IFC5K5ukyGxfSgYqssv30cv3lVT+tGyeW1gq1ro6ijzaWIOfHM87jWQp/uZiGRud8xNqHx7+THodnZg3ePCxhs=
+X-Received: by 2002:a05:6870:5ba0:b0:1be:f8d9:7bdd with SMTP id
+ em32-20020a0568705ba000b001bef8d97bddmr18638659oab.6.1696842793555; Mon, 09
+ Oct 2023 02:13:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8AxXNywAiFlmewZAA--.55077S2
-X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBj9xXoW7Gw47XryUXF1fKryfJryxZwc_yoWkKwb_CF
- 1UZr9rJrsxZFn2q3Z2yrZxZF9YyF45ZFs2q3Zrt3sxKryDZwnxArWv934DA3yrXFy8uFnr
- G3Z7tF10kF17WosvyTuYvTs0mTUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUj1kv1TuYvT
- s0mT0YCTnIWjqI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUI
- cSsGvfJTRUUUb7AYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20x
- vaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxS
- w2x7M28EF7xvwVC0I7IYx2IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxV
- WUJVW8JwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v2
- 6r4UJVWxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27w
- Aqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE
- 14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCF04k20xvY0x
- 0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E
- 7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcV
- C0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF
- 04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7
- CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU1CPfJUUUUU==
+References: <20230918-strncpy-drivers-gpu-drm-etnaviv-etnaviv_perfmon-c-v2-1-8ae12071c138@google.com>
+ <202310061323.05B262D@keescook>
+In-Reply-To: <202310061323.05B262D@keescook>
+From: Christian Gmeiner <christian.gmeiner@gmail.com>
+Date: Mon, 9 Oct 2023 11:13:02 +0200
+Message-ID: <CAH9NwWfM2E=M1u_LnRLXkXqbJapR0aga2kex=uc3YBMkdP2fHg@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/etnaviv: refactor deprecated strncpy
+To: Kees Cook <keescook@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,41 +66,47 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: Bo YU <tsu.yubo@gmail.com>, Justin Stitt <justinstitt@google.com>,
+ etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
+ Daniel Vetter <daniel@ffwll.ch>, Russell King <linux+etnaviv@armlinux.org.uk>,
+ David Airlie <airlied@gmail.com>, Lucas Stach <l.stach@pengutronix.de>
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-The 'len' parameter is the 4th argument, because it is not get used, so
-drop it. No functional change.
+Am Fr., 6. Okt. 2023 um 22:23 Uhr schrieb Kees Cook <keescook@chromium.org>:
+>
+> On Mon, Sep 18, 2023 at 01:34:08PM +0000, Justin Stitt wrote:
+> > `strncpy` is deprecated for use on NUL-terminated destination strings [1].
+> >
+> > We should prefer more robust and less ambiguous string interfaces.
+> >
+> > A suitable replacement is `strscpy_pad` due to the fact that it
+> > guarantees NUL-termination on the destination buffer whilst maintaining
+> > the NUL-padding behavior that strncpy provides.
+>
+> Friend ping. Who can pick this change up?
+>
 
-Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
----
- drivers/gpu/drm/etnaviv/etnaviv_mmu.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Lucas is the one who is responsible for this job.
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_mmu.c b/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
-index 4fa72567183a..1661d589bf3e 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
-@@ -70,7 +70,7 @@ static int etnaviv_context_map(struct etnaviv_iommu_context *context,
- }
- 
- static int etnaviv_iommu_map(struct etnaviv_iommu_context *context, u32 iova,
--			     struct sg_table *sgt, unsigned len, int prot)
-+			     struct sg_table *sgt, int prot)
- {	struct scatterlist *sg;
- 	unsigned int da = iova;
- 	unsigned int i;
-@@ -314,7 +314,7 @@ int etnaviv_iommu_map_gem(struct etnaviv_iommu_context *context,
- 		goto unlock;
- 
- 	mapping->iova = node->start;
--	ret = etnaviv_iommu_map(context, node->start, sgt, etnaviv_obj->base.size,
-+	ret = etnaviv_iommu_map(context, node->start, sgt,
- 				ETNAVIV_PROT_READ | ETNAVIV_PROT_WRITE);
- 
- 	if (ret < 0) {
+>
+> Thanks!
+>
+> -Kees
+>
+> >
+> > Link: https://www.kernel.org/doc/html/latest/process/deprecated.html#strncpy-on-nul-terminated-strings [1]
+> > Link: https://github.com/KSPP/linux/issues/90
+> > Cc: linux-hardening@vger.kernel.org
+> > Cc: Bo YU <tsu.yubo@gmail.com>
+> > Signed-off-by: Justin Stitt <justinstitt@google.com>
+
+Reviewed-by: Christian Gmeiner <cgmeiner@igalia.com>
+
 -- 
-2.34.1
+greets
+--
+Christian Gmeiner, MSc
 
+https://christian-gmeiner.info/privacypolicy
