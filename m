@@ -2,37 +2,37 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A62A7C7525
-	for <lists+etnaviv@lfdr.de>; Thu, 12 Oct 2023 19:53:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F06377C752A
+	for <lists+etnaviv@lfdr.de>; Thu, 12 Oct 2023 19:53:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0517C10E52B;
-	Thu, 12 Oct 2023 17:53:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4CBCF10E536;
+	Thu, 12 Oct 2023 17:53:18 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2954810E52B
- for <etnaviv@lists.freedesktop.org>; Thu, 12 Oct 2023 17:53:00 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 225A910E542
+ for <etnaviv@lists.freedesktop.org>; Thu, 12 Oct 2023 17:53:16 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 83DDCB825B2;
- Thu, 12 Oct 2023 17:52:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 743EAC433C9;
- Thu, 12 Oct 2023 17:52:57 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 900E061ED3;
+ Thu, 12 Oct 2023 17:53:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2E70C433C8;
+ Thu, 12 Oct 2023 17:53:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1697133177;
- bh=/mseoKcezYNm9D/m/7OvzZ+O0UkFXVOc/YNectmgqRY=;
+ s=korg; t=1697133195;
+ bh=BkfNbGy/pNYZ3CxiWDiWuEC3UVTeRXABZWE3Bel7wD4=;
  h=Subject:To:Cc:From:Date:In-Reply-To:From;
- b=LH5f145XDpIDxlAeuAXdpxsABQaeHFRNSVX+45AG1FvcWEGafrjwQnCqlt1o7Ry3O
- 441kNvAzVQzkVG6samFNtSHs19RQp108yKlpiwDl92SBPOeDfZPhDizQvsMXVN/lo+
- /ziwhHrGgfNxLg1LfTLOv1nHkF0yKr8MXHUHY2qE=
+ b=u0j9F8oxZK4OkdvK/xpc25MVq9ldj+qxlc7ROiOuB/A0aD6vHt/Gr1UFHAiu3cVPn
+ u3D3px9SmuJHhYksqVcoCptcTqgDqq3GGGHnkD0S748cjbBMgzUqEVOuPXd7pguKkz
+ VzVJRHIhyWeBRwmd6fjMqY8sEtzh03CAuHIpuVxA=
 Subject: Patch "drm: etvnaviv: fix bad backport leading to warning" has been
- added to the 4.19-stable tree
+ added to the 5.4-stable tree
 To: etnaviv@lists.freedesktop.org, gregkh@linuxfoundation.org,
  l.stach@pengutronix.de, martin.fuzzey@flowbird.group
 From: <gregkh@linuxfoundation.org>
-Date: Thu, 12 Oct 2023 19:52:54 +0200
+Date: Thu, 12 Oct 2023 19:53:12 +0200
 In-Reply-To: <20231010132030.1392238-1-martin.fuzzey@flowbird.group>
-Message-ID: <2023101254-dreamlike-outdoors-dab6@gregkh>
+Message-ID: <2023101211-iciness-cattishly-7b29@gregkh>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=ANSI_X3.4-1968
 Content-Transfer-Encoding: 8bit
@@ -58,12 +58,12 @@ This is a note to let you know that I've just added the patch titled
 
     drm: etvnaviv: fix bad backport leading to warning
 
-to the 4.19-stable tree which can be found at:
+to the 5.4-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
      drm-etvnaviv-fix-bad-backport-leading-to-warning.patch
-and it can be found in the queue-4.19 subdirectory.
+and it can be found in the queue-5.4 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
@@ -146,7 +146,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 --- a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
 +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
-@@ -96,7 +96,7 @@ static int etnaviv_gem_prime_mmap_obj(st
+@@ -98,7 +98,7 @@ static int etnaviv_gem_prime_mmap_obj(st
  	ret = dma_buf_mmap(etnaviv_obj->base.dma_buf, vma, 0);
  	if (!ret) {
  		/* Drop the reference acquired by drm_gem_mmap_obj(). */
@@ -159,4 +159,4 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 Patches currently in stable-queue which might be from martin.fuzzey@flowbird.group are
 
-queue-4.19/drm-etvnaviv-fix-bad-backport-leading-to-warning.patch
+queue-5.4/drm-etvnaviv-fix-bad-backport-leading-to-warning.patch
