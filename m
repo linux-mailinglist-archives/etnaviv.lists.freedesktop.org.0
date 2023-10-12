@@ -2,56 +2,42 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BCC27C62AC
-	for <lists+etnaviv@lfdr.de>; Thu, 12 Oct 2023 04:21:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CA497C7521
+	for <lists+etnaviv@lfdr.de>; Thu, 12 Oct 2023 19:52:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8EE3810E3DC;
-	Thu, 12 Oct 2023 02:21:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 079D110E522;
+	Thu, 12 Oct 2023 17:52:47 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id 4879510E3D6;
- Thu, 12 Oct 2023 02:20:58 +0000 (UTC)
-Received: from loongson.cn (unknown [10.20.42.43])
- by gateway (Coremail) with SMTP id _____8AxXOoHWCdlEzwxAA--.2134S3;
- Thu, 12 Oct 2023 10:20:56 +0800 (CST)
-Received: from [10.20.42.43] (unknown [10.20.42.43])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8CxfNz+Vydlwj4hAA--.4675S3; 
- Thu, 12 Oct 2023 10:20:55 +0800 (CST)
-Message-ID: <8532764a-ac25-ff66-07cb-60a0eb011a01@loongson.cn>
-Date: Thu, 12 Oct 2023 10:20:46 +0800
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4CDE710E522
+ for <etnaviv@lists.freedesktop.org>; Thu, 12 Oct 2023 17:52:44 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 454F161EBD;
+ Thu, 12 Oct 2023 17:52:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86EEEC433C8;
+ Thu, 12 Oct 2023 17:52:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1697133162;
+ bh=jTPNKxdF286MZxtQy6/T9ujEenlBymJudRDF0M1Plhs=;
+ h=Subject:To:Cc:From:Date:In-Reply-To:From;
+ b=q3NP5cNc5vDMNEuNBEXcsr6fOgI5kHNEQtpmLhmSe4xsMHmrAudfUsw809TtooyXi
+ o3wGKEmbmbikXIXLJCJ94PRmEJUf1mAqkWO37ggvyMPFlC3ChTML//k8H7xMcMVuqs
+ v6fecRuZZlaixSW64cRsRZSRI3O+yZRsG8MFZlQ0=
+Subject: Patch "drm: etvnaviv: fix bad backport leading to warning" has been
+ added to the 4.14-stable tree
+To: etnaviv@lists.freedesktop.org, gregkh@linuxfoundation.org,
+ l.stach@pengutronix.de, martin.fuzzey@flowbird.group
+From: <gregkh@linuxfoundation.org>
+Date: Thu, 12 Oct 2023 19:52:39 +0200
+In-Reply-To: <20231010132030.1392238-1-martin.fuzzey@flowbird.group>
+Message-ID: <2023101239-pagan-outshine-25ab@gregkh>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v2 0/5] drm/etnaviv: Various cleanup
-To: Lucas Stach <l.stach@pengutronix.de>
-References: <20231002111207.513297-1-suijingfeng@loongson.cn>
- <8201caf4102cbb81ea15e87713a165590b11a684.camel@pengutronix.de>
-Content-Language: en-US
-From: Sui Jingfeng <suijingfeng@loongson.cn>
-In-Reply-To: <8201caf4102cbb81ea15e87713a165590b11a684.camel@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID: AQAAf8CxfNz+Vydlwj4hAA--.4675S3
-X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBj9xXoWrtw18GrW7CFykZrWkAF1DJwc_yoW3Cwc_uF
- W8Zr97Xr4fJF1vqFy7A3s5AFW0kF4rXrsFq3Wjq39FgrZIqFnxZr1kG3yUW34UXFW7KFnr
- XF93JryfAFy7WosvyTuYvTs0mTUanT9S1TB71UUUUUJqnTZGkaVYY2UrUUUUj1kv1TuYvT
- s0mT0YCTnIWjqI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUI
- cSsGvfJTRUUUbfAYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20x
- vaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxS
- w2x7M28EF7xvwVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxV
- W8JVWxJwA2z4x0Y4vEx4A2jsIE14v26F4j6r4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_
- Gr1j6F4UJwAaw2AFwI0_Jrv_JF1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0c
- Ia020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jrv_
- JF1lYx0Ex4A2jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrw
- CYjI0SjxkI62AI1cAE67vIY487MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j
- 6r4UMxCIbckI1I0E14v26r1Y6r17MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwV
- AFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv2
- 0xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4
- v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AK
- xVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU8TqcUUUUUU==
+Content-Type: text/plain; charset=ANSI_X3.4-1968
+Content-Transfer-Encoding: 8bit
+X-stable: commit
+X-Patchwork-Hint: ignore
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,38 +49,114 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: Christian Gmeiner <christian.gmeiner@gmail.com>,
- etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: stable-commits@vger.kernel.org
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Hi, Lucas
+
+This is a note to let you know that I've just added the patch titled
+
+    drm: etvnaviv: fix bad backport leading to warning
+
+to the 4.14-stable tree which can be found at:
+    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
+
+The filename of the patch is:
+     drm-etvnaviv-fix-bad-backport-leading-to-warning.patch
+and it can be found in the queue-4.14 subdirectory.
+
+If you, or anyone else, feels it should not be added to the stable tree,
+please let <stable@vger.kernel.org> know about it.
 
 
-Thanks a lot!
+From martin.fuzzey@flowbird.group  Thu Oct 12 19:51:38 2023
+From: Martin Fuzzey <martin.fuzzey@flowbird.group>
+Date: Tue, 10 Oct 2023 15:19:28 +0200
+Subject: drm: etvnaviv: fix bad backport leading to warning
+To: stable@vger.kernel.org
+Cc: Lucas Stach <l.stach@pengutronix.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, etnaviv@lists.freedesktop.org
+Message-ID: <20231010132030.1392238-1-martin.fuzzey@flowbird.group>
+
+From: Martin Fuzzey <martin.fuzzey@flowbird.group>
+
+When updating from 5.4.219 -> 5.4.256 I started getting a runtime warning:
+
+[   58.229857] ------------[ cut here ]------------
+[   58.234599] WARNING: CPU: 1 PID: 565 at drivers/gpu/drm/drm_gem.c:1020 drm_gem_object_put+0x90/0x98
+[   58.249935] Modules linked in: qmi_wwan cdc_wdm option usb_wwan smsc95xx rsi_usb rsi_91x btrsi ci_hdrc_imx ci_hdrc
+[   58.260499] ueventd: modprobe usb:v2F8Fp7FFFd0200dc00dsc00dp00icFEisc01ip02in00 done
+[   58.288877] CPU: 1 PID: 565 Comm: android.display Not tainted 5.4.256pkn-5.4-bsp-snapshot-svn-7423 #2195
+[   58.288883] Hardware name: Freescale i.MX6 Quad/DualLite (Device Tree)
+[   58.288888] Backtrace:
+[   58.288912] [<c010e784>] (dump_backtrace) from [<c010eaa4>] (show_stack+0x20/0x24)
+[   58.288920]  r7:00000000 r6:60010013 r5:00000000 r4:c14cd224
+[   58.328337] [<c010ea84>] (show_stack) from [<c0cf9ca4>] (dump_stack+0xe8/0x120)
+[   58.335661] [<c0cf9bbc>] (dump_stack) from [<c012efd0>] (__warn+0xd4/0xe8)
+[   58.342542]  r10:eda54000 r9:c06ca53c r8:000003fc r7:00000009 r6:c111ed54 r5:00000000
+[   58.350374]  r4:00000000 r3:76cf564a
+[   58.353957] [<c012eefc>] (__warn) from [<c012f094>] (warn_slowpath_fmt+0xb0/0xc0)
+[   58.361445]  r9:00000009 r8:c06ca53c r7:000003fc r6:c111ed54 r5:c1406048 r4:00000000
+[   58.369198] [<c012efe8>] (warn_slowpath_fmt) from [<c06ca53c>] (drm_gem_object_put+0x90/0x98)
+[   58.377728]  r9:edda7e40 r8:edd39360 r7:ad16e000 r6:edda7eb0 r5:00000000 r4:edaa3200
+[   58.385524] [<c06ca4ac>] (drm_gem_object_put) from [<bf0125a8>] (etnaviv_gem_prime_mmap_obj+0x34/0x3c [etnaviv])
+[   58.395704]  r5:00000000 r4:edaa3200
+[   58.399334] [<bf012574>] (etnaviv_gem_prime_mmap_obj [etnaviv]) from [<bf0143a0>] (etnaviv_gem_mmap+0x3c/0x60 [etnaviv])
+[   58.410205]  r5:edd39360 r4:00000000
+[   58.413816] [<bf014364>] (etnaviv_gem_mmap [etnaviv]) from [<c02c5e08>] (mmap_region+0x37c/0x67c)
+[   58.422689]  r5:ad16d000 r4:edda7eb8
+[   58.426272] [<c02c5a8c>] (mmap_region) from [<c02c6528>] (do_mmap+0x420/0x544)
+[   58.433500]  r10:000000fb r9:000fffff r8:ffffffff r7:00000001 r6:00000003 r5:00000001
+[   58.441330]  r4:00001000
+[   58.443876] [<c02c6108>] (do_mmap) from [<c02a5b2c>] (vm_mmap_pgoff+0xd0/0x100)
+[   58.451190]  r10:eda54040 r9:00001000 r8:00000000 r7:00000000 r6:00000003 r5:c1406048
+[   58.459020]  r4:edb8ff24
+[   58.461561] [<c02a5a5c>] (vm_mmap_pgoff) from [<c02c3ac8>] (ksys_mmap_pgoff+0xdc/0x10c)
+[   58.469570]  r10:000000c0 r9:edb8e000 r8:ed650b40 r7:00000003 r6:00001000 r5:00000000
+[   58.477400]  r4:00000001
+[   58.479941] [<c02c39ec>] (ksys_mmap_pgoff) from [<c02c3b24>] (sys_mmap_pgoff+0x2c/0x34)
+[   58.487949]  r8:c0101224 r7:000000c0 r6:951ece38 r5:00010001 r4:00000065
+[   58.494658] [<c02c3af8>] (sys_mmap_pgoff) from [<c0101000>] (ret_fast_syscall+0x0/0x28)
+
+It looks like this was a backporting error for the upstream patch
+963b2e8c428f "drm/etnaviv: fix reference leak when mmaping imported buffer"
+
+In the 5.4 kernel there are 2 variants of the object put function:
+	drm_gem_object_put() [which requires lock to be held]
+	drm_gem_object_put_unlocked() [which requires lock to be NOT held]
+
+In later kernels [5.14+] this has gone and there just drm_gem_object_put()
+which requires lock to be NOT held.
+
+So the memory leak pach, which added a call to drm_gem_object_put() was correct
+on newer kernels but wrong on 5.4 and earlier ones.
+
+So switch back to using the _unlocked variant for old kernels.
+This should only be applied to the 5.4, 4.19 and 4.14 longterm branches;
+mainline and more recent longterms already have the correct fix.
+
+Signed-off-by: Martin Fuzzey <martin.fuzzey@flowbird.group>
+Fixes: 0c6df5364798 "drm/etnaviv: fix reference leak when mmaping imported buffer" [5.4.y]
+Fixes: 0838cb217a52 "drm/etnaviv: fix reference leak when mmaping imported buffer" [4.19.y]
+Fixes: 1c9544fbc979 "drm/etnaviv: fix reference leak when mmaping imported buffer" [4.14.y]
+Reviewed-by: Lucas Stach <l.stach@pengutronix.de>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
+@@ -107,7 +107,7 @@ static int etnaviv_gem_prime_mmap_obj(st
+ 	ret = dma_buf_mmap(etnaviv_obj->base.dma_buf, vma, 0);
+ 	if (!ret) {
+ 		/* Drop the reference acquired by drm_gem_mmap_obj(). */
+-		drm_gem_object_put(&etnaviv_obj->base);
++		drm_gem_object_put_unlocked(&etnaviv_obj->base);
+ 	}
+ 
+ 	return ret;
 
 
-On 2023/10/12 01:04, Lucas Stach wrote:
-> Am Montag, dem 02.10.2023 um 19:12 +0800 schrieb Sui Jingfeng:
->> v2:
->> 	* refine on v1 and update
->>
-> Thanks, series applied to my etnaviv/next branch.
->
-> Regards,
-> Lucas
->
->> Sui Jingfeng (5):
->>    drm/etnaviv: Drop the second argument of the etnaviv_gem_new_impl()
->>    drm/etnaviv: Fix coding style
->>    drm/etnaviv: Add helper functions to create and destroy platform
->>      device
->>    drm/etnaviv: Add a helper to get the first available GPU device node
->>    drm/etnaviv: Using 'dev' instead of 'etnaviv_obj->base.dev'
->>
->>   drivers/gpu/drm/etnaviv/etnaviv_drv.c | 93 ++++++++++++++++++---------
->>   drivers/gpu/drm/etnaviv/etnaviv_gem.c | 12 ++--
->>   2 files changed, 67 insertions(+), 38 deletions(-)
->>
+Patches currently in stable-queue which might be from martin.fuzzey@flowbird.group are
 
+queue-4.14/drm-etvnaviv-fix-bad-backport-leading-to-warning.patch
