@@ -2,85 +2,52 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CC387DF829
-	for <lists+etnaviv@lfdr.de>; Thu,  2 Nov 2023 17:58:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D2FA7DF80D
+	for <lists+etnaviv@lfdr.de>; Thu,  2 Nov 2023 17:57:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D01110E936;
-	Thu,  2 Nov 2023 16:58:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D2EAC10E937;
+	Thu,  2 Nov 2023 16:57:13 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
 Received: from metis.whiteo.stw.pengutronix.de
  (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BAAF910E936
- for <etnaviv@lists.freedesktop.org>; Thu,  2 Nov 2023 16:58:35 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E74D10E935
+ for <etnaviv@lists.freedesktop.org>; Thu,  2 Nov 2023 16:57:12 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
  by metis.whiteo.stw.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <ukl@pengutronix.de>)
- id 1qyb0K-000357-QY; Thu, 02 Nov 2023 17:57:12 +0100
+ id 1qyb0H-00035N-4E; Thu, 02 Nov 2023 17:57:09 +0100
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
  by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
  (envelope-from <ukl@pengutronix.de>)
- id 1qyb0F-0067Eo-8v; Thu, 02 Nov 2023 17:57:07 +0100
+ id 1qyb0G-0067F9-NW; Thu, 02 Nov 2023 17:57:08 +0100
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
  (envelope-from <ukl@pengutronix.de>)
- id 1qyb0E-00Bjbm-TZ; Thu, 02 Nov 2023 17:57:06 +0100
+ id 1qyb0G-00BjcD-EI; Thu, 02 Nov 2023 17:57:08 +0100
 From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Tomi Valkeinen <tomi.valkeinen@ti.com>,
- Sam Ravnborg <sam@ravnborg.org>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Alexey Brodkin <abrodkin@synopsys.com>,
- Russell King <linux@armlinux.org.uk>, Aradhya Bhatia <a-bhatia1@ti.com>,
- Nikhil Devshatwar <nikhil.nd@ti.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Zhu Wang <wangzhu9@huawei.com>, Rob Herring <robh@kernel.org>,
- Lucas Stach <l.stach@pengutronix.de>, Inki Dae <inki.dae@samsung.com>,
- Seung-Woo Kim <sw0312.kim@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>,
- Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Thierry Reding <treding@nvidia.com>, Marian Cichy <m.cichy@pengutronix.de>,
- Dan Carpenter <error27@gmail.com>,
- Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
- Edmund Dea <edmund.j.dea@intel.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Kevin Hilman <khilman@baylibre.com>, Ben Skeggs <bskeggs@redhat.com>,
- Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
- Orson Zhai <orsonzhai@gmail.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Chunyan Zhang <zhang.lyra@gmail.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Deepak R Varma <drv@mailo.com>, Jani Nikula <jani.nikula@intel.com>,
- Jyri Sarha <jyri.sarha@iki.fi>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: [PATCH v3 00/16] drm: Convert to platform remove callback returning
- void
-Date: Thu,  2 Nov 2023 17:56:41 +0100
-Message-ID: <20231102165640.3307820-18-u.kleine-koenig@pengutronix.de>
+To: Lucas Stach <l.stach@pengutronix.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH v3 07/16] drm/etnaviv: Convert to platform remove callback
+ returning void
+Date: Thu,  2 Nov 2023 17:56:48 +0100
+Message-ID: <20231102165640.3307820-25-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.42.0
+In-Reply-To: <20231102165640.3307820-18-u.kleine-koenig@pengutronix.de>
+References: <20231102165640.3307820-18-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4120;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2645;
  i=u.kleine-koenig@pengutronix.de; h=from:subject;
- bh=6QYM0SU3kXEp/3Rx24czlnqsJN0YtugMXofEMzocIhI=;
- b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlQ9TJCnXlJTkkfRNtfDCRgNgoYImgoMcqTIUGU
- YPFEI8hNtuJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZUPUyQAKCRCPgPtYfRL+
- TlE1B/9NxDv3OWR8FrrOhkWCsLmrwRFKWVyDmyJSx60Ka0DnSfGX5PCxeEQX54ei+hOZqfLgOrV
- dyJPHuu/UbIkK39U0o0NSnUyxMAdg0IUMyOtDMNTgWD+4xmfMqH6d2PacWn5ecdXfhgoLTEGO0J
- Efnk/t1kkH8kW4oj8RUKjDSUb9qdDuuKfvqki0nTiWtiYujDISWZRNVCHeSiRItvUBj5pyei3sh
- TmKFd9Rcv/2AjgpC3Yq2P6GtbftnRl90/79DwE6NBT7fpR+h5KWk5xDyijTkL2zKpArX16e/QLc
- eXdbf6zdC11Tt5f6LOJ9xMQA1iPo4CxvwDoCJ4yHiVLd3jFk
+ bh=3tqOuCN10aotk1/hnbXt75ssiA2x+A4qrReQcjgKk9w=;
+ b=owGbwMvMwMXY3/A7olbonx/jabUkhlTnKxdv7r+3JMxEX7Ct+JAPjxyj9/uIrbW6q9ZY+2275
+ 3nijEF7J6MxCwMjF4OsmCKLfeOaTKsqucjOtf8uwwxiZQKZwsDFKQATqZ7M/k/dMyDBeMUs0Ttr
+ hAXfLGHJuXZDv/L+KsMQbevKrN471Ufvu2p+PnT6EL/RbJkbS+tu3ef8LvTq6ur2/xzXC2Nexr2
+ y/1Rz4dDySMWt97v1bt7uPK/hIsJ7zrKCL0ujXjakSreEwzDJOd4r9H6xeMTWN+oSfjkKX88YTz
+ 94s8Q43eZHQb5DnZbF88u1L+PiJshsYDj/+099u8Xc/t+xmokHUj6ZHVD/mLL8apS5XlhnF6ewo
+ ZpcRhTPQclj8wzWaj3eyzSLwzTbZvLfC8dOrzkk+Cwv6bFjDc8b3ZqpEtJakhwLDQVFVNueH6qS
+ dBNKTi2R2eHgo7JX1e/ssuO6m78KbPf5tDUm5vNtrdrlAA==
 X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp;
  fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
@@ -100,103 +67,80 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
- Alim Akhtar <alim.akhtar@samsung.com>, Jonas Karlman <jonas@kwiboo.se>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- nouveau@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, etnaviv@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- linux-samsung-soc@vger.kernel.org, linux-mediatek@lists.infradead.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, kernel@pengutronix.de,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Jerome Brunet <jbrunet@baylibre.com>, linux-amlogic@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Fabio Estevam <festevam@gmail.com>, linux-arm-kernel@lists.infradead.org,
- NXP Linux Team <linux-imx@nxp.com>
+ Christian Gmeiner <christian.gmeiner@gmail.com>, kernel@pengutronix.de,
+ Russell King <linux+etnaviv@armlinux.org.uk>, Jyri Sarha <jyri.sarha@iki.fi>
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Hello,
+The .remove() callback for a platform driver returns an int which makes
+many driver authors wrongly assume it's possible to do error handling by
+returning an error code. However the value returned is (mostly) ignored
+and this typically results in resource leaks. To improve here there is a
+quest to make the remove callback return void. In the first step of this
+quest all drivers are converted to .remove_new() which already returns
+void.
 
-this series converts all platform drivers below drivers/gpu/drm to use
-.remove_new(). It starts with a fix for a problem that potentially might
-crash the kernel that I stumbled over while implementing the conversion.
+Trivially convert the etnaviv drm driver from always returning zero in
+the remove callback to the void returning variant.
 
-Some of the conversion patches following this fix were already send in
-earlier series:
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+Reviewed-by: Jyri Sarha <jyri.sarha@iki.fi>
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+---
+ drivers/gpu/drm/etnaviv/etnaviv_drv.c | 6 ++----
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 5 ++---
+ 2 files changed, 4 insertions(+), 7 deletions(-)
 
-	https://lore.kernel.org/dri-devel/20230801110239.831099-1-u.kleine-koenig@pengutronix.de
-	https://lore.kernel.org/dri-devel/20230318190804.234610-1-u.kleine-koenig@pengutronix.de
-
-and three patches (bridge/tpd12s015, exynos + tilcdc) are new. Parts of
-the above series were picked up, the patches resend here are not.
-
-See commit 5c5a7680e67b ("platform: Provide a remove callback that
-returns no value") for an extended explanation and the eventual goal.
-
-Compared to the earlier submissions this patch series is rebased to
-today's drm-misc-next. Otherwise there is no relevant change.
-
-Best regards
-Uwe
-
-Uwe Kleine-König (16):
-  drm/bridge: tpd12s015: Drop buggy __exit annotation for remove
-    function
-  drm/arcpgu: Convert to platform remove callback returning void
-  drm/armada: Convert to platform remove callback returning void
-  drm/bridge: cdns-mhdp8546: Improve error reporting in remove callback
-  drm/bridge: cdns-mhdp8546: Convert to platform remove callback
-    returning void
-  drm/bridge: tpd12s015: Convert to platform remove callback returning
-    void
-  drm/etnaviv: Convert to platform remove callback returning void
-  drm/exynos: Convert to platform remove callback returning void
-  drm/imx/dcss: Convert to platform remove callback returning void
-  drm/imx: lcdc: Convert to platform remove callback returning void
-  drm/kmb: Convert to platform remove callback returning void
-  drm/mediatek: Convert to platform remove callback returning void
-  drm/meson: Convert to platform remove callback returning void
-  drm/nouveau: Convert to platform remove callback returning void
-  drm/sprd: Convert to platform remove callback returning void
-  drm/tilcdc: Convert to platform remove callback returning void
-
- drivers/gpu/drm/armada/armada_crtc.c          |  5 ++---
- drivers/gpu/drm/armada/armada_drv.c           |  5 ++---
- .../drm/bridge/cadence/cdns-mhdp8546-core.c   | 22 +++++++++----------
- drivers/gpu/drm/bridge/ti-tpd12s015.c         |  6 ++---
- drivers/gpu/drm/etnaviv/etnaviv_drv.c         |  6 ++---
- drivers/gpu/drm/etnaviv/etnaviv_gpu.c         |  5 ++---
- drivers/gpu/drm/exynos/exynos5433_drm_decon.c |  6 ++---
- drivers/gpu/drm/exynos/exynos7_drm_decon.c    |  6 ++---
- drivers/gpu/drm/exynos/exynos_dp.c            |  6 ++---
- drivers/gpu/drm/exynos/exynos_drm_drv.c       |  5 ++---
- drivers/gpu/drm/exynos/exynos_drm_fimc.c      |  6 ++---
- drivers/gpu/drm/exynos/exynos_drm_fimd.c      |  6 ++---
- drivers/gpu/drm/exynos/exynos_drm_g2d.c       |  6 ++---
- drivers/gpu/drm/exynos/exynos_drm_gsc.c       |  6 ++---
- drivers/gpu/drm/exynos/exynos_drm_mic.c       |  6 ++---
- drivers/gpu/drm/exynos/exynos_drm_rotator.c   |  6 ++---
- drivers/gpu/drm/exynos/exynos_drm_scaler.c    |  6 ++---
- drivers/gpu/drm/exynos/exynos_drm_vidi.c      |  6 ++---
- drivers/gpu/drm/exynos/exynos_hdmi.c          |  6 ++---
- drivers/gpu/drm/exynos/exynos_mixer.c         |  6 ++---
- drivers/gpu/drm/imx/dcss/dcss-drv.c           |  6 ++---
- drivers/gpu/drm/imx/lcdc/imx-lcdc.c           |  6 ++---
- drivers/gpu/drm/kmb/kmb_drv.c                 |  5 ++---
- .../gpu/drm/mediatek/mtk_disp_ovl_adaptor.c   |  5 ++---
- drivers/gpu/drm/mediatek/mtk_ethdr.c          |  5 ++---
- drivers/gpu/drm/meson/meson_dw_mipi_dsi.c     |  6 ++---
- drivers/gpu/drm/nouveau/nouveau_platform.c    |  5 ++---
- drivers/gpu/drm/sprd/sprd_dpu.c               |  6 ++---
- drivers/gpu/drm/sprd/sprd_drm.c               |  5 ++---
- drivers/gpu/drm/sprd/sprd_dsi.c               |  6 ++---
- drivers/gpu/drm/tilcdc/tilcdc_drv.c           |  9 ++++----
- drivers/gpu/drm/tiny/arcpgu.c                 |  6 ++---
- 32 files changed, 74 insertions(+), 128 deletions(-)
-
-
-base-commit: 6fd9487147c4f18ad77eea00bd8c9189eec74a3e
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+index a8d3fa81e4ec..6228ce603248 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+@@ -640,16 +640,14 @@ static int etnaviv_pdev_probe(struct platform_device *pdev)
+ 	return component_master_add_with_match(dev, &etnaviv_master_ops, match);
+ }
+ 
+-static int etnaviv_pdev_remove(struct platform_device *pdev)
++static void etnaviv_pdev_remove(struct platform_device *pdev)
+ {
+ 	component_master_del(&pdev->dev, &etnaviv_master_ops);
+-
+-	return 0;
+ }
+ 
+ static struct platform_driver etnaviv_platform_driver = {
+ 	.probe      = etnaviv_pdev_probe,
+-	.remove     = etnaviv_pdev_remove,
++	.remove_new = etnaviv_pdev_remove,
+ 	.driver     = {
+ 		.name   = "etnaviv",
+ 	},
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+index 9276756e1397..ef6738706475 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+@@ -1904,11 +1904,10 @@ static int etnaviv_gpu_platform_probe(struct platform_device *pdev)
+ 	return 0;
+ }
+ 
+-static int etnaviv_gpu_platform_remove(struct platform_device *pdev)
++static void etnaviv_gpu_platform_remove(struct platform_device *pdev)
+ {
+ 	component_del(&pdev->dev, &gpu_ops);
+ 	pm_runtime_disable(&pdev->dev);
+-	return 0;
+ }
+ 
+ static int etnaviv_gpu_rpm_suspend(struct device *dev)
+@@ -1970,6 +1969,6 @@ struct platform_driver etnaviv_gpu_driver = {
+ 		.of_match_table = etnaviv_gpu_match,
+ 	},
+ 	.probe = etnaviv_gpu_platform_probe,
+-	.remove = etnaviv_gpu_platform_remove,
++	.remove_new = etnaviv_gpu_platform_remove,
+ 	.id_table = gpu_ids,
+ };
 -- 
 2.42.0
 
