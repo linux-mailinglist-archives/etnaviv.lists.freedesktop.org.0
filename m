@@ -2,55 +2,44 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D2FA7DF80D
-	for <lists+etnaviv@lfdr.de>; Thu,  2 Nov 2023 17:57:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66E087DF84C
+	for <lists+etnaviv@lfdr.de>; Thu,  2 Nov 2023 18:05:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D2EAC10E937;
-	Thu,  2 Nov 2023 16:57:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3192710E94E;
+	Thu,  2 Nov 2023 17:05:58 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
 Received: from metis.whiteo.stw.pengutronix.de
  (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E74D10E935
- for <etnaviv@lists.freedesktop.org>; Thu,  2 Nov 2023 16:57:12 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F3EE310E94E
+ for <etnaviv@lists.freedesktop.org>; Thu,  2 Nov 2023 17:05:56 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
  by metis.whiteo.stw.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <ukl@pengutronix.de>)
- id 1qyb0H-00035N-4E; Thu, 02 Nov 2023 17:57:09 +0100
+ id 1qyb8k-0005yf-TP; Thu, 02 Nov 2023 18:05:54 +0100
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
  by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
  (envelope-from <ukl@pengutronix.de>)
- id 1qyb0G-0067F9-NW; Thu, 02 Nov 2023 17:57:08 +0100
+ id 1qyb8k-0067JM-78; Thu, 02 Nov 2023 18:05:54 +0100
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
  (envelope-from <ukl@pengutronix.de>)
- id 1qyb0G-00BjcD-EI; Thu, 02 Nov 2023 17:57:08 +0100
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+ id 1qyb8j-00Bjue-UE; Thu, 02 Nov 2023 18:05:53 +0100
+Date: Thu, 2 Nov 2023 18:05:53 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
 To: Lucas Stach <l.stach@pengutronix.de>, David Airlie <airlied@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v3 07/16] drm/etnaviv: Convert to platform remove callback
- returning void
-Date: Thu,  2 Nov 2023 17:56:48 +0100
-Message-ID: <20231102165640.3307820-25-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231102165640.3307820-18-u.kleine-koenig@pengutronix.de>
+Subject: Re: [PATCH v3 07/16] drm/etnaviv: Convert to platform remove
+ callback returning void
+Message-ID: <20231102170553.kbisn27fcrtkriyj@pengutronix.de>
 References: <20231102165640.3307820-18-u.kleine-koenig@pengutronix.de>
+ <20231102165640.3307820-25-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2645;
- i=u.kleine-koenig@pengutronix.de; h=from:subject;
- bh=3tqOuCN10aotk1/hnbXt75ssiA2x+A4qrReQcjgKk9w=;
- b=owGbwMvMwMXY3/A7olbonx/jabUkhlTnKxdv7r+3JMxEX7Ct+JAPjxyj9/uIrbW6q9ZY+2275
- 3nijEF7J6MxCwMjF4OsmCKLfeOaTKsqucjOtf8uwwxiZQKZwsDFKQATqZ7M/k/dMyDBeMUs0Ttr
- hAXfLGHJuXZDv/L+KsMQbevKrN471Ufvu2p+PnT6EL/RbJkbS+tu3ef8LvTq6ur2/xzXC2Nexr2
- y/1Rz4dDySMWt97v1bt7uPK/hIsJ7zrKCL0ujXjakSreEwzDJOd4r9H6xeMTWN+oSfjkKX88YTz
- 94s8Q43eZHQb5DnZbF88u1L+PiJshsYDj/+099u8Xc/t+xmokHUj6ZHVD/mLL8apS5XlhnF6ewo
- ZpcRhTPQclj8wzWaj3eyzSLwzTbZvLfC8dOrzkk+Cwv6bFjDc8b3ZqpEtJakhwLDQVFVNueH6qS
- dBNKTi2R2eHgo7JX1e/ssuO6m78KbPf5tDUm5vNtrdrlAA==
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp;
- fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="iqlls336rpe34npl"
+Content-Disposition: inline
+In-Reply-To: <20231102165640.3307820-25-u.kleine-koenig@pengutronix.de>
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
 X-SA-Exim-Mail-From: ukl@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
@@ -74,73 +63,57 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>, etnaviv@lists.freedesktop.org,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-The .remove() callback for a platform driver returns an int which makes
-many driver authors wrongly assume it's possible to do error handling by
-returning an error code. However the value returned is (mostly) ignored
-and this typically results in resource leaks. To improve here there is a
-quest to make the remove callback return void. In the first step of this
-quest all drivers are converted to .remove_new() which already returns
-void.
 
-Trivially convert the etnaviv drm driver from always returning zero in
-the remove callback to the void returning variant.
+--iqlls336rpe34npl
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Jyri Sarha <jyri.sarha@iki.fi>
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
----
- drivers/gpu/drm/etnaviv/etnaviv_drv.c | 6 ++----
- drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 5 ++---
- 2 files changed, 4 insertions(+), 7 deletions(-)
+Hello,
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-index a8d3fa81e4ec..6228ce603248 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-@@ -640,16 +640,14 @@ static int etnaviv_pdev_probe(struct platform_device *pdev)
- 	return component_master_add_with_match(dev, &etnaviv_master_ops, match);
- }
- 
--static int etnaviv_pdev_remove(struct platform_device *pdev)
-+static void etnaviv_pdev_remove(struct platform_device *pdev)
- {
- 	component_master_del(&pdev->dev, &etnaviv_master_ops);
--
--	return 0;
- }
- 
- static struct platform_driver etnaviv_platform_driver = {
- 	.probe      = etnaviv_pdev_probe,
--	.remove     = etnaviv_pdev_remove,
-+	.remove_new = etnaviv_pdev_remove,
- 	.driver     = {
- 		.name   = "etnaviv",
- 	},
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-index 9276756e1397..ef6738706475 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-@@ -1904,11 +1904,10 @@ static int etnaviv_gpu_platform_probe(struct platform_device *pdev)
- 	return 0;
- }
- 
--static int etnaviv_gpu_platform_remove(struct platform_device *pdev)
-+static void etnaviv_gpu_platform_remove(struct platform_device *pdev)
- {
- 	component_del(&pdev->dev, &gpu_ops);
- 	pm_runtime_disable(&pdev->dev);
--	return 0;
- }
- 
- static int etnaviv_gpu_rpm_suspend(struct device *dev)
-@@ -1970,6 +1969,6 @@ struct platform_driver etnaviv_gpu_driver = {
- 		.of_match_table = etnaviv_gpu_match,
- 	},
- 	.probe = etnaviv_gpu_platform_probe,
--	.remove = etnaviv_gpu_platform_remove,
-+	.remove_new = etnaviv_gpu_platform_remove,
- 	.id_table = gpu_ids,
- };
--- 
-2.42.0
+On Thu, Nov 02, 2023 at 05:56:48PM +0100, Uwe Kleine-K=F6nig wrote:
+> The .remove() callback for a platform driver returns an int which makes
+> many driver authors wrongly assume it's possible to do error handling by
+> returning an error code. However the value returned is (mostly) ignored
+> and this typically results in resource leaks. To improve here there is a
+> quest to make the remove callback return void. In the first step of this
+> quest all drivers are converted to .remove_new() which already returns
+> void.
+>=20
+> Trivially convert the etnaviv drm driver from always returning zero in
+> the remove callback to the void returning variant.
+>=20
+> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Reviewed-by: Jyri Sarha <jyri.sarha@iki.fi>
+> Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
 
+I failed to pick up the tag
+
+Reviewed-by: Christian Gmeiner <cgmeiner@igalia.com>
+
+that this patch got in v2 at https://lore.kernel.org/dri-devel/CAH9NwWdzVPr=
+ZD3Uo04fWXR0Cv=3DokK+P+njAR81gprCxKqp5icw@mail.gmail.com
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--iqlls336rpe34npl
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmVD1vEACgkQj4D7WH0S
+/k6/NggApCOipv//K76A/vhQFXTYOKM4Cf1Afeg8xCd7DbM2Ht3brjrFQ9Oacoru
+/+ZgdUGKroNl0noC8NN49lconxvWCAnL7OuvY5wM/ihJvRlF17VJpLEPEQB9+dg4
+3Q3vYJRfbI/Vdfb0FzI8uB0nIVNMn1XtJei/g+eHdNxo+3BArGw4WNRlt6Ft9nK9
+UKzg60OvqS0GbqrSYeZkZqLO71SgMR8R4+0Vlo58vX3JIXQxbXgYX+6vkx+RfPAT
+rIKqq8sBOF+b1wvO5evyNWXz7gJXGtyPMxy5SIfagUp6hTwNBGE6xRrlp1wnHG9T
+yR1h1KvwqTGRcr07NfRAVwsHpyYs/A==
+=i/fR
+-----END PGP SIGNATURE-----
+
+--iqlls336rpe34npl--
