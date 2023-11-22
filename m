@@ -1,143 +1,60 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE4D27F274C
-	for <lists+etnaviv@lfdr.de>; Tue, 21 Nov 2023 09:21:14 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 55B577F40E8
+	for <lists+etnaviv@lfdr.de>; Wed, 22 Nov 2023 10:01:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 58E5510E284;
-	Tue, 21 Nov 2023 08:21:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 22D8F10E2EF;
+	Wed, 22 Nov 2023 09:01:46 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 67E9710E27F;
- Tue, 21 Nov 2023 08:21:06 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id E060A2183B;
- Tue, 21 Nov 2023 08:21:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1700554864; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=DHvhU3HrqobKGoHLioFRjGKT24arfOIced4wAVOChgA=;
- b=SwQzrjcLmZMWH48dY6XiOmK21OEz/fW4qhRygDWl+M1lp+4hY0clANmK59TflHx0Ac83Pl
- NSYpUYnL8g7EDOUNRu3Mw7WF3hqqBd/++y2d9+osxHd2GaUXJrtuxM098PWu5EbnEeLaFz
- TEuH4TNdVPDMrIsQ0APVRARoRCJE/jE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1700554864;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=DHvhU3HrqobKGoHLioFRjGKT24arfOIced4wAVOChgA=;
- b=E7CNSkwwZydCSsuMEAwi2OltJgC8E/vl9e1oATOyomas37GPScTiIqOjpHSH0F1TfSjF0M
- tPfFi1p0M+CaYNCg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id BF10E139FD;
- Tue, 21 Nov 2023 08:21:03 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id WbulLW9oXGVzBgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 21 Nov 2023 08:21:03 +0000
-Message-ID: <250b5d51-93f8-4d8c-8507-0c47adbf7237@suse.de>
-Date: Tue, 21 Nov 2023 09:21:02 +0100
+Received: from mail-oa1-x31.google.com (mail-oa1-x31.google.com
+ [IPv6:2001:4860:4864:20::31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4132010E2EF;
+ Wed, 22 Nov 2023 09:01:44 +0000 (UTC)
+Received: by mail-oa1-x31.google.com with SMTP id
+ 586e51a60fabf-1ea82246069so3630615fac.3; 
+ Wed, 22 Nov 2023 01:01:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1700643703; x=1701248503; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=B0loSkyS8Q4JF6tOXkRoeRXujNUfgvT0hvtKpAV8emU=;
+ b=Tn18baOqI5tHqjzvB7pDJEJDjOX1bp2rpp6KVKWmU/DCOdTMEZMCe80TBT1dKgGUA5
+ Rbs3eHLVCLvl1tT8pxq7k3RL+EE9Rym0kPjQwRtzfaSAXoZOjh70e7WfO/7oifetuMAQ
+ 83ag3x7/DsLvfTwC5fstz9ZSqO7JmbSC9T78Ue1LZdOas2Yhw2jNyaUGjmhFt/jGXEKr
+ edod3K0GgksH4WjQBQVJzhqKNvBABXZTvJDEyu31dJqUnfH+y8bE4kalmZQWsc7XxLCn
+ 7gqxt5yH/Yc7L0EHo2uIdQ5m/WZvO0gpsDFKTWn6xekPPI4py7RFaiw8WmtcQEALHGdt
+ Q1zQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1700643703; x=1701248503;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=B0loSkyS8Q4JF6tOXkRoeRXujNUfgvT0hvtKpAV8emU=;
+ b=PKgO3Mr4lE1TAs0jZPnjtSSaI7Q3xUrvIsG95vYqMemGdsse89jI9FEc7OTYZ0jFfA
+ yRF7z2z04D3z9t1KO8xyeyA6qxqreA2zEKwwwDebtjWVy9kShJtPggoFMVV9pZwRNuwa
+ W0iemN7tOIm0FTvjrCKr5UahpW9tWuHbDWouETHspYLx1MqYk3sxY3VP4uYMVSn2UiFn
+ y4UnkaI04QaXxUoC18aDIGsT3Of9w7gT61AxiKDtITUh+xDrnk3m/LisgqtfDs3uDt/1
+ /t2je7UEcw3Byq5I7CdCD7SxS3ofdQMCZ8Q8qcm4PPSnrGTkZQZqa28VRa+Xg7t3+1Mo
+ lajg==
+X-Gm-Message-State: AOJu0Yx9/SEV1GhpobCdogSy8L0G8iqLpaszGI+ufChOsyiucggpUg2z
+ uVKJj3xDZ1VZPGfFMv3WeUA65jQm4yA0NKCRWZA=
+X-Google-Smtp-Source: AGHT+IG+AQeKCJw3Ukd8i/zIrx+/UVseMXxynPD4JgoySfRf0Ua5e6jnUPyIUhPJ9xHEAvoz76S7MQveOn6+oNImOzU=
+X-Received: by 2002:a05:6870:ac0b:b0:1ea:2c8b:e18b with SMTP id
+ kw11-20020a056870ac0b00b001ea2c8be18bmr2203709oab.35.1700643703182; Wed, 22
+ Nov 2023 01:01:43 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 00/16] drm: Convert to platform remove callback
- returning void
-To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Sam Ravnborg <sam@ravnborg.org>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Alexey Brodkin <abrodkin@synopsys.com>, Russell King
- <linux@armlinux.org.uk>, Aradhya Bhatia <a-bhatia1@ti.com>,
- Javier Martinez Canillas <javierm@redhat.com>, Zhu Wang
- <wangzhu9@huawei.com>, Rob Herring <robh@kernel.org>,
- Lucas Stach <l.stach@pengutronix.de>, Inki Dae <inki.dae@samsung.com>,
- Seung-Woo Kim <sw0312.kim@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>,
- Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Philipp Zabel <p.zabel@pengutronix.de>, Steven Price <steven.price@arm.com>,
- Liviu Dudau <liviu.dudau@arm.com>, Thierry Reding <treding@nvidia.com>,
- Dan Carpenter <error27@gmail.com>,
- Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Kevin Hilman <khilman@baylibre.com>, Karol Herbst <kherbst@redhat.com>,
- Lyude Paul <lyude@redhat.com>, Orson Zhai <orsonzhai@gmail.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Chunyan Zhang <zhang.lyra@gmail.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Deepak R Varma <drv@mailo.com>, Jani Nikula <jani.nikula@intel.com>,
- Jyri Sarha <jyri.sarha@iki.fi>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-References: <20231102165640.3307820-18-u.kleine-koenig@pengutronix.de>
- <20231120120537.c22pbb2zovxvpdkf@pengutronix.de>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20231120120537.c22pbb2zovxvpdkf@pengutronix.de>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------nqnrv9dXMHR4lITUuwdTooYm"
-Authentication-Results: smtp-out1.suse.de;
-	none
-X-Spam-Level: 
-X-Spam-Score: -8.79
-X-Spamd-Result: default: False [-8.79 / 50.00]; RCVD_VIA_SMTP_AUTH(0.00)[];
- XM_UA_NO_VERSION(0.01)[]; TO_DN_SOME(0.00)[];
- HAS_ATTACHMENT(0.00)[]; REPLY(-4.00)[];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_BASE64_TEXT(0.10)[];
- RCPT_COUNT_GT_50(0.00)[62]; SIGNED_PGP(-2.00)[];
- FREEMAIL_TO(0.00)[pengutronix.de,intel.com,linaro.org,kernel.org,linux.intel.com,gmail.com,ffwll.ch,ravnborg.org,collabora.com,synopsys.com,armlinux.org.uk,ti.com,redhat.com,huawei.com,samsung.com,oss.nxp.com,arm.com,nvidia.com,baylibre.com,linux.alibaba.com,ideasonboard.com,mailo.com,iki.fi];
- FROM_EQ_ENVFROM(0.00)[]; MIME_TRACE(0.00)[0:+,1:+,2:+,3:~];
- MID_RHS_MATCH_FROM(0.00)[]; BAYES_HAM(-3.00)[100.00%];
- ARC_NA(0.00)[]; FROM_HAS_DN(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[gmail.com];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- TAGGED_RCPT(0.00)[etnaviv,renesas];
- MIME_GOOD(-0.20)[multipart/signed,multipart/mixed,text/plain];
- TO_MATCH_ENVRCPT_SOME(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FUZZY_BLOCKED(0.00)[rspamd.com]; RCVD_COUNT_TWO(0.00)[2];
- RCVD_TLS_ALL(0.00)[]; SUSPICIOUS_RECIPS(1.50)[];
- FREEMAIL_CC(0.00)[vger.kernel.org, pengutronix.de, collabora.com, kwiboo.se,
- googlemail.com, lists.freedesktop.org, gmail.com, nxp.com, lists.infradead.org,
- samsung.com, armlinux.org.uk, baylibre.com, ideasonboard.com]
-X-Spam-Flag: NO
+References: <20231116140910.1613508-1-tomeu@tomeuvizoso.net>
+ <20231121063300.2273522-1-tomeu@tomeuvizoso.net>
+In-Reply-To: <20231121063300.2273522-1-tomeu@tomeuvizoso.net>
+From: Christian Gmeiner <christian.gmeiner@gmail.com>
+Date: Wed, 22 Nov 2023 10:01:31 +0100
+Message-ID: <CAH9NwWemgaUOByCKMC5PMN3q1f91DE0yxEE90hwjhic47fj+Lw@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/etnaviv: Expose a few more chipspecs to userspace
+To: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -149,134 +66,209 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc@vger.kernel.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Alim Akhtar <alim.akhtar@samsung.com>, Jonas Karlman <jonas@kwiboo.se>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- etnaviv@lists.freedesktop.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- linux-mediatek@lists.infradead.org, NXP Linux Team <linux-imx@nxp.com>,
- kernel@pengutronix.de, Russell King <linux+etnaviv@armlinux.org.uk>,
- linux-amlogic@lists.infradead.org, Jerome Brunet <jbrunet@baylibre.com>,
- linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
+ Russell King <linux+etnaviv@armlinux.org.uk>, David Airlie <airlied@gmail.com>,
+ Lucas Stach <l.stach@pengutronix.de>
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------nqnrv9dXMHR4lITUuwdTooYm
-Content-Type: multipart/mixed; boundary="------------oJColUxlBAXTr0a7Klbx8daP";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Sam Ravnborg <sam@ravnborg.org>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Alexey Brodkin <abrodkin@synopsys.com>, Russell King
- <linux@armlinux.org.uk>, Aradhya Bhatia <a-bhatia1@ti.com>,
- Javier Martinez Canillas <javierm@redhat.com>, Zhu Wang
- <wangzhu9@huawei.com>, Rob Herring <robh@kernel.org>,
- Lucas Stach <l.stach@pengutronix.de>, Inki Dae <inki.dae@samsung.com>,
- Seung-Woo Kim <sw0312.kim@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>,
- Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Philipp Zabel <p.zabel@pengutronix.de>, Steven Price <steven.price@arm.com>,
- Liviu Dudau <liviu.dudau@arm.com>, Thierry Reding <treding@nvidia.com>,
- Dan Carpenter <error27@gmail.com>,
- Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Kevin Hilman <khilman@baylibre.com>, Karol Herbst <kherbst@redhat.com>,
- Lyude Paul <lyude@redhat.com>, Orson Zhai <orsonzhai@gmail.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Chunyan Zhang <zhang.lyra@gmail.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Deepak R Varma <drv@mailo.com>, Jani Nikula <jani.nikula@intel.com>,
- Jyri Sarha <jyri.sarha@iki.fi>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: linux-samsung-soc@vger.kernel.org, kernel@pengutronix.de,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Jonas Karlman <jonas@kwiboo.se>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- nouveau@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
- Jernej Skrabec <jernej.skrabec@gmail.com>, NXP Linux Team
- <linux-imx@nxp.com>, Christian Gmeiner <christian.gmeiner@gmail.com>,
- linux-mediatek@lists.infradead.org, dri-devel@lists.freedesktop.org,
- Alim Akhtar <alim.akhtar@samsung.com>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- linux-amlogic@lists.infradead.org, Jerome Brunet <jbrunet@baylibre.com>,
- linux-arm-kernel@lists.infradead.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Message-ID: <250b5d51-93f8-4d8c-8507-0c47adbf7237@suse.de>
-Subject: Re: [PATCH v3 00/16] drm: Convert to platform remove callback
- returning void
-References: <20231102165640.3307820-18-u.kleine-koenig@pengutronix.de>
- <20231120120537.c22pbb2zovxvpdkf@pengutronix.de>
-In-Reply-To: <20231120120537.c22pbb2zovxvpdkf@pengutronix.de>
+Am Di., 21. Nov. 2023 um 07:33 Uhr schrieb Tomeu Vizoso <tomeu@tomeuvizoso.net>:
+>
+> These ones will be needed to make use fo the NN and TP units in the NPUs
+> based on Vivante IP.
+>
+> Also fix the number of NN cores in the VIPNano-qi.
+>
+> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+>
 
---------------oJColUxlBAXTr0a7Klbx8daP
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+I have not checked all the new values but it looks fine to me.
 
-SGkNCg0KQW0gMjAuMTEuMjMgdW0gMTM6MDUgc2NocmllYiBVd2UgS2xlaW5lLUvDtm5pZzoN
-Cj4gW0Ryb3BwZWQgYSBmZXcgcGVvcGxlIGZyb20gVG8gdGhhdCByZXN1bHRlZCBpbiBib3Vu
-Y2VzIGJlZm9yZS5dDQo+IA0KPiBPbiBUaHUsIE5vdiAwMiwgMjAyMyBhdCAwNTo1Njo0MVBN
-ICswMTAwLCBVd2UgS2xlaW5lLUvDtm5pZyB3cm90ZToNCj4+IEhlbGxvLA0KPj4NCj4+IHRo
-aXMgc2VyaWVzIGNvbnZlcnRzIGFsbCBwbGF0Zm9ybSBkcml2ZXJzIGJlbG93IGRyaXZlcnMv
-Z3B1L2RybSB0byB1c2UNCj4+IC5yZW1vdmVfbmV3KCkuIEl0IHN0YXJ0cyB3aXRoIGEgZml4
-IGZvciBhIHByb2JsZW0gdGhhdCBwb3RlbnRpYWxseSBtaWdodA0KPj4gY3Jhc2ggdGhlIGtl
-cm5lbCB0aGF0IEkgc3R1bWJsZWQgb3ZlciB3aGlsZSBpbXBsZW1lbnRpbmcgdGhlIGNvbnZl
-cnNpb24uDQo+Pg0KPj4gU29tZSBvZiB0aGUgY29udmVyc2lvbiBwYXRjaGVzIGZvbGxvd2lu
-ZyB0aGlzIGZpeCB3ZXJlIGFscmVhZHkgc2VuZCBpbg0KPj4gZWFybGllciBzZXJpZXM6DQo+
-Pg0KPj4gCWh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2RyaS1kZXZlbC8yMDIzMDgwMTExMDIz
-OS44MzEwOTktMS11LmtsZWluZS1rb2VuaWdAcGVuZ3V0cm9uaXguZGUNCj4+IAlodHRwczov
-L2xvcmUua2VybmVsLm9yZy9kcmktZGV2ZWwvMjAyMzAzMTgxOTA4MDQuMjM0NjEwLTEtdS5r
-bGVpbmUta29lbmlnQHBlbmd1dHJvbml4LmRlDQo+Pg0KPj4gYW5kIHRocmVlIHBhdGNoZXMg
-KGJyaWRnZS90cGQxMnMwMTUsIGV4eW5vcyArIHRpbGNkYykgYXJlIG5ldy4gUGFydHMgb2YN
-Cj4+IHRoZSBhYm92ZSBzZXJpZXMgd2VyZSBwaWNrZWQgdXAsIHRoZSBwYXRjaGVzIHJlc2Vu
-ZCBoZXJlIGFyZSBub3QuDQo+IA0KPiBBcGFydCBmcm9tIGEgUmV2aWV3ZWQtYnk6IGJ5IFRv
-bmkgVmFsa2VpbmVuIGZvciBwYXRjaCAjMTYgYW5kIElua2kgRGFlDQo+IHdobyB3cm90ZSB0
-byBoYXZlIHRha2VuIHBhdGNoICM4IChidXQgdGhhdCBkaWRuJ3QgYXBwZWFyIGluIG5laXRo
-ZXIgbmV4dA0KPiBub3IgZHJtLW1pc2MtbmV4dCB5ZXQpLg0KPiANCj4gQWxzbyBpbiB2MiB0
-aGV5IGRpZG4ndCByZXN1bHQgaW4gZXVwaG9yaWMgcmVwbGllcy4NCj4gDQo+IENhbiBzb21l
-b25lIHdobyBjYXJlcyBhYm91dCBkcm0gYXMgYSB3aG9sZSBwbGVhc2UgY2FyZSBmb3IgdGhp
-cyBzZXJpZXMNCj4gYXBwbHkgaXQ/DQoNCkV4Y2VwdCBmb3IgcGF0Y2hlcyA4IGFuZCAxNiwg
-SSd2ZSBwdXNoZWQgdGhpcyBwYXRjaHNldCBpbnRvIGRybS1taXNjLW5leHQuDQoNCkJlc3Qg
-cmVnYXJkcw0KVGhvbWFzDQoNCj4gDQo+IEJlc3QgcmVnYXJkcw0KPiBVd2UNCj4gICANCg0K
-LS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VT
-RSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpGcmFua2Vuc3RyYXNzZSAxNDYs
-IDkwNDYxIE51ZXJuYmVyZywgR2VybWFueQ0KR0Y6IEl2byBUb3RldiwgQW5kcmV3IE15ZXJz
-LCBBbmRyZXcgTWNEb25hbGQsIEJvdWRpZW4gTW9lcm1hbg0KSFJCIDM2ODA5IChBRyBOdWVy
-bmJlcmcpDQo=
+Acked-by: Christian Gmeiner <cgmeiner@igalia.com>
 
---------------oJColUxlBAXTr0a7Klbx8daP--
+> ---
+>
+> v2: Update a few chipspecs that I had missed before. (Christian)
+> ---
+>  drivers/gpu/drm/etnaviv/etnaviv_gpu.c  | 20 +++++++++++++++
+>  drivers/gpu/drm/etnaviv/etnaviv_gpu.h  | 12 +++++++++
+>  drivers/gpu/drm/etnaviv/etnaviv_hwdb.c | 34 ++++++++++++++++++++++++++
+>  include/uapi/drm/etnaviv_drm.h         |  5 ++++
+>  4 files changed, 71 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> index 9276756e1397..9055ed08cd7b 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> @@ -164,6 +164,26 @@ int etnaviv_gpu_get_param(struct etnaviv_gpu *gpu, u32 param, u64 *value)
+>                 *value = gpu->identity.eco_id;
+>                 break;
+>
+> +       case ETNAVIV_PARAM_GPU_NN_CORE_COUNT:
+> +               *value = gpu->identity.nn_core_count;
+> +               break;
+> +
+> +       case ETNAVIV_PARAM_GPU_NN_MAD_PER_CORE:
+> +               *value = gpu->identity.nn_mad_per_core;
+> +               break;
+> +
+> +       case ETNAVIV_PARAM_GPU_TP_CORE_COUNT:
+> +               *value = gpu->identity.tp_core_count;
+> +               break;
+> +
+> +       case ETNAVIV_PARAM_GPU_ON_CHIP_SRAM_SIZE:
+> +               *value = gpu->identity.on_chip_sram_size;
+> +               break;
+> +
+> +       case ETNAVIV_PARAM_GPU_AXI_SRAM_SIZE:
+> +               *value = gpu->identity.axi_sram_size;
+> +               break;
+> +
+>         default:
+>                 DBG("%s: invalid param: %u", dev_name(gpu->dev), param);
+>                 return -EINVAL;
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
+> index 197e0037732e..7d5e9158e13c 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
+> @@ -54,6 +54,18 @@ struct etnaviv_chip_identity {
+>         /* Number of Neural Network cores. */
+>         u32 nn_core_count;
+>
+> +       /* Number of MAD units per Neural Network core. */
+> +       u32 nn_mad_per_core;
+> +
+> +       /* Number of Tensor Processing cores. */
+> +       u32 tp_core_count;
+> +
+> +       /* Size in bytes of the SRAM inside the NPU. */
+> +       u32 on_chip_sram_size;
+> +
+> +       /* Size in bytes of the SRAM across the AXI bus. */
+> +       u32 axi_sram_size;
+> +
+>         /* Size of the vertex cache. */
+>         u32 vertex_cache_size;
+>
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c b/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
+> index 67201242438b..9eb8ca7c5034 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
+> @@ -17,6 +17,10 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
+>                 .thread_count = 128,
+>                 .shader_core_count = 1,
+>                 .nn_core_count = 0,
+> +               .nn_mad_per_core = 0,
+> +               .tp_core_count = 0,
+> +               .on_chip_sram_size = 0,
+> +               .axi_sram_size = 0,
+>                 .vertex_cache_size = 8,
+>                 .vertex_output_buffer_size = 1024,
+>                 .pixel_pipes = 1,
+> @@ -48,6 +52,11 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
+>                 .register_max = 64,
+>                 .thread_count = 256,
+>                 .shader_core_count = 1,
+> +               .nn_core_count = 0,
+> +               .nn_mad_per_core = 0,
+> +               .tp_core_count = 0,
+> +               .on_chip_sram_size = 0,
+> +               .axi_sram_size = 0,
+>                 .vertex_cache_size = 8,
+>                 .vertex_output_buffer_size = 512,
+>                 .pixel_pipes = 1,
+> @@ -80,6 +89,10 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
+>                 .thread_count = 512,
+>                 .shader_core_count = 2,
+>                 .nn_core_count = 0,
+> +               .nn_mad_per_core = 0,
+> +               .tp_core_count = 0,
+> +               .on_chip_sram_size = 0,
+> +               .axi_sram_size = 0,
+>                 .vertex_cache_size = 16,
+>                 .vertex_output_buffer_size = 1024,
+>                 .pixel_pipes = 1,
+> @@ -112,6 +125,10 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
+>                 .thread_count = 512,
+>                 .shader_core_count = 2,
+>                 .nn_core_count = 0,
+> +               .nn_mad_per_core = 0,
+> +               .tp_core_count = 0,
+> +               .on_chip_sram_size = 0,
+> +               .axi_sram_size = 0,
+>                 .vertex_cache_size = 16,
+>                 .vertex_output_buffer_size = 1024,
+>                 .pixel_pipes = 1,
+> @@ -143,6 +160,11 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
+>                 .register_max = 64,
+>                 .thread_count = 512,
+>                 .shader_core_count = 2,
+> +               .nn_core_count = 0,
+> +               .nn_mad_per_core = 0,
+> +               .tp_core_count = 0,
+> +               .on_chip_sram_size = 0,
+> +               .axi_sram_size = 0,
+>                 .vertex_cache_size = 16,
+>                 .vertex_output_buffer_size = 1024,
+>                 .pixel_pipes = 1,
+> @@ -175,6 +197,10 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
+>                 .thread_count = 1024,
+>                 .shader_core_count = 4,
+>                 .nn_core_count = 0,
+> +               .nn_mad_per_core = 0,
+> +               .tp_core_count = 0,
+> +               .on_chip_sram_size = 0,
+> +               .axi_sram_size = 0,
+>                 .vertex_cache_size = 16,
+>                 .vertex_output_buffer_size = 1024,
+>                 .pixel_pipes = 2,
+> @@ -207,6 +233,10 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
+>                 .thread_count = 256,
+>                 .shader_core_count = 1,
+>                 .nn_core_count = 8,
+> +               .nn_mad_per_core = 64,
+> +               .tp_core_count = 4,
+> +               .on_chip_sram_size = 524288,
+> +               .axi_sram_size = 1048576,
+>                 .vertex_cache_size = 16,
+>                 .vertex_output_buffer_size = 1024,
+>                 .pixel_pipes = 1,
+> @@ -239,6 +269,10 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
+>                 .thread_count = 256,
+>                 .shader_core_count = 1,
+>                 .nn_core_count = 6,
+> +               .nn_mad_per_core = 64,
+> +               .tp_core_count = 3,
+> +               .on_chip_sram_size = 262144,
+> +               .axi_sram_size = 0,
+>                 .vertex_cache_size = 16,
+>                 .vertex_output_buffer_size = 1024,
+>                 .pixel_pipes = 1,
+> diff --git a/include/uapi/drm/etnaviv_drm.h b/include/uapi/drm/etnaviv_drm.h
+> index af024d90453d..d87410a8443a 100644
+> --- a/include/uapi/drm/etnaviv_drm.h
+> +++ b/include/uapi/drm/etnaviv_drm.h
+> @@ -77,6 +77,11 @@ struct drm_etnaviv_timespec {
+>  #define ETNAVIV_PARAM_GPU_PRODUCT_ID                0x1c
+>  #define ETNAVIV_PARAM_GPU_CUSTOMER_ID               0x1d
+>  #define ETNAVIV_PARAM_GPU_ECO_ID                    0x1e
+> +#define ETNAVIV_PARAM_GPU_NN_CORE_COUNT             0x1f
+> +#define ETNAVIV_PARAM_GPU_NN_MAD_PER_CORE           0x20
+> +#define ETNAVIV_PARAM_GPU_TP_CORE_COUNT             0x21
+> +#define ETNAVIV_PARAM_GPU_ON_CHIP_SRAM_SIZE         0x22
+> +#define ETNAVIV_PARAM_GPU_AXI_SRAM_SIZE             0x23
+>
+>  #define ETNA_MAX_PIPES 4
+>
+> --
+> 2.42.0
+>
 
---------------nqnrv9dXMHR4lITUuwdTooYm
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
 
------BEGIN PGP SIGNATURE-----
+-- 
+greets
+--
+Christian Gmeiner, MSc
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmVcaG4FAwAAAAAACgkQlh/E3EQov+AN
-KA//a9kAa/bdNI0Ai8/4/SH2OhY7AVHPXJdcQec7SKrNSi64hCplCI6zwvSrTKHdb6ViCONzvUPj
-Z/lLHxxOq2GXTjhiSLgqVEQKBIrJ7v5l8WAZfJ/2SLf5hWTncBM/TvrFLu0brzcYa93ZOnT6jMm0
-1Ybx4kfSN9INpiydrOCS5B2r7T/QIdhaBoDGgptMVE98gdjrHqoODVgcyiOEPNnkK/aCO/vnIEmr
-BmyCVSCD+AiSC/w6x8pu5/2FXrYuM6Ssz3duqJp6eL7LgJNOI7HBHXpY1wnmOwpUYw6OZVDSUZjX
-Rh2P73O8E4XeSem8ZnYZHwvqptO1pmtlnosL+sQQSjtQ1HdHnQfV0t2AmJg0e8qWycyDQNSVNRX4
-y6RnHdCk/fd0X2IGACvPw0Y8LuUhEbHwPeeGS3fQJr8RvRD7maMH5FduraKOgKjvxEJnIifX067n
-T28SJLqdlbTuB05QUz8004eCqrzjBzqF/s6FwfMVSHytCeGuMsrpb3GcSoBv8eXnbn1jCmoZh6TL
-PDXgAJEFmPHYe+oRoDrZnmOI/bXt7I3033iZZkvERz544Ts2QR1VUBOr0elo9GlxcLkFhvy53Bev
-8NTNzLjGJl++/klVQqBC2VS6MxE6NdTaNSMpOAygDVxoj4mBHFhPC1WfDYvm/T9s7YKdQQDSdQQC
-Q5s=
-=GPlo
------END PGP SIGNATURE-----
-
---------------nqnrv9dXMHR4lITUuwdTooYm--
+https://christian-gmeiner.info/privacypolicy
