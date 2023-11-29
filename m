@@ -1,60 +1,38 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55B577F40E8
-	for <lists+etnaviv@lfdr.de>; Wed, 22 Nov 2023 10:01:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 08C787FE2C1
+	for <lists+etnaviv@lfdr.de>; Wed, 29 Nov 2023 23:09:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 22D8F10E2EF;
-	Wed, 22 Nov 2023 09:01:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD74710E69B;
+	Wed, 29 Nov 2023 22:09:36 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-oa1-x31.google.com (mail-oa1-x31.google.com
- [IPv6:2001:4860:4864:20::31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4132010E2EF;
- Wed, 22 Nov 2023 09:01:44 +0000 (UTC)
-Received: by mail-oa1-x31.google.com with SMTP id
- 586e51a60fabf-1ea82246069so3630615fac.3; 
- Wed, 22 Nov 2023 01:01:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1700643703; x=1701248503; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=B0loSkyS8Q4JF6tOXkRoeRXujNUfgvT0hvtKpAV8emU=;
- b=Tn18baOqI5tHqjzvB7pDJEJDjOX1bp2rpp6KVKWmU/DCOdTMEZMCe80TBT1dKgGUA5
- Rbs3eHLVCLvl1tT8pxq7k3RL+EE9Rym0kPjQwRtzfaSAXoZOjh70e7WfO/7oifetuMAQ
- 83ag3x7/DsLvfTwC5fstz9ZSqO7JmbSC9T78Ue1LZdOas2Yhw2jNyaUGjmhFt/jGXEKr
- edod3K0GgksH4WjQBQVJzhqKNvBABXZTvJDEyu31dJqUnfH+y8bE4kalmZQWsc7XxLCn
- 7gqxt5yH/Yc7L0EHo2uIdQ5m/WZvO0gpsDFKTWn6xekPPI4py7RFaiw8WmtcQEALHGdt
- Q1zQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1700643703; x=1701248503;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=B0loSkyS8Q4JF6tOXkRoeRXujNUfgvT0hvtKpAV8emU=;
- b=PKgO3Mr4lE1TAs0jZPnjtSSaI7Q3xUrvIsG95vYqMemGdsse89jI9FEc7OTYZ0jFfA
- yRF7z2z04D3z9t1KO8xyeyA6qxqreA2zEKwwwDebtjWVy9kShJtPggoFMVV9pZwRNuwa
- W0iemN7tOIm0FTvjrCKr5UahpW9tWuHbDWouETHspYLx1MqYk3sxY3VP4uYMVSn2UiFn
- y4UnkaI04QaXxUoC18aDIGsT3Of9w7gT61AxiKDtITUh+xDrnk3m/LisgqtfDs3uDt/1
- /t2je7UEcw3Byq5I7CdCD7SxS3ofdQMCZ8Q8qcm4PPSnrGTkZQZqa28VRa+Xg7t3+1Mo
- lajg==
-X-Gm-Message-State: AOJu0Yx9/SEV1GhpobCdogSy8L0G8iqLpaszGI+ufChOsyiucggpUg2z
- uVKJj3xDZ1VZPGfFMv3WeUA65jQm4yA0NKCRWZA=
-X-Google-Smtp-Source: AGHT+IG+AQeKCJw3Ukd8i/zIrx+/UVseMXxynPD4JgoySfRf0Ua5e6jnUPyIUhPJ9xHEAvoz76S7MQveOn6+oNImOzU=
-X-Received: by 2002:a05:6870:ac0b:b0:1ea:2c8b:e18b with SMTP id
- kw11-20020a056870ac0b00b001ea2c8be18bmr2203709oab.35.1700643703182; Wed, 22
- Nov 2023 01:01:43 -0800 (PST)
+Received: from out-187.mta0.migadu.com (out-187.mta0.migadu.com
+ [IPv6:2001:41d0:1004:224b::bb])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D2A710E69B
+ for <etnaviv@lists.freedesktop.org>; Wed, 29 Nov 2023 22:09:32 +0000 (UTC)
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1701295358;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=RLAcIG7DrDYypYzsFppXBpqZl05gQ46VwnMNIqYQGr8=;
+ b=aySVSQC/qOBzYjj6LL5tP0Osi+QYDtcJ1H12hd9bxLKq7BwReNfr/py8gTgyaDamsUUs+0
+ LMhagYO1FPpmM5qbPPHQa7A+jWIKiws8CUobklca2zJeuHA3C7r7XDSbZt8v4WiJg/uGI+
+ dXN0ZP9HyayRy3m7oTlHm68Ay3Dy3o0=
+From: Sui Jingfeng <sui.jingfeng@linux.dev>
+To: Lucas Stach <l.stach@pengutronix.de>
+Subject: [etnaviv-next v12 0/8] drm/etnaviv: Add PCI(e) device driver wrapper
+ and instances
+Date: Thu, 30 Nov 2023 06:02:23 +0800
+Message-Id: <20231129220231.12763-1-sui.jingfeng@linux.dev>
 MIME-Version: 1.0
-References: <20231116140910.1613508-1-tomeu@tomeuvizoso.net>
- <20231121063300.2273522-1-tomeu@tomeuvizoso.net>
-In-Reply-To: <20231121063300.2273522-1-tomeu@tomeuvizoso.net>
-From: Christian Gmeiner <christian.gmeiner@gmail.com>
-Date: Wed, 22 Nov 2023 10:01:31 +0100
-Message-ID: <CAH9NwWemgaUOByCKMC5PMN3q1f91DE0yxEE90hwjhic47fj+Lw@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/etnaviv: Expose a few more chipspecs to userspace
-To: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,209 +44,78 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
- Russell King <linux+etnaviv@armlinux.org.uk>, David Airlie <airlied@gmail.com>,
- Lucas Stach <l.stach@pengutronix.de>
+Cc: Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Sui Jingfeng <sui.jingfeng@linux.dev>, etnaviv@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Am Di., 21. Nov. 2023 um 07:33 Uhr schrieb Tomeu Vizoso <tomeu@tomeuvizoso.net>:
->
-> These ones will be needed to make use fo the NN and TP units in the NPUs
-> based on Vivante IP.
->
-> Also fix the number of NN cores in the VIPNano-qi.
->
-> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
->
+This series is add PCI device driver wrapper, to support the Vivante GC1000
+GPU in LS2K1000 and LS7A1000.
 
-I have not checked all the new values but it looks fine to me.
+The whole serie have been tested on X86-64 and LoongArch platform, only the
+kernel space driver are tested, basically normal and run stable!
 
-Acked-by: Christian Gmeiner <cgmeiner@igalia.com>
+v6:
+	* Fix build issue on system without CONFIG_PCI enabled
+v7:
+	* Add a separate patch for the platform driver rearrangement (Bjorn)
+	* Switch to runtime check if the GPU is dma coherent or not (Lucas)
+	* Add ETNAVIV_PARAM_GPU_COHERENT to allow userspace to query (Lucas)
+	* Remove etnaviv_gpu.no_clk member (Lucas)
+	* Various Typos and coding style fixed (Bjorn)
+v8:
+	* Fix typos and remove unnecessary header included (Bjorn).
+	* Add a dedicated function to create the virtual master platform
+	  device.
+v9:
+	* Use PCI_VDEVICE() macro (Bjorn)
+	* Add trivial stubs for the PCI driver (Bjorn)
+	* Remove a redundant dev_err() usage (Bjorn)
+	* Clean up etnaviv_pdev_probe() with etnaviv_of_first_available_node()
+v10:
+	* Add one more cleanup patch
+	* Resolve the conflict with a patch from Rob
+	* Make the dummy PCI stub inlined
+	* Print only if the platform is dma-coherrent
+V11:
+	* Drop unnecessary changes (Lucas)
+	* Tweak according to other reviews of v10.
 
-> ---
->
-> v2: Update a few chipspecs that I had missed before. (Christian)
-> ---
->  drivers/gpu/drm/etnaviv/etnaviv_gpu.c  | 20 +++++++++++++++
->  drivers/gpu/drm/etnaviv/etnaviv_gpu.h  | 12 +++++++++
->  drivers/gpu/drm/etnaviv/etnaviv_hwdb.c | 34 ++++++++++++++++++++++++++
->  include/uapi/drm/etnaviv_drm.h         |  5 ++++
->  4 files changed, 71 insertions(+)
->
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> index 9276756e1397..9055ed08cd7b 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> @@ -164,6 +164,26 @@ int etnaviv_gpu_get_param(struct etnaviv_gpu *gpu, u32 param, u64 *value)
->                 *value = gpu->identity.eco_id;
->                 break;
->
-> +       case ETNAVIV_PARAM_GPU_NN_CORE_COUNT:
-> +               *value = gpu->identity.nn_core_count;
-> +               break;
-> +
-> +       case ETNAVIV_PARAM_GPU_NN_MAD_PER_CORE:
-> +               *value = gpu->identity.nn_mad_per_core;
-> +               break;
-> +
-> +       case ETNAVIV_PARAM_GPU_TP_CORE_COUNT:
-> +               *value = gpu->identity.tp_core_count;
-> +               break;
-> +
-> +       case ETNAVIV_PARAM_GPU_ON_CHIP_SRAM_SIZE:
-> +               *value = gpu->identity.on_chip_sram_size;
-> +               break;
-> +
-> +       case ETNAVIV_PARAM_GPU_AXI_SRAM_SIZE:
-> +               *value = gpu->identity.axi_sram_size;
-> +               break;
-> +
->         default:
->                 DBG("%s: invalid param: %u", dev_name(gpu->dev), param);
->                 return -EINVAL;
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
-> index 197e0037732e..7d5e9158e13c 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
-> @@ -54,6 +54,18 @@ struct etnaviv_chip_identity {
->         /* Number of Neural Network cores. */
->         u32 nn_core_count;
->
-> +       /* Number of MAD units per Neural Network core. */
-> +       u32 nn_mad_per_core;
-> +
-> +       /* Number of Tensor Processing cores. */
-> +       u32 tp_core_count;
-> +
-> +       /* Size in bytes of the SRAM inside the NPU. */
-> +       u32 on_chip_sram_size;
-> +
-> +       /* Size in bytes of the SRAM across the AXI bus. */
-> +       u32 axi_sram_size;
-> +
->         /* Size of the vertex cache. */
->         u32 vertex_cache_size;
->
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c b/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
-> index 67201242438b..9eb8ca7c5034 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
-> @@ -17,6 +17,10 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
->                 .thread_count = 128,
->                 .shader_core_count = 1,
->                 .nn_core_count = 0,
-> +               .nn_mad_per_core = 0,
-> +               .tp_core_count = 0,
-> +               .on_chip_sram_size = 0,
-> +               .axi_sram_size = 0,
->                 .vertex_cache_size = 8,
->                 .vertex_output_buffer_size = 1024,
->                 .pixel_pipes = 1,
-> @@ -48,6 +52,11 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
->                 .register_max = 64,
->                 .thread_count = 256,
->                 .shader_core_count = 1,
-> +               .nn_core_count = 0,
-> +               .nn_mad_per_core = 0,
-> +               .tp_core_count = 0,
-> +               .on_chip_sram_size = 0,
-> +               .axi_sram_size = 0,
->                 .vertex_cache_size = 8,
->                 .vertex_output_buffer_size = 512,
->                 .pixel_pipes = 1,
-> @@ -80,6 +89,10 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
->                 .thread_count = 512,
->                 .shader_core_count = 2,
->                 .nn_core_count = 0,
-> +               .nn_mad_per_core = 0,
-> +               .tp_core_count = 0,
-> +               .on_chip_sram_size = 0,
-> +               .axi_sram_size = 0,
->                 .vertex_cache_size = 16,
->                 .vertex_output_buffer_size = 1024,
->                 .pixel_pipes = 1,
-> @@ -112,6 +125,10 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
->                 .thread_count = 512,
->                 .shader_core_count = 2,
->                 .nn_core_count = 0,
-> +               .nn_mad_per_core = 0,
-> +               .tp_core_count = 0,
-> +               .on_chip_sram_size = 0,
-> +               .axi_sram_size = 0,
->                 .vertex_cache_size = 16,
->                 .vertex_output_buffer_size = 1024,
->                 .pixel_pipes = 1,
-> @@ -143,6 +160,11 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
->                 .register_max = 64,
->                 .thread_count = 512,
->                 .shader_core_count = 2,
-> +               .nn_core_count = 0,
-> +               .nn_mad_per_core = 0,
-> +               .tp_core_count = 0,
-> +               .on_chip_sram_size = 0,
-> +               .axi_sram_size = 0,
->                 .vertex_cache_size = 16,
->                 .vertex_output_buffer_size = 1024,
->                 .pixel_pipes = 1,
-> @@ -175,6 +197,10 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
->                 .thread_count = 1024,
->                 .shader_core_count = 4,
->                 .nn_core_count = 0,
-> +               .nn_mad_per_core = 0,
-> +               .tp_core_count = 0,
-> +               .on_chip_sram_size = 0,
-> +               .axi_sram_size = 0,
->                 .vertex_cache_size = 16,
->                 .vertex_output_buffer_size = 1024,
->                 .pixel_pipes = 2,
-> @@ -207,6 +233,10 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
->                 .thread_count = 256,
->                 .shader_core_count = 1,
->                 .nn_core_count = 8,
-> +               .nn_mad_per_core = 64,
-> +               .tp_core_count = 4,
-> +               .on_chip_sram_size = 524288,
-> +               .axi_sram_size = 1048576,
->                 .vertex_cache_size = 16,
->                 .vertex_output_buffer_size = 1024,
->                 .pixel_pipes = 1,
-> @@ -239,6 +269,10 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
->                 .thread_count = 256,
->                 .shader_core_count = 1,
->                 .nn_core_count = 6,
-> +               .nn_mad_per_core = 64,
-> +               .tp_core_count = 3,
-> +               .on_chip_sram_size = 262144,
-> +               .axi_sram_size = 0,
->                 .vertex_cache_size = 16,
->                 .vertex_output_buffer_size = 1024,
->                 .pixel_pipes = 1,
-> diff --git a/include/uapi/drm/etnaviv_drm.h b/include/uapi/drm/etnaviv_drm.h
-> index af024d90453d..d87410a8443a 100644
-> --- a/include/uapi/drm/etnaviv_drm.h
-> +++ b/include/uapi/drm/etnaviv_drm.h
-> @@ -77,6 +77,11 @@ struct drm_etnaviv_timespec {
->  #define ETNAVIV_PARAM_GPU_PRODUCT_ID                0x1c
->  #define ETNAVIV_PARAM_GPU_CUSTOMER_ID               0x1d
->  #define ETNAVIV_PARAM_GPU_ECO_ID                    0x1e
-> +#define ETNAVIV_PARAM_GPU_NN_CORE_COUNT             0x1f
-> +#define ETNAVIV_PARAM_GPU_NN_MAD_PER_CORE           0x20
-> +#define ETNAVIV_PARAM_GPU_TP_CORE_COUNT             0x21
-> +#define ETNAVIV_PARAM_GPU_ON_CHIP_SRAM_SIZE         0x22
-> +#define ETNAVIV_PARAM_GPU_AXI_SRAM_SIZE             0x23
->
->  #define ETNA_MAX_PIPES 4
->
-> --
-> 2.42.0
->
+V12:
+	* Create a virtual platform device for the subcomponent GPU cores
+	* Bind all subordinate GPU cores to the real PCI master via component.
+
+Sui Jingfeng (8):
+  drm/etnaviv: Add a helper function to get clocks
+  drm/etnaviv: Add constructor and destructor for struct
+    etnaviv_drm_private
+  drm/etnaviv: Allow bypass component framework
+  drm/etnaviv: Support for the vivante GPU core attached on PCI(e)
+    device
+  drm/etnaviv: Add support for cached coherent caching mode
+  drm/etnaviv: Embed struct drm_device in struct etnaviv_drm_private
+  drm/etnaviv: Add support for the JingJia Macro and LingJiu PCI(e) GPUs
+  drm/etnaviv: Support binding multiple GPU cores with component
+
+ drivers/gpu/drm/etnaviv/Kconfig              |   8 +
+ drivers/gpu/drm/etnaviv/Makefile             |   2 +
+ drivers/gpu/drm/etnaviv/etnaviv_drv.c        | 189 ++++++++-----
+ drivers/gpu/drm/etnaviv/etnaviv_drv.h        |  27 ++
+ drivers/gpu/drm/etnaviv/etnaviv_gem.c        |  22 +-
+ drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c |   2 +-
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c        | 187 +++++++++----
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.h        |  10 +
+ drivers/gpu/drm/etnaviv/etnaviv_mmu.c        |   4 +-
+ drivers/gpu/drm/etnaviv/etnaviv_pci_drv.c    | 279 +++++++++++++++++++
+ drivers/gpu/drm/etnaviv/etnaviv_pci_drv.h    |  37 +++
+ include/uapi/drm/etnaviv_drm.h               |   1 +
+ 12 files changed, 639 insertions(+), 129 deletions(-)
+ create mode 100644 drivers/gpu/drm/etnaviv/etnaviv_pci_drv.c
+ create mode 100644 drivers/gpu/drm/etnaviv/etnaviv_pci_drv.h
 
 
+base-commit: 5ce7ae0a6faece18d91ce807026197cface429db
 -- 
-greets
---
-Christian Gmeiner, MSc
+2.34.1
 
-https://christian-gmeiner.info/privacypolicy
