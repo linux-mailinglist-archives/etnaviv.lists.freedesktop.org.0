@@ -1,67 +1,96 @@
 Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E330829E7B
-	for <lists+etnaviv@lfdr.de>; Wed, 10 Jan 2024 17:24:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 05F22829E8E
+	for <lists+etnaviv@lfdr.de>; Wed, 10 Jan 2024 17:25:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA02910E644;
-	Wed, 10 Jan 2024 16:24:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 90CB910E789;
+	Wed, 10 Jan 2024 16:25:32 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
- [IPv6:2a00:1450:4864:20::335])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C13A10E644
- for <etnaviv@lists.freedesktop.org>; Wed, 10 Jan 2024 16:24:39 +0000 (UTC)
-Received: by mail-wm1-x335.google.com with SMTP id
- 5b1f17b1804b1-40e4d64a3d8so28850215e9.0
- for <etnaviv@lists.freedesktop.org>; Wed, 10 Jan 2024 08:24:39 -0800 (PST)
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
+ [IPv6:2a00:1450:4864:20::32d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2545610E789
+ for <etnaviv@lists.freedesktop.org>; Wed, 10 Jan 2024 16:25:31 +0000 (UTC)
+Received: by mail-wm1-x32d.google.com with SMTP id
+ 5b1f17b1804b1-40d8902da73so41325475e9.2
+ for <etnaviv@lists.freedesktop.org>; Wed, 10 Jan 2024 08:25:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1704903878; x=1705508678; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=R6/BfkOB3X/a4RKJT/vAJvs9aWAmPw+IY2BZPxEX1WY=;
- b=vF5PYCjldXXSOH5MfXA01w4cGetxVMD+VZiweaLoDG2jWa1XDCHNU+y58DbPu5vJvZ
- aBWll9Q+0UqYLT79ugDaMQBjwjZNo3u3CcL2s2YNKddEKBaOa8mpi3WrddMZ7/9F7zEs
- SNTfG7rvkLdYy9Z2c2jyg/BVwNAdshDO5RPeXT4EHZqJoYgpD6bQtC4lZVEsVlMydQES
- 9oLzUKuMScTgujFcp/yOUvj1pon/NGWmBXkAkXA1s4xhJRQsGV4QgDrgudJcnHJt4S4Q
- 5JHiDLK/gJy86LW3+GwGPT6n1+11Y2Zd7mVCs01QJ74kPl1KY3lStWf1h+Yr/0Pxn6Jl
- uAAA==
+ d=linaro.org; s=google; t=1704903929; x=1705508729; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :references:cc:to:from:content-language:subject:user-agent
+ :mime-version:date:message-id:from:to:cc:subject:date:message-id
+ :reply-to; bh=15bYShZuIS4+CSxAUIJl+wAlVTxXL5pj1PzzN1HPXTY=;
+ b=iteOvhIgjhVnPuJlSq0ckDohhGmr5Mfn83mcGG8W8eqoM1AXhSgcEzznCzdpXLhVyI
+ RMVbHYCxp6DCB47VofhNBpgzVsbQtMDU9xPP3m4F9L4L12JNpVEyOkTrcVqOkn9/dTEW
+ geaC0gr3JQb92TsHSfcA1/tuEbqyytl+ko7PFqL78JeI7+v659BF2+MDl2Z9DKKbYkpV
+ 39NGMv4km+47WpsXIxhVDzltzTPkLEIliZGbfgeJcxdmrNdwobdk1TlmR4TWJTlFWuzF
+ o/JWmSL9D3AMlEOqEwn5Yr40xNvow1TLyrBX5xSvRDhIGwWNJB2GbC95ixwbFYzSvfPb
+ bs0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1704903878; x=1705508678;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=R6/BfkOB3X/a4RKJT/vAJvs9aWAmPw+IY2BZPxEX1WY=;
- b=kZrnPSg0J5QjRYQHlcgE70/pmGHyBMCKTxoRaEbn6RoH55tWeOAu8Tmeh+a9QvBX6n
- 9THU8x8m1Vk7MSZzF51IZ+lX68WjmCzsF3Bg0wSFGr2yLQjLQy+Qva0wmRZeKTaK0WJW
- GkUqVPXpFChG1ucaT4aHt4ssMMY9J0RWJr1NXCLhmLqHDHBHac9R1+m3z1aKfokrmiQj
- HZsIZB0D8XK5ZIzl3vPBqes+n2NqkzmoERC1ab6NLPRRka4Ysb4e8ItUYR/dfmsdqXLf
- EUHhjf6VPgnUv0BqB3WTKivTz4OkMgsDPtEN/4RLAwBg0ygCrGYfE3rw3vBR8ka6aCA+
- LB0Q==
-X-Gm-Message-State: AOJu0Yyko6Au9xHzKMUFXxxszy9qpV4aFAr1GbadimtQarORMgVQYUi7
- SVsj6CzCz+6r6ZaZD7KsY/A1g9JXdHjWpw==
-X-Google-Smtp-Source: AGHT+IFGJW2y/e3roICrA8K9wFuh4EUFJkXNrLyEpHPqRYRlYSswh+UYKkdhr0qfFvxHn8GQE/wsvg==
-X-Received: by 2002:a05:600c:5208:b0:40e:3654:29f4 with SMTP id
- fb8-20020a05600c520800b0040e365429f4mr665511wmb.32.1704903877854; 
- Wed, 10 Jan 2024 08:24:37 -0800 (PST)
-Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:8261:5fff:fe11:bdda])
+ d=1e100.net; s=20230601; t=1704903929; x=1705508729;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :references:cc:to:from:content-language:subject:user-agent
+ :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=15bYShZuIS4+CSxAUIJl+wAlVTxXL5pj1PzzN1HPXTY=;
+ b=mWUnlrHPAc3J7FJzOnhGQUR5NWmzaBQP0t0SEfmdArIUe5xSUyCg9wQUi9viAvxvqv
+ PWkZc/risa2odP/DpzVeM6j1zre81DLsCHF06o5ISQKXtWdNlXz3+fmGdin4MShSInqa
+ hf4r5FIB9LDLO2UU+g2X8JTkhJhMk9ZE0f3Rmf8H2kEY6Q6Kz5irjm52KPcXcmIE+zqM
+ 5sMuWRX3Zs/AosMisIrXbKMDwAEI+xyFhakqWkp1qi/bMWraRDMqTp2KEjNiQ9qRlB/6
+ igW2AS0gb3XMx2RpyeHaOU/ULR5xIWQmTNMQ+UBtNO/3WlHBWOxMsZlFBw2tQi2A58cc
+ afZg==
+X-Gm-Message-State: AOJu0YzCqAamgFIsQS5eBn+1zWzbu0MQ770n/IHNAAuynZ4ucc3jD1W0
+ USELmHSl02sJ6YWumQ27y/dSjPnEldcwGN8OGB3zpxgd78Fj+Z81
+X-Google-Smtp-Source: AGHT+IE9PekVK0Th6y6bMR8dNTYSBDVpdQ3lSyTVffa/xd/PVDY0KvfpkbBq+lP11myDdjPGXoiZqw==
+X-Received: by 2002:a05:600c:3eca:b0:40d:763d:c7fe with SMTP id
+ ek10-20020a05600c3eca00b0040d763dc7femr742455wmb.121.1704903929423; 
+ Wed, 10 Jan 2024 08:25:29 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:982:cbb0:5dee:51de:9349:2adf?
+ ([2a01:e0a:982:cbb0:5dee:51de:9349:2adf])
  by smtp.gmail.com with ESMTPSA id
- g21-20020a05600c311500b0040d30af488asm2686451wmo.40.2024.01.10.08.24.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Jan 2024 08:24:37 -0800 (PST)
+ f15-20020a05600c154f00b0040e3b12052bsm2752200wmg.5.2024.01.10.08.25.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 10 Jan 2024 08:25:29 -0800 (PST)
+Message-ID: <39a224f2-b245-4766-88f6-3af856ae7acb@linaro.org>
+Date: Wed, 10 Jan 2024 17:25:27 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] drm/etnaviv: Expose a few more chipspecs to userspace
+Content-Language: en-US, fr
 From: Neil Armstrong <neil.armstrong@linaro.org>
 To: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-In-Reply-To: <20240110153704.1364073-1-tomeu@tomeuvizoso.net>
 References: <20240110153704.1364073-1-tomeu@tomeuvizoso.net>
-Subject: Re: [PATCH 1/2] drm/etnaviv: Expose a few more chipspecs to userspace
-Message-Id: <170490387684.1887297.10058632363349793019.b4-ty@linaro.org>
-Date: Wed, 10 Jan 2024 17:24:36 +0100
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+ <170490387684.1887297.10058632363349793019.b4-ty@linaro.org>
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro Developer Services
+In-Reply-To: <170490387684.1887297.10058632363349793019.b4-ty@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.12.4
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,42 +113,46 @@ Cc: Christian Gmeiner <cgmeiner@igalia.com>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Hi,
-
-On Wed, 10 Jan 2024 16:37:00 +0100, Tomeu Vizoso wrote:
-> These ones will be needed to make use fo the NN and TP units in the NPUs
-> based on Vivante IP.
+On 10/01/2024 17:24, Neil Armstrong wrote:
+> Hi,
 > 
+> On Wed, 10 Jan 2024 16:37:00 +0100, Tomeu Vizoso wrote:
+>> These ones will be needed to make use fo the NN and TP units in the NPUs
+>> based on Vivante IP.
+>>
+>>
 > 
+> Thanks, Applied to https://git.kernel.org/pub/scm/linux/kernel/git/amlogic/linux.git (v6.9/arm64-dt)
+> 
+> [1/2] drm/etnaviv: Expose a few more chipspecs to userspace
+>        (no commit info)
+> [2/2] arm64: dts: amlogic: meson-g12-common: Set the rates of the clocks for the NPU
+>        https://git.kernel.org/amlogic/c/507b3e756ffcb174d383dd05df5084aed9bb6d14
 
-Thanks, Applied to https://git.kernel.org/pub/scm/linux/kernel/git/amlogic/linux.git (v6.9/arm64-dt)
+To be clear, I only applied patch 2.
 
-[1/2] drm/etnaviv: Expose a few more chipspecs to userspace
-      (no commit info)
-[2/2] arm64: dts: amlogic: meson-g12-common: Set the rates of the clocks for the NPU
-      https://git.kernel.org/amlogic/c/507b3e756ffcb174d383dd05df5084aed9bb6d14
-
-These changes has been applied on the intermediate git tree [1].
-
-The v6.9/arm64-dt branch will then be sent via a formal Pull Request to the Linux SoC maintainers
-for inclusion in their intermediate git branches in order to be sent to Linus during
-the next merge window, or sooner if it's a set of fixes.
-
-In the cases of fixes, those will be merged in the current release candidate
-kernel and as soon they appear on the Linux master branch they will be
-backported to the previous Stable and Long-Stable kernels [2].
-
-The intermediate git branches are merged daily in the linux-next tree [3],
-people are encouraged testing these pre-release kernels and report issues on the
-relevant mailing-lists.
-
-If problems are discovered on those changes, please submit a signed-off-by revert
-patch followed by a corrective changeset.
-
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/amlogic/linux.git
-[2] https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git
-[3] https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-
--- 
 Neil
+
+> 
+> These changes has been applied on the intermediate git tree [1].
+> 
+> The v6.9/arm64-dt branch will then be sent via a formal Pull Request to the Linux SoC maintainers
+> for inclusion in their intermediate git branches in order to be sent to Linus during
+> the next merge window, or sooner if it's a set of fixes.
+> 
+> In the cases of fixes, those will be merged in the current release candidate
+> kernel and as soon they appear on the Linux master branch they will be
+> backported to the previous Stable and Long-Stable kernels [2].
+> 
+> The intermediate git branches are merged daily in the linux-next tree [3],
+> people are encouraged testing these pre-release kernels and report issues on the
+> relevant mailing-lists.
+> 
+> If problems are discovered on those changes, please submit a signed-off-by revert
+> patch followed by a corrective changeset.
+> 
+> [1] https://git.kernel.org/pub/scm/linux/kernel/git/amlogic/linux.git
+> [2] https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git
+> [3] https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+> 
 
