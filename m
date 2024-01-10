@@ -2,58 +2,51 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98ADC82487E
-	for <lists+etnaviv@lfdr.de>; Thu,  4 Jan 2024 20:00:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E2E8829DA3
+	for <lists+etnaviv@lfdr.de>; Wed, 10 Jan 2024 16:38:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D199910E527;
-	Thu,  4 Jan 2024 19:00:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1317010E5F2;
+	Wed, 10 Jan 2024 15:38:00 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-oa1-x2f.google.com (mail-oa1-x2f.google.com
- [IPv6:2001:4860:4864:20::2f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4828C10E541
- for <etnaviv@lists.freedesktop.org>; Thu,  4 Jan 2024 19:00:49 +0000 (UTC)
-Received: by mail-oa1-x2f.google.com with SMTP id
- 586e51a60fabf-204235d0913so457495fac.1
- for <etnaviv@lists.freedesktop.org>; Thu, 04 Jan 2024 11:00:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1704394848; x=1704999648; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=3J6pm8ToTAU8tLPlepkXfUVX4zAX4Ty0atRRFPTABlI=;
- b=D+HJnrB8DatJFp7Co5+Gv5OrDXsuPgLEZWUiJYCoS8w1OvMjI8klgJ992YytawZjRx
- L3S9CshDg9OZXNsT3uO69xFTgo0fh5gL32mPl6wExZoZE5elmWpwtHwLjmAGjxrjEfaG
- La2Ts7fv01mvcZRk5fzT/kAkESCxMku9z7wtfEtmlnyQsfeHGWgBKmiCGiPmkvsZVwhD
- 6CSrcpfdZLSfwYQ9vRGSUZbbqhD9dptNJoSz5GBSTAFjoyCAbfESIR4Ej6ZHyLgSclSy
- j3PXH+JXIYCrb0EG2KAGyMNrX30sIKTBR8/ZdGh/xo2vYS4oENf5HAvnnxcU4ruLnW+T
- IaRg==
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com
+ [209.85.208.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2EA6110E04E;
+ Wed, 10 Jan 2024 15:37:58 +0000 (UTC)
+Received: by mail-ed1-f46.google.com with SMTP id
+ 4fb4d7f45d1cf-5576fae29ffso4371830a12.1; 
+ Wed, 10 Jan 2024 07:37:58 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1704394848; x=1704999648;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ d=1e100.net; s=20230601; t=1704901076; x=1705505876;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=3J6pm8ToTAU8tLPlepkXfUVX4zAX4Ty0atRRFPTABlI=;
- b=u6CEkhm+zwQtgHENsPmctxQDN+ous4LIoodc6KYVepX9zmeP5Huk5oOeY0MKTKFP0b
- KoHkjEY2RtII9cyZMqpNi3Z4sZFyFnSpQRqcZZJ7gR9mM/lq7G6CGQ04PCdibj3M5ta3
- Ui40muYamxunHrfdS9zuyOM2wi6lQSetEr73jdRYYx7aFu82HiJRKfQF4zm8u4eUTOIi
- 932oO8KPron16GTMevFgA0J/3WMFEpaMoYkZn3+yV4a0IMMU+37BQay+owslpzgLtblp
- F01UtO/ky2BqCHONTDIc8XJ6wC9+vma+u8VuwhNM4GxIkeJkeIcyXiXDu7ZwpYq5Wo7j
- /1dQ==
-X-Gm-Message-State: AOJu0Yy6RkaMeES/+nsB7X843G2g+ritpTw+LrXNC8csuqTEeRbFqseT
- cuHKW5uGJQjT598hP7piyk6V+fQtlElvUgP1yc8=
-X-Google-Smtp-Source: AGHT+IEH0Nz4WqS89oeCXOZXqnhqordtjlv6/U9bt4R21OzWMSs7ZAPNGEsgVz+sruog8yE8o7G+RvwPcpf9EEkV/9s=
-X-Received: by 2002:a05:6870:812:b0:204:aeb:3d33 with SMTP id
- fw18-20020a056870081200b002040aeb3d33mr1156354oab.40.1704394848345; Thu, 04
- Jan 2024 11:00:48 -0800 (PST)
+ bh=iiaboqLo4Zo3cNfowQ5RMAqS5wTqzDwqvkE5PMko/Ac=;
+ b=PrivQqRlaT7sh+gNGwHCbuuBlaxRTQl4fCYU/+qs44f+jiETd70NDIvIDy2GWVyDrS
+ Efkba7qnct7bOSPx5iHc4Hyd/nxR/ZXCoFnepDhnyYRwIq1VGD8ho8CrZOuKfMlVTrQE
+ Gy2EOMLJSozjo7QqDgcNviza1Rx3bOuHo2Fa8mJuhicO9IR56YKa87/vwEoYKDtlgPzM
+ P1EL9FjxJ7m/spFOsfZReMOPH/eMz/HVNpraltcaMPGHe3w7wiAjumQClNznoZK5EUHC
+ MSWD0ZmhBL+d0LRfQK98I7Ne/q2/KOkfWbmyGY4cuiyuDrC4oc9YhKcoTUrTOuqoxIN4
+ lKdg==
+X-Gm-Message-State: AOJu0Yw8qoKcbL+OF8yb7DH9t1PnzFhUVpR9Q3Vj6+ZqA47f2HzP+B/D
+ +kLGGUfuhoaBuH1M1ONhSto=
+X-Google-Smtp-Source: AGHT+IGgQGClPW/hJ7k0fe6bnsbTeDHodNvHBE6Vw3EAnD7AP3f1b3CEFOd6xQ1fD9E5b5YtrNbP+w==
+X-Received: by 2002:a50:8a96:0:b0:558:2110:5aeb with SMTP id
+ j22-20020a508a96000000b0055821105aebmr596143edj.39.1704901076355; 
+ Wed, 10 Jan 2024 07:37:56 -0800 (PST)
+Received: from ramallet.home (cst-prg-39-31.cust.vodafone.cz. [46.135.39.31])
+ by smtp.gmail.com with ESMTPSA id
+ da11-20020a056402176b00b0055668ccd9a3sm2113105edb.17.2024.01.10.07.37.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 10 Jan 2024 07:37:55 -0800 (PST)
+From: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+To: 
+Subject: [PATCH 1/2] drm/etnaviv: Expose a few more chipspecs to userspace
+Date: Wed, 10 Jan 2024 16:37:00 +0100
+Message-ID: <20240110153704.1364073-1-tomeu@tomeuvizoso.net>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-References: <SA1PR17MB5652020301F51E278E9C9175D467A@SA1PR17MB5652.namprd17.prod.outlook.com>
-In-Reply-To: <SA1PR17MB5652020301F51E278E9C9175D467A@SA1PR17MB5652.namprd17.prod.outlook.com>
-From: Christian Gmeiner <christian.gmeiner@gmail.com>
-Date: Thu, 4 Jan 2024 20:00:36 +0100
-Message-ID: <CAH9NwWdOcw+PF-qhZkHKhMDq2OQ=5oY1N=ibc3eX_VxX9U+Wgg@mail.gmail.com>
-Subject: Re: etnaviv : IMX6 Solo GPU Performance Issue With OpenGL ES-CM 1.1
-To: "Motghare, Vishnu" <VishnuMotghare@eaton.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,89 +58,172 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: "etnaviv@lists.freedesktop.org" <etnaviv@lists.freedesktop.org>
+Cc: Christian Gmeiner <cgmeiner@igalia.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ "moderated list:DRM DRIVERS FOR VIVANTE GPU IP"
+ <etnaviv@lists.freedesktop.org>, Maxime Ripard <mripard@kernel.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ "open list:DRM DRIVERS FOR VIVANTE GPU IP" <dri-devel@lists.freedesktop.org>,
+ Daniel Vetter <daniel@ffwll.ch>, Russell King <linux+etnaviv@armlinux.org.uk>,
+ David Airlie <airlied@gmail.com>, Tomeu Vizoso <tomeu@tomeuvizoso.net>,
+ Lucas Stach <l.stach@pengutronix.de>
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Hi Vishnu
+These ones will be needed to make use fo the NN and TP units in the NPUs
+based on Vivante IP.
 
-> We have an IMX6 solo custom device running with WinCE7 & Linux on it
->
-> We have developed a custom benchmark application using OpenGL ES-CM 1.1
->
+Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+Acked-by: Christian Gmeiner <cgmeiner@igalia.com>
+---
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c  | 20 ++++++++++++++++++++
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.h  | 12 ++++++++++++
+ drivers/gpu/drm/etnaviv/etnaviv_hwdb.c | 24 ++++++++++++++++++++++++
+ include/uapi/drm/etnaviv_drm.h         |  5 +++++
+ 4 files changed, 61 insertions(+)
 
-Is it possible to share this test application?
-
-> When I ran the benchmark application on WinCE7 the performance looked good but with similar application on Linux gives 50 % reduction in performance.
->
-> Following is our configuration
->
-> Linux             - Mainline 5.15
-> GPU driver  -  Etnaviv
-> X Driver      -   xf86-video-armada
-> OpenGL      -   OpenGL ES-CM 1.1
->
-> WinCE Result:
->
-> EGL version : 1.4
-> GL vendor   : Vivante Corporation
-> GL renderer : Vivante GC880
-> GL version  : OpenGL ES-CM 1.1 Mesa 22.0.3
->
-> run scene 'Floating Frame3D VBO'
-> initialize, DATA_SIZE:11264, No of Frames:512 Average FPS = 48.075005
-> ---
->
-> run scene 'Floating Frame3D'
-> initialize, DATA_SIZE:11264, No of Frames:512 Average FPS = 31.975005
-> ---
->
-> run scene 'Frame 3D Fixed'
-> initialize, DATA_SIZE:11264, No of Frames:512 Average FPS = 31.505484
-> ---
->
-> run scene 'Floating graph'
-> Average FPS = 238.403093
-> ---
->
-> run scene 'Fixed graph'
-> Average FPS = 238.187271
->
->
-> Linux result:
->
-> EGL version : 1.4
-> GL vendor   : etnaviv
-> GL renderer : Vivante GC880 rev 5106
-> GL version  : OpenGL ES-CM 1.1 Mesa 22.0.3
->
-> run scene 'Floating Frame3D VBO'
-> initialize, DATA_SIZE:11264, No of Frames:512 Average FPS = 26.872623
-> ---
->
-> run scene 'Floating Frame3D'
-> initialize, DATA_SIZE:11264, No of Frames:512 Average FPS = 24.373300
-> ---
->
-> run scene 'Frame 3D Fixed'
-> initialize, DATA_SIZE:11264, No of Frames:512 Average FPS = 23.783205
-> ---
->
-> run scene 'Floating graph'
-> Average FPS = 136.624447
-> ---
->
-> run scene 'Fixed graph'
-> Average FPS = 136.510016
->
-> glmark2 which uses opengl 2.2 gives 80 % score. Can it be issue with OpenGl 1.1 ? Or X driver?
->
-> At the moment not able to figure out where is the problem.  Any help is appreciable.
->
-
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+index 9276756e1397..9055ed08cd7b 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+@@ -164,6 +164,26 @@ int etnaviv_gpu_get_param(struct etnaviv_gpu *gpu, u32 param, u64 *value)
+ 		*value = gpu->identity.eco_id;
+ 		break;
+ 
++	case ETNAVIV_PARAM_GPU_NN_CORE_COUNT:
++		*value = gpu->identity.nn_core_count;
++		break;
++
++	case ETNAVIV_PARAM_GPU_NN_MAD_PER_CORE:
++		*value = gpu->identity.nn_mad_per_core;
++		break;
++
++	case ETNAVIV_PARAM_GPU_TP_CORE_COUNT:
++		*value = gpu->identity.tp_core_count;
++		break;
++
++	case ETNAVIV_PARAM_GPU_ON_CHIP_SRAM_SIZE:
++		*value = gpu->identity.on_chip_sram_size;
++		break;
++
++	case ETNAVIV_PARAM_GPU_AXI_SRAM_SIZE:
++		*value = gpu->identity.axi_sram_size;
++		break;
++
+ 	default:
+ 		DBG("%s: invalid param: %u", dev_name(gpu->dev), param);
+ 		return -EINVAL;
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
+index 197e0037732e..7d5e9158e13c 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
+@@ -54,6 +54,18 @@ struct etnaviv_chip_identity {
+ 	/* Number of Neural Network cores. */
+ 	u32 nn_core_count;
+ 
++	/* Number of MAD units per Neural Network core. */
++	u32 nn_mad_per_core;
++
++	/* Number of Tensor Processing cores. */
++	u32 tp_core_count;
++
++	/* Size in bytes of the SRAM inside the NPU. */
++	u32 on_chip_sram_size;
++
++	/* Size in bytes of the SRAM across the AXI bus. */
++	u32 axi_sram_size;
++
+ 	/* Size of the vertex cache. */
+ 	u32 vertex_cache_size;
+ 
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c b/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
+index 67201242438b..003e5faa1f4c 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
+@@ -17,6 +17,10 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
+ 		.thread_count = 128,
+ 		.shader_core_count = 1,
+ 		.nn_core_count = 0,
++		.nn_mad_per_core = 0,
++		.tp_core_count = 0,
++		.on_chip_sram_size = 0,
++		.axi_sram_size = 0,
+ 		.vertex_cache_size = 8,
+ 		.vertex_output_buffer_size = 1024,
+ 		.pixel_pipes = 1,
+@@ -80,6 +84,10 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
+ 		.thread_count = 512,
+ 		.shader_core_count = 2,
+ 		.nn_core_count = 0,
++		.nn_mad_per_core = 0,
++		.tp_core_count = 0,
++		.on_chip_sram_size = 0,
++		.axi_sram_size = 0,
+ 		.vertex_cache_size = 16,
+ 		.vertex_output_buffer_size = 1024,
+ 		.pixel_pipes = 1,
+@@ -112,6 +120,10 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
+ 		.thread_count = 512,
+ 		.shader_core_count = 2,
+ 		.nn_core_count = 0,
++		.nn_mad_per_core = 0,
++		.tp_core_count = 0,
++		.on_chip_sram_size = 0,
++		.axi_sram_size = 0,
+ 		.vertex_cache_size = 16,
+ 		.vertex_output_buffer_size = 1024,
+ 		.pixel_pipes = 1,
+@@ -175,6 +187,10 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
+ 		.thread_count = 1024,
+ 		.shader_core_count = 4,
+ 		.nn_core_count = 0,
++		.nn_mad_per_core = 0,
++		.tp_core_count = 0,
++		.on_chip_sram_size = 0,
++		.axi_sram_size = 0,
+ 		.vertex_cache_size = 16,
+ 		.vertex_output_buffer_size = 1024,
+ 		.pixel_pipes = 2,
+@@ -207,6 +223,10 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
+ 		.thread_count = 256,
+ 		.shader_core_count = 1,
+ 		.nn_core_count = 8,
++		.nn_mad_per_core = 64,
++		.tp_core_count = 4,
++		.on_chip_sram_size = 524288,
++		.axi_sram_size = 1048576,
+ 		.vertex_cache_size = 16,
+ 		.vertex_output_buffer_size = 1024,
+ 		.pixel_pipes = 1,
+@@ -239,6 +259,10 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
+ 		.thread_count = 256,
+ 		.shader_core_count = 1,
+ 		.nn_core_count = 6,
++		.nn_mad_per_core = 64,
++		.tp_core_count = 3,
++		.on_chip_sram_size = 262144,
++		.axi_sram_size = 0,
+ 		.vertex_cache_size = 16,
+ 		.vertex_output_buffer_size = 1024,
+ 		.pixel_pipes = 1,
+diff --git a/include/uapi/drm/etnaviv_drm.h b/include/uapi/drm/etnaviv_drm.h
+index af024d90453d..d87410a8443a 100644
+--- a/include/uapi/drm/etnaviv_drm.h
++++ b/include/uapi/drm/etnaviv_drm.h
+@@ -77,6 +77,11 @@ struct drm_etnaviv_timespec {
+ #define ETNAVIV_PARAM_GPU_PRODUCT_ID                0x1c
+ #define ETNAVIV_PARAM_GPU_CUSTOMER_ID               0x1d
+ #define ETNAVIV_PARAM_GPU_ECO_ID                    0x1e
++#define ETNAVIV_PARAM_GPU_NN_CORE_COUNT             0x1f
++#define ETNAVIV_PARAM_GPU_NN_MAD_PER_CORE           0x20
++#define ETNAVIV_PARAM_GPU_TP_CORE_COUNT             0x21
++#define ETNAVIV_PARAM_GPU_ON_CHIP_SRAM_SIZE         0x22
++#define ETNAVIV_PARAM_GPU_AXI_SRAM_SIZE             0x23
+ 
+ #define ETNA_MAX_PIPES 4
+ 
 -- 
-greets
---
-Christian Gmeiner, MSc
+2.43.0
 
-https://christian-gmeiner.info/privacypolicy
