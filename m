@@ -2,95 +2,147 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05F22829E8E
-	for <lists+etnaviv@lfdr.de>; Wed, 10 Jan 2024 17:25:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D603C82A88B
+	for <lists+etnaviv@lfdr.de>; Thu, 11 Jan 2024 08:51:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 90CB910E789;
-	Wed, 10 Jan 2024 16:25:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9BECA10E7F2;
+	Thu, 11 Jan 2024 07:51:47 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
- [IPv6:2a00:1450:4864:20::32d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2545610E789
- for <etnaviv@lists.freedesktop.org>; Wed, 10 Jan 2024 16:25:31 +0000 (UTC)
-Received: by mail-wm1-x32d.google.com with SMTP id
- 5b1f17b1804b1-40d8902da73so41325475e9.2
- for <etnaviv@lists.freedesktop.org>; Wed, 10 Jan 2024 08:25:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1704903929; x=1705508729; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :references:cc:to:from:content-language:subject:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=15bYShZuIS4+CSxAUIJl+wAlVTxXL5pj1PzzN1HPXTY=;
- b=iteOvhIgjhVnPuJlSq0ckDohhGmr5Mfn83mcGG8W8eqoM1AXhSgcEzznCzdpXLhVyI
- RMVbHYCxp6DCB47VofhNBpgzVsbQtMDU9xPP3m4F9L4L12JNpVEyOkTrcVqOkn9/dTEW
- geaC0gr3JQb92TsHSfcA1/tuEbqyytl+ko7PFqL78JeI7+v659BF2+MDl2Z9DKKbYkpV
- 39NGMv4km+47WpsXIxhVDzltzTPkLEIliZGbfgeJcxdmrNdwobdk1TlmR4TWJTlFWuzF
- o/JWmSL9D3AMlEOqEwn5Yr40xNvow1TLyrBX5xSvRDhIGwWNJB2GbC95ixwbFYzSvfPb
- bs0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1704903929; x=1705508729;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :references:cc:to:from:content-language:subject:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=15bYShZuIS4+CSxAUIJl+wAlVTxXL5pj1PzzN1HPXTY=;
- b=mWUnlrHPAc3J7FJzOnhGQUR5NWmzaBQP0t0SEfmdArIUe5xSUyCg9wQUi9viAvxvqv
- PWkZc/risa2odP/DpzVeM6j1zre81DLsCHF06o5ISQKXtWdNlXz3+fmGdin4MShSInqa
- hf4r5FIB9LDLO2UU+g2X8JTkhJhMk9ZE0f3Rmf8H2kEY6Q6Kz5irjm52KPcXcmIE+zqM
- 5sMuWRX3Zs/AosMisIrXbKMDwAEI+xyFhakqWkp1qi/bMWraRDMqTp2KEjNiQ9qRlB/6
- igW2AS0gb3XMx2RpyeHaOU/ULR5xIWQmTNMQ+UBtNO/3WlHBWOxMsZlFBw2tQi2A58cc
- afZg==
-X-Gm-Message-State: AOJu0YzCqAamgFIsQS5eBn+1zWzbu0MQ770n/IHNAAuynZ4ucc3jD1W0
- USELmHSl02sJ6YWumQ27y/dSjPnEldcwGN8OGB3zpxgd78Fj+Z81
-X-Google-Smtp-Source: AGHT+IE9PekVK0Th6y6bMR8dNTYSBDVpdQ3lSyTVffa/xd/PVDY0KvfpkbBq+lP11myDdjPGXoiZqw==
-X-Received: by 2002:a05:600c:3eca:b0:40d:763d:c7fe with SMTP id
- ek10-20020a05600c3eca00b0040d763dc7femr742455wmb.121.1704903929423; 
- Wed, 10 Jan 2024 08:25:29 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:982:cbb0:5dee:51de:9349:2adf?
- ([2a01:e0a:982:cbb0:5dee:51de:9349:2adf])
- by smtp.gmail.com with ESMTPSA id
- f15-20020a05600c154f00b0040e3b12052bsm2752200wmg.5.2024.01.10.08.25.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 Jan 2024 08:25:29 -0800 (PST)
-Message-ID: <39a224f2-b245-4766-88f6-3af856ae7acb@linaro.org>
-Date: Wed, 10 Jan 2024 17:25:27 +0100
+Received: from mail.eaton.com (mail.eaton.com [192.104.67.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 965BB10E7F2
+ for <etnaviv@lists.freedesktop.org>; Thu, 11 Jan 2024 07:51:46 +0000 (UTC)
+Received: from mail.eaton.com (simtcimsva01.etn.com [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 4E9BA9620E;
+ Thu, 11 Jan 2024 02:51:45 -0500 (EST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=eaton.com;
+ s=eaton-s2020-01; t=1704959505;
+ bh=8S5e2mDT9EiUh47BlkLkrb4JRFthV1Ippm5iZRmOXZ4=; h=From:To:Date;
+ b=acQiaA4GiDEkcCfB4ZOx9X69rb9zdpoboUzrzSPkKFJmsqdRypo6r82nraSJ1nwzm
+ 1w2BzHY6naiaYRXS0zApZ842FRYq61M5pWy48V3XlNzY50iJGGEcxiDqrkhKTp1kqA
+ Al66VfaLtkWdCJxfC2cF0OgOn5qH1LRuRDhzzn3fwn20QYK+i/4fk+dKeCiqWQaPvr
+ j6RkpNOQ9ZcbPsF5u/+XsiKMha9B/XUvjc2lKcm7G2RXdDgwIXKvYJcL//LO3xrlwg
+ V/rrnCHkY0KxqquONxpOtAIH2FKJDQWQTcaOSdS6W5xiciWUb71uuDXMDic48NNnYh
+ lpZZi8ak1bp0w==
+Received: from mail.eaton.com (simtcimsva01.etn.com [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 35CBC961AE;
+ Thu, 11 Jan 2024 02:51:45 -0500 (EST)
+Received: from USLTCSPGWY04.napa.ad.etn.com (USLTCSPGWY04.napa.ad.etn.com
+ [151.110.126.225]) by mail.eaton.com (Postfix) with ESMTPS;
+ Thu, 11 Jan 2024 02:51:45 -0500 (EST)
+Received: from USSTCSPGWY01.napa.ad.etn.com (151.110.126.224) by
+ USLTCSPGWY04.napa.ad.etn.com (151.110.126.225) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32; Thu, 11 Jan 2024 02:51:44 -0500
+Received: from USSTCSEXHET02.NAPA.AD.ETN.COM (151.110.240.154) by
+ USSTCSPGWY01.napa.ad.etn.com (151.110.126.224) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32 via Frontend Transport; Thu, 11 Jan 2024 02:51:44 -0500
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.169)
+ by hybridmail.eaton.com (151.110.240.154) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.32; Thu, 11 Jan 2024 02:51:44 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=awUKTyhapo7j299waMVkA/FVtiJhiBvKs1a2vH0ecCeIgOzOPTPZhT9SYmDitarksoUvEv/DwRb09/VIUuVEn1So2ABmMOc1h2sEG1FdNoPtkTQylC7Nh1aNNCDU0xMOkhHGJJ5qxkf9izi2t3kKHe+rLKpoGZhmJmEcx0aH1iUOhD11pmEOqQyzLKklyvv38j0pJK9CA2CoYUUItruosM3uov530CF/G+A8uFpBSCKmsZSl7PZ0fU/Ydi6XCHNDlBopK1SikIoMKiAM1S/ynu19ed/7OGRXhZVBbiJcfb3bQH8/lPr3wkHFMDdKIC8nTAzoKhmS45ly1ODanfCC9w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8S5e2mDT9EiUh47BlkLkrb4JRFthV1Ippm5iZRmOXZ4=;
+ b=b5781fmRSYhTErj4svS1iXxvUxvYlszvITlzjYP/NF4V5ZRkg6056nCDA2lE4B7d9KaZFQswLkQpMAs3c9Cif/gGJdDdx5zzqKsGFWOsTWAvStp8GQEhgYk4ZthnV9Ib4EawXvNnccRLXp6QwY7AanhzNJ1yi6AHb54QAFzQHdWjimRzKIAI4HLeIolmtIVu6p5dLQF3Ms27EGeU9zjCPUZHPyZV8VDYLpX9H1f0wX8fSTa2XiEFC2rxdK8ZbI+DD+wPhbu/yQsz6JD891iHWtDn3XV+LSIujqK+qi/6RvDOTDESqxJw+vgOvlFkeItTpHNNzlwv9CW0WvrBeRZt2Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=eaton.com; dmarc=pass action=none header.from=eaton.com;
+ dkim=pass header.d=eaton.com; arc=none
+Received: from SA1PR17MB5652.namprd17.prod.outlook.com (2603:10b6:806:1cf::21)
+ by MN2PR17MB4064.namprd17.prod.outlook.com (2603:10b6:208:208::23)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7181.17; Thu, 11 Jan
+ 2024 07:51:43 +0000
+Received: from SA1PR17MB5652.namprd17.prod.outlook.com
+ ([fe80::9a89:2e27:7451:6ce4]) by SA1PR17MB5652.namprd17.prod.outlook.com
+ ([fe80::9a89:2e27:7451:6ce4%6]) with mapi id 15.20.7181.015; Thu, 11 Jan 2024
+ 07:51:42 +0000
+From: "Motghare, Vishnu" <VishnuMotghare@eaton.com>
+To: Christian Gmeiner <christian.gmeiner@gmail.com>
+Subject: RE: [EXTERNAL] Re: etnaviv : IMX6 Solo GPU Performance Issue With
+ OpenGL ES-CM 1.1
+Thread-Topic: [EXTERNAL] Re: etnaviv : IMX6 Solo GPU Performance Issue With
+ OpenGL ES-CM 1.1
+Thread-Index: Ado+2Gd+wxkWNUOoT+mXmiBejC8yGwAAAAAwABn5VAABSHWygA==
+Date: Thu, 11 Jan 2024 07:51:41 +0000
+Message-ID: <SA1PR17MB565200229CDCE858DC3ECC47D4682@SA1PR17MB5652.namprd17.prod.outlook.com>
+References: <SA1PR17MB5652020301F51E278E9C9175D467A@SA1PR17MB5652.namprd17.prod.outlook.com>
+ <CAH9NwWdOcw+PF-qhZkHKhMDq2OQ=5oY1N=ibc3eX_VxX9U+Wgg@mail.gmail.com>
+In-Reply-To: <CAH9NwWdOcw+PF-qhZkHKhMDq2OQ=5oY1N=ibc3eX_VxX9U+Wgg@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_ff418558-72e5-4d8e-958f-cfe0e73e210d_ActionId=8a1f0a42-2907-441b-b4df-08efb36bd73a;
+ MSIP_Label_ff418558-72e5-4d8e-958f-cfe0e73e210d_ContentBits=0;
+ MSIP_Label_ff418558-72e5-4d8e-958f-cfe0e73e210d_Enabled=true;
+ MSIP_Label_ff418558-72e5-4d8e-958f-cfe0e73e210d_Method=Standard;
+ MSIP_Label_ff418558-72e5-4d8e-958f-cfe0e73e210d_Name=Eaton
+ Internal Only (IP2);
+ MSIP_Label_ff418558-72e5-4d8e-958f-cfe0e73e210d_SetDate=2024-01-11T07:45:25Z;
+ MSIP_Label_ff418558-72e5-4d8e-958f-cfe0e73e210d_SiteId=d6525c95-b906-431a-b926-e9b51ba43cc4;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=eaton.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SA1PR17MB5652:EE_|MN2PR17MB4064:EE_
+x-ms-office365-filtering-correlation-id: 3be45406-fbb2-49aa-bcd0-08dc127a2678
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: Scp+nwgnApsa86AfRAhStCKPG1oFQ3sVKh65u78LuijUeOailUHdFb9tN4mAq3O3WiPHPv2qrYhqpxdgM8IFYGdtSQ5t3oSvtfD/uKBRPv/wzyIxfri6z2UwgMMeoNvg+hL63N4DM1r47W2B7qzp+JhODP5v7u0CFqUNe2FNdF/OjTJDHzeb+QmnvyO1NVG9bYZPQUmCqt9F8Ur16X/o2tecHz6SF7KM/oYKvPMnviZnrEGMPc2II5AM8nPLjJvRbXicWJPL9UfVO72bdS2PcE7LdyzTR6munTrX9OGh+r7+aQtzMrkzeGnJtguMCGSp4LCP38W2WpXPYARjbjhbPXZ8pSCjfJFd2GEPr6YdSB7AtNbsR9Ch/xQ4qCHD/uKttPcnGb+e/5ukrNNGeEBubxpDiHchTy93FQyXgFoPTsSKB59Avm5UoPpbqka188gmZr7jLdHUFRklAvx1hHCbLUPUme7q4kJf/Btaz8U9wM4TM8mXtQT0GsH15mjW4HduKLtBBTQhg7ETe7WopyQLoLJ1ixLsoGiTLG47Slt3+7gvPmlB0F5CyLwcBSl7rWhe/4FMHfMPXFwRScFZ1LRosxHzdLuy43/XhCbWjod+ZJM=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SA1PR17MB5652.namprd17.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(366004)(346002)(39860400002)(396003)(376002)(136003)(230922051799003)(451199024)(64100799003)(186009)(1800799012)(6506007)(966005)(478600001)(5660300002)(82960400001)(7696005)(86362001)(9686003)(66946007)(76116006)(8936002)(66556008)(8676002)(66446008)(33656002)(71200400001)(41300700001)(64756008)(6916009)(66476007)(38100700002)(122000001)(316002)(83380400001)(26005)(4326008)(38070700009)(52536014)(55016003)(2906002);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?WgZk84250/nxCkWv2N+/T7BmlEHV/0w0SP3BKIbYL1MXoxWwFS+d16qjkt4H?=
+ =?us-ascii?Q?A8U1JmaLESZW5q4ggZUowdqLcD+lWWe7A56RMHHaMqAa81J9lj6Nq27hJEop?=
+ =?us-ascii?Q?SYBWBET5wgMIev7jL9HQ/1k0Vitn5h1s1e0E1ZmYrrdg7QVK9TqWyPneT+Aa?=
+ =?us-ascii?Q?z2PTcOw9NQDYM5y/805Fm9zSjrXMKTrx0HFe1F6br5iOaDouW5EDPnqjkuCH?=
+ =?us-ascii?Q?W7XRKha78zwcWeFpIF+ttAhRLZa+102RhZjT4bFMW5BDTTauYcU3303O6LfN?=
+ =?us-ascii?Q?EsJGu93J0yp0zvTchtkreheDLW9h27SkctoymsScs3tFNUOfimu7LOg4c9a7?=
+ =?us-ascii?Q?CRZsK9BqRPQvbx2r/leEL6eWvDSV2oH7/GviEFHDKt6nD7TItgV8mUGVbQbs?=
+ =?us-ascii?Q?aSNG0U6y3wogOn5c8yjTO32mgWVnWvmhncz1u/2wibm3mL40sOkkrRTXDlJ7?=
+ =?us-ascii?Q?ZNEERNADjRoiZyHNXHmhq/Iuk+j4RyR6O41sOahVN4vbgWoCnbPOOBQjUBOo?=
+ =?us-ascii?Q?uZj5eLESpNRhhafNDtpRLkd+9X1uoMpE/hGAwvnCmOwntiiMB6NolYz6BVa2?=
+ =?us-ascii?Q?xSi0FMcogq6C9FgeSy/lqrqGJNRuEGT++W77EpVhTrTdRts6/wmc2O1v+/aP?=
+ =?us-ascii?Q?31QCHxuFHyhe6AhepXCI+b82rjuINYvB/qsXJAJ8WRNptugrvLrMxmrFYv3S?=
+ =?us-ascii?Q?kRbso9H6HaHB0XZzucrHhZhAdyWIWJ6iVYVcLEGuwQRHoLBJ1yNQGZefUQsI?=
+ =?us-ascii?Q?M3HISUtQgo1mp7WLkqsbORBg0zd3pxDBnT+0GwdhfJcBdxBQfTYJkNXulxVD?=
+ =?us-ascii?Q?xE4Fh/X9wYh1Hlu/m3Va891HM9Lqu56LG3Wpj/DLpRSDgRHPhiFO4cpvrSw7?=
+ =?us-ascii?Q?oPGpthipTBK015q6DA5OeCUzwzrnn+ZOPUPd0xqnwgz3itZVqvw2kMdXkIsw?=
+ =?us-ascii?Q?fMprKRJsRBg38mnLzP6auUT9QkJoAoDDAv6Jh83KeX0Ldha6OuI03sHvnyyc?=
+ =?us-ascii?Q?M2DutC8eiJFUHIYcEB+hyYw+MZ5cVN1TPBKj7rcd9IoDzRE9krEmXi9nc0zH?=
+ =?us-ascii?Q?kMgD3FvvikOG38NMK+MfsC7N+din1es7Jqaj/xV41IxyBp6XNWQ4chuB1aPa?=
+ =?us-ascii?Q?rX+WZ++cpfwQFLknAVx7gob64JqPJ72UPxnVbMmv0Cy21/Pf9zQn6mt0W3uq?=
+ =?us-ascii?Q?nMaABPAfurlokP0Sk4YbRrXY1inixwJtgD/mKpTMwNTAQpH4JFyDN3HfBv7V?=
+ =?us-ascii?Q?hSB0X520wGmHibWr8wjjSRge9gOC09ykRtJHIva5TZ2boyfXDQbFH96TciAo?=
+ =?us-ascii?Q?AGXJ+BmqTLJe7Bpl3rdngvdotdT0R+KpGCeycYczV2pgSMWn6GXNGY0g8JTR?=
+ =?us-ascii?Q?7EfOTmvNIX8gg+fShgsovx8sW6f5YfikWcC/jfJYW6v9V7z8VRVe8t/gtscP?=
+ =?us-ascii?Q?/lgMevPXip5LXRWd2+Uayljdhm39uxRzShzxKXhirbXGflSNSwHEvVbr3IzT?=
+ =?us-ascii?Q?m+uB2abt/s6viM897ECNQZQMlRu9h8OSJQIO9H5whq3jevkcpu0B3qO0Rbha?=
+ =?us-ascii?Q?lyBraFgi79NtHIoNjVP9YF9av15AnCfil5AF9E7X?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] drm/etnaviv: Expose a few more chipspecs to userspace
-Content-Language: en-US, fr
-From: Neil Armstrong <neil.armstrong@linaro.org>
-To: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-References: <20240110153704.1364073-1-tomeu@tomeuvizoso.net>
- <170490387684.1887297.10058632363349793019.b4-ty@linaro.org>
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro Developer Services
-In-Reply-To: <170490387684.1887297.10058632363349793019.b4-ty@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: d0SlfM1HFRHEkAY9m5DUKY1fOqN6s8w3lsZvrAKYxBF/tsAN+LbXi8rrwfjrgX3jt+xbPV24zLK7naEQv/9+/jPWYh2vKi0I99MgnPpcMWkk6hOlEkcsZe161lSj2kGfNK0FsrvTF+HN7wr5k2/0pOffkMrbqY829aM+7XhAER1hoNKNIKILMmxRgqaTESsujInXkdFwk/z7FbbNcR4x7uLHbiYmjECrFiPLcEtVrY7/ijI/h4OZnQ8a7VSe8bmj/03zEopNvVkMohDMloumxpgL5QEohYPFqbLvlqlRDEKEIOJwNhUCN1TW3A6Rb/7sw74OkMVcM9TwcaIFxgcZiD144In7O8rHbamzzF27mSL7E9Mq1pppYzazvoa198Y/yZcBn8v6mFOgcqlxSgWpTKoCepEuSFVIyJQugghub4gEJYVBZKDOuQMipuFxd8Ito4Vo6oxwSGGGcr483iegurZG9zcjfghxswbA7utwAKfiDJqUU0t/oOLHz5p+JENA1Pm2iKH3vC9aYjjP+aIES5IlISH59X3RNiAxFVQ3q6vjfSp3xPrJPKf4L4TAWBLi69QcKl65Tx7GLQvWMms7U9TjPdWxGkPWnzFpAowjKponELwEpkMXtTO6TQI+6XrzjI+0YHcndDPc7V5ZjYhEDQ==
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SA1PR17MB5652.namprd17.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3be45406-fbb2-49aa-bcd0-08dc127a2678
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Jan 2024 07:51:41.9904 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: d6525c95-b906-431a-b926-e9b51ba43cc4
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: It95Q7cad8l7U5bb8brKaVeYuNtdQqP1HHJ/XiA9Jt1CD6LFbZNNBgoW+p17eIa/cI7PWfQcFLiNCOJls9lLKGNw38H8yPO0dnXnYULE0hw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR17MB4064
+X-OriginatorOrg: eaton.com
+X-EXCLAIMER-MD-CONFIG: 96b59d02-bc1a-4a40-8c96-611cac62bce9
+X-on-prem-Exchange: True
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,57 +154,100 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Cc: Christian Gmeiner <cgmeiner@igalia.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- etnaviv@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>,
- linux-kernel@vger.kernel.org, Christian Gmeiner <christian.gmeiner@gmail.com>,
- dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
- Russell King <linux+etnaviv@armlinux.org.uk>, David Airlie <airlied@gmail.com>,
- Lucas Stach <l.stach@pengutronix.de>
+Cc: "etnaviv@lists.freedesktop.org" <etnaviv@lists.freedesktop.org>
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-On 10/01/2024 17:24, Neil Armstrong wrote:
-> Hi,
-> 
-> On Wed, 10 Jan 2024 16:37:00 +0100, Tomeu Vizoso wrote:
->> These ones will be needed to make use fo the NN and TP units in the NPUs
->> based on Vivante IP.
+Hi Christian,
+
+>> We have an IMX6 solo custom device running with WinCE7 & Linux on it
+>>
+>> We have developed a custom benchmark application using OpenGL ES-CM 1.1
+>>
+
+> Is it possible to share this test application?
+
+I have placed the application here https://github.com/vishnumotghare/opengl=
+  in tar format (application-opengl.tar.gz). Let me know if you face proble=
+m accessing it.=20
+
+One observation that when I run the application, top command shows that app=
+lication uses 70-80 % of CPU, that is strange, It should be using GPU inste=
+ad of CPU. Right?
+
+I have also tried using modesetting driver and with that performance is eve=
+n worse than armada.
+
+>> When I ran the benchmark application on WinCE7 the performance looked go=
+od but with similar application on Linux gives 50 % reduction in performanc=
+e.
+>>
+>> Following is our configuration
+>>
+>> Linux             - Mainline 5.15
+>> GPU driver  -  Etnaviv
+>> X Driver      -   xf86-video-armada
+>> OpenGL      -   OpenGL ES-CM 1.1
+>>
+>> WinCE Result:
+>>
+>> EGL version : 1.4
+>> GL vendor   : Vivante Corporation
+>> GL renderer : Vivante GC880
+>> GL version  : OpenGL ES-CM 1.1 Mesa 22.0.3
+>>
+>> run scene 'Floating Frame3D VBO'
+>> initialize, DATA_SIZE:11264, No of Frames:512 Average FPS =3D 48.075005
+>> ---
+>>
+>> run scene 'Floating Frame3D'
+>> initialize, DATA_SIZE:11264, No of Frames:512 Average FPS =3D 31.975005
+>> ---
+>>
+>> run scene 'Frame 3D Fixed'
+>> initialize, DATA_SIZE:11264, No of Frames:512 Average FPS =3D 31.505484
+>> ---
+>>
+>> run scene 'Floating graph'
+>> Average FPS =3D 238.403093
+>> ---
+>>
+>> run scene 'Fixed graph'
+>> Average FPS =3D 238.187271
 >>
 >>
-> 
-> Thanks, Applied to https://git.kernel.org/pub/scm/linux/kernel/git/amlogic/linux.git (v6.9/arm64-dt)
-> 
-> [1/2] drm/etnaviv: Expose a few more chipspecs to userspace
->        (no commit info)
-> [2/2] arm64: dts: amlogic: meson-g12-common: Set the rates of the clocks for the NPU
->        https://git.kernel.org/amlogic/c/507b3e756ffcb174d383dd05df5084aed9bb6d14
+>> Linux result:
+>>
+>> EGL version : 1.4
+>> GL vendor   : etnaviv
+>> GL renderer : Vivante GC880 rev 5106
+>> GL version  : OpenGL ES-CM 1.1 Mesa 22.0.3
+>>
+>> run scene 'Floating Frame3D VBO'
+>> initialize, DATA_SIZE:11264, No of Frames:512 Average FPS =3D 26.872623
+>> ---
+>>
+>> run scene 'Floating Frame3D'
+>> initialize, DATA_SIZE:11264, No of Frames:512 Average FPS =3D 24.373300
+>> ---
+>>
+>> run scene 'Frame 3D Fixed'
+>> initialize, DATA_SIZE:11264, No of Frames:512 Average FPS =3D 23.783205
+>> ---
+>>
+>> run scene 'Floating graph'
+>> Average FPS =3D 136.624447
+>> ---
+>>
+>> run scene 'Fixed graph'
+>> Average FPS =3D 136.510016
+>>
+>> glmark2 which uses opengl 2.2 gives 80 % score. Can it be issue with Ope=
+nGl 1.1 ? Or X driver?
+>>
+>> At the moment not able to figure out where is the problem.  Any help is =
+appreciable.
+>>
 
-To be clear, I only applied patch 2.
-
-Neil
-
-> 
-> These changes has been applied on the intermediate git tree [1].
-> 
-> The v6.9/arm64-dt branch will then be sent via a formal Pull Request to the Linux SoC maintainers
-> for inclusion in their intermediate git branches in order to be sent to Linus during
-> the next merge window, or sooner if it's a set of fixes.
-> 
-> In the cases of fixes, those will be merged in the current release candidate
-> kernel and as soon they appear on the Linux master branch they will be
-> backported to the previous Stable and Long-Stable kernels [2].
-> 
-> The intermediate git branches are merged daily in the linux-next tree [3],
-> people are encouraged testing these pre-release kernels and report issues on the
-> relevant mailing-lists.
-> 
-> If problems are discovered on those changes, please submit a signed-off-by revert
-> patch followed by a corrective changeset.
-> 
-> [1] https://git.kernel.org/pub/scm/linux/kernel/git/amlogic/linux.git
-> [2] https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git
-> [3] https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-> 
-
+Thanks,
+Vishnu
