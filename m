@@ -2,60 +2,44 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F75883AAE4
-	for <lists+etnaviv@lfdr.de>; Wed, 24 Jan 2024 14:27:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9751F83AE58
+	for <lists+etnaviv@lfdr.de>; Wed, 24 Jan 2024 17:28:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B31310F711;
-	Wed, 24 Jan 2024 13:26:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 69A4110EDDD;
+	Wed, 24 Jan 2024 16:27:30 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com
- [209.85.167.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B10610F73A;
- Wed, 24 Jan 2024 13:26:35 +0000 (UTC)
-Received: by mail-oi1-f181.google.com with SMTP id
- 5614622812f47-3bd6581bc66so4050781b6e.1; 
- Wed, 24 Jan 2024 05:26:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1706102734; x=1706707534; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Yu0JA5DFgFaU5CwNCOFmY77G5L3S5T+P8RtJ0zkQaJo=;
- b=gtYm2LzaaQhcnh0QETkfzc5kpz0ZgepTd+/8SsLh0PjCgGbEK/CqhzIAFdT1tGi+V9
- dSpLo9rWsvhj9h3HjPEsHDd/bcXxo0acl+oHrDadITB2BzBcdSFzRatvj3BH92yD/LGe
- MsqcDKaJMMflKWRLkbvP1JC28dFUH7cJkRBxW1rPfVU5R4P0oGXYBuqTaHuC/lfSPQtS
- ODGc0L6XvRKKtbOXr9P7MkVHO84aN3xEDvQO7JdQSrmPXj5d/P/J5b24qLqyksELuQU+
- x7XfC/knIm1oweMKismyCQ1132+PSUccg2uYZ5K14weuio0nm22YeJKc9Sh/SUIGeP2L
- GZfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1706102734; x=1706707534;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Yu0JA5DFgFaU5CwNCOFmY77G5L3S5T+P8RtJ0zkQaJo=;
- b=R5arnJKPLmudC7F++uP/tK2q8MC3FW574dQYcZ9pUGtgVw44I/cJUxKIwJBFHXCvm0
- awuHT5PgRB2xeW4qJnRFegdxw9uaq9+f/ie3emuKxkrvxNnxQP9p23hlBl6cK4fvXNS2
- dgG3xcJb58w6LptEHtDSgpYmxOt+UoQuJI76YPZXeSEL/5m4cP6rtiOnhmokSXp+k4iY
- Yj2Q4PjicTQeoibQ7qyCQt4UM5MsYmEL2Tr6vleJbGVNJ63CAyhz+u5tlSIAi3sb1a9K
- edRCoeNLVxyb7aZZN8znqDtKl2qLsF0QKcesVuvxm2w7dE+K8G9hEjlrnJAI1KZRdny2
- HvSg==
-X-Gm-Message-State: AOJu0YxRRaY6sU9DkMcZen93EumVvjVjYXu2XIXqsMVYrqY68l9R1mCB
- 4xPLFmVLy8O5XwdgwO6tCvUB0+fJry+vs8ll3V6YHPSzl/Z5lnisUJLxtQ2IuGRg6/7DPBbivzI
- TtDyIgAqRNTDKz1h6QhsmfncKWto=
-X-Google-Smtp-Source: AGHT+IEW5PoeqcIOrC1/orXHLsWdUYhfJGnZD6id55p9vFC93T8lqRhoeEsyoAC6IGunPwnO9Pt1AivCT/dXiJQh+yg=
-X-Received: by 2002:a05:6870:f208:b0:208:b33e:7 with SMTP id
- t8-20020a056870f20800b00208b33e0007mr3261589oao.19.1706102734254; Wed, 24 Jan
- 2024 05:25:34 -0800 (PST)
-MIME-Version: 1.0
+X-Greylist: delayed 1038 seconds by postgrey-1.36 at gabe;
+ Wed, 24 Jan 2024 16:27:28 UTC
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9480A10EDDD
+ for <etnaviv@lists.freedesktop.org>; Wed, 24 Jan 2024 16:27:28 +0000 (UTC)
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
+ helo=[IPv6:::1]) by metis.whiteo.stw.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1rSfnA-0007qU-9Q; Wed, 24 Jan 2024 17:07:56 +0100
+Message-ID: <4e495bd7449159b9fe1710b673b6f9b4f185862d.camel@pengutronix.de>
+Subject: Re: [PATCH 2/2] drm/etnaviv: Disable SH_EU clock gating on VIPNano-Si+
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Philipp Zabel <p.zabel@pengutronix.de>, Russell King
+ <linux+etnaviv@armlinux.org.uk>, Christian Gmeiner
+ <christian.gmeiner@gmail.com>,  David Airlie <airlied@gmail.com>, Daniel
+ Vetter <daniel@ffwll.ch>
+Date: Wed, 24 Jan 2024 17:07:55 +0100
+In-Reply-To: <20240124-etnaviv-npu-v1-2-a5aaf64aec65@pengutronix.de>
 References: <20240124-etnaviv-npu-v1-0-a5aaf64aec65@pengutronix.de>
-In-Reply-To: <20240124-etnaviv-npu-v1-0-a5aaf64aec65@pengutronix.de>
-From: Christian Gmeiner <christian.gmeiner@gmail.com>
-Date: Wed, 24 Jan 2024 14:25:23 +0100
-Message-ID: <CAH9NwWdohzT=3asJVGWJECDKRxguXRRr40QsHJYecWibT75Agg@mail.gmail.com>
-Subject: Re: [PATCH 0/2] drm/etnaviv: Disable SH_EU clock gating on the
- i.MX8MP NPU
-To: Philipp Zabel <p.zabel@pengutronix.de>
+ <20240124-etnaviv-npu-v1-2-a5aaf64aec65@pengutronix.de>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+MIME-Version: 1.0
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,51 +52,41 @@ List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
 Cc: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
- Russell King <linux+etnaviv@armlinux.org.uk>, David Airlie <airlied@gmail.com>,
- Lucas Stach <l.stach@pengutronix.de>
+ linux-kernel@vger.kernel.org
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Am Mi., 24. Jan. 2024 um 10:22 Uhr schrieb Philipp Zabel
-<p.zabel@pengutronix.de>:
->
-> The vendor kernel sets a previously unknown clock gating bit in the
-> VIVS_PM_MODULE_CONTROLS register to disable SH_EU clock gating.
->
-> Import new headers from rnndb for the definition and set the bit
-> for the VIPNano-Si+ NPU on i.MX8MP.
->
+Am Mittwoch, dem 24.01.2024 um 10:22 +0100 schrieb Philipp Zabel:
+> Disable SH_EU clock gating for the VIPNano-Si+ NPU on i.MX8MP.
+> Taken from linux-imx lf-6.1.36-2.1.0, specifically [1].
+>=20
+> [1] https://github.com/nxp-imx/linux-imx/blob/lf-6.1.36-2.1.0/drivers/mxc=
+/gpu-viv/hal/kernel/arch/gc_hal_kernel_hardware.c#L2747-L2761
+>=20
 > Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
-
-Thanks - series is
-  Reviewed-by: Christian Gmeiner <cgmeiner@igalia.com>
-
 > ---
-> Philipp Zabel (2):
->       drm/etnaviv: Update hardware headers from rnndb
->       drm/etnaviv: Disable SH_EU clock gating on VIPNano-Si+
->
->  drivers/gpu/drm/etnaviv/cmdstream.xml.h |  52 ++++++++++++++--
->  drivers/gpu/drm/etnaviv/common.xml.h    |  12 ++--
->  drivers/gpu/drm/etnaviv/etnaviv_gpu.c   |   4 ++
->  drivers/gpu/drm/etnaviv/state.xml.h     | 101 +++++++++++++++++++++++++++-----
->  drivers/gpu/drm/etnaviv/state_blt.xml.h |  20 +++----
->  drivers/gpu/drm/etnaviv/state_hi.xml.h  |  28 +++++----
->  6 files changed, 174 insertions(+), 43 deletions(-)
-> ---
-> base-commit: 6613476e225e090cc9aad49be7fa504e290dd33d
-> change-id: 20240124-etnaviv-npu-627f6881322c
->
-> Best regards,
-> --
-> Philipp Zabel <p.zabel@pengutronix.de>
->
+>  drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etna=
+viv/etnaviv_gpu.c
+> index 9b8445d2a128..e28332a2560d 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> @@ -641,6 +641,10 @@ static void etnaviv_gpu_enable_mlcg(struct etnaviv_g=
+pu *gpu)
+>  		pmc |=3D VIVS_PM_MODULE_CONTROLS_DISABLE_MODULE_CLOCK_GATING_SE |
+>  		       VIVS_PM_MODULE_CONTROLS_DISABLE_MODULE_CLOCK_GATING_RA;
+> =20
+> +	/* Disable SH_EU clock gating on affected core revisions. */
+> +	if (etnaviv_is_model_rev(gpu, GC8000, 0x8002))
+> +		pmc |=3D VIVS_PM_MODULE_CONTROLS_DISABLE_MODULE_CLOCK_GATING_SH_EU;
+> +
+With the other clock gate disables in the driver we match on all chip
+revisions found in downstream drivers, even if etnaviv hasn't been
+tested with the specific GPU. To stay consistent, this workaround
+should also match GC8000r7200 and GC9200r6304, same as the downstream
+driver.
 
-
--- 
-greets
---
-Christian Gmeiner, MSc
-
-https://christian-gmeiner.info/privacypolicy
+Regards,
+Lucas
