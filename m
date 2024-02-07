@@ -2,55 +2,55 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9E8F84F990
-	for <lists+etnaviv@lfdr.de>; Fri,  9 Feb 2024 17:26:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B28F78512E3
+	for <lists+etnaviv@lfdr.de>; Mon, 12 Feb 2024 13:03:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CCE0410F71C;
-	Fri,  9 Feb 2024 16:26:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B23F10ECAA;
+	Mon, 12 Feb 2024 12:03:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="ZEwYP/v2";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="QwvHYGwo";
 	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from out-171.mta1.migadu.com (out-171.mta1.migadu.com
- [95.215.58.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 48C5B10F71C
- for <etnaviv@lists.freedesktop.org>; Fri,  9 Feb 2024 16:25:54 +0000 (UTC)
-Message-ID: <67936300-7bfb-4f5e-9b80-ee339313fd61@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1707495952;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5BnIaHou+tTqerewpAXrAwSWE/7/bxrlz0wZwxMI/Sw=;
- b=ZEwYP/v2JvNMIGJVhm5yoS5MtyVa116To23vi0ejfFBimBywJI6GFlf2xhf3UzuNYoqLsx
- vU+CtMI3OesuzthlpssnEr/k99cyAWBqEFti75zjWWNvRs+LbTjzqaFNlz/MAx76iAgyHu
- UrGshGTP2yI9nWLdtg4il5N1KsmHGgk=
-Date: Sat, 10 Feb 2024 00:25:33 +0800
+X-Greylist: delayed 1477 seconds by postgrey-1.36 at gabe;
+ Wed, 07 Feb 2024 11:02:49 UTC
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 35333113214;
+ Wed,  7 Feb 2024 11:02:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:To:Subject:From:
+ MIME-Version:Date:Message-ID:Sender:Reply-To:Cc:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=sIHMKKv+rJ2BTWFPAnxdivnmWvcd5mEBUBD4G3KON+8=; b=QwvHYGwoHEPWIBh/7c18iiBjQK
+ F9y5XfWn3Pm9gLJraKO5cSr1im1qqFo2eA8WChoFU3F39L6OrHiqH76zyXKgRgP9M2y5ybsylo98S
+ /VraZP1Ludy7goUgMOWrf6kBwPq5ZZMJDDpK9xvAVLvfMq8Gkx4rIIIyQJY46Xu69nEqGVWanAcfV
+ I/EyjNqODHmhk6y+pEZX/YijgtOjbPpZhUnVSGt1k4zc4/Tu4vu9b6yQLG0PtSVKHO4ecS0/721ug
+ rk8pDV6WQN3quFSerxW1NgdkZ1oN5Q5KwO0W5d3bFeQiu18bKhl+6VXrG4jhUXSlTZ2s5SNXtsbwt
+ B/XeinwA==;
+Received: from c-71-59-88-35.hsd1.nj.comcast.net ([71.59.88.35]
+ helo=[192.168.1.177]) by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1rXfJg-00Ei61-Ru; Wed, 07 Feb 2024 11:38:09 +0100
+Message-ID: <71977053-32f0-45e9-ba0c-8eb177735c9d@igalia.com>
+Date: Wed, 7 Feb 2024 05:38:26 -0500
 MIME-Version: 1.0
-Subject: Re: [etnaviv-next v13 7/7] drm/etnaviv: Add support for vivante GPU
- cores attached via PCI(e)
+User-Agent: Mozilla Thunderbird
 Content-Language: en-US
-To: Maxime Ripard <mripard@kernel.org>, Lucas Stach <l.stach@pengutronix.de>, 
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- David Airlie <airlied@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20240206172759.421737-1-sui.jingfeng@linux.dev>
- <20240206172759.421737-8-sui.jingfeng@linux.dev>
- <ZcNO9aZwWzyYs-Rv@phenom.ffwll.local>
- <jahydq72bqb27de2ijwwmdjh4ri326mxhfjn5pbvf7cqcpnauq@rw5hjdiroi5d>
- <ZcYGWEG8eqAiqqai@phenom.ffwll.local>
- <65qv24hhkmmy4haylh53muvz2xliejysc3uywq44pl3xx7rus4@ynyau4djposv>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Sui Jingfeng <sui.jingfeng@linux.dev>
-In-Reply-To: <65qv24hhkmmy4haylh53muvz2xliejysc3uywq44pl3xx7rus4@ynyau4djposv>
+From: Christopher Michael <cmichael@igalia.com>
+Subject: 2024 X.Org Foundation Membership deadline for voting in the election
+To: events@lists.x.org, xorg-devel@lists.x.org,
+ wayland-devel@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ mesa-dev@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ etnaviv@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ libre-soc-dev@lists.libre-soc.org, elections@x.org, members@x.org,
+ xorg@lists.freedesktop.org
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+X-Mailman-Approved-At: Mon, 12 Feb 2024 12:03:03 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,67 +65,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Hi,
-
-On 2024/2/9 23:15, Maxime Ripard wrote:
-> On Fri, Feb 09, 2024 at 12:02:48PM +0100, Daniel Vetter wrote:
->> On Thu, Feb 08, 2024 at 04:27:02PM +0100, Maxime Ripard wrote:
->>> On Wed, Feb 07, 2024 at 10:35:49AM +0100, Daniel Vetter wrote:
->>>> On Wed, Feb 07, 2024 at 01:27:59AM +0800, Sui Jingfeng wrote:
->>>>> The component helper functions are the glue, which is used to bind multiple
->>>>> GPU cores to a virtual master platform device. Which is fine and works well
->>>>> for the SoCs who contains multiple GPU cores.
->>>>>
->>>>> The problem is that usperspace programs (such as X server and Mesa) will
->>>>> search the PCIe device to use if it is exist. In other words, usperspace
->>>>> programs open the PCIe device with higher priority. Creating a virtual
->>>>> master platform device for PCI(e) GPUs is unnecessary, as the PCI device
->>>>> has been created by the time drm/etnaviv is loaded.
->>>>>
->>>>> we create virtual platform devices as a representation for the vivante GPU
->>>>> ip core. As all of subcomponent are attached via the PCIe master device,
->>>>> we reflect this hardware layout by binding all of the virtual child to the
->>>>> the real master.
->>>>>
->>>>> Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
->>>> Uh so my understanding is that drivers really shouldn't create platform
->>>> devices of their own. For this case here I think the aux-bus framework is
->>>> the right thing to use. Alternatively would be some infrastructure where
->>>> you feed a DT tree to driver core or pci subsystem and it instantiates it
->>>> all for you correctly, and especially with hotunplug all done right since
->>>> this is pci now, not actually part of the soc that cannot be hotunplugged.
->>> I don't think we need intermediate platform devices at all. We just need
->>> to register our GPU against the PCI device and that's it. We don't need
->>> a platform device, we don't need the component framework.
->> Afaik that's what this series does. The component stuff is for the
->> internal structure of the gpu ip, so that the same modular approach that
->> works for arm-soc also works for pci chips.
-> But there should be a single PCI device, while we have multiple "DT"
-> devices, right? Or is there several PCI devices too on that PCI card?
+The 2024 X.Org Foundation elections are rapidly approaching. We will be 
+forwarding the election schedule and nominating process to the 
+membership shortly.
 
 
-There is only a single PCI(e) device on that PCI(e) card, this single
-PCI(e) device is selected as the component master. All other Hardware IP
-blocks are shipped by the single PCI(e) master. It may includes Display
-controllers, GPUs, video decoders, HDMI display bridges hardware unit etc.
+Please note that only current members can vote in the upcoming election, 
+and that the deadline for new memberships or renewals to vote in the 
+upcoming election is 26 February 2024 at 23:59 UTC.
 
-But all of those Hardware IP share the same MMIO registers PCI BAR, this
-PCI BAR is a kind of PCI(e) MEM resource. It is a relative *big* chunk,
-as large as 32MB in address ranges for the JingJia Macro dGPU. Therefore,
-I break the whole registers memory(MMIO) resource into smaller pieces by
-creating platform device manually, manually created platform device is
-called as virtual child in this series.
 
-In short, we cut the whole into smaller piece, each smaller piece is a
-single hardware IP block, thus deserve a single device driver. We will
-have multiple platform devices if the dGPU contains multiple hardware
-IP block. On the driver side, we bind all of the scattered driver module
-with component.
+If you are interested in joining the X.Org Foundation or in renewing 
+your membership, please visit the membership system site at: 
+https://members.x.org/
 
-Bind with another PCI(e) device is also possible, if it is going to be
-used under the same driver. It is just that this will not need us to
-create a platform device for it manually. We won't set its parent, they
-are siblings then.
-  
 
-> Maxime
+
+Christopher Michael, on behalf of the X.Org elections committee
+
