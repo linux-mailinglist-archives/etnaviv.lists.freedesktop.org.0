@@ -2,51 +2,47 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47AA584CE17
-	for <lists+etnaviv@lfdr.de>; Wed,  7 Feb 2024 16:31:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C9DC84D9F4
+	for <lists+etnaviv@lfdr.de>; Thu,  8 Feb 2024 07:20:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 01AA110F24F;
-	Wed,  7 Feb 2024 15:31:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F375110E14A;
+	Thu,  8 Feb 2024 06:20:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="ne58+47S";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="Oalc83M8";
 	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-X-Greylist: delayed 525 seconds by postgrey-1.36 at gabe;
- Wed, 07 Feb 2024 15:31:32 UTC
-Received: from out-175.mta0.migadu.com (out-175.mta0.migadu.com
- [91.218.175.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1485B10F24F
- for <etnaviv@lists.freedesktop.org>; Wed,  7 Feb 2024 15:31:32 +0000 (UTC)
-Message-ID: <ad282cac-1455-4063-aa47-400c9ac07851@linux.dev>
+Received: from out-176.mta1.migadu.com (out-176.mta1.migadu.com
+ [95.215.58.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C3F7210E111
+ for <etnaviv@lists.freedesktop.org>; Thu,  8 Feb 2024 06:19:48 +0000 (UTC)
+Message-ID: <09701811-70bb-4731-a179-099845c59b4a@linux.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1707319357;
+ t=1707373183;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BcrHDCtY4EmMAqg4uodbZ6nytdDsnnuuhPuoEVB1AqU=;
- b=ne58+47SUtp/Ee1jtsQ5M/swxzbAZXspv1TYStfC4sOqG1J4NK5Q5Rob9sXsHR/3PEOINx
- OrSyjt3tR6MrYpv8ATy84ExlFHy3/GTcZedjtzQ5oPkmKsLpxtb7ZYyfQA21fJe1xX2Eud
- fBempHikef5QSeQwAVbXMpqXoPFHvBk=
-Date: Wed, 7 Feb 2024 23:22:20 +0800
+ bh=UjHoYwmVlEt5wAy+Z0BauImOiW3XL6t1g/je10Behf0=;
+ b=Oalc83M8S+FfF4j2M3Qtw/UB7UtFIKHHZQqb8HgYHugcv+sXdrnIpiMg0HpwmVdIKDigqL
+ 1wHgjGxbSa9M26fXIs1dIe5CIZCIJXV2YyQwyi7Ud51HZl8pxkR1G0MpbQxiWAbmJKfOjv
+ WiWR44U5u9224PqyoVCu3Y85klW3JCo=
+Date: Thu, 8 Feb 2024 14:19:32 +0800
 MIME-Version: 1.0
-Subject: Re: [etnaviv-next v13 7/7] drm/etnaviv: Add support for vivante GPU
- cores attached via PCI(e)
-To: Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- David Airlie <airlied@gmail.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
- etnaviv@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20240206172759.421737-1-sui.jingfeng@linux.dev>
- <20240206172759.421737-8-sui.jingfeng@linux.dev>
- <ZcNO9aZwWzyYs-Rv@phenom.ffwll.local>
+Subject: Re: [PATCH] drm/etnaviv: fix DMA direction handling for cached
+ read/write buffers
 Content-Language: en-US
+To: Daniel Stone <daniel@fooishbar.org>, Lucas Stach <l.stach@pengutronix.de>
+Cc: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ patchwork-lst@pengutronix.de, Christian Gmeiner
+ <christian.gmeiner@gmail.com>, kernel@pengutronix.de,
+ Russell King <linux+etnaviv@armlinux.org.uk>
+References: <20240126165856.1199387-1-l.stach@pengutronix.de>
+ <CAPj87rNOMYS7g_bU8Xjmh9xEJhuzG+BViXakC7wzgiDaG+9yCg@mail.gmail.com>
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 From: Sui Jingfeng <sui.jingfeng@linux.dev>
-In-Reply-To: <ZcNO9aZwWzyYs-Rv@phenom.ffwll.local>
+In-Reply-To: <CAPj87rNOMYS7g_bU8Xjmh9xEJhuzG+BViXakC7wzgiDaG+9yCg@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Migadu-Flow: FLOW_OUT
@@ -67,62 +63,26 @@ Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 Hi,
 
 
-On 2024/2/7 17:35, Daniel Vetter wrote:
-> On Wed, Feb 07, 2024 at 01:27:59AM +0800, Sui Jingfeng wrote:
->> The component helper functions are the glue, which is used to bind multiple
->> GPU cores to a virtual master platform device. Which is fine and works well
->> for the SoCs who contains multiple GPU cores.
->>
->> The problem is that usperspace programs (such as X server and Mesa) will
->> search the PCIe device to use if it is exist. In other words, usperspace
->> programs open the PCIe device with higher priority. Creating a virtual
->> master platform device for PCI(e) GPUs is unnecessary, as the PCI device
->> has been created by the time drm/etnaviv is loaded.
->>
->> we create virtual platform devices as a representation for the vivante GPU
->> ip core. As all of subcomponent are attached via the PCIe master device,
->> we reflect this hardware layout by binding all of the virtual child to the
->> the real master.
->>
->> Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
-> Uh so my understanding is that drivers really shouldn't create platform
-> devices of their own.
+On 2024/1/29 18:29, Daniel Stone wrote:
+> Hi Lucas,
 >
-
-Yes,
-
-At least for DT-based systems, this driver can be modified
-to let the core to create the virtual master for us. We don't
-have to create platform devices by our own(refer to the drm/etnaviv
-driver).
-
-I means that we could put the following example device node
-into the .dts file.
-
-
-		gpu_2d: gpu@A0000 {
-			compatible = "vivante,gc";
-			reg = <0xA0000 0x4000>;
-		};
-
-		gpu_3d: gpu@90000 {
-			compatible = "vivante,gc";
-			reg = <0x90000 0x4000>;
-		};
-
-		gpu@0 {
-			compatible = "etnaviv";
-			cores = <&gpu_2d &gpu_3d>;
-			dma-coherent;
-			dma-mask = <0xffffffff>
-			virtual_master;
-		};
-
-But now, I'm afraid it's too late. Because the DTS/DTB may already have been
-burned into board's BIOS for years. I guess, nowadays, modifying(changes)
-this driver have to take the backward compatibility constraint into consideration.
-
-Since we only have one chance to form the spec, that happens when this driver was
-initially merged. Apparently, we miss it.
+> On Fri, 26 Jan 2024 at 17:00, Lucas Stach <l.stach@pengutronix.de> wrote:
+>> The dma sync operation needs to be done with DMA_BIDIRECTIONAL when
+>> the BO is prepared for both read and write operations. With the
+>> current inverted if ladder it would only be synced for DMA_FROM_DEVICE.
+>>
+>> [...]
+>>
+>>   static inline enum dma_data_direction etnaviv_op_to_dma_dir(u32 op)
+>>   {
+>> -       if (op & ETNA_PREP_READ)
+>> +       if (op & (ETNA_PREP_READ | ETNA_PREP_WRITE))
+>> +               return DMA_BIDIRECTIONAL;
+> This test will always be true for _either_ read or write.
 
 
+Haha, I think it should be"if ((op & ETNA_PREP_READ) && (op & ETNA_PREP_WRITE))"
+
+
+> Cheers,
+> Daniel
