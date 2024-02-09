@@ -2,54 +2,88 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64E0C84E409
-	for <lists+etnaviv@lfdr.de>; Thu,  8 Feb 2024 16:27:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22D2A84F415
+	for <lists+etnaviv@lfdr.de>; Fri,  9 Feb 2024 12:02:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C176710E910;
-	Thu,  8 Feb 2024 15:27:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 799F510F320;
+	Fri,  9 Feb 2024 11:02:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="DpSojsJn";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="EafA/bnf";
 	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8ED2110E90F;
- Thu,  8 Feb 2024 15:27:06 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 3BB5461DCD;
- Thu,  8 Feb 2024 15:27:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D658C433F1;
- Thu,  8 Feb 2024 15:27:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1707406025;
- bh=GBu1L6Qu6+/4Qs9Yi/qh0tgbEXDDN4laJMxWZ9C7Tuw=;
- h=Date:From:To:Subject:References:In-Reply-To:From;
- b=DpSojsJnuqSoDLLtz5HK1cI35wvGFwc6kia7Ruvlv52ZvyBZehSLKVCtSTZJvhXL/
- 4rKpJHKIbdhORWx/69Qu0qHD/berxtS3XM2MS9LF6ZJoXYf1Psso1rw0+2g5i8EpUX
- z06HMKBh7H8wAuj/+uUSWhxjs7cCZCHehJQCtet5B6MD+Fr6zLA4uhOExt0AigpBXR
- pZ+Sd3adi3ClHhGQdlq1SIYQTgHN0GbHsn1qYSfZipi2tOkTRgv69KEe31+LYbYtjq
- cxcG8pt97G/bGraJxVWAnkbvHcoPTakriO+3QhMhkcdmpwZQSJjqztUqfZo2KcyrRP
- qmVIWuJzu2naw==
-Date: Thu, 8 Feb 2024 16:27:02 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Sui Jingfeng <sui.jingfeng@linux.dev>, 
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
+ [209.85.167.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB5AF10F325
+ for <etnaviv@lists.freedesktop.org>; Fri,  9 Feb 2024 11:02:52 +0000 (UTC)
+Received: by mail-lf1-f45.google.com with SMTP id
+ 2adb3069b0e04-51162964d46so246933e87.0
+ for <etnaviv@lists.freedesktop.org>; Fri, 09 Feb 2024 03:02:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1707476571; x=1708081371; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=vuYIlExUBLY2J6M+ngxVOAFSad/SHF5e+TMcqooCk/4=;
+ b=EafA/bnfDNVa2HNhQLMPkm17MhiN+ew9fuoSQpCxOiE5/1g4lFCkAj2X75bKQi8Wg5
+ iTpLuu4oKtBVVkBT/TDHGz2dEOdpQYloRzRMgul7n+E+d/X+DXBEBXXVY0jjBOGAk7GK
+ aM8D5CexhJW9d/wN5xv7o3p6Pmbk4iZ0cXqvA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1707476571; x=1708081371;
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=vuYIlExUBLY2J6M+ngxVOAFSad/SHF5e+TMcqooCk/4=;
+ b=k7T4M/Vx/ciulvW6gZZBbLc3gxdQb2ywkuU0VMw69gnDAQsBS72AuIye1ku8jiSscP
+ st0qtNqn6DEFncNcr3PWDN8bkprwDGvDPv+AtF/lORdtFd4i7O6G8T6tE6sq95HS0W3W
+ ZPgYRBGcqklk3fbqphhBa2w3M9t/HF97qrS2LiFNAxKGOQ5FTgabqQpMZ/SqBQnMfxsG
+ iOeNiAemUUHeMWnkNFObHFoZzNyTRJORNzvjDpWXU0nzR6UWadd9OpVUC7OwkUoFN/cv
+ VrhEpfKIVoSvqQHWE+OFfW/rqFnTPaXk4nwlJGOmEOLCnvrkmrtvJfCixxosLk7N5YfN
+ VXLw==
+X-Gm-Message-State: AOJu0Yz9fKsEenLu7oR9KmxPQG/ak3zDyXL1Vk7W/EOerhu9TKGXYLeL
+ ZQFefaKZiEu0vfRK+Xr84mFMCxw/kcVfnD0oUKoU4MVnR2MaIP358D6/mAg/8Ag=
+X-Google-Smtp-Source: AGHT+IH6E0/AASvROXrvxkigjakcyaKsJ20YLXJ0nvKogI/yEfwVIZAEoyri+p2vNSQzIFe+xvTWHg==
+X-Received: by 2002:a05:6512:308d:b0:50e:7f87:f5aa with SMTP id
+ z13-20020a056512308d00b0050e7f87f5aamr1043351lfd.3.1707476570842; 
+ Fri, 09 Feb 2024 03:02:50 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWcBvPi7bshClS192/V6ZRLWgmi+XBhW0KLYsT4pwcEnPxPLcoUYXf0vqnlp0ao0VBAMGZrRxHYkLlUaTbOufIsNZgsL8Ni95XiSJwJ7enQuhI1VYzpheOYOISBMY3HT0GdUPXSk5jBu2+adnorJga+EeBf4ngFka2exnzouuU8oIQ1wpxXk6kT/BlZ4yW2DgLNM/G/IfBLuegBzzZGoqIKVu4Q7GCWSq6XN2uI73zbEvK0ytHbgXR8MLJOrC71U0G7eYqndH91qXPe1Xhde79Slk4O2kV0/SbVlOzTHwZqHtzEmyBSEgjZaNy+Rs2ZiOdiTugqLAs0bNPlvdE5ixbR+iVCkkSR+80=
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id
+ bk27-20020a0560001d9b00b0033b55661f32sm1570062wrb.9.2024.02.09.03.02.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 09 Feb 2024 03:02:50 -0800 (PST)
+Date: Fri, 9 Feb 2024 12:02:48 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Sui Jingfeng <sui.jingfeng@linux.dev>,
  Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>, 
+ Russell King <linux+etnaviv@armlinux.org.uk>,
  Christian Gmeiner <christian.gmeiner@gmail.com>,
- David Airlie <airlied@gmail.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
- etnaviv@lists.freedesktop.org, linux-kernel@vger.kernel.org
+ David Airlie <airlied@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Subject: Re: Re: [etnaviv-next v13 7/7] drm/etnaviv: Add support for vivante
  GPU cores attached via PCI(e)
-Message-ID: <jahydq72bqb27de2ijwwmdjh4ri326mxhfjn5pbvf7cqcpnauq@rw5hjdiroi5d>
+Message-ID: <ZcYGWEG8eqAiqqai@phenom.ffwll.local>
+Mail-Followup-To: Maxime Ripard <mripard@kernel.org>,
+ Sui Jingfeng <sui.jingfeng@linux.dev>,
+ Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ David Airlie <airlied@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 References: <20240206172759.421737-1-sui.jingfeng@linux.dev>
  <20240206172759.421737-8-sui.jingfeng@linux.dev>
  <ZcNO9aZwWzyYs-Rv@phenom.ffwll.local>
+ <jahydq72bqb27de2ijwwmdjh4ri326mxhfjn5pbvf7cqcpnauq@rw5hjdiroi5d>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="hwkb76o32yktfxzj"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZcNO9aZwWzyYs-Rv@phenom.ffwll.local>
+In-Reply-To: <jahydq72bqb27de2ijwwmdjh4ri326mxhfjn5pbvf7cqcpnauq@rw5hjdiroi5d>
+X-Operating-System: Linux phenom 6.6.11-amd64 
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,63 +98,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
+On Thu, Feb 08, 2024 at 04:27:02PM +0100, Maxime Ripard wrote:
+> On Wed, Feb 07, 2024 at 10:35:49AM +0100, Daniel Vetter wrote:
+> > On Wed, Feb 07, 2024 at 01:27:59AM +0800, Sui Jingfeng wrote:
+> > > The component helper functions are the glue, which is used to bind multiple
+> > > GPU cores to a virtual master platform device. Which is fine and works well
+> > > for the SoCs who contains multiple GPU cores.
+> > > 
+> > > The problem is that usperspace programs (such as X server and Mesa) will
+> > > search the PCIe device to use if it is exist. In other words, usperspace
+> > > programs open the PCIe device with higher priority. Creating a virtual
+> > > master platform device for PCI(e) GPUs is unnecessary, as the PCI device
+> > > has been created by the time drm/etnaviv is loaded.
+> > > 
+> > > we create virtual platform devices as a representation for the vivante GPU
+> > > ip core. As all of subcomponent are attached via the PCIe master device,
+> > > we reflect this hardware layout by binding all of the virtual child to the
+> > > the real master.
+> > > 
+> > > Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
+> > 
+> > Uh so my understanding is that drivers really shouldn't create platform
+> > devices of their own. For this case here I think the aux-bus framework is
+> > the right thing to use. Alternatively would be some infrastructure where
+> > you feed a DT tree to driver core or pci subsystem and it instantiates it
+> > all for you correctly, and especially with hotunplug all done right since
+> > this is pci now, not actually part of the soc that cannot be hotunplugged.
+> 
+> I don't think we need intermediate platform devices at all. We just need
+> to register our GPU against the PCI device and that's it. We don't need
+> a platform device, we don't need the component framework.
 
---hwkb76o32yktfxzj
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Afaik that's what this series does. The component stuff is for the
+internal structure of the gpu ip, so that the same modular approach that
+works for arm-soc also works for pci chips.
 
-On Wed, Feb 07, 2024 at 10:35:49AM +0100, Daniel Vetter wrote:
-> On Wed, Feb 07, 2024 at 01:27:59AM +0800, Sui Jingfeng wrote:
-> > The component helper functions are the glue, which is used to bind mult=
-iple
-> > GPU cores to a virtual master platform device. Which is fine and works =
-well
-> > for the SoCs who contains multiple GPU cores.
-> >=20
-> > The problem is that usperspace programs (such as X server and Mesa) will
-> > search the PCIe device to use if it is exist. In other words, usperspace
-> > programs open the PCIe device with higher priority. Creating a virtual
-> > master platform device for PCI(e) GPUs is unnecessary, as the PCI device
-> > has been created by the time drm/etnaviv is loaded.
-> >=20
-> > we create virtual platform devices as a representation for the vivante =
-GPU
-> > ip core. As all of subcomponent are attached via the PCIe master device,
-> > we reflect this hardware layout by binding all of the virtual child to =
-the
-> > the real master.
-> >=20
-> > Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
->=20
-> Uh so my understanding is that drivers really shouldn't create platform
-> devices of their own. For this case here I think the aux-bus framework is
-> the right thing to use. Alternatively would be some infrastructure where
-> you feed a DT tree to driver core or pci subsystem and it instantiates it
-> all for you correctly, and especially with hotunplug all done right since
-> this is pci now, not actually part of the soc that cannot be hotunplugged.
+Otherwise we end up with each driver hand-rolling that stuff, which is
+defacto what both nouveau and amdgpu do (intel hw is too much a mess for
+that component-driver based approach to actually work reasonably well).
 
-I don't think we need intermediate platform devices at all. We just need
-to register our GPU against the PCI device and that's it. We don't need
-a platform device, we don't need the component framework.
+Cheers, Sima
 
-> I think I've seen some other pci devices from arm soc designs that would
-> benefit from this too, so lifting this logic into a pci function would
-> make sense imo.
+> > I think I've seen some other pci devices from arm soc designs that would
+> > benefit from this too, so lifting this logic into a pci function would
+> > make sense imo.
+> 
+> Nouveau supports both iirc.
+> 
+> Maxime
 
-Nouveau supports both iirc.
 
-Maxime
 
---hwkb76o32yktfxzj
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZcTyxgAKCRDj7w1vZxhR
-xU/nAP9mow5guLkslcBCvuv6TFgr11GyScivYWuSXZHgYNZLnQD/eAOxy+J5YgcC
-XBGxRyLQK9yYcpBQobofgQYNz6vOkgg=
-=GQu8
------END PGP SIGNATURE-----
-
---hwkb76o32yktfxzj--
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
