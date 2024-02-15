@@ -2,54 +2,52 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32F84854223
-	for <lists+etnaviv@lfdr.de>; Wed, 14 Feb 2024 05:55:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF5B58568C9
+	for <lists+etnaviv@lfdr.de>; Thu, 15 Feb 2024 17:05:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE9B910E2A4;
-	Wed, 14 Feb 2024 04:55:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 97F8B10E9B2;
+	Thu, 15 Feb 2024 16:05:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="dvza0EGk";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="RKGXI8r5";
 	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from out-183.mta1.migadu.com (out-183.mta1.migadu.com
- [95.215.58.183])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B30310E2F0
- for <etnaviv@lists.freedesktop.org>; Wed, 14 Feb 2024 04:54:58 +0000 (UTC)
-Message-ID: <854345d2-201e-481f-8d6c-e59a788683d5@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1707886493;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=4382P76+Y7tKDUvDdheaaNMjB6c+0ejXl5XBSiHG0io=;
- b=dvza0EGkf4toDKv/2JsRvuJlHsbLqIhVlhRjTndgfvTr4v/W64+oDC2L7gtqTo7Q8iPAwW
- zztKYU1tSd9MqBG9M4MocOkfAdKHzzsX7Ue07CzbrSO2gWBR76gzZcfITNclnNP1dXgpJN
- Aludn9trCW46xmCGzc1JHGjvfbdHu1c=
-Date: Wed, 14 Feb 2024 12:54:43 +0800
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0359310E9BA;
+ Thu, 15 Feb 2024 16:05:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Subject:From:To:MIME-Version:Date:Message-ID:Content-Type:
+ Sender:Reply-To:Cc:Content-Transfer-Encoding:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=F7i2wcZPXzPlISGZ5Rwmm2JMfVHrFuKhNZ+KW9wD2+k=; b=RKGXI8r5Zt/4vWBnoTOtikLYBd
+ tUFZAJwddN/u8Mw0uMCpHxPoJS/ozuESe0tzMLRrb4Y0bWJdS/mriDYvFdDk792g7M6747tsqE5qn
+ f0vVXpgogDQ9D1z1qUNH8LHZhHOCG1RKOiaoiuhIS6IGQj73J/TaRNVf/vm3JG+x8Dng1Xhh0O5X0
+ WtwDJpFRY31Xk1jg0aTHqAhpCa0Sx8+VSvGl+Yc5WzfWSqwN+lsG7dxUQjsHLoCfcSgqT4b8lbnDg
+ m0h/KVeLsIIpAxljrdsq83Dp935Jz+9NQXT5GVRkkrGTbCxD4kJYHUOdxYMhVS3Qe+Ibj1bc7GXdV
+ uTfLZYZQ==;
+Received: from c-71-59-88-35.hsd1.nj.comcast.net ([71.59.88.35]
+ helo=[192.168.1.99]) by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1raeF7-0007OW-TO; Thu, 15 Feb 2024 17:05:46 +0100
+Content-Type: multipart/alternative;
+ boundary="------------gTR4d6Hug0celd0p923byl7c"
+Message-ID: <0efcdfe3-ea9e-43e5-ab07-6d69dca2c04a@igalia.com>
+Date: Thu, 15 Feb 2024 11:05:40 -0500
 MIME-Version: 1.0
-Subject: Re: [etnaviv-next v13 7/7] drm/etnaviv: Add support for vivante GPU
- cores attached via PCI(e)
+User-Agent: Mozilla Thunderbird
 Content-Language: en-US
-To: Maxime Ripard <mripard@kernel.org>, Lucas Stach <l.stach@pengutronix.de>, 
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- David Airlie <airlied@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20240206172759.421737-1-sui.jingfeng@linux.dev>
- <20240206172759.421737-8-sui.jingfeng@linux.dev>
- <ZcNO9aZwWzyYs-Rv@phenom.ffwll.local>
- <jahydq72bqb27de2ijwwmdjh4ri326mxhfjn5pbvf7cqcpnauq@rw5hjdiroi5d>
- <ZcYGWEG8eqAiqqai@phenom.ffwll.local>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Sui Jingfeng <sui.jingfeng@linux.dev>
-In-Reply-To: <ZcYGWEG8eqAiqqai@phenom.ffwll.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+To: events@lists.x.org, xorg-devel@lists.x.org,
+ wayland-devel@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ mesa-dev@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ etnaviv@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ libre-soc-dev@lists.libre-soc.org, elections@x.org, members@x.org,
+ xorg@lists.freedesktop.org
+From: Christopher Michael <cmichael@igalia.com>
+Subject: 2024 X.Org Board of Directors Elections Nomination period is NOW
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,75 +62,118 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Hi,
+This is a multi-part message in MIME format.
+--------------gTR4d6Hug0celd0p923byl7c
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+
+We are seeking nominations for candidates for election to the X.Org 
+Foundation Board of Directors. All X.Org Foundation members are eligible 
+for election to the board.
+
+Nominations for the 2024 election are now open and will remain open 
+until 23:59 UTC on 26 February 2024.
+
+The Board consists of directors elected from the membership. Each year, 
+an election is held to bring the total number of directors to eight. The 
+four members receiving the highest vote totals will serve as directors 
+for two year terms.
+
+The directors who received two year terms starting in 2023 were 
+Arkadiusz Hiler, Christopher Michael, Lyude Paul, and Daniel Vetter. 
+They will continue to serve until their term ends in 2024. Current 
+directors whose term expires in 2024 are Emma Anholt, Mark Filion, 
+Ricardo Garcia, and Alyssa Rosenzweig.
+<https://rosenzweig.io/>
+
+A director is expected to participate in the fortnightly IRC meeting to 
+discuss current business and to attend the annual meeting of the X.Org 
+Foundation, which will be held at a location determined in advance by 
+the Board of Directors.
+
+A member may nominate themselves or any other member they feel is 
+qualified. Nominations should be sent to the Election Committee at 
+elections@x.org.
+
+Nominees shall be required to be current members of the X.Org 
+Foundation, and submit a personal statement of up to 200 words that will 
+be provided to prospective voters. The collected statements, along with 
+the statement of contribution to the X.Org Foundation in the member's 
+account page on http://members.x.org, will be made available to all 
+voters to help them make their voting decisions.
+
+Nominations, membership applications or renewals and completed personal 
+statements must be received no later than 23:59 UTC on 26 February 2024.
+
+The slate of candidates will be published 04 March 2024 and candidate 
+Q&A will begin then. The deadline for Xorg membership applications and 
+renewals is 07 March 2024.
 
 
-On 2024/2/9 19:02, Daniel Vetter wrote:
-> On Thu, Feb 08, 2024 at 04:27:02PM +0100, Maxime Ripard wrote:
->> On Wed, Feb 07, 2024 at 10:35:49AM +0100, Daniel Vetter wrote:
->>> On Wed, Feb 07, 2024 at 01:27:59AM +0800, Sui Jingfeng wrote:
->>>> The component helper functions are the glue, which is used to bind multiple
->>>> GPU cores to a virtual master platform device. Which is fine and works well
->>>> for the SoCs who contains multiple GPU cores.
->>>>
->>>> The problem is that usperspace programs (such as X server and Mesa) will
->>>> search the PCIe device to use if it is exist. In other words, usperspace
->>>> programs open the PCIe device with higher priority. Creating a virtual
->>>> master platform device for PCI(e) GPUs is unnecessary, as the PCI device
->>>> has been created by the time drm/etnaviv is loaded.
->>>>
->>>> we create virtual platform devices as a representation for the vivante GPU
->>>> ip core. As all of subcomponent are attached via the PCIe master device,
->>>> we reflect this hardware layout by binding all of the virtual child to the
->>>> the real master.
->>>>
->>>> Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
->>> Uh so my understanding is that drivers really shouldn't create platform
->>> devices of their own. For this case here I think the aux-bus framework is
->>> the right thing to use. Alternatively would be some infrastructure where
->>> you feed a DT tree to driver core or pci subsystem and it instantiates it
->>> all for you correctly, and especially with hotunplug all done right since
->>> this is pci now, not actually part of the soc that cannot be hotunplugged.
->> I don't think we need intermediate platform devices at all. We just need
->> to register our GPU against the PCI device and that's it. We don't need
->> a platform device, we don't need the component framework.
-> Afaik that's what this series does. The component stuff is for the
-> internal structure of the gpu ip, so that the same modular approach that
-> works for arm-soc also works for pci chips.
->
-> Otherwise we end up with each driver hand-rolling that stuff, which is
-> defacto what both nouveau and amdgpu do (intel hw is too much a mess for
-> that component-driver based approach to actually work reasonably well).
+Cheers,
+
+Christopher Michael, on behalf of the X.Org BoD
 
 
-Emmm, I spend years to achieve this, and only to find that you have fully
-understand my patch within two days.
+--------------gTR4d6Hug0celd0p923byl7c
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
+<!DOCTYPE html>
+<html>
+  <head>
 
-> Cheers, Sima
->
->>> I think I've seen some other pci devices from arm soc designs that would
->>> benefit from this too, so lifting this logic into a pci function would
->>> make sense imo.
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p>We are seeking nominations for candidates for election to the
+      X.Org Foundation Board of Directors. All X.Org Foundation members
+      are eligible for election to the board.</p>
+    <p>Nominations for the 2024 election are now open and will remain
+      open until 23:59 UTC on 26 February 2024.</p>
+    The Board consists of directors elected from the membership. Each
+    year, an election is held to bring the total number of directors to
+    eight. The four members receiving the highest vote totals will serve
+    as directors for two year terms.
+    <p>The directors who received two year terms starting in 2023 were <span
+        class="createlink">Arkadiusz Hiler, </span><span
+        class="createlink">Christopher Michael, </span><span
+        class="createlink">Lyude Paul, and Daniel Vetter</span>. They
+      will continue to serve until their term ends in 2024. Current
+      directors whose term expires in 2024 are <span class="createlink">Emma
+        Anholt, </span><span class="createlink">Mark Filion, </span><span
+        class="createlink">Ricardo Garcia, and Alyssa Rosenzweig.</span><a
+        href="https://rosenzweig.io/"><br>
+      </a></p>
+    <p>A director is expected to participate in the fortnightly IRC
+      meeting to discuss current business and to attend the annual
+      meeting of the X.Org Foundation, which will be held at a location
+      determined in advance by the Board of Directors.</p>
+    <p>A member may nominate themselves or any other member they feel is
+      qualified. Nominations should be sent to the Election Committee at
+      <a class="moz-txt-link-abbreviated" href="mailto:elections@x.org">elections@x.org</a>.<br>
+    </p>
+    <p>Nominees shall be required to be current members of the X.Org
+      Foundation, and submit a personal statement of up to 200 words
+      that will be provided to prospective voters. The collected
+      statements, along with the statement of contribution to the X.Org
+      Foundation in the member's account page on <a class="moz-txt-link-freetext" href="http://members.x.org">http://members.x.org</a>,
+      will be made available to all voters to help them make their
+      voting decisions.</p>
+    <p>Nominations, membership applications or renewals and completed
+      personal statements must be received no later than 23:59 UTC on 26
+      February 2024.</p>
+    <p>The slate of candidates will be published 04 March 2024 and
+      candidate Q&amp;A will begin then. The deadline for Xorg
+      membership applications and renewals is 07 March 2024.</p>
+    <p><br>
+    </p>
+    <p>Cheers,</p>
+    <p>Christopher Michael, on behalf of the X.Org BoD</p>
+    <p><br>
+    </p>
+    <p></p>
+  </body>
+</html>
 
-
-Yes, as you said, we are trying to avoid the hand-rolling stuff.
-I guess, extremely advanced drivers(like i915, amdgpu, and nouveau)
-won't need this. So I'm not sure if lifting this logic into PCI
-core would benefit to other people. While investigating the aux-bus
-framework a few days, I find it is not as concise as this one. It
-introduce a lot of new structure, I fear that it may cause namespace
-pollution if adopt it. So, I thinks I should choose the alternative
-way.
-
-While taking a lot from contribution, we are really want to do some
-feedback(pay-back). We are happy if there are other users(or new
-drivers) would like to adopt this idea, I think, the idea itself
-has already been conveyed. Which probably can be seen as a trivial
-contribution. Other programmer are free to copy and modify.
-
-But as a initial commit, I minimized the mount of changes  as required
-by Locus. meanwhile, I'm willing to following the expectation in the
-long term. If there are other users or other problem need to solve,
-I would like help to improve and to cooperate to testing in the future.
-
+--------------gTR4d6Hug0celd0p923byl7c--
