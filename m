@@ -2,56 +2,73 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FC7886E024
-	for <lists+etnaviv@lfdr.de>; Fri,  1 Mar 2024 12:26:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58B8086E1F3
+	for <lists+etnaviv@lfdr.de>; Fri,  1 Mar 2024 14:28:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 45C5010E2EA;
-	Fri,  1 Mar 2024 11:26:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C182110ED96;
+	Fri,  1 Mar 2024 13:28:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="DbdPbgLR";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="fwqlUhbv";
 	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6881910E2EA;
- Fri,  1 Mar 2024 11:26:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=In-Reply-To:Cc:References:To:Subject:From:MIME-Version:Date:
- Message-ID:Content-Type:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=9zGj0u7K/llTIdI+zCbw5MSt0B627m1u3Gyazm8fnG0=; b=DbdPbgLRFv9Jr4Na/vkh9jkbkh
- a2ZUqeXZMWz+dJI5mVrEl3Flq8+0yDCeOl3aMpafSme5Mn3lxL+H+sU8rxp9vx7EJ3/xhSDwGRCqg
- 7S5tyfohr4TKlza911E06IvGnDJlfUjzTML/AuO4+ykWVRdwpgF6nzkUak7xltmf7eh0KFf3JcFvN
- dSP+Pk+u724DmUDBLm374IABVjo0vffvBoX75YXnZthpGu6Mgu7g89dasIwRD3lPKGnvDJAvkE+C/
- 5fjjP9wxg9OXU9m2Z6iVeS/lPS/pAfTKJK+6kCJF2aLR4Nj7KM5rh7x+CrfwRJv2WpZCA/p9jRh9H
- TttfjN4w==;
-Received: from c-71-59-88-35.hsd1.nj.comcast.net ([71.59.88.35]
- helo=[192.168.1.99]) by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1rg11b-0051OZ-0a; Fri, 01 Mar 2024 12:25:59 +0100
-Content-Type: multipart/alternative;
- boundary="------------PdOyCBePms0bkn01b4OZdjuV"
-Message-ID: <08f8a967-25e1-4362-be38-3f1b050ec6f2@igalia.com>
-Date: Fri, 1 Mar 2024 06:25:53 -0500
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com
+ [209.85.208.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E102E10ED96;
+ Fri,  1 Mar 2024 13:28:18 +0000 (UTC)
+Received: by mail-lj1-f170.google.com with SMTP id
+ 38308e7fff4ca-2d27fef509eso27736711fa.3; 
+ Fri, 01 Mar 2024 05:28:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1709299696; x=1709904496; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=5l7YTgHQJ4uu8ywnkoccEqji+CWQ03nsYaLhWI1QXxI=;
+ b=fwqlUhbvfy38eaBrYb21kkK7GS878ooldnZ9/ZTY8Vjhyi9I7CnE6eaSKvVsRkZ9A4
+ 3dW3l9pQ0awC/SAfywmTNQYbanKtpj617arMCe96EDfNYgPY0gLKs0tk42nKMDkf5ymV
+ GhfP89rPpEVLMNrVWHS6A2Yhv+06wcnp0EjGOprMO83Vi7MEz6326jrttB0gweVaDx6M
+ rEef28pW+vE9xW2yFatJQ8nMC+ujj4vzvwL6XcqGJjpIo6n/Y9kibw/cfOmCcIqv+hu4
+ ZF93MKQid6F/4dkum6ufKxOWy/FnmOe/LNxB/K4guWPHJV91ii4GmaueAvbaRrrZt71V
+ NNYg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1709299696; x=1709904496;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=5l7YTgHQJ4uu8ywnkoccEqji+CWQ03nsYaLhWI1QXxI=;
+ b=bc+4qknUCSiCHdrz55xMyfCHLMPcXWd2Vdz+WVJiob8uEbEF1dTJGPiyF3eTX0JCA2
+ idGiwqcduXlCDJPoisZFDpIPJ76AEOnoU7EF1449j/8VY2LA63yt8GstwXirTjWKRUVg
+ pRORICnGHzOHCd1fwPthdLebDPeKis08n+gWRk9NfmS0+w6ryr0UH/SyF9kyc3mJVpza
+ L9XMXhqmqoCy2mFuhXrnMhJz4rgtRKIHW861gu0MUo0UhTae36dTu6s6IypuGy+WOVY2
+ TVQqKaj+YyQHlPoDVySxH7NncOk+CH6hnD/7PvXKZdUYviJdzvISOJKl0Ks2x6R6S+FM
+ uHhQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVW2yHeI3Ar+qNpvWjFsFxz1MLtzjVw7YQCObdbYqZemLP0unktJ5NxcPEXP48ofDKIqJvkxgodp3S2oX5SEMCfSjmXrl/fMEZ8grEdwThWEZ8C3obAa4yvd9ZMs2lbdgqtnpKxc9IVYP6ufZLQ6Q==
+X-Gm-Message-State: AOJu0Yz79utJQqwcr5tTdyjDfLyoWiW5bY7THEdjYG5hsQicZ7yETILk
+ eAwuHVtV+aqeB+L6ab9lOMFy6eUhmHBud+63cvktZ1Jac5z50x9O
+X-Google-Smtp-Source: AGHT+IHAEBq2eERb1YzHcNf/A5asZKhYcTLxJdEqg8fO6iB0nq2rpd2QfL9efFx0rYhM6arWjvOKVA==
+X-Received: by 2002:a2e:a368:0:b0:2d2:a3ae:b339 with SMTP id
+ i8-20020a2ea368000000b002d2a3aeb339mr1177503ljn.48.1709299695979; 
+ Fri, 01 Mar 2024 05:28:15 -0800 (PST)
+Received: from localhost.localdomain (80-108-76-242.cable.dynamic.surfer.at.
+ [80.108.76.242]) by smtp.gmail.com with ESMTPSA id
+ f8-20020a7bc8c8000000b004104bc8d841sm8317526wml.13.2024.03.01.05.28.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 01 Mar 2024 05:28:15 -0800 (PST)
+From: Christian Gmeiner <christian.gmeiner@gmail.com>
+To: tomeu@tomeuvizoso.net, Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: Christian Gmeiner <cgmeiner@igalia.com>, stable@vger.kernel.org,
+ etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH v2] drm/etnaviv: Restore some id values
+Date: Fri,  1 Mar 2024 14:28:11 +0100
+Message-ID: <20240301132812.15463-1-christian.gmeiner@gmail.com>
+X-Mailer: git-send-email 2.44.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Christopher Michael <cmichael@igalia.com>
-Subject: 2024 X.Org Board of Directors Elections timeline extended, request
- for nominations
-To: events@lists.x.org, xorg-devel@lists.x.org,
- wayland-devel@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- mesa-dev@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- etnaviv@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- libre-soc-dev@lists.libre-soc.org, elections@x.org, members@x.org,
- xorg@lists.freedesktop.org
-References: <0efcdfe3-ea9e-43e5-ab07-6d69dca2c04a@igalia.com>
-Content-Language: en-US
-Cc: board <board@foundation.x.org>
-In-Reply-To: <0efcdfe3-ea9e-43e5-ab07-6d69dca2c04a@igalia.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,127 +83,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-This is a multi-part message in MIME format.
---------------PdOyCBePms0bkn01b4OZdjuV
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+From: Christian Gmeiner <cgmeiner@igalia.com>
 
-We are seeking nominations for candidates for election to the X.org 
-Foundation Board of Directors. However, as we presently do not have 
-enough nominations to start the election - the decision has been made to 
-extend the timeline by 2 weeks. Note this is a fairly regular part of 
-the elections process.
+The hwdb selection logic as a feature that allows it to mark some fields
+as 'don't care'. If we match with such a field we memcpy(..)
+the current etnaviv_chip_identity into ident.
 
+This step can overwrite some id values read from the GPU with the
+'don't care' value.
 
-The new deadline for nominations to the X.org Board of Directors is 
-23:59 UTC on 11 March 2024
+Fix this issue by restoring the affected values after the memcpy(..).
 
+As this is crucial for user space to know when this feature works as
+expected increment the minor version too.
 
-The Board consists of directors elected from the membership. Each year, 
-an election is held to bring the total number of directors to eight. The 
-four members receiving the highest vote totals will serve as directors 
-for two year terms.
+Fixes: 4078a1186dd3 ("drm/etnaviv: update hwdb selection logic")
+Cc: stable@vger.kernel.org
+Signed-off-by: Christian Gmeiner <cgmeiner@igalia.com>
+---
 
-The directors who received two year terms starting in 2023 were 
-Arkadiusz Hiler, Christopher Michael, Lyude Paul, and Daniel Vetter. 
-They will continue to serve until their term ends in 2024. Current 
-directors whose term expires in 2024 are Emma Anholt, Mark Filion, 
-Ricardo Garcia, and Alyssa Rosenzweig.
-<https://rosenzweig.io/>
+V1 -> V2: Fixed patch subject line and removed not needed if clauses.
 
-A director is expected to participate in the fortnightly IRC meeting to 
-discuss current business and to attend the annual meeting of the X.Org 
-Foundation, which will be held at a location determined in advance by 
-the Board of Directors.
+ drivers/gpu/drm/etnaviv/etnaviv_drv.c  | 2 +-
+ drivers/gpu/drm/etnaviv/etnaviv_hwdb.c | 9 +++++++++
+ 2 files changed, 10 insertions(+), 1 deletion(-)
 
-A member may nominate themselves or any other member they feel is 
-qualified. Nominations should be sent to the Election Committee at 
-elections@x.org.
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+index 6228ce603248..9a2965741dab 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+@@ -494,7 +494,7 @@ static const struct drm_driver etnaviv_drm_driver = {
+ 	.desc               = "etnaviv DRM",
+ 	.date               = "20151214",
+ 	.major              = 1,
+-	.minor              = 3,
++	.minor              = 4,
+ };
+ 
+ /*
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c b/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
+index 67201242438b..8665f2658d51 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
+@@ -265,6 +265,9 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
+ bool etnaviv_fill_identity_from_hwdb(struct etnaviv_gpu *gpu)
+ {
+ 	struct etnaviv_chip_identity *ident = &gpu->identity;
++	const u32 product_id = ident->product_id;
++	const u32 customer_id = ident->customer_id;
++	const u32 eco_id = ident->eco_id;
+ 	int i;
+ 
+ 	for (i = 0; i < ARRAY_SIZE(etnaviv_chip_identities); i++) {
+@@ -278,6 +281,12 @@ bool etnaviv_fill_identity_from_hwdb(struct etnaviv_gpu *gpu)
+ 			 etnaviv_chip_identities[i].eco_id == ~0U)) {
+ 			memcpy(ident, &etnaviv_chip_identities[i],
+ 			       sizeof(*ident));
++
++			/* Restore some id values as ~0U aka 'don't care' might been used. */
++			ident->product_id = product_id;
++			ident->customer_id = customer_id;
++			ident->eco_id = eco_id;
++
+ 			return true;
+ 		}
+ 	}
+-- 
+2.44.0
 
-Nominees shall be required to be current members of the X.Org 
-Foundation, and submit a personal statement of up to 200 words that will 
-be provided to prospective voters. The collected statements, along with 
-the statement of contribution to the X.Org Foundation in the member's 
-account page on http://members.x.org, will be made available to all 
-voters to help them make their voting decisions.
-
-Nominations and completed personal statements must be received no later 
-than 23:59 UTC on 11 March 2024.
-
-The slate of candidates will be published 18 March 2024 and candidate 
-Q&A will begin then. The deadline for Xorg membership applications and 
-renewals has also been extended 2 weeks and is now 25 March 2024.
-
-
-Cheers,
-
-Christopher Michael, on behalf of the X.Org BoD
-
-
---------------PdOyCBePms0bkn01b4OZdjuV
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p>We are seeking nominations for candidates for election to the
-      X.org Foundation Board of Directors. However, as we presently do
-      not have enough nominations to start the election - the decision
-      has been made to extend the timeline by 2 weeks. Note this is a
-      fairly regular part of the elections process.</p>
-    <p><br>
-    </p>
-    <p>The new deadline for nominations to the X.org Board of Directors
-      is 23:59 UTC on 11 March 2024</p>
-    <br>
-    The Board consists of directors elected from the membership. Each
-    year, an election is held to bring the total number of directors to
-    eight. The four members receiving the highest vote totals will serve
-    as directors for two year terms.
-    <p>The directors who received two year terms starting in 2023 were <span
-        class="createlink">Arkadiusz Hiler, </span><span
-        class="createlink">Christopher Michael, </span><span
-        class="createlink">Lyude Paul, and Daniel Vetter</span>. They
-      will continue to serve until their term ends in 2024. Current
-      directors whose term expires in 2024 are <span class="createlink">Emma
-        Anholt, </span><span class="createlink">Mark Filion, </span><span
-        class="createlink">Ricardo Garcia, and Alyssa Rosenzweig.</span><a
-        href="https://rosenzweig.io/"><br>
-      </a></p>
-    <p>A director is expected to participate in the fortnightly IRC
-      meeting to discuss current business and to attend the annual
-      meeting of the X.Org Foundation, which will be held at a location
-      determined in advance by the Board of Directors.</p>
-    <p>A member may nominate themselves or any other member they feel is
-      qualified. Nominations should be sent to the Election Committee at
-      <a class="moz-txt-link-abbreviated moz-txt-link-freetext"
-        href="mailto:elections@x.org">elections@x.org</a>.<br>
-    </p>
-    <p>Nominees shall be required to be current members of the X.Org
-      Foundation, and submit a personal statement of up to 200 words
-      that will be provided to prospective voters. The collected
-      statements, along with the statement of contribution to the X.Org
-      Foundation in the member's account page on <a
-        class="moz-txt-link-freetext" href="http://members.x.org">http://members.x.org</a>,
-      will be made available to all voters to help them make their
-      voting decisions.</p>
-    <p>Nominations and completed personal statements must be received no
-      later than 23:59 UTC on 11 March 2024.</p>
-    <p>The slate of candidates will be published 18 March 2024 and
-      candidate Q&amp;A will begin then. The deadline for Xorg
-      membership applications and renewals has also been extended 2
-      weeks and is now 25 March 2024.</p>
-    <p><br>
-    </p>
-    <p>Cheers,</p>
-    <p>Christopher Michael, on behalf of the X.Org BoD</p>
-    <p><br>
-    </p>
-  </body>
-</html>
-
---------------PdOyCBePms0bkn01b4OZdjuV--
