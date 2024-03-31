@@ -2,73 +2,60 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3168892F08
-	for <lists+etnaviv@lfdr.de>; Sun, 31 Mar 2024 10:38:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92681892EF4
+	for <lists+etnaviv@lfdr.de>; Sun, 31 Mar 2024 10:22:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0E3510E16B;
-	Sun, 31 Mar 2024 08:38:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E201510E975;
+	Sun, 31 Mar 2024 08:22:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="XwdqXDzo";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="ZBD0ycWJ";
 	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
- [209.85.221.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 88E7F10E407
- for <etnaviv@lists.freedesktop.org>; Sat, 30 Mar 2024 20:52:46 +0000 (UTC)
-Received: by mail-wr1-f47.google.com with SMTP id
- ffacd0b85a97d-34261edaf7eso2074810f8f.1
- for <etnaviv@lists.freedesktop.org>; Sat, 30 Mar 2024 13:52:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1711831965; x=1712436765; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=ur6wj7Am1MhdI1MTeYGSKdLS/Zh7sDkgdWv9M5NMjj8=;
- b=XwdqXDzog9bosCMyZraU16lCtckkAY59fdUtkurDOy+TuRXBxPWxny968nnUnBEgak
- jXz5uetJzepqeGow8+zdF5byjwrZpj4SKjO31Tj0DPivSzhudunT+knOOLKzrZnjgmXo
- 1MVSx4HiVmNHsx8NZ35fM+r4ohzIhO1E5N4o26s4PhKLEoGdIVPEmMuTQ+j24ZmPCnKm
- hHjD3AF993ev33sXQD91YmATiznqD4Mn2/z6Ez8DmVaWSEqTmtQ7Z3LMmPK4G1RErG6N
- p0BhIhzqTAZN/fKkmaEZqmOoYtwD0mK4/mfYBrldVp+G/xIgw9woEhu7GS/eaIdXqdG5
- XOjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1711831965; x=1712436765;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=ur6wj7Am1MhdI1MTeYGSKdLS/Zh7sDkgdWv9M5NMjj8=;
- b=TBzniSBf3b1oXrMSjDj/D4PkzsKacPTrcjqwSkOcB45CAjiiXQZ3Tphl3ijKA4YxAr
- V/ZhVhVPi11ycJuJ4tHFrb19w+1QgSgz6LsIK2fG2zY2l5hZPSrtXdZ9jHxbDIM8EKUS
- QZWufxSwiaELPgB6rd0d+o0v3TmbLdKtQoNZkiE7mv8OuKGpfrfdVbP7s2E9dRWuaQpl
- mAQcWMHNcF++jvE8NqERpo5b6lSLDIgCcs9UZ7f3qB+UaCbCIvOrAZqyFSQZmIpPWNJP
- yigDHdj/XekWFfhgrti2si3CnDY9Qorx9d33bs+4BH12lsv5RUVo5GxA35aj2qxg0N3Q
- 9JtQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVMv4fso8wbpwhYz9VXLGLWwLhlcfVi53/RZXK+UfXqMG7FUYukIyLCVoi/TLhZLukGQ8h6RYy3XpfyH1CnV7aS/xRyz+nz8G1u2Dkrcw==
-X-Gm-Message-State: AOJu0YzJuJbBm7IK7B/5k2LOKY4LxR2peWssx7AxkctOYrVooJS0i/An
- Mkj0UdNO42wye4HQ/1K9EFlvbMc4SCPsqZwN+NrBpMsTVaobJQY1lr9ZXJnCSJI=
-X-Google-Smtp-Source: AGHT+IHGeV8E/r8D99VT6rlf9tYE71QgG9MvULvj0tWUuJAxe/CbejwGsfVZwcwIlP7QPuju+VqMNg==
-X-Received: by 2002:adf:f142:0:b0:341:7656:d358 with SMTP id
- y2-20020adff142000000b003417656d358mr3715366wro.38.1711831964745; 
- Sat, 30 Mar 2024 13:52:44 -0700 (PDT)
-Received: from krzk-bin.. ([178.197.223.16]) by smtp.gmail.com with ESMTPSA id
- i9-20020a0560001ac900b0033e41e1ad93sm7279868wry.57.2024.03.30.13.52.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 30 Mar 2024 13:52:44 -0700 (PDT)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH] drm/etnaviv: drop driver owner assignment
-Date: Sat, 30 Mar 2024 21:52:41 +0100
-Message-Id: <20240330205241.92711-1-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.34.1
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B7EA610E8FB;
+ Sun, 31 Mar 2024 08:22:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=MIME-Version:Content-Transfer-Encoding:Content-Type:References:
+ In-Reply-To:Date:To:From:Subject:Message-ID:Sender:Reply-To:Cc:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=lPWMOzZ1sCBLtkhfMiJDfHToxmpKev7gqm0R7FskFf0=; b=ZBD0ycWJxDl4Z9KMqRhF77mf/G
+ +DGVX4I1duoRiIJ47Xv7S1iRDqsS+34zyUta/XwRBgJNkt/oSGEyrY6gv3lIL1PIUzmRZglkko0IS
+ NMSbfzT2NgjsaOyQ8lEwVQhDYaTzFz3XGyvGR47oIUgJtx48XCojs4oJLLCnGg2KY354Io0tPUG+h
+ hCoKonEn54rf+EQlt0QPj9uZRkN1vAdTUlYnMyWF5V+ov101iNfxuB/xDWGPQMpJ6AfIIU+k6sS7h
+ Yy5u3fM+EfrYsgZL6d7K+LL/w28dZfkg/RfoOHVPYMaNheprjSj9Au+mzNOe6hz3VdjFhGKnYLYfb
+ uuShrWeg==;
+Received: from 30.red-83-52-1.dynamicip.rima-tde.net ([83.52.1.30]
+ helo=localhost.localdomain) by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1rqqSL-00HFxV-9H; Sun, 31 Mar 2024 10:22:21 +0200
+Message-ID: <0a816356c382e4377953bba256e1275c779b220d.camel@igalia.com>
+Subject: Re: 2024 X.Org Foundation Membership deadline for voting in the
+ election
+From: Ricardo Garcia <rgarcia@igalia.com>
+To: events@lists.x.org, xorg-devel@lists.x.org, 
+ wayland-devel@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ mesa-dev@lists.freedesktop.org, amd-gfx@lists.freedesktop.org, 
+ etnaviv@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
+ libre-soc-dev@lists.libre-soc.org, elections@x.org, members@x.org, 
+ xorg@lists.freedesktop.org
+Date: Sun, 31 Mar 2024 10:22:20 +0200
+In-Reply-To: <57dd238b-2b94-4b46-a8be-c53b2f985e46@igalia.com>
+References: <0efcdfe3-ea9e-43e5-ab07-6d69dca2c04a@igalia.com>
+ <57dd238b-2b94-4b46-a8be-c53b2f985e46@igalia.com>
+Autocrypt: addr=rgarcia@igalia.com; prefer-encrypt=mutual;
+ keydata=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
+ p0ZW9AkVq7C3F0YSY0Tq5bKR94O8=
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Sun, 31 Mar 2024 08:38:09 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,27 +70,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Core in platform_driver_register() already sets the .owner, so driver
-does not need to.  Whatever is set here will be anyway overwritten by
-main driver calling platform_driver_register().
+This is a reminder that the membership renewal period ends in 2 days,
+and elections will start after that. Please register as an X.Org
+Foundation member to be able to vote in the upcoming elections. Thanks!
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-index 734412aae94d..87b31cfee41d 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-@@ -1995,7 +1995,6 @@ static const struct dev_pm_ops etnaviv_gpu_pm_ops = {
- struct platform_driver etnaviv_gpu_driver = {
- 	.driver = {
- 		.name = "etnaviv-gpu",
--		.owner = THIS_MODULE,
- 		.pm = pm_ptr(&etnaviv_gpu_pm_ops),
- 		.of_match_table = etnaviv_gpu_match,
- 	},
--- 
-2.34.1
+-Ricardo Garcia, on behalf of the X.Org elections committee.
+=20
+On Tue, 2024-03-26 at 11:42 -0400, Christopher Michael wrote:
+> The 2024 X.Org Foundation membership renewal period has been extended=20
+> one additional week and elections will start the following week on 01=20
+> April 2024.
+>=20
+> Please note that only current members can vote in the upcoming election,=
+=20
+> and that the deadline for new memberships or renewals to vote in the=20
+> upcoming election is 01 April 2024 at 23:59 UTC.
+>=20
+> If you are interested in joining the X.Org Foundation or in renewing=20
+> your membership, please visit the membership system site at:=20
+> https://members.x.org/
+>=20
+> Christopher Michael, on behalf of the X.Org elections committee
+>=20
+>=20
+>=20
 
