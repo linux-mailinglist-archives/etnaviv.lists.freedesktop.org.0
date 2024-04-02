@@ -2,69 +2,51 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4671893A29
-	for <lists+etnaviv@lfdr.de>; Mon,  1 Apr 2024 12:26:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CB10894D02
+	for <lists+etnaviv@lfdr.de>; Tue,  2 Apr 2024 09:56:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6AABF10F070;
-	Mon,  1 Apr 2024 10:26:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6AD7B10FB05;
+	Tue,  2 Apr 2024 07:56:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="lbab+vo4";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Jb5Cs+AP";
 	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com
- [209.85.215.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5CE3110F06F;
- Mon,  1 Apr 2024 10:26:50 +0000 (UTC)
-Received: by mail-pg1-f181.google.com with SMTP id
- 41be03b00d2f7-5cddfe0cb64so2011618a12.0; 
- Mon, 01 Apr 2024 03:26:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1711967210; x=1712572010; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=JjwzJvN7Hav8Gfx5C17pz9b7G+QKQ828bVeZeg9IPps=;
- b=lbab+vo4pmpIXaLDNob5m7aUrAPpkRHtD5J0aDHryhwaUXtOoM0m2Y17ILb3aDRcTi
- TD/PwEZT2cE9TuKRf+hqSEernXTEBmFrfP0AILdaccuBiUwDGG0iCKVnktcUSnpcVntK
- S2oYt7FULM3YfgHdu0i8n9ZA8kpWNXSquF3RZSzhWVcXkLZZu+mA6qJR48uphCdqcSxG
- bgR2NUbem8X7t8wqnv3syXjOKCa0SG2ODNud7kE11SuJn3ve19nmtMBi1PSR68ax7/ef
- YNJYUT/nFujrYa4dtjKAlxWBG9gXLgvFCOp34eJZVZIjawqkChoP+R7brjBpQvjUfz4L
- Qkgg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1711967210; x=1712572010;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=JjwzJvN7Hav8Gfx5C17pz9b7G+QKQ828bVeZeg9IPps=;
- b=T+0dXzBdRGXWslWzah91jiqzvZAYw39g+uQqNs8VNBUppLAG/g8mv7LMhOTL1CgDsu
- /OsC7XFQryK7PR2sdagrYEgsVXkFeqx8ldR+D28Gwf5SD5AycikgLjTyIePfOoSQQiek
- Ig3jBKweJkT/5tUDK2Xb46RUCm9m4V1wB6o9tAdv8VFZ3qCCOPTJNEKggy4rl/2TgLU0
- XOZxPNFWaNkhTTwt/XirN8Zodt63Jd0iQo6ayKztfSiZyLEriEMcdlF50gGpy0vIOkv1
- 1ly2BGE9GrLCekLJsOM5ZfAZr0U/lhwoQK+ffcuAyIUjIFWY2v5cupsEpwx0COdZMQ03
- 8UEA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV6CNNbW1qDGmWvkC6hVum7OrAjmUIl9CJ8JH13T+o8MNP9lbvfEiXHsbniqgtnmQGPSnntEdM0KzQ7DVxS1WYKer0/HCad2iwNlRDwWM8x4ahc/6cjDEsAGGKj5bkcMylh+Lv8SUvRDYXqIH3bHg==
-X-Gm-Message-State: AOJu0YwT4g51VI690OMQ1znxxTzrHx1+pS+Bwm0Z5Kbyx9I8ZUvi0Tz8
- sOgh9Ia1XDGHLcPuloKWvZMsi9068SMv7r/ii+fY8LGxjcXoPkUNxPxZHC9Hca7UaonyvqSrhFS
- hWHc3y1mLEwzT2FaMWypgp5dJhZw=
-X-Google-Smtp-Source: AGHT+IGYkH5Sb7GgjlSrymSb6EhYbcInrAsRHLbXoz9xykBVamWmNo/n2ubQhgDjpR+t6aXA3b/qp3QyHjPWtzIsMW4=
-X-Received: by 2002:a05:6a21:a58a:b0:1a3:dc27:1f01 with SMTP id
- gd10-20020a056a21a58a00b001a3dc271f01mr8646378pzc.11.1711967209548; Mon, 01
- Apr 2024 03:26:49 -0700 (PDT)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F65B10FB00;
+ Tue,  2 Apr 2024 07:56:42 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
+ [81.175.209.231])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id D46938B9;
+ Tue,  2 Apr 2024 09:56:03 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1712044564;
+ bh=3FI6n6LYhHgKYaXZ5dykq7jIVDxDcISNhii4Jg7lEok=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Jb5Cs+AP6ZTZbxlLKQjp/iE+74pBpVWEtBE4ymfRhlDXJEswmunX9K4vCmJiDzvX5
+ cEp2L5m3j59EkjzCT2caW5vAgx2vitxByicZFJyuMko0rdmRgbY9SEZA28U1mIfZia
+ GLdWIcKuDbfIDO9FccdFi6rBOikXfuVIKroIZoBc=
+Date: Tue, 2 Apr 2024 10:56:30 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Pekka Paalanen <ppaalanen@gmail.com>
+Cc: Christopher Michael <cmichael@igalia.com>, events@lists.x.org,
+ xorg-devel@lists.x.org, wayland-devel@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, mesa-dev@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, libre-soc-dev@lists.libre-soc.org,
+ elections@x.org, members@x.org, xorg@lists.freedesktop.org
+Subject: Re: 2024 X.Org Foundation Membership deadline for voting in the
+ election
+Message-ID: <20240402075630.GA10288@pendragon.ideasonboard.com>
+References: <0efcdfe3-ea9e-43e5-ab07-6d69dca2c04a@igalia.com>
+ <57dd238b-2b94-4b46-a8be-c53b2f985e46@igalia.com>
+ <20240402104608.6f6a9121@eldfell>
 MIME-Version: 1.0
-References: <20240330205241.92711-1-krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20240330205241.92711-1-krzysztof.kozlowski@linaro.org>
-From: Christian Gmeiner <christian.gmeiner@gmail.com>
-Date: Mon, 1 Apr 2024 12:26:37 +0200
-Message-ID: <CAH9NwWfU5eaBRSqhgJgHwgphtL+KUAiX3Tx_7vO11N_BV7qUQQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/etnaviv: drop driver owner assignment
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- etnaviv@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240402104608.6f6a9121@eldfell>
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,39 +61,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
->
-> Core in platform_driver_register() already sets the .owner, so driver
-> does not need to.  Whatever is set here will be anyway overwritten by
-> main driver calling platform_driver_register().
->
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Hi Pekka,
 
-Reviewed-by: Christian Gmeiner <cgmeiner@igalia.com>
+On Tue, Apr 02, 2024 at 10:46:08AM +0300, Pekka Paalanen wrote:
+> On Tue, 26 Mar 2024 11:42:48 -0400 Christopher Michael wrote:
+> 
+> > The 2024 X.Org Foundation membership renewal period has been extended 
+> > one additional week and elections will start the following week on 01 
+> > April 2024.
+> > 
+> > Please note that only current members can vote in the upcoming election, 
+> > and that the deadline for new memberships or renewals to vote in the 
+> > upcoming election is 01 April 2024 at 23:59 UTC.
+> > 
+> > If you are interested in joining the X.Org Foundation or in renewing 
+> > your membership, please visit the membership system site at: 
+> > https://members.x.org/
+> > 
+> > Christopher Michael, on behalf of the X.Org elections committee
+> 
+> Hi everyone,
+> 
+> given that the year's first email reminding everyone to renew their
+> memberships was sent on Feb 7 when the renewal was NOT open yet, I
+> wonder how many people thought they had already renewed and are now
+> thinking they don't need to do anything?
+> 
+> I fell for that: On Feb 7, I went to members.x.org to check my status,
+> it said I was registered for "2023-2024" and there was no button to
+> renew, so I closed the page confident that I was a member for 2024.
+> After all, it said 2024. This was a mistake I realised only after being
+> personally poked to renew. I know for sure of one other person falling
+> for the same.
 
-> ---
->  drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 1 -
->  1 file changed, 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> index 734412aae94d..87b31cfee41d 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> @@ -1995,7 +1995,6 @@ static const struct dev_pm_ops etnaviv_gpu_pm_ops = {
->  struct platform_driver etnaviv_gpu_driver = {
->         .driver = {
->                 .name = "etnaviv-gpu",
-> -               .owner = THIS_MODULE,
->                 .pm = pm_ptr(&etnaviv_gpu_pm_ops),
->                 .of_match_table = etnaviv_gpu_match,
->         },
-> --
-> 2.34.1
->
+Make that two. Thanks for the notice.
 
+> Now, the members page for this year says "Application for the period:
+> 02/2024-02/2025". Thanks to the people adding the month to reduce
+> confusion.
 
 -- 
-greets
---
-Christian Gmeiner, MSc
+Regards,
 
-https://christian-gmeiner.info/privacypolicy
+Laurent Pinchart
