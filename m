@@ -2,78 +2,56 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B042F8983E3
-	for <lists+etnaviv@lfdr.de>; Thu,  4 Apr 2024 11:21:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4FCB8A5293
+	for <lists+etnaviv@lfdr.de>; Mon, 15 Apr 2024 16:02:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 14FDA11A890;
-	Thu,  4 Apr 2024 09:21:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 51CA51125D6;
+	Mon, 15 Apr 2024 14:02:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="LZSOGHQA";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="bRSc7hqe";
 	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
- [209.85.167.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF2F110F8FB;
- Tue,  2 Apr 2024 07:46:23 +0000 (UTC)
-Received: by mail-lf1-f50.google.com with SMTP id
- 2adb3069b0e04-515d49a6b92so2025145e87.3; 
- Tue, 02 Apr 2024 00:46:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1712043982; x=1712648782; darn=lists.freedesktop.org;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=taIVd+GK795OjgeG9kSZtx5xbeqa5chcM/860KbJ/J4=;
- b=LZSOGHQAtE65jLe6D1h4ZPV8DNLJ83zMvozcXR2y9eD70tmNvkIY5aCP8atW1DTUJB
- izloZKnML94+bUJhTIYt7H7pZbuu6dVRuCkJoTmUcU9Dt6VPiYfnY3gNWUviPqd/0M0n
- NC6ocv83tZVNd1Oy+a4L9wVCoKJe+dHyyQh5XDGsajZszjKEnq8wZBq+7D3qarSKBjWX
- ATM7cAgy/Zwg4fvOxcPdtUtaKIrZ35cWPQ9EK0XbL/wx6+H+mcs4hg+w+vxUA0rdd+7r
- wRw0QP8pnXFFax0C8jTVT24EbK3GCwOObx3zkRLTfXlTjeMCE7JZBZoo2QIdhkQ5o3mA
- AOEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1712043982; x=1712648782;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=taIVd+GK795OjgeG9kSZtx5xbeqa5chcM/860KbJ/J4=;
- b=Rj5XHKzABQyy0L09YXArRVehadqMfcJ+wuuRIUwBc2wc6wOOZMuvds/TMHCx+b3IHn
- cMBVg8c6wDR+MWpTPCf7s8zCx/dPzinc48SV9Dw31p63S4/6qhkinad/aa7ERGmWcWB3
- 1hNhrPPb2Z9PVRPaO0KHexLo6AEf2ws53CWcuKlqcM16J5rUu70fMAwgRDJO9GTDZlYs
- cpuIlQnUDT06Ze77t0fuNw3O/5meNTUF8WPEoOkCvOCDF9x10wk7PPI9nAGn+g5Frbh/
- SW+brP+eafMPo0VWB+4p/xRfzLdk3MhtAGgX+h/NCET7nQ2vWQoJMLuTHttSH4+BK+EI
- DHLQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVirYMSYHsneup1OBNpMmrmsv7hC4ytIQ+Nz4ybXxpCRCmYC9ytpjAgD58bRccfBu1vu3J1kiQ4EsscFdRRbAwPPUl5WUR4TJWpo0UH+V/ny8vuoL75ZaqubTK9Wiai3UkWkSx3RfXR3L9h257faXITWeE1Qn+lh+L1PLM4ryGUTsDHDYhVTvZMqMlNpDQ+9rmbG2JNKlbegtX2QmAJ3+ia1IJJmGgFiVjCtgtRWNMm7ds9beght7gqFFxHx6i73reKWTjzUv0XW8sbjMPsRdvfsmkTIZS1zN/hWb0mOJSvERE5Hu2R2dkiL/CoWHiArIyNS6zH0oeSwAiPSue17gSqOw2hxrgKj3tI4Upfs2m9vc+36uLOu4jsVngSZ5EPKOipKbBfSpk7eIXi90XxhOnna3zP5y8NpsiztxJbl4s0kIlc/69emqkmudB9e73eJw==
-X-Gm-Message-State: AOJu0Yy9Armo7Uh1ofUo8aVa9n+zESxjJKYKES2e40fDFILc5Vyc8eTy
- O/bvcveLwzJ3iaCTh6zhMWUaZa1vY9nPesLhwydxI5reWEqD1oXP
-X-Google-Smtp-Source: AGHT+IFxhMLlt5HXgwY6+iG/dDw5dmfT+G01y7F3wTcuXP0RpaiyYX7Mjsf/JJM6iaeXeg29GPoyzw==
-X-Received: by 2002:a05:6512:3ca9:b0:515:a417:331 with SMTP id
- h41-20020a0565123ca900b00515a4170331mr8977857lfv.9.1712043981316; 
- Tue, 02 Apr 2024 00:46:21 -0700 (PDT)
-Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- u2-20020ac258c2000000b005134b126f0asm1661430lfo.110.2024.04.02.00.46.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Apr 2024 00:46:20 -0700 (PDT)
-Date: Tue, 2 Apr 2024 10:46:08 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Christopher Michael <cmichael@igalia.com>
-Cc: events@lists.x.org, xorg-devel@lists.x.org,
- wayland-devel@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- mesa-dev@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- etnaviv@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- libre-soc-dev@lists.libre-soc.org, elections@x.org, members@x.org,
- xorg@lists.freedesktop.org
-Subject: Re: 2024 X.Org Foundation Membership deadline for voting in the
- election
-Message-ID: <20240402104608.6f6a9121@eldfell>
-In-Reply-To: <57dd238b-2b94-4b46-a8be-c53b2f985e46@igalia.com>
-References: <0efcdfe3-ea9e-43e5-ab07-6d69dca2c04a@igalia.com>
- <57dd238b-2b94-4b46-a8be-c53b2f985e46@igalia.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 907591125CE;
+ Mon, 15 Apr 2024 14:02:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=MIME-Version:Content-Transfer-Encoding:Content-Type:Date:To:
+ From:Subject:Message-ID:Sender:Reply-To:Cc:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=Ljnuyj309g/2itlVZDdfjNXk+f84QxRXjXC1RNVY8PM=; b=bRSc7hqeT0ebFpgrrSRZNaA0ed
+ n26TriUpOtx6cBBF7bzXraz8VFiuGSKVsp1XgcYwVWQ0a3BOeMr0/eod102P2JrkffzA2BcWeiZdZ
+ pQujN2ME4bMFMFbeh+uunhSmtPXnLWFqy0JcWJPltB7qDXryWoUP8AnQWZCaJduGLHT992QFBLOHo
+ 8xlH8pXfNkDdKxSPhlTaXrn7uzE5TTuY1eSusvZW7p3jsBQLgtPeGp9PWCcf9DGRorXoP0JwRZjzQ
+ /d97iImCel8NWXWwL8cpmVztZmwaVQR7+eO3g4wKHyk6hs9780yHc2JaZ44+LX53GYs9N645H0WkN
+ fShSpcDQ==;
+Received: from 30.red-83-52-1.dynamicip.rima-tde.net ([83.52.1.30]
+ helo=localhost.localdomain) by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1rwMux-004mu0-Ni; Mon, 15 Apr 2024 16:02:43 +0200
+Message-ID: <2309afcf8a6d4e67f589e80a92916e6a73058084.camel@igalia.com>
+Subject: 2024 X.Org Foundation Election Results
+From: Ricardo Garcia <rgarcia@igalia.com>
+To: events@lists.x.org, xorg-devel@lists.x.org, 
+ wayland-devel@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ mesa-dev@lists.freedesktop.org, amd-gfx@lists.freedesktop.org, 
+ etnaviv@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
+ libre-soc-dev@lists.libre-soc.org, elections@x.org, members@x.org, xorg
+ <xorg@lists.freedesktop.org>
+Date: Mon, 15 Apr 2024 16:02:42 +0200
+Autocrypt: addr=rgarcia@igalia.com; prefer-encrypt=mutual;
+ keydata=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
+ p0ZW9AkVq7C3F0YSY0Tq5bKR94O8=
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/hnrm2UtMP0gSYd7p5vJ2Svs";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-X-Mailman-Approved-At: Thu, 04 Apr 2024 09:21:19 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,69 +66,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
---Sig_/hnrm2UtMP0gSYd7p5vJ2Svs
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+The Board of Directors election concluded on 08 April 2024. There were
+81 Members of the X.Org Foundation eligible to vote, and 61 Members cast
+votes. This is a 75.3% turn out.
 
-On Tue, 26 Mar 2024 11:42:48 -0400
-Christopher Michael <cmichael@igalia.com> wrote:
+In the election of the Directors to the Board of the X.Org Foundation,
+the results were that=C2=A0Erik Faye-Lund, Simon Ser, Mark Filion and Neal
+Gompa were elected for two-year terms.
 
-> The 2024 X.Org Foundation membership renewal period has been extended=20
-> one additional week and elections will start the following week on 01=20
-> April 2024.
->=20
-> Please note that only current members can vote in the upcoming election,=
-=20
-> and that the deadline for new memberships or renewals to vote in the=20
-> upcoming election is 01 April 2024 at 23:59 UTC.
->=20
-> If you are interested in joining the X.Org Foundation or in renewing=20
-> your membership, please visit the membership system site at:=20
-> https://members.x.org/
->=20
-> Christopher Michael, on behalf of the X.Org elections committee
+The old full board is:
 
-Hi everyone,
+* Emma Anholt
+* Mark Filion
+* Ricardo Garcia
+* Arkadiusz Hiler
+* Christopher Michael
+* Lyude Paul
+* Alyssa Rosenzweig
+* Sima Vetter
 
-given that the year's first email reminding everyone to renew their
-memberships was sent on Feb 7 when the renewal was NOT open yet, I
-wonder how many people thought they had already renewed and are now
-thinking they don't need to do anything?
+The new full board is:
 
-I fell for that: On Feb 7, I went to members.x.org to check my status,
-it said I was registered for "2023-2024" and there was no button to
-renew, so I closed the page confident that I was a member for 2024.
-After all, it said 2024. This was a mistake I realised only after being
-personally poked to renew. I know for sure of one other person falling
-for the same.
+* Erik Faye-Lund
+* Mark Filion
+* Neal Gompa
+* Arkadiusz Hiler
+* Christopher Michael
+* Lyude Paul
+* Simon Ser
+* Sima Vetter
 
-Now, the members page for this year says "Application for the period:
-02/2024-02/2025". Thanks to the people adding the month to reduce
-confusion.
-
-
-Thanks,
-pq
-
---Sig_/hnrm2UtMP0gSYd7p5vJ2Svs
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmYLt8AACgkQI1/ltBGq
-qqe21A/+KxWOfCsyLUHk8qlW8Tx3oH1Jzt0vDySQ0L8A3WxA0v6rp+bSrK5zeDaH
-T7xGuivb3MJThnCZQgilHz1K3LT/tawhyuSe/D07yNvfVDLBoduyKV4nVB4toVXG
-j/a647wS8yLpNwhnEF1bIfi5yZRi3RyUferr8EyITomb+Yy8KFqpGSz8ikvKujC7
-+snP6w988lJ5xf2BSRfaNGZ0Aq9MoVFWTe5z+VGw7aoza6OCN+CGpuFEMxozkOuu
-1GoPBMm3mMSSkQ1ImLVrIaoSuUiaRvFCG8NXkUmJzocWVV0uMXJ0BzCb8utWnDlf
-L7P99IwIk/2e86IXoqff+D0l2KtAShqhDd8QAx0NA+yVvI/YF22xdlAimrhaSxlC
-p7TQlMZY8ViFS8NGb3Qc4evQkYcP63Pd+FwsBLvQKi2RDHEMiptsItdIfCAFV7ug
-zp5GAqnBdB90AgcXBMNh3WgM7ea7FAWxFcsE5ef9CBnuKqtoQQUAkA0g4Av01XrU
-ibbYTBFcAWQps+p4gWMyyW5n2XoTrd2jgiaG63p3py1LL5C952j8bJHcR46sZ1Z1
-PoQI2OVtWXp1WEYn0jYl5aHMBb1Pm3fSsu7AaUdLgLZcEAf2ys3r0ngcPgVpwjF+
-na9kYe5s5SJYZfCMxjcB2/FwKHsxVPoPulpCC9cKGhKnMWYnps8=
-=mTjt
------END PGP SIGNATURE-----
-
---Sig_/hnrm2UtMP0gSYd7p5vJ2Svs--
+-Ricardo Garcia, on behalf of the X.Org elections committee
