@@ -2,56 +2,74 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4FCB8A5293
-	for <lists+etnaviv@lfdr.de>; Mon, 15 Apr 2024 16:02:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A76038ABBC9
+	for <lists+etnaviv@lfdr.de>; Sat, 20 Apr 2024 15:42:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 51CA51125D6;
-	Mon, 15 Apr 2024 14:02:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C5BE0112056;
+	Sat, 20 Apr 2024 13:42:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="bRSc7hqe";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ZHmgCeed";
 	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 907591125CE;
- Mon, 15 Apr 2024 14:02:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=MIME-Version:Content-Transfer-Encoding:Content-Type:Date:To:
- From:Subject:Message-ID:Sender:Reply-To:Cc:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=Ljnuyj309g/2itlVZDdfjNXk+f84QxRXjXC1RNVY8PM=; b=bRSc7hqeT0ebFpgrrSRZNaA0ed
- n26TriUpOtx6cBBF7bzXraz8VFiuGSKVsp1XgcYwVWQ0a3BOeMr0/eod102P2JrkffzA2BcWeiZdZ
- pQujN2ME4bMFMFbeh+uunhSmtPXnLWFqy0JcWJPltB7qDXryWoUP8AnQWZCaJduGLHT992QFBLOHo
- 8xlH8pXfNkDdKxSPhlTaXrn7uzE5TTuY1eSusvZW7p3jsBQLgtPeGp9PWCcf9DGRorXoP0JwRZjzQ
- /d97iImCel8NWXWwL8cpmVztZmwaVQR7+eO3g4wKHyk6hs9780yHc2JaZ44+LX53GYs9N645H0WkN
- fShSpcDQ==;
-Received: from 30.red-83-52-1.dynamicip.rima-tde.net ([83.52.1.30]
- helo=localhost.localdomain) by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1rwMux-004mu0-Ni; Mon, 15 Apr 2024 16:02:43 +0200
-Message-ID: <2309afcf8a6d4e67f589e80a92916e6a73058084.camel@igalia.com>
-Subject: 2024 X.Org Foundation Election Results
-From: Ricardo Garcia <rgarcia@igalia.com>
-To: events@lists.x.org, xorg-devel@lists.x.org, 
- wayland-devel@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- mesa-dev@lists.freedesktop.org, amd-gfx@lists.freedesktop.org, 
- etnaviv@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
- libre-soc-dev@lists.libre-soc.org, elections@x.org, members@x.org, xorg
- <xorg@lists.freedesktop.org>
-Date: Mon, 15 Apr 2024 16:02:42 +0200
-Autocrypt: addr=rgarcia@igalia.com; prefer-encrypt=mutual;
- keydata=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
- p0ZW9AkVq7C3F0YSY0Tq5bKR94O8=
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com
+ [209.85.208.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A8D2112056;
+ Sat, 20 Apr 2024 13:42:05 +0000 (UTC)
+Received: by mail-ed1-f53.google.com with SMTP id
+ 4fb4d7f45d1cf-56e37503115so2595581a12.1; 
+ Sat, 20 Apr 2024 06:42:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1713620523; x=1714225323; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=xUWMQtOMtHcstc/cIjPR41dHaXRQKi9outRFsvRo7/4=;
+ b=ZHmgCeedLzojPuv11h/j3p4JIOT+SSrrAUdDEer1hdKGo6mHbJ0RBUAv0Vr0QJURQZ
+ 4e1XkxGYHg/WlMwBQyMs0XV/QKJuujsnDnqWB5lgkOwVi7C2RS4A0EbAYpFlO/DuciaI
+ vxZZ8CfyFVqLCw/ORCYZ1Mzur3ZNbe7zDtg72cdHlPp4gAmOlWIV4oun+cpA+E3ASmdS
+ mcDrXxdB4mfJwX1vlDtAFRYPaY094f9vpp93JzJcOsxXbYwOt6/gQVgTVH0bMCp3pHnQ
+ nu/gNljUy8h72hhIMXGBTiVRA+hJjMTFiN3Mj4b99EAxVUUaa2tdPfII4WtJlO7s7xFx
+ 8C4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1713620523; x=1714225323;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=xUWMQtOMtHcstc/cIjPR41dHaXRQKi9outRFsvRo7/4=;
+ b=KIGiOSYPuOEoVC+ehgUO+/zQbTLgLpeO1PbGXwSLu9pqD+DFY3UugmMVpZ8InWcKWQ
+ //OJ8Q4IijZPRBpJSut5poRsCVJgZMXyphwrJywxC3j4ofzU1HbaE39nnNg8i9V8wW6u
+ Hmsfebmy7lxrZ19FhYP4Y5feF0/PdNCRc6MZMHCiiTFm7dKrK54CJC+MzyXk9NHlGc7n
+ uyjjAIanNaFTYB0JJocYHjRZ8xkG/ilr+px/LrynRzv5x3FqeSAbgszd4AARETV8kPs2
+ u7PZZFFBaDtPjD7jiACctHrIuo2dCkQs1giR36yTtjxveIyRktGMkgTPjXy4VpGhJfV4
+ gQpQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWVK5xtkjCASlgV7h6xUbFnTS2gWYqq6whZ9o+ZbXbx2q/CTIBmg3aZRmQgjCrvpLtv/NJOKnHKJCAGrV9MDLXiOfAz/RI53Nwbkgeuewa2gDkpUBzURB4aZR7vVhvfEfr9uCCBcrLg2IksvvkURA==
+X-Gm-Message-State: AOJu0Yy0YaVG4RU8Ry/ZagJ5EpNc/MeJBPDGp+gy8gJtblk+qweU8uKB
+ c6eaw2RqjGNhulf08OBKSxIgLH4Htv6VtxOMUAitv3NvGOupLgf1
+X-Google-Smtp-Source: AGHT+IHH4R60EIxELY/Wj8xRTZADYWhGrR4yjgB29K8+ermTi0DbqyVVI4gtEkMLOuV4PYDPtk0lCw==
+X-Received: by 2002:a50:d6c5:0:b0:56e:3175:6065 with SMTP id
+ l5-20020a50d6c5000000b0056e31756065mr3067740edj.9.1713620522735; 
+ Sat, 20 Apr 2024 06:42:02 -0700 (PDT)
+Received: from localhost.localdomain (80-108-76-242.cable.dynamic.surfer.at.
+ [80.108.76.242]) by smtp.gmail.com with ESMTPSA id
+ fd21-20020a056402389500b0056e2495f92esm3347042edb.59.2024.04.20.06.42.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 20 Apr 2024 06:42:02 -0700 (PDT)
+From: Christian Gmeiner <christian.gmeiner@gmail.com>
+To: tomeu@tomeuvizoso.net, Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Christian Gmeiner <cgmeiner@igalia.com>, etnaviv@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] Revert "drm/etnaviv: Expose a few more chipspecs to userspace"
+Date: Sat, 20 Apr 2024 15:41:58 +0200
+Message-ID: <20240420134159.110509-1-christian.gmeiner@gmail.com>
+X-Mailer: git-send-email 2.44.0
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,34 +84,185 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-The Board of Directors election concluded on 08 April 2024. There were
-81 Members of the X.Org Foundation eligible to vote, and 61 Members cast
-votes. This is a 75.3% turn out.
+From: Christian Gmeiner <cgmeiner@igalia.com>
 
-In the election of the Directors to the Board of the X.Org Foundation,
-the results were that=C2=A0Erik Faye-Lund, Simon Ser, Mark Filion and Neal
-Gompa were elected for two-year terms.
+This reverts commit 1dccdba084897443d116508a8ed71e0ac8a031a4.
 
-The old full board is:
+In userspace a different approach was choosen - hwdb. As a result, there
+is no need for these values.
 
-* Emma Anholt
-* Mark Filion
-* Ricardo Garcia
-* Arkadiusz Hiler
-* Christopher Michael
-* Lyude Paul
-* Alyssa Rosenzweig
-* Sima Vetter
+Signed-off-by: Christian Gmeiner <cgmeiner@igalia.com>
+---
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c  | 20 ---------------
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.h  | 12 ---------
+ drivers/gpu/drm/etnaviv/etnaviv_hwdb.c | 34 --------------------------
+ include/uapi/drm/etnaviv_drm.h         |  5 ----
+ 4 files changed, 71 deletions(-)
 
-The new full board is:
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+index 734412aae94d..e47e5562535a 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+@@ -164,26 +164,6 @@ int etnaviv_gpu_get_param(struct etnaviv_gpu *gpu, u32 param, u64 *value)
+ 		*value = gpu->identity.eco_id;
+ 		break;
+ 
+-	case ETNAVIV_PARAM_GPU_NN_CORE_COUNT:
+-		*value = gpu->identity.nn_core_count;
+-		break;
+-
+-	case ETNAVIV_PARAM_GPU_NN_MAD_PER_CORE:
+-		*value = gpu->identity.nn_mad_per_core;
+-		break;
+-
+-	case ETNAVIV_PARAM_GPU_TP_CORE_COUNT:
+-		*value = gpu->identity.tp_core_count;
+-		break;
+-
+-	case ETNAVIV_PARAM_GPU_ON_CHIP_SRAM_SIZE:
+-		*value = gpu->identity.on_chip_sram_size;
+-		break;
+-
+-	case ETNAVIV_PARAM_GPU_AXI_SRAM_SIZE:
+-		*value = gpu->identity.axi_sram_size;
+-		break;
+-
+ 	default:
+ 		DBG("%s: invalid param: %u", dev_name(gpu->dev), param);
+ 		return -EINVAL;
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
+index 7d5e9158e13c..197e0037732e 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
+@@ -54,18 +54,6 @@ struct etnaviv_chip_identity {
+ 	/* Number of Neural Network cores. */
+ 	u32 nn_core_count;
+ 
+-	/* Number of MAD units per Neural Network core. */
+-	u32 nn_mad_per_core;
+-
+-	/* Number of Tensor Processing cores. */
+-	u32 tp_core_count;
+-
+-	/* Size in bytes of the SRAM inside the NPU. */
+-	u32 on_chip_sram_size;
+-
+-	/* Size in bytes of the SRAM across the AXI bus. */
+-	u32 axi_sram_size;
+-
+ 	/* Size of the vertex cache. */
+ 	u32 vertex_cache_size;
+ 
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c b/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
+index d8e7334de8ce..8665f2658d51 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
+@@ -17,10 +17,6 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
+ 		.thread_count = 128,
+ 		.shader_core_count = 1,
+ 		.nn_core_count = 0,
+-		.nn_mad_per_core = 0,
+-		.tp_core_count = 0,
+-		.on_chip_sram_size = 0,
+-		.axi_sram_size = 0,
+ 		.vertex_cache_size = 8,
+ 		.vertex_output_buffer_size = 1024,
+ 		.pixel_pipes = 1,
+@@ -52,11 +48,6 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
+ 		.register_max = 64,
+ 		.thread_count = 256,
+ 		.shader_core_count = 1,
+-		.nn_core_count = 0,
+-		.nn_mad_per_core = 0,
+-		.tp_core_count = 0,
+-		.on_chip_sram_size = 0,
+-		.axi_sram_size = 0,
+ 		.vertex_cache_size = 8,
+ 		.vertex_output_buffer_size = 512,
+ 		.pixel_pipes = 1,
+@@ -89,10 +80,6 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
+ 		.thread_count = 512,
+ 		.shader_core_count = 2,
+ 		.nn_core_count = 0,
+-		.nn_mad_per_core = 0,
+-		.tp_core_count = 0,
+-		.on_chip_sram_size = 0,
+-		.axi_sram_size = 0,
+ 		.vertex_cache_size = 16,
+ 		.vertex_output_buffer_size = 1024,
+ 		.pixel_pipes = 1,
+@@ -125,10 +112,6 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
+ 		.thread_count = 512,
+ 		.shader_core_count = 2,
+ 		.nn_core_count = 0,
+-		.nn_mad_per_core = 0,
+-		.tp_core_count = 0,
+-		.on_chip_sram_size = 0,
+-		.axi_sram_size = 0,
+ 		.vertex_cache_size = 16,
+ 		.vertex_output_buffer_size = 1024,
+ 		.pixel_pipes = 1,
+@@ -160,11 +143,6 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
+ 		.register_max = 64,
+ 		.thread_count = 512,
+ 		.shader_core_count = 2,
+-		.nn_core_count = 0,
+-		.nn_mad_per_core = 0,
+-		.tp_core_count = 0,
+-		.on_chip_sram_size = 0,
+-		.axi_sram_size = 0,
+ 		.vertex_cache_size = 16,
+ 		.vertex_output_buffer_size = 1024,
+ 		.pixel_pipes = 1,
+@@ -197,10 +175,6 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
+ 		.thread_count = 1024,
+ 		.shader_core_count = 4,
+ 		.nn_core_count = 0,
+-		.nn_mad_per_core = 0,
+-		.tp_core_count = 0,
+-		.on_chip_sram_size = 0,
+-		.axi_sram_size = 0,
+ 		.vertex_cache_size = 16,
+ 		.vertex_output_buffer_size = 1024,
+ 		.pixel_pipes = 2,
+@@ -233,10 +207,6 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
+ 		.thread_count = 256,
+ 		.shader_core_count = 1,
+ 		.nn_core_count = 8,
+-		.nn_mad_per_core = 64,
+-		.tp_core_count = 4,
+-		.on_chip_sram_size = 524288,
+-		.axi_sram_size = 1048576,
+ 		.vertex_cache_size = 16,
+ 		.vertex_output_buffer_size = 1024,
+ 		.pixel_pipes = 1,
+@@ -269,10 +239,6 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
+ 		.thread_count = 256,
+ 		.shader_core_count = 1,
+ 		.nn_core_count = 6,
+-		.nn_mad_per_core = 64,
+-		.tp_core_count = 3,
+-		.on_chip_sram_size = 262144,
+-		.axi_sram_size = 0,
+ 		.vertex_cache_size = 16,
+ 		.vertex_output_buffer_size = 1024,
+ 		.pixel_pipes = 1,
+diff --git a/include/uapi/drm/etnaviv_drm.h b/include/uapi/drm/etnaviv_drm.h
+index d87410a8443a..af024d90453d 100644
+--- a/include/uapi/drm/etnaviv_drm.h
++++ b/include/uapi/drm/etnaviv_drm.h
+@@ -77,11 +77,6 @@ struct drm_etnaviv_timespec {
+ #define ETNAVIV_PARAM_GPU_PRODUCT_ID                0x1c
+ #define ETNAVIV_PARAM_GPU_CUSTOMER_ID               0x1d
+ #define ETNAVIV_PARAM_GPU_ECO_ID                    0x1e
+-#define ETNAVIV_PARAM_GPU_NN_CORE_COUNT             0x1f
+-#define ETNAVIV_PARAM_GPU_NN_MAD_PER_CORE           0x20
+-#define ETNAVIV_PARAM_GPU_TP_CORE_COUNT             0x21
+-#define ETNAVIV_PARAM_GPU_ON_CHIP_SRAM_SIZE         0x22
+-#define ETNAVIV_PARAM_GPU_AXI_SRAM_SIZE             0x23
+ 
+ #define ETNA_MAX_PIPES 4
+ 
+-- 
+2.44.0
 
-* Erik Faye-Lund
-* Mark Filion
-* Neal Gompa
-* Arkadiusz Hiler
-* Christopher Michael
-* Lyude Paul
-* Simon Ser
-* Sima Vetter
-
--Ricardo Garcia, on behalf of the X.Org elections committee
