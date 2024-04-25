@@ -2,89 +2,83 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BF598B300F
-	for <lists+etnaviv@lfdr.de>; Fri, 26 Apr 2024 08:10:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2B578B40EE
+	for <lists+etnaviv@lfdr.de>; Fri, 26 Apr 2024 22:38:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 112A4112186;
-	Fri, 26 Apr 2024 06:10:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A0F5B10EC08;
+	Fri, 26 Apr 2024 20:38:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=tomeuvizoso-net.20230601.gappssmtp.com header.i=@tomeuvizoso-net.20230601.gappssmtp.com header.b="WEO+u9OS";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="EF1JDHJJ";
 	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com
- [209.85.219.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2BF40112159
- for <etnaviv@lists.freedesktop.org>; Fri, 26 Apr 2024 06:10:15 +0000 (UTC)
-Received: by mail-yb1-f169.google.com with SMTP id
- 3f1490d57ef6-de5809cd7b0so1999233276.0
- for <etnaviv@lists.freedesktop.org>; Thu, 25 Apr 2024 23:10:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tomeuvizoso-net.20230601.gappssmtp.com; s=20230601; t=1714111815;
- x=1714716615; darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=EJ1GdTZvweAfdVmldBDNtC2yfd/6DMLGLYkaIty7Abc=;
- b=WEO+u9OSZQbaZ4TWr6uL4QBuIwmrIsIEjxqY26spNBB4+AxqSUWC+V/EMbPe3myHDb
- Oo9kws1grdZRqQBUGhd5LZQYF6S8IjpQxzB1EOJxQbh83ZRdJLp4IYuQ9Y3+EK4Z3yCi
- fSv961dXpfr91HgAgl24nwBM7qa4TBDBMy7gzcuA++3wzKjq6XMPuqZMY779RXeTExT1
- Qq5EOJ6QbTQjD6pQvgdGgjQhe+uI5OuhIY/UlconjCY8mpn969pjJFcAXydn8sp+oRjP
- d2mWpMS548My2Ygr9VyzGwKZgRuC0gyTgM4wdFRHbx0A/jSSV4LOWg6UwJNf7REyushk
- MYLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1714111815; x=1714716615;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=EJ1GdTZvweAfdVmldBDNtC2yfd/6DMLGLYkaIty7Abc=;
- b=NlZcJ8IcQQfHAmjLKcnQ3mbGIB1fyvLJk6/R91HDHxs9eqtQ28pGomTd3qXOPZcuc0
- Ekhc4B9v/2Q038uyrKyrFsncON9WEa/ncB7fAXuwk8XIGzavEzmav8NZoD6Ix57bReSo
- m83t3wpSWF+sNgrvnK5cH7GiXphYNtt5hZbybO0F60s6fT+WnBBeb2Yy8w66ti+7sLVM
- XLpcHqwoPBfrG66OpQt1bpQGRlUIuP3CUc2M0grcVb35ccKQ4IPWV1d4R+OMZM5g5DaQ
- UfLRteoLFzMKF3Nwbauhs2o2svvJTF5slSVMxe9rkpn0hTpJ3OJ7VNditzGHIwmOnbx2
- vS2A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXi2vtpg328uDDX4q+yHCIg/fjq2XBQRQfgJKJvp8hLI/JdUp7xf3A6EkX0GKO4JcUpe7HNvVdspCsf9ilRIDMSdczJLlAzHARagqOzng==
-X-Gm-Message-State: AOJu0Ywiyqhl0nW29jKD4puxkWlAL1cRIqDXpHXFuuqDUDCqcm1XssCN
- FExyqrbiMCSDYp8I0Tlh0RgogiJJZvMxZfFy6N3B/GZTbsqTFvywXGT4332V3g+I7469llUGjn9
- gMA6d9A==
-X-Google-Smtp-Source: AGHT+IHlZ2ur24tA9w+qawwXye4yK0UgjcstfqtIEww9XJV9C16Ae22n5Rnnt/I7mN59AEO5rNW2VA==
-X-Received: by 2002:a05:6902:1351:b0:dd0:bb34:1e77 with SMTP id
- g17-20020a056902135100b00dd0bb341e77mr1928579ybu.53.1714111814710; 
- Thu, 25 Apr 2024 23:10:14 -0700 (PDT)
-Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com.
- [209.85.219.177]) by smtp.gmail.com with ESMTPSA id
- cj6-20020a056902188600b00de4f5e1e45bsm3228271ybb.54.2024.04.25.23.10.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 25 Apr 2024 23:10:14 -0700 (PDT)
-Received: by mail-yb1-f177.google.com with SMTP id
- 3f1490d57ef6-de5809cd7b0so1999213276.0; 
- Thu, 25 Apr 2024 23:10:14 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCXUpIEAHFmj5IxZ9WWGzM1HF4j3FLOkm0KzWqechpM2UuHdFPoIsfmax55Hhz74EFvmLazsydphjt1Z/unSaGEpVJtR/o1rfsNqiRaY6weVzKCp95vgRa9ydkh3e4mYVnpUEovKJKtpbc49Rs5x/w==
-X-Received: by 2002:a25:b1a2:0:b0:de5:4eef:542d with SMTP id
- h34-20020a25b1a2000000b00de54eef542dmr1914263ybj.57.1714111813984; Thu, 25
- Apr 2024 23:10:13 -0700 (PDT)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 810BA11A7C9;
+ Thu, 25 Apr 2024 18:59:39 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 43PEYjV4002706;
+ Thu, 25 Apr 2024 18:59:26 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ message-id:date:mime-version:subject:to:cc:references:from
+ :in-reply-to:content-type:content-transfer-encoding; s=
+ qcppdkim1; bh=LpWQj2agrBscOTWLDNZ2TUQqcQ07PBdL0wdDCx/qiRo=; b=EF
+ 1JDHJJjiRG6WGlfF2Oc5UdptJ6hIV2+ogBIqwjhmPo2dkwVjY2Q61+HhonI7zXaL
+ Y+jkVXwCwJ/jCVMP0uX9tzWniEyCf0z6DgCI3sDipIIwwgaqwbSdxi2RdvDnkCRb
+ j58t2Y5juxsm2LbCEIAn48pmx+NHsSo9kEpAxX3t7nI9uQbvo2kXGqUGDAQ2ob1q
+ 4zkcdDnorIzvg076Y7LMQX82yHsYJKCby7m7Bdr1Eorg1JYoBSulIChAGCs5jb7l
+ bHrsKYXMvnGEfZPOJtK+mNQzG1i2ZThvR6T56dylubKr8968CPh8EEAO2clrHXUQ
+ bC7gjR9w+QD4U8OEpUzg==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xqrwwrnfu-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 25 Apr 2024 18:59:25 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 43PIxOKs030249
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 25 Apr 2024 18:59:24 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 25 Apr
+ 2024 11:59:23 -0700
+Message-ID: <8c55dba5-6308-685e-13da-e728197d8101@quicinc.com>
+Date: Thu, 25 Apr 2024 12:59:22 -0600
 MIME-Version: 1.0
-References: <20240424063753.3740664-1-tomeu@tomeuvizoso.net>
- <8c55dba5-6308-685e-13da-e728197d8101@quicinc.com>
-In-Reply-To: <8c55dba5-6308-685e-13da-e728197d8101@quicinc.com>
-From: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Date: Fri, 26 Apr 2024 08:10:02 +0200
-X-Gmail-Original-Message-ID: <CAAObsKD4-k7Ya4Mi=vEPaC9DucbnVGDO5SaEUt-_o2_Bg+_FgA@mail.gmail.com>
-Message-ID: <CAAObsKD4-k7Ya4Mi=vEPaC9DucbnVGDO5SaEUt-_o2_Bg+_FgA@mail.gmail.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
 Subject: Re: [PATCH] drm/etnaviv: Create an accel device node if compute-only
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Cc: linux-kernel@vger.kernel.org, Oded Gabbay <ogabbay@kernel.org>, 
- Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>, 
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, etnaviv@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
+To: Tomeu Vizoso <tomeu@tomeuvizoso.net>, <linux-kernel@vger.kernel.org>
+CC: Oded Gabbay <ogabbay@kernel.org>, Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>, Christian Gmeiner
+ <christian.gmeiner@gmail.com>, David Airlie <airlied@gmail.com>, Daniel
+ Vetter <daniel@ffwll.ch>,
+ <etnaviv@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
+References: <20240424063753.3740664-1-tomeu@tomeuvizoso.net>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <20240424063753.3740664-1-tomeu@tomeuvizoso.net>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: 2PY6mTTuSoTIfvx0SDz3oNbowXinSuZ6
+X-Proofpoint-ORIG-GUID: 2PY6mTTuSoTIfvx0SDz3oNbowXinSuZ6
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1011,Hydra:6.0.650,FMLib:17.11.176.26
+ definitions=2024-04-25_19,2024-04-25_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 clxscore=1011
+ mlxscore=0 impostorscore=0 lowpriorityscore=0 malwarescore=0
+ suspectscore=0 adultscore=0 priorityscore=1501 phishscore=0
+ mlxlogscore=999 bulkscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2404010003 definitions=main-2404250136
+X-Mailman-Approved-At: Fri, 26 Apr 2024 20:38:49 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,83 +93,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-On Thu, Apr 25, 2024 at 8:59=E2=80=AFPM Jeffrey Hugo <quic_jhugo@quicinc.co=
-m> wrote:
->
-> On 4/24/2024 12:37 AM, Tomeu Vizoso wrote:
-> > If we expose a render node for NPUs without rendering capabilities, the
-> > userspace stack will offer it to compositors and applications for
-> > rendering, which of course won't work.
-> >
-> > Userspace is probably right in not questioning whether a render node
-> > might not be capable of supporting rendering, so change it in the kerne=
-l
-> > instead by exposing a /dev/accel node.
-> >
-> > Before we bring the device up we don't know whether it is capable of
-> > rendering or not (depends on the features of its blocks), so first try
-> > to probe a rendering node, and if we find out that there is no renderin=
-g
-> > hardware, abort and retry with an accel node.
-> >
-> > Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-> > Cc: Oded Gabbay <ogabbay@kernel.org>
->
-> I hope Oded chimes in as Accel maintainer.  I think Airlie/Vetter had
-> also previously mentioned they'd have opinions on what is Accel vs DRM.
->
-> This gets a nack from me in its current state.  This is not a strong
-> nack, and I don't want to discourage you.  I think there is a path forwar=
-d.
->
-> The Accel subsystem documentation says that accel drivers will reside in
-> drivers/accel/ but this does not.
+On 4/24/2024 12:37 AM, Tomeu Vizoso wrote:
+> If we expose a render node for NPUs without rendering capabilities, the
+> userspace stack will offer it to compositors and applications for
+> rendering, which of course won't work.
+> 
+> Userspace is probably right in not questioning whether a render node
+> might not be capable of supporting rendering, so change it in the kernel
+> instead by exposing a /dev/accel node.
+> 
+> Before we bring the device up we don't know whether it is capable of
+> rendering or not (depends on the features of its blocks), so first try
+> to probe a rendering node, and if we find out that there is no rendering
+> hardware, abort and retry with an accel node.
+> 
+> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+> Cc: Oded Gabbay <ogabbay@kernel.org>
 
-Indeed, there is that code organization aspect.
+I hope Oded chimes in as Accel maintainer.  I think Airlie/Vetter had 
+also previously mentioned they'd have opinions on what is Accel vs DRM.
 
-> Also, the commit text for "accel: add dedicated minor for accelerator
-> devices" mentions -
->
-> "for drivers that
-> declare they handle compute accelerator, using a new driver feature
-> flag called DRIVER_COMPUTE_ACCEL. It is important to note that this
-> driver feature is mutually exclusive with DRIVER_RENDER. Devices that
-> want to expose both graphics and compute device char files should be
-> handled by two drivers that are connected using the auxiliary bus
-> framework."
->
-> I don't see any of that happening here (two drivers connected by aux
-> bus, one in drivers/accel).
+This gets a nack from me in its current state.  This is not a strong 
+nack, and I don't want to discourage you.  I think there is a path forward.
 
-Well, the text refers to devices, not drivers. The case we are talking
-about is a driver that wants to sometimes expose an accel node, and
-sometimes a render node, depending on the hardware it is dealing with.
-So there would either be a device exposing a single render node, or a
-device exposing a single accel node.
+The Accel subsystem documentation says that accel drivers will reside in 
+drivers/accel/ but this does not.
 
-Though by using the auxiliary bus we could in theory solve the code
-organization problem mentioned above, I'm not quite seeing how to do
-this in a clean way. The driver in /drivers/gpu/drm would have to be a
-DRM driver that doesn't register a DRM device, but registers a device
-in the auxiliary bus for the driver in /drivers/accel to bind to? Or
-are you seeing some possibility that would fit better in the current
-DRM framework?
+Also, the commit text for "accel: add dedicated minor for accelerator 
+devices" mentions -
 
-> I think this is the first case we've had of a combo DRM/Accel usecase,
-> and so there isn't an existing example to refer you to on how to
-> structure things.  I think you are going to be the first example where
-> we figure all of this out.
+"for drivers that
+declare they handle compute accelerator, using a new driver feature
+flag called DRIVER_COMPUTE_ACCEL. It is important to note that this
+driver feature is mutually exclusive with DRIVER_RENDER. Devices that
+want to expose both graphics and compute device char files should be
+handled by two drivers that are connected using the auxiliary bus
+framework."
 
-Yep, I will be grateful for any ideas on how to structure this.
+I don't see any of that happening here (two drivers connected by aux 
+bus, one in drivers/accel).
 
-> On a more implementation note, ioctls for Accel devices should not be
-> marked DRM_RENDER_ALLOW.  Seems like your attempt to reuse as much of
-> the code as possible trips over this.
+I think this is the first case we've had of a combo DRM/Accel usecase, 
+and so there isn't an existing example to refer you to on how to 
+structure things.  I think you are going to be the first example where 
+we figure all of this out.
 
-Indeed, thanks.
+On a more implementation note, ioctls for Accel devices should not be 
+marked DRM_RENDER_ALLOW.  Seems like your attempt to reuse as much of 
+the code as possible trips over this.
 
-Cheers,
-
-Tomeu
-
-> -Jeff
+-Jeff
