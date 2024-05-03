@@ -2,46 +2,46 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 876018B930C
-	for <lists+etnaviv@lfdr.de>; Thu,  2 May 2024 03:15:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12B328BAEC0
+	for <lists+etnaviv@lfdr.de>; Fri,  3 May 2024 16:21:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7FE4110E33C;
-	Thu,  2 May 2024 01:15:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D2BDE112EF0;
+	Fri,  3 May 2024 14:21:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="PMELrxB2";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="bYKjxa7M";
 	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
  [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3449210E33C
- for <etnaviv@lists.freedesktop.org>; Thu,  2 May 2024 01:15:38 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C10FF112EF0
+ for <etnaviv@lists.freedesktop.org>; Fri,  3 May 2024 14:21:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1714612536;
- bh=8TfoUURsbV6/rjtTvVqB2nlBw1gjT29XbQpaTK3H3ec=;
- h=Date:To:From:Subject:From;
- b=PMELrxB2ph9M1V92FR1UfrfZrNt9PXuOz+b52sq2jAONzFQzZCP8kwvLprLhAi+0p
- cWkQrvya82va7x5I3ib8Gq+vsSRXGJEYaxbusKaKVN3JhNnEEDAzKJjI2CfJuwMdiD
- IqmYJi8N6SBSTnYNoaVg7qri7O5JJWGypj4oW28bZKbJ2xeZrGWEor5fFB0l3mdP89
- ECKmYBv5znU6WUEOmBG19pf9p+POGK1UmgqtwKjyp6j03CSIObvwPOjw75BHwY0lI3
- K+8EzXY7xB56ZBBHzSVHEx7P9vX3Wszfh+Fu33e7OZNufWdcTmkBVIuTIWxmyk0dkD
- ZtfQTYHvXQjDg==
-Received: from [100.101.64.211]
- (ec2-34-240-57-77.eu-west-1.compute.amazonaws.com [34.240.57.77])
+ s=mail; t=1714746104;
+ bh=kyYoaVIh3GYeTTgayRKIRlCrlFYrCfwzXArpbYfv8z4=;
+ h=Date:Subject:To:References:From:In-Reply-To:From;
+ b=bYKjxa7McIj3aCJFP4iqsvud9UUB2FbpuSSbHuCrjKODNUa+An9vsu0YqD3eFgQ+/
+ /alsnDoLasLLBw724sVUjY0+ZXfxkfXscVxq4CzicHOP8ggrYkaTMseqrI/6YseFee
+ K7zjGAmr6zlnLLT112ftDg9vpB8b9BDuNx5gIk7khedZlwo3bdfavww97JT8LjcUU9
+ KW6WdRRXeZKW+vvX5/urFiBn0GprjTllx7Svf/lvhKWONxGU73LOUFFnp837Y2PpWR
+ yxetvK9Hvvcwlvcys5cb0Y5XqIkZupjQR8kXf+q4PPHbX6gpGt7Fxix02Mfrrz9Naf
+ 1qIBRCemiTP5w==
+Received: from [100.120.197.163] (cola.collaboradmins.com [195.201.22.229])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: simonz)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 6773D3781013
- for <etnaviv@lists.freedesktop.org>; Thu,  2 May 2024 01:15:36 +0000 (UTC)
-Message-ID: <a1d3d7aa-f812-44be-9766-5fe548235cf5@collabora.com>
-Date: Wed, 1 May 2024 21:15:35 -0400
+ (No client certificate requested) (Authenticated sender: derekf)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 63F8537804B2
+ for <etnaviv@lists.freedesktop.org>; Fri,  3 May 2024 14:21:44 +0000 (UTC)
+Message-ID: <e38c385f-b441-4c4e-b7d9-3ee7aad7f7b0@collabora.com>
+Date: Fri, 3 May 2024 09:21:42 -0500
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Content-Language: en-US
+Subject: Re: [PATCH] drm/etnaviv: dump DMA registers first
 To: etnaviv@lists.freedesktop.org
-From: Simon Zeni <simon.zeni@collabora.com>
-Subject: GPU hang & mmu fault on GC7000
-Organization: Collabora
+References: <20240501205709.129992-1-derek.foreman@collabora.com>
+Content-Language: en-US
+From: Derek Foreman <derek.foreman@collabora.com>
+In-Reply-To: <20240501205709.129992-1-derek.foreman@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: etnaviv@lists.freedesktop.org
@@ -58,62 +58,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Hi,
+This patch is wrong, please discard.
 
-I'm experiencing GPU hang with on a i.MX8 Quad Max (GC7000 rev 6009) with
-linux-fslc [1] on the 6.1-2.2.x-imx branch. I've reproduced the issue on the
-5.15-2.2.x-imx branch and I have not yet sorted out the 6.6.x+fslc with this
-device.
-
-Both issues are reproducible with `glmark-es2-drm` using the benchmarks
-`terrain` and the `desktop:effect=shadow:windows=4`. The latter has to 
-be run
-with `--run-forever` to produce the hang.
-
- > [  774.318157] etnaviv-gpu 53100000.gpu: GPU not yet idle, mask: 
-0x7fffbf76
- > [  774.830151] etnaviv-gpu 53100000.gpu: GPU not yet idle, mask: 
-0x7fffbf76
- > [  775.342025] etnaviv-gpu 53100000.gpu: recover hung GPU!
-
-The MMU fault only occurs with the `terrain` benchmark`.
-
- > [  775.354701] etnaviv-gpu 53100000.gpu: MMU fault status 0x00000002
- > [  775.360796] etnaviv-gpu 53100000.gpu: MMU 0 fault addr 0x00000000
-
-I have collected devcoredumps from both benchmarks, they both share the same
-idle state, dma debug state and dma address:
-
- > 00000004 = 7fffbf76 Idle: FE- DE+ PE+ SH- PA+ SE+ RA+ TX- VG+ IM+ FP+ TS+
- > 00000660 = 00000001 Cmd: [dec DMA: idle Fetch: idle] Req idle Cal idle
- > 00000664 = 00000905 Command DMA address
-
-Both of them also have the line `Checking MMU entries... failed` before 
-listing
-the buffer offsets, is that expected?
-
-I have searched the IRC logs (thanks for keeping this channel logged), 
-and if I
-get this correctly this address is an offset in the mmu.bin file 
-generated by
-`viv-unpack` [2]. The result in both dumps seems inconclusive.
-
- > 00000900  02 00 00 00 02 00 00 00  02 00 00 00 02 00 00 00 
-|................|
-
-We figured out recently that the DMA address might be corrupted, dumping it
-first [3] gives a different result. Am I going in the right direction to
-understand, debug and fix this (those?) issues? What more can I do, and 
-where
-should I look?
+The actual thing to do is read each register twice and discard the first 
+read, as the vivante driver does when reading dma registers. I'll 
+provide a patch to do that shortly.
 
 Thanks,
 
-Simon
+Derek
 
-[1]: https://github.com/Freescale/linux-fslc
-[2]: https://github.com/etnaviv/etna-gpu-tools/blob/master/dump/viv-unpack.c
-[3]: https://lists.freedesktop.org/archives/etnaviv/2024-May/004744.html
-
-
-
+On 2024-05-01 15:57, Derek Foreman wrote:
+> On at least some hardware, reading one of these other registers has the
+> side effect of changing the DMA address register, making dumps much less
+> useful.
+>
+> Move some DMA registers to the top of the list to increase the chance of
+> getting a useful devcoredump.
+>
+> Signed-off-by: Derek Foreman <derek.foreman@collabora.com>
+> ---
+>   drivers/gpu/drm/etnaviv/etnaviv_dump.c | 6 +++---
+>   1 file changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_dump.c b/drivers/gpu/drm/etnaviv/etnaviv_dump.c
+> index 898f84a0fc30..920bbf627aa3 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_dump.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_dump.c
+> @@ -25,6 +25,9 @@ struct core_dump_iterator {
+>   };
+>   
+>   static const unsigned short etnaviv_dump_registers[] = {
+> +	VIVS_FE_DMA_ADDRESS,
+> +	VIVS_FE_DMA_LOW,
+> +	VIVS_FE_DMA_HIGH,
+>   	VIVS_HI_AXI_STATUS,
+>   	VIVS_HI_CLOCK_CONTROL,
+>   	VIVS_HI_IDLE_STATE,
+> @@ -58,9 +61,6 @@ static const unsigned short etnaviv_dump_registers[] = {
+>   	VIVS_MC_BUS_CONFIG,
+>   	VIVS_FE_DMA_STATUS,
+>   	VIVS_FE_DMA_DEBUG_STATE,
+> -	VIVS_FE_DMA_ADDRESS,
+> -	VIVS_FE_DMA_LOW,
+> -	VIVS_FE_DMA_HIGH,
+>   	VIVS_FE_AUTO_FLUSH,
+>   };
+>   
