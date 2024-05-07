@@ -2,73 +2,52 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A437B8BEB66
-	for <lists+etnaviv@lfdr.de>; Tue,  7 May 2024 20:17:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B674E8BF010
+	for <lists+etnaviv@lfdr.de>; Wed,  8 May 2024 00:58:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 71F171125AC;
-	Tue,  7 May 2024 18:17:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 90A54112703;
+	Tue,  7 May 2024 22:58:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Zu/nNZHc";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Tg5CH+9u";
 	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com
- [209.85.210.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 35C0D1125AA;
- Tue,  7 May 2024 18:17:19 +0000 (UTC)
-Received: by mail-pf1-f178.google.com with SMTP id
- d2e1a72fcca58-6f4178aec15so2971469b3a.0; 
- Tue, 07 May 2024 11:17:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1715105838; x=1715710638; darn=lists.freedesktop.org;
- h=content-transfer-encoding:content-disposition:mime-version
- :message-id:subject:cc:to:from:date:from:to:cc:subject:date
- :message-id:reply-to;
- bh=oywe3KQxnS9HclpdVJ/xJA18qSxgQfQDCthEFA5G4rI=;
- b=Zu/nNZHcPBAqqOFWGm9tneUvEEVnalAc0aHriH7/Uj5lDtpsAm/MUK4dqnCecdM0uk
- yXHqJPw4A/qaDdlqAvKx/9SicbZeXPOKH0hsbSxaQRQhguDprkjAK7MyQnEsAH+oX43Z
- HODdBVhT8i73wBIW2yYQxKCVOE3BP1UFu12+aKR7lQVda+WoRqC/1dTtK35Z0mUGeV9N
- a0gifBsnuqAeeP6IWQ5cf1NDxKlAFD2xQe1Sdksmff3k2QqZ0yjz9/f2omNLhbRSfJRK
- Mk+A5jJa1xGhjJOvJn6UpMNIGSTnYq2rteNEqG7VLAcbrCkdkU/GExGVfzplFJLqXnfQ
- 3hYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715105838; x=1715710638;
- h=content-transfer-encoding:content-disposition:mime-version
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=oywe3KQxnS9HclpdVJ/xJA18qSxgQfQDCthEFA5G4rI=;
- b=erv1GahDavQvCB00oNmS+ECTJomr5KIDLWtNMDOVVWSRmF3+NTO9PGDpiKlT925UHb
- lNrnJQGO1Th78WDySgAbKVxctEtQHOeUXhpztW5gKcBrFr/L5bgI911VPCvvDGwLjplo
- hkN4EMW5CbBou0zB0qxMYAf17Yvf5ipVPVGl1FzNZq3cAu7OH5sgupvYzFLzQQoU10LV
- LjBevbieMnkWNnUxgKD6qZWCzVdZf8ZzJkaX40N3AghNjNypBT7i5SkCkMuOohY0kq5V
- 7N9B3jobC6xadsz9FjxYZvjKiro7cTYWJNLiugVq66NNjM57IwT03u/bQgVwqvsuqemT
- bzUQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVB7DFiDgS+O3Ex0tSWg1RIqT2MkUhBP9YQtkcRcGO3LM++sRPq60tWdJ3lGKtTkTh13IfKClxLJaXd4Z2sxkgo/Jur8cuJZY5psbWqrAkXLkUoraSqtlu+HzJa4lDf2GMFYKnyteDA3W5rhGEqCWQ=
-X-Gm-Message-State: AOJu0Yz36c8M5HbQjYjllI5xVYmiqWHh97gmiEXeAmtLAXsQd0tkwDbP
- RBwXiqjAfJ2uD9h5jFBeseA0OTbq0nTWc8hVkwZnn/T+uXSiam4JKkcsFibv
-X-Google-Smtp-Source: AGHT+IF79wDxy40ULqyQ3AY8NDO8JjKVT+9AN9IPZUOxw65qLzqH3fVyRtlaxOZ37moq4Ijxih1/DQ==
-X-Received: by 2002:a05:6a20:ddaf:b0:1af:3ff0:f1f8 with SMTP id
- adf61e73a8af0-1afc8ddc12amr516688637.55.1715105838231; 
- Tue, 07 May 2024 11:17:18 -0700 (PDT)
-Received: from joaog-nb ([189.78.25.116]) by smtp.gmail.com with ESMTPSA id
- hy10-20020a056a006a0a00b006f44b3e6d3bsm8064922pfb.51.2024.05.07.11.17.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 May 2024 11:17:17 -0700 (PDT)
-Date: Tue, 7 May 2024 15:17:12 -0300
-From: =?utf-8?Q?Jo=C3=A3o_Paulo_Gon=C3=A7alves?=
- <jpaulo.silvagoncalves@gmail.com>
-To: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- mesa-dev@lists.freedesktop.org
-Cc: Marek Vasut <marex@denx.de>, Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- Philipp Zabel <p.zabel@pengutronix.de>, joao.goncalves@toradex.com
-Subject: NXP i.MX8MM GPU performances
-Message-ID: <20240507181712.svjjaryisdgfxkle@joaog-nb>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3DADC112700;
+ Tue,  7 May 2024 22:58:29 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 8CFF361A08;
+ Tue,  7 May 2024 22:58:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5DC18C4AF67;
+ Tue,  7 May 2024 22:58:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1715122708;
+ bh=mpjbINDW+2/d3FdYR5rsR9d7Larq23IABHZvwgNlCbk=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=Tg5CH+9utiASQl7G9wkgELfEEGYFcbzQiGydxi0L8Gp8f/VFlP5S/jRejv/S8Tub/
+ pcIVjOG3Y4og1YbwED5PSM+Cn4D4FlKK3Uc4HmDLkz9UrTaW1Wz3YFeQ5EJBs/1z2z
+ xKDGzS3lTS8/vNeLinvdVnl3siUtYmO69L8ZtxAySS7mjHooAiADPrQry9lA0YTlAw
+ aNFi0EawUdVW9HGBJSHo4yYQ2cq/WFoPKq431vlJ/7HPt9i4il7TQqlbwPgAkzZkQh
+ Mvd8Phkk8OYOx+WsL2/dq6L6oYZjrAAzFBrrXN2TuPPxgkQmm/8E2PLn1n2bkk3LSc
+ gNVcTMU7uawkA==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Derek Foreman <derek.foreman@collabora.com>,
+ Lucas Stach <l.stach@pengutronix.de>, Sasha Levin <sashal@kernel.org>,
+ airlied@gmail.com, daniel@ffwll.ch, etnaviv@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.8 19/23] drm/etnaviv: fix tx clock gating on some
+ GC7000 variants
+Date: Tue,  7 May 2024 18:56:45 -0400
+Message-ID: <20240507225725.390306-19-sashal@kernel.org>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240507225725.390306-1-sashal@kernel.org>
+References: <20240507225725.390306-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: attachment
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.8.9
 Content-Transfer-Encoding: 8bit
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -84,89 +63,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Hello all,
+From: Derek Foreman <derek.foreman@collabora.com>
 
-I did run some benchmark on i.MX8MM GPU and I have some concerns on the
-differences between mainline Linux/etnaviv/Mesa and the proprietary NXP/Vivante
-solution.
+[ Upstream commit d7a5c9de99b3a9a43dce49f2084eb69b5f6a9752 ]
 
-The tests were executed comparing glmark2 results between a mainline kernel
-(6.9.0-rc6) running Mesa 24.0.3 and NXP provided galcore driver
-6.4.3.p4.398061 running with a 5.15 based NXP downstream kernel.
+commit 4bce244272513 ("drm/etnaviv: disable tx clock gating for GC7000
+rev6203") accidentally applied the fix for i.MX8MN errata ERR050226 to
+GC2000 instead of GC7000, failing to disable tx clock gating for GC7000
+rev 0x6023 as intended.
 
-The GPU is running in overdrive mode (see [1]).
+Additional clean-up further propagated this issue, partially breaking
+the clock gating fixes added for GC7000 rev 6202 in commit 432f51e7deeda
+("drm/etnaviv: add clock gating workaround for GC7000 r6202").
 
-mainline infos (etnaviv):
+Signed-off-by: Derek Foreman <derek.foreman@collabora.com>
+Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-> dmesg | grep -i -E '(gpu|etnaviv)'
-[    9.113389] etnaviv-gpu 38000000.gpu: model: GC600, revision: 4653
-[    9.120939] etnaviv-gpu 38000000.gpu: Need to move linear window on MC1.0, disabling TS
-[    9.129238] etnaviv-gpu 38008000.gpu: model: GC520, revision: 5341
-[    9.138463] [drm] Initialized etnaviv 1.4.0 20151214 for etnaviv on minor 1
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+index 9b8445d2a128f..89cb6799b547f 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+@@ -632,8 +632,8 @@ static void etnaviv_gpu_enable_mlcg(struct etnaviv_gpu *gpu)
+ 	/* Disable TX clock gating on affected core revisions. */
+ 	if (etnaviv_is_model_rev(gpu, GC4000, 0x5222) ||
+ 	    etnaviv_is_model_rev(gpu, GC2000, 0x5108) ||
+-	    etnaviv_is_model_rev(gpu, GC2000, 0x6202) ||
+-	    etnaviv_is_model_rev(gpu, GC2000, 0x6203))
++	    etnaviv_is_model_rev(gpu, GC7000, 0x6202) ||
++	    etnaviv_is_model_rev(gpu, GC7000, 0x6203))
+ 		pmc |= VIVS_PM_MODULE_CONTROLS_DISABLE_MODULE_CLOCK_GATING_TX;
+ 
+ 	/* Disable SE and RA clock gating on affected core revisions. */
+-- 
+2.43.0
 
-glmark2-es2-wayland info output: 
-=======================================================
-    glmark2 2023.01
-=======================================================
-    OpenGL Information
-    GL_VENDOR:      Mesa
-    GL_RENDERER:    Vivante GC600 rev 4653
-    GL_VERSION:     OpenGL ES 2.0 Mesa 24.0.3
-    Surface Config: buf=32 r=8 g=8 b=8 a=8 depth=24 stencil=0 samples=0
-    Surface Size:   640x480 windowed
-=======================================================
-
-galcore infos (vivante):
-
-> dmesg | grep -i -E '(gpu|vivante|gal)'
-[    4.524977] Galcore version 6.4.3.p4.398061
-[    4.587654] [drm] Initialized vivante 1.0.0 20170808 for 38000000.gpu on minor 0
-
-glmark2-es2-wayland info output: 
-=======================================================
-    glmark2 2023.01
-=======================================================
-    OpenGL Information
-    GL_VENDOR:      Vivante Corporation
-    GL_RENDERER:    Vivante GC7000NanoUltra
-    GL_VERSION:     OpenGL ES 2.0 V6.4.3.p4.398061
-    Surface Config: buf=32 r=8 g=8 b=8 a=8 depth=24 stencil=0 samples=0
-    Surface Size:   640x480 windowed
-=======================================================
-
-
-In screen (weston + DSI) test results:
-
-glmark2 command: 
-> glmark2-es2-wayland -b shading:duration=5.0 -b refract -b build -b texture -b shadow -b bump -s 640x480 2>&1
-
-|         |          glmark2 tests                  |
-| sw ver  |shading|build|texture|refract|shadow|bump|
-|---------|-------|-----|-------|-------|------|----|
-| etnaviv | 263   | 334 | 291   | 22    | 63   | 328|
-| vivante | 544   | 956 | 790   | 26    | 225  | 894|
-
-we have 50-60% smaller number with etnaviv.
-
-Offscreen test results:
-
-glmark2 command: 
-> glmark2-es2-wayland  --off-screen -b shading:duration=5.0 -b refract -b build -b texture -b shadow -b bump -s 640x480 2>&1
-
-|         |          glmark2 tests                  |
-| sw ver  |shading|build|texture|refract|shadow|bump|
-|---------|-------|-----|-------|-------|------|----|
-| etnaviv | 348   | 541 | 466   | 24    | 81   | 498|
-| vivante | 402   | 624 | 520   | 26    | 177  | 557|
-
-we have a 10~13% smaller number with etnaviv.
-
-Do anybody did run similar benchmark in the past on NXP i.MX8MM? With what
-results?
-
-Is it expected such a difference in the glmark2 tests results?
-Any idea on this big difference between running the test offscreen or not?
-
-João Paulo
-
-[1] https://lore.kernel.org/all/20240507143555.471025-1-jpaulo.silvagoncalves@gmail.com/
