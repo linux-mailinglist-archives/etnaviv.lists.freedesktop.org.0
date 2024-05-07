@@ -2,34 +2,34 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B674E8BF010
-	for <lists+etnaviv@lfdr.de>; Wed,  8 May 2024 00:58:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 725F88BF030
+	for <lists+etnaviv@lfdr.de>; Wed,  8 May 2024 01:00:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 90A54112703;
-	Tue,  7 May 2024 22:58:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 45772112FB5;
+	Tue,  7 May 2024 23:00:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Tg5CH+9u";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="gKONpd7b";
 	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3DADC112700;
- Tue,  7 May 2024 22:58:29 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE69A112FB4;
+ Tue,  7 May 2024 23:00:11 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 8CFF361A08;
- Tue,  7 May 2024 22:58:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5DC18C4AF67;
- Tue,  7 May 2024 22:58:27 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 4952DCE1748;
+ Tue,  7 May 2024 23:00:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BB7EC3277B;
+ Tue,  7 May 2024 23:00:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1715122708;
- bh=mpjbINDW+2/d3FdYR5rsR9d7Larq23IABHZvwgNlCbk=;
+ s=k20201202; t=1715122808;
+ bh=+RiuBApR4VmUwmiO5W+rxSWu8QrEJw7Lo7Dza+YXVn4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Tg5CH+9utiASQl7G9wkgELfEEGYFcbzQiGydxi0L8Gp8f/VFlP5S/jRejv/S8Tub/
- pcIVjOG3Y4og1YbwED5PSM+Cn4D4FlKK3Uc4HmDLkz9UrTaW1Wz3YFeQ5EJBs/1z2z
- xKDGzS3lTS8/vNeLinvdVnl3siUtYmO69L8ZtxAySS7mjHooAiADPrQry9lA0YTlAw
- aNFi0EawUdVW9HGBJSHo4yYQ2cq/WFoPKq431vlJ/7HPt9i4il7TQqlbwPgAkzZkQh
- Mvd8Phkk8OYOx+WsL2/dq6L6oYZjrAAzFBrrXN2TuPPxgkQmm/8E2PLn1n2bkk3LSc
- gNVcTMU7uawkA==
+ b=gKONpd7bHI/iI8g1LHSghbCRhNqmDe7yAn14A0EJNn9H3stAh+6kHndWymKePHAlz
+ QZwhC3sgNy1LtQIgJMWShOdCWbRkTIxuW9eHI7eaXyRAhJ4nQqJrYvuUz8N7O8saEZ
+ hp1BJe7dwpb8WZGfYCMiyy+Na4NDQWKaKp/sprYCvYitVC5kzDn80kqnX24jqHagPP
+ H0AgPT1GIFOo0MP8NnTcAkzUQzqYFhBrIpC7CTkUdnW9zwPelfUfidjRCSgBDGTEwU
+ DYEn7nhHNrhE8fvtFq8LauRQCxY8PhC5Sb1WFubtcqgxH+QrnC6hzTcKAqLUA7Sdq8
+ 5fCgaRJNHqxeQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -37,17 +37,17 @@ Cc: Derek Foreman <derek.foreman@collabora.com>,
  Lucas Stach <l.stach@pengutronix.de>, Sasha Levin <sashal@kernel.org>,
  airlied@gmail.com, daniel@ffwll.ch, etnaviv@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.8 19/23] drm/etnaviv: fix tx clock gating on some
+Subject: [PATCH AUTOSEL 6.6 17/19] drm/etnaviv: fix tx clock gating on some
  GC7000 variants
-Date: Tue,  7 May 2024 18:56:45 -0400
-Message-ID: <20240507225725.390306-19-sashal@kernel.org>
+Date: Tue,  7 May 2024 18:58:39 -0400
+Message-ID: <20240507225910.390914-17-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240507225725.390306-1-sashal@kernel.org>
-References: <20240507225725.390306-1-sashal@kernel.org>
+In-Reply-To: <20240507225910.390914-1-sashal@kernel.org>
+References: <20240507225910.390914-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.8.9
+X-stable-base: Linux 6.6.30
 Content-Transfer-Encoding: 8bit
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -84,7 +84,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-index 9b8445d2a128f..89cb6799b547f 100644
+index 9276756e1397d..371e1f2733f6f 100644
 --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
 +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
 @@ -632,8 +632,8 @@ static void etnaviv_gpu_enable_mlcg(struct etnaviv_gpu *gpu)
