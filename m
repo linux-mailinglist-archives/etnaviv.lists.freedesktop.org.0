@@ -2,44 +2,77 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 354258BF842
-	for <lists+etnaviv@lfdr.de>; Wed,  8 May 2024 10:16:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39A078C0007
+	for <lists+etnaviv@lfdr.de>; Wed,  8 May 2024 16:33:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 01A1A113494;
-	Wed,  8 May 2024 08:16:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E4E510F8F6;
+	Wed,  8 May 2024 14:33:00 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="d0hurS9M";
+	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 02E57113494
- for <etnaviv@lists.freedesktop.org>; Wed,  8 May 2024 08:16:26 +0000 (UTC)
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
- helo=[IPv6:::1]) by metis.whiteo.stw.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1s4cTQ-0003ai-TA; Wed, 08 May 2024 10:16:24 +0200
-Message-ID: <3ac1eadc86772deb12af77e890b2a59a34fa847a.camel@pengutronix.de>
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com
+ [209.85.210.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E24910F66C;
+ Wed,  8 May 2024 14:32:59 +0000 (UTC)
+Received: by mail-pf1-f169.google.com with SMTP id
+ d2e1a72fcca58-6f4178aec15so3766204b3a.0; 
+ Wed, 08 May 2024 07:32:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1715178778; x=1715783578; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=2H4+ivpGjy9R0a5W4G8O4saD1YaGPq2k7vYpKsMrAZY=;
+ b=d0hurS9Mq7Yd1Paf9YjdBRTHuMQlSvmPHn4KGJLXtcnnBEUNPTka9dxBG06njQF05c
+ 5n2RPxpGTtCPsnvaK6PUPZFX+HCQlxW03v5ugOPkTEBWoTHKhvGAf7mzFtcUaeSqQ0sa
+ InfvTtfNEr3OmuW8zyLfZFFPYmCGZUZz53ky3Xfo8VqL/GWiCsOIvyLJNFKc29KXjhnm
+ C9u1jLwQrK5mZZLwME8EF9pSg8ip4tI68dKlzCO1CHOfaL8b115Y9DQ5oqHCFEXxj0Nm
+ B7aqT+j8MvHFHXtyr6E2EtOj3/MmXESzK7mOqrcunxzMZGWoYEvB2WuG2x7HtZJSkYdW
+ HwbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1715178778; x=1715783578;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=2H4+ivpGjy9R0a5W4G8O4saD1YaGPq2k7vYpKsMrAZY=;
+ b=NpRuec54hLV96E6r+iKYSk2stqMsC0K4XALbscSC/3pNA9GJ4xIsd6KwV8JRToqPsN
+ 92ls/vEG+nZKZ7YGkIueWoh6fm7MNVjMlxNkCLv4BV6FHINAdB35lomyrMs6fH4myjds
+ 6bRNCBBF4kDglBfc5eswjh5eXRZYY0F1XhlynIz4JhWpd4EtVW8+2Zo68Ob74kLCbkNv
+ 8h5Z6m6pT4wu3n6UFoh6DsxMl6UUW29PsyZh8hOq1JHP47Tklwm6cZ5W0hu6+CjGcjid
+ PcBY7tvDJWPwMEGirxIcXWBTmx6Sr/CXnY+2Uu0w4IZJI/s4Hf4YbKYerDVJ8Voueqho
+ qZDg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWArD118RJsrUOEEyaNOF8meqVuT6oR9uVxje1t3Ez+MW2MvaO7imFY8A2Un4MTmoKfOz+5VlVg17IiS6vTXXXG/CfSq8eJCIrHvEPaqDvLfKJXJNdFBSWgXVh0WkuojYPzfirvh8YgQotAWzLVDhc=
+X-Gm-Message-State: AOJu0YwEaAI7hf9SWCLKza4mxjMmsyhES6ImKdZFLO3o/08k7lUwNPuj
+ Gwl2wrbPS4Elp8vk3uOLBGuvASOBaDrVFb2gi4L5AlKS7c3gymkKjXzKFVrE
+X-Google-Smtp-Source: AGHT+IGYc4Jh6unM0MLJDrRKMWwATkHRVxfrk4yyZCjKADKy6+AcWzcHRB6XVpfVZI6/Sic0LG3DxQ==
+X-Received: by 2002:a05:6a21:339e:b0:1af:b094:3488 with SMTP id
+ adf61e73a8af0-1afc8d3cad5mr3037226637.23.1715178778182; 
+ Wed, 08 May 2024 07:32:58 -0700 (PDT)
+Received: from joaog-nb ([189.78.25.116]) by smtp.gmail.com with ESMTPSA id
+ q7-20020a17090311c700b001e97772524asm11865524plh.234.2024.05.08.07.32.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 08 May 2024 07:32:57 -0700 (PDT)
+Date: Wed, 8 May 2024 11:32:52 -0300
+From: =?utf-8?Q?Jo=C3=A3o_Paulo_Gon=C3=A7alves?=
+ <jpaulo.silvagoncalves@gmail.com>
+To: Lucas Stach <l.stach@pengutronix.de>
+Cc: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ mesa-dev@lists.freedesktop.org, Marek Vasut <marex@denx.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>, joao.goncalves@toradex.com
 Subject: Re: NXP i.MX8MM GPU performances
-From: Lucas Stach <l.stach@pengutronix.de>
-To: =?ISO-8859-1?Q?Jo=E3o?= Paulo =?ISO-8859-1?Q?Gon=E7alves?=
- <jpaulo.silvagoncalves@gmail.com>, etnaviv@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, mesa-dev@lists.freedesktop.org
-Cc: Marek Vasut <marex@denx.de>, Russell King
- <linux+etnaviv@armlinux.org.uk>,  Christian Gmeiner
- <christian.gmeiner@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>,
- joao.goncalves@toradex.com
-Date: Wed, 08 May 2024 10:16:24 +0200
-In-Reply-To: <20240507181712.svjjaryisdgfxkle@joaog-nb>
+Message-ID: <20240508143252.kacr3fmrhcx4jkjn@joaog-nb>
 References: <20240507181712.svjjaryisdgfxkle@joaog-nb>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+ <3ac1eadc86772deb12af77e890b2a59a34fa847a.camel@pengutronix.de>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <3ac1eadc86772deb12af77e890b2a59a34fa847a.camel@pengutronix.de>
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,131 +87,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Hi Jo=C3=A3o Paulo,
+Hi Lucas,
 
-Am Dienstag, dem 07.05.2024 um 15:17 -0300 schrieb Jo=C3=A3o Paulo
-Gon=C3=A7alves:
-> Hello all,
->=20
-> I did run some benchmark on i.MX8MM GPU and I have some concerns on the
-> differences between mainline Linux/etnaviv/Mesa and the proprietary NXP/V=
-ivante
-> solution.
->=20
-> The tests were executed comparing glmark2 results between a mainline kern=
-el
-> (6.9.0-rc6) running Mesa 24.0.3 and NXP provided galcore driver
-> 6.4.3.p4.398061 running with a 5.15 based NXP downstream kernel.
->=20
-> The GPU is running in overdrive mode (see [1]).
->=20
-> mainline infos (etnaviv):
->=20
-> > dmesg | grep -i -E '(gpu|etnaviv)'
-> [    9.113389] etnaviv-gpu 38000000.gpu: model: GC600, revision: 4653
-> [    9.120939] etnaviv-gpu 38000000.gpu: Need to move linear window on MC=
-1.0, disabling TS
+On Wed, May 08, 2024 at 10:16:24AM +0200, Lucas Stach wrote:
+> That's a problem. This will prevent TS from being used, which has a
+> large performance impact. But it shouldn't be necessary to disable it
+> on the i.MX8MM GPU, as all memory accesses aside from the initial MMU
+> commandstream go through MMU translation, so the issue with MC1.0 will
+> not be hit. Can you try patching out the check in the kernel and see if
+> it helps?
+> 
+> I'll also send a proper patch for this.
 
-That's a problem. This will prevent TS from being used, which has a
-large performance impact. But it shouldn't be necessary to disable it
-on the i.MX8MM GPU, as all memory accesses aside from the initial MMU
-commandstream go through MMU translation, so the issue with MC1.0 will
-not be hit. Can you try patching out the check in the kernel and see if
-it helps?
+I patched the kernel and enabled TS. The performance improved slightly,
+but it still seems lower than the NXP driver. Here are some of the
+results:
 
-I'll also send a proper patch for this.
+In screen (weston + DSI) test results:
+
+glmark2 command: 
+glmark2-es2-wayland -b shading:duration=5.0 -b refract -b build -b texture -b shadow -b bump -s 640x480 2>&1
+
+|                 |       glmark2 tests                     |
+| sw ver          |shading|build|texture|refract|shadow|bump|
+|-----------------|-------|-----|-------|-------|------|----|
+| etnaviv (no TS) | 263   | 334 | 291   | 22    | 63   | 328|
+| etnaviv         | 340   | 549 | 460   | 18    | 84   | 560|
+| vivante         | 544   | 956 | 790   | 26    | 225  | 894|
+
+Enabling TS, etnaviv scores improved by around 30-60% compared to
+when it is disabled. However, it still remains approximately 40% lower
+than galcore.
+
+Offscreen test results:
+
+glmark2 command: 
+glmark2-es2-wayland  --off-screen -b shading:duration=5.0 -b refract -b build -b texture -b shadow -b bump -s 640x480 2>&1
+
+|                 |       glmark2 tests                     |
+| sw ver          |shading|build|texture|refract|shadow|bump|
+|-----------------|-------|-----|-------|-------|------|----|
+| etnaviv (no TS) | 348   | 541 | 466   | 24    | 81   | 498|
+| etnaviv         | 434   | 901 | 832   | 19    | 106  | 871|
+| vivante         | 544   | 956 | 790   | 26    | 225  | 894|
+
+With TS enabled, offscreen scores improved considerably in some
+individual benchmarks.
 
 Regards,
-Lucas
-
-> [    9.129238] etnaviv-gpu 38008000.gpu: model: GC520, revision: 5341
-> [    9.138463] [drm] Initialized etnaviv 1.4.0 20151214 for etnaviv on mi=
-nor 1
->=20
-> glmark2-es2-wayland info output:=20
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D
->     glmark2 2023.01
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D
->     OpenGL Information
->     GL_VENDOR:      Mesa
->     GL_RENDERER:    Vivante GC600 rev 4653
->     GL_VERSION:     OpenGL ES 2.0 Mesa 24.0.3
->     Surface Config: buf=3D32 r=3D8 g=3D8 b=3D8 a=3D8 depth=3D24 stencil=
-=3D0 samples=3D0
->     Surface Size:   640x480 windowed
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D
->=20
-> galcore infos (vivante):
->=20
-> > dmesg | grep -i -E '(gpu|vivante|gal)'
-> [    4.524977] Galcore version 6.4.3.p4.398061
-> [    4.587654] [drm] Initialized vivante 1.0.0 20170808 for 38000000.gpu =
-on minor 0
->=20
-> glmark2-es2-wayland info output:=20
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D
->     glmark2 2023.01
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D
->     OpenGL Information
->     GL_VENDOR:      Vivante Corporation
->     GL_RENDERER:    Vivante GC7000NanoUltra
->     GL_VERSION:     OpenGL ES 2.0 V6.4.3.p4.398061
->     Surface Config: buf=3D32 r=3D8 g=3D8 b=3D8 a=3D8 depth=3D24 stencil=
-=3D0 samples=3D0
->     Surface Size:   640x480 windowed
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D
->=20
->=20
-> In screen (weston + DSI) test results:
->=20
-> glmark2 command:=20
-> > glmark2-es2-wayland -b shading:duration=3D5.0 -b refract -b build -b te=
-xture -b shadow -b bump -s 640x480 2>&1
->=20
-> >         |          glmark2 tests                  |
-> > sw ver  |shading|build|texture|refract|shadow|bump|
-> > ---------|-------|-----|-------|-------|------|----|
-> > etnaviv | 263   | 334 | 291   | 22    | 63   | 328|
-> > vivante | 544   | 956 | 790   | 26    | 225  | 894|
->=20
-> we have 50-60% smaller number with etnaviv.
->=20
-> Offscreen test results:
->=20
-> glmark2 command:=20
-> > glmark2-es2-wayland  --off-screen -b shading:duration=3D5.0 -b refract =
--b build -b texture -b shadow -b bump -s 640x480 2>&1
->=20
-> >         |          glmark2 tests                  |
-> > sw ver  |shading|build|texture|refract|shadow|bump|
-> > ---------|-------|-----|-------|-------|------|----|
-> > etnaviv | 348   | 541 | 466   | 24    | 81   | 498|
-> > vivante | 402   | 624 | 520   | 26    | 177  | 557|
->=20
-> we have a 10~13% smaller number with etnaviv.
->=20
-> Do anybody did run similar benchmark in the past on NXP i.MX8MM? With wha=
-t
-> results?
->=20
-> Is it expected such a difference in the glmark2 tests results?
-> Any idea on this big difference between running the test offscreen or not=
-?
->=20
-> Jo=C3=A3o Paulo
->=20
-> [1] https://lore.kernel.org/all/20240507143555.471025-1-jpaulo.silvagonca=
-lves@gmail.com/
-
+João Paulo
