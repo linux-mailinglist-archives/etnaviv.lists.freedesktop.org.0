@@ -2,46 +2,90 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 353058C052A
-	for <lists+etnaviv@lfdr.de>; Wed,  8 May 2024 21:39:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79BC78C10AE
+	for <lists+etnaviv@lfdr.de>; Thu,  9 May 2024 15:53:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D95D1131AF;
-	Wed,  8 May 2024 19:39:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 46BDB10E9F7;
+	Thu,  9 May 2024 13:53:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="2z3q+gyg";
+	dkim=pass (2048-bit key; unprotected) header.d=tomeuvizoso-net.20230601.gappssmtp.com header.i=@tomeuvizoso-net.20230601.gappssmtp.com header.b="P7roEzRi";
 	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 76C111131AF
- for <etnaviv@lists.freedesktop.org>; Wed,  8 May 2024 19:39:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1715197149;
- bh=EMoh6ibnBlSUQl1yoaNN8vNpQ2RppWN97oATY4a6MVk=;
- h=Subject:From:To:Date:From;
- b=2z3q+gygft+rhRHrAxLkXoF9HM9cn1HACYaW/4o0v020C2oopoO0w6GDouMWtdSdw
- IzYV3OitXH6IZTHb+DPYsK8MCOMpJOeAzCKlGxhKBqnSzIxAzkhTkPm5N/9eWLqqOQ
- NRkkY5ezPl68OJpx8/2WWEBsYQc6gH3Hz7IxvThT/c6DDH+2rBxA3xlLRfhBPBHRua
- 8s7l0VmhRbw8xoBlbpGXjkSE+JQKzAGdE7Idrg1jebQMwZo58IAhKZnNSXjqf+vLtf
- 9fqbB+AalsTUiyLyAhG2POsDrZFVVdQpkEnYMpq4blGdvh1MOetmI+3WIr6Hol3dOO
- mEzRu2IhfoCLw==
-Received: from [100.127.186.53] (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: mfilion)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id CEDF33782065
- for <etnaviv@lists.freedesktop.org>; Wed,  8 May 2024 19:39:08 +0000 (UTC)
-Message-ID: <c4d95626d4c67240aa097f03157e1781d30d1dbf.camel@collabora.com>
-Subject: 2024 X.Org Developers Conference - October 9-11,
- =?ISO-8859-1?Q?Montr=E9al=2C?= Canada
-From: Mark Filion <mark.filion@collabora.com>
-To: etnaviv@lists.freedesktop.org
-Date: Wed, 08 May 2024 15:39:03 -0400
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com
+ [209.85.128.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E4ED010E9C3
+ for <etnaviv@lists.freedesktop.org>; Thu,  9 May 2024 13:53:18 +0000 (UTC)
+Received: by mail-yw1-f172.google.com with SMTP id
+ 00721157ae682-61bee45d035so8702347b3.1
+ for <etnaviv@lists.freedesktop.org>; Thu, 09 May 2024 06:53:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tomeuvizoso-net.20230601.gappssmtp.com; s=20230601; t=1715262798;
+ x=1715867598; darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=wdFa90PddlvioOWqeSbKbQrk9EgH4c2dEjX31dZlhXM=;
+ b=P7roEzRirjm66hrAw2PUTfaPpGIk3+1Ioy0RKwg5f1TQbmdWvMUbuL2g75zfLPP84P
+ h5IaWBwn9QruvqWdhcMDWtdh1F+mcfcPWHFw7bJk0QsBtip+1+TufvSJv3JffXg3PNI0
+ ijNI7biDmaB5o4U9QYLZGnmhRIEUICCw0uOM/dyGzR7K8HrL/tn9c48pQHJ2YbHJjKMh
+ CUMHqUlRGFvNncqgMPKEDXUdPGmjb4horuT3Xc2ciaiLRwlQmEMvultqfahT3WckEoTQ
+ e88KcBa4luvk8s9wPpr2XWI3TX5Eg4KbKbaL2wZ2k3gHCmXBvvDkJSkrYV2iZkvNFITK
+ jsCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1715262798; x=1715867598;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=wdFa90PddlvioOWqeSbKbQrk9EgH4c2dEjX31dZlhXM=;
+ b=mJqZGNq0+9HBcEBvSU23YIQopKRwTJYcwCohDoU8/OD9INhbmokQKzyIJYqSf5xBkE
+ OrvvBaSjTD500vGoJjB5qTgaOinyXS8n3OMSDdcgiUOTLmnvCxOg56zdyZ+87d5l9AjL
+ JcHzxaFa5eArQfq49b7OFNKkwd7X7DyHddmRCwO5zns8bRMmF3kgn++QM6wM0JtP1AVg
+ +Kmv0rUa1Kn0FLfjMiLqT1b4keZbTz3NdlmILxsNv76/SsU33eb+9p7yubm56ixwshI7
+ 9glRruEdLAy5jEMVpmLoIRngrfS5pscC3euo37ZH1Zq1A8m01iQv86hFSVhPsR2ZMx30
+ gIsg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUChJWO6XmyV/xXFy6wdAKA3MYLLuL4IR4vMo7AGQ8dLi9hTnb4kcbFcpKEY7wFJJaq8y9Nj8jcM6p1zxV6C99Wfsix/vle+Zrprav7gg==
+X-Gm-Message-State: AOJu0Yy+us5axxFaauXfTDPv87GK4w5FYrTkyib5W7n445OEMXcjPZos
+ kqEnyMPkYQFAwvZRPrxrfLRpN3IQrBUljvKSy3yRCoO5O0UBZ+YB5qVDovAaCizTTLoU2V67rSn
+ 1hCg=
+X-Google-Smtp-Source: AGHT+IG0VWC0/MCDkxoSA0Panead6BNhHuKGAmkks8D3WfKkQ3TCl23PcFNjv9qC1q7TDcYhaVq13g==
+X-Received: by 2002:a81:4e81:0:b0:618:1960:f59e with SMTP id
+ 00721157ae682-62085a9a185mr68710357b3.25.1715262797017; 
+ Thu, 09 May 2024 06:53:17 -0700 (PDT)
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com.
+ [209.85.128.174]) by smtp.gmail.com with ESMTPSA id
+ 00721157ae682-6209e3472acsm2988787b3.76.2024.05.09.06.53.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 09 May 2024 06:53:13 -0700 (PDT)
+Received: by mail-yw1-f174.google.com with SMTP id
+ 00721157ae682-6114c9b4d83so7342007b3.3; 
+ Thu, 09 May 2024 06:53:13 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXOCvHXFuBIOcFMv6wQV8hOZdImsPPsefuJPIeuV/JHzgGzSwKVA3jqx3fy8KAMDkYKRdBwlXAyjnOX3uh9txzH8/IbQSVp2o8dEGrwgwLwF+djqVehwTr1tp+X2rkcXn31S455uKGMbQ0vxpmewQ==
+X-Received: by 2002:a25:1303:0:b0:de5:d1cd:b580 with SMTP id
+ 3f1490d57ef6-debb9db87famr5937174276.36.1715262792938; Thu, 09 May 2024
+ 06:53:12 -0700 (PDT)
+MIME-Version: 1.0
+References: <20240424063753.3740664-1-tomeu@tomeuvizoso.net>
+ <8c55dba5-6308-685e-13da-e728197d8101@quicinc.com>
+ <CAAObsKD4-k7Ya4Mi=vEPaC9DucbnVGDO5SaEUt-_o2_Bg+_FgA@mail.gmail.com>
+In-Reply-To: <CAAObsKD4-k7Ya4Mi=vEPaC9DucbnVGDO5SaEUt-_o2_Bg+_FgA@mail.gmail.com>
+From: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+Date: Thu, 9 May 2024 15:53:01 +0200
+X-Gmail-Original-Message-ID: <CAAObsKCm49y-nUph=m9c+-eG37SaGKG93-1etwOQab4f5MXxOg@mail.gmail.com>
+Message-ID: <CAAObsKCm49y-nUph=m9c+-eG37SaGKG93-1etwOQab4f5MXxOg@mail.gmail.com>
+Subject: Re: [PATCH] drm/etnaviv: Create an accel device node if compute-only
+To: Jeffrey Hugo <quic_jhugo@quicinc.com>
+Cc: linux-kernel@vger.kernel.org, Oded Gabbay <ogabbay@kernel.org>, 
+ Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>, 
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, etnaviv@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.1 (3.52.1-1.fc40) 
-MIME-Version: 1.0
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,34 +100,97 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Hello!
+Oded, Dave,
 
-We're delighted to announce that the 2024 X.Org Developers Conference
-(XDC) will be taking place on October 9 to 11 in Montr=C3=A9al, Canada, co-
-located with the GStreamer Conference & Hackfest 2024 which will be
-running from October 7 to 10. Join us for a freedesktop week in
-Montr=C3=A9al!
+Do you have an opinion on this?
 
-XDC is the event for developers working on all things Open graphics
-(Linux kernel, Mesa, DRM, Wayland, X11, etc.).
+Thanks,
 
-New this year: XDC 2024 will feature two full days of talks followed by
-a day dedicated to workshops, meetings & hacking.
+Tomeu
 
-XDC 2024 website: https://indico.freedesktop.org/event/6/
-
-The in-person venue is the Concordia University Conference Centre,
-located within the John Molson School of Business.
-
-Concordia University Conference Centre
-1450 Guy St., Montreal, Quebec, Canada, H3H 0A1
-https://goo.gl/maps/9nDyTvKtf7X1JuJc9
-
-As usual, XDC will be free of charge and open to the general public.
-
-Registration & Call for Proposals will be opening soon, stay tuned!
-
-Best regards,
-
-Mark Filion, on behalf of X.org
-
+On Fri, Apr 26, 2024 at 8:10=E2=80=AFAM Tomeu Vizoso <tomeu@tomeuvizoso.net=
+> wrote:
+>
+> On Thu, Apr 25, 2024 at 8:59=E2=80=AFPM Jeffrey Hugo <quic_jhugo@quicinc.=
+com> wrote:
+> >
+> > On 4/24/2024 12:37 AM, Tomeu Vizoso wrote:
+> > > If we expose a render node for NPUs without rendering capabilities, t=
+he
+> > > userspace stack will offer it to compositors and applications for
+> > > rendering, which of course won't work.
+> > >
+> > > Userspace is probably right in not questioning whether a render node
+> > > might not be capable of supporting rendering, so change it in the ker=
+nel
+> > > instead by exposing a /dev/accel node.
+> > >
+> > > Before we bring the device up we don't know whether it is capable of
+> > > rendering or not (depends on the features of its blocks), so first tr=
+y
+> > > to probe a rendering node, and if we find out that there is no render=
+ing
+> > > hardware, abort and retry with an accel node.
+> > >
+> > > Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+> > > Cc: Oded Gabbay <ogabbay@kernel.org>
+> >
+> > I hope Oded chimes in as Accel maintainer.  I think Airlie/Vetter had
+> > also previously mentioned they'd have opinions on what is Accel vs DRM.
+> >
+> > This gets a nack from me in its current state.  This is not a strong
+> > nack, and I don't want to discourage you.  I think there is a path forw=
+ard.
+> >
+> > The Accel subsystem documentation says that accel drivers will reside i=
+n
+> > drivers/accel/ but this does not.
+>
+> Indeed, there is that code organization aspect.
+>
+> > Also, the commit text for "accel: add dedicated minor for accelerator
+> > devices" mentions -
+> >
+> > "for drivers that
+> > declare they handle compute accelerator, using a new driver feature
+> > flag called DRIVER_COMPUTE_ACCEL. It is important to note that this
+> > driver feature is mutually exclusive with DRIVER_RENDER. Devices that
+> > want to expose both graphics and compute device char files should be
+> > handled by two drivers that are connected using the auxiliary bus
+> > framework."
+> >
+> > I don't see any of that happening here (two drivers connected by aux
+> > bus, one in drivers/accel).
+>
+> Well, the text refers to devices, not drivers. The case we are talking
+> about is a driver that wants to sometimes expose an accel node, and
+> sometimes a render node, depending on the hardware it is dealing with.
+> So there would either be a device exposing a single render node, or a
+> device exposing a single accel node.
+>
+> Though by using the auxiliary bus we could in theory solve the code
+> organization problem mentioned above, I'm not quite seeing how to do
+> this in a clean way. The driver in /drivers/gpu/drm would have to be a
+> DRM driver that doesn't register a DRM device, but registers a device
+> in the auxiliary bus for the driver in /drivers/accel to bind to? Or
+> are you seeing some possibility that would fit better in the current
+> DRM framework?
+>
+> > I think this is the first case we've had of a combo DRM/Accel usecase,
+> > and so there isn't an existing example to refer you to on how to
+> > structure things.  I think you are going to be the first example where
+> > we figure all of this out.
+>
+> Yep, I will be grateful for any ideas on how to structure this.
+>
+> > On a more implementation note, ioctls for Accel devices should not be
+> > marked DRM_RENDER_ALLOW.  Seems like your attempt to reuse as much of
+> > the code as possible trips over this.
+>
+> Indeed, thanks.
+>
+> Cheers,
+>
+> Tomeu
+>
+> > -Jeff
