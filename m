@@ -2,90 +2,54 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79BC78C10AE
-	for <lists+etnaviv@lfdr.de>; Thu,  9 May 2024 15:53:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47C688C1165
+	for <lists+etnaviv@lfdr.de>; Thu,  9 May 2024 16:41:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 46BDB10E9F7;
-	Thu,  9 May 2024 13:53:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 207E310E53E;
+	Thu,  9 May 2024 14:41:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=tomeuvizoso-net.20230601.gappssmtp.com header.i=@tomeuvizoso-net.20230601.gappssmtp.com header.b="P7roEzRi";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="I8tfpZT3";
 	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com
- [209.85.128.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E4ED010E9C3
- for <etnaviv@lists.freedesktop.org>; Thu,  9 May 2024 13:53:18 +0000 (UTC)
-Received: by mail-yw1-f172.google.com with SMTP id
- 00721157ae682-61bee45d035so8702347b3.1
- for <etnaviv@lists.freedesktop.org>; Thu, 09 May 2024 06:53:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tomeuvizoso-net.20230601.gappssmtp.com; s=20230601; t=1715262798;
- x=1715867598; darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=wdFa90PddlvioOWqeSbKbQrk9EgH4c2dEjX31dZlhXM=;
- b=P7roEzRirjm66hrAw2PUTfaPpGIk3+1Ioy0RKwg5f1TQbmdWvMUbuL2g75zfLPP84P
- h5IaWBwn9QruvqWdhcMDWtdh1F+mcfcPWHFw7bJk0QsBtip+1+TufvSJv3JffXg3PNI0
- ijNI7biDmaB5o4U9QYLZGnmhRIEUICCw0uOM/dyGzR7K8HrL/tn9c48pQHJ2YbHJjKMh
- CUMHqUlRGFvNncqgMPKEDXUdPGmjb4horuT3Xc2ciaiLRwlQmEMvultqfahT3WckEoTQ
- e88KcBa4luvk8s9wPpr2XWI3TX5Eg4KbKbaL2wZ2k3gHCmXBvvDkJSkrYV2iZkvNFITK
- jsCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715262798; x=1715867598;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=wdFa90PddlvioOWqeSbKbQrk9EgH4c2dEjX31dZlhXM=;
- b=mJqZGNq0+9HBcEBvSU23YIQopKRwTJYcwCohDoU8/OD9INhbmokQKzyIJYqSf5xBkE
- OrvvBaSjTD500vGoJjB5qTgaOinyXS8n3OMSDdcgiUOTLmnvCxOg56zdyZ+87d5l9AjL
- JcHzxaFa5eArQfq49b7OFNKkwd7X7DyHddmRCwO5zns8bRMmF3kgn++QM6wM0JtP1AVg
- +Kmv0rUa1Kn0FLfjMiLqT1b4keZbTz3NdlmILxsNv76/SsU33eb+9p7yubm56ixwshI7
- 9glRruEdLAy5jEMVpmLoIRngrfS5pscC3euo37ZH1Zq1A8m01iQv86hFSVhPsR2ZMx30
- gIsg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUChJWO6XmyV/xXFy6wdAKA3MYLLuL4IR4vMo7AGQ8dLi9hTnb4kcbFcpKEY7wFJJaq8y9Nj8jcM6p1zxV6C99Wfsix/vle+Zrprav7gg==
-X-Gm-Message-State: AOJu0Yy+us5axxFaauXfTDPv87GK4w5FYrTkyib5W7n445OEMXcjPZos
- kqEnyMPkYQFAwvZRPrxrfLRpN3IQrBUljvKSy3yRCoO5O0UBZ+YB5qVDovAaCizTTLoU2V67rSn
- 1hCg=
-X-Google-Smtp-Source: AGHT+IG0VWC0/MCDkxoSA0Panead6BNhHuKGAmkks8D3WfKkQ3TCl23PcFNjv9qC1q7TDcYhaVq13g==
-X-Received: by 2002:a81:4e81:0:b0:618:1960:f59e with SMTP id
- 00721157ae682-62085a9a185mr68710357b3.25.1715262797017; 
- Thu, 09 May 2024 06:53:17 -0700 (PDT)
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com.
- [209.85.128.174]) by smtp.gmail.com with ESMTPSA id
- 00721157ae682-6209e3472acsm2988787b3.76.2024.05.09.06.53.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 09 May 2024 06:53:13 -0700 (PDT)
-Received: by mail-yw1-f174.google.com with SMTP id
- 00721157ae682-6114c9b4d83so7342007b3.3; 
- Thu, 09 May 2024 06:53:13 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCXOCvHXFuBIOcFMv6wQV8hOZdImsPPsefuJPIeuV/JHzgGzSwKVA3jqx3fy8KAMDkYKRdBwlXAyjnOX3uh9txzH8/IbQSVp2o8dEGrwgwLwF+djqVehwTr1tp+X2rkcXn31S455uKGMbQ0vxpmewQ==
-X-Received: by 2002:a25:1303:0:b0:de5:d1cd:b580 with SMTP id
- 3f1490d57ef6-debb9db87famr5937174276.36.1715262792938; Thu, 09 May 2024
- 06:53:12 -0700 (PDT)
-MIME-Version: 1.0
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3541710E53E;
+ Thu,  9 May 2024 14:41:28 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 69BE2CE1B59;
+ Thu,  9 May 2024 14:41:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 062D0C116B1;
+ Thu,  9 May 2024 14:41:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1715265683;
+ bh=Qx8UYCxiWdEZ4Kjn0bUpA+c+/Rsek35U2CMylJmgrrc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=I8tfpZT3MWBxDBJqqm6VJ9H6mDt7SyXsxncWrj7mlqxx9K6SKXftE2lsPfpWyDnUt
+ YJ98PkOTjLF3RcqkhhNsgwE41ejUH5gwRzbPjO4H+IrgFegvjdhwa7krBROfufNu+S
+ CX11b8ZPxO2mqwZY6pIQZDrPXaY/SIHC7UZ5/WodIuE4AiaMvKqvVL/qIR+ohI6H8+
+ XlOzV/2gjdB0AzS603AtgbTWywvyHSNC5QTx1nhxuVGFqsmFRlhn1ypYUGjT9+hXZ3
+ TM25Qb8Bl0assu0kY4Eh6mES+WXCvM+0FkslNNe2sQZxMiiV8RPi4wED9+0zpKpGaL
+ WjPS3E2SylA1Q==
+Date: Thu, 9 May 2024 17:41:18 +0300
+From: Oded Gabbay <ogabbay@kernel.org>
+To: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+Cc: Jeffrey Hugo <quic_jhugo@quicinc.com>, linux-kernel@vger.kernel.org,
+ Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] drm/etnaviv: Create an accel device node if compute-only
+Message-ID: <20240509144118.baib2pftmpk5nikr@GABBAY.>
 References: <20240424063753.3740664-1-tomeu@tomeuvizoso.net>
  <8c55dba5-6308-685e-13da-e728197d8101@quicinc.com>
  <CAAObsKD4-k7Ya4Mi=vEPaC9DucbnVGDO5SaEUt-_o2_Bg+_FgA@mail.gmail.com>
-In-Reply-To: <CAAObsKD4-k7Ya4Mi=vEPaC9DucbnVGDO5SaEUt-_o2_Bg+_FgA@mail.gmail.com>
-From: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Date: Thu, 9 May 2024 15:53:01 +0200
-X-Gmail-Original-Message-ID: <CAAObsKCm49y-nUph=m9c+-eG37SaGKG93-1etwOQab4f5MXxOg@mail.gmail.com>
-Message-ID: <CAAObsKCm49y-nUph=m9c+-eG37SaGKG93-1etwOQab4f5MXxOg@mail.gmail.com>
-Subject: Re: [PATCH] drm/etnaviv: Create an accel device node if compute-only
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Cc: linux-kernel@vger.kernel.org, Oded Gabbay <ogabbay@kernel.org>, 
- Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>, 
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, etnaviv@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ <CAAObsKCm49y-nUph=m9c+-eG37SaGKG93-1etwOQab4f5MXxOg@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAAObsKCm49y-nUph=m9c+-eG37SaGKG93-1etwOQab4f5MXxOg@mail.gmail.com>
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,97 +64,109 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Oded, Dave,
+On Thu, May 09, 2024 at 03:53:01PM +0200, Tomeu Vizoso wrote:
+> Oded, Dave,
+> 
+> Do you have an opinion on this?
+> 
+> Thanks,
+> 
+> Tomeu
+Hi Tomeu,
 
-Do you have an opinion on this?
+Sorry for not replying earlier, I was down with Covid (again...).
+
+To your question, I don't have an objection to what you are
+suggesting. My personal view of accel is that it is an integral part of 
+DRM and therefore, if there is an *existing* drm driver that wants to 
+create an accel node, I'm not against it. 
+
+There is the question of why you want to expose an accel node, and
+here I would like to hear Dave's and Sima's opinion on your suggested
+solution as it may affect the direction of other drm drivers.
 
 Thanks,
+Oded.
 
-Tomeu
+p.s.
+Please only use bottom-posting when replying, thanks :)
 
-On Fri, Apr 26, 2024 at 8:10=E2=80=AFAM Tomeu Vizoso <tomeu@tomeuvizoso.net=
-> wrote:
->
-> On Thu, Apr 25, 2024 at 8:59=E2=80=AFPM Jeffrey Hugo <quic_jhugo@quicinc.=
-com> wrote:
+> 
+> On Fri, Apr 26, 2024 at 8:10 AM Tomeu Vizoso <tomeu@tomeuvizoso.net> wrote:
 > >
-> > On 4/24/2024 12:37 AM, Tomeu Vizoso wrote:
-> > > If we expose a render node for NPUs without rendering capabilities, t=
-he
-> > > userspace stack will offer it to compositors and applications for
-> > > rendering, which of course won't work.
+> > On Thu, Apr 25, 2024 at 8:59 PM Jeffrey Hugo <quic_jhugo@quicinc.com> wrote:
 > > >
-> > > Userspace is probably right in not questioning whether a render node
-> > > might not be capable of supporting rendering, so change it in the ker=
-nel
-> > > instead by exposing a /dev/accel node.
+> > > On 4/24/2024 12:37 AM, Tomeu Vizoso wrote:
+> > > > If we expose a render node for NPUs without rendering capabilities, the
+> > > > userspace stack will offer it to compositors and applications for
+> > > > rendering, which of course won't work.
+> > > >
+> > > > Userspace is probably right in not questioning whether a render node
+> > > > might not be capable of supporting rendering, so change it in the kernel
+> > > > instead by exposing a /dev/accel node.
+> > > >
+> > > > Before we bring the device up we don't know whether it is capable of
+> > > > rendering or not (depends on the features of its blocks), so first try
+> > > > to probe a rendering node, and if we find out that there is no rendering
+> > > > hardware, abort and retry with an accel node.
+> > > >
+> > > > Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+> > > > Cc: Oded Gabbay <ogabbay@kernel.org>
 > > >
-> > > Before we bring the device up we don't know whether it is capable of
-> > > rendering or not (depends on the features of its blocks), so first tr=
-y
-> > > to probe a rendering node, and if we find out that there is no render=
-ing
-> > > hardware, abort and retry with an accel node.
+> > > I hope Oded chimes in as Accel maintainer.  I think Airlie/Vetter had
+> > > also previously mentioned they'd have opinions on what is Accel vs DRM.
 > > >
-> > > Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-> > > Cc: Oded Gabbay <ogabbay@kernel.org>
+> > > This gets a nack from me in its current state.  This is not a strong
+> > > nack, and I don't want to discourage you.  I think there is a path forward.
+> > >
+> > > The Accel subsystem documentation says that accel drivers will reside in
+> > > drivers/accel/ but this does not.
 > >
-> > I hope Oded chimes in as Accel maintainer.  I think Airlie/Vetter had
-> > also previously mentioned they'd have opinions on what is Accel vs DRM.
+> > Indeed, there is that code organization aspect.
 > >
-> > This gets a nack from me in its current state.  This is not a strong
-> > nack, and I don't want to discourage you.  I think there is a path forw=
-ard.
+> > > Also, the commit text for "accel: add dedicated minor for accelerator
+> > > devices" mentions -
+> > >
+> > > "for drivers that
+> > > declare they handle compute accelerator, using a new driver feature
+> > > flag called DRIVER_COMPUTE_ACCEL. It is important to note that this
+> > > driver feature is mutually exclusive with DRIVER_RENDER. Devices that
+> > > want to expose both graphics and compute device char files should be
+> > > handled by two drivers that are connected using the auxiliary bus
+> > > framework."
+> > >
+> > > I don't see any of that happening here (two drivers connected by aux
+> > > bus, one in drivers/accel).
 > >
-> > The Accel subsystem documentation says that accel drivers will reside i=
-n
-> > drivers/accel/ but this does not.
->
-> Indeed, there is that code organization aspect.
->
-> > Also, the commit text for "accel: add dedicated minor for accelerator
-> > devices" mentions -
+> > Well, the text refers to devices, not drivers. The case we are talking
+> > about is a driver that wants to sometimes expose an accel node, and
+> > sometimes a render node, depending on the hardware it is dealing with.
+> > So there would either be a device exposing a single render node, or a
+> > device exposing a single accel node.
 > >
-> > "for drivers that
-> > declare they handle compute accelerator, using a new driver feature
-> > flag called DRIVER_COMPUTE_ACCEL. It is important to note that this
-> > driver feature is mutually exclusive with DRIVER_RENDER. Devices that
-> > want to expose both graphics and compute device char files should be
-> > handled by two drivers that are connected using the auxiliary bus
-> > framework."
+> > Though by using the auxiliary bus we could in theory solve the code
+> > organization problem mentioned above, I'm not quite seeing how to do
+> > this in a clean way. The driver in /drivers/gpu/drm would have to be a
+> > DRM driver that doesn't register a DRM device, but registers a device
+> > in the auxiliary bus for the driver in /drivers/accel to bind to? Or
+> > are you seeing some possibility that would fit better in the current
+> > DRM framework?
 > >
-> > I don't see any of that happening here (two drivers connected by aux
-> > bus, one in drivers/accel).
->
-> Well, the text refers to devices, not drivers. The case we are talking
-> about is a driver that wants to sometimes expose an accel node, and
-> sometimes a render node, depending on the hardware it is dealing with.
-> So there would either be a device exposing a single render node, or a
-> device exposing a single accel node.
->
-> Though by using the auxiliary bus we could in theory solve the code
-> organization problem mentioned above, I'm not quite seeing how to do
-> this in a clean way. The driver in /drivers/gpu/drm would have to be a
-> DRM driver that doesn't register a DRM device, but registers a device
-> in the auxiliary bus for the driver in /drivers/accel to bind to? Or
-> are you seeing some possibility that would fit better in the current
-> DRM framework?
->
-> > I think this is the first case we've had of a combo DRM/Accel usecase,
-> > and so there isn't an existing example to refer you to on how to
-> > structure things.  I think you are going to be the first example where
-> > we figure all of this out.
->
-> Yep, I will be grateful for any ideas on how to structure this.
->
-> > On a more implementation note, ioctls for Accel devices should not be
-> > marked DRM_RENDER_ALLOW.  Seems like your attempt to reuse as much of
-> > the code as possible trips over this.
->
-> Indeed, thanks.
->
-> Cheers,
->
-> Tomeu
->
-> > -Jeff
+> > > I think this is the first case we've had of a combo DRM/Accel usecase,
+> > > and so there isn't an existing example to refer you to on how to
+> > > structure things.  I think you are going to be the first example where
+> > > we figure all of this out.
+> >
+> > Yep, I will be grateful for any ideas on how to structure this.
+> >
+> > > On a more implementation note, ioctls for Accel devices should not be
+> > > marked DRM_RENDER_ALLOW.  Seems like your attempt to reuse as much of
+> > > the code as possible trips over this.
+> >
+> > Indeed, thanks.
+> >
+> > Cheers,
+> >
+> > Tomeu
+> >
+> > > -Jeff
