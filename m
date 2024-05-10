@@ -2,43 +2,78 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 676B28C1FCD
-	for <lists+etnaviv@lfdr.de>; Fri, 10 May 2024 10:35:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62DDE8C250F
+	for <lists+etnaviv@lfdr.de>; Fri, 10 May 2024 14:49:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 38CE810E144;
-	Fri, 10 May 2024 08:35:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F2B210E3F8;
+	Fri, 10 May 2024 12:49:22 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="DcoudDZD";
+	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5EE8310E144
- for <etnaviv@lists.freedesktop.org>; Fri, 10 May 2024 08:35:03 +0000 (UTC)
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
- helo=[IPv6:::1]) by metis.whiteo.stw.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1s5LiP-0003WU-RF; Fri, 10 May 2024 10:34:53 +0200
-Message-ID: <97eadcba7cabe56f0f4b4d753bd3d53f8540ef4b.camel@pengutronix.de>
-Subject: Re: [PATCH] drm/etnaviv: Create an accel device node if compute-only
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Tomeu Vizoso <tomeu@tomeuvizoso.net>, linux-kernel@vger.kernel.org
-Cc: Oded Gabbay <ogabbay@kernel.org>, Russell King
- <linux+etnaviv@armlinux.org.uk>, Christian Gmeiner
- <christian.gmeiner@gmail.com>,  David Airlie <airlied@gmail.com>, Daniel
- Vetter <daniel@ffwll.ch>, etnaviv@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org
-Date: Fri, 10 May 2024 10:34:47 +0200
-In-Reply-To: <20240424063753.3740664-1-tomeu@tomeuvizoso.net>
-References: <20240424063753.3740664-1-tomeu@tomeuvizoso.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com
+ [209.85.214.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 60EA410E3F8;
+ Fri, 10 May 2024 12:49:21 +0000 (UTC)
+Received: by mail-pl1-f171.google.com with SMTP id
+ d9443c01a7336-1eb24e3a2d9so17590385ad.1; 
+ Fri, 10 May 2024 05:49:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1715345361; x=1715950161; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=4bGB69MaITj0lj1rbpzgDk3jxO2MebXh7Pspyb5Ws2g=;
+ b=DcoudDZDEiM7gy9uMdHXaMnq30gUSRSmG2sdLJup0RPjHlimwXM9uiDFOE7RBguvuH
+ aAAdoLFp3oDCiX4qpRW+Q/14a9Q6VOw8sbis5AEVwdQJuEfkKXgbK2IKvcA7JseTcUWA
+ 8WgLEPabmJJ9nYd+pByUFBxS8iXSHYuxWxHKhkL5FqNowPdVRpWPf9c1049U9eUSheQ3
+ 2z6bVPTKjRnR6pgQ7JBfG+nMbsOHPHm7OpPiNtiZrSMw/4t/tJTtPgTBQ9Zd5MVF7KHB
+ +c2dQpptkOHy2lM8D21VfvOpeJTB/nW/VeNXUeylOPLB9wLM6M06qIW2xDNwyTqfh4za
+ wWpg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1715345361; x=1715950161;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=4bGB69MaITj0lj1rbpzgDk3jxO2MebXh7Pspyb5Ws2g=;
+ b=XSx3urk6bTtHGMkiWS1HDkcxRyRakxm5W7Z8bc8HR2hn4VyPMby3En7g0zUn/fy0Qn
+ XoN/OrA/Gwp7uaoOHtLjRe0uxaUTd019v/8gulbaUFuyIAYmUEpIfvzH7YzonXs+RpSx
+ I2JiuIPJSAegwZkoSZ9QwBj2pK4rJ+oLNL1ZwkBPJ41ZLshey66BQSai5tNT271jQlnh
+ eY/qGk89CX2GJ4NfJlXk1/1aXpF9F0JMPUbJPYNa4/stCTusss5txru5iryHWtVPQrQO
+ Ss7J101LhQTrI6RQVyZqlimQRfrOhjj5LwNS9hVfVcaOYinFzE5m2b4ZQx7MKffVQrhw
+ vqfw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWH2udn1vhRHT2uj8CG53Y5PzIoVfoeoBMt5RevD/fXA2XZrf7CLkTtQ9aJgCwR5VhLfhHJ+guqhOyowebHRTIKdzhe+JqR7VZS4F/XhKGeQS2D1sbnXPltURRrv0ADPEYPjlK89qNkRsk4sbKqPvo=
+X-Gm-Message-State: AOJu0YyNl22KEVADN20E156D+k1jSIseau43SeuHdsuOSKQs1URXtzUG
+ MoHwQoMTq7mw0hanUl8Y2EW2L/GdoAD7KIXeMGk13SbXnYyntkrWzIP0lM2E
+X-Google-Smtp-Source: AGHT+IE4v/ivolAQj9E6utIZxiGgbJt/dzyCsfbI4cr7prZz85w5gF7mk58fxK9ySkhc71ElRiMz6A==
+X-Received: by 2002:a17:902:db0a:b0:1e3:e243:1995 with SMTP id
+ d9443c01a7336-1ef43c095cdmr40207065ad.1.1715345360681; 
+ Fri, 10 May 2024 05:49:20 -0700 (PDT)
+Received: from joaog-nb ([189.78.25.116]) by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-1ef0b9d35fcsm31842095ad.25.2024.05.10.05.49.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 10 May 2024 05:49:20 -0700 (PDT)
+Date: Fri, 10 May 2024 09:49:15 -0300
+From: =?utf-8?Q?Jo=C3=A3o_Paulo_Gon=C3=A7alves?=
+ <jpaulo.silvagoncalves@gmail.com>
+To: Lucas Stach <l.stach@pengutronix.de>
+Cc: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ mesa-dev@lists.freedesktop.org, Marek Vasut <marex@denx.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>, joao.goncalves@toradex.com
+Subject: Re: NXP i.MX8MM GPU performances
+Message-ID: <20240510124915.ilu6nbtlyv6nvixh@joaog-nb>
+References: <20240507181712.svjjaryisdgfxkle@joaog-nb>
+ <3ac1eadc86772deb12af77e890b2a59a34fa847a.camel@pengutronix.de>
+ <20240508143252.kacr3fmrhcx4jkjn@joaog-nb>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240508143252.kacr3fmrhcx4jkjn@joaog-nb>
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,146 +88,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Hi Tomeu,
 
-Am Mittwoch, dem 24.04.2024 um 08:37 +0200 schrieb Tomeu Vizoso:
-> If we expose a render node for NPUs without rendering capabilities, the
-> userspace stack will offer it to compositors and applications for
-> rendering, which of course won't work.
->=20
-> Userspace is probably right in not questioning whether a render node
-> might not be capable of supporting rendering, so change it in the kernel
-> instead by exposing a /dev/accel node.
->=20
-> Before we bring the device up we don't know whether it is capable of
-> rendering or not (depends on the features of its blocks), so first try
-> to probe a rendering node, and if we find out that there is no rendering
-> hardware, abort and retry with an accel node.
->=20
-I thought about this for a while. My opinion is that this is the wrong
-approach. We are adding another path to the kernel driver, potentially
-complicating the userspace side, as now the NPU backend needs to look
-for both render and accel nodes. While currently accel and drm are
-pretty closely related and we can share most of the driver, it might
-still be a maintenance hassle in the long run.
+> Offscreen test results:
+>
+> glmark2 command:
+> glmark2-es2-wayland  --off-screen -b shading:duration=5.0 -b refract -b build -b texture -b shadow -b bump -s 640x480 2>&1
+> |                 |       glmark2 tests                     |
+> | sw ver          |shading|build|texture|refract|shadow|bump|
+> |-----------------|-------|-----|-------|-------|------|----|
+> | etnaviv (no TS) | 348   | 541 | 466   | 24    | 81   | 498|
+> | etnaviv         | 434   | 901 | 832   | 19    | 106  | 871|
+> | vivante         | 544   | 956 | 790   | 26    | 225  | 894|
+>
+> With TS enabled, offscreen scores improved considerably in some
+> individual benchmarks.
 
-On the other hand we already have precedence of compute only DRM
-devices exposing a render node: there are AMD GPUs that don't expose a
-graphics queue and are thus not able to actually render graphics. Mesa
-already handles this in part via the PIPE_CAP_GRAPHICS and I think we
-should simply extend this to not offer a EGL display on screens without
-that capability.
+Ralized that the last line (vivante) of the above table is wrong for offscreen
+results with TS enabled. Correcting it:
+
+glmark2-es2-wayland  --off-screen -b shading:duration=5.0 -b refract -b build -b texture -b shadow -b bump -s 640x480 2>&1
+
+|                      |                  glmark2 tests                              |
+| sw ver               |shading|build|texture   |refract|shadow|bump |
+|----------------------|-------|-----|----------|-------|------|-----|
+| etnaviv (no TS)      | 348   | 541 | 466      | 24    | 81   | 498 |
+| etnaviv              | 434   | 901 | 832      | 19    | 106  | 871 |
+| vivante              | 402   | 624 | 520      | 26    | 177  | 557 |
+
+With TS enabled, etnaviv offscreen scores seems to be overall better
+than galcore.
+
+Thanks!
 
 Regards,
-Lucas
-
-> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-> Cc: Oded Gabbay <ogabbay@kernel.org>
-> ---
->  drivers/gpu/drm/etnaviv/etnaviv_drv.c | 46 ++++++++++++++++++++++-----
->  1 file changed, 38 insertions(+), 8 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etna=
-viv/etnaviv_drv.c
-> index 6500f3999c5f..8e7dd23115f4 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-> @@ -11,6 +11,7 @@
->  #include <linux/platform_device.h>
->  #include <linux/uaccess.h>
-> =20
-> +#include <drm/drm_accel.h>
->  #include <drm/drm_debugfs.h>
->  #include <drm/drm_drv.h>
->  #include <drm/drm_file.h>
-> @@ -488,10 +489,10 @@ static const struct drm_ioctl_desc etnaviv_ioctls[]=
- =3D {
->  	ETNA_IOCTL(PM_QUERY_SIG, pm_query_sig, DRM_RENDER_ALLOW),
->  };
-> =20
-> -DEFINE_DRM_GEM_FOPS(fops);
-> +DEFINE_DRM_GEM_FOPS(render_fops);
-> +DEFINE_DRM_ACCEL_FOPS(accel_fops);
-> =20
-> -static const struct drm_driver etnaviv_drm_driver =3D {
-> -	.driver_features    =3D DRIVER_GEM | DRIVER_RENDER,
-> +static struct drm_driver etnaviv_drm_driver =3D {
->  	.open               =3D etnaviv_open,
->  	.postclose           =3D etnaviv_postclose,
->  	.gem_prime_import_sg_table =3D etnaviv_gem_prime_import_sg_table,
-> @@ -500,7 +501,6 @@ static const struct drm_driver etnaviv_drm_driver =3D=
- {
->  #endif
->  	.ioctls             =3D etnaviv_ioctls,
->  	.num_ioctls         =3D DRM_ETNAVIV_NUM_IOCTLS,
-> -	.fops               =3D &fops,
->  	.name               =3D "etnaviv",
->  	.desc               =3D "etnaviv DRM",
->  	.date               =3D "20151214",
-> @@ -508,15 +508,20 @@ static const struct drm_driver etnaviv_drm_driver =
-=3D {
->  	.minor              =3D 4,
->  };
-> =20
-> -/*
-> - * Platform driver:
-> - */
-> -static int etnaviv_bind(struct device *dev)
-> +static int etnaviv_bind_with_type(struct device *dev, u32 type)
->  {
->  	struct etnaviv_drm_private *priv;
->  	struct drm_device *drm;
-> +	bool is_compute_only =3D true;
->  	int ret;
-> =20
-> +	etnaviv_drm_driver.driver_features =3D DRIVER_GEM | type;
-> +
-> +	if (type =3D=3D DRIVER_RENDER)
-> +		etnaviv_drm_driver.fops =3D &render_fops;
-> +	else
-> +		etnaviv_drm_driver.fops =3D &accel_fops;
-> +
->  	drm =3D drm_dev_alloc(&etnaviv_drm_driver, dev);
->  	if (IS_ERR(drm))
->  		return PTR_ERR(drm);
-> @@ -553,6 +558,18 @@ static int etnaviv_bind(struct device *dev)
-> =20
->  	load_gpu(drm);
-> =20
-> +	for (unsigned int i =3D 0; i < ETNA_MAX_PIPES; i++) {
-> +		struct etnaviv_gpu *g =3D priv->gpu[i];
-> +
-> +		if (g && (g->identity.minor_features8 & chipMinorFeatures8_COMPUTE_ONL=
-Y) =3D=3D 0)
-> +			is_compute_only =3D false;
-> +	}
-> +
-> +	if (type =3D=3D DRIVER_RENDER && is_compute_only) {
-> +		ret =3D -EINVAL;
-> +		goto out_unbind;
-> +	}
-> +
->  	ret =3D drm_dev_register(drm, 0);
->  	if (ret)
->  		goto out_unbind;
-> @@ -571,6 +588,19 @@ static int etnaviv_bind(struct device *dev)
->  	return ret;
->  }
-> =20
-> +/*
-> + * Platform driver:
-> + */
-> +static int etnaviv_bind(struct device *dev)
-> +{
-> +	int ret =3D etnaviv_bind_with_type(dev, DRIVER_RENDER);
-> +
-> +	if (ret =3D=3D -EINVAL)
-> +		return etnaviv_bind_with_type(dev, DRIVER_COMPUTE_ACCEL);
-> +
-> +	return ret;
-> +}
-> +
->  static void etnaviv_unbind(struct device *dev)
->  {
->  	struct drm_device *drm =3D dev_get_drvdata(dev);
-
+João Paulo
