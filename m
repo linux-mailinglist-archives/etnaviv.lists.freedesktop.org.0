@@ -2,54 +2,43 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47C688C1165
-	for <lists+etnaviv@lfdr.de>; Thu,  9 May 2024 16:41:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 676B28C1FCD
+	for <lists+etnaviv@lfdr.de>; Fri, 10 May 2024 10:35:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 207E310E53E;
-	Thu,  9 May 2024 14:41:29 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="I8tfpZT3";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 38CE810E144;
+	Fri, 10 May 2024 08:35:04 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3541710E53E;
- Thu,  9 May 2024 14:41:28 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 69BE2CE1B59;
- Thu,  9 May 2024 14:41:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 062D0C116B1;
- Thu,  9 May 2024 14:41:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1715265683;
- bh=Qx8UYCxiWdEZ4Kjn0bUpA+c+/Rsek35U2CMylJmgrrc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=I8tfpZT3MWBxDBJqqm6VJ9H6mDt7SyXsxncWrj7mlqxx9K6SKXftE2lsPfpWyDnUt
- YJ98PkOTjLF3RcqkhhNsgwE41ejUH5gwRzbPjO4H+IrgFegvjdhwa7krBROfufNu+S
- CX11b8ZPxO2mqwZY6pIQZDrPXaY/SIHC7UZ5/WodIuE4AiaMvKqvVL/qIR+ohI6H8+
- XlOzV/2gjdB0AzS603AtgbTWywvyHSNC5QTx1nhxuVGFqsmFRlhn1ypYUGjT9+hXZ3
- TM25Qb8Bl0assu0kY4Eh6mES+WXCvM+0FkslNNe2sQZxMiiV8RPi4wED9+0zpKpGaL
- WjPS3E2SylA1Q==
-Date: Thu, 9 May 2024 17:41:18 +0300
-From: Oded Gabbay <ogabbay@kernel.org>
-To: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Cc: Jeffrey Hugo <quic_jhugo@quicinc.com>, linux-kernel@vger.kernel.org,
- Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5EE8310E144
+ for <etnaviv@lists.freedesktop.org>; Fri, 10 May 2024 08:35:03 +0000 (UTC)
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
+ helo=[IPv6:::1]) by metis.whiteo.stw.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1s5LiP-0003WU-RF; Fri, 10 May 2024 10:34:53 +0200
+Message-ID: <97eadcba7cabe56f0f4b4d753bd3d53f8540ef4b.camel@pengutronix.de>
 Subject: Re: [PATCH] drm/etnaviv: Create an accel device node if compute-only
-Message-ID: <20240509144118.baib2pftmpk5nikr@GABBAY.>
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Tomeu Vizoso <tomeu@tomeuvizoso.net>, linux-kernel@vger.kernel.org
+Cc: Oded Gabbay <ogabbay@kernel.org>, Russell King
+ <linux+etnaviv@armlinux.org.uk>, Christian Gmeiner
+ <christian.gmeiner@gmail.com>,  David Airlie <airlied@gmail.com>, Daniel
+ Vetter <daniel@ffwll.ch>, etnaviv@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org
+Date: Fri, 10 May 2024 10:34:47 +0200
+In-Reply-To: <20240424063753.3740664-1-tomeu@tomeuvizoso.net>
 References: <20240424063753.3740664-1-tomeu@tomeuvizoso.net>
- <8c55dba5-6308-685e-13da-e728197d8101@quicinc.com>
- <CAAObsKD4-k7Ya4Mi=vEPaC9DucbnVGDO5SaEUt-_o2_Bg+_FgA@mail.gmail.com>
- <CAAObsKCm49y-nUph=m9c+-eG37SaGKG93-1etwOQab4f5MXxOg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAAObsKCm49y-nUph=m9c+-eG37SaGKG93-1etwOQab4f5MXxOg@mail.gmail.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,109 +53,146 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-On Thu, May 09, 2024 at 03:53:01PM +0200, Tomeu Vizoso wrote:
-> Oded, Dave,
-> 
-> Do you have an opinion on this?
-> 
-> Thanks,
-> 
-> Tomeu
 Hi Tomeu,
 
-Sorry for not replying earlier, I was down with Covid (again...).
+Am Mittwoch, dem 24.04.2024 um 08:37 +0200 schrieb Tomeu Vizoso:
+> If we expose a render node for NPUs without rendering capabilities, the
+> userspace stack will offer it to compositors and applications for
+> rendering, which of course won't work.
+>=20
+> Userspace is probably right in not questioning whether a render node
+> might not be capable of supporting rendering, so change it in the kernel
+> instead by exposing a /dev/accel node.
+>=20
+> Before we bring the device up we don't know whether it is capable of
+> rendering or not (depends on the features of its blocks), so first try
+> to probe a rendering node, and if we find out that there is no rendering
+> hardware, abort and retry with an accel node.
+>=20
+I thought about this for a while. My opinion is that this is the wrong
+approach. We are adding another path to the kernel driver, potentially
+complicating the userspace side, as now the NPU backend needs to look
+for both render and accel nodes. While currently accel and drm are
+pretty closely related and we can share most of the driver, it might
+still be a maintenance hassle in the long run.
 
-To your question, I don't have an objection to what you are
-suggesting. My personal view of accel is that it is an integral part of 
-DRM and therefore, if there is an *existing* drm driver that wants to 
-create an accel node, I'm not against it. 
+On the other hand we already have precedence of compute only DRM
+devices exposing a render node: there are AMD GPUs that don't expose a
+graphics queue and are thus not able to actually render graphics. Mesa
+already handles this in part via the PIPE_CAP_GRAPHICS and I think we
+should simply extend this to not offer a EGL display on screens without
+that capability.
 
-There is the question of why you want to expose an accel node, and
-here I would like to hear Dave's and Sima's opinion on your suggested
-solution as it may affect the direction of other drm drivers.
+Regards,
+Lucas
 
-Thanks,
-Oded.
+> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+> Cc: Oded Gabbay <ogabbay@kernel.org>
+> ---
+>  drivers/gpu/drm/etnaviv/etnaviv_drv.c | 46 ++++++++++++++++++++++-----
+>  1 file changed, 38 insertions(+), 8 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etna=
+viv/etnaviv_drv.c
+> index 6500f3999c5f..8e7dd23115f4 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> @@ -11,6 +11,7 @@
+>  #include <linux/platform_device.h>
+>  #include <linux/uaccess.h>
+> =20
+> +#include <drm/drm_accel.h>
+>  #include <drm/drm_debugfs.h>
+>  #include <drm/drm_drv.h>
+>  #include <drm/drm_file.h>
+> @@ -488,10 +489,10 @@ static const struct drm_ioctl_desc etnaviv_ioctls[]=
+ =3D {
+>  	ETNA_IOCTL(PM_QUERY_SIG, pm_query_sig, DRM_RENDER_ALLOW),
+>  };
+> =20
+> -DEFINE_DRM_GEM_FOPS(fops);
+> +DEFINE_DRM_GEM_FOPS(render_fops);
+> +DEFINE_DRM_ACCEL_FOPS(accel_fops);
+> =20
+> -static const struct drm_driver etnaviv_drm_driver =3D {
+> -	.driver_features    =3D DRIVER_GEM | DRIVER_RENDER,
+> +static struct drm_driver etnaviv_drm_driver =3D {
+>  	.open               =3D etnaviv_open,
+>  	.postclose           =3D etnaviv_postclose,
+>  	.gem_prime_import_sg_table =3D etnaviv_gem_prime_import_sg_table,
+> @@ -500,7 +501,6 @@ static const struct drm_driver etnaviv_drm_driver =3D=
+ {
+>  #endif
+>  	.ioctls             =3D etnaviv_ioctls,
+>  	.num_ioctls         =3D DRM_ETNAVIV_NUM_IOCTLS,
+> -	.fops               =3D &fops,
+>  	.name               =3D "etnaviv",
+>  	.desc               =3D "etnaviv DRM",
+>  	.date               =3D "20151214",
+> @@ -508,15 +508,20 @@ static const struct drm_driver etnaviv_drm_driver =
+=3D {
+>  	.minor              =3D 4,
+>  };
+> =20
+> -/*
+> - * Platform driver:
+> - */
+> -static int etnaviv_bind(struct device *dev)
+> +static int etnaviv_bind_with_type(struct device *dev, u32 type)
+>  {
+>  	struct etnaviv_drm_private *priv;
+>  	struct drm_device *drm;
+> +	bool is_compute_only =3D true;
+>  	int ret;
+> =20
+> +	etnaviv_drm_driver.driver_features =3D DRIVER_GEM | type;
+> +
+> +	if (type =3D=3D DRIVER_RENDER)
+> +		etnaviv_drm_driver.fops =3D &render_fops;
+> +	else
+> +		etnaviv_drm_driver.fops =3D &accel_fops;
+> +
+>  	drm =3D drm_dev_alloc(&etnaviv_drm_driver, dev);
+>  	if (IS_ERR(drm))
+>  		return PTR_ERR(drm);
+> @@ -553,6 +558,18 @@ static int etnaviv_bind(struct device *dev)
+> =20
+>  	load_gpu(drm);
+> =20
+> +	for (unsigned int i =3D 0; i < ETNA_MAX_PIPES; i++) {
+> +		struct etnaviv_gpu *g =3D priv->gpu[i];
+> +
+> +		if (g && (g->identity.minor_features8 & chipMinorFeatures8_COMPUTE_ONL=
+Y) =3D=3D 0)
+> +			is_compute_only =3D false;
+> +	}
+> +
+> +	if (type =3D=3D DRIVER_RENDER && is_compute_only) {
+> +		ret =3D -EINVAL;
+> +		goto out_unbind;
+> +	}
+> +
+>  	ret =3D drm_dev_register(drm, 0);
+>  	if (ret)
+>  		goto out_unbind;
+> @@ -571,6 +588,19 @@ static int etnaviv_bind(struct device *dev)
+>  	return ret;
+>  }
+> =20
+> +/*
+> + * Platform driver:
+> + */
+> +static int etnaviv_bind(struct device *dev)
+> +{
+> +	int ret =3D etnaviv_bind_with_type(dev, DRIVER_RENDER);
+> +
+> +	if (ret =3D=3D -EINVAL)
+> +		return etnaviv_bind_with_type(dev, DRIVER_COMPUTE_ACCEL);
+> +
+> +	return ret;
+> +}
+> +
+>  static void etnaviv_unbind(struct device *dev)
+>  {
+>  	struct drm_device *drm =3D dev_get_drvdata(dev);
 
-p.s.
-Please only use bottom-posting when replying, thanks :)
-
-> 
-> On Fri, Apr 26, 2024 at 8:10 AM Tomeu Vizoso <tomeu@tomeuvizoso.net> wrote:
-> >
-> > On Thu, Apr 25, 2024 at 8:59 PM Jeffrey Hugo <quic_jhugo@quicinc.com> wrote:
-> > >
-> > > On 4/24/2024 12:37 AM, Tomeu Vizoso wrote:
-> > > > If we expose a render node for NPUs without rendering capabilities, the
-> > > > userspace stack will offer it to compositors and applications for
-> > > > rendering, which of course won't work.
-> > > >
-> > > > Userspace is probably right in not questioning whether a render node
-> > > > might not be capable of supporting rendering, so change it in the kernel
-> > > > instead by exposing a /dev/accel node.
-> > > >
-> > > > Before we bring the device up we don't know whether it is capable of
-> > > > rendering or not (depends on the features of its blocks), so first try
-> > > > to probe a rendering node, and if we find out that there is no rendering
-> > > > hardware, abort and retry with an accel node.
-> > > >
-> > > > Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-> > > > Cc: Oded Gabbay <ogabbay@kernel.org>
-> > >
-> > > I hope Oded chimes in as Accel maintainer.  I think Airlie/Vetter had
-> > > also previously mentioned they'd have opinions on what is Accel vs DRM.
-> > >
-> > > This gets a nack from me in its current state.  This is not a strong
-> > > nack, and I don't want to discourage you.  I think there is a path forward.
-> > >
-> > > The Accel subsystem documentation says that accel drivers will reside in
-> > > drivers/accel/ but this does not.
-> >
-> > Indeed, there is that code organization aspect.
-> >
-> > > Also, the commit text for "accel: add dedicated minor for accelerator
-> > > devices" mentions -
-> > >
-> > > "for drivers that
-> > > declare they handle compute accelerator, using a new driver feature
-> > > flag called DRIVER_COMPUTE_ACCEL. It is important to note that this
-> > > driver feature is mutually exclusive with DRIVER_RENDER. Devices that
-> > > want to expose both graphics and compute device char files should be
-> > > handled by two drivers that are connected using the auxiliary bus
-> > > framework."
-> > >
-> > > I don't see any of that happening here (two drivers connected by aux
-> > > bus, one in drivers/accel).
-> >
-> > Well, the text refers to devices, not drivers. The case we are talking
-> > about is a driver that wants to sometimes expose an accel node, and
-> > sometimes a render node, depending on the hardware it is dealing with.
-> > So there would either be a device exposing a single render node, or a
-> > device exposing a single accel node.
-> >
-> > Though by using the auxiliary bus we could in theory solve the code
-> > organization problem mentioned above, I'm not quite seeing how to do
-> > this in a clean way. The driver in /drivers/gpu/drm would have to be a
-> > DRM driver that doesn't register a DRM device, but registers a device
-> > in the auxiliary bus for the driver in /drivers/accel to bind to? Or
-> > are you seeing some possibility that would fit better in the current
-> > DRM framework?
-> >
-> > > I think this is the first case we've had of a combo DRM/Accel usecase,
-> > > and so there isn't an existing example to refer you to on how to
-> > > structure things.  I think you are going to be the first example where
-> > > we figure all of this out.
-> >
-> > Yep, I will be grateful for any ideas on how to structure this.
-> >
-> > > On a more implementation note, ioctls for Accel devices should not be
-> > > marked DRM_RENDER_ALLOW.  Seems like your attempt to reuse as much of
-> > > the code as possible trips over this.
-> >
-> > Indeed, thanks.
-> >
-> > Cheers,
-> >
-> > Tomeu
-> >
-> > > -Jeff
