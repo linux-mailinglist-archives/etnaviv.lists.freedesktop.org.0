@@ -2,45 +2,77 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 478F18C6633
-	for <lists+etnaviv@lfdr.de>; Wed, 15 May 2024 14:14:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BDE68C690F
+	for <lists+etnaviv@lfdr.de>; Wed, 15 May 2024 16:56:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 12F9510E05A;
-	Wed, 15 May 2024 12:14:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4424210EA28;
+	Wed, 15 May 2024 14:56:50 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="DRh7maF7";
+	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A35E10E05A
- for <etnaviv@lists.freedesktop.org>; Wed, 15 May 2024 12:14:02 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.whiteo.stw.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1s7DWB-0001fa-6q; Wed, 15 May 2024 14:13:59 +0200
-Received: from [2a0a:edc0:0:1101:1d::28] (helo=dude02.red.stw.pengutronix.de)
- by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
- (envelope-from <l.stach@pengutronix.de>)
- id 1s7DWA-001WzE-Kn; Wed, 15 May 2024 14:13:58 +0200
-From: Lucas Stach <l.stach@pengutronix.de>
-To: etnaviv@lists.freedesktop.org
-Cc: Russell King <linux+etnaviv@armlinux.org.uk>,
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com
+ [209.85.214.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E73D10EA28;
+ Wed, 15 May 2024 14:56:49 +0000 (UTC)
+Received: by mail-pl1-f175.google.com with SMTP id
+ d9443c01a7336-1ee954e0aa6so56167075ad.3; 
+ Wed, 15 May 2024 07:56:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1715785008; x=1716389808; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=NpV1PvoVw8yDbXCaJdRMDpZhAFkan1lht8KhkaNjpEk=;
+ b=DRh7maF7AWAxYAr8JZibsYP414UuVtfTZRQru4wEIcIP6mNKJUR5rXaVN/igLOvIiN
+ pp7coMFtT9Xi4SpC7G0QAVs4fg4bmPjeiPmi1khkuYmOESPi1VEfMF+r8Ez6R6n/y8bB
+ NXdWS+i1yefAA5u+T0F7wgeXCtjqCGdcgEKNLd4/5JjWS+HrI0a3/3oWNJoqbyP6JPba
+ 9oeqA1OWCTXDOTM3f/75QKyhu4m72BQcXBQY/ed9UNESrtjx0yURrbxjQ0+Cfkoyfkx+
+ QAAF/mVAFovgDZqanOVHYiNhITM7cIfrlZruDHTcRLlsFavqgz5KdNi9GVmUTclU4Lrv
+ y1gw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1715785008; x=1716389808;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=NpV1PvoVw8yDbXCaJdRMDpZhAFkan1lht8KhkaNjpEk=;
+ b=uJMWD2hyiq0BXn2mWQSeRpZgYLnkTiZxCMvXOMR28Z79hIX7johaiWnXnL7mNEE75k
+ F+W0ObPt/dgAQGDtNDx6WvVUeSI3wioJr7AMMmfjuD7jCU0pk6dt6msW3pMcU6suZXZm
+ bWcVwdPYoWmY8b2WI3fyAnkiGFlSZRGnNl0ekHg2YTxtTXgwcueeTI6zbRWlpJH8dG/p
+ wrRt85LaV5IoYlnepWLI8QpK4HYwcDJh9KbmhgOAlMnPLgPhIF8aHf037CSXII0+yJyr
+ x0LaVscUoZGRcqyzGIlB4XK7FuwxaYnOBTQbGH+BAek9sjys0yGUGtzoifHizu9Fmzbj
+ s4pw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWpW4HT13hiBu+DeOcy9HVe51Bf62OE3/+8nj3uP98zxL4YHCx83jXJe1pGTi9IeqNadka6j7BfwoE/jp35+0glMaPWe9zZFPvC2j0EMbqm
+X-Gm-Message-State: AOJu0YymrlZDMFxp+Y0jOtoFuT2SyDC6ht+wAg32UFzWXIkPXbw6oEi+
+ Rn6fwXIht70fyYWVH7t0sdog+WNqh+uPxyCAhTjQWpmC4v1rDDWB
+X-Google-Smtp-Source: AGHT+IHYtohL2ZlK1fujK/GcREqXwaYJ9JOJjf3IvKigR5atvw35DpjD56Adac8lKPkpc2Xd6EfHcw==
+X-Received: by 2002:a17:902:e94d:b0:1e4:a667:550e with SMTP id
+ d9443c01a7336-1ef43e284d5mr177801355ad.20.1715785008425; 
+ Wed, 15 May 2024 07:56:48 -0700 (PDT)
+Received: from joaog-nb ([189.78.25.193]) by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-1ef0b9d38ddsm119426555ad.47.2024.05.15.07.56.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 15 May 2024 07:56:48 -0700 (PDT)
+Date: Wed, 15 May 2024 11:56:42 -0300
+From: =?utf-8?Q?Jo=C3=A3o_Paulo_Gon=C3=A7alves?=
+ <jpaulo.silvagoncalves@gmail.com>
+To: Lucas Stach <l.stach@pengutronix.de>
+Cc: etnaviv@lists.freedesktop.org,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
  Christian Gmeiner <christian.gmeiner@gmail.com>,
- =?UTF-8?q?Jo=C3=A3o=20Paulo=20Gon=C3=A7alves?=
- <jpaulo.silvagoncalves@gmail.com>, dri-devel@lists.freedesktop.org,
- kernel@pengutronix.de, patchwork-lst@pengutronix.de
-Subject: [PATCH] drm/etnaviv: don't disable TS on MMUv2 core when moving the
- linear window
-Date: Wed, 15 May 2024 14:13:58 +0200
-Message-Id: <20240515121358.2027178-1-l.stach@pengutronix.de>
-X-Mailer: git-send-email 2.39.2
+ dri-devel@lists.freedesktop.org, kernel@pengutronix.de,
+ patchwork-lst@pengutronix.de
+Subject: Re: [PATCH] drm/etnaviv: don't disable TS on MMUv2 core when moving
+ the linear window
+Message-ID: <20240515145642.t2747f7s2t357hzt@joaog-nb>
+References: <20240515121358.2027178-1-l.stach@pengutronix.de>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: attachment
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
+In-Reply-To: <20240515121358.2027178-1-l.stach@pengutronix.de>
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,40 +87,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-On MMUv2 cores the linear window is only relevant when starting the FE,
-before the MMU has been activated. Once the MMU is active, all accesses
-are translated with no way to bypass the MMU via the linear window. Thus
-TS ignoring the linear window offset is not an issue on cores with MMUv2
-present and there is no need to disable TS when we need to move the
-linear window.
+Hi Lucas,
 
-Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
----
- drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+On Wed, May 15, 2024 at 02:13:58PM +0200, Lucas Stach wrote:
+> On MMUv2 cores the linear window is only relevant when starting the FE,
+> before the MMU has been activated. Once the MMU is active, all accesses
+> are translated with no way to bypass the MMU via the linear window. Thus
+> TS ignoring the linear window offset is not an issue on cores with MMUv2
+> present and there is no need to disable TS when we need to move the
+> linear window.
+> 
+> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-index 2db0fb071a57..50a6dc005bf8 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-@@ -875,12 +875,15 @@ int etnaviv_gpu_init(struct etnaviv_gpu *gpu)
- 	 *
- 	 * On MC1.0 cores the linear window offset is ignored by the TS engine,
- 	 * leading to inconsistent memory views. Avoid using the offset on those
--	 * cores if possible, otherwise disable the TS feature.
-+	 * cores if possible, otherwise disable the TS feature. MMUv2 doesn't
-+	 * expose this issue, as all TS accesses are MMU translated, so the
-+	 * linear window offset won't be used.
- 	 */
- 	cmdbuf_paddr = ALIGN_DOWN(etnaviv_cmdbuf_get_pa(&gpu->buffer), SZ_128M);
- 
- 	if (!(gpu->identity.features & chipFeatures_PIPE_3D) ||
--	    (gpu->identity.minor_features0 & chipMinorFeatures0_MC20)) {
-+	    (gpu->identity.minor_features0 & chipMinorFeatures0_MC20) ||
-+	    (gpu->identity.minor_features1 & chipMinorFeatures1_MMU_VERSION)) {
- 		if (cmdbuf_paddr >= SZ_2G)
- 			priv->mmu_global->memory_base = SZ_2G;
- 		else
--- 
-2.39.2
+Tested-by: Joao Paulo Goncalves <joao.goncalves@toradex.com>
 
+Thanks for the patch!
+
+What do you think in backporting the patch to stable and adding a "Fixes:" tag?
+
+Regards,
+João Paulo
