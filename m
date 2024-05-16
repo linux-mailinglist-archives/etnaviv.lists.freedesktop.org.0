@@ -2,77 +2,44 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BDE68C690F
-	for <lists+etnaviv@lfdr.de>; Wed, 15 May 2024 16:56:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D3808C7AEA
+	for <lists+etnaviv@lfdr.de>; Thu, 16 May 2024 19:13:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4424210EA28;
-	Wed, 15 May 2024 14:56:50 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="DRh7maF7";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D81010E27C;
+	Thu, 16 May 2024 17:13:12 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com
- [209.85.214.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E73D10EA28;
- Wed, 15 May 2024 14:56:49 +0000 (UTC)
-Received: by mail-pl1-f175.google.com with SMTP id
- d9443c01a7336-1ee954e0aa6so56167075ad.3; 
- Wed, 15 May 2024 07:56:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1715785008; x=1716389808; darn=lists.freedesktop.org;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=NpV1PvoVw8yDbXCaJdRMDpZhAFkan1lht8KhkaNjpEk=;
- b=DRh7maF7AWAxYAr8JZibsYP414UuVtfTZRQru4wEIcIP6mNKJUR5rXaVN/igLOvIiN
- pp7coMFtT9Xi4SpC7G0QAVs4fg4bmPjeiPmi1khkuYmOESPi1VEfMF+r8Ez6R6n/y8bB
- NXdWS+i1yefAA5u+T0F7wgeXCtjqCGdcgEKNLd4/5JjWS+HrI0a3/3oWNJoqbyP6JPba
- 9oeqA1OWCTXDOTM3f/75QKyhu4m72BQcXBQY/ed9UNESrtjx0yURrbxjQ0+Cfkoyfkx+
- QAAF/mVAFovgDZqanOVHYiNhITM7cIfrlZruDHTcRLlsFavqgz5KdNi9GVmUTclU4Lrv
- y1gw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715785008; x=1716389808;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=NpV1PvoVw8yDbXCaJdRMDpZhAFkan1lht8KhkaNjpEk=;
- b=uJMWD2hyiq0BXn2mWQSeRpZgYLnkTiZxCMvXOMR28Z79hIX7johaiWnXnL7mNEE75k
- F+W0ObPt/dgAQGDtNDx6WvVUeSI3wioJr7AMMmfjuD7jCU0pk6dt6msW3pMcU6suZXZm
- bWcVwdPYoWmY8b2WI3fyAnkiGFlSZRGnNl0ekHg2YTxtTXgwcueeTI6zbRWlpJH8dG/p
- wrRt85LaV5IoYlnepWLI8QpK4HYwcDJh9KbmhgOAlMnPLgPhIF8aHf037CSXII0+yJyr
- x0LaVscUoZGRcqyzGIlB4XK7FuwxaYnOBTQbGH+BAek9sjys0yGUGtzoifHizu9Fmzbj
- s4pw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWpW4HT13hiBu+DeOcy9HVe51Bf62OE3/+8nj3uP98zxL4YHCx83jXJe1pGTi9IeqNadka6j7BfwoE/jp35+0glMaPWe9zZFPvC2j0EMbqm
-X-Gm-Message-State: AOJu0YymrlZDMFxp+Y0jOtoFuT2SyDC6ht+wAg32UFzWXIkPXbw6oEi+
- Rn6fwXIht70fyYWVH7t0sdog+WNqh+uPxyCAhTjQWpmC4v1rDDWB
-X-Google-Smtp-Source: AGHT+IHYtohL2ZlK1fujK/GcREqXwaYJ9JOJjf3IvKigR5atvw35DpjD56Adac8lKPkpc2Xd6EfHcw==
-X-Received: by 2002:a17:902:e94d:b0:1e4:a667:550e with SMTP id
- d9443c01a7336-1ef43e284d5mr177801355ad.20.1715785008425; 
- Wed, 15 May 2024 07:56:48 -0700 (PDT)
-Received: from joaog-nb ([189.78.25.193]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-1ef0b9d38ddsm119426555ad.47.2024.05.15.07.56.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 May 2024 07:56:48 -0700 (PDT)
-Date: Wed, 15 May 2024 11:56:42 -0300
-From: =?utf-8?Q?Jo=C3=A3o_Paulo_Gon=C3=A7alves?=
- <jpaulo.silvagoncalves@gmail.com>
-To: Lucas Stach <l.stach@pengutronix.de>
-Cc: etnaviv@lists.freedesktop.org,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- dri-devel@lists.freedesktop.org, kernel@pengutronix.de,
- patchwork-lst@pengutronix.de
-Subject: Re: [PATCH] drm/etnaviv: don't disable TS on MMUv2 core when moving
- the linear window
-Message-ID: <20240515145642.t2747f7s2t357hzt@joaog-nb>
-References: <20240515121358.2027178-1-l.stach@pengutronix.de>
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D52C310E27C
+ for <etnaviv@lists.freedesktop.org>; Thu, 16 May 2024 17:13:11 +0000 (UTC)
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
+ helo=[IPv6:::1]) by metis.whiteo.stw.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1s7efD-0005Hj-LM; Thu, 16 May 2024 19:13:07 +0200
+Message-ID: <2c5b62e0898efc61da7bec7a261d10e89ccd4a1e.camel@pengutronix.de>
+Subject: Re: [PATCH] drm/etnaviv: drop driver owner assignment
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Christian Gmeiner <christian.gmeiner@gmail.com>, Krzysztof Kozlowski
+ <krzysztof.kozlowski@linaro.org>
+Cc: Russell King <linux+etnaviv@armlinux.org.uk>, David Airlie
+ <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
+Date: Thu, 16 May 2024 19:13:06 +0200
+In-Reply-To: <CAH9NwWfU5eaBRSqhgJgHwgphtL+KUAiX3Tx_7vO11N_BV7qUQQ@mail.gmail.com>
+References: <20240330205241.92711-1-krzysztof.kozlowski@linaro.org>
+ <CAH9NwWfU5eaBRSqhgJgHwgphtL+KUAiX3Tx_7vO11N_BV7qUQQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: attachment
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240515121358.2027178-1-l.stach@pengutronix.de>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,23 +54,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Hi Lucas,
+Am Montag, dem 01.04.2024 um 12:26 +0200 schrieb Christian Gmeiner:
+> >=20
+> > Core in platform_driver_register() already sets the .owner, so driver
+> > does not need to.  Whatever is set here will be anyway overwritten by
+> > main driver calling platform_driver_register().
+> >=20
+> > Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>=20
+> Reviewed-by: Christian Gmeiner <cgmeiner@igalia.com>
 
-On Wed, May 15, 2024 at 02:13:58PM +0200, Lucas Stach wrote:
-> On MMUv2 cores the linear window is only relevant when starting the FE,
-> before the MMU has been activated. Once the MMU is active, all accesses
-> are translated with no way to bypass the MMU via the linear window. Thus
-> TS ignoring the linear window offset is not an issue on cores with MMUv2
-> present and there is no need to disable TS when we need to move the
-> linear window.
-> 
-> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
-
-Tested-by: Joao Paulo Goncalves <joao.goncalves@toradex.com>
-
-Thanks for the patch!
-
-What do you think in backporting the patch to stable and adding a "Fixes:" tag?
+Applied to the etnaviv/next branch.
 
 Regards,
-João Paulo
+Lucas
+
+>=20
+> > ---
+> > =C2=A0drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 1 -
+> > =C2=A01 file changed, 1 deletion(-)
+> >=20
+> > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/et=
+naviv/etnaviv_gpu.c
+> > index 734412aae94d..87b31cfee41d 100644
+> > --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> > +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> > @@ -1995,7 +1995,6 @@ static const struct dev_pm_ops etnaviv_gpu_pm_ops=
+ =3D {
+> > =C2=A0struct platform_driver etnaviv_gpu_driver =3D {
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.driver =3D {
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0.name =3D "etnaviv-gpu",
+> > -               .owner =3D THIS_MODULE,
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0.pm =3D pm_ptr(&etnaviv_gpu_pm_ops),
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0.of_match_table =3D etnaviv_gpu_match,
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0},
+> > --
+> > 2.34.1
+> >=20
+>=20
+>=20
+
