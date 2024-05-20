@@ -2,78 +2,78 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA7AA8C996A
-	for <lists+etnaviv@lfdr.de>; Mon, 20 May 2024 09:39:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EE1C8C9A45
+	for <lists+etnaviv@lfdr.de>; Mon, 20 May 2024 11:24:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4351910E124;
-	Mon, 20 May 2024 07:39:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D494010E577;
+	Mon, 20 May 2024 09:24:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=tomeuvizoso-net.20230601.gappssmtp.com header.i=@tomeuvizoso-net.20230601.gappssmtp.com header.b="SyIZ43pI";
+	dkim=pass (2048-bit key; unprotected) header.d=tomeuvizoso-net.20230601.gappssmtp.com header.i=@tomeuvizoso-net.20230601.gappssmtp.com header.b="Sp8OTkTc";
 	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com
- [209.85.128.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF16310E19D
- for <etnaviv@lists.freedesktop.org>; Mon, 20 May 2024 07:39:30 +0000 (UTC)
-Received: by mail-yw1-f172.google.com with SMTP id
- 00721157ae682-6114c9b4d83so17546997b3.3
- for <etnaviv@lists.freedesktop.org>; Mon, 20 May 2024 00:39:30 -0700 (PDT)
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com
+ [209.85.128.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 133E310E577
+ for <etnaviv@lists.freedesktop.org>; Mon, 20 May 2024 09:24:39 +0000 (UTC)
+Received: by mail-yw1-f170.google.com with SMTP id
+ 00721157ae682-6203f553e5fso21906497b3.1
+ for <etnaviv@lists.freedesktop.org>; Mon, 20 May 2024 02:24:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tomeuvizoso-net.20230601.gappssmtp.com; s=20230601; t=1716190770;
- x=1716795570; darn=lists.freedesktop.org; 
+ d=tomeuvizoso-net.20230601.gappssmtp.com; s=20230601; t=1716197079;
+ x=1716801879; darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Ow9jbuVKIW09zvKzQpjf809fGluRD4ku6Wkb2RBqfMs=;
- b=SyIZ43pIwkFqdD0mAqdZKCRpwzZB6DGHdkAcPBegRT9eIM2zjtu0iHTCjdSuGc5vkT
- 0oD9Hw8SLPMHKhg1l9GGkuHhcIVtm+tJMNkuQ3tIHepEvUCFwo55rMP/8k9inn5HKGGM
- pEJsuKaloPNuG5qz+teweG8Xeb2ISariklbizvM/aWhlrurW3HtSpeZHiQjuyoM2uU4W
- d+mYipzhNRqqoJHV7W9tMuHMmcT6dChcpblD1k4k79xCMRwJAXQyQHP0X1XHg8VMhEBr
- UYbhWHJlaM5QXqd1O8/pZR1k4jveOWPAoP0SIM3Qqu7l9XfScA+aT0g2hlwd2wd2+FJG
- DXhQ==
+ bh=uTP4n3yhXyuKsvb8V/x0lwx2q2Y2QVn77xnb/moq0rY=;
+ b=Sp8OTkTcR79Az0vOOJTYoKO5WnaAvLtIrY/wq5s3Un+2cG6+aCWBBIU+dFxEA34Aea
+ kW0MmDCpLZUg3uQmqcerPxWNAtOfb/Xvv4Zsp2IZJGTLKB6B8cDjdSKbqLNpvQzMI1nk
+ 3Uf5uj9R3yq9UO1agN2AEs+1GockkrBMTO0cGNcdrNSLHS09pOoKFzJaxcknuULIkoBk
+ SRKLzM8t0D3SiMwwO9Yb4vNDv+FBsQHqHQYyUZ6haRstb+gQ/zQIuTFlr87Gr77oPjJx
+ 613l3Vp3AGHYlkUyhL3/dZtGaal8k9VQL4UYB+kc0JdbOh34Hyx71230ph+P7Voyck40
+ BWQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1716190770; x=1716795570;
+ d=1e100.net; s=20230601; t=1716197079; x=1716801879;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Ow9jbuVKIW09zvKzQpjf809fGluRD4ku6Wkb2RBqfMs=;
- b=LYzNOmV5RSujKW2n/84oIiozP5PlRdwBO72U0zqGswAmarGx7nqQTD4RL8G9VxCExZ
- 3/UhC4t3tzbGYyhahKHQdH7VFgsLXLy9LDuytorEAIOaZn20MjullwSdv9g8028hS1+b
- QQ9Da/FlPElG8F4JpdnMl2vOafGiZW/eYU0XJ/5HIZSt34HGVyK2ftCJ7y/aWoKH1sIF
- 1Ise8VEafF+lJMhPxItVWQg2g1C9bUClK1DUIj2sGVCKLSUembFcDXxVy3E4ufaUgYcH
- jLsJjKJKgwPe6GG9+6DjZV7mm0WlEUqOo7f3y/39uvLV0qQ2ZMS6sVXWdfFE232jJmkB
- zNsA==
+ bh=uTP4n3yhXyuKsvb8V/x0lwx2q2Y2QVn77xnb/moq0rY=;
+ b=xGSkVKbNNcBQAV4CTsIxusHmRehQSNAeiI3wi7yKwbQmm1RZ3YaBzGOAqELeDwE6KH
+ Zs+BlBLvidlb4eY4TH8lIndxkpIoWwqQmTz42EwBN1FK2p/Q14CscBoYoB575V1FN8AJ
+ tNTRm+3pVLYEFHsAa63T2UoDG5gB2SRv0R4qXqFEDoGeurrxjCpBoCO1iHyfGB8e3btf
+ iSdzmw4zNI8CUQ3WJfR+ERDAmzbscJJS2Kf8yaBn40VEuTmMo2pcR8f5XKy5kUudrQG6
+ ajJnqYubxCVAY7qmgaZvizszKlMaT2u0KT8F7ERmUoHf/XoBFjKUkX7+jIst4J/nIiZG
+ QVsQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVRjjq6Z5iuaGcwH3hV9dwC7VPeWZEgWlfGCKnnnIOZeFV41dWZ94JNgAvSgwwzdb0uQAqR9klMLWG8PUtcNStD2tOqgdfrY48xGr1obA==
-X-Gm-Message-State: AOJu0Yw4Qu9MP727vFP76DEUS02ALr3LkRmbG0Vx2gex8L3UuvRgT93Y
- OI3v0wpRmzDUy3lhzSwYw4+d7pO0pw8nH4qdobyr/uuufySULTzwFWA404A/8FRjMG3DRNL5oRO
- fy1s=
-X-Google-Smtp-Source: AGHT+IFqb9nuBFQeOXGAPvFgRgWHb0JrgkE8TxlyisKizY9+JcmzWl618Ca47S47aQ3EQIscZDd2oQ==
-X-Received: by 2002:a81:a744:0:b0:618:6aa1:a972 with SMTP id
- 00721157ae682-622affc78eemr254888727b3.5.1716190769777; 
- Mon, 20 May 2024 00:39:29 -0700 (PDT)
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com.
- [209.85.219.171]) by smtp.gmail.com with ESMTPSA id
- 00721157ae682-6209e379521sm47607937b3.120.2024.05.20.00.39.29
+ AJvYcCWJh7mhLMFusNBzPG3GTVkGGwBSC1VwfeByYDXO+0sK5wOShPYXR/s4WjWuvfktvB5H9hhkHOn/fvxTOdrb3c8np9/BbpPjkOFuWyYgeg==
+X-Gm-Message-State: AOJu0YyI/W4/e+0Y0gwVgY9s5AN+4jgGR9bVfOpopIkV7oJYvvmLhJ6l
+ OEz/cKSeKMYJurHeBGs/3Y8ep/A4M9gRX6LPBCOZS7vRXrvuDbyRibToF4jQe1RLDIqmXkt8KMv
+ A46Q=
+X-Google-Smtp-Source: AGHT+IFE2SMCvN2YPd4R6sUHGkGhI6S/QevN5IFPTiM3rXjefgKuyx/eE12+xBj9GKHICEhWePwwRQ==
+X-Received: by 2002:a81:a092:0:b0:615:1dc3:9596 with SMTP id
+ 00721157ae682-622affa699fmr275934127b3.28.1716197078868; 
+ Mon, 20 May 2024 02:24:38 -0700 (PDT)
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com.
+ [209.85.219.180]) by smtp.gmail.com with ESMTPSA id
+ 00721157ae682-6209e26e94dsm47987357b3.69.2024.05.20.02.24.37
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 May 2024 00:39:29 -0700 (PDT)
-Received: by mail-yb1-f171.google.com with SMTP id
- 3f1490d57ef6-db4364ecd6aso2001895276.2; 
- Mon, 20 May 2024 00:39:29 -0700 (PDT)
+ Mon, 20 May 2024 02:24:38 -0700 (PDT)
+Received: by mail-yb1-f180.google.com with SMTP id
+ 3f1490d57ef6-de604ca3cfcso1990845276.3; 
+ Mon, 20 May 2024 02:24:37 -0700 (PDT)
 X-Forwarded-Encrypted: i=1;
- AJvYcCXh49GXk3Sxi6sETdjwP55qcOET/A3LE0DGJTqv0+408/5jWA9beutxvJa1JH1oZsU02H0BD/7SiF8gsSus1SdjTK2gfDkwV5/YXzLqc5WgtuN1Ijy596QRPY61ONWFFCN7aWTKVXjOckBQddeMQg==
-X-Received: by 2002:a5b:7c6:0:b0:df4:969f:3dcd with SMTP id
- 3f1490d57ef6-df4969f3f35mr3728366276.50.1716190768803; Mon, 20 May 2024
- 00:39:28 -0700 (PDT)
+ AJvYcCXPRTE+CFtqBDLvLQLWRcMkuL0wzdcFZUZIN1gx5f9xttaCjSDftBsha58Ua+86kTi08wWx9+dYWZN0tTVHyTR7VjfipLRnQsTAFGgDbsBAfmvpu6ey0zxZZgFr1M36Ih/gWPXPqAdeRa9D9+9Cfg==
+X-Received: by 2002:a25:84c4:0:b0:df3:88ee:799c with SMTP id
+ 3f1490d57ef6-df388ee85a4mr13302743276.7.1716197077534; Mon, 20 May 2024
+ 02:24:37 -0700 (PDT)
 MIME-Version: 1.0
 References: <20240424063753.3740664-1-tomeu@tomeuvizoso.net>
  <97eadcba7cabe56f0f4b4d753bd3d53f8540ef4b.camel@pengutronix.de>
 In-Reply-To: <97eadcba7cabe56f0f4b4d753bd3d53f8540ef4b.camel@pengutronix.de>
 From: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Date: Mon, 20 May 2024 09:39:17 +0200
-X-Gmail-Original-Message-ID: <CAAObsKAQ=pWQ8MR1W7WwK1nVEeiCFNC3k+NZKsu4Fkts-_+zWg@mail.gmail.com>
-Message-ID: <CAAObsKAQ=pWQ8MR1W7WwK1nVEeiCFNC3k+NZKsu4Fkts-_+zWg@mail.gmail.com>
+Date: Mon, 20 May 2024 11:24:26 +0200
+X-Gmail-Original-Message-ID: <CAAObsKDFDNV48XF1DobvVv04Q+DfBY=weBJPKbBewJPbPibRVA@mail.gmail.com>
+Message-ID: <CAAObsKDFDNV48XF1DobvVv04Q+DfBY=weBJPKbBewJPbPibRVA@mail.gmail.com>
 Subject: Re: [PATCH] drm/etnaviv: Create an accel device node if compute-only
 To: Lucas Stach <l.stach@pengutronix.de>
 Cc: linux-kernel@vger.kernel.org, Oded Gabbay <ogabbay@kernel.org>, 
@@ -81,7 +81,7 @@ Cc: linux-kernel@vger.kernel.org, Oded Gabbay <ogabbay@kernel.org>,
  Christian Gmeiner <christian.gmeiner@gmail.com>,
  David Airlie <airlied@gmail.com>, 
  Daniel Vetter <daniel@ffwll.ch>, etnaviv@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, Daniel Stone <daniels@collabora.com>
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: etnaviv@lists.freedesktop.org
@@ -97,8 +97,6 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
-
-Hi Lucas,
 
 On Fri, May 10, 2024 at 10:34=E2=80=AFAM Lucas Stach <l.stach@pengutronix.d=
 e> wrote:
@@ -124,7 +122,26 @@ g
 > I thought about this for a while. My opinion is that this is the wrong
 > approach. We are adding another path to the kernel driver, potentially
 > complicating the userspace side, as now the NPU backend needs to look
-> for both render and accel nodes. While currently accel and drm are
+> for both render and accel nodes.
+
+Forgot to mention in my earlier reply today that with the proposed
+solution no changes are needed in the Gallium drivers, only in the
+pipeloader component in Mesa, and in the Gallium frontends.
+
+But those changes are needed anyway to support the upcoming
+compute-only NPUs, such as Rockchip's.
+
+These are the changes I needed to make to the userspace to go with
+this kernel patch:
+
+https://gitlab.freedesktop.org/tomeu/mesa/-/commit/6b0db4cce406c574d2b77102=
+08df9c8bd1ab6345
+
+Cheers,
+
+Tomeu
+
+> While currently accel and drm are
 > pretty closely related and we can share most of the driver, it might
 > still be a maintenance hassle in the long run.
 >
@@ -134,29 +151,7 @@ g
 > already handles this in part via the PIPE_CAP_GRAPHICS and I think we
 > should simply extend this to not offer a EGL display on screens without
 > that capability.
-
-The problem with this is that the compositors I know don't loop over
-/dev/dri files, trying to create EGL screens and moving to the next
-one until they find one that works.
-
-They take the first render node (unless a specific one has been
-configured), and assumes it will be able to render with it.
-
-To me it seems as if userspace expects that /dev/dri/renderD* devices
-can be used for rendering and by breaking this assumption we would be
-breaking existing software.
-
-Which is what I understood to be the whole point behind the decision
-to create a new device file hierarchy for accelerators. Or am I
-missing something?
-
-Adding Daniel Stone to CC in case he wants to give his opinion from
-the compositor point of view.
-
-Cheers,
-
-Tomeu
-
+>
 > Regards,
 > Lucas
 >
