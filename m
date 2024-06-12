@@ -2,40 +2,90 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0BED8CC10F
-	for <lists+etnaviv@lfdr.de>; Wed, 22 May 2024 14:17:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA402905515
+	for <lists+etnaviv@lfdr.de>; Wed, 12 Jun 2024 16:26:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6609810F13C;
-	Wed, 22 May 2024 12:17:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70E4B10E87A;
+	Wed, 12 Jun 2024 14:26:20 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=tomeuvizoso-net.20230601.gappssmtp.com header.i=@tomeuvizoso-net.20230601.gappssmtp.com header.b="b99mHLC+";
+	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 416DE10F13C
- for <etnaviv@lists.freedesktop.org>; Wed, 22 May 2024 12:17:28 +0000 (UTC)
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
- helo=[IPv6:::1]) by metis.whiteo.stw.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1s9kuL-0005z0-O2; Wed, 22 May 2024 14:17:25 +0200
-Message-ID: <27b679784163cfeff255cec0af91774de979f8e5.camel@pengutronix.de>
-Subject: Re: [PATCH] drm/etnaviv: Read some FE registers twice
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Derek Foreman <derek.foreman@collabora.com>, etnaviv@lists.freedesktop.org
-Date: Wed, 22 May 2024 14:17:24 +0200
-In-Reply-To: <e17ced84-05b0-448f-8939-a29479604d1e@collabora.com>
-References: <20240503191158.281396-1-derek.foreman@collabora.com>
- <34fd5ade5f172545d8531275c094affb4b4a1ef1.camel@pengutronix.de>
- <e17ced84-05b0-448f-8939-a29479604d1e@collabora.com>
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com
+ [209.85.128.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EEBC710E877
+ for <etnaviv@lists.freedesktop.org>; Wed, 12 Jun 2024 14:26:17 +0000 (UTC)
+Received: by mail-yw1-f169.google.com with SMTP id
+ 00721157ae682-62a2424ed00so68796137b3.1
+ for <etnaviv@lists.freedesktop.org>; Wed, 12 Jun 2024 07:26:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tomeuvizoso-net.20230601.gappssmtp.com; s=20230601; t=1718202377;
+ x=1718807177; darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=uNi2Aj5GB0qprr0RlLvPxqzHcZyuu+DlH1zEbI28b0s=;
+ b=b99mHLC+jeF+wd6QJEMXhZOGeVg7Y26v+p+6uIpnsqFsIQQz4K9RTPTeR37nlErFyn
+ PaRah1eDVJKeXSGfWJusH9HAbtuq9BofuSkwJ16bpBhMGoQHXRyyHYZKxHs1XTx5pTSe
+ X2mpVJUvk0LmGM8t6LcZwNAN7dUATR3VKmoBXRLMFH6/jCI5KvzgKGpKX2tfQTd332x/
+ BhuMAyjAxOBkbThsECW51U+M1gxeJaflmX1e11ZdCWnLpT/gzndOskgOe1q+RHEH057N
+ eDW9mvFNnI+FIYvnxD8HlIYwzf3dVgPMuDkmm+hsZZT0zkoOAMwAvIQZeU9GTzM8LymA
+ Vr2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1718202377; x=1718807177;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=uNi2Aj5GB0qprr0RlLvPxqzHcZyuu+DlH1zEbI28b0s=;
+ b=dHcsiSuc+/O7DQhVyH810jd20dhrNwkt4DDNxpv7omN8W5Z31MPkCyrZrYX0FJg6Kd
+ h8SbKX7rRqc6BuDfkGQVBUV4pJPwZDKeAdv10GhR6fkWblUV6Q1tTfYhBfJ+swjwHASB
+ /vgEBNxtVhQKh8BdPi3UlEmDz2X1b3n1Si5EMhixTyHeaEvGZ+ErF3/24iXJR9aCuzDm
+ SLq4ePMx2qRNhMtbC6qCvoATHE3qlB/GJdrCbkwkja3EyLGux1MNH19Lw+hIeLipsLUy
+ eRKx6xQM1nLbJqGk6eAtO+tYpNN84ZQ1ZnE5m1KvX+dVbnnvOMh39mEoa2sjez3xmL2v
+ LJGg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWODJBEw/IY0BS74cvHiLtihosoakzy73XA/yo3By+1NFDQFUei4mIY7CxUXgseZCLUx14Tn/xo1M5Y1jZvyN7odR4yjomslS4wXe09qw==
+X-Gm-Message-State: AOJu0Yzexajt0LoV1zHuY5x3oS6Q9/S+0uwh6CBp3PgTSku51NF9rWdI
+ HvshfEJ3gdNS1DC6y5TYW7BfgUHBaE2vutbVMqjlCSxJ/L/lEIrq71xr9V6vVcMPjIYGeufN6iE
+ TiMk=
+X-Google-Smtp-Source: AGHT+IHi13xqCphKp86ZCAJCq3cZwRxzopcHqSlIxQHx/I9v22GVy1esTRINgsaecazi0Qs3LflL+w==
+X-Received: by 2002:a0d:ca01:0:b0:627:7e65:979 with SMTP id
+ 00721157ae682-62fb902d6f8mr20373157b3.24.1718202375941; 
+ Wed, 12 Jun 2024 07:26:15 -0700 (PDT)
+Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com.
+ [209.85.219.182]) by smtp.gmail.com with ESMTPSA id
+ 00721157ae682-62ccae47960sm23893887b3.81.2024.06.12.07.26.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 12 Jun 2024 07:26:15 -0700 (PDT)
+Received: by mail-yb1-f182.google.com with SMTP id
+ 3f1490d57ef6-dfef7b13c98so326674276.0; 
+ Wed, 12 Jun 2024 07:26:15 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUL0twe234SvNNPqgT4rFE0kyK7mApnNv87IaoD3uxr/23nDgNPhAO3Dq/HcqEK3ggEPd9G2SFlHdSn+dLoq1VzHIQJJSF6xzybWiiYM4QrlVvcGkXjdPm/XtExwuKfknH5M5CvSTKTWH6oxatNaQ==
+X-Received: by 2002:a25:aa70:0:b0:dfd:dfc3:2825 with SMTP id
+ 3f1490d57ef6-dfe67065562mr2033623276.36.1718202375106; Wed, 12 Jun 2024
+ 07:26:15 -0700 (PDT)
+MIME-Version: 1.0
+References: <20240424063753.3740664-1-tomeu@tomeuvizoso.net>
+ <97eadcba7cabe56f0f4b4d753bd3d53f8540ef4b.camel@pengutronix.de>
+ <CAAObsKAQ=pWQ8MR1W7WwK1nVEeiCFNC3k+NZKsu4Fkts-_+zWg@mail.gmail.com>
+ <CAPj87rO7zyDsqUWnkF0pZeNFnNK2UnAVJy4RmB3jmPkKQ+zbEw@mail.gmail.com>
+In-Reply-To: <CAPj87rO7zyDsqUWnkF0pZeNFnNK2UnAVJy4RmB3jmPkKQ+zbEw@mail.gmail.com>
+From: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+Date: Wed, 12 Jun 2024 16:26:02 +0200
+X-Gmail-Original-Message-ID: <CAAObsKBm3D_3ctFyK-rfpM-PU6ox1yoaMA1EES9yR-nRmU4rYw@mail.gmail.com>
+Message-ID: <CAAObsKBm3D_3ctFyK-rfpM-PU6ox1yoaMA1EES9yR-nRmU4rYw@mail.gmail.com>
+Subject: Re: [PATCH] drm/etnaviv: Create an accel device node if compute-only
+To: Daniel Stone <daniel@fooishbar.org>
+Cc: Lucas Stach <l.stach@pengutronix.de>, linux-kernel@vger.kernel.org, 
+ Oded Gabbay <ogabbay@kernel.org>, Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, etnaviv@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, Daniel Stone <daniels@collabora.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
-MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,65 +100,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Am Dienstag, dem 21.05.2024 um 12:10 -0500 schrieb Derek Foreman:
-> Hello,
->=20
-> On 2024-05-16 12:36, Lucas Stach wrote:
-> > Hi Derek,
-> >=20
-> > Am Freitag, dem 03.05.2024 um 14:11 -0500 schrieb Derek Foreman:
-> > > On some hardware (such at the GC7000 rev 6009), these registers need =
-to be
-> > > read twice to return the correct value. Hide that in gpu_read().
-> > >=20
-> > > Signed-off-by: Derek Foreman <derek.foreman@collabora.com>
-> > > ---
-> > >   drivers/gpu/drm/etnaviv/etnaviv_gpu.h | 8 ++++++++
-> > >   1 file changed, 8 insertions(+)
-> > >=20
-> > > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h b/drivers/gpu/drm/=
-etnaviv/etnaviv_gpu.h
-> > > index 197e0037732e..0f67c62be3d1 100644
-> > > --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
-> > > +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
-> > > @@ -11,6 +11,7 @@
-> > >   #include "etnaviv_mmu.h"
-> > >   #include "etnaviv_drv.h"
-> > >   #include "common.xml.h"
-> > > +#include "state.xml.h"
-> > >  =20
-> > >   struct etnaviv_gem_submit;
-> > >   struct etnaviv_vram_mapping;
-> > > @@ -170,6 +171,13 @@ static inline void gpu_write(struct etnaviv_gpu =
-*gpu, u32 reg, u32 data)
-> > >  =20
-> > >   static inline u32 gpu_read(struct etnaviv_gpu *gpu, u32 reg)
-> > >   {
-> > > +	/* On some variants, such as the GC7000 6009, some FE registers
-> >                                           GC7000 rev 6009
-> > > +	 * need two reads to be consistent. Do that extra read here and
-> > > +	 * throw away the result.
-> > > +	 */
-> > Please use the common comment style of this driver with a blank line
-> > after the /*
-> Oops - done for v2. Thanks.
-> > > +	if (reg >=3D VIVS_FE_DMA_STATUS && reg <=3D VIVS_FE_AUTO_FLUSH)
-> > > +		readl(gpu->mmio + reg);
-> > I don't think it matters much, but we can save some of the overhead
-> > here by using readl_relaxed.
->=20
-> Can I just not do this? I'm concerned that losing the memory barrier=20
-> could result in weird reads again. The galcore driver doesn't use a=20
-> relaxed read, and these registers are only ever read when something goes=
-=20
-> wrong - so I don't think performance is a concern at all?
+On Mon, May 20, 2024 at 1:19=E2=80=AFPM Daniel Stone <daniel@fooishbar.org>=
+ wrote:
+>
+> Hi,
+>
+> On Mon, 20 May 2024 at 08:39, Tomeu Vizoso <tomeu@tomeuvizoso.net> wrote:
+> > On Fri, May 10, 2024 at 10:34=E2=80=AFAM Lucas Stach <l.stach@pengutron=
+ix.de> wrote:
+> > > Am Mittwoch, dem 24.04.2024 um 08:37 +0200 schrieb Tomeu Vizoso:
+> > > > If we expose a render node for NPUs without rendering capabilities,=
+ the
+> > > > userspace stack will offer it to compositors and applications for
+> > > > rendering, which of course won't work.
+> > > >
+> > > > Userspace is probably right in not questioning whether a render nod=
+e
+> > > > might not be capable of supporting rendering, so change it in the k=
+ernel
+> > > > instead by exposing a /dev/accel node.
+> > > >
+> > > > Before we bring the device up we don't know whether it is capable o=
+f
+> > > > rendering or not (depends on the features of its blocks), so first =
+try
+> > > > to probe a rendering node, and if we find out that there is no rend=
+ering
+> > > > hardware, abort and retry with an accel node.
+> > >
+> > > On the other hand we already have precedence of compute only DRM
+> > > devices exposing a render node: there are AMD GPUs that don't expose =
+a
+> > > graphics queue and are thus not able to actually render graphics. Mes=
+a
+> > > already handles this in part via the PIPE_CAP_GRAPHICS and I think we
+> > > should simply extend this to not offer a EGL display on screens witho=
+ut
+> > > that capability.
+> >
+> > The problem with this is that the compositors I know don't loop over
+> > /dev/dri files, trying to create EGL screens and moving to the next
+> > one until they find one that works.
+> >
+> > They take the first render node (unless a specific one has been
+> > configured), and assumes it will be able to render with it.
+> >
+> > To me it seems as if userspace expects that /dev/dri/renderD* devices
+> > can be used for rendering and by breaking this assumption we would be
+> > breaking existing software.
+>
+> Mm, it's sort of backwards from that. Compositors just take a
+> non-render DRM node for KMS, then ask GBM+EGL to instantiate a GPU
+> which can work with that. When run in headless mode, we don't take
+> render nodes directly, but instead just create an EGLDisplay or
+> VkPhysicalDevice and work backwards to a render node, rather than
+> selecting a render node and going from there.
+>
+> So from that PoV I don't think it's really that harmful. The only
+> complication is in Mesa, where it would see an etnaviv/amdgpu/...
+> render node and potentially try to use it as a device. As long as Mesa
+> can correctly skip, there should be no userspace API implications.
+>
+> That being said, I'm not entirely sure what the _benefit_ would be of
+> exposing a render node for a device which can't be used by any
+> 'traditional' DRM consumers, i.e. GL/Vulkan/winsys.
 
-I understand the concern. According to the architecture the memory
-barriers wouldn't make a difference, as accesses to the same slave are
-ordered, but as this is already a workaround for a HW weirdness we
-don't exactly know if we can trust the architecture guarantees here.
+What I don't understand yet from Lucas proposal is how this isn't
+going to break existing userspace.
 
-Feel free to ignore my suggestion and keep this as-is.
+I mean, even if we find a good way of having userspace skip
+non-rendering render nodes, what about existing userspace that isn't
+able to do that? Any updates to newer kernels are going to break them.
 
 Regards,
-Lucas
+
+Tomeu
