@@ -2,35 +2,35 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED8DE912C47
-	for <lists+etnaviv@lfdr.de>; Fri, 21 Jun 2024 19:13:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4711912E2B
+	for <lists+etnaviv@lfdr.de>; Fri, 21 Jun 2024 21:59:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B9ECB10EB2A;
-	Fri, 21 Jun 2024 17:13:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9ABB010E12C;
+	Fri, 21 Jun 2024 19:59:22 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
 Received: from metis.whiteo.stw.pengutronix.de
  (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8645B10EB2A
- for <etnaviv@lists.freedesktop.org>; Fri, 21 Jun 2024 17:13:09 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E94510E07E
+ for <etnaviv@lists.freedesktop.org>; Fri, 21 Jun 2024 19:59:21 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
  by metis.whiteo.stw.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <l.stach@pengutronix.de>)
- id 1sKhox-0007Lf-QJ; Fri, 21 Jun 2024 19:13:07 +0200
+ id 1sKkPn-0006JL-TM; Fri, 21 Jun 2024 21:59:19 +0200
 Received: from [2a0a:edc0:0:1101:1d::28] (helo=dude02.red.stw.pengutronix.de)
  by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
  (envelope-from <l.stach@pengutronix.de>)
- id 1sKhox-003zT9-BX; Fri, 21 Jun 2024 19:13:07 +0200
+ id 1sKkPn-0040xj-Bj; Fri, 21 Jun 2024 21:59:19 +0200
 From: Lucas Stach <l.stach@pengutronix.de>
 To: etnaviv@lists.freedesktop.org
 Cc: dri-devel@lists.freedesktop.org,
  Russell King <linux+etnaviv@armlinux.org.uk>,
  Christian Gmeiner <christian.gmeiner@gmail.com>,
  patchwork-lst@pengutronix.de, kernel@pengutronix.de
-Subject: [PATCH v2] drm/etnaviv: switch devcoredump allocations to GFP_NOWAIT
-Date: Fri, 21 Jun 2024 19:13:07 +0200
-Message-Id: <20240621171307.414953-1-l.stach@pengutronix.de>
+Subject: [PATCH] drm/etnaviv: don't block scheduler when GPU is still active
+Date: Fri, 21 Jun 2024 21:59:19 +0200
+Message-Id: <20240621195919.491217-1-l.stach@pengutronix.de>
 X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -53,42 +53,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-The etnaviv devcoredump is created in the GPU reset path, which
-must make forward progress to avoid stalling memory reclaim on
-unsignalled dma fences. The currently used __GFP_NORETRY does not
-prohibit sleeping on direct reclaim, breaking the forward progress
-guarantee. Switch to GFP_NOWAIT, which allows background reclaim
-to be triggered, but avoids any stalls waiting for direct reclaim.
+Since 45ecaea73883 ("drm/sched: Partial revert of 'drm/sched: Keep
+s_fence->parent pointer'") still active jobs aren't put back in the
+pending list on drm_sched_start(), as they don't have a active
+parent fence anymore, so if the GPU is still working and the timeout
+is extended, all currently active jobs will be freed.
 
+To avoid prematurely freeing jobs that are still active on the GPU,
+don't block the scheduler until we are fully committed to actually
+reset the GPU.
+
+As the current job is already removed from the pending list and
+will not be put back when drm_sched_start() isn't called, we must
+make sure to put the job back on the pending list when extending
+the timeout.
+
+Cc: stable@vger.kernel.org #6.0
 Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 ---
-v2: drop __GFP_NORWARN, as it's already part of GFP_NOWAIT
----
- drivers/gpu/drm/etnaviv/etnaviv_dump.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/etnaviv/etnaviv_sched.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_dump.c b/drivers/gpu/drm/etnaviv/etnaviv_dump.c
-index 898f84a0fc30..2cd223461eba 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_dump.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_dump.c
-@@ -159,8 +159,7 @@ void etnaviv_core_dump(struct etnaviv_gem_submit *submit)
- 	file_size += sizeof(*iter.hdr) * n_obj;
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sched.c b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+index c4b04b0dee16..62dcfdc7894d 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+@@ -38,9 +38,6 @@ static enum drm_gpu_sched_stat etnaviv_sched_timedout_job(struct drm_sched_job
+ 	u32 dma_addr;
+ 	int change;
  
- 	/* Allocate the file in vmalloc memory, it's likely to be big */
--	iter.start = __vmalloc(file_size, GFP_KERNEL | __GFP_NOWARN |
--			__GFP_NORETRY);
-+	iter.start = __vmalloc(file_size, GFP_NOWAIT);
- 	if (!iter.start) {
- 		mutex_unlock(&submit->mmu_context->lock);
- 		dev_warn(gpu->dev, "failed to allocate devcoredump file\n");
-@@ -230,5 +229,5 @@ void etnaviv_core_dump(struct etnaviv_gem_submit *submit)
+-	/* block scheduler */
+-	drm_sched_stop(&gpu->sched, sched_job);
+-
+ 	/*
+ 	 * If the GPU managed to complete this jobs fence, the timout is
+ 	 * spurious. Bail out.
+@@ -63,6 +60,9 @@ static enum drm_gpu_sched_stat etnaviv_sched_timedout_job(struct drm_sched_job
+ 		goto out_no_timeout;
+ 	}
  
- 	etnaviv_core_dump_header(&iter, ETDUMP_BUF_END, iter.data);
++	/* block scheduler */
++	drm_sched_stop(&gpu->sched, sched_job);
++
+ 	if(sched_job)
+ 		drm_sched_increase_karma(sched_job);
  
--	dev_coredumpv(gpu->dev, iter.start, iter.data - iter.start, GFP_KERNEL);
-+	dev_coredumpv(gpu->dev, iter.start, iter.data - iter.start, GFP_NOWAIT);
+@@ -76,8 +76,7 @@ static enum drm_gpu_sched_stat etnaviv_sched_timedout_job(struct drm_sched_job
+ 	return DRM_GPU_SCHED_STAT_NOMINAL;
+ 
+ out_no_timeout:
+-	/* restart scheduler after GPU is usable again */
+-	drm_sched_start(&gpu->sched, true);
++	list_add(&sched_job->list, &sched_job->sched->pending_list);
+ 	return DRM_GPU_SCHED_STAT_NOMINAL;
  }
+ 
 -- 
 2.39.2
 
