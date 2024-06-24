@@ -2,68 +2,67 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF90E914E2D
-	for <lists+etnaviv@lfdr.de>; Mon, 24 Jun 2024 15:16:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBCFD914E41
+	for <lists+etnaviv@lfdr.de>; Mon, 24 Jun 2024 15:18:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C078E10E426;
-	Mon, 24 Jun 2024 13:16:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B72AA10E05E;
+	Mon, 24 Jun 2024 13:18:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="dfI5OQLQ";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="VuvwIclv";
 	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com
- [209.85.216.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 16AE610E442;
- Mon, 24 Jun 2024 13:16:55 +0000 (UTC)
-Received: by mail-pj1-f54.google.com with SMTP id
- 98e67ed59e1d1-2c7da220252so3439611a91.1; 
- Mon, 24 Jun 2024 06:16:55 -0700 (PDT)
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com
+ [209.85.216.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7436A10E05E;
+ Mon, 24 Jun 2024 13:18:41 +0000 (UTC)
+Received: by mail-pj1-f41.google.com with SMTP id
+ 98e67ed59e1d1-2c80637d8adso2705468a91.0; 
+ Mon, 24 Jun 2024 06:18:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1719235014; x=1719839814; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1719235121; x=1719839921; darn=lists.freedesktop.org;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=sfbufNzdBbDxzBjkJGReG4CqSlZw8qWyj5Wd5bsu10w=;
- b=dfI5OQLQ3XhrUdQafPo0OhuRxhUcFfLfl0SGR6XzS2vA7bid3hr+r3NxeEPzQcjrcD
- Ff6P2YwlVQvk1EWxXQZtqL76Y8xvo07948jsELthXPFhZtLR9zpKkJJix1vW03md3MZZ
- yI7T7Sfhzwj2j0JKSX3+5FbtYDofFsFUrY6O45TuUJ8FHPZCzlD8kiyhlDCnAsZjip/G
- C4L1Cr9CMJlzq2r8P8ZdBpgu1nl3Jd5rSqnQxltzCbGlQT5Pw0tqs0y1ZqYGmxcWfnbM
- rfD8pLtF9pLyswWMCIoSzh3Os3JS76sVNXY7wn2dCCo0TkDxCO3dR6gNdPxDg87Cfhve
- MpFQ==
+ bh=emeSlriRRUrdujH0mnBIpyXCrJvSxoPHIO3O65l48VE=;
+ b=VuvwIclv+Ydi3njdRvU+cqsg3SfUWkijvqagEwo3o6fAawa4rv8SBbzD6JQ+1kcGZm
+ plvLyzc6pTz+/zCpANBX5nmKFt5Fl39WBhHssyoaiFI3MJMz87GGQshSZyjnOauC/dlK
+ r+Zj1AAe9fjNO7cYPdgOsNbRRy0k69DTzDcfeMnuhf+QuC4/YxsPA+tIrwKIpGUts5jE
+ 38F28icU/NP2U/n6RXwVnmt1E/cN2/0eLwf6D9lBaABaViOCsoUcWMaUrvdylKPzpqcV
+ ZJxQkentwpnFIdxAcAHdyADBy31M53UqCTQW72nYRDF4rwqSTG8YSQttvne55jQ73o+i
+ Ftbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719235014; x=1719839814;
+ d=1e100.net; s=20230601; t=1719235121; x=1719839921;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=sfbufNzdBbDxzBjkJGReG4CqSlZw8qWyj5Wd5bsu10w=;
- b=Kz8urHXAvNiVwbO7nJQXNzk+LplAjg5/+D0KR+EP2yUbn24RD9hQCFwlRwrjF8h2QK
- QZqq54aX6V4te6ME6p2vaKYu56oVoNmzSsxqsLdmjfvoNebxtaCIpZRGqTfFIfOsOyC3
- e0VJHu4zp8jz/SOeoHDjrPkcE8QExBRHjxlymYFeZMvAYNZLdfffxInGNPiE/LE7FHt0
- y7On5AjuQRqHZmsnb4X7jMZrizi4h4m6OqqUGPHoa56jmqB+/cPIeTlXfIj3TTknRPCN
- 5I83iMgVq4NT0H+RU1Q/k6OZRx2MyPB/nw0+emqRL15rIdhcf9N3OACwq87M5cFi4KhM
- sjVw==
+ bh=emeSlriRRUrdujH0mnBIpyXCrJvSxoPHIO3O65l48VE=;
+ b=uo7DrABTrSOrJvPmLQpIApx2JmXKg3ShkaQbpB+8BXDt2QxB2Gk/mpiClSKE97Lufo
+ abgBp0mwL8Qdz2b2zeUAgqIOj5D86Q1OlNcYY/mozZI3TD8MslFLtLDXwfuNnqIFqjI2
+ WbmxzcjYYPOt0wpsVgWueVNnJEWzaHe3sCYNdD9HN6N1C9IqlizUeaNgAK6hvGUXv81e
+ tV+sm+OopUJEV24aQ6mWsR69LSnaomDad4bRekm9FEZ0WLwVarTA2V2kAnR7C5nD+G/n
+ 72jtJxCFCM/tP/VvoKeOTtFQcHFYsn8yt4Pfuzx7p+ttkU3wLbrAXV4qu20EkN9x28Dw
+ W3lw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWpqkvsw3NPebinU2/7TsDR/FmXD8pc7fxfC2cwNfBG4+EOw1wbXbtImqTP0I25Jcxdk/lSTe99PfGM89+dVyG6oDA42D07rxDJ9kk0758I
-X-Gm-Message-State: AOJu0YycH9t3CWt5b2saPaZ8lR46IH5vctzODVDrE1HRCKu8AbEsGOao
- U7KZSTyjF64HXLeCP1tvkzVeEJMxjblgqyHhm3jNXQkMQd9q/e0FLGjvD5zrDbOPJ6rUAW4g5GF
- fcrGt15f+f3WRDzMIsgGQgAdtn6yIxDVd
-X-Google-Smtp-Source: AGHT+IHDCOodzO9SVlg0J+WDXeWe38j1dzh8Cd2p8eo7PnR3i4YNltS7z92yq7TX5uV8TbTpDWfVTVz4vyMO5CCX3DA=
-X-Received: by 2002:a17:90a:4bce:b0:2c8:7573:d0ba with SMTP id
- 98e67ed59e1d1-2c87573d6c7mr2777796a91.17.1719235014378; Mon, 24 Jun 2024
- 06:16:54 -0700 (PDT)
+ AJvYcCWVb1n9Grej08598FM6FAeX5YN/8k6rLaZq86vqOk01TP187ZdroZub3KLkpgLSZUa5AkNUhYOpmjmgOrfN18GcRynzjRygmsQ8MkkwpoGD
+X-Gm-Message-State: AOJu0YzAWx1PJy90LyNnNxGwtnEnhQpHdm8gmDduKObs4VF1uCRqv4Fy
+ pToyYbZxmb2NzVTsBRgQ8Uq2VmbSOM4XRgC7oJJsf8swP2yvLLvN8zHAXLXh/YA9vVMHJKNgeEL
+ h+RqpaJwZhCEdjPp3R7XWgCNjyty+fxUt
+X-Google-Smtp-Source: AGHT+IHmP1S11AEp17y5+po5G3f7xzg1YlqziywRdUW2/0We+Ag+pjsaCLI/RdeisWEUPAZ4pa9IU3TQMa98zwJhwC0=
+X-Received: by 2002:a17:90b:4b0c:b0:2c2:f472:64b0 with SMTP id
+ 98e67ed59e1d1-2c8582e1711mr3164364a91.49.1719235120823; Mon, 24 Jun 2024
+ 06:18:40 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240621171106.411596-1-l.stach@pengutronix.de>
-In-Reply-To: <20240621171106.411596-1-l.stach@pengutronix.de>
+References: <20240621195919.491217-1-l.stach@pengutronix.de>
+In-Reply-To: <20240621195919.491217-1-l.stach@pengutronix.de>
 From: Christian Gmeiner <christian.gmeiner@gmail.com>
-Date: Mon, 24 Jun 2024 15:16:42 +0200
-Message-ID: <CAH9NwWfOJ0Bv0z1Yj9peXU_kVhsypTMnS0+6heaWsH=3CX55Bg@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/etnaviv: fix DMA direction handling for cached RW
- buffers
+Date: Mon, 24 Jun 2024 15:18:29 +0200
+Message-ID: <CAH9NwWfMeT0-COymDsFeGGe8F=UVMBny+2Bv9wJVUfaorU19eA@mail.gmail.com>
+Subject: Re: [PATCH] drm/etnaviv: don't block scheduler when GPU is still
+ active
 To: Lucas Stach <l.stach@pengutronix.de>
 Cc: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Tomeu Vizoso <tomeu@tomeuvizoso.net>, 
- patchwork-lst@pengutronix.de, kernel@pengutronix.de
+ Russell King <linux+etnaviv@armlinux.org.uk>, patchwork-lst@pengutronix.de, 
+ kernel@pengutronix.de
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -80,38 +79,64 @@ Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
 >
-> The dma sync operation needs to be done with DMA_BIDIRECTIONAL when
-> the BO is prepared for both read and write operations.
+> Since 45ecaea73883 ("drm/sched: Partial revert of 'drm/sched: Keep
+> s_fence->parent pointer'") still active jobs aren't put back in the
+> pending list on drm_sched_start(), as they don't have a active
+> parent fence anymore, so if the GPU is still working and the timeout
+> is extended, all currently active jobs will be freed.
 >
-> Fixes: a8c21a5451d8 ("drm/etnaviv: add initial etnaviv DRM driver")
+> To avoid prematurely freeing jobs that are still active on the GPU,
+> don't block the scheduler until we are fully committed to actually
+> reset the GPU.
+>
+> As the current job is already removed from the pending list and
+> will not be put back when drm_sched_start() isn't called, we must
+> make sure to put the job back on the pending list when extending
+> the timeout.
+>
+> Cc: stable@vger.kernel.org #6.0
 > Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
 
 Reviewed-by: Christian Gmeiner <cgmeiner@igalia.com>
 
 > ---
-> v2: switch conditions to be exact matches
-> ---
->  drivers/gpu/drm/etnaviv/etnaviv_gem.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
+>  drivers/gpu/drm/etnaviv/etnaviv_sched.c | 9 ++++-----
+>  1 file changed, 4 insertions(+), 5 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-> index 71a6d2b1c80f..5c0c9d4e3be1 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-> @@ -355,9 +355,11 @@ static void *etnaviv_gem_vmap_impl(struct etnaviv_gem_object *obj)
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sched.c b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+> index c4b04b0dee16..62dcfdc7894d 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+> @@ -38,9 +38,6 @@ static enum drm_gpu_sched_stat etnaviv_sched_timedout_job(struct drm_sched_job
+>         u32 dma_addr;
+>         int change;
 >
->  static inline enum dma_data_direction etnaviv_op_to_dma_dir(u32 op)
->  {
-> -       if (op & ETNA_PREP_READ)
-> +       op &= ETNA_PREP_READ | ETNA_PREP_WRITE;
+> -       /* block scheduler */
+> -       drm_sched_stop(&gpu->sched, sched_job);
+> -
+>         /*
+>          * If the GPU managed to complete this jobs fence, the timout is
+>          * spurious. Bail out.
+> @@ -63,6 +60,9 @@ static enum drm_gpu_sched_stat etnaviv_sched_timedout_job(struct drm_sched_job
+>                 goto out_no_timeout;
+>         }
+>
+> +       /* block scheduler */
+> +       drm_sched_stop(&gpu->sched, sched_job);
 > +
-> +       if (op == ETNA_PREP_READ)
->                 return DMA_FROM_DEVICE;
-> -       else if (op & ETNA_PREP_WRITE)
-> +       else if (op == ETNA_PREP_WRITE)
->                 return DMA_TO_DEVICE;
->         else
->                 return DMA_BIDIRECTIONAL;
+>         if(sched_job)
+>                 drm_sched_increase_karma(sched_job);
+>
+> @@ -76,8 +76,7 @@ static enum drm_gpu_sched_stat etnaviv_sched_timedout_job(struct drm_sched_job
+>         return DRM_GPU_SCHED_STAT_NOMINAL;
+>
+>  out_no_timeout:
+> -       /* restart scheduler after GPU is usable again */
+> -       drm_sched_start(&gpu->sched, true);
+> +       list_add(&sched_job->list, &sched_job->sched->pending_list);
+>         return DRM_GPU_SCHED_STAT_NOMINAL;
+>  }
+>
 > --
 > 2.39.2
 >
