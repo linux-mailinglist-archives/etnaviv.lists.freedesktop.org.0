@@ -2,67 +2,68 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBCFD914E41
-	for <lists+etnaviv@lfdr.de>; Mon, 24 Jun 2024 15:18:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8BBC9156A4
+	for <lists+etnaviv@lfdr.de>; Mon, 24 Jun 2024 20:47:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B72AA10E05E;
-	Mon, 24 Jun 2024 13:18:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A7ED210E125;
+	Mon, 24 Jun 2024 18:47:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="VuvwIclv";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="KvPrce1S";
 	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com
- [209.85.216.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7436A10E05E;
- Mon, 24 Jun 2024 13:18:41 +0000 (UTC)
-Received: by mail-pj1-f41.google.com with SMTP id
- 98e67ed59e1d1-2c80637d8adso2705468a91.0; 
- Mon, 24 Jun 2024 06:18:41 -0700 (PDT)
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com
+ [209.85.215.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B0ECF894EA;
+ Mon, 24 Jun 2024 18:47:51 +0000 (UTC)
+Received: by mail-pg1-f177.google.com with SMTP id
+ 41be03b00d2f7-681bc7f50d0so4162538a12.0; 
+ Mon, 24 Jun 2024 11:47:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1719235121; x=1719839921; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1719254871; x=1719859671; darn=lists.freedesktop.org;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=emeSlriRRUrdujH0mnBIpyXCrJvSxoPHIO3O65l48VE=;
- b=VuvwIclv+Ydi3njdRvU+cqsg3SfUWkijvqagEwo3o6fAawa4rv8SBbzD6JQ+1kcGZm
- plvLyzc6pTz+/zCpANBX5nmKFt5Fl39WBhHssyoaiFI3MJMz87GGQshSZyjnOauC/dlK
- r+Zj1AAe9fjNO7cYPdgOsNbRRy0k69DTzDcfeMnuhf+QuC4/YxsPA+tIrwKIpGUts5jE
- 38F28icU/NP2U/n6RXwVnmt1E/cN2/0eLwf6D9lBaABaViOCsoUcWMaUrvdylKPzpqcV
- ZJxQkentwpnFIdxAcAHdyADBy31M53UqCTQW72nYRDF4rwqSTG8YSQttvne55jQ73o+i
- Ftbg==
+ bh=X75dQKiSOlUCy9pmmHYzWRn/NUnCJh7U1nH+dGZQbWw=;
+ b=KvPrce1SJHUqgmfmIl5dFH99KFXMvgKcMwbzgdPOc9klq13S5iUTC1JwC8nyHj5Rbq
+ esGcQz62OeQPkIrzhuE1UG3iQdr2bcUHUgHeMKYMfBOBdn1TTSF3DKritr/YF3jB7Kjg
+ eyIOvsuTBU+Fjw7cqHsTxTHLtZ+7uKQX77/OkwEhD5ubPvqmGw4zKWAj2r5SmxbhhCr7
+ AqU71hc/mVOETagx89R7+KtsikT7W4WINuF5zRnuLQbNYiBMUB7eSKgNEccq/tn6eoO6
+ h/QIRZk6uG5YSKWPjdEpiPgfXBZNkYqUa7fPbpoEk1z9j8hoOL5IHbmk5zHZ/0PMWo0G
+ 82Wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719235121; x=1719839921;
+ d=1e100.net; s=20230601; t=1719254871; x=1719859671;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=emeSlriRRUrdujH0mnBIpyXCrJvSxoPHIO3O65l48VE=;
- b=uo7DrABTrSOrJvPmLQpIApx2JmXKg3ShkaQbpB+8BXDt2QxB2Gk/mpiClSKE97Lufo
- abgBp0mwL8Qdz2b2zeUAgqIOj5D86Q1OlNcYY/mozZI3TD8MslFLtLDXwfuNnqIFqjI2
- WbmxzcjYYPOt0wpsVgWueVNnJEWzaHe3sCYNdD9HN6N1C9IqlizUeaNgAK6hvGUXv81e
- tV+sm+OopUJEV24aQ6mWsR69LSnaomDad4bRekm9FEZ0WLwVarTA2V2kAnR7C5nD+G/n
- 72jtJxCFCM/tP/VvoKeOTtFQcHFYsn8yt4Pfuzx7p+ttkU3wLbrAXV4qu20EkN9x28Dw
- W3lw==
+ bh=X75dQKiSOlUCy9pmmHYzWRn/NUnCJh7U1nH+dGZQbWw=;
+ b=aLRGKIU8DgfCfDk06JGxDpO55YAZIAD1EEfH7IvjZQmbliMwhj1ej/UUJ4LjMEH73P
+ B4Xr9LK5TmgggXWubuGULMtAUsZyEg+RtHcU3N3eb1X9xjX6k8QI5ZPbQE0PPAgoiu2H
+ rKkHFtLN8dz739JJhlBNsyEVS4XllHuGMim9PZboVczlMc6/qi6vFchCP2/LxuRk5e/+
+ oWKl7WJMJYYvfnM1M8rMn6hTM/PTDc5fjwUcAcm1X/JdhbGvY7w7M36D72eYz9BlkTj/
+ vXMlPLqMUSv6au9+zFPMewvXIMKqzf7wGnhRUsqhFS9gVWLtrh1CIrkq+V/6+gzSRuMT
+ iEhA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWVb1n9Grej08598FM6FAeX5YN/8k6rLaZq86vqOk01TP187ZdroZub3KLkpgLSZUa5AkNUhYOpmjmgOrfN18GcRynzjRygmsQ8MkkwpoGD
-X-Gm-Message-State: AOJu0YzAWx1PJy90LyNnNxGwtnEnhQpHdm8gmDduKObs4VF1uCRqv4Fy
- pToyYbZxmb2NzVTsBRgQ8Uq2VmbSOM4XRgC7oJJsf8swP2yvLLvN8zHAXLXh/YA9vVMHJKNgeEL
- h+RqpaJwZhCEdjPp3R7XWgCNjyty+fxUt
-X-Google-Smtp-Source: AGHT+IHmP1S11AEp17y5+po5G3f7xzg1YlqziywRdUW2/0We+Ag+pjsaCLI/RdeisWEUPAZ4pa9IU3TQMa98zwJhwC0=
-X-Received: by 2002:a17:90b:4b0c:b0:2c2:f472:64b0 with SMTP id
- 98e67ed59e1d1-2c8582e1711mr3164364a91.49.1719235120823; Mon, 24 Jun 2024
- 06:18:40 -0700 (PDT)
+ AJvYcCUr0Wxq29Gb5+81R2ovujziaSG9k5q6ADHylKETcU+p1Gi585KjN+FJJN4HKt17OqMqFfQ1WkRKGo5BKznf1pCb4fLdAOl5bZ+5BX9QfXNkEVxUusOuKk+pYOGZZZWH37UvhoS04AZ4/wnoEevAlg==
+X-Gm-Message-State: AOJu0YyS/y0fiUV+6UyE6SsebIoWl2hU0JpEuR2ZcVMmvRcFyUMmCr7+
+ 5sxLjSSc9RA03XjOyDJLQXENlMFkDFgDqmIXoNCKpyO6cJH1h0O8KA0nf2B8s8NFCrsWW7o06zf
+ G8GS3UpAX/2MH+3pR5DrKQT9G/TA=
+X-Google-Smtp-Source: AGHT+IFgOFjVt4F9SvTNmHw1kNtIdzEuhWllPnK9yKggF6ZIlzq+iY+QwBn6jG/xblVw3e5Hd8NuC11DruE/SUilaI0=
+X-Received: by 2002:a17:90b:3008:b0:2c8:7fad:b96c with SMTP id
+ 98e67ed59e1d1-2c8a2356842mr1895255a91.9.1719254870671; Mon, 24 Jun 2024
+ 11:47:50 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240621195919.491217-1-l.stach@pengutronix.de>
-In-Reply-To: <20240621195919.491217-1-l.stach@pengutronix.de>
+References: <20240519165321.2123356-1-sui.jingfeng@linux.dev>
+In-Reply-To: <20240519165321.2123356-1-sui.jingfeng@linux.dev>
 From: Christian Gmeiner <christian.gmeiner@gmail.com>
-Date: Mon, 24 Jun 2024 15:18:29 +0200
-Message-ID: <CAH9NwWfMeT0-COymDsFeGGe8F=UVMBny+2Bv9wJVUfaorU19eA@mail.gmail.com>
-Subject: Re: [PATCH] drm/etnaviv: don't block scheduler when GPU is still
- active
-To: Lucas Stach <l.stach@pengutronix.de>
-Cc: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- Russell King <linux+etnaviv@armlinux.org.uk>, patchwork-lst@pengutronix.de, 
- kernel@pengutronix.de
+Date: Mon, 24 Jun 2024 20:47:39 +0200
+Message-ID: <CAH9NwWeioHvvvK1SSJMzm3VAkRLtOSOQwys99ZO-mO3DvzYcyQ@mail.gmail.com>
+Subject: Re: [etnaviv-next v14 0/8] drm/etnaviv: Add driver wrapper for
+ vivante GPUs attached on PCI(e) device
+To: Sui Jingfeng <sui.jingfeng@linux.dev>
+Cc: Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>, 
+ linux-kernel@vger.kernel.org, etnaviv@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -78,67 +79,111 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
->
-> Since 45ecaea73883 ("drm/sched: Partial revert of 'drm/sched: Keep
-> s_fence->parent pointer'") still active jobs aren't put back in the
-> pending list on drm_sched_start(), as they don't have a active
-> parent fence anymore, so if the GPU is still working and the timeout
-> is extended, all currently active jobs will be freed.
->
-> To avoid prematurely freeing jobs that are still active on the GPU,
-> don't block the scheduler until we are fully committed to actually
-> reset the GPU.
->
-> As the current job is already removed from the pending list and
-> will not be put back when drm_sched_start() isn't called, we must
-> make sure to put the job back on the pending list when extending
-> the timeout.
->
-> Cc: stable@vger.kernel.org #6.0
-> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+Hi
 
-Reviewed-by: Christian Gmeiner <cgmeiner@igalia.com>
+>
+> drm/etnaviv use the component framework to bind multiple GPU cores to a
+> virtual master, the virtual master is manually create during driver load
+> time. This works well for various SoCs, yet there are some PCIe card has
+> the vivante GPU cores integrated. The driver lacks the support for PCIe
+> devices currently.
+>
+> Adds PCIe driver wrapper on the top of what drm/etnaviv already has, the
+> component framework is still being used to bind subdevices, even though
+> there is only one GPU core. But the process is going to be reversed, we
+> create virtual platform device for each of the vivante GPU IP core shipped
+> by the PCIe master. The PCIe master is real, bind all the virtual child
+> to the master with component framework.
+>
+>
+> v6:
+>         * Fix build issue on system without CONFIG_PCI enabled
+> v7:
+>         * Add a separate patch for the platform driver rearrangement (Bjorn)
+>         * Switch to runtime check if the GPU is dma coherent or not (Lucas)
+>         * Add ETNAVIV_PARAM_GPU_COHERENT to allow userspace to query (Lucas)
+>         * Remove etnaviv_gpu.no_clk member (Lucas)
+>         * Fix Various typos and coding style fixed (Bjorn)
+> v8:
+>         * Fix typos and remove unnecessary header included (Bjorn).
+>         * Add a dedicated function to create the virtual master platform
+>           device.
+> v9:
+>         * Use PCI_VDEVICE() macro (Bjorn)
+>         * Add trivial stubs for the PCI driver (Bjorn)
+>         * Remove a redundant dev_err() usage (Bjorn)
+>         * Clean up etnaviv_pdev_probe() with etnaviv_of_first_available_node()
+> v10:
+>         * Add one more cleanup patch
+>         * Resolve the conflict with a patch from Rob
+>         * Make the dummy PCI stub inlined
+>         * Print only if the platform is dma-coherrent
+> V11:
+>         * Drop unnecessary changes (Lucas)
+>         * Tweak according to other reviews of v10.
+>
+> V12:
+>         * Create a virtual platform device for the subcomponent GPU cores
+>         * Bind all subordinate GPU cores to the real PCI master via component.
+>
+> V13:
+>         * Drop the non-component code path, always use the component framework
+>           to bind subcomponent GPU core. Even though there is only one core.
+>         * Defer the irq handler register.
+>         * Rebase and improve the commit message
+>
+> V14:
+>         * Rebase onto etnaviv-next and improve commit message.
+>
+> Tested with JD9230P GPU and LingJiu GP102 GPU.
+>
 
-> ---
->  drivers/gpu/drm/etnaviv/etnaviv_sched.c | 9 ++++-----
->  1 file changed, 4 insertions(+), 5 deletions(-)
+I was able to test this series and will do a review in the next few
+days. Hopefully this series will land anytime.
+
+[    6.783267] etnaviv 0000:0c:00.0: enabling device (0000 -> 0003)
+[    6.783324] etnaviv 0000:0c:00.0: JingJia Micro JM9100 has 1 GPU cores
+[    6.783459] etnaviv 0000:0c:00.0: bound etnaviv-gpu,3d.0 (ops
+gpu_ops [etnaviv])
+[    6.783502] etnaviv-gpu etnaviv-gpu,3d.0: model: GC9200, revision: 6304
+[    6.783635] [drm] Initialized etnaviv 1.4.0 20151214 for
+0000:0c:00.0 on minor 1
+
+Tested-by: Christian Gmeiner <cgmeiner@igalia.com>
+
+
+> Sui Jingfeng (8):
+>   drm/etnaviv: Add a dedicated helper function to get various clocks
+>   drm/etnaviv: Add constructor and destructor for the
+>     etnaviv_drm_private structure
+>   drm/etnaviv: Embed struct drm_device into struct etnaviv_drm_private
+>   drm/etnaviv: Fix wrong cache property being used for vmap()
+>   drm/etnaviv: Add support for cached coherent caching mode
+>   drm/etnaviv: Replace the '&pdev->dev' with 'dev'
+>   drm/etnaviv: Allow creating subdevices and pass platform specific data
+>   drm/etnaviv: Add support for vivante GPU cores attached via PCIe
+>     device
 >
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sched.c b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-> index c4b04b0dee16..62dcfdc7894d 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-> @@ -38,9 +38,6 @@ static enum drm_gpu_sched_stat etnaviv_sched_timedout_job(struct drm_sched_job
->         u32 dma_addr;
->         int change;
+>  drivers/gpu/drm/etnaviv/Kconfig              |   8 +
+>  drivers/gpu/drm/etnaviv/Makefile             |   2 +
+>  drivers/gpu/drm/etnaviv/etnaviv_drv.c        | 159 ++++++++++------
+>  drivers/gpu/drm/etnaviv/etnaviv_drv.h        |  27 +++
+>  drivers/gpu/drm/etnaviv/etnaviv_gem.c        |  22 ++-
+>  drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c |   2 +-
+>  drivers/gpu/drm/etnaviv/etnaviv_gpu.c        | 144 +++++++++-----
+>  drivers/gpu/drm/etnaviv/etnaviv_gpu.h        |   4 +
+>  drivers/gpu/drm/etnaviv/etnaviv_mmu.c        |   4 +-
+>  drivers/gpu/drm/etnaviv/etnaviv_pci_drv.c    | 187 +++++++++++++++++++
+>  drivers/gpu/drm/etnaviv/etnaviv_pci_drv.h    |  18 ++
+>  include/uapi/drm/etnaviv_drm.h               |   1 +
+>  12 files changed, 468 insertions(+), 110 deletions(-)
+>  create mode 100644 drivers/gpu/drm/etnaviv/etnaviv_pci_drv.c
+>  create mode 100644 drivers/gpu/drm/etnaviv/etnaviv_pci_drv.h
 >
-> -       /* block scheduler */
-> -       drm_sched_stop(&gpu->sched, sched_job);
-> -
->         /*
->          * If the GPU managed to complete this jobs fence, the timout is
->          * spurious. Bail out.
-> @@ -63,6 +60,9 @@ static enum drm_gpu_sched_stat etnaviv_sched_timedout_job(struct drm_sched_job
->                 goto out_no_timeout;
->         }
 >
-> +       /* block scheduler */
-> +       drm_sched_stop(&gpu->sched, sched_job);
-> +
->         if(sched_job)
->                 drm_sched_increase_karma(sched_job);
->
-> @@ -76,8 +76,7 @@ static enum drm_gpu_sched_stat etnaviv_sched_timedout_job(struct drm_sched_job
->         return DRM_GPU_SCHED_STAT_NOMINAL;
->
->  out_no_timeout:
-> -       /* restart scheduler after GPU is usable again */
-> -       drm_sched_start(&gpu->sched, true);
-> +       list_add(&sched_job->list, &sched_job->sched->pending_list);
->         return DRM_GPU_SCHED_STAT_NOMINAL;
->  }
->
+> base-commit: 52272bfff15ee70c7bd5be9368f175948fb8ecfd
 > --
-> 2.39.2
+> 2.34.1
 >
 
 
