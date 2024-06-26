@@ -2,82 +2,79 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 122DD917BFF
-	for <lists+etnaviv@lfdr.de>; Wed, 26 Jun 2024 11:11:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECD70917E4F
+	for <lists+etnaviv@lfdr.de>; Wed, 26 Jun 2024 12:39:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC6BE10E7F0;
-	Wed, 26 Jun 2024 09:11:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B270D10E270;
+	Wed, 26 Jun 2024 10:39:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="g6PTqkFW";
+	dkim=pass (2048-bit key; unprotected) header.d=fooishbar-org.20230601.gappssmtp.com header.i=@fooishbar-org.20230601.gappssmtp.com header.b="lYfTnYXU";
 	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
- [209.85.167.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B5C810E7C5
- for <etnaviv@lists.freedesktop.org>; Wed, 26 Jun 2024 08:42:28 +0000 (UTC)
-Received: by mail-lf1-f50.google.com with SMTP id
- 2adb3069b0e04-52cd6784aa4so5692322e87.3
- for <etnaviv@lists.freedesktop.org>; Wed, 26 Jun 2024 01:42:28 -0700 (PDT)
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com
+ [209.85.160.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 09E9310E09B
+ for <etnaviv@lists.freedesktop.org>; Wed, 26 Jun 2024 10:39:14 +0000 (UTC)
+Received: by mail-qt1-f179.google.com with SMTP id
+ d75a77b69052e-4435f782553so37310691cf.3
+ for <etnaviv@lists.freedesktop.org>; Wed, 26 Jun 2024 03:39:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1719391346; x=1719996146; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=2Oh0VR40TRUiFXajEyAtrpMuiTr3n0qWoEDC9cdem7E=;
- b=g6PTqkFWA6rAWNSSTJ3ym66D4c+NWob4Sv39KskWxbn9eq3Kz/2YCV/sum2L8e35tL
- EdjFY7Hw9FwpQJq6688PTxtw4U7wBgbAf+jR2jx2GYB8JPl/5ovGXC4uVISTVO4Zml3K
- CQkhKZECilIc7cvMigA8dOOYAIfRnxGIv08ITcvE2OFL9yGUuHajoCTHIl78BvMxvNXd
- t2sRi7+i76G3WHIEPEJmmwIHZmkWmKvyHkj/i5j9vkcK+BSK9FULnY2OBZLDNQXf4Fgv
- wG8HA56MOyC1nExhO4WYPKKnmSNt7JZHgYI9PqETmQ6LDJCTQe+BTLpibbWVq83U6hwx
- 91kw==
+ d=fooishbar-org.20230601.gappssmtp.com; s=20230601; t=1719398354; x=1720003154;
+ darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=0WHKZbvNuX92u84qLcbUXpAEPMgHXpjkUAo84IV0s/o=;
+ b=lYfTnYXUD6j+Ahke00KqeJe/btq7xyuUaD4nLGR5/Vt/9E5XnzLh5VYhl5wwRni53B
+ D1ljqMtSNsHJEQapDiiuf8P+kl4gGLoVE3jNIEtVlECXKxyPJdt4+YxuQCEljTRFTm8Q
+ 1tVPjiZKzlbBR0FRzkChFQGXk+w85SFVBzxGno3h20YJNiI7Zr7pgvrAAU90BtlS8iCm
+ q7engeXnVnBvETNrfROS+VTlnk7cedfiogB17jKulRLob2we04O6pwVq+VicY7tVKa7K
+ A0N5v5vJIrx4/pProcfM+UXfl2D2h46qHSCIm73l/QOtvinWb8dZJMuTM98mDDQUzR/U
+ d9Kg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719391346; x=1719996146;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=2Oh0VR40TRUiFXajEyAtrpMuiTr3n0qWoEDC9cdem7E=;
- b=mzUcJJvc/Ut2HNggcAbrkEQSAVh48pW6ivtBrXVPb8OhpnuDZlIgUH2PopUB7NIj29
- nIVLxefflQLp8CYBxtaY6Xow+MFbzi56cQo9CfKIc4K9LLGbmrjUE9hnlDO/frD0QUzO
- oLOaAJfkPgBA2/zmeBoqghfujSPVWeJ+dyYIjID1xqe9UGXWDQ4q+YT0GOU59zc8aFdV
- CVSltxdRWJwdmsS9w/hcaWIkKrVjQQvq5virunj1odMYNFwk6nw/H/rI/eGhAnwoYMzV
- gYvXbFyKSGiYo/jpc9luUrOKt4zBKUXKfl7XEh/nl4XLtnnQXn/L6rQiWbivhkjT9mPT
- RC+A==
+ d=1e100.net; s=20230601; t=1719398354; x=1720003154;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=0WHKZbvNuX92u84qLcbUXpAEPMgHXpjkUAo84IV0s/o=;
+ b=rkNkddmLLJ1fm25d4zBnGTLayMQUtO3kZ+yaoHboXTz/j2J0oJcV2ZDqdRXsFTjwEj
+ EVnK/O8ctccFJ1hTk3zh2JFxYuA1ZVyP4wgxvrwA5obXpRwiD/dDDG9q13cnwlV6vNli
+ ZvKgzU9/QaQe682UNmK/Q76qqbCM4KQznSTZtcFRUgukha9G1/BHFcJSdQSPYO5+uiT/
+ yRWLz6assMtJyJozQetjg51Mq67/n8i8gPSUo6ke1oGOVd+YgTKkiWs340HeyVjLoenz
+ eTSmyWAe/r7SgGMY9UrukQizZFSjQj1v84DzBESxGh4fC53zOVnztmtc4KqYU7+0w7Et
+ t9Aw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU3kWR9TNkxMhniqTiRN2mHvYE2eRaoZbMQKgbfc0gXzHOUMIwQqUNdA3U5dgO1I3E6SrQaTjnzeLWdvmYuayNXLpXFS3PStGY9BqbLkQ==
-X-Gm-Message-State: AOJu0Yyi1Y+ahsaRNodaiUGSSliD+6eHkViFXR49+OfGD7DPpVmUKERd
- ql6MBmYiI02QXrIZBVmUT5j/MSWWMIn3wzB8L3y6i9KMd0+OGBCfR7RJ8bI2+zk=
-X-Google-Smtp-Source: AGHT+IFrbNPIOjz4l8L0QPdLiBhOanVgKGAzX1JGKORXX+GcNOkKakHvdEgvdrxZRYI3gB9j/fY5+Q==
-X-Received: by 2002:ac2:5b4c:0:b0:52c:dcd4:8953 with SMTP id
- 2adb3069b0e04-52ce1839881mr6045361e87.36.1719391346204; 
- Wed, 26 Jun 2024 01:42:26 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-52cec517173sm501360e87.244.2024.06.26.01.42.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Jun 2024 01:42:25 -0700 (PDT)
-Date: Wed, 26 Jun 2024 11:42:24 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Oded Gabbay <ogabbay@kernel.org>, Tomeu Vizoso <tomeu@tomeuvizoso.net>, 
- Jeffrey Hugo <quic_jhugo@quicinc.com>, linux-kernel@vger.kernel.org, 
- Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>, 
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- David Airlie <airlied@gmail.com>, etnaviv@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] drm/etnaviv: Create an accel device node if compute-only
-Message-ID: <kzk46s2hqrbipehnqhcx47q5mtkdjc3oeeobr2jwinw2ch3pra@37xuwtyakeus>
-References: <20240424063753.3740664-1-tomeu@tomeuvizoso.net>
- <8c55dba5-6308-685e-13da-e728197d8101@quicinc.com>
- <CAAObsKD4-k7Ya4Mi=vEPaC9DucbnVGDO5SaEUt-_o2_Bg+_FgA@mail.gmail.com>
- <CAAObsKCm49y-nUph=m9c+-eG37SaGKG93-1etwOQab4f5MXxOg@mail.gmail.com>
- <20240509144118.baib2pftmpk5nikr@GABBAY.>
- <ZnvCsJfdZdLvw1ZN@phenom.ffwll.local>
+ AJvYcCUxFgTqusOZUsrR93GxqKOqEmzTnpfy91nYzeWijT6+Fea1zRyhJf56m1Z+rKcbLd5LTvMUFZbI+5p8ULG4cYcGiRVEPlucjfMnlzD0DQ==
+X-Gm-Message-State: AOJu0YwQRgBuPnaOg/KKUmBT7I8YPQET/8CyIW+SNsNCsRLgTkhIb0FL
+ vZvFZ9UfKPH3BfTkyXpffzKY29Pi7dmlzUrVNynBW9jhvRc53mZy/JvZzZFXEWm7543OmNR6DuP
+ 3imU+3Av+PVECVwzImlEjtsm3XlcrviEDpB4OMQ==
+X-Google-Smtp-Source: AGHT+IEJ812eF8zWIpx152aNazf7TkH1mzWCEt7UM4JhxnxcwMH6yI68IWE7/8fYUJAfdVLiQBlSAhQNkYlNULRX6aI=
+X-Received: by 2002:a05:622a:49:b0:440:f54d:1bac with SMTP id
+ d75a77b69052e-444d91a819dmr125069131cf.16.1719398353655; Wed, 26 Jun 2024
+ 03:39:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZnvCsJfdZdLvw1ZN@phenom.ffwll.local>
-X-Mailman-Approved-At: Wed, 26 Jun 2024 09:11:30 +0000
+References: <20240424063753.3740664-1-tomeu@tomeuvizoso.net>
+ <97eadcba7cabe56f0f4b4d753bd3d53f8540ef4b.camel@pengutronix.de>
+ <CAAObsKAQ=pWQ8MR1W7WwK1nVEeiCFNC3k+NZKsu4Fkts-_+zWg@mail.gmail.com>
+ <CAPj87rO7zyDsqUWnkF0pZeNFnNK2UnAVJy4RmB3jmPkKQ+zbEw@mail.gmail.com>
+ <CAAObsKBm3D_3ctFyK-rfpM-PU6ox1yoaMA1EES9yR-nRmU4rYw@mail.gmail.com>
+ <CAAObsKAt563VNzDcF4rGkWPcxBPzKcq=Hj5RY6K20FWR43nvUQ@mail.gmail.com>
+ <ZnvDJVeT3rz-hnv9@phenom.ffwll.local>
+ <7cee6b78bc2375d9b014f9671b0d72ae65eba73c.camel@pengutronix.de>
+In-Reply-To: <7cee6b78bc2375d9b014f9671b0d72ae65eba73c.camel@pengutronix.de>
+From: Daniel Stone <daniel@fooishbar.org>
+Date: Wed, 26 Jun 2024 11:39:01 +0100
+Message-ID: <CAPj87rPB=N2vJ-5C7xXORYstK3=TpX+jZ7mCr7oxY2wpXeaTTQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/etnaviv: Create an accel device node if compute-only
+To: Lucas Stach <l.stach@pengutronix.de>
+Cc: Daniel Vetter <daniel@ffwll.ch>, Tomeu Vizoso <tomeu@tomeuvizoso.net>,
+ linux-kernel@vger.kernel.org, 
+ Oded Gabbay <ogabbay@kernel.org>, Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ David Airlie <airlied@gmail.com>, 
+ etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ Daniel Stone <daniels@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,61 +89,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-On Wed, Jun 26, 2024 at 09:26:40AM GMT, Daniel Vetter wrote:
-> On Thu, May 09, 2024 at 05:41:18PM +0300, Oded Gabbay wrote:
-> > On Thu, May 09, 2024 at 03:53:01PM +0200, Tomeu Vizoso wrote:
-> > > Oded, Dave,
-> > > 
-> > > Do you have an opinion on this?
-> > > 
-> > > Thanks,
-> > > 
-> > > Tomeu
-> > Hi Tomeu,
-> > 
-> > Sorry for not replying earlier, I was down with Covid (again...).
-> > 
-> > To your question, I don't have an objection to what you are
-> > suggesting. My personal view of accel is that it is an integral part of 
-> > DRM and therefore, if there is an *existing* drm driver that wants to 
-> > create an accel node, I'm not against it. 
-> 
-> Yeah, there's a continum from "clearly 3d gpu" to "compute AI
-> accelerator", with everything possible in-between shipping somewhere.
-> Collaboration is the important part, hair-splitting on where exactly the
-> driver should be is kinda secondary. I mean beyond "don't put a pure 3d
-> driver into accel or vice versa" of course :-)
-> 
-> > There is the question of why you want to expose an accel node, and
-> > here I would like to hear Dave's and Sima's opinion on your suggested
-> > solution as it may affect the direction of other drm drivers.
-> 
-> So existing userspace that blindly assumes that any render node will give
-> it useful 3d acceleration, then that's broken already.
-> 
-> - kernel with new driver support but old mesa without that driver already
->   gives you that, even for a pure 3d chip.
-> 
-> - intel (and I think also amd) have pure compute chips without 3d, so this
->   issue already exists
-> 
-> Same for the other directions, 3d gpus have variable amounts of compute
-> chips nowadays.
-> 
-> That leaves imo just the pragmatic choice, and if we need to complicate
-> the init flow of the kernel driver just for a different charnode major,
-> then I don't really see the point.
-> 
-> And if we do see the point in this, I think the right approach would be if
-> we split the init flow further into allocating the drm_device, and then in
-> a 2nd step either allocate the accel or render uapi stuff as needed. The
-> DRIVER_FOO flags just aren't super flexible for this kinda of stuff and
-> have a bit a midlayer taste to them.
+Hi,
 
-Being able to defer render allocation would be extremely useful for MSM
-too as it's not currently possible to mask the driver_features during
-drm_dev_init()
+On Wed, 26 Jun 2024 at 09:28, Lucas Stach <l.stach@pengutronix.de> wrote:
+> Mesa doesn't cope right now. Mostly because of the renderonly thing
+> where we magically need to match render devices to otherwise render
+> incapable KMS devices. The way this matching works is that the
+> renderonly code tries to open a screen on a rendernode and if that
+> succeeds we treat it as the matching render device.
+>
+> The core of the issue is that we have no way of specifying which kind
+> of screen we need at that point, i.e. if the screen should have 3D
+> render capabilities or if compute-only or even NN-accel-only would be
+> okay. So we can't fail screen creation if there is no 3D engine, as
+> this would break the teflon case, which needs a screen for the NN
+> accel, but once we successfully create a screen reanderonly might treat
+> the thing as a rendering device.
+> So we are kind of stuck here between breaking one or the other use-
+> case. I'm leaning heavily into the direction of just fixing Mesa, so we
+> can specify the type of screen we need at creation time to avoid the
+> renderonly issue, porting this change as far back as reasonably
+> possible and file old userspace into shit-happens.
 
--- 
-With best wishes
-Dmitry
+Yeah, honestly this sounds like the best solution to me too.
+
+Cheers,
+Daniel
