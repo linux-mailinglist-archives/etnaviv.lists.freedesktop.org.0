@@ -2,43 +2,89 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D18C59166CB
-	for <lists+etnaviv@lfdr.de>; Tue, 25 Jun 2024 14:01:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82B0E9179A5
+	for <lists+etnaviv@lfdr.de>; Wed, 26 Jun 2024 09:26:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8938F10E62C;
-	Tue, 25 Jun 2024 12:01:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B9A410E79A;
+	Wed, 26 Jun 2024 07:26:46 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="aL2sIfD/";
+	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4103C10E62E
- for <etnaviv@lists.freedesktop.org>; Tue, 25 Jun 2024 12:01:23 +0000 (UTC)
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
- helo=[IPv6:::1]) by metis.whiteo.stw.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1sM4rA-00087x-AW; Tue, 25 Jun 2024 14:01:04 +0200
-Message-ID: <2e7a6d8defc84073a204a2071d834d87012a0f7d.camel@pengutronix.de>
-Subject: Re: [etnaviv-next v14 0/8] drm/etnaviv: Add driver wrapper for
- vivante GPUs attached on PCI(e) device
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Icenowy Zheng <uwu@icenowy.me>, Sui Jingfeng <sui.jingfeng@linux.dev>
-Cc: Russell King <linux+etnaviv@armlinux.org.uk>, Christian Gmeiner
- <christian.gmeiner@gmail.com>, linux-kernel@vger.kernel.org, 
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
+ [209.85.221.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8779110E79C
+ for <etnaviv@lists.freedesktop.org>; Wed, 26 Jun 2024 07:26:45 +0000 (UTC)
+Received: by mail-wr1-f54.google.com with SMTP id
+ ffacd0b85a97d-3672ab915bdso23889f8f.3
+ for <etnaviv@lists.freedesktop.org>; Wed, 26 Jun 2024 00:26:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1719386803; x=1719991603; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:mail-followup-to:message-id:subject:cc:to
+ :from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=CMADylHdd12eheZDYxCQcaXIZ7L3W07jFpRH04vs5ZQ=;
+ b=aL2sIfD/ztu9z8fvVXwvT6DPjtupNrcSQdGXznRGlWh2eC/QNW122Z5fGmPUD3irwL
+ F97aMoTqyAyYRfBne3Ntb+alPg+iQnCnifLn1iUrIzjebBxO3OlYm7JFqMermZloSIdG
+ Q4LJKTpUVak5dqAh4mX2O0l/lhYD74hudj5VQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1719386803; x=1719991603;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:mail-followup-to:message-id:subject:cc:to
+ :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=CMADylHdd12eheZDYxCQcaXIZ7L3W07jFpRH04vs5ZQ=;
+ b=nYJ+7sOMSvB6iy8PXROndJb5p6jBThyk8lcTWcKevwMl/yTWSclSuLjFCQzyYVDqJ+
+ RrCj6NUueMOjgXm0CVKYAK5ptVmJQotRxI2cFGyA8AFUzV1NOPKfcP8unW11rwUCr5mh
+ jImx7OEsm1Q9UxDDDoNvbCXzxe2ZNuVbdjXLCgwbQD90JUDgXXyrZi+iv47NzZiWxkYI
+ us4pakhrUNA5rIAOaixeqBO10pLaEknw1SRW5hnxiirSozkGBJFTaHDfw5dk5O8y2/bF
+ +50fnoAYfRuyIrZKJ/DwCa//gY2YK+lgzz261aRRC/5rsT3UK/3aeOp+NwDOD7eSCEro
+ CpJw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUcLv3nNlaKJjXGjvQpFjOdYQpSho2UYbHhZIRPy7oQxqehfglVb4TYsjs8kyU/B+f2JzgVYRJOeKbAGpTNYYlAPagtiVFvlQ0YWSunOg==
+X-Gm-Message-State: AOJu0YwKNnKMTxumuY8+X9zhXhPTW6g0jsWyXtLsN0jOOZquyF4pK6pO
+ tNpFt1xB/WfH0ytQa8j7WwbBGdQ4AoHnkwGDzTUWtrr6oBhYlXMG9P2IgJ03Wv4=
+X-Google-Smtp-Source: AGHT+IHeQqyDxVRd9QAvvWNFl7K8NBdMF289e85FjexEmWnGMrmTe32t1vKI5rWbeEJPDYl7vHlqfQ==
+X-Received: by 2002:a05:6000:18ae:b0:35f:2929:846e with SMTP id
+ ffacd0b85a97d-366e2a0a8eemr7752228f8f.1.1719386803205; 
+ Wed, 26 Jun 2024 00:26:43 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-366389b8597sm14875130f8f.36.2024.06.26.00.26.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 26 Jun 2024 00:26:42 -0700 (PDT)
+Date: Wed, 26 Jun 2024 09:26:40 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Oded Gabbay <ogabbay@kernel.org>
+Cc: Tomeu Vizoso <tomeu@tomeuvizoso.net>,
+ Jeffrey Hugo <quic_jhugo@quicinc.com>, linux-kernel@vger.kernel.org,
+ Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Date: Tue, 25 Jun 2024 14:01:02 +0200
-In-Reply-To: <19acb7b11ed22a0a87694b2e74807b82e3b5450e.camel@icenowy.me>
-References: <20240519165321.2123356-1-sui.jingfeng@linux.dev>
- <19acb7b11ed22a0a87694b2e74807b82e3b5450e.camel@icenowy.me>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+Subject: Re: [PATCH] drm/etnaviv: Create an accel device node if compute-only
+Message-ID: <ZnvCsJfdZdLvw1ZN@phenom.ffwll.local>
+Mail-Followup-To: Oded Gabbay <ogabbay@kernel.org>,
+ Tomeu Vizoso <tomeu@tomeuvizoso.net>,
+ Jeffrey Hugo <quic_jhugo@quicinc.com>, linux-kernel@vger.kernel.org,
+ Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ David Airlie <airlied@gmail.com>, etnaviv@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+References: <20240424063753.3740664-1-tomeu@tomeuvizoso.net>
+ <8c55dba5-6308-685e-13da-e728197d8101@quicinc.com>
+ <CAAObsKD4-k7Ya4Mi=vEPaC9DucbnVGDO5SaEUt-_o2_Bg+_FgA@mail.gmail.com>
+ <CAAObsKCm49y-nUph=m9c+-eG37SaGKG93-1etwOQab4f5MXxOg@mail.gmail.com>
+ <20240509144118.baib2pftmpk5nikr@GABBAY.>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240509144118.baib2pftmpk5nikr@GABBAY.>
+X-Operating-System: Linux phenom 6.8.9-amd64 
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,161 +99,146 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Am Dienstag, dem 25.06.2024 um 11:18 +0800 schrieb Icenowy Zheng:
-> =E5=9C=A8 2024-05-20=E6=98=9F=E6=9C=9F=E4=B8=80=E7=9A=84 00:53 +0800=EF=
-=BC=8CSui Jingfeng=E5=86=99=E9=81=93=EF=BC=9A
-> > drm/etnaviv use the component framework to bind multiple GPU cores to
-> > a
-> > virtual master, the virtual master is manually create during driver
-> > load
-> > time. This works well for various SoCs, yet there are some PCIe card
-> > has
-> > the vivante GPU cores integrated. The driver lacks the support for
-> > PCIe
-> > devices currently.
-> >=20
-> > Adds PCIe driver wrapper on the top of what drm/etnaviv already has,
-> > the
-> > component framework is still being used to bind subdevices, even
-> > though
-> > there is only one GPU core. But the process is going to be reversed,
-> > we
-> > create virtual platform device for each of the vivante GPU IP core
-> > shipped
-> > by the PCIe master. The PCIe master is real, bind all the virtual
-> > child
-> > to the master with component framework.
-> >=20
-> >=20
-> > v6:
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Fix build issue on sy=
-stem without CONFIG_PCI enabled
-> > v7:
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Add a separate patch =
-for the platform driver rearrangement
-> > (Bjorn)
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Switch to runtime che=
-ck if the GPU is dma coherent or not
-> > (Lucas)
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Add ETNAVIV_PARAM_GPU=
-_COHERENT to allow userspace to query
-> > (Lucas)
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Remove etnaviv_gpu.no=
-_clk member (Lucas)
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Fix Various typos and=
- coding style fixed (Bjorn)
-> > v8:
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Fix typos and remove =
-unnecessary header included (Bjorn).
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Add a dedicated funct=
-ion to create the virtual master
-> > platform
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 device.
-> > v9:
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Use PCI_VDEVICE() mac=
-ro (Bjorn)
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Add trivial stubs for=
- the PCI driver (Bjorn)
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Remove a redundant de=
-v_err() usage (Bjorn)
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Clean up etnaviv_pdev=
-_probe() with
-> > etnaviv_of_first_available_node()
-> > v10:
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Add one more cleanup =
-patch
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Resolve the conflict =
-with a patch from Rob
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Make the dummy PCI st=
-ub inlined
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Print only if the pla=
-tform is dma-coherrent
-> > V11:
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Drop unnecessary chan=
-ges (Lucas)
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Tweak according to ot=
-her reviews of v10.
-> >=20
-> > V12:
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Create a virtual plat=
-form device for the subcomponent GPU
-> > cores
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Bind all subordinate =
-GPU cores to the real PCI master via
-> > component.
-> >=20
-> > V13:
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Drop the non-componen=
-t code path, always use the component
-> > framework
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 to bind subcompo=
-nent GPU core. Even though there is only
-> > one core.
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Defer the irq handler=
- register.
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Rebase and improve th=
-e commit message
-> >=20
-> > V14:
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Rebase onto etnaviv-n=
-ext and improve commit message.
-> >=20
-> > Tested with JD9230P GPU and LingJiu GP102 GPU.
->=20
-> BTW how should VRAM and displayed related parts be handled on these
-> dGPUs?
->=20
-The only way to handle VRAM properly would be to rewrite our GEM
-internals using TTM.
+On Thu, May 09, 2024 at 05:41:18PM +0300, Oded Gabbay wrote:
+> On Thu, May 09, 2024 at 03:53:01PM +0200, Tomeu Vizoso wrote:
+> > Oded, Dave,
+> > 
+> > Do you have an opinion on this?
+> > 
+> > Thanks,
+> > 
+> > Tomeu
+> Hi Tomeu,
+> 
+> Sorry for not replying earlier, I was down with Covid (again...).
+> 
+> To your question, I don't have an objection to what you are
+> suggesting. My personal view of accel is that it is an integral part of 
+> DRM and therefore, if there is an *existing* drm driver that wants to 
+> create an accel node, I'm not against it. 
 
-Regards,
-Lucas
+Yeah, there's a continum from "clearly 3d gpu" to "compute AI
+accelerator", with everything possible in-between shipping somewhere.
+Collaboration is the important part, hair-splitting on where exactly the
+driver should be is kinda secondary. I mean beyond "don't put a pure 3d
+driver into accel or vice versa" of course :-)
 
-> >=20
-> > Sui Jingfeng (8):
-> > =C2=A0 drm/etnaviv: Add a dedicated helper function to get various cloc=
-ks
-> > =C2=A0 drm/etnaviv: Add constructor and destructor for the
-> > =C2=A0=C2=A0=C2=A0 etnaviv_drm_private structure
-> > =C2=A0 drm/etnaviv: Embed struct drm_device into struct
-> > etnaviv_drm_private
-> > =C2=A0 drm/etnaviv: Fix wrong cache property being used for vmap()
-> > =C2=A0 drm/etnaviv: Add support for cached coherent caching mode
-> > =C2=A0 drm/etnaviv: Replace the '&pdev->dev' with 'dev'
-> > =C2=A0 drm/etnaviv: Allow creating subdevices and pass platform specifi=
-c
-> > data
-> > =C2=A0 drm/etnaviv: Add support for vivante GPU cores attached via PCIe
-> > =C2=A0=C2=A0=C2=A0 device
-> >=20
-> > =C2=A0drivers/gpu/drm/etnaviv/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 8 +
-> > =C2=A0drivers/gpu/drm/etnaviv/Makefile=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 2 +
-> > =C2=A0drivers/gpu/drm/etnaviv/etnaviv_drv.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 | 159 ++++++++++------
-> > =C2=A0drivers/gpu/drm/etnaviv/etnaviv_drv.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 |=C2=A0 27 +++
-> > =C2=A0drivers/gpu/drm/etnaviv/etnaviv_gem.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 |=C2=A0 22 ++-
-> > =C2=A0drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c |=C2=A0=C2=A0 2 +-
-> > =C2=A0drivers/gpu/drm/etnaviv/etnaviv_gpu.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 | 144 +++++++++-----
-> > =C2=A0drivers/gpu/drm/etnaviv/etnaviv_gpu.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 4 +
-> > =C2=A0drivers/gpu/drm/etnaviv/etnaviv_mmu.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 4 +-
-> > =C2=A0drivers/gpu/drm/etnaviv/etnaviv_pci_drv.c=C2=A0=C2=A0=C2=A0 | 187
-> > +++++++++++++++++++
-> > =C2=A0drivers/gpu/drm/etnaviv/etnaviv_pci_drv.h=C2=A0=C2=A0=C2=A0 |=C2=
-=A0 18 ++
-> > =C2=A0include/uapi/drm/etnaviv_drm.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 1 +
-> > =C2=A012 files changed, 468 insertions(+), 110 deletions(-)
-> > =C2=A0create mode 100644 drivers/gpu/drm/etnaviv/etnaviv_pci_drv.c
-> > =C2=A0create mode 100644 drivers/gpu/drm/etnaviv/etnaviv_pci_drv.h
-> >=20
-> >=20
-> > base-commit: 52272bfff15ee70c7bd5be9368f175948fb8ecfd
->=20
+> There is the question of why you want to expose an accel node, and
+> here I would like to hear Dave's and Sima's opinion on your suggested
+> solution as it may affect the direction of other drm drivers.
 
+So existing userspace that blindly assumes that any render node will give
+it useful 3d acceleration, then that's broken already.
+
+- kernel with new driver support but old mesa without that driver already
+  gives you that, even for a pure 3d chip.
+
+- intel (and I think also amd) have pure compute chips without 3d, so this
+  issue already exists
+
+Same for the other directions, 3d gpus have variable amounts of compute
+chips nowadays.
+
+That leaves imo just the pragmatic choice, and if we need to complicate
+the init flow of the kernel driver just for a different charnode major,
+then I don't really see the point.
+
+And if we do see the point in this, I think the right approach would be if
+we split the init flow further into allocating the drm_device, and then in
+a 2nd step either allocate the accel or render uapi stuff as needed. The
+DRIVER_FOO flags just aren't super flexible for this kinda of stuff and
+have a bit a midlayer taste to them.
+
+Cheers, Sima
+
+> 
+> Thanks,
+> Oded.
+> 
+> p.s.
+> Please only use bottom-posting when replying, thanks :)
+> 
+> > 
+> > On Fri, Apr 26, 2024 at 8:10 AM Tomeu Vizoso <tomeu@tomeuvizoso.net> wrote:
+> > >
+> > > On Thu, Apr 25, 2024 at 8:59 PM Jeffrey Hugo <quic_jhugo@quicinc.com> wrote:
+> > > >
+> > > > On 4/24/2024 12:37 AM, Tomeu Vizoso wrote:
+> > > > > If we expose a render node for NPUs without rendering capabilities, the
+> > > > > userspace stack will offer it to compositors and applications for
+> > > > > rendering, which of course won't work.
+> > > > >
+> > > > > Userspace is probably right in not questioning whether a render node
+> > > > > might not be capable of supporting rendering, so change it in the kernel
+> > > > > instead by exposing a /dev/accel node.
+> > > > >
+> > > > > Before we bring the device up we don't know whether it is capable of
+> > > > > rendering or not (depends on the features of its blocks), so first try
+> > > > > to probe a rendering node, and if we find out that there is no rendering
+> > > > > hardware, abort and retry with an accel node.
+> > > > >
+> > > > > Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+> > > > > Cc: Oded Gabbay <ogabbay@kernel.org>
+> > > >
+> > > > I hope Oded chimes in as Accel maintainer.  I think Airlie/Vetter had
+> > > > also previously mentioned they'd have opinions on what is Accel vs DRM.
+> > > >
+> > > > This gets a nack from me in its current state.  This is not a strong
+> > > > nack, and I don't want to discourage you.  I think there is a path forward.
+> > > >
+> > > > The Accel subsystem documentation says that accel drivers will reside in
+> > > > drivers/accel/ but this does not.
+> > >
+> > > Indeed, there is that code organization aspect.
+> > >
+> > > > Also, the commit text for "accel: add dedicated minor for accelerator
+> > > > devices" mentions -
+> > > >
+> > > > "for drivers that
+> > > > declare they handle compute accelerator, using a new driver feature
+> > > > flag called DRIVER_COMPUTE_ACCEL. It is important to note that this
+> > > > driver feature is mutually exclusive with DRIVER_RENDER. Devices that
+> > > > want to expose both graphics and compute device char files should be
+> > > > handled by two drivers that are connected using the auxiliary bus
+> > > > framework."
+> > > >
+> > > > I don't see any of that happening here (two drivers connected by aux
+> > > > bus, one in drivers/accel).
+> > >
+> > > Well, the text refers to devices, not drivers. The case we are talking
+> > > about is a driver that wants to sometimes expose an accel node, and
+> > > sometimes a render node, depending on the hardware it is dealing with.
+> > > So there would either be a device exposing a single render node, or a
+> > > device exposing a single accel node.
+> > >
+> > > Though by using the auxiliary bus we could in theory solve the code
+> > > organization problem mentioned above, I'm not quite seeing how to do
+> > > this in a clean way. The driver in /drivers/gpu/drm would have to be a
+> > > DRM driver that doesn't register a DRM device, but registers a device
+> > > in the auxiliary bus for the driver in /drivers/accel to bind to? Or
+> > > are you seeing some possibility that would fit better in the current
+> > > DRM framework?
+> > >
+> > > > I think this is the first case we've had of a combo DRM/Accel usecase,
+> > > > and so there isn't an existing example to refer you to on how to
+> > > > structure things.  I think you are going to be the first example where
+> > > > we figure all of this out.
+> > >
+> > > Yep, I will be grateful for any ideas on how to structure this.
+> > >
+> > > > On a more implementation note, ioctls for Accel devices should not be
+> > > > marked DRM_RENDER_ALLOW.  Seems like your attempt to reuse as much of
+> > > > the code as possible trips over this.
+> > >
+> > > Indeed, thanks.
+> > >
+> > > Cheers,
+> > >
+> > > Tomeu
+> > >
+> > > > -Jeff
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
