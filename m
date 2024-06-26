@@ -2,64 +2,49 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83A50917C00
-	for <lists+etnaviv@lfdr.de>; Wed, 26 Jun 2024 11:11:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8B71917AF4
+	for <lists+etnaviv@lfdr.de>; Wed, 26 Jun 2024 10:29:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2FB8610E7F3;
-	Wed, 26 Jun 2024 09:11:33 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=icenowy.me header.i=uwu@icenowy.me header.b="q1Nm6DTx";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id A846210E7BF;
+	Wed, 26 Jun 2024 08:29:08 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com
- [136.143.188.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E42A10E0DB;
- Wed, 26 Jun 2024 04:05:21 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1719374714; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=CAPa6Aj2Y2HL8mzZc5fV6ECiVYcsMgX66jazEIYBV/U0ZJVgH5HhrsMjUldKgJm21nhShjfxMkUiAFhqU99d/9AOCRAboVDwgVhiIDmG0AFbmqUpF00G8CnL9JTOMr7+KjUXXT8gTE0LAOGfYez0Vb7+UwhAmDxn+nHJEr5Ez0E=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1719374714;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=hhGijfId24GEBbrm7ReBatnnsh5MHanQyyCxdVZJ9dk=; 
- b=ET+Xy4rjWl8lIgVMo1YpFVOc73DNVF/bXgNRjtVR4X/JHvcVfL15PnUWajHIgQs9z9LB+uri2vC8mpGbZl0TWiijr8Yh+Rq6PydP0bzFKySdvuTYjHT85IVVut6aeJe7T0UScwa2XYk4PKezoiVGS3WlZLkWRFhiWP8WK98GMgw=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=icenowy.me;
- spf=pass  smtp.mailfrom=uwu@icenowy.me;
- dmarc=pass header.from=<uwu@icenowy.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1719374714; 
- s=zmail2; d=icenowy.me; i=uwu@icenowy.me;
- h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
- bh=hhGijfId24GEBbrm7ReBatnnsh5MHanQyyCxdVZJ9dk=;
- b=q1Nm6DTxMt9IMOw5XHuS3wiQ4Y1E0zWjGVEhCb8WlRbdHtoyUwDuh8y/I+jKz5o0
- 4ZLEnzc5C3FBLRjJxQm9iNwALdvgWqmZR8UMr6qttW5coeXx8ADw23DxMGp/6M1fEAZ
- xVo/zdj4YiXfPENUXeBnEV7ZbKtHB+3aSA8VZxf6dKMialiur8WebXS49N5HeaX7BW6
- zonSs57cDlAZPJhE1zX8sGq4pJMGQJ5XNmv5O8U3DK5RwTOsIWTOsRdPbCilH37lnFQ
- 7d9lj/BbEGe9WCizjRQYTwVX24SyzlyhhvA9Zjr0N5X1fkxZTXKmNT84LHZqpUhTmLo
- 6rsMXNXlrA==
-Received: by mx.zohomail.com with SMTPS id 1719374711329932.3771169735762;
- Tue, 25 Jun 2024 21:05:11 -0700 (PDT)
-Message-ID: <a2c38e7479610ea9a325be3b08897dbe5e18887d.camel@icenowy.me>
-Subject: Re: [etnaviv-next v14 0/8] drm/etnaviv: Add driver wrapper for
- vivante GPUs attached on PCI(e) device
-From: Icenowy Zheng <uwu@icenowy.me>
-To: Lucas Stach <l.stach@pengutronix.de>, Sui Jingfeng <sui.jingfeng@linux.dev>
-Cc: Russell King <linux+etnaviv@armlinux.org.uk>, Christian Gmeiner
- <christian.gmeiner@gmail.com>, linux-kernel@vger.kernel.org, 
- etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Date: Wed, 26 Jun 2024 12:05:07 +0800
-In-Reply-To: <2e7a6d8defc84073a204a2071d834d87012a0f7d.camel@pengutronix.de>
-References: <20240519165321.2123356-1-sui.jingfeng@linux.dev>
- <19acb7b11ed22a0a87694b2e74807b82e3b5450e.camel@icenowy.me>
- <2e7a6d8defc84073a204a2071d834d87012a0f7d.camel@pengutronix.de>
-Organization: Anthon Open-Source Community
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EBDD210E7BE
+ for <etnaviv@lists.freedesktop.org>; Wed, 26 Jun 2024 08:29:06 +0000 (UTC)
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
+ helo=[IPv6:::1]) by metis.whiteo.stw.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1sMO1Q-00064a-Jz; Wed, 26 Jun 2024 10:28:56 +0200
+Message-ID: <7cee6b78bc2375d9b014f9671b0d72ae65eba73c.camel@pengutronix.de>
+Subject: Re: [PATCH] drm/etnaviv: Create an accel device node if compute-only
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Daniel Vetter <daniel@ffwll.ch>, Tomeu Vizoso <tomeu@tomeuvizoso.net>
+Cc: Daniel Stone <daniel@fooishbar.org>, linux-kernel@vger.kernel.org, Oded
+ Gabbay <ogabbay@kernel.org>, Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>, David Airlie
+ <airlied@gmail.com>,  etnaviv@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Daniel Stone <daniels@collabora.com>
+Date: Wed, 26 Jun 2024 10:28:55 +0200
+In-Reply-To: <ZnvDJVeT3rz-hnv9@phenom.ffwll.local>
+References: <20240424063753.3740664-1-tomeu@tomeuvizoso.net>
+ <97eadcba7cabe56f0f4b4d753bd3d53f8540ef4b.camel@pengutronix.de>
+ <CAAObsKAQ=pWQ8MR1W7WwK1nVEeiCFNC3k+NZKsu4Fkts-_+zWg@mail.gmail.com>
+ <CAPj87rO7zyDsqUWnkF0pZeNFnNK2UnAVJy4RmB3jmPkKQ+zbEw@mail.gmail.com>
+ <CAAObsKBm3D_3ctFyK-rfpM-PU6ox1yoaMA1EES9yR-nRmU4rYw@mail.gmail.com>
+ <CAAObsKAt563VNzDcF4rGkWPcxBPzKcq=Hj5RY6K20FWR43nvUQ@mail.gmail.com>
+ <ZnvDJVeT3rz-hnv9@phenom.ffwll.local>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4 
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 MIME-Version: 1.0
-X-ZohoMailClient: External
-X-Mailman-Approved-At: Wed, 26 Jun 2024 09:11:30 +0000
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,192 +59,140 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-=E5=9C=A8 2024-06-25=E6=98=9F=E6=9C=9F=E4=BA=8C=E7=9A=84 14:01 +0200=EF=BC=
-=8CLucas Stach=E5=86=99=E9=81=93=EF=BC=9A
-> Am Dienstag, dem 25.06.2024 um 11:18 +0800 schrieb Icenowy Zheng:
-> > =E5=9C=A8 2024-05-20=E6=98=9F=E6=9C=9F=E4=B8=80=E7=9A=84 00:53 +0800=EF=
-=BC=8CSui Jingfeng=E5=86=99=E9=81=93=EF=BC=9A
-> > > drm/etnaviv use the component framework to bind multiple GPU
-> > > cores to
-> > > a
-> > > virtual master, the virtual master is manually create during
-> > > driver
-> > > load
-> > > time. This works well for various SoCs, yet there are some PCIe
-> > > card
-> > > has
-> > > the vivante GPU cores integrated. The driver lacks the support
-> > > for
-> > > PCIe
-> > > devices currently.
-> > >=20
-> > > Adds PCIe driver wrapper on the top of what drm/etnaviv already
-> > > has,
-> > > the
-> > > component framework is still being used to bind subdevices, even
-> > > though
-> > > there is only one GPU core. But the process is going to be
-> > > reversed,
-> > > we
-> > > create virtual platform device for each of the vivante GPU IP
-> > > core
-> > > shipped
-> > > by the PCIe master. The PCIe master is real, bind all the virtual
-> > > child
-> > > to the master with component framework.
-> > >=20
-> > >=20
-> > > v6:
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Fix build issue on =
-system without CONFIG_PCI enabled
-> > > v7:
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Add a separate patc=
-h for the platform driver
-> > > rearrangement
-> > > (Bjorn)
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Switch to runtime c=
-heck if the GPU is dma coherent or
-> > > not
-> > > (Lucas)
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Add ETNAVIV_PARAM_G=
-PU_COHERENT to allow userspace to
-> > > query
-> > > (Lucas)
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Remove etnaviv_gpu.=
-no_clk member (Lucas)
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Fix Various typos a=
-nd coding style fixed (Bjorn)
-> > > v8:
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Fix typos and remov=
-e unnecessary header included
-> > > (Bjorn).
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Add a dedicated fun=
-ction to create the virtual master
-> > > platform
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 device.
-> > > v9:
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Use PCI_VDEVICE() m=
-acro (Bjorn)
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Add trivial stubs f=
-or the PCI driver (Bjorn)
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Remove a redundant =
-dev_err() usage (Bjorn)
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Clean up etnaviv_pd=
-ev_probe() with
-> > > etnaviv_of_first_available_node()
-> > > v10:
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Add one more cleanu=
-p patch
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Resolve the conflic=
-t with a patch from Rob
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Make the dummy PCI =
-stub inlined
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Print only if the p=
-latform is dma-coherrent
-> > > V11:
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Drop unnecessary ch=
-anges (Lucas)
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Tweak according to =
-other reviews of v10.
-> > >=20
-> > > V12:
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Create a virtual pl=
-atform device for the subcomponent
-> > > GPU
-> > > cores
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Bind all subordinat=
-e GPU cores to the real PCI master
-> > > via
-> > > component.
-> > >=20
-> > > V13:
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Drop the non-compon=
-ent code path, always use the
-> > > component
-> > > framework
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 to bind subcom=
-ponent GPU core. Even though there is
-> > > only
-> > > one core.
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Defer the irq handl=
-er register.
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Rebase and improve =
-the commit message
-> > >=20
-> > > V14:
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* Rebase onto etnaviv=
--next and improve commit message.
-> > >=20
-> > > Tested with JD9230P GPU and LingJiu GP102 GPU.
+Am Mittwoch, dem 26.06.2024 um 09:28 +0200 schrieb Daniel Vetter:
+> On Mon, Jun 17, 2024 at 07:01:05PM +0200, Tomeu Vizoso wrote:
+> > Hi Lucas,
 > >=20
-> > BTW how should VRAM and displayed related parts be handled on these
-> > dGPUs?
-> >=20
-> The only way to handle VRAM properly would be to rewrite our GEM
-> internals using TTM.
+> > Do you have any idea on how not to break userspace if we expose a rende=
+r node?
+>=20
+> So if you get a new chip with an incompatible 3d block, you already have
+> that issue. And I hope etnaviv userspace can cope.
+>=20
+> Worst case you need to publish a fake extremely_fancy_3d_block to make
+> sure old mesa never binds against an NPU-only instance.
+>=20
+> Or mesa just doesn't cope, in which case we need a etnaviv-v2-we_are_sorr=
+y
+> drm driver name, or something like that.
 
-I suggest for these kind of dGPU to create a brand new driver instead.
+Mesa doesn't cope right now. Mostly because of the renderonly thing
+where we magically need to match render devices to otherwise render
+incapable KMS devices. The way this matching works is that the
+renderonly code tries to open a screen on a rendernode and if that
+succeeds we treat it as the matching render device.
 
-BTW, Jingfeng, what's the situation of the Loongson 7A1000 GPU? Do it
-share the same address space with the CPU?
+The core of the issue is that we have no way of specifying which kind
+of screen we need at that point, i.e. if the screen should have 3D
+render capabilities or if compute-only or even NN-accel-only would be
+okay. So we can't fail screen creation if there is no 3D engine, as
+this would break the teflon case, which needs a screen for the NN
+accel, but once we successfully create a screen reanderonly might treat
+the thing as a rendering device.
+So we are kind of stuck here between breaking one or the other use-
+case. I'm leaning heavily into the direction of just fixing Mesa, so we
+can specify the type of screen we need at creation time to avoid the
+renderonly issue, porting this change as far back as reasonably
+possible and file old userspace into shit-happens.
 
-(The display of 7A is another virtual PCI device that is already
-handled in loongson-drm driver and don't need to be worried)
+Regards,
+Lucas
 
 >=20
-> Regards,
-> Lucas
->=20
-> > >=20
-> > > Sui Jingfeng (8):
-> > > =C2=A0 drm/etnaviv: Add a dedicated helper function to get various
-> > > clocks
-> > > =C2=A0 drm/etnaviv: Add constructor and destructor for the
-> > > =C2=A0=C2=A0=C2=A0 etnaviv_drm_private structure
-> > > =C2=A0 drm/etnaviv: Embed struct drm_device into struct
-> > > etnaviv_drm_private
-> > > =C2=A0 drm/etnaviv: Fix wrong cache property being used for vmap()
-> > > =C2=A0 drm/etnaviv: Add support for cached coherent caching mode
-> > > =C2=A0 drm/etnaviv: Replace the '&pdev->dev' with 'dev'
-> > > =C2=A0 drm/etnaviv: Allow creating subdevices and pass platform
-> > > specific
-> > > data
-> > > =C2=A0 drm/etnaviv: Add support for vivante GPU cores attached via
-> > > PCIe
-> > > =C2=A0=C2=A0=C2=A0 device
-> > >=20
-> > > =C2=A0drivers/gpu/drm/etnaviv/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 8 +
-> > > =C2=A0drivers/gpu/drm/etnaviv/Makefile=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 2 +
-> > > =C2=A0drivers/gpu/drm/etnaviv/etnaviv_drv.c=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 | 159 ++++++++++---
-> > > ---
-> > > =C2=A0drivers/gpu/drm/etnaviv/etnaviv_drv.h=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 |=C2=A0 27 +++
-> > > =C2=A0drivers/gpu/drm/etnaviv/etnaviv_gem.c=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 |=C2=A0 22 ++-
-> > > =C2=A0drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c |=C2=A0=C2=A0 2 +-
-> > > =C2=A0drivers/gpu/drm/etnaviv/etnaviv_gpu.c=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 | 144 +++++++++----
-> > > -
-> > > =C2=A0drivers/gpu/drm/etnaviv/etnaviv_gpu.h=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 4 +
-> > > =C2=A0drivers/gpu/drm/etnaviv/etnaviv_mmu.c=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 4 +-
-> > > =C2=A0drivers/gpu/drm/etnaviv/etnaviv_pci_drv.c=C2=A0=C2=A0=C2=A0 | 1=
-87
-> > > +++++++++++++++++++
-> > > =C2=A0drivers/gpu/drm/etnaviv/etnaviv_pci_drv.h=C2=A0=C2=A0=C2=A0 |=
-=C2=A0 18 ++
-> > > =C2=A0include/uapi/drm/etnaviv_drm.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 1 +
-> > > =C2=A012 files changed, 468 insertions(+), 110 deletions(-)
-> > > =C2=A0create mode 100644 drivers/gpu/drm/etnaviv/etnaviv_pci_drv.c
-> > > =C2=A0create mode 100644 drivers/gpu/drm/etnaviv/etnaviv_pci_drv.h
-> > >=20
-> > >=20
-> > > base-commit: 52272bfff15ee70c7bd5be9368f175948fb8ecfd
 > >=20
+> > Cheers,
+> >=20
+> > Tomeu
+> >=20
+> > On Wed, Jun 12, 2024 at 4:26=E2=80=AFPM Tomeu Vizoso <tomeu@tomeuvizoso=
+.net> wrote:
+> > >=20
+> > > On Mon, May 20, 2024 at 1:19=E2=80=AFPM Daniel Stone <daniel@fooishba=
+r.org> wrote:
+> > > >=20
+> > > > Hi,
+> > > >=20
+> > > > On Mon, 20 May 2024 at 08:39, Tomeu Vizoso <tomeu@tomeuvizoso.net> =
+wrote:
+> > > > > On Fri, May 10, 2024 at 10:34=E2=80=AFAM Lucas Stach <l.stach@pen=
+gutronix.de> wrote:
+> > > > > > Am Mittwoch, dem 24.04.2024 um 08:37 +0200 schrieb Tomeu Vizoso=
+:
+> > > > > > > If we expose a render node for NPUs without rendering capabil=
+ities, the
+> > > > > > > userspace stack will offer it to compositors and applications=
+ for
+> > > > > > > rendering, which of course won't work.
+> > > > > > >=20
+> > > > > > > Userspace is probably right in not questioning whether a rend=
+er node
+> > > > > > > might not be capable of supporting rendering, so change it in=
+ the kernel
+> > > > > > > instead by exposing a /dev/accel node.
+> > > > > > >=20
+> > > > > > > Before we bring the device up we don't know whether it is cap=
+able of
+> > > > > > > rendering or not (depends on the features of its blocks), so =
+first try
+> > > > > > > to probe a rendering node, and if we find out that there is n=
+o rendering
+> > > > > > > hardware, abort and retry with an accel node.
+> > > > > >=20
+> > > > > > On the other hand we already have precedence of compute only DR=
+M
+> > > > > > devices exposing a render node: there are AMD GPUs that don't e=
+xpose a
+> > > > > > graphics queue and are thus not able to actually render graphic=
+s. Mesa
+> > > > > > already handles this in part via the PIPE_CAP_GRAPHICS and I th=
+ink we
+> > > > > > should simply extend this to not offer a EGL display on screens=
+ without
+> > > > > > that capability.
+> > > > >=20
+> > > > > The problem with this is that the compositors I know don't loop o=
+ver
+> > > > > /dev/dri files, trying to create EGL screens and moving to the ne=
+xt
+> > > > > one until they find one that works.
+> > > > >=20
+> > > > > They take the first render node (unless a specific one has been
+> > > > > configured), and assumes it will be able to render with it.
+> > > > >=20
+> > > > > To me it seems as if userspace expects that /dev/dri/renderD* dev=
+ices
+> > > > > can be used for rendering and by breaking this assumption we woul=
+d be
+> > > > > breaking existing software.
+> > > >=20
+> > > > Mm, it's sort of backwards from that. Compositors just take a
+> > > > non-render DRM node for KMS, then ask GBM+EGL to instantiate a GPU
+> > > > which can work with that. When run in headless mode, we don't take
+> > > > render nodes directly, but instead just create an EGLDisplay or
+> > > > VkPhysicalDevice and work backwards to a render node, rather than
+> > > > selecting a render node and going from there.
+> > > >=20
+> > > > So from that PoV I don't think it's really that harmful. The only
+> > > > complication is in Mesa, where it would see an etnaviv/amdgpu/...
+> > > > render node and potentially try to use it as a device. As long as M=
+esa
+> > > > can correctly skip, there should be no userspace API implications.
+> > > >=20
+> > > > That being said, I'm not entirely sure what the _benefit_ would be =
+of
+> > > > exposing a render node for a device which can't be used by any
+> > > > 'traditional' DRM consumers, i.e. GL/Vulkan/winsys.
+> > >=20
+> > > What I don't understand yet from Lucas proposal is how this isn't
+> > > going to break existing userspace.
+> > >=20
+> > > I mean, even if we find a good way of having userspace skip
+> > > non-rendering render nodes, what about existing userspace that isn't
+> > > able to do that? Any updates to newer kernels are going to break them=
+.
+> > >=20
+> > > Regards,
+> > >=20
+> > > Tomeu
 >=20
 
