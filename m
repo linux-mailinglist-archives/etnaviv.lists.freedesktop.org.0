@@ -2,49 +2,82 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8B71917AF4
-	for <lists+etnaviv@lfdr.de>; Wed, 26 Jun 2024 10:29:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 122DD917BFF
+	for <lists+etnaviv@lfdr.de>; Wed, 26 Jun 2024 11:11:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A846210E7BF;
-	Wed, 26 Jun 2024 08:29:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC6BE10E7F0;
+	Wed, 26 Jun 2024 09:11:31 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="g6PTqkFW";
+	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EBDD210E7BE
- for <etnaviv@lists.freedesktop.org>; Wed, 26 Jun 2024 08:29:06 +0000 (UTC)
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
- helo=[IPv6:::1]) by metis.whiteo.stw.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1sMO1Q-00064a-Jz; Wed, 26 Jun 2024 10:28:56 +0200
-Message-ID: <7cee6b78bc2375d9b014f9671b0d72ae65eba73c.camel@pengutronix.de>
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
+ [209.85.167.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B5C810E7C5
+ for <etnaviv@lists.freedesktop.org>; Wed, 26 Jun 2024 08:42:28 +0000 (UTC)
+Received: by mail-lf1-f50.google.com with SMTP id
+ 2adb3069b0e04-52cd6784aa4so5692322e87.3
+ for <etnaviv@lists.freedesktop.org>; Wed, 26 Jun 2024 01:42:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1719391346; x=1719996146; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=2Oh0VR40TRUiFXajEyAtrpMuiTr3n0qWoEDC9cdem7E=;
+ b=g6PTqkFWA6rAWNSSTJ3ym66D4c+NWob4Sv39KskWxbn9eq3Kz/2YCV/sum2L8e35tL
+ EdjFY7Hw9FwpQJq6688PTxtw4U7wBgbAf+jR2jx2GYB8JPl/5ovGXC4uVISTVO4Zml3K
+ CQkhKZECilIc7cvMigA8dOOYAIfRnxGIv08ITcvE2OFL9yGUuHajoCTHIl78BvMxvNXd
+ t2sRi7+i76G3WHIEPEJmmwIHZmkWmKvyHkj/i5j9vkcK+BSK9FULnY2OBZLDNQXf4Fgv
+ wG8HA56MOyC1nExhO4WYPKKnmSNt7JZHgYI9PqETmQ6LDJCTQe+BTLpibbWVq83U6hwx
+ 91kw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1719391346; x=1719996146;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=2Oh0VR40TRUiFXajEyAtrpMuiTr3n0qWoEDC9cdem7E=;
+ b=mzUcJJvc/Ut2HNggcAbrkEQSAVh48pW6ivtBrXVPb8OhpnuDZlIgUH2PopUB7NIj29
+ nIVLxefflQLp8CYBxtaY6Xow+MFbzi56cQo9CfKIc4K9LLGbmrjUE9hnlDO/frD0QUzO
+ oLOaAJfkPgBA2/zmeBoqghfujSPVWeJ+dyYIjID1xqe9UGXWDQ4q+YT0GOU59zc8aFdV
+ CVSltxdRWJwdmsS9w/hcaWIkKrVjQQvq5virunj1odMYNFwk6nw/H/rI/eGhAnwoYMzV
+ gYvXbFyKSGiYo/jpc9luUrOKt4zBKUXKfl7XEh/nl4XLtnnQXn/L6rQiWbivhkjT9mPT
+ RC+A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU3kWR9TNkxMhniqTiRN2mHvYE2eRaoZbMQKgbfc0gXzHOUMIwQqUNdA3U5dgO1I3E6SrQaTjnzeLWdvmYuayNXLpXFS3PStGY9BqbLkQ==
+X-Gm-Message-State: AOJu0Yyi1Y+ahsaRNodaiUGSSliD+6eHkViFXR49+OfGD7DPpVmUKERd
+ ql6MBmYiI02QXrIZBVmUT5j/MSWWMIn3wzB8L3y6i9KMd0+OGBCfR7RJ8bI2+zk=
+X-Google-Smtp-Source: AGHT+IFrbNPIOjz4l8L0QPdLiBhOanVgKGAzX1JGKORXX+GcNOkKakHvdEgvdrxZRYI3gB9j/fY5+Q==
+X-Received: by 2002:ac2:5b4c:0:b0:52c:dcd4:8953 with SMTP id
+ 2adb3069b0e04-52ce1839881mr6045361e87.36.1719391346204; 
+ Wed, 26 Jun 2024 01:42:26 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-52cec517173sm501360e87.244.2024.06.26.01.42.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 26 Jun 2024 01:42:25 -0700 (PDT)
+Date: Wed, 26 Jun 2024 11:42:24 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Oded Gabbay <ogabbay@kernel.org>, Tomeu Vizoso <tomeu@tomeuvizoso.net>, 
+ Jeffrey Hugo <quic_jhugo@quicinc.com>, linux-kernel@vger.kernel.org, 
+ Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>, 
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ David Airlie <airlied@gmail.com>, etnaviv@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org
 Subject: Re: [PATCH] drm/etnaviv: Create an accel device node if compute-only
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Daniel Vetter <daniel@ffwll.ch>, Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Cc: Daniel Stone <daniel@fooishbar.org>, linux-kernel@vger.kernel.org, Oded
- Gabbay <ogabbay@kernel.org>, Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>, David Airlie
- <airlied@gmail.com>,  etnaviv@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Daniel Stone <daniels@collabora.com>
-Date: Wed, 26 Jun 2024 10:28:55 +0200
-In-Reply-To: <ZnvDJVeT3rz-hnv9@phenom.ffwll.local>
+Message-ID: <kzk46s2hqrbipehnqhcx47q5mtkdjc3oeeobr2jwinw2ch3pra@37xuwtyakeus>
 References: <20240424063753.3740664-1-tomeu@tomeuvizoso.net>
- <97eadcba7cabe56f0f4b4d753bd3d53f8540ef4b.camel@pengutronix.de>
- <CAAObsKAQ=pWQ8MR1W7WwK1nVEeiCFNC3k+NZKsu4Fkts-_+zWg@mail.gmail.com>
- <CAPj87rO7zyDsqUWnkF0pZeNFnNK2UnAVJy4RmB3jmPkKQ+zbEw@mail.gmail.com>
- <CAAObsKBm3D_3ctFyK-rfpM-PU6ox1yoaMA1EES9yR-nRmU4rYw@mail.gmail.com>
- <CAAObsKAt563VNzDcF4rGkWPcxBPzKcq=Hj5RY6K20FWR43nvUQ@mail.gmail.com>
- <ZnvDJVeT3rz-hnv9@phenom.ffwll.local>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+ <8c55dba5-6308-685e-13da-e728197d8101@quicinc.com>
+ <CAAObsKD4-k7Ya4Mi=vEPaC9DucbnVGDO5SaEUt-_o2_Bg+_FgA@mail.gmail.com>
+ <CAAObsKCm49y-nUph=m9c+-eG37SaGKG93-1etwOQab4f5MXxOg@mail.gmail.com>
+ <20240509144118.baib2pftmpk5nikr@GABBAY.>
+ <ZnvCsJfdZdLvw1ZN@phenom.ffwll.local>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZnvCsJfdZdLvw1ZN@phenom.ffwll.local>
+X-Mailman-Approved-At: Wed, 26 Jun 2024 09:11:30 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,140 +92,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Am Mittwoch, dem 26.06.2024 um 09:28 +0200 schrieb Daniel Vetter:
-> On Mon, Jun 17, 2024 at 07:01:05PM +0200, Tomeu Vizoso wrote:
-> > Hi Lucas,
-> >=20
-> > Do you have any idea on how not to break userspace if we expose a rende=
-r node?
->=20
-> So if you get a new chip with an incompatible 3d block, you already have
-> that issue. And I hope etnaviv userspace can cope.
->=20
-> Worst case you need to publish a fake extremely_fancy_3d_block to make
-> sure old mesa never binds against an NPU-only instance.
->=20
-> Or mesa just doesn't cope, in which case we need a etnaviv-v2-we_are_sorr=
-y
-> drm driver name, or something like that.
-
-Mesa doesn't cope right now. Mostly because of the renderonly thing
-where we magically need to match render devices to otherwise render
-incapable KMS devices. The way this matching works is that the
-renderonly code tries to open a screen on a rendernode and if that
-succeeds we treat it as the matching render device.
-
-The core of the issue is that we have no way of specifying which kind
-of screen we need at that point, i.e. if the screen should have 3D
-render capabilities or if compute-only or even NN-accel-only would be
-okay. So we can't fail screen creation if there is no 3D engine, as
-this would break the teflon case, which needs a screen for the NN
-accel, but once we successfully create a screen reanderonly might treat
-the thing as a rendering device.
-So we are kind of stuck here between breaking one or the other use-
-case. I'm leaning heavily into the direction of just fixing Mesa, so we
-can specify the type of screen we need at creation time to avoid the
-renderonly issue, porting this change as far back as reasonably
-possible and file old userspace into shit-happens.
-
-Regards,
-Lucas
-
->=20
-> >=20
-> > Cheers,
-> >=20
-> > Tomeu
-> >=20
-> > On Wed, Jun 12, 2024 at 4:26=E2=80=AFPM Tomeu Vizoso <tomeu@tomeuvizoso=
-.net> wrote:
-> > >=20
-> > > On Mon, May 20, 2024 at 1:19=E2=80=AFPM Daniel Stone <daniel@fooishba=
-r.org> wrote:
-> > > >=20
-> > > > Hi,
-> > > >=20
-> > > > On Mon, 20 May 2024 at 08:39, Tomeu Vizoso <tomeu@tomeuvizoso.net> =
-wrote:
-> > > > > On Fri, May 10, 2024 at 10:34=E2=80=AFAM Lucas Stach <l.stach@pen=
-gutronix.de> wrote:
-> > > > > > Am Mittwoch, dem 24.04.2024 um 08:37 +0200 schrieb Tomeu Vizoso=
-:
-> > > > > > > If we expose a render node for NPUs without rendering capabil=
-ities, the
-> > > > > > > userspace stack will offer it to compositors and applications=
- for
-> > > > > > > rendering, which of course won't work.
-> > > > > > >=20
-> > > > > > > Userspace is probably right in not questioning whether a rend=
-er node
-> > > > > > > might not be capable of supporting rendering, so change it in=
- the kernel
-> > > > > > > instead by exposing a /dev/accel node.
-> > > > > > >=20
-> > > > > > > Before we bring the device up we don't know whether it is cap=
-able of
-> > > > > > > rendering or not (depends on the features of its blocks), so =
-first try
-> > > > > > > to probe a rendering node, and if we find out that there is n=
-o rendering
-> > > > > > > hardware, abort and retry with an accel node.
-> > > > > >=20
-> > > > > > On the other hand we already have precedence of compute only DR=
-M
-> > > > > > devices exposing a render node: there are AMD GPUs that don't e=
-xpose a
-> > > > > > graphics queue and are thus not able to actually render graphic=
-s. Mesa
-> > > > > > already handles this in part via the PIPE_CAP_GRAPHICS and I th=
-ink we
-> > > > > > should simply extend this to not offer a EGL display on screens=
- without
-> > > > > > that capability.
-> > > > >=20
-> > > > > The problem with this is that the compositors I know don't loop o=
-ver
-> > > > > /dev/dri files, trying to create EGL screens and moving to the ne=
-xt
-> > > > > one until they find one that works.
-> > > > >=20
-> > > > > They take the first render node (unless a specific one has been
-> > > > > configured), and assumes it will be able to render with it.
-> > > > >=20
-> > > > > To me it seems as if userspace expects that /dev/dri/renderD* dev=
-ices
-> > > > > can be used for rendering and by breaking this assumption we woul=
-d be
-> > > > > breaking existing software.
-> > > >=20
-> > > > Mm, it's sort of backwards from that. Compositors just take a
-> > > > non-render DRM node for KMS, then ask GBM+EGL to instantiate a GPU
-> > > > which can work with that. When run in headless mode, we don't take
-> > > > render nodes directly, but instead just create an EGLDisplay or
-> > > > VkPhysicalDevice and work backwards to a render node, rather than
-> > > > selecting a render node and going from there.
-> > > >=20
-> > > > So from that PoV I don't think it's really that harmful. The only
-> > > > complication is in Mesa, where it would see an etnaviv/amdgpu/...
-> > > > render node and potentially try to use it as a device. As long as M=
-esa
-> > > > can correctly skip, there should be no userspace API implications.
-> > > >=20
-> > > > That being said, I'm not entirely sure what the _benefit_ would be =
-of
-> > > > exposing a render node for a device which can't be used by any
-> > > > 'traditional' DRM consumers, i.e. GL/Vulkan/winsys.
-> > >=20
-> > > What I don't understand yet from Lucas proposal is how this isn't
-> > > going to break existing userspace.
-> > >=20
-> > > I mean, even if we find a good way of having userspace skip
-> > > non-rendering render nodes, what about existing userspace that isn't
-> > > able to do that? Any updates to newer kernels are going to break them=
-.
-> > >=20
-> > > Regards,
-> > >=20
+On Wed, Jun 26, 2024 at 09:26:40AM GMT, Daniel Vetter wrote:
+> On Thu, May 09, 2024 at 05:41:18PM +0300, Oded Gabbay wrote:
+> > On Thu, May 09, 2024 at 03:53:01PM +0200, Tomeu Vizoso wrote:
+> > > Oded, Dave,
+> > > 
+> > > Do you have an opinion on this?
+> > > 
+> > > Thanks,
+> > > 
 > > > Tomeu
->=20
+> > Hi Tomeu,
+> > 
+> > Sorry for not replying earlier, I was down with Covid (again...).
+> > 
+> > To your question, I don't have an objection to what you are
+> > suggesting. My personal view of accel is that it is an integral part of 
+> > DRM and therefore, if there is an *existing* drm driver that wants to 
+> > create an accel node, I'm not against it. 
+> 
+> Yeah, there's a continum from "clearly 3d gpu" to "compute AI
+> accelerator", with everything possible in-between shipping somewhere.
+> Collaboration is the important part, hair-splitting on where exactly the
+> driver should be is kinda secondary. I mean beyond "don't put a pure 3d
+> driver into accel or vice versa" of course :-)
+> 
+> > There is the question of why you want to expose an accel node, and
+> > here I would like to hear Dave's and Sima's opinion on your suggested
+> > solution as it may affect the direction of other drm drivers.
+> 
+> So existing userspace that blindly assumes that any render node will give
+> it useful 3d acceleration, then that's broken already.
+> 
+> - kernel with new driver support but old mesa without that driver already
+>   gives you that, even for a pure 3d chip.
+> 
+> - intel (and I think also amd) have pure compute chips without 3d, so this
+>   issue already exists
+> 
+> Same for the other directions, 3d gpus have variable amounts of compute
+> chips nowadays.
+> 
+> That leaves imo just the pragmatic choice, and if we need to complicate
+> the init flow of the kernel driver just for a different charnode major,
+> then I don't really see the point.
+> 
+> And if we do see the point in this, I think the right approach would be if
+> we split the init flow further into allocating the drm_device, and then in
+> a 2nd step either allocate the accel or render uapi stuff as needed. The
+> DRIVER_FOO flags just aren't super flexible for this kinda of stuff and
+> have a bit a midlayer taste to them.
 
+Being able to defer render allocation would be extremely useful for MSM
+too as it's not currently possible to mask the driver_features during
+drm_dev_init()
+
+-- 
+With best wishes
+Dmitry
