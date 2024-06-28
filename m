@@ -2,84 +2,38 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59C3991BBF7
-	for <lists+etnaviv@lfdr.de>; Fri, 28 Jun 2024 11:54:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8094591BCBB
+	for <lists+etnaviv@lfdr.de>; Fri, 28 Jun 2024 12:39:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 18D3410E235;
-	Fri, 28 Jun 2024 09:54:35 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=fooishbar-org.20230601.gappssmtp.com header.i=@fooishbar-org.20230601.gappssmtp.com header.b="bMbKAWbq";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 11FC310EC0B;
+	Fri, 28 Jun 2024 10:39:38 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com
- [209.85.210.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1933B10E235
- for <etnaviv@lists.freedesktop.org>; Fri, 28 Jun 2024 09:54:34 +0000 (UTC)
-Received: by mail-pf1-f180.google.com with SMTP id
- d2e1a72fcca58-706aab1b7ffso367680b3a.1
- for <etnaviv@lists.freedesktop.org>; Fri, 28 Jun 2024 02:54:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fooishbar-org.20230601.gappssmtp.com; s=20230601; t=1719568473; x=1720173273;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=i9yd5IeywhU3UMB+zoN0GXyMJftk0239YPKabyLj6sg=;
- b=bMbKAWbqXnlMd0ijGg9PYBUH6rvGn93pAiXGdBNNPS3ynrrzCiOGDkYu/Xsek4RzSP
- Vw2p2CzrpFRm9LS/T/9ZmZCuRh2B/8Oao2RulIneofloVPUYQVWyUQ2f49GY7SGGCy0K
- fgGmmW9HXxrtgCkXPMorQyhtnW/d9q0GJ64XR1aHO7F+znoOiDYStwfPLccvnG9L6cxS
- n+85WgtWTCXr2fd7f3vgaoulrfl2RVWuKE3il8Iy7zme2FI0ytEZc3ly6d8nfVM7tSQE
- 9zvGpgV+RIVDBwdPNWowyiSMmLwMMCjPyS5VKq043Wq4KCjquMHoe4YR5n73cNKYWN4j
- ecXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719568473; x=1720173273;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=i9yd5IeywhU3UMB+zoN0GXyMJftk0239YPKabyLj6sg=;
- b=wZftjXJfjD3gYPzoGjIgFDNRsz1FORfSHPn6dUyNngLheM2On76BE6DQQfGSeRjNgV
- 1Dchb6OM/9xMsx4VBH6m4F4ioyfVVhmgaZW9/scrAmUhhADCdhzWWsuvdbv05HFbEbrA
- 8qn4mj95k4WCqccfbOvbjLkBcwdXx21rcdal1rUR3anoHbjcouLWzs8z2BJuVXqGrRFn
- OA4Xp0J11auDJ5cr82vmOJBc810szuHCIykZOQlUOOyvHNn1nO4vHehO13ThBvFaDPun
- slULSMLW2LhEhC9r8781EvrLlYbvlTJfkc8XntpBoB5/LY0hlufB23gKZSFogrSrcucH
- gZtA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXhlmCpr/ZkZ1XkvIrz8PD1ab5LzToLLyKn6J3GjktWX+D/HWTafIEdGY9munfsJT6KfAq2OwkzHsp+m1qFM0MA/KSiaQV7GiqvebPaFw==
-X-Gm-Message-State: AOJu0Yw5OluEKgbQ6XAb1TniT245aCC+UlM43t05+CK7IlNjI3bhfUjg
- TBAue8fe5S2u/6m1e8wvfSusO4yKXKogeUG3gLdJAEAszB9+DCCevlj4YHgjp6he8CBhieL7r5Q
- jsmnQH4FdDck9y4lBwCamGSZsHWxl48Ce9Dp8fzkSalK4iU6in5k=
-X-Google-Smtp-Source: AGHT+IGvcAEX02VPxewqLgLB68oUm1hCavQ9Ot+w2MXu96wdn0wBsvfW3v6NAE8XWNNpFNolk3LKsB/HSTb26oji3wM=
-X-Received: by 2002:a05:6a20:3556:b0:1bd:1a36:321b with SMTP id
- adf61e73a8af0-1bd1a363345mr9391899637.60.1719568473476; Fri, 28 Jun 2024
- 02:54:33 -0700 (PDT)
-MIME-Version: 1.0
-References: <20240424063753.3740664-1-tomeu@tomeuvizoso.net>
- <97eadcba7cabe56f0f4b4d753bd3d53f8540ef4b.camel@pengutronix.de>
- <CAAObsKAQ=pWQ8MR1W7WwK1nVEeiCFNC3k+NZKsu4Fkts-_+zWg@mail.gmail.com>
- <CAPj87rO7zyDsqUWnkF0pZeNFnNK2UnAVJy4RmB3jmPkKQ+zbEw@mail.gmail.com>
- <CAAObsKBm3D_3ctFyK-rfpM-PU6ox1yoaMA1EES9yR-nRmU4rYw@mail.gmail.com>
- <CAAObsKAt563VNzDcF4rGkWPcxBPzKcq=Hj5RY6K20FWR43nvUQ@mail.gmail.com>
- <ZnvDJVeT3rz-hnv9@phenom.ffwll.local>
- <7cee6b78bc2375d9b014f9671b0d72ae65eba73c.camel@pengutronix.de>
- <CAPj87rPB=N2vJ-5C7xXORYstK3=TpX+jZ7mCr7oxY2wpXeaTTQ@mail.gmail.com>
- <ZnxVWrFJKbVO8PZ0@phenom.ffwll.local>
- <CAPj87rPnA1eKR_b7gAhDiMZRcVt8xPS9xnsscqVQ_a_qO_tD4A@mail.gmail.com>
- <CAAObsKATM0hQ=XTzTTucArBzSnVEu-CfdkUU4c6UVHd1+G5-gw@mail.gmail.com>
-In-Reply-To: <CAAObsKATM0hQ=XTzTTucArBzSnVEu-CfdkUU4c6UVHd1+G5-gw@mail.gmail.com>
-From: Daniel Stone <daniel@fooishbar.org>
-Date: Fri, 28 Jun 2024 10:54:20 +0100
-Message-ID: <CAPj87rNtzrMjL6tFfDG9-yMAiomi+PxwL0eXW3RYDaJs+knhbw@mail.gmail.com>
-Subject: Re: [PATCH] drm/etnaviv: Create an accel device node if compute-only
-To: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Cc: Lucas Stach <l.stach@pengutronix.de>, linux-kernel@vger.kernel.org, 
- Oded Gabbay <ogabbay@kernel.org>, Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- David Airlie <airlied@gmail.com>, 
- etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- Daniel Stone <daniels@collabora.com>, Daniel Vetter <daniel@ffwll.ch>
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4279910EC0A
+ for <etnaviv@lists.freedesktop.org>; Fri, 28 Jun 2024 10:39:36 +0000 (UTC)
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
+ helo=[IPv6:::1]) by metis.whiteo.stw.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1sN90v-0003kD-Ub; Fri, 28 Jun 2024 12:39:34 +0200
+Message-ID: <e8b91e2f18e6eaa722569dd21f559009064b1730.camel@pengutronix.de>
+Subject: [GIT PULL] etnaviv-next for 6.11
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: kernel@pengutronix.de, etnaviv@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org
+Date: Fri, 28 Jun 2024 12:39:33 +0200
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+MIME-Version: 1.0
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,37 +48,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Dave, hi Sima,
 
-On Fri, 28 Jun 2024 at 10:43, Tomeu Vizoso <tomeu@tomeuvizoso.net> wrote:
-> On Wed, Jun 26, 2024 at 9:26=E2=80=AFPM Daniel Stone <daniel@fooishbar.or=
-g> wrote:
-> > It's not just etnaviv, it's literally every Mesa driver which works
-> > with decoupled render/display. So that would be etnaviv-v2,
-> > panfrost-v2, panthor-v2, v3d-v2, powervr-v2, ... albeit those don't
-> > tend to have multiple instances.
->
-> TBH, I think VeriSilicon is the only IP vendor that has recycled a
-> render-only IP into a compute-only IP.
->
-> That is why I liked the approach of conditionally creating an accel
-> node, as it neatly reflects that reality.
->
-> > Anyway, I'm still leaning towards the answer being: this is not an
-> > etnaviv regression caused by NPU, it's a longstanding generic Mesa
-> > issue for which the answer is to fix the known fragility.
->
-> My understanding of the consensus so far is that Mesa should be fixed
-> so that Gallium drivers can fail at screen init if the device doesn't
-> support some new usage flags that we would be adding.
->
-> If for some reason that doesn't work, we would be looking at having
-> etnaviv use a different kind of driver name, such as etnaviv-npu or
-> etnaviv-compute.
->
-> Did I get it right?
+please pull the following changes for the next merge window. Mostly
+fixes, but as they concern new hardware support there's no need to rush
+them into the current -rc.
 
-Yep, wfm. :)
+Regards,
+Lucas
 
-Cheers,
-Daniel
+The following changes since commit e67572cd2204894179d89bd7b984072f19313b03=
+:
+
+  Linux 6.9-rc6 (2024-04-28 13:47:24 -0700)
+
+are available in the Git repository at:
+
+  https://git.pengutronix.de/git/lst/linux tags/drm-etnaviv-next-2024-06-28
+
+for you to fetch changes up to 704d3d60fec451f37706368d9d3e320322978986:
+
+  drm/etnaviv: don't block scheduler when GPU is still active (2024-06-26 1=
+5:33:25 +0200)
+
+----------------------------------------------------------------
+- fix i.MX8MP NPU clock gating
+- workaround FE register cdc issues on some cores
+- fix DMA sync handling for cached buffers
+- fix job timeout handling
+- keep TS enabled on MMUv2 cores for improved performance
+
+----------------------------------------------------------------
+Derek Foreman (1):
+      drm/etnaviv: Read some FE registers twice
+
+Krzysztof Kozlowski (1):
+      drm/etnaviv: drop driver owner assignment
+
+Lucas Stach (5):
+      drm/etnaviv: don't disable TS on MMUv2 core when moving the linear wi=
+ndow
+      drm/etnaviv: switch devcoredump allocations to GFP_NOWAIT
+      drm/etnaviv: fix DMA direction handling for cached RW buffers
+      drm/etnaviv: reduce number of ktime_get calls in IRQ handler
+      drm/etnaviv: don't block scheduler when GPU is still active
+
+Philipp Zabel (3):
+      drm/etnaviv: Update hardware headers from rnndb
+      drm/etnaviv: Turn etnaviv_is_model_rev() into a function
+      drm/etnaviv: Disable SH_EU clock gating on VIPNano-Si+
+
+ drivers/gpu/drm/etnaviv/cmdstream.xml.h |  52 +++++++++++++++++++++++--
+ drivers/gpu/drm/etnaviv/common.xml.h    |  12 +++---
+ drivers/gpu/drm/etnaviv/etnaviv_dump.c  |   5 +--
+ drivers/gpu/drm/etnaviv/etnaviv_gem.c   |   6 ++-
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c   |  83 ++++++++++++++++++++++------=
+------------
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.h   |   8 ++++
+ drivers/gpu/drm/etnaviv/etnaviv_sched.c |   9 ++---
+ drivers/gpu/drm/etnaviv/state.xml.h     | 103 ++++++++++++++++++++++++++++=
+++++++++++++++--------
+ drivers/gpu/drm/etnaviv/state_blt.xml.h |  22 +++++------
+ drivers/gpu/drm/etnaviv/state_hi.xml.h  |  30 +++++++++------
+ 10 files changed, 238 insertions(+), 92 deletions(-)
+
