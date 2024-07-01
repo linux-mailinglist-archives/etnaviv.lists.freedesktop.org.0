@@ -2,44 +2,39 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45FC791E656
-	for <lists+etnaviv@lfdr.de>; Mon,  1 Jul 2024 19:15:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E75A91E6D0
+	for <lists+etnaviv@lfdr.de>; Mon,  1 Jul 2024 19:42:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4162910E4B5;
-	Mon,  1 Jul 2024 17:15:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E1B8F10E4DC;
+	Mon,  1 Jul 2024 17:42:39 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
 Received: from metis.whiteo.stw.pengutronix.de
  (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9267C10E4A8
- for <etnaviv@lists.freedesktop.org>; Mon,  1 Jul 2024 17:14:59 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.whiteo.stw.pengutronix.de with esmtps
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C222410E4C2
+ for <etnaviv@lists.freedesktop.org>; Mon,  1 Jul 2024 17:42:38 +0000 (UTC)
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
+ helo=[IPv6:::1]) by metis.whiteo.stw.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <l.stach@pengutronix.de>)
- id 1sOKc5-0002pB-2r; Mon, 01 Jul 2024 19:14:49 +0200
-Received: from [2a0a:edc0:0:1101:1d::28] (helo=dude02.red.stw.pengutronix.de)
- by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
- (envelope-from <l.stach@pengutronix.de>)
- id 1sOKc4-006Q8D-6O; Mon, 01 Jul 2024 19:14:48 +0200
+ id 1sOL2z-0005XQ-7W; Mon, 01 Jul 2024 19:42:37 +0200
+Message-ID: <1b28fce1c09887eb53679f687a50c6dd31903eb1.camel@pengutronix.de>
+Subject: Re: [PATCH 1/3] drm/etnaviv: move debug register en-/disable into
+ own function
 From: Lucas Stach <l.stach@pengutronix.de>
-To: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Luben Tuikov <ltuikov89@gmail.com>, Matthew Brost <matthew.brost@intel.com>
-Cc: Pan Xinhui <Xinhui.Pan@amd.com>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- etnaviv@lists.freedesktop.org, kernel@pengutronix.de,
- patchwork-lst@pengutronix.de
-Subject: [PATCH 4/4] drm/etnaviv: export client GPU usage statistics via fdinfo
-Date: Mon,  1 Jul 2024 19:14:47 +0200
-Message-Id: <20240701171447.3823888-4-l.stach@pengutronix.de>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240701171447.3823888-1-l.stach@pengutronix.de>
-References: <20240701171447.3823888-1-l.stach@pengutronix.de>
+To: Philipp Zabel <p.zabel@pengutronix.de>, etnaviv@lists.freedesktop.org
+Cc: Christian Gmeiner <christian.gmeiner@gmail.com>, Russell King
+ <linux+etnaviv@armlinux.org.uk>, dri-devel@lists.freedesktop.org, 
+ kernel@pengutronix.de, patchwork-lst@pengutronix.de
+Date: Mon, 01 Jul 2024 19:42:36 +0200
+In-Reply-To: <e8e9d2ca2844e3ccbbe23b2c38b69ffe8d8307eb.camel@pengutronix.de>
+References: <20240628104745.2602036-1-l.stach@pengutronix.de>
+ <e8e9d2ca2844e3ccbbe23b2c38b69ffe8d8307eb.camel@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
 X-SA-Exim-Mail-From: l.stach@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
  SAEximRunCond expanded to false
@@ -58,67 +53,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-This exposes a accumulated GPU active time per client via the
-fdinfo infrastructure.
+Am Freitag, dem 28.06.2024 um 13:07 +0200 schrieb Philipp Zabel:
+> On Fr, 2024-06-28 at 12:47 +0200, Lucas Stach wrote:
+> > The next changes will introduce another place where the debug registers
+> > need to be en-/disabled. Split into separate functions, so we don't nee=
+d
+> > to replicate the code there. Also allow those calls to nest, keeping
+> > the debug registers enabled until all callers don't need them any longe=
+r.
+> >=20
+> > Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+> > ---
+> >  drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 33 ++++++++++++++++++++-------
+> >  drivers/gpu/drm/etnaviv/etnaviv_gpu.h |  3 +++
+> >  2 files changed, 28 insertions(+), 8 deletions(-)
+> >=20
+> > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/et=
+naviv/etnaviv_gpu.c
+> > index 7c7f97793ddd..ade6f7554706 100644
+> > --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> > +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> > @@ -471,6 +471,29 @@ static void etnaviv_hw_identify(struct etnaviv_gpu=
+ *gpu)
+> > =20
+> >  	etnaviv_hw_specs(gpu);
+> >  }
+> > +void etnaviv_gpu_enable_debug_regs(struct etnaviv_gpu *gpu)
+> > +{
+> > +	u32 val;
+> > +
+> > +	if (atomic_inc_return(&gpu->dbg_ref) > 1)
+> > +		return;
+>=20
+> This is a reference count, any reason not to use refcount_t?
 
-Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
----
-v2:
-- new patch
----
- drivers/gpu/drm/etnaviv/etnaviv_drv.c | 32 ++++++++++++++++++++++++++-
- 1 file changed, 31 insertions(+), 1 deletion(-)
+refcount_t doesn't provide the nice _return interface and I don't think
+the memory related messages emitted by refcount on misuse are helpful
+here.
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-index 6500f3999c5f..f42b982f9a16 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-@@ -24,6 +24,7 @@
- #include "etnaviv_gem.h"
- #include "etnaviv_mmu.h"
- #include "etnaviv_perfmon.h"
-+#include "common.xml.h"
- 
- /*
-  * DRM operations:
-@@ -488,7 +489,36 @@ static const struct drm_ioctl_desc etnaviv_ioctls[] = {
- 	ETNA_IOCTL(PM_QUERY_SIG, pm_query_sig, DRM_RENDER_ALLOW),
- };
- 
--DEFINE_DRM_GEM_FOPS(fops);
-+static void etnaviv_fop_show_fdinfo(struct seq_file *m, struct file *f)
-+{
-+	struct drm_file *file = f->private_data;
-+	struct drm_device *dev = file->minor->dev;
-+	struct etnaviv_drm_private *priv = dev->dev_private;
-+	struct etnaviv_file_private *ctx = file->driver_priv;
-+
-+	/*
-+	 * For a description of the text output format used here, see
-+	 * Documentation/gpu/drm-usage-stats.rst.
-+	 */
-+	seq_printf(m, "drm-driver:\t%s\n", dev->driver->name);
-+	seq_printf(m, "drm-client-id:\t%u\n", ctx->id);
-+
-+	for (int i = 0; i < ETNA_MAX_PIPES; i++) {
-+		struct etnaviv_gpu *gpu = priv->gpu[i];
-+
-+		if (!gpu)
-+			continue;
-+
-+		seq_printf(m, "drm-engine-pipe%d:\t%llu ns\n", i,
-+			drm_sched_entity_time_spent(&ctx->sched_entity[i]));
-+	}
-+}
-+
-+static const struct file_operations fops = {
-+	.owner = THIS_MODULE,
-+	DRM_GEM_FOPS,
-+	.show_fdinfo = etnaviv_fop_show_fdinfo,
-+};
- 
- static const struct drm_driver etnaviv_drm_driver = {
- 	.driver_features    = DRIVER_GEM | DRIVER_RENDER,
--- 
-2.39.2
+>=20
+> > +
+> > +	val =3D gpu_read(gpu, VIVS_HI_CLOCK_CONTROL);
+> > +	val &=3D ~VIVS_HI_CLOCK_CONTROL_DISABLE_DEBUG_REGISTERS;
+> > +	gpu_write(gpu, VIVS_HI_CLOCK_CONTROL, val);
+>=20
+> Does this need locking after patch 3, to avoid racing of
+> sync_point_perfmon_sample_pre/post() with etnaviv_sched_timedout_job()?
+>=20
+Right, the enable path is racy and may cause one of the racing threads
+to read the debug registers before they have been enabled. This will
+need proper locking.
 
+Regards,
+Lucas
