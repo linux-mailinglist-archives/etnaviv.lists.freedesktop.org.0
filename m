@@ -2,94 +2,47 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF62E91C526
-	for <lists+etnaviv@lfdr.de>; Fri, 28 Jun 2024 19:47:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 984BC91E65A
+	for <lists+etnaviv@lfdr.de>; Mon,  1 Jul 2024 19:15:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 85E4E10ECDA;
-	Fri, 28 Jun 2024 17:47:16 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="NjSr7qyl";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 01BB210E4BB;
+	Mon,  1 Jul 2024 17:15:03 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com
- [209.85.208.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF88710ECDD
- for <etnaviv@lists.freedesktop.org>; Fri, 28 Jun 2024 17:47:15 +0000 (UTC)
-Received: by mail-lj1-f176.google.com with SMTP id
- 38308e7fff4ca-2ee59cffe01so179891fa.0
- for <etnaviv@lists.freedesktop.org>; Fri, 28 Jun 2024 10:47:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1719596834; x=1720201634; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
- :subject:date:message-id:reply-to;
- bh=oXawiii30SbY22A0WpPOSynPJrUU92tc5F+sXUGGBi4=;
- b=NjSr7qylZ4XnOnIwYvYui7eh+bHqdA4oVskHksQqhAvMNJMlh+TbEVr1gMKmTSqjBg
- jdTxBLL5e9H812ZwiWVaEvYDYDd72qoOnJY1lRSyPSrriG1tRQdEXGAFtcni0iCdrHQN
- Mz13H/a1GeWmV8PkYIuaO3AprSherlq81LL4M=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1719596834; x=1720201634;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=oXawiii30SbY22A0WpPOSynPJrUU92tc5F+sXUGGBi4=;
- b=slhhcaanGVo6GOtWtkmlyz95FT4sCiJn6zVBHEXpiRc3oHJntfqAltbG1RNbIlsz1i
- Fx/PtJG6E+rEJgdSY4Px7Cs9C84hTF++V3uSrP1cdB5ty8IRMovFmJuYQdTkUmE1jd7h
- YRNUSGKoZElVIjRxVhb88l3FnIOtFKnhHRLOGed7IGXPSVyOMY2fTXqbovfV+Mvi28wJ
- UyyZ75Yjs19pWi4SKJJMlQr8qEksiV1V36uLaJR5MC13bIX2RcQAJ9vGtdXkCDIOSL/A
- ONwk+xikbU7s5KnRTKY8gjHfQc7sAiDK917VbqRiIQVqQ/8D3ZT2DcbO8Qq7WQRxT0TX
- fExg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVo7Q9AXKJDd9X07fhKgseFNonsoko1Ze82XmtXUIn1UdspiHSHSS+ZOByyDk6Vfe/UU3auAPkbDwM8evMdU1v2ORQ9lY4d5HSob0lCDA==
-X-Gm-Message-State: AOJu0Yzkd/wpvwdJ6z1Ecg9E3bY+BH7UZ9A9nhkcae9iagvRzUP6OgaM
- CnNAnTMVma9MI7qITnnldEKihVOubTTbzgm2Mbck3oukB6uHXfF66P9379SvWMM=
-X-Google-Smtp-Source: AGHT+IFupNHWZXb+QLKkwFqtsw/yyqnuJNIOBgzzTmWF8Qysi7dT/74C6TF8L4BTTqPJeAphNz+eXQ==
-X-Received: by 2002:a2e:b0d6:0:b0:2ec:4399:9bfc with SMTP id
- 38308e7fff4ca-2ec55fe3a56mr117145931fa.0.1719596833481; 
- Fri, 28 Jun 2024 10:47:13 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4256b09a073sm44514485e9.32.2024.06.28.10.47.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Jun 2024 10:47:12 -0700 (PDT)
-Date: Fri, 28 Jun 2024 19:47:10 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Daniel Stone <daniel@fooishbar.org>
-Cc: Lucas Stach <l.stach@pengutronix.de>,
- Tomeu Vizoso <tomeu@tomeuvizoso.net>, linux-kernel@vger.kernel.org,
- Oded Gabbay <ogabbay@kernel.org>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A28AD10E4B9
+ for <etnaviv@lists.freedesktop.org>; Mon,  1 Jul 2024 17:15:01 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.whiteo.stw.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1sOKc5-0002p8-2t; Mon, 01 Jul 2024 19:14:49 +0200
+Received: from [2a0a:edc0:0:1101:1d::28] (helo=dude02.red.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1sOKc3-006Q8D-Uc; Mon, 01 Jul 2024 19:14:47 +0200
+From: Lucas Stach <l.stach@pengutronix.de>
+To: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Luben Tuikov <ltuikov89@gmail.com>, Matthew Brost <matthew.brost@intel.com>
+Cc: Pan Xinhui <Xinhui.Pan@amd.com>,
  Christian Gmeiner <christian.gmeiner@gmail.com>,
- David Airlie <airlied@gmail.com>, etnaviv@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Daniel Stone <daniels@collabora.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH] drm/etnaviv: Create an accel device node if compute-only
-Message-ID: <Zn73Hr14DUHfhDz6@phenom.ffwll.local>
-Mail-Followup-To: Daniel Stone <daniel@fooishbar.org>,
- Lucas Stach <l.stach@pengutronix.de>,
- Tomeu Vizoso <tomeu@tomeuvizoso.net>, linux-kernel@vger.kernel.org,
- Oded Gabbay <ogabbay@kernel.org>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- David Airlie <airlied@gmail.com>, etnaviv@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org,
- Daniel Stone <daniels@collabora.com>
-References: <97eadcba7cabe56f0f4b4d753bd3d53f8540ef4b.camel@pengutronix.de>
- <CAAObsKAQ=pWQ8MR1W7WwK1nVEeiCFNC3k+NZKsu4Fkts-_+zWg@mail.gmail.com>
- <CAPj87rO7zyDsqUWnkF0pZeNFnNK2UnAVJy4RmB3jmPkKQ+zbEw@mail.gmail.com>
- <CAAObsKBm3D_3ctFyK-rfpM-PU6ox1yoaMA1EES9yR-nRmU4rYw@mail.gmail.com>
- <CAAObsKAt563VNzDcF4rGkWPcxBPzKcq=Hj5RY6K20FWR43nvUQ@mail.gmail.com>
- <ZnvDJVeT3rz-hnv9@phenom.ffwll.local>
- <7cee6b78bc2375d9b014f9671b0d72ae65eba73c.camel@pengutronix.de>
- <CAPj87rPB=N2vJ-5C7xXORYstK3=TpX+jZ7mCr7oxY2wpXeaTTQ@mail.gmail.com>
- <ZnxVWrFJKbVO8PZ0@phenom.ffwll.local>
- <CAPj87rPnA1eKR_b7gAhDiMZRcVt8xPS9xnsscqVQ_a_qO_tD4A@mail.gmail.com>
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ etnaviv@lists.freedesktop.org, kernel@pengutronix.de,
+ patchwork-lst@pengutronix.de
+Subject: [PATCH 1/4] drm/scheduler: implement hardware time accounting
+Date: Mon,  1 Jul 2024 19:14:44 +0200
+Message-Id: <20240701171447.3823888-1-l.stach@pengutronix.de>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAPj87rPnA1eKR_b7gAhDiMZRcVt8xPS9xnsscqVQ_a_qO_tD4A@mail.gmail.com>
-X-Operating-System: Linux phenom 6.8.9-amd64 
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,46 +57,257 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-On Wed, Jun 26, 2024 at 08:26:04PM +0100, Daniel Stone wrote:
-> On Wed, 26 Jun 2024 at 18:52, Daniel Vetter <daniel@ffwll.ch> wrote:
-> > On Wed, Jun 26, 2024 at 11:39:01AM +0100, Daniel Stone wrote:
-> > > On Wed, 26 Jun 2024 at 09:28, Lucas Stach <l.stach@pengutronix.de> wrote:
-> > > > So we are kind of stuck here between breaking one or the other use-
-> > > > case. I'm leaning heavily into the direction of just fixing Mesa, so we
-> > > > can specify the type of screen we need at creation time to avoid the
-> > > > renderonly issue, porting this change as far back as reasonably
-> > > > possible and file old userspace into shit-happens.
-> > >
-> > > Yeah, honestly this sounds like the best solution to me too.
-> >
-> > Yeah mesa sounds kinda broken here ...
-> >
-> > What might work in the kernel is if you publish a fake 3d engine that's
-> > too new for broken mesa, if that's enough to make it fail to bind? And if
-> > mesa still happily binds against that, then yeah it's probably too broken
-> > and we need etnaviv-v2 (as a drm driver uapi name, I think that's what
-> > mesa filters?) for anything new (including the NN-only ones).
-> >
-> > I would still try to avoid that, but just in case someone screams about
-> > regressions.
-> 
-> It's not just etnaviv, it's literally every Mesa driver which works
-> with decoupled render/display. So that would be etnaviv-v2,
-> panfrost-v2, panthor-v2, v3d-v2, powervr-v2, ... albeit those don't
-> tend to have multiple instances.
+From: Christian König <ckoenig.leichtzumerken@gmail.com>
 
-So essentially mesa just burns&crashes when old mesa runs on a newer
-kernel with support for a chip that mesa doesn't know about?
+Multiple drivers came up with the requirement to measure how
+much runtime each entity accumulated on the HW.
 
-> Anyway, I'm still leaning towards the answer being: this is not an
-> etnaviv regression caused by NPU, it's a longstanding generic Mesa
-> issue for which the answer is to fix the known fragility.
+A previous attempt of accounting this had to be reverted because
+HW submissions can have a lifetime exceeding that of the entity
+originally issuing them.
 
-If the above is correct, then yes I think we should just fix mesa. Feels
-like the breakage is too obviously there, and that's all we'll do unless
-the screaming gets too loud.
--Sima
+Amdgpu on the other hand solves this task by keeping track of
+all the submissions and calculating how much time they have used
+on demand.
+
+Move this approach over into the scheduler to provide an easy to
+use interface for all drivers.
+
+Signed-off-by: Christian König <christian.koenig@amd.com>
+Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+---
+v2:
+- rebase to v6.10-rc1
+- fix for non-power-of-two number of HW submission
+- add comment explaining the logic behind the fence tracking array
+- rename some function and fix documentation
+---
+ drivers/gpu/drm/scheduler/sched_entity.c | 82 +++++++++++++++++++++++-
+ drivers/gpu/drm/scheduler/sched_fence.c  | 19 ++++++
+ include/drm/gpu_scheduler.h              | 31 +++++++++
+ 3 files changed, 131 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
+index 58c8161289fe..d678d0b9b29e 100644
+--- a/drivers/gpu/drm/scheduler/sched_entity.c
++++ b/drivers/gpu/drm/scheduler/sched_entity.c
+@@ -62,7 +62,9 @@ int drm_sched_entity_init(struct drm_sched_entity *entity,
+ 			  unsigned int num_sched_list,
+ 			  atomic_t *guilty)
+ {
+-	if (!(entity && sched_list && (num_sched_list == 0 || sched_list[0])))
++	unsigned int i, num_submissions = 0;
++
++	if (!entity || !sched_list)
+ 		return -EINVAL;
+ 
+ 	memset(entity, 0, sizeof(struct drm_sched_entity));
+@@ -98,6 +100,11 @@ int drm_sched_entity_init(struct drm_sched_entity *entity,
+ 						 (s32) DRM_SCHED_PRIORITY_KERNEL);
+ 		}
+ 		entity->rq = sched_list[0]->sched_rq[entity->priority];
++
++		for (i = 0; i < num_sched_list; ++i) {
++			num_submissions = max(num_submissions,
++					      sched_list[i]->credit_limit);
++		}
+ 	}
+ 
+ 	init_completion(&entity->entity_idle);
+@@ -110,11 +117,52 @@ int drm_sched_entity_init(struct drm_sched_entity *entity,
+ 
+ 	atomic_set(&entity->fence_seq, 0);
+ 	entity->fence_context = dma_fence_context_alloc(2);
++	spin_lock_init(&entity->accounting_lock);
++
++	if (!num_submissions)
++		return 0;
++
++	entity->max_hw_submissions = num_submissions;
++	entity->hw_submissions = kcalloc(num_submissions, sizeof(void *),
++					 GFP_KERNEL);
++	if (!entity->hw_submissions)
++		return -ENOMEM;
+ 
+ 	return 0;
+ }
+ EXPORT_SYMBOL(drm_sched_entity_init);
+ 
++/**
++ * drm_sched_entity_time_spent - Accumulated HW runtime used by this entity
++ * @entity: scheduler entity to check
++ *
++ * Get the current accumulated HW runtime used by all submissions made through
++ * this entity.
++ */
++ktime_t drm_sched_entity_time_spent(struct drm_sched_entity *entity)
++{
++	ktime_t result;
++	unsigned int i;
++
++	if (!entity->max_hw_submissions)
++		return ns_to_ktime(0);
++
++	spin_lock(&entity->accounting_lock);
++	result = entity->hw_time_used;
++	for (i = 0; i < entity->max_hw_submissions; ++i) {
++		struct drm_sched_fence *fence = entity->hw_submissions[i];
++
++		if (!fence)
++			continue;
++
++		result = ktime_add(result, drm_sched_fence_get_runtime(fence));
++	}
++	spin_unlock(&entity->accounting_lock);
++
++	return result;
++}
++EXPORT_SYMBOL(drm_sched_entity_time_spent);
++
+ /**
+  * drm_sched_entity_modify_sched - Modify sched of an entity
+  * @entity: scheduler entity to init
+@@ -326,6 +374,8 @@ EXPORT_SYMBOL(drm_sched_entity_flush);
+  */
+ void drm_sched_entity_fini(struct drm_sched_entity *entity)
+ {
++	unsigned int i;
++
+ 	/*
+ 	 * If consumption of existing IBs wasn't completed. Forcefully remove
+ 	 * them here. Also makes sure that the scheduler won't touch this entity
+@@ -341,6 +391,9 @@ void drm_sched_entity_fini(struct drm_sched_entity *entity)
+ 
+ 	dma_fence_put(rcu_dereference_check(entity->last_scheduled, true));
+ 	RCU_INIT_POINTER(entity->last_scheduled, NULL);
++	for (i = 0; i < entity->max_hw_submissions; ++i)
++		dma_fence_put(&entity->hw_submissions[i]->scheduled);
++	kfree(entity->hw_submissions);
+ }
+ EXPORT_SYMBOL(drm_sched_entity_fini);
+ 
+@@ -522,6 +575,33 @@ struct drm_sched_job *drm_sched_entity_pop_job(struct drm_sched_entity *entity)
+ 	 */
+ 	sched_job->entity = NULL;
+ 
++	if (entity->max_hw_submissions) {
++		struct drm_sched_fence *fence = sched_job->s_fence;
++		unsigned int idx = fence->scheduled.seqno;
++
++		dma_fence_get(&fence->scheduled);
++		idx %= entity->max_hw_submissions;
++
++		spin_lock(&entity->accounting_lock);
++		/*
++		 * The fence seqno is dense and monotonically increasing. By
++		 * cycling through a array sized to match the maximum number of
++		 * submissions queued in the HW we can be sure that once we need
++		 * to reuse a slot the fence stored in this slot refers to a
++		 * retired submission and we can safely sum up the accumulated
++		 * runtime and dispose the fence.
++		 */
++		swap(fence, entity->hw_submissions[idx]);
++		if (fence) {
++			ktime_t runtime = drm_sched_fence_get_runtime(fence);
++
++			entity->hw_time_used = ktime_add(entity->hw_time_used,
++							 runtime);
++			dma_fence_put(&fence->scheduled);
++		}
++		spin_unlock(&entity->accounting_lock);
++	}
++
+ 	return sched_job;
+ }
+ 
+diff --git a/drivers/gpu/drm/scheduler/sched_fence.c b/drivers/gpu/drm/scheduler/sched_fence.c
+index 0f35f009b9d3..55981ada1829 100644
+--- a/drivers/gpu/drm/scheduler/sched_fence.c
++++ b/drivers/gpu/drm/scheduler/sched_fence.c
+@@ -82,6 +82,25 @@ void drm_sched_fence_finished(struct drm_sched_fence *fence, int result)
+ 	dma_fence_signal(&fence->finished);
+ }
+ 
++/**
++ * drm_sched_fence_get_runtime - accumulated runtime on HW
++ * @fence: fence
++ *
++ * Calculate how much runtime this fence has accumulated on the HW.
++ */
++ktime_t drm_sched_fence_get_runtime(struct drm_sched_fence *fence)
++{
++	/* When the fence is not scheduled, it can't have accumulated runtime */
++	if (!test_bit(DMA_FENCE_FLAG_TIMESTAMP_BIT, &fence->scheduled.flags))
++		return ns_to_ktime(0);
++
++	/* When it is still running, calculate runtime until now */
++	if (!test_bit(DMA_FENCE_FLAG_TIMESTAMP_BIT, &fence->finished.flags))
++		return ktime_sub(ktime_get(), fence->scheduled.timestamp);
++
++	return ktime_sub(fence->finished.timestamp, fence->scheduled.timestamp);
++}
++
+ static const char *drm_sched_fence_get_driver_name(struct dma_fence *fence)
+ {
+ 	return "drm_sched";
+diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+index 5acc64954a88..52bcff324a92 100644
+--- a/include/drm/gpu_scheduler.h
++++ b/include/drm/gpu_scheduler.h
+@@ -238,6 +238,35 @@ struct drm_sched_entity {
+ 	 */
+ 	struct rb_node			rb_tree_node;
+ 
++	/**
++	 * @accounting_lock:
++	 *
++	 * Protects the array of fences tracking the in-flight HW submissions
++	 * and the accumulator counter.
++	 */
++	spinlock_t			accounting_lock;
++
++	/**
++	 * @hw_time_used:
++	 *
++	 * How much HW runtime has been accumulated by retired submissions
++	 * from this entity.
++	 */
++	ktime_t				hw_time_used;
++
++	/**
++	 * @max_hw_submissions:
++	 *
++	 * Maximum number of submissions queued in the HW.
++	 */
++	unsigned int			max_hw_submissions;
++
++	/**
++	 * @hw_submissions:
++	 *
++	 * Scheduler fences of the HW submissions in flight.
++	 */
++	struct drm_sched_fence		**hw_submissions;
+ };
+ 
+ /**
+@@ -600,6 +629,7 @@ int drm_sched_entity_init(struct drm_sched_entity *entity,
+ 			  struct drm_gpu_scheduler **sched_list,
+ 			  unsigned int num_sched_list,
+ 			  atomic_t *guilty);
++ktime_t drm_sched_entity_time_spent(struct drm_sched_entity *entity);
+ long drm_sched_entity_flush(struct drm_sched_entity *entity, long timeout);
+ void drm_sched_entity_fini(struct drm_sched_entity *entity);
+ void drm_sched_entity_destroy(struct drm_sched_entity *entity);
+@@ -620,6 +650,7 @@ void drm_sched_fence_free(struct drm_sched_fence *fence);
+ void drm_sched_fence_scheduled(struct drm_sched_fence *fence,
+ 			       struct dma_fence *parent);
+ void drm_sched_fence_finished(struct drm_sched_fence *fence, int result);
++ktime_t drm_sched_fence_get_runtime(struct drm_sched_fence *fence);
+ 
+ unsigned long drm_sched_suspend_timeout(struct drm_gpu_scheduler *sched);
+ void drm_sched_resume_timeout(struct drm_gpu_scheduler *sched,
+
+base-commit: 1613e604df0cd359cf2a7fbd9be7a0bcfacfabd0
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.39.2
+
