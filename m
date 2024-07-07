@@ -2,46 +2,67 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CF4D928E00
-	for <lists+etnaviv@lfdr.de>; Fri,  5 Jul 2024 22:00:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 547769299B3
+	for <lists+etnaviv@lfdr.de>; Sun,  7 Jul 2024 22:38:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 832E110E2DC;
-	Fri,  5 Jul 2024 20:00:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03DFA10E069;
+	Sun,  7 Jul 2024 20:38:21 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Xuh2dO9d";
+	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2AE2110EAE3
- for <etnaviv@lists.freedesktop.org>; Fri,  5 Jul 2024 20:00:17 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.whiteo.stw.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1sPp6M-0003VY-Lo; Fri, 05 Jul 2024 22:00:14 +0200
-Received: from [2a0a:edc0:0:1101:1d::28] (helo=dude02.red.stw.pengutronix.de)
- by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
- (envelope-from <l.stach@pengutronix.de>)
- id 1sPp6M-007Ocg-6s; Fri, 05 Jul 2024 22:00:14 +0200
-From: Lucas Stach <l.stach@pengutronix.de>
-To: etnaviv@lists.freedesktop.org
-Cc: Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- dri-devel@lists.freedesktop.org, kernel@pengutronix.de,
- patchwork-lst@pengutronix.de
-Subject: [PATCH v2 5/5] drm/etnaviv: take current primitive into account when
- checking for hung GPU
-Date: Fri,  5 Jul 2024 22:00:13 +0200
-Message-Id: <20240705200013.2656275-5-l.stach@pengutronix.de>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240705200013.2656275-1-l.stach@pengutronix.de>
-References: <20240705200013.2656275-1-l.stach@pengutronix.de>
+Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com
+ [209.85.210.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7BCD710E069;
+ Sun,  7 Jul 2024 20:38:19 +0000 (UTC)
+Received: by mail-ot1-f52.google.com with SMTP id
+ 46e09a7af769-7036b87752dso274444a34.2; 
+ Sun, 07 Jul 2024 13:38:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1720384698; x=1720989498; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=+2NFmiLefKPK0Ol9z4KLx/URk/l4sdVApVH5mGNGYUM=;
+ b=Xuh2dO9dsaOWiiDPRvpLAcDfnZ8NvG0dm6PxaW07+0OFbzy6+5qyiT7wMWBI5eOFEf
+ V9rjsaRH4U7ZHIeUt6RQlV8hpKBgtr8PFNDFz99vKFWdIvkTSWm+iPkxsn0MTnPMTVkc
+ 9KgwEbIjw8U1dYGOe3uk5dPW2/9EAlkWLs3Fv0JaWoJq8chKRDuBQCXfXUlJqjW3Dw/5
+ PSfEZ7ApABiyoUCeVkzWhSeQk5vcwkTDcNvDqmkTNNPhEyJcaeZ+fPC/ixrXCDOLCU0Q
+ 9o+5w8Qvm+Hgd2tZHYYZtJr098bWl5qm+K+NuQOK2qNQj5IbT+h52OGEPGRH0OvgdJvM
+ 7uXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1720384698; x=1720989498;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=+2NFmiLefKPK0Ol9z4KLx/URk/l4sdVApVH5mGNGYUM=;
+ b=v1saWPRVmfTt/z6ucmZmaEFHKU6i5adZl4rE4LAH/elp0EaZ+DmJHFBTQQkyUreYTV
+ GaAQrc9S8h8ux5Cxvx5q84nD9qDYPxp7Tc0csNhKO4VX1gHOaIjo9e2f6xTeobC+c7si
+ oMwVcmDm0/WIbwT3Dp10IDfNR3MT3FzGXPhdlS7WiFy0FxLm9I0Irhvk9uYngYcB1nlg
+ 1I2MY2Vvz9Jx7BKxDEQ1y+BrK6BAOqu8lipoA8qk4K75YvtY8i/mrSRp0HHIm8wJ86hM
+ OtrpQuSGSWcb8nSNq8E6tlQXWVhtV2lSyCt3zayDokoQex7Znvf3iZyQT7dLJJY1j1LV
+ Q7Hg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXyCH9redQUAyR/bhnA776v55Jc8zEGPNHn/uUFpF+dR7PEGyZKWc3bL+0sgofQNGX1l4g4CyWoY8qFs0e59YXGw62v5tbJee8qCCP2haY4
+X-Gm-Message-State: AOJu0Yyfn3q5qZhuOLSq1o12Qe7sF5mzCT5otl0Mc6N2A3tY5NfZhe6E
+ BYFl4pL9O3MoKrob8HLAj0ayEoedpbMxjxQUeuciRPG6PouKmcxqE2LIrpvh7OvK7FAe2V4QJbh
+ 9C9l1pm0orQQoH/RLeWhgr9wAFZ6FlZhj
+X-Google-Smtp-Source: AGHT+IHFHGyReqLbjIjhDRcVY/iGGoglrdehiknryamc+kGbgFBSzhvJagqvib04LgYBnkJP0Q2Hwy7huXvcIpBXr9w=
+X-Received: by 2002:a05:6358:71f:b0:1aa:c73d:5a92 with SMTP id
+ e5c5f4694b2df-1aac73d5cc8mr222300355d.2.1720384698385; Sun, 07 Jul 2024
+ 13:38:18 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
+References: <20240705200013.2656275-1-l.stach@pengutronix.de>
+In-Reply-To: <20240705200013.2656275-1-l.stach@pengutronix.de>
+From: Christian Gmeiner <christian.gmeiner@gmail.com>
+Date: Sun, 7 Jul 2024 22:38:06 +0200
+Message-ID: <CAH9NwWcK3aSL+7+zL=6K9+fFVkQBA4K_AQP9EFoMmFBYmS_LTA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/5] drm/etnaviv: hold GPU lock across perfmon sampling
+To: Lucas Stach <l.stach@pengutronix.de>
+Cc: etnaviv@lists.freedesktop.org, 
+ Russell King <linux+etnaviv@armlinux.org.uk>, dri-devel@lists.freedesktop.org, 
+ kernel@pengutronix.de, patchwork-lst@pengutronix.de
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,79 +77,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Large draws can make the GPU appear to be stuck to the current hangcheck
-logic as the FE address will not move until the draw is finished. However,
-the FE has a debug register, which records the current primitive ID within
-a draw. Using this debug register we can extend the timeout as long as the
-draw progresses.
+>
+> The perfmon sampling mutates shared GPU state (e.g. VIVS_HI_CLOCK_CONTROL
+> to select the pipe for the perf counter reads). To avoid clashing with
+> other functions mutating the same state (e.g. etnaviv_gpu_update_clock)
+> the perfmon sampling needs to hold the GPU lock.
+>
+> Fixes: 68dc0b295dcb ("drm/etnaviv: use 'sync points' for performance monitor requests")
+> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
 
-Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
----
-v2:
-- dropped debug register enable/disable
-- locked against concurrent debug register access
----
- drivers/gpu/drm/etnaviv/etnaviv_gpu.h   |  1 +
- drivers/gpu/drm/etnaviv/etnaviv_sched.c | 17 +++++++++++++++--
- 2 files changed, 16 insertions(+), 2 deletions(-)
+Reviewed-by: Christian Gmeiner <cgmeiner@igalia.com>
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
-index 31322195b9e4..4d8a7d48ade3 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
-@@ -144,6 +144,7 @@ struct etnaviv_gpu {
- 
- 	/* hang detection */
- 	u32 hangcheck_dma_addr;
-+	u32 hangcheck_primid;
- 	u32 hangcheck_fence;
- 
- 	void __iomem *mmio;
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sched.c b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-index 62dcfdc7894d..01f927430bc6 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-@@ -11,6 +11,7 @@
- #include "etnaviv_gpu.h"
- #include "etnaviv_sched.h"
- #include "state.xml.h"
-+#include "state_hi.xml.h"
- 
- static int etnaviv_job_hang_limit = 0;
- module_param_named(job_hang_limit, etnaviv_job_hang_limit, int , 0444);
-@@ -35,7 +36,7 @@ static enum drm_gpu_sched_stat etnaviv_sched_timedout_job(struct drm_sched_job
- {
- 	struct etnaviv_gem_submit *submit = to_etnaviv_submit(sched_job);
- 	struct etnaviv_gpu *gpu = submit->gpu;
--	u32 dma_addr;
-+	u32 dma_addr, primid = 0;
- 	int change;
- 
- 	/*
-@@ -52,10 +53,22 @@ static enum drm_gpu_sched_stat etnaviv_sched_timedout_job(struct drm_sched_job
- 	 */
- 	dma_addr = gpu_read(gpu, VIVS_FE_DMA_ADDRESS);
- 	change = dma_addr - gpu->hangcheck_dma_addr;
-+	if (submit->exec_state == ETNA_PIPE_3D) {
-+		/* guard against concurrent usage from perfmon_sample */
-+		mutex_lock(&gpu->lock);
-+		gpu_write(gpu, VIVS_MC_PROFILE_CONFIG0,
-+			  VIVS_MC_PROFILE_CONFIG0_FE_CURRENT_PRIM <<
-+			  VIVS_MC_PROFILE_CONFIG0_FE__SHIFT);
-+		primid = gpu_read(gpu, VIVS_MC_PROFILE_FE_READ);
-+		mutex_unlock(&gpu->lock);
-+	}
- 	if (gpu->state == ETNA_GPU_STATE_RUNNING &&
- 	    (gpu->completed_fence != gpu->hangcheck_fence ||
--	     change < 0 || change > 16)) {
-+	     change < 0 || change > 16 ||
-+	     (submit->exec_state == ETNA_PIPE_3D &&
-+	      gpu->hangcheck_primid != primid))) {
- 		gpu->hangcheck_dma_addr = dma_addr;
-+		gpu->hangcheck_primid = primid;
- 		gpu->hangcheck_fence = gpu->completed_fence;
- 		goto out_no_timeout;
- 	}
+> ---
+> v2: new patch
+> ---
+>  drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 20 ++++++++++++++------
+>  1 file changed, 14 insertions(+), 6 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> index 7c7f97793ddd..2bd14d3501e2 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> @@ -1330,6 +1330,8 @@ static void sync_point_perfmon_sample_pre(struct etnaviv_gpu *gpu,
+>  {
+>         u32 val;
+>
+> +       mutex_lock(&gpu->lock);
+> +
+>         /* disable clock gating */
+>         val = gpu_read_power(gpu, VIVS_PM_POWER_CONTROLS);
+>         val &= ~VIVS_PM_POWER_CONTROLS_ENABLE_MODULE_CLOCK_GATING;
+> @@ -1341,6 +1343,8 @@ static void sync_point_perfmon_sample_pre(struct etnaviv_gpu *gpu,
+>         gpu_write(gpu, VIVS_HI_CLOCK_CONTROL, val);
+>
+>         sync_point_perfmon_sample(gpu, event, ETNA_PM_PROCESS_PRE);
+> +
+> +       mutex_unlock(&gpu->lock);
+>  }
+>
+>  static void sync_point_perfmon_sample_post(struct etnaviv_gpu *gpu,
+> @@ -1350,13 +1354,9 @@ static void sync_point_perfmon_sample_post(struct etnaviv_gpu *gpu,
+>         unsigned int i;
+>         u32 val;
+>
+> -       sync_point_perfmon_sample(gpu, event, ETNA_PM_PROCESS_POST);
+> -
+> -       for (i = 0; i < submit->nr_pmrs; i++) {
+> -               const struct etnaviv_perfmon_request *pmr = submit->pmrs + i;
+> +       mutex_lock(&gpu->lock);
+>
+> -               *pmr->bo_vma = pmr->sequence;
+> -       }
+> +       sync_point_perfmon_sample(gpu, event, ETNA_PM_PROCESS_POST);
+>
+>         /* disable debug register */
+>         val = gpu_read(gpu, VIVS_HI_CLOCK_CONTROL);
+> @@ -1367,6 +1367,14 @@ static void sync_point_perfmon_sample_post(struct etnaviv_gpu *gpu,
+>         val = gpu_read_power(gpu, VIVS_PM_POWER_CONTROLS);
+>         val |= VIVS_PM_POWER_CONTROLS_ENABLE_MODULE_CLOCK_GATING;
+>         gpu_write_power(gpu, VIVS_PM_POWER_CONTROLS, val);
+> +
+> +       mutex_unlock(&gpu->lock);
+> +
+> +       for (i = 0; i < submit->nr_pmrs; i++) {
+> +               const struct etnaviv_perfmon_request *pmr = submit->pmrs + i;
+> +
+> +               *pmr->bo_vma = pmr->sequence;
+> +       }
+
 -- 
-2.39.2
+greets
+--
+Christian Gmeiner, MSc
 
+https://christian-gmeiner.info/privacypolicy
