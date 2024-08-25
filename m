@@ -2,42 +2,44 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81D2F95E49B
-	for <lists+etnaviv@lfdr.de>; Sun, 25 Aug 2024 19:41:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 077DA95E560
+	for <lists+etnaviv@lfdr.de>; Sun, 25 Aug 2024 23:19:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B3EB510E04C;
-	Sun, 25 Aug 2024 17:41:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9588710E06E;
+	Sun, 25 Aug 2024 21:19:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="dwOtLsgg";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="ZpCT4VGd";
 	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from out-177.mta0.migadu.com (out-177.mta0.migadu.com
- [91.218.175.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC66510E04C
- for <etnaviv@lists.freedesktop.org>; Sun, 25 Aug 2024 17:41:41 +0000 (UTC)
+Received: from out-175.mta0.migadu.com (out-175.mta0.migadu.com
+ [91.218.175.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D5B710E06B
+ for <etnaviv@lists.freedesktop.org>; Sun, 25 Aug 2024 21:19:44 +0000 (UTC)
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1724607699;
+ t=1724620782;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding;
- bh=dUjbebKPyAzDyV2pAzp4K1FFmau1gTXM+zFmTzQpT1Q=;
- b=dwOtLsggz+/wSCgXFOPCV39W70aFlw1aNJqSVoTgvpj3BM27FYYoJ6eeVTJ3UOnDijEth8
- ONXsjZqt3g8+xTT4Zge5ly/j8P345LGNMScna4FT8eaepFjb37C+ceBhwVSIMv4nEkyHTu
- JGVE2b9FZ42VM01wMK99oUv4jKVEK1I=
+ bh=LdZOrRmqpEiA7n2tnAtRogGoCmmowhl7JYIfyH8GvSY=;
+ b=ZpCT4VGdIm1gckRv7ViqH19u9opQeKB3EH5a//nGmOQzw7kS01+AHXG499VUg4IIEFguBZ
+ zTX503GrI2aPTu/1wZ+FXj1pmLSTJo5HmO8BzuNA9oK6QsZJVeO7osHiAfPrJ5Urcr4K8A
+ vASc985F6iROpSvafHt+0TqMjbQOmoY=
 From: Sui Jingfeng <sui.jingfeng@linux.dev>
-To: Lucas Stach <l.stach@pengutronix.de>,
+To: Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Lucas Stach <l.stach@pengutronix.de>,
  Russell King <linux+etnaviv@armlinux.org.uk>,
  Christian Gmeiner <christian.gmeiner@gmail.com>
 Cc: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, Sui Jingfeng <sui.jingfeng@linux.dev>
-Subject: [PATCH] drm/etnaviv: Use unsigned type to count the number of
- userspace pages
-Date: Mon, 26 Aug 2024 01:41:28 +0800
-Message-Id: <20240825174128.474100-1-sui.jingfeng@linux.dev>
+Subject: [PATCH 0/2] drm/etnaviv: Implement drm_gem_object_funcs::print_info()
+Date: Mon, 26 Aug 2024 05:19:27 +0800
+Message-Id: <20240825211929.614631-1-sui.jingfeng@linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Migadu-Flow: FLOW_OUT
@@ -55,29 +57,98 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-The unpin_user_pages() function takes an unsigned long argument to store
-length of the number of user space pages, and struct drm_gem_object::size
-is a size_t type. The number of pages can not be negative, hence, use an
-unsigned variable to store the number of pages.
+It will be called by drm_gem_print_info() if have implemented, and this can
+provide more information about the framebuffer objects. In order to make
+the newly implemented etnaviv_gem_object_funcs::print_info() get in use,
+we make the drm_gem_print_info() exported, then we re-implement the
+etnaviv_gem_describe() base on it.
 
-Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
----
- drivers/gpu/drm/etnaviv/etnaviv_gem.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Sample Testing Information:
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-index ce9c9233c4a6..fa0d193cec26 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-@@ -695,7 +695,7 @@ static void etnaviv_gem_userptr_release(struct etnaviv_gem_object *etnaviv_obj)
- 		kfree(etnaviv_obj->sgt);
- 	}
- 	if (etnaviv_obj->pages) {
--		int npages = etnaviv_obj->base.size >> PAGE_SHIFT;
-+		unsigned int npages = etnaviv_obj->base.size >> PAGE_SHIFT;
- 
- 		unpin_user_pages(etnaviv_obj->pages, npages);
- 		kvfree(etnaviv_obj->pages);
+[root@fedora 0]# ls
+clients  DPI-1	    encoder-1	 gem_names	   mm	 ring
+crtc-0	 DPI-2	    framebuffer  gpu		   mmu	 state
+crtc-1	 encoder-0  gem		 internal_clients  name
+[root@fedora 0]# cat framebuffer 
+framebuffer[49]:
+	allocated by = Xorg
+	refcount=1
+	format=AR24 little-endian (0x34325241)
+	modifier=0x0
+	size=32x32
+	layers:
+		size[0]=32x32
+		pitch[0]=128
+		offset[0]=0
+		obj[0]:
+			name=0
+			refcount=3
+			start=00040096
+			size=16384
+			imported=no
+			caching mode=write-combine
+			active=no
+			vaddr=0000000000000000
+framebuffer[47]:
+	allocated by = Xorg
+	refcount=2
+	format=XR24 little-endian (0x34325258)
+	modifier=0x0
+	size=1024x600
+	layers:
+		size[0]=1024x600
+		pitch[0]=4096
+		offset[0]=0
+		obj[0]:
+			name=0
+			refcount=3
+			start=00040000
+			size=2457600
+			imported=no
+			caching mode=write-combine
+			active=no
+			vaddr=0000000000000000
+			
+[root@fedora 0]# cat gem
+obj[0]:
+	name=0
+	refcount=3
+	start=00040000
+	size=2457600
+	imported=no
+	caching mode=write-combine
+	active=no
+	vaddr=0000000000000000
+obj[1]:
+	name=0
+	refcount=3
+	start=00040096
+	size=16384
+	imported=no
+	caching mode=write-combine
+	active=no
+	vaddr=0000000000000000
+obj[2]:
+	name=0
+	refcount=2
+	start=00040097
+	size=16384
+	imported=no
+	caching mode=write-combine
+	active=no
+	vaddr=0000000000000000
+Total 3 objects, 2490368 bytes
+
+Sui Jingfeng (2):
+  drm/etnaviv: Implement drm_gem_object_funcs::print_info()
+  drm/etnaviv: Export drm_gem_print_info() and use it
+
+ drivers/gpu/drm/drm_gem.c             |  1 +
+ drivers/gpu/drm/etnaviv/etnaviv_gem.c | 43 ++++++++++++++++++++++-----
+ drivers/gpu/drm/etnaviv/etnaviv_gem.h |  2 +-
+ include/drm/drm_gem.h                 |  2 ++
+ 4 files changed, 40 insertions(+), 8 deletions(-)
+
 -- 
 2.34.1
 
