@@ -2,31 +2,31 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D298195E33A
-	for <lists+etnaviv@lfdr.de>; Sun, 25 Aug 2024 14:15:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29B6E95E43C
+	for <lists+etnaviv@lfdr.de>; Sun, 25 Aug 2024 18:06:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF1BB10E0B8;
-	Sun, 25 Aug 2024 12:15:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8DE6F10E012;
+	Sun, 25 Aug 2024 16:05:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="HlaRxmPn";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="E1R5EZVe";
 	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from out-175.mta1.migadu.com (out-175.mta1.migadu.com
- [95.215.58.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4853010E0B9
- for <etnaviv@lists.freedesktop.org>; Sun, 25 Aug 2024 12:15:03 +0000 (UTC)
+Received: from out-179.mta1.migadu.com (out-179.mta1.migadu.com
+ [95.215.58.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7BBC510E012
+ for <etnaviv@lists.freedesktop.org>; Sun, 25 Aug 2024 16:05:56 +0000 (UTC)
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1724588101;
+ t=1724601952;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding;
- bh=KYBUuOZ77RsbonBNPjWaQa/LDzXOSCA+09B7u42eC7s=;
- b=HlaRxmPnRISY7Zfc3te2rd46fklNc828HXME+YpMd1Xjb6mYXl8Rwz/MgAY2wzZzviIH2u
- VHtN1Zf9DZP9TQi8QRRTfRk/oe3G47dVU2C4sVDSsX/SgqWVmTY+cr+pxoimQq6Aj+QipW
- I90Ff3nmsnTg5/iWseLsqY7eVwVQgK4=
+ bh=TYGIN6dFnE6ddJqp5ti4+Fd91MRSp+JrwofPL1YAO60=;
+ b=E1R5EZVeRZmUuZiKXIJU5bwEUTOMiYnHy9Tqdhbm6sfU05LErbeRpPi7k3dIMQ26p7XS2+
+ lT7WjxmTYgYEFYFHMAvxu47cNX6jo4jWKocZgBCKO4mcl2Wt2NJsggcyJ3KGUf8B0JHxwr
+ eh9i5r/pkWyEhP9uQ4bYHISLNGxGpcE=
 From: Sui Jingfeng <sui.jingfeng@linux.dev>
 To: Lucas Stach <l.stach@pengutronix.de>,
  Russell King <linux+etnaviv@armlinux.org.uk>,
@@ -34,9 +34,9 @@ To: Lucas Stach <l.stach@pengutronix.de>,
 Cc: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, Sui Jingfeng <sui.jingfeng@linux.dev>
-Subject: [PATCH] drm/etnaviv: Fix missing mutex_destroy()
-Date: Sun, 25 Aug 2024 20:14:52 +0800
-Message-Id: <20240825121452.363342-1-sui.jingfeng@linux.dev>
+Subject: [PATCH] drm/etnaviv: Drop the <linux/pm_runtime.h> header
+Date: Mon, 26 Aug 2024 00:05:38 +0800
+Message-Id: <20240825160538.404005-1-sui.jingfeng@linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Migadu-Flow: FLOW_OUT
@@ -54,93 +54,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Currently, the calling of mutex_destroy() is ignored on error handling
-code path. It is safe for now, since mutex_destroy() actually does
-nothing in non-debug builds. But the mutex_destroy() is used to mark
-the mutex uninitialized on debug builds, and any subsequent use of the
-mutex is forbidden.
-
-It also could lead to problems if mutex_destroy() gets extended, add
-missing mutex_destroy() to eliminate potential concerns.
+Currently, the etnaviv_gem_submit.c isn't call any runtime power management
+functions. So drop it, we can re-include it when the header really get used
+though.
 
 Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
 ---
- drivers/gpu/drm/etnaviv/etnaviv_cmdbuf.c | 3 +++
- drivers/gpu/drm/etnaviv/etnaviv_drv.c    | 1 +
- drivers/gpu/drm/etnaviv/etnaviv_gem.c    | 1 +
- drivers/gpu/drm/etnaviv/etnaviv_gpu.c    | 5 +++++
- drivers/gpu/drm/etnaviv/etnaviv_mmu.c    | 2 +-
- 5 files changed, 11 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_cmdbuf.c b/drivers/gpu/drm/etnaviv/etnaviv_cmdbuf.c
-index 721d633aece9..1edc02022be4 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_cmdbuf.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_cmdbuf.c
-@@ -79,6 +79,9 @@ void etnaviv_cmdbuf_suballoc_destroy(struct etnaviv_cmdbuf_suballoc *suballoc)
- {
- 	dma_free_wc(suballoc->dev, SUBALLOC_SIZE, suballoc->vaddr,
- 		    suballoc->paddr);
-+
-+	mutex_destroy(&suballoc->lock);
-+
- 	kfree(suballoc);
- }
- 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-index 6500f3999c5f..7844cd961a29 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-@@ -564,6 +564,7 @@ static int etnaviv_bind(struct device *dev)
- out_destroy_suballoc:
- 	etnaviv_cmdbuf_suballoc_destroy(priv->cmdbuf_suballoc);
- out_free_priv:
-+	mutex_destroy(&priv->gem_lock);
- 	kfree(priv);
- out_put:
- 	drm_dev_put(drm);
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-index fe665ca20c02..b68e3b235a7d 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-@@ -515,6 +515,7 @@ void etnaviv_gem_free_object(struct drm_gem_object *obj)
- 	etnaviv_obj->ops->release(etnaviv_obj);
- 	drm_gem_object_release(obj);
- 
-+	mutex_destroy(&etnaviv_obj->lock);
- 	kfree(etnaviv_obj);
- }
- 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-index af52922ff494..d6acc4c68102 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-@@ -1929,8 +1929,13 @@ static int etnaviv_gpu_platform_probe(struct platform_device *pdev)
- 
- static void etnaviv_gpu_platform_remove(struct platform_device *pdev)
- {
-+	struct etnaviv_gpu *gpu = dev_get_drvdata(&pdev->dev);
-+
- 	component_del(&pdev->dev, &gpu_ops);
- 	pm_runtime_disable(&pdev->dev);
-+
-+	mutex_destroy(&gpu->lock);
-+	mutex_destroy(&gpu->sched_lock);
- }
- 
- static int etnaviv_gpu_rpm_suspend(struct device *dev)
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_mmu.c b/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
-index e3be16165c86..ed6c42384856 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
-@@ -361,7 +361,7 @@ static void etnaviv_iommu_context_free(struct kref *kref)
- 		container_of(kref, struct etnaviv_iommu_context, refcount);
- 
- 	etnaviv_cmdbuf_suballoc_unmap(context, &context->cmdbuf_mapping);
--
-+	mutex_destroy(&context->lock);
- 	context->global->ops->free(context);
- }
- void etnaviv_iommu_context_put(struct etnaviv_iommu_context *context)
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+index 3d0f8d182506..3c0a5c3e0e3d 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+@@ -6,7 +6,6 @@
+ #include <drm/drm_file.h>
+ #include <linux/dma-fence-array.h>
+ #include <linux/file.h>
+-#include <linux/pm_runtime.h>
+ #include <linux/dma-resv.h>
+ #include <linux/sync_file.h>
+ #include <linux/uaccess.h>
 -- 
 2.34.1
 
