@@ -2,64 +2,63 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68F2395F3BB
-	for <lists+etnaviv@lfdr.de>; Mon, 26 Aug 2024 16:23:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB70695F3CC
+	for <lists+etnaviv@lfdr.de>; Mon, 26 Aug 2024 16:26:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 44F0A10E210;
-	Mon, 26 Aug 2024 14:23:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 994CB10E214;
+	Mon, 26 Aug 2024 14:26:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="WUMS39pG";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="k+VdgaAm";
 	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com
- [209.85.216.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2347210E210;
- Mon, 26 Aug 2024 14:23:38 +0000 (UTC)
-Received: by mail-pj1-f49.google.com with SMTP id
- 98e67ed59e1d1-2d3d662631aso3357588a91.1; 
- Mon, 26 Aug 2024 07:23:38 -0700 (PDT)
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com
+ [209.85.216.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9163410E214;
+ Mon, 26 Aug 2024 14:26:24 +0000 (UTC)
+Received: by mail-pj1-f46.google.com with SMTP id
+ 98e67ed59e1d1-2d3d7a1e45fso2980946a91.3; 
+ Mon, 26 Aug 2024 07:26:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1724682217; x=1725287017; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1724682384; x=1725287184; darn=lists.freedesktop.org;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=7Fz2LLvQTYlEOsUpiHug0Zo0dLswBmU+LLedYnqHt04=;
- b=WUMS39pGJnaEx++ab8Drx/LiNrFYCWajT4Cj32yTDoPnjvuaj2XWFQ2oobshGjB2H3
- FpZKb+yPPnBeYlxnCQTIm61ddhRTTZrsUoNCUP0YmflJUMGZnrOj5Ffb0SsWBA77TO0t
- JmmrgvxlJrvh7XmjHegfzPTUse7dO6wWHfN98X2uT21ZzgVARpYGTkJokLoR4CVkmiWw
- iRrCM1DJttPtRUz8piTthLV/+A2mDyajJDm3t7K3BmQoqPN6wnVi/ZH1yIqMCNf7o345
- lXnF9a/ywVjHKIZhPIlSBSs17tUCYcOOaLwv8XELxTGo8x/p6ysi11x/v8v2crWZ/hyu
- Uk0A==
+ bh=YdLY9QhmDzCprCkwoHukU0jOTa/bz8bz/KrVX8TRxYM=;
+ b=k+VdgaAmXAYZrnLDAhtlxx+W8VKw5raqqNByL13EtGe4OXcAY2ujcwl0ARzR94X6Ln
+ w59roGoEAcnto9q9Fm7GCCWQ2JkkhxeeQIqbMfEW6iagAw5BZmuVlU0wD7JBwUFoDuqV
+ PfXmCb9nZFXwZPaAIwbLPoNMpDkxjsSC2orckAJbxcIQoaV5qnqVhQbzANpAZwjvEwul
+ a+QDvjmY1L8xnWHG2q6rNVu/MCA6T3CayKrt+wSfQ2YGax40snv8Bg2gODSmgMCpqPky
+ W6E+bvcNAdiOVbiDBleovsEro5nDfLd45gVwSGVty1kOGkTB6VPSI0wcTOgvRqMnYPRD
+ 6EFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1724682217; x=1725287017;
+ d=1e100.net; s=20230601; t=1724682384; x=1725287184;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=7Fz2LLvQTYlEOsUpiHug0Zo0dLswBmU+LLedYnqHt04=;
- b=CpDew1aprMwsVPXTVweIJeDI0QNzwwAN0oYXmGqHd1g+8NCf/+x6i8Kw4dJmgyQoP2
- zdF1QlGqMmtUEx3on1L+t0Qwk48it9bNl/C6QOGIrOB9QCog+Ai5bt4yk4/DTvZ2Qdon
- R1nLibmy8VNezsoImA7YKfXV6edC+Dw/iN8Dx2GmaoRIxbASjBvh/xICBrPIgk6TDAiC
- 0NG/NIELhFs9aDAMW27zbxxA58TZIX3wkM16TF8OpGdlHlyQvtVa1th099cRRG3+fY/+
- Y6glc8B/Q8s0/7w4LUgG8Q6g9cZI8aYzZvuEGaGFHqwajEz16IUf14w0Cznk1346FpaZ
- 1Kjg==
+ bh=YdLY9QhmDzCprCkwoHukU0jOTa/bz8bz/KrVX8TRxYM=;
+ b=UZlS1HM+OXMJUN0G73e9wtAjk2hQ1l7x+Wqdl3B56lHmd8jjs205cA5n4FmuX9G+G5
+ oh2QnXfBaFNhlTPj5QQX9fNgM71icw+IJ21XN32wFbIk8yyO4jZT6h+olSErHULcumXe
+ i4Cv/HT8jxEJ/UpYmrdpXrKkg/q4NntDFnCOFCT7U/hMX2ZlLALKBvTF5AKiDD0h0FeK
+ v2jXDRKFfcbAirb9AYgPoPRp5nSs7/QT98C34vAXAnpKaNKRQk58pnwigcWoaYx6oIj8
+ yqKl+WEF7bTh+QJumt4C9TS3C3O/8efsFBLibuJAESUZM/p3WmPcFV9xSeot4rTvNjoK
+ lBhw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVbavltEJU9/6Tq9q2segg34rhm2Obog0DgpVyDDQt6hXR5dUb5JOfODZlITmYl+cE1tyALCnw3pA==@lists.freedesktop.org,
- AJvYcCVbxj18XmfHKdzfpL7oqMFiFFzdLHBhvKh2lg1GkpPzCq6/Bb6IzqHXMZ6EW3gYnZ7+9xbwWpthBAA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyfQfmURR3JvFHM/yruLOOhk/NhrXEPqzcH3bFpAhi3wa300Yrd
- FN47XXkzOUs7eIA5Fdo1ufZnygU/NHYiD5fhnrJGK+wktgzYhNmhvxp2R00O+g5PaZHh9+5Herf
- 2az7vj9gq4oC1bVmBa9hbMudTdd8=
-X-Google-Smtp-Source: AGHT+IGmmcvpWkvHXDq0cyYNprm+1dAOPoQUI8Pf8pqeqVMWP0gYwF0AFm0EPNBk25rmIxaGPD40kue34U//HVWJy8Q=
-X-Received: by 2002:a17:90a:ff17:b0:2c9:7219:1db0 with SMTP id
- 98e67ed59e1d1-2d646bccfafmr12498489a91.3.1724682217421; Mon, 26 Aug 2024
- 07:23:37 -0700 (PDT)
+ AJvYcCVCsRqJnQpFf9JKDOewMAW/CG7KxBkl/GNMELYMQj2Yup1c2u4Ng9vo9fSK3YDEOS9iynEYW0kE0w==@lists.freedesktop.org,
+ AJvYcCXvq6xsZ0I75uLgsA3FiDfcwY6LqEl4S/UiX9gWlU0u+Q98HlGbBJCwZWALeZjYZ0y7zfvSWnWgmBE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwTKt6rK0JO2OBqyGTURPNJYnQcLD/dZAaY4dNuJ0h23mU5PaFZ
+ WeOWZodOcYO5XmDK8RL3kAO8pZT++xgaTd+6aC/J8OugWodMcZb6FEMM18Fg7NU4Wc92SW9PNhj
+ YAQmC5bQfAipu2+f+oBh1RiAIv0o=
+X-Google-Smtp-Source: AGHT+IHh38t51U/dqWq2rh/6+5IlLz2T5OcR3xHCSi08x49UkVo+DUuATspS9Z6R0RwiB7q3QcDpti9GRasRKedZ1jc=
+X-Received: by 2002:a17:90a:ce11:b0:2c9:7d09:1e7b with SMTP id
+ 98e67ed59e1d1-2d646cecbf1mr9437250a91.27.1724682383721; Mon, 26 Aug 2024
+ 07:26:23 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240825174128.474100-1-sui.jingfeng@linux.dev>
-In-Reply-To: <20240825174128.474100-1-sui.jingfeng@linux.dev>
+References: <20240825160538.404005-1-sui.jingfeng@linux.dev>
+In-Reply-To: <20240825160538.404005-1-sui.jingfeng@linux.dev>
 From: Christian Gmeiner <christian.gmeiner@gmail.com>
-Date: Mon, 26 Aug 2024 16:23:26 +0200
-Message-ID: <CAH9NwWeVFtOuQ=6dpXotrR-BGMjYAo3-fR6CHgcHbOxiZ87xCA@mail.gmail.com>
-Subject: Re: [PATCH] drm/etnaviv: Use unsigned type to count the number of
- userspace pages
+Date: Mon, 26 Aug 2024 16:26:12 +0200
+Message-ID: <CAH9NwWf-kUw9e9wBbvDe+hXsfYdiNXOX-X1_6_VC_0F5qta1eg@mail.gmail.com>
+Subject: Re: [PATCH] drm/etnaviv: Drop the <linux/pm_runtime.h> header
 To: Sui Jingfeng <sui.jingfeng@linux.dev>
 Cc: Lucas Stach <l.stach@pengutronix.de>,
  Russell King <linux+etnaviv@armlinux.org.uk>, 
@@ -82,36 +81,33 @@ Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
 >
-> The unpin_user_pages() function takes an unsigned long argument to store
-> length of the number of user space pages, and struct drm_gem_object::size
-> is a size_t type. The number of pages can not be negative, hence, use an
-> unsigned variable to store the number of pages.
+> Currently, the etnaviv_gem_submit.c isn't call any runtime power management
+> functions. So drop it, we can re-include it when the header really get used
+> though.
 >
 > Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
 
 Reviewed-by: Christian Gmeiner <cgmeiner@igalia.com>
 
 > ---
->  drivers/gpu/drm/etnaviv/etnaviv_gem.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c | 1 -
+>  1 file changed, 1 deletion(-)
 >
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-> index ce9c9233c4a6..fa0d193cec26 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-> @@ -695,7 +695,7 @@ static void etnaviv_gem_userptr_release(struct etnaviv_gem_object *etnaviv_obj)
->                 kfree(etnaviv_obj->sgt);
->         }
->         if (etnaviv_obj->pages) {
-> -               int npages = etnaviv_obj->base.size >> PAGE_SHIFT;
-> +               unsigned int npages = etnaviv_obj->base.size >> PAGE_SHIFT;
->
->                 unpin_user_pages(etnaviv_obj->pages, npages);
->                 kvfree(etnaviv_obj->pages);
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+> index 3d0f8d182506..3c0a5c3e0e3d 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+> @@ -6,7 +6,6 @@
+>  #include <drm/drm_file.h>
+>  #include <linux/dma-fence-array.h>
+>  #include <linux/file.h>
+> -#include <linux/pm_runtime.h>
+>  #include <linux/dma-resv.h>
+>  #include <linux/sync_file.h>
+>  #include <linux/uaccess.h>
 > --
 > 2.34.1
 >
-
 
 -- 
 greets
