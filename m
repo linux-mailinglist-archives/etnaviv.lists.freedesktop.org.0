@@ -2,49 +2,48 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C55F8970743
-	for <lists+etnaviv@lfdr.de>; Sun,  8 Sep 2024 14:11:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 735A4974EB6
+	for <lists+etnaviv@lfdr.de>; Wed, 11 Sep 2024 11:37:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A5FB610E25F;
-	Sun,  8 Sep 2024 12:11:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5179110E980;
+	Wed, 11 Sep 2024 09:37:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="QGV9ju/l";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="Y27qBEEQ";
 	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from out-173.mta1.migadu.com (out-173.mta1.migadu.com
- [95.215.58.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 88A2210E25F
- for <etnaviv@lists.freedesktop.org>; Sun,  8 Sep 2024 12:11:43 +0000 (UTC)
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
+Received: from out-178.mta1.migadu.com (out-178.mta1.migadu.com
+ [95.215.58.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 109F910E986
+ for <etnaviv@lists.freedesktop.org>; Wed, 11 Sep 2024 09:37:18 +0000 (UTC)
+Message-ID: <b0c651c1-acd6-4ca0-8791-f6bc16821a1e@linux.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1725797502;
+ t=1726047434;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=eZZRYHosjOP12sXZTztLeX53ogVSB/zJnzTtl6YWZvQ=;
- b=QGV9ju/l+8DcXKr1muYF99ggepZEi9YXBOyIp48r5uRC5lYgQ8oQB6B0g3gASnkllNAoEo
- YxnS2IOa13jrycI/lKeCXqfAQIrZQAicnClewDHSBjYUaoT4qs0ufnd6cnl+2Dg2rBGKaF
- lhmEdrmkiMdV/1hMEPk5NA9CdYu04Uw=
-From: Sui Jingfeng <sui.jingfeng@linux.dev>
-To: Lucas Stach <l.stach@pengutronix.de>
-Cc: Christian Gmeiner <christian.gmeiner@gmail.com>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
- etnaviv@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Sui Jingfeng <sui.jingfeng@linux.dev>,
- Christian Gmeiner <cgmeiner@igalia.com>
-Subject: [PATCH v2 5/5] drm/etnaviv: Replace the '&pdev->dev' with 'dev'
-Date: Sun,  8 Sep 2024 20:11:07 +0800
-Message-ID: <20240908121107.328740-5-sui.jingfeng@linux.dev>
-In-Reply-To: <20240908121107.328740-1-sui.jingfeng@linux.dev>
-References: <20240908121107.328740-1-sui.jingfeng@linux.dev>
+ bh=RHDHiEMHosYpLAW4Qgb4jQgwOUHe1qbO/5lSaaVcNzU=;
+ b=Y27qBEEQSl6iBpTk/r6wFrosW192/nqtNwOuLxYqVJwqsmocFAiKxc11h3vImROIjhsvrS
+ eqWpR0tkwQMYwACTqamCVPxWCtGjq31v3nJ2ivHX3S2eTCIu1HTVLQMFqvWwBfrVMShk+W
+ SNGtY4kz80KGfzUgiFglN3MjczOj3nw=
+Date: Wed, 11 Sep 2024 17:37:02 +0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v3] drm/etnaviv: Request pages from DMA32 zone on
+ addressing_limited
+To: Xiaolei Wang <xiaolei.wang@windriver.com>, l.stach@pengutronix.de,
+ linux+etnaviv@armlinux.org.uk, christian.gmeiner@gmail.com,
+ airlied@gmail.com, daniel@ffwll.ch
+Cc: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20240903020857.3250038-1-xiaolei.wang@windriver.com>
+Content-Language: en-US, en-AU
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Sui Jingfeng <sui.jingfeng@linux.dev>
+In-Reply-To: <20240903020857.3250038-1-xiaolei.wang@windriver.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-Migadu-Flow: FLOW_OUT
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -60,96 +59,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-In the etnaviv_pdev_probe() and etnaviv_gpu_platform_probe() function, the
-value of '&pdev->dev' has been cached to the local auto variable 'dev'.
-But some callers use 'dev', while the rest use '&pdev->dev'. To keep it
-consistent, use 'dev' uniformly.
+Humble ping ?
 
-Tested-by: Christian Gmeiner <cgmeiner@igalia.com>
-Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
----
- drivers/gpu/drm/etnaviv/etnaviv_drv.c | 10 +++++-----
- drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 16 ++++++++--------
- 2 files changed, 13 insertions(+), 13 deletions(-)
+On 9/3/24 10:08, Xiaolei Wang wrote:
+> Remove __GFP_HIGHMEM when requesting a page from DMA32 zone,
+> and since all vivante GPUs in the system will share the same
+> DMA constraints, move the check of whether to get a page from
+> DMA32 to etnaviv_bind().
+> 
+> Fixes: b72af445cd38 ("drm/etnaviv: request pages from DMA32 zone when needed")
+> Suggested-by: Sui Jingfeng <sui.jingfeng@linux.dev>
+> Signed-off-by: Xiaolei Wang <xiaolei.wang@windriver.com>
+> ---
+> 
+> change log
+> 
+> v1:
+>    https://patchwork.kernel.org/project/dri-devel/patch/20240806104733.2018783-1-xiaolei.wang@windriver.com/
+> 
+> v2:
+>    Modify the issue of not retaining GFP_USER in v1 and update the commit log.
+> 
+> v3:
+>    Use "priv->shm_gfp_mask = GFP_USER | __GFP_RETRY_MAYFAIL | __GFP_NOWARN;"
+> instead of
+>    "priv->shm_gfp_mask = GFP_HIGHUSER | __GFP_RETRY_MAYFAIL | __GFP_NOWARN;"
+> and move the check of whether to get a page from DMA32 to etnaviv_bind().
+> 
+>   drivers/gpu/drm/etnaviv/etnaviv_drv.c | 10 +++++++++-
+>   drivers/gpu/drm/etnaviv/etnaviv_gpu.c |  8 --------
+>   2 files changed, 9 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> index 6500f3999c5f..8cb2c3ec8e5d 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> @@ -536,7 +536,15 @@ static int etnaviv_bind(struct device *dev)
+>   	mutex_init(&priv->gem_lock);
+>   	INIT_LIST_HEAD(&priv->gem_list);
+>   	priv->num_gpus = 0;
+> -	priv->shm_gfp_mask = GFP_HIGHUSER | __GFP_RETRY_MAYFAIL | __GFP_NOWARN;
+> +	priv->shm_gfp_mask = GFP_USER | __GFP_RETRY_MAYFAIL | __GFP_NOWARN;
+> +
+> +	/*
+> +	 * If the GPU is part of a system with DMA addressing limitations,
+> +	 * request pages for our SHM backend buffers from the DMA32 zone to
+> +	 * hopefully avoid performance killing SWIOTLB bounce buffering.
+> +	 */
+> +	if (dma_addressing_limited(dev))
+> +		priv->shm_gfp_mask |= GFP_DMA32;
+>   
+>   	priv->cmdbuf_suballoc = etnaviv_cmdbuf_suballoc_new(drm->dev);
+>   	if (IS_ERR(priv->cmdbuf_suballoc)) {
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> index 7c7f97793ddd..5e753dd42f72 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> @@ -839,14 +839,6 @@ int etnaviv_gpu_init(struct etnaviv_gpu *gpu)
+>   	if (ret)
+>   		goto fail;
+>   
+> -	/*
+> -	 * If the GPU is part of a system with DMA addressing limitations,
+> -	 * request pages for our SHM backend buffers from the DMA32 zone to
+> -	 * hopefully avoid performance killing SWIOTLB bounce buffering.
+> -	 */
+> -	if (dma_addressing_limited(gpu->dev))
+> -		priv->shm_gfp_mask |= GFP_DMA32;
+> -
+>   	/* Create buffer: */
+>   	ret = etnaviv_cmdbuf_init(priv->cmdbuf_suballoc, &gpu->buffer,
+>   				  PAGE_SIZE);
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-index 7844cd961a29..6591e420a051 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-@@ -609,7 +609,7 @@ static int etnaviv_pdev_probe(struct platform_device *pdev)
- 			if (!of_device_is_available(core_node))
- 				continue;
- 
--			drm_of_component_match_add(&pdev->dev, &match,
-+			drm_of_component_match_add(dev, &match,
- 						   component_compare_of, core_node);
- 		}
- 	} else {
-@@ -632,9 +632,9 @@ static int etnaviv_pdev_probe(struct platform_device *pdev)
- 	 * bit to make sure we are allocating the command buffers and
- 	 * TLBs in the lower 4 GiB address space.
- 	 */
--	if (dma_set_mask(&pdev->dev, DMA_BIT_MASK(40)) ||
--	    dma_set_coherent_mask(&pdev->dev, DMA_BIT_MASK(32))) {
--		dev_dbg(&pdev->dev, "No suitable DMA available\n");
-+	if (dma_set_mask(dev, DMA_BIT_MASK(40)) ||
-+	    dma_set_coherent_mask(dev, DMA_BIT_MASK(32))) {
-+		dev_dbg(dev, "No suitable DMA available\n");
- 		return -ENODEV;
- 	}
- 
-@@ -645,7 +645,7 @@ static int etnaviv_pdev_probe(struct platform_device *pdev)
- 	 */
- 	first_node = etnaviv_of_first_available_node();
- 	if (first_node) {
--		of_dma_configure(&pdev->dev, first_node, true);
-+		of_dma_configure(dev, first_node, true);
- 		of_node_put(first_node);
- 	}
- 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-index 3c869970cba4..d0df5c53a829 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-@@ -1862,7 +1862,7 @@ static int etnaviv_gpu_platform_probe(struct platform_device *pdev)
- 	if (!gpu)
- 		return -ENOMEM;
- 
--	gpu->dev = &pdev->dev;
-+	gpu->dev = dev;
- 	mutex_init(&gpu->lock);
- 	mutex_init(&gpu->sched_lock);
- 
-@@ -1876,8 +1876,8 @@ static int etnaviv_gpu_platform_probe(struct platform_device *pdev)
- 	if (gpu->irq < 0)
- 		return gpu->irq;
- 
--	err = devm_request_irq(&pdev->dev, gpu->irq, irq_handler, 0,
--			       dev_name(gpu->dev), gpu);
-+	err = devm_request_irq(dev, gpu->irq, irq_handler, 0,
-+			       dev_name(dev), gpu);
- 	if (err) {
- 		dev_err(dev, "failed to request IRQ%u: %d\n", gpu->irq, err);
- 		return err;
-@@ -1914,13 +1914,13 @@ static int etnaviv_gpu_platform_probe(struct platform_device *pdev)
- 	 * autosuspend delay is rather arbitary: no measurements have
- 	 * yet been performed to determine an appropriate value.
- 	 */
--	pm_runtime_use_autosuspend(gpu->dev);
--	pm_runtime_set_autosuspend_delay(gpu->dev, 200);
--	pm_runtime_enable(gpu->dev);
-+	pm_runtime_use_autosuspend(dev);
-+	pm_runtime_set_autosuspend_delay(dev, 200);
-+	pm_runtime_enable(dev);
- 
--	err = component_add(&pdev->dev, &gpu_ops);
-+	err = component_add(dev, &gpu_ops);
- 	if (err < 0) {
--		dev_err(&pdev->dev, "failed to register component: %d\n", err);
-+		dev_err(dev, "failed to register component: %d\n", err);
- 		return err;
- 	}
- 
 -- 
-2.43.0
+Best regards
+Sui
 
