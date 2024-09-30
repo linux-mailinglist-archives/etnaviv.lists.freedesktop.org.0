@@ -2,70 +2,45 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF25F975985
-	for <lists+etnaviv@lfdr.de>; Wed, 11 Sep 2024 19:35:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A90298AFB9
+	for <lists+etnaviv@lfdr.de>; Tue,  1 Oct 2024 00:17:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8DD6510E0A2;
-	Wed, 11 Sep 2024 17:35:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 532CC10E161;
+	Mon, 30 Sep 2024 22:17:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="XrHc1PSM";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="qZLoTrfJ";
 	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com
- [209.85.216.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6991210E0A2;
- Wed, 11 Sep 2024 17:35:57 +0000 (UTC)
-Received: by mail-pj1-f47.google.com with SMTP id
- 98e67ed59e1d1-2da4e84c198so55889a91.0; 
- Wed, 11 Sep 2024 10:35:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1726076157; x=1726680957; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=J+zugMFoquGTXa/VfqrdIPbdRGro0VHIjtqIBxGTLnU=;
- b=XrHc1PSM1hWTFiu9U1q3J6O8biKf4Iknj0DiLknDJP9E4tkSYNlrT/rg9v7JjsdS2y
- EaK6CZ1z2MwB+3tJPrPcCmfieI7+BQEs9vN2v2qLvRbJy8aPCs7Zho4uSZf2Cw/Q5RyH
- xJh0t3scEFq4Yu1cca1juHLq2k+4LoVBY+Oy9ELttLhN1/zCSEzKefy6EWJvCoPaXs9G
- NZoVbGzQ8+1jteVqLDd0PEFezjlRBne454U4HpcPSCZogsydktCz4uxsPXbowdrxff0U
- RfWLqq7CVC6vIjPuIg848iqJOcY3UA+SYurrLgsPPhq28Y79oSE1ueecj1wVzkcQiDs8
- HRSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1726076157; x=1726680957;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=J+zugMFoquGTXa/VfqrdIPbdRGro0VHIjtqIBxGTLnU=;
- b=ZmOe7OTlAUm/tnoIaicMDBotDdpOpqr70hbyauT96TVWjYkNsrqABSY//Ojxc+Wp1E
- z3jHiGrxWjC9foQIWoVbq6D1cXhEtXe+cdEZF6KAAB3SfHOWJnP5z2vicKv1P4ei0pn1
- uYkimknRPPRrt+v8XvHAvMSz7PFuaUst+r0Mu1ge4Ip0VAzjJbVc3ShZfB5ZaB2EAEHY
- dsGyhkxnyD8V+CK0DhMoui+YyOMbRjoTDS2OhpVNyVrsZhgmc1+wlPeF0QhPi3wTZz6o
- OXBCTPqSoLnou+OBGCG/jVewIN4zGrj5N1x01Unij0qeGXBKERZOmWiwhCINnHZA8A9M
- Tu5w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWOzfiojDLmOI+HOb1PprDQt+4tvlvB1oY6rsTt0CpTgXGd23Z8iysXjB2rJfZ0dyk0TQCMVwhARTY=@lists.freedesktop.org,
- AJvYcCXkh2k9DXQOYCRUdXzwoErT0TMy3z3T6WBqLjRpYWfM4lJMRF1kKE1pgbJPvWzImwm8RSOhOt1b3w==@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyEZxLIj8TVCGiyseMcluvmMRLmqbIPf9f2NTCtQUCggVNSx5Fl
- wj+k7/EWQRfg5OEq5KqRr2PSa8HoFWmrpHBN9ADCJcn6AAByfbMUpOBVt/qdulqTduNKFULgN9J
- 1IuJj8D++GbDafUazkl7K8yqlN8U=
-X-Google-Smtp-Source: AGHT+IGmCpPj+I32nVJBJWnsPgRGIwZW08YCd5TauOT9KzvM3pY9ncXxsjRUyjSchdeuMp3HLi2SRenTt9L9UoAjmUg=
-X-Received: by 2002:a17:90b:3696:b0:2d3:dca0:89b7 with SMTP id
- 98e67ed59e1d1-2daffa3a9d4mr15698133a91.3.1726076156520; Wed, 11 Sep 2024
- 10:35:56 -0700 (PDT)
+Received: from out-183.mta1.migadu.com (out-183.mta1.migadu.com
+ [95.215.58.183])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E6CF110E135
+ for <etnaviv@lists.freedesktop.org>; Mon, 30 Sep 2024 22:17:22 +0000 (UTC)
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1727734640;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Y4YstUzFg6ou6O0nN1/xveTy1frOB8d3+83QVeA1OZk=;
+ b=qZLoTrfJ1AIsNSTjv69oocKO6STCrG8uB0KYkjDrXGA6S1Kc4Fmz3QZyEzS01TJ/z4mLRw
+ 3+oNuUZ6T6Od4yvdQt9KSQno8NMyYKhXCLwMiSNzL/I9JAI37kXvmk55uyuAn+SFomxL9U
+ Rw3S5w2pdXvBctWLa0tTbPieif37M14=
+From: Sui Jingfeng <sui.jingfeng@linux.dev>
+To: Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>
+Cc: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Sui Jingfeng <sui.jingfeng@linux.dev>
+Subject: [PATCH] drm/etnaviv: Print error message if inserting IOVA address
+ range fails
+Date: Tue,  1 Oct 2024 06:17:06 +0800
+Message-Id: <20240930221706.399139-1-sui.jingfeng@linux.dev>
 MIME-Version: 1.0
-References: <20240903020857.3250038-1-xiaolei.wang@windriver.com>
-In-Reply-To: <20240903020857.3250038-1-xiaolei.wang@windriver.com>
-From: Christian Gmeiner <christian.gmeiner@gmail.com>
-Date: Wed, 11 Sep 2024 19:35:44 +0200
-Message-ID: <CAH9NwWczgAmgRbHiKD1614Yc1fAXRYV2ZDUeuEunPDUcRmPwgA@mail.gmail.com>
-Subject: Re: [PATCH v3] drm/etnaviv: Request pages from DMA32 zone on
- addressing_limited
-To: Xiaolei Wang <xiaolei.wang@windriver.com>
-Cc: sui.jingfeng@linux.dev, l.stach@pengutronix.de, 
- linux+etnaviv@armlinux.org.uk, airlied@gmail.com, daniel@ffwll.ch, 
- etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,88 +55,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Am Di., 3. Sept. 2024 um 04:09 Uhr schrieb Xiaolei Wang
-<xiaolei.wang@windriver.com>:
->
-> Remove __GFP_HIGHMEM when requesting a page from DMA32 zone,
-> and since all vivante GPUs in the system will share the same
-> DMA constraints, move the check of whether to get a page from
-> DMA32 to etnaviv_bind().
->
-> Fixes: b72af445cd38 ("drm/etnaviv: request pages from DMA32 zone when needed")
-> Suggested-by: Sui Jingfeng <sui.jingfeng@linux.dev>
-> Signed-off-by: Xiaolei Wang <xiaolei.wang@windriver.com>
+Etnaviv assumes that GPU page size is 4KiB, yet on some systems, the CPU
+page size is 16 KiB. The size of etnaviv buffer objects will be aligned
+to CPU page size on kernel side, however, userspace still assumes the
+page size is 4KiB and doing allocation with 4KiB page as unit. This
+results in softpin(userspace managed per-process address spaces) fails.
+Because kernel side BO takes up bigger address space than user space
+assumes whenever the size of a BO is not CPU page size aligned.
 
-Reviewed-by: Christian Gmeiner <cgmeiner@igalia.com>
+Insert an error message to help debug when such an issue happen.
 
-> ---
->
-> change log
->
-> v1:
->   https://patchwork.kernel.org/project/dri-devel/patch/20240806104733.2018783-1-xiaolei.wang@windriver.com/
->
-> v2:
->   Modify the issue of not retaining GFP_USER in v1 and update the commit log.
->
-> v3:
->   Use "priv->shm_gfp_mask = GFP_USER | __GFP_RETRY_MAYFAIL | __GFP_NOWARN;"
-> instead of
->   "priv->shm_gfp_mask = GFP_HIGHUSER | __GFP_RETRY_MAYFAIL | __GFP_NOWARN;"
-> and move the check of whether to get a page from DMA32 to etnaviv_bind().
->
->  drivers/gpu/drm/etnaviv/etnaviv_drv.c | 10 +++++++++-
->  drivers/gpu/drm/etnaviv/etnaviv_gpu.c |  8 --------
->  2 files changed, 9 insertions(+), 9 deletions(-)
->
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-> index 6500f3999c5f..8cb2c3ec8e5d 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-> @@ -536,7 +536,15 @@ static int etnaviv_bind(struct device *dev)
->         mutex_init(&priv->gem_lock);
->         INIT_LIST_HEAD(&priv->gem_list);
->         priv->num_gpus = 0;
-> -       priv->shm_gfp_mask = GFP_HIGHUSER | __GFP_RETRY_MAYFAIL | __GFP_NOWARN;
-> +       priv->shm_gfp_mask = GFP_USER | __GFP_RETRY_MAYFAIL | __GFP_NOWARN;
-> +
-> +       /*
-> +        * If the GPU is part of a system with DMA addressing limitations,
-> +        * request pages for our SHM backend buffers from the DMA32 zone to
-> +        * hopefully avoid performance killing SWIOTLB bounce buffering.
-> +        */
-> +       if (dma_addressing_limited(dev))
-> +               priv->shm_gfp_mask |= GFP_DMA32;
->
->         priv->cmdbuf_suballoc = etnaviv_cmdbuf_suballoc_new(drm->dev);
->         if (IS_ERR(priv->cmdbuf_suballoc)) {
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> index 7c7f97793ddd..5e753dd42f72 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> @@ -839,14 +839,6 @@ int etnaviv_gpu_init(struct etnaviv_gpu *gpu)
->         if (ret)
->                 goto fail;
->
-> -       /*
-> -        * If the GPU is part of a system with DMA addressing limitations,
-> -        * request pages for our SHM backend buffers from the DMA32 zone to
-> -        * hopefully avoid performance killing SWIOTLB bounce buffering.
-> -        */
-> -       if (dma_addressing_limited(gpu->dev))
-> -               priv->shm_gfp_mask |= GFP_DMA32;
-> -
->         /* Create buffer: */
->         ret = etnaviv_cmdbuf_init(priv->cmdbuf_suballoc, &gpu->buffer,
->                                   PAGE_SIZE);
-> --
-> 2.25.1
->
+Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
+---
+For example, when running glmark2-drm:
 
+[kernel space debug log]
 
+ etnaviv 0000:03:00.0: Insert bo failed, va: fd38b000, size: 4000
+ etnaviv 0000:03:00.0: Insert bo failed, va: fd38a000, size: 4000
+
+[user space debug log]
+
+bo->va = 0xfd48c000, bo->size=100000
+bo->va = 0xfd38c000, bo->size=100000
+bo->va = 0xfd38b000, bo->size=1000   <-- Insert IOVA fails started at here.
+bo->va = 0xfd38a000, bo->size=1000
+bo->va = 0xfd389000, bo->size=1000
+
+[texture] texture-filter=nearest:MESA: error: etna_cmd_stream_flush:238: submit failed: -28 (No space left on device)
+---
+ drivers/gpu/drm/etnaviv/etnaviv_mmu.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_mmu.c b/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
+index 1661d589bf3e..682f27b27d59 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
+@@ -310,8 +310,12 @@ int etnaviv_iommu_map_gem(struct etnaviv_iommu_context *context,
+ 	else
+ 		ret = etnaviv_iommu_find_iova(context, node,
+ 					      etnaviv_obj->base.size);
+-	if (ret < 0)
++	if (ret < 0) {
++		dev_err(context->global->dev,
++			"Insert iova failed, va: %llx, size: %zx\n",
++			va, etnaviv_obj->base.size);
+ 		goto unlock;
++	}
+ 
+ 	mapping->iova = node->start;
+ 	ret = etnaviv_iommu_map(context, node->start, sgt,
 -- 
-greets
---
-Christian Gmeiner, MSc
+2.34.1
 
-https://christian-gmeiner.info/privacypolicy
