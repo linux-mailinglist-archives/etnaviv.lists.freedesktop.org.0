@@ -2,43 +2,50 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFA3298C0B4
-	for <lists+etnaviv@lfdr.de>; Tue,  1 Oct 2024 16:51:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B674098C540
+	for <lists+etnaviv@lfdr.de>; Tue,  1 Oct 2024 20:23:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 90F3B10E63F;
-	Tue,  1 Oct 2024 14:51:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 53AF610E18F;
+	Tue,  1 Oct 2024 18:23:05 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="t46XZxX5";
+	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 92F6710E2C0
- for <etnaviv@lists.freedesktop.org>; Tue,  1 Oct 2024 14:51:06 +0000 (UTC)
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
- helo=[IPv6:::1]) by metis.whiteo.stw.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1sveDO-0004wV-Qj; Tue, 01 Oct 2024 16:51:02 +0200
-Message-ID: <2b5afbe1d32c984f67555d73a35ae24eed60dd68.camel@pengutronix.de>
-Subject: Re: [PATCH v15 18/19] drm/etnaviv: Allow userspace specify the
- domain of etnaviv GEM buffer object
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Sui Jingfeng <sui.jingfeng@linux.dev>
-Cc: Christian Gmeiner <christian.gmeiner@gmail.com>, Russell King
- <linux+etnaviv@armlinux.org.uk>, dri-devel@lists.freedesktop.org, 
- etnaviv@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Date: Tue, 01 Oct 2024 16:51:02 +0200
-In-Reply-To: <20240908094357.291862-19-sui.jingfeng@linux.dev>
-References: <20240908094357.291862-1-sui.jingfeng@linux.dev>
- <20240908094357.291862-19-sui.jingfeng@linux.dev>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+Received: from out-171.mta0.migadu.com (out-171.mta0.migadu.com
+ [91.218.175.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7074C10E18F;
+ Tue,  1 Oct 2024 18:23:01 +0000 (UTC)
+Message-ID: <1779a56a-8735-4c65-a2fd-1e56ae6064b0@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1727806979;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=JTxaEB9e/RX1sZqNNlBGxHMF2E6oC94MODrfEEuSFh4=;
+ b=t46XZxX532GVLmQY1IpZDd/lJaTR2dJMAmq0MhjcEJDfOF+IzhOLi9GSHJ/Esq9bMA2t4H
+ jOu9mCzwtJ5szbQBmKddoaPcQIDpMBRJTAIpmbfSygoGluJvcQZhxkrcxkhC7WM1eM7uvA
+ SDidsSHWvFCeAy3QG6Ho4Jl8jd2Zj6s=
+Date: Wed, 2 Oct 2024 02:22:44 +0800
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
+Subject: Re: [PATCH v15 11/19] drm/etnaviv: Add etnaviv_gem_obj_remove() helper
+To: Lucas Stach <l.stach@pengutronix.de>
+Cc: Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20240908094357.291862-1-sui.jingfeng@linux.dev>
+ <20240908094357.291862-12-sui.jingfeng@linux.dev>
+ <45b8eb9a0a2b91d85f9dd6b7e66a1796398fa27c.camel@pengutronix.de>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Sui Jingfeng <sui.jingfeng@linux.dev>
+In-Reply-To: <45b8eb9a0a2b91d85f9dd6b7e66a1796398fa27c.camel@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,93 +60,116 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Am Sonntag, dem 08.09.2024 um 17:43 +0800 schrieb Sui Jingfeng:
-> Otherwise we don't know where a etnaviv GEM buffer object should put when
-> we create it at userspace.
->=20
-> Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
-> ---
->  drivers/gpu/drm/etnaviv/etnaviv_drv.c |  9 +++++++++
->  include/uapi/drm/etnaviv_drm.h        | 12 ++++++++++++
->  2 files changed, 21 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etna=
-viv/etnaviv_drv.c
-> index f10661fe079f..cdc62f64b200 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-> @@ -331,11 +331,20 @@ static int etnaviv_ioctl_gem_new(struct drm_device =
-*dev, void *data,
->  		struct drm_file *file)
->  {
->  	struct drm_etnaviv_gem_new *args =3D data;
-> +	u32 domain;
-> +
-> +	domain =3D args->flags & ETNA_BO_DOMAIN_MASK;
-> +
-> +	args->flags &=3D ~ETNA_BO_DOMAIN_MASK;
+Hi,
 
-This is not a proper input validation, as it would accept data in the
-domain mask range that doesn't correspond to valid flags. You need to
-add your new valid flag bits to the check below.
+On 2024/10/1 22:21, Lucas Stach wrote:
+> Am Sonntag, dem 08.09.2024 um 17:43 +0800 schrieb Sui Jingfeng:
+>> Which is corresonding to the etnaviv_gem_obj_add()
+>>
+> While symmetry is nice,
 
-> =20
->  	if (args->flags & ~(ETNA_BO_CACHED | ETNA_BO_WC | ETNA_BO_UNCACHED |
->  			    ETNA_BO_FORCE_MMU))
->  		return -EINVAL;
-> =20
-> +	if (domain =3D=3D ETNA_BO_PL_VRAM)
-> +		return etnaviv_gem_new_vram(dev, file, args->size,
-> +					    args->flags, &args->handle);
-> +
->  	return etnaviv_gem_new_handle(dev, file, args->size,
->  			args->flags, &args->handle);
->  }
-> diff --git a/include/uapi/drm/etnaviv_drm.h b/include/uapi/drm/etnaviv_dr=
-m.h
-> index 61eaa8cd0f5e..00e778c9d312 100644
-> --- a/include/uapi/drm/etnaviv_drm.h
-> +++ b/include/uapi/drm/etnaviv_drm.h
-> @@ -99,6 +99,18 @@ struct drm_etnaviv_param {
->  /* map flags */
->  #define ETNA_BO_FORCE_MMU    0x00100000
-> =20
-> +/* domain (placement) flags */
-> +#define ETNA_BO_DOMAIN_MASK  0x00f00000
 
-How does this work? Has this been tested? This define masks different
-bits than the placement flags defined below.
->=20
-> +
-> +/* CPU accessible, GPU accessible pages in dedicated VRAM */
-> +#define ETNA_BO_PL_VRAM      0x01000000
+Thanks a lot for understanding and review my patch.
 
-Other drivers call this the visible VRAM range.
 
-> +/* CPU accessible, GPU accessible pages in SHMEM */
-> +#define ETNA_BO_PL_GTT       0x02000000
-> +/* Userspace allocated memory, at least CPU accessible */
-> +#define ETNA_BO_PL_USERPTR   0x08000000
+> it's still not really symmetric,
 
-How is this a valid placement? If it's userspace allocated memory, the
-driver has no influence on placement. All it can do is to pin the pages
-and set up a GART mapping.
+patch 0016 will try try to make it symmetric.
+It will do this uniformly for all etnaviv GEM buffer objects.
 
-> +/* GPU accessible but CPU not accessible private VRAM pages */
-> +#define ETNA_BO_PL_PRIV      0x04000000
-> +
 
-VRAM_INVISIBLE would be a more descriptive name for the flag than PRIV.
+> as this
+> function isn't exported into the PRIME parts of the driver like
+> etnaviv_gem_obj_add().
 
-However I'm not sure if we can make the distinction between visible and
-invisible VRAM at allocation time. What needs to be CPU visible may
-change over the runtime of the workload, which is why real TTM drivers
-can migrate BOs in and out of the visible region.
+Yes, exactly.
 
-Regards,
-Lucas
+> Given that I don't really see how this patch
+> improves code legibility.
 
->  struct drm_etnaviv_gem_new {
->  	__u64 size;           /* in */
->  	__u32 flags;          /* in, mask of ETNA_BO_x */
+When the reference counter of a GEM buffer object decrease to 0,
+the drm_gem_object_free() will be get called. which in turn,
+etnaviv_gem_free_object() will get called.
+
+The etnaviv_gem_free_object() will remove the GEM BO node
+from the 'priv->gem_list' without checking if it has been
+added into the list.
+
+The data field of the struct etnaviv_gem_object::gem_node
+will be all ZERO under such a case.
+
+When drm/etnaviv import a shared buffer from an another driver.
+etnaviv_gem_prime_import_sg_table() will be get called. But it
+could fails before the "etnaviv_gem_obj_add(dev, &etnaviv_obj->base)"
+get executed. The fails might either due to out of memory or
+drm_prime_sg_to_page_array() failed.
+
+
+Those fails will lead to NULL pointer de-reference, as we will
+use uninitialized data member(say the 'gem_node') of an GEM
+buffer object.
+
+This is also the reason why we want to add it into the
+etnaviv_drm_private::gem_list immediately after an etnaviv
+GEM buffer object is successfully created.
+
+> Regards,
+> Lucas
+>
+>> Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
+>> ---
+>>   drivers/gpu/drm/etnaviv/etnaviv_gem.c | 17 +++++++++++++----
+>>   1 file changed, 13 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+>> index 39cfece67b90..3732288ff530 100644
+>> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+>> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+>> @@ -19,6 +19,8 @@
+>>   static struct lock_class_key etnaviv_shm_lock_class;
+>>   static struct lock_class_key etnaviv_userptr_lock_class;
+>>   
+>> +static void etnaviv_gem_obj_remove(struct drm_gem_object *obj);
+>> +
+>>   static void etnaviv_gem_scatter_map(struct etnaviv_gem_object *etnaviv_obj)
+>>   {
+>>   	struct drm_device *dev = etnaviv_obj->base.dev;
+>> @@ -555,15 +557,12 @@ void etnaviv_gem_free_object(struct drm_gem_object *obj)
+>>   {
+>>   	struct drm_device *drm = obj->dev;
+>>   	struct etnaviv_gem_object *etnaviv_obj = to_etnaviv_bo(obj);
+>> -	struct etnaviv_drm_private *priv = obj->dev->dev_private;
+>>   	struct etnaviv_vram_mapping *mapping, *tmp;
+>>   
+>>   	/* object should not be active */
+>>   	drm_WARN_ON(drm, is_active(etnaviv_obj));
+>>   
+>> -	mutex_lock(&priv->gem_lock);
+>> -	list_del(&etnaviv_obj->gem_node);
+>> -	mutex_unlock(&priv->gem_lock);
+>> +	etnaviv_gem_obj_remove(obj);
+>>   
+>>   	list_for_each_entry_safe(mapping, tmp, &etnaviv_obj->vram_list,
+>>   				 obj_node) {
+>> @@ -595,6 +594,16 @@ void etnaviv_gem_obj_add(struct drm_device *dev, struct drm_gem_object *obj)
+>>   	mutex_unlock(&priv->gem_lock);
+>>   }
+>>   
+>> +static void etnaviv_gem_obj_remove(struct drm_gem_object *obj)
+>> +{
+>> +	struct etnaviv_drm_private *priv = to_etnaviv_priv(obj->dev);
+>> +	struct etnaviv_gem_object *etnaviv_obj = to_etnaviv_bo(obj);
+>> +
+>> +	mutex_lock(&priv->gem_lock);
+>> +	list_del(&etnaviv_obj->gem_node);
+>> +	mutex_unlock(&priv->gem_lock);
+>> +}
+>> +
+>>   static const struct vm_operations_struct vm_ops = {
+>>   	.fault = etnaviv_gem_fault,
+>>   	.open = drm_gem_vm_open,
+
+-- 
+Best regards,
+Sui
 
