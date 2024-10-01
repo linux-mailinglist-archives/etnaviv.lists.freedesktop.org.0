@@ -2,50 +2,50 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9B7E98C5AF
-	for <lists+etnaviv@lfdr.de>; Tue,  1 Oct 2024 20:52:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B88E98C600
+	for <lists+etnaviv@lfdr.de>; Tue,  1 Oct 2024 21:27:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA1CE10E0C0;
-	Tue,  1 Oct 2024 18:52:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0838F10E664;
+	Tue,  1 Oct 2024 19:27:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="G8e9+EFU";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="bBAVKu6z";
 	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from out-176.mta0.migadu.com (out-176.mta0.migadu.com
- [91.218.175.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BEA7C10E0C0
- for <etnaviv@lists.freedesktop.org>; Tue,  1 Oct 2024 18:52:22 +0000 (UTC)
-Message-ID: <abaf2911-8312-48db-9fe1-c9ee2c504c12@linux.dev>
+Received: from out-177.mta0.migadu.com (out-177.mta0.migadu.com
+ [91.218.175.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3AFA310E664
+ for <etnaviv@lists.freedesktop.org>; Tue,  1 Oct 2024 19:26:58 +0000 (UTC)
+Message-ID: <46c64cf0-4cd5-4b6f-a224-ffe4bac5bb7a@linux.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1727808740;
+ t=1727810816;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uknnqffaMAXkaWSb+ZKDtQjaxOO4Fpx7xtRqM5uVvNU=;
- b=G8e9+EFUGm2c7v1PGQnpW6e6NdwEcQJ2rY8GjRZ1HWIPOLvq6eAEIQTb4THQs2fsBmMA+I
- 6c0NSyMK3J6DlSkLKu1M2NmiSKP7VZjg/siVhTg8orGZeD3AhX0LlmhNjK09UHoTXflKx3
- ooa7G4P/t5Ht8Cb8ZmIYC4vpYrMbpPQ=
-Date: Wed, 2 Oct 2024 02:52:12 +0800
+ bh=I0OsDS4gQjPi2gzEJxpMcxlJylzmmO17YMUNLvUo+5I=;
+ b=bBAVKu6z9+t0XqnlCeRAKs1GFkTXKSrkakw4kTIlfb3eAH702sLg2knyD+RoygGayfIF+p
+ HY1oKScnljKa+zGRexE79nuwbzI4aZ1DYc9XJR/Yf6qRsjpnPw88LfKe1U5APVvSvvBve2
+ c+WDAPiZBBJdq2WNJoXANttigkHyCrE=
+Date: Wed, 2 Oct 2024 03:26:46 +0800
 MIME-Version: 1.0
-Subject: Re: [PATCH v15 16/19] drm/etnaviv: Call etnaviv_gem_obj_add() in
- ernaviv_gem_new_private()
-To: Lucas Stach <l.stach@pengutronix.de>
-Cc: Christian Gmeiner <christian.gmeiner@gmail.com>,
+Subject: Re: [PATCH] drm/etnaviv: Print error message if inserting IOVA
+ address range fails
+To: Lucas Stach <l.stach@pengutronix.de>,
  Russell King <linux+etnaviv@armlinux.org.uk>,
- dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
+ Christian Gmeiner <christian.gmeiner@gmail.com>
+Cc: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-References: <20240908094357.291862-1-sui.jingfeng@linux.dev>
- <20240908094357.291862-17-sui.jingfeng@linux.dev>
- <67cce03c96f5e4d08d837b77c723fdaf214f7c0d.camel@pengutronix.de>
+References: <20240930221706.399139-1-sui.jingfeng@linux.dev>
+ <ca5e444a22bae0a834a673e41e8d5b93c08f2351.camel@pengutronix.de>
 Content-Language: en-US
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 From: Sui Jingfeng <sui.jingfeng@linux.dev>
-In-Reply-To: <67cce03c96f5e4d08d837b77c723fdaf214f7c0d.camel@pengutronix.de>
+In-Reply-To: <ca5e444a22bae0a834a673e41e8d5b93c08f2351.camel@pengutronix.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-Migadu-Flow: FLOW_OUT
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,125 +63,108 @@ Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
 Hi,
 
-On 2024/10/1 22:39, Lucas Stach wrote:
-> Am Sonntag, dem 08.09.2024 um 17:43 +0800 schrieb Sui Jingfeng:
->> The etnaviv_gem_obj_add() a common operation, the 'etnaviv_drm_private::
->> gem_list' is being used to record(track) all of the etnaviv GEM buffer
->> object created in this driver.
+On 2024/10/1 16:27, Lucas Stach wrote:
+> Hi Sui,
+>
+> Am Dienstag, dem 01.10.2024 um 06:17 +0800 schrieb Sui Jingfeng:
+>> Etnaviv assumes that GPU page size is 4KiB, yet on some systems, the CPU
+>> page size is 16 KiB. The size of etnaviv buffer objects will be aligned
+>> to CPU page size on kernel side, however, userspace still assumes the
+>> page size is 4KiB and doing allocation with 4KiB page as unit. This
+>> results in softpin(userspace managed per-process address spaces) fails.
+>> Because kernel side BO takes up bigger address space than user space
+>> assumes whenever the size of a BO is not CPU page size aligned.
 >>
->> Once a etnaviv GEM buffer object has been allocated successfully, we
->> should add it into the global etnaviv_drm_private::gem_list'. Because
->> we need to free it and remove it free the list if the invoke of the
->> subsequent functions fail.
+> Seems we need to track the GPU and CPU allocation sizes separately.
+
+
+The idea is cool and fancy, I have been tried.
+
+By adding a 'user_size' member into the struct etnaviv_gem_object,
+and use this 'user_size'; to track the actual size that user-space
+thing of. (or in other words, the actual size that potential user
+allow to use)
+
+Using 'user_size' is pin, this partly solve VA address space collision
+under softpin fashion. This is partly works under my hasty test. But ...
+
+> Userspace is correct in assuming that the GPU page size is 4K and
+> buffers are aligned to this granule.
+
+
+Vivante GPU support 4KB and 64KB GPU page size.
+
+
+>   There should be no need to waste GPU VA space
+
+
+We have nearly 4GBGPU VA space, As far as I can see it, we only use a few. So, is it true 
+that we are wealthy about the VA space?
+
+
+> just because the CPU page size is larger than that and we
+> need to overallocate buffers to suit the CPU.
+
+
+A single CPU page share the same caching property, therefore, I image that
+asingle VA address  range at least should occupy entire room of a single CPU
+page.
+
+Otherwise, it possible that 4 GPUVA share a single CPU page.
+if each GPUVA  mapped with a different caching property from others.
+This get coherency requirements involved.
+
+
+>> Insert an error message to help debug when such an issue happen.
 >>
->> The only way that destroy etnaviv GEM buffer object is the implementation
->> of etnaviv_gem_free_object() function. The etnaviv_gem_free_object() first
->> remove the etnaviv GEM object from the list, then destroy its mapping and
->> finally free its memory footprint. Therefore, in order to corresponding
->> this, we add the freshly created etnaviv GEM buffer object immediately
->> after it was successfully created.
+>> Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
+>> ---
+>> For example, when running glmark2-drm:
 >>
->> A benifit is that we only need to call etnaviv_gem_obj_add() once now,
->> since the ernaviv_gem_new_private() has been unified. Make the
->> etnaviv_gem_obj_add() static is a next nature thing.
+>> [kernel space debug log]
 >>
-> Seeing this patch, I would really ask you to drop patch 11 from this
-> series and go the other way around: remove etnaviv_gem_obj_add() here
-> altogether and simply inline the few lines of code into
-> etnaviv_gem_new_private().
-
-
-The 'etnaviv_drm_private::gem_list' is being used to manage the buffer
-object itself, not the backing memory of a specific buffer object.
-
-Therefore, once a etnaviv GEM buffer object is successfully created,
-we want to add it into the global etnaviv_drm_private::gem_list'.
-To prevent the cases which removing an entry that is not in the list.
-
-Both etnaviv_gem_obj_add() and etnaviv_gem_obj_remove() touches driver
-private but shared data members. Which has nothing to do with the GEM
-core functionality itself.
-
-The unction pair is for tracking, recording, listing and showing
-purpose. Which is clearly separated functionality. Split them from
-the BO construction is a untangled fashion and is a good thing.
-
-
+>>   etnaviv 0000:03:00.0: Insert bo failed, va: fd38b000, size: 4000
+>>   etnaviv 0000:03:00.0: Insert bo failed, va: fd38a000, size: 4000
+>>
+>> [user space debug log]
+>>
+>> bo->va = 0xfd48c000, bo->size=100000
+>> bo->va = 0xfd38c000, bo->size=100000
+>> bo->va = 0xfd38b000, bo->size=1000   <-- Insert IOVA fails started at here.
+>> bo->va = 0xfd38a000, bo->size=1000
+>> bo->va = 0xfd389000, bo->size=1000
+>>
+>> [texture] texture-filter=nearest:MESA: error: etna_cmd_stream_flush:238: submit failed: -28 (No space left on device)
+>> ---
+>>   drivers/gpu/drm/etnaviv/etnaviv_mmu.c | 6 +++++-
+>>   1 file changed, 5 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_mmu.c b/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
+>> index 1661d589bf3e..682f27b27d59 100644
+>> --- a/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
+>> +++ b/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
+>> @@ -310,8 +310,12 @@ int etnaviv_iommu_map_gem(struct etnaviv_iommu_context *context,
+>>   	else
+>>   		ret = etnaviv_iommu_find_iova(context, node,
+>>   					      etnaviv_obj->base.size);
+>> -	if (ret < 0)
+>> +	if (ret < 0) {
+>> +		dev_err(context->global->dev,
+>> +			"Insert iova failed, va: %llx, size: %zx\n",
+>> +			va, etnaviv_obj->base.size);
+> As this might happen for a lot of buffers in a single submit and
+> userspace might be unimpressed by the submit failure and keep pushing
+> new submits, this has a potential to spam the logs. Please use
+> dev_err_ratelimited. Other than that, this patch looks good.
+>
 > Regards,
 > Lucas
 >
->> Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
->> ---
->>   drivers/gpu/drm/etnaviv/etnaviv_gem.c       | 8 +++-----
->>   drivers/gpu/drm/etnaviv/etnaviv_gem.h       | 1 -
->>   drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c | 2 --
->>   3 files changed, 3 insertions(+), 8 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
->> index 27e4a93c981c..ee799c02d0aa 100644
->> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
->> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
->> @@ -584,7 +584,7 @@ void etnaviv_gem_free_object(struct drm_gem_object *obj)
->>   	kfree(etnaviv_obj);
->>   }
+>>   		goto unlock;
+>> +	}
 >>   
->> -void etnaviv_gem_obj_add(struct drm_device *dev, struct drm_gem_object *obj)
->> +static void etnaviv_gem_obj_add(struct drm_device *dev, struct drm_gem_object *obj)
->>   {
->>   	struct etnaviv_drm_private *priv = to_etnaviv_priv(dev);
->>   	struct etnaviv_gem_object *etnaviv_obj = to_etnaviv_bo(obj);
->> @@ -719,8 +719,6 @@ int etnaviv_gem_new_handle(struct drm_device *dev, struct drm_file *file,
->>   	 */
->>   	mapping_set_gfp_mask(obj->filp->f_mapping, priv->shm_gfp_mask);
->>   
->> -	etnaviv_gem_obj_add(dev, obj);
->> -
->>   	ret = drm_gem_handle_create(file, obj, handle);
->>   
->>   	/* drop reference from allocate - handle holds it now */
->> @@ -751,6 +749,8 @@ int etnaviv_gem_new_private(struct drm_device *dev, size_t size, u32 flags,
->>   		drm_gem_private_object_init(dev, obj, size);
->>   	}
->>   
->> +	etnaviv_gem_obj_add(dev, obj);
->> +
->>   	*res = to_etnaviv_bo(obj);
->>   
->>   	return 0;
->> @@ -849,8 +849,6 @@ int etnaviv_gem_new_userptr(struct drm_device *dev, struct drm_file *file,
->>   	etnaviv_obj->userptr.mm = current->mm;
->>   	etnaviv_obj->userptr.ro = !(flags & ETNA_USERPTR_WRITE);
->>   
->> -	etnaviv_gem_obj_add(dev, &etnaviv_obj->base);
->> -
->>   	ret = drm_gem_handle_create(file, &etnaviv_obj->base, handle);
->>   
->>   	/* drop reference from allocate - handle holds it now */
->> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.h b/drivers/gpu/drm/etnaviv/etnaviv_gem.h
->> index b174a9e4cc48..8d8fc5b3a541 100644
->> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem.h
->> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.h
->> @@ -121,7 +121,6 @@ int etnaviv_gem_new_private(struct drm_device *dev, size_t size, u32 flags,
->>   			    bool shmem, const struct etnaviv_gem_ops *ops,
->>   			    struct etnaviv_gem_object **res);
->>   
->> -void etnaviv_gem_obj_add(struct drm_device *dev, struct drm_gem_object *obj);
->>   struct page **etnaviv_gem_get_pages(struct etnaviv_gem_object *obj);
->>   void etnaviv_gem_put_pages(struct etnaviv_gem_object *obj);
->>   
->> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
->> index 64a858a0b0cf..04ee31461b8c 100644
->> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
->> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
->> @@ -127,8 +127,6 @@ struct drm_gem_object *etnaviv_gem_prime_import_sg_table(struct drm_device *dev,
->>   	if (ret)
->>   		goto fail;
->>   
->> -	etnaviv_gem_obj_add(dev, &etnaviv_obj->base);
->> -
->>   	return &etnaviv_obj->base;
->>   
->>   fail:
+>>   	mapping->iova = node->start;
+>>   	ret = etnaviv_iommu_map(context, node->start, sgt,
 
 -- 
 Best regards,
