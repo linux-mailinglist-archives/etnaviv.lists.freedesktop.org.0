@@ -2,34 +2,33 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 353BF98BF06
-	for <lists+etnaviv@lfdr.de>; Tue,  1 Oct 2024 16:07:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 968D298BFBC
+	for <lists+etnaviv@lfdr.de>; Tue,  1 Oct 2024 16:22:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 29B4710E632;
-	Tue,  1 Oct 2024 14:07:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1680710E633;
+	Tue,  1 Oct 2024 14:21:59 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
 Received: from metis.whiteo.stw.pengutronix.de
  (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 385E110E632
- for <etnaviv@lists.freedesktop.org>; Tue,  1 Oct 2024 14:07:45 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D2B4110E17A
+ for <etnaviv@lists.freedesktop.org>; Tue,  1 Oct 2024 14:21:57 +0000 (UTC)
 Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
  helo=[IPv6:::1]) by metis.whiteo.stw.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <l.stach@pengutronix.de>)
- id 1svdXP-000659-VL; Tue, 01 Oct 2024 16:07:40 +0200
-Message-ID: <8a517e50ae08ee777a9b3465167d7ac4721e6f9f.camel@pengutronix.de>
-Subject: Re: [PATCH v15 09/19] drm/etnaviv: Add constructor and destructor
- for the etnaviv_drm_private structure
+ id 1svdlC-0005r6-D6; Tue, 01 Oct 2024 16:21:54 +0200
+Message-ID: <45b8eb9a0a2b91d85f9dd6b7e66a1796398fa27c.camel@pengutronix.de>
+Subject: Re: [PATCH v15 11/19] drm/etnaviv: Add etnaviv_gem_obj_remove() helper
 From: Lucas Stach <l.stach@pengutronix.de>
 To: Sui Jingfeng <sui.jingfeng@linux.dev>
 Cc: Christian Gmeiner <christian.gmeiner@gmail.com>, Russell King
  <linux+etnaviv@armlinux.org.uk>, dri-devel@lists.freedesktop.org, 
  etnaviv@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Date: Tue, 01 Oct 2024 16:07:39 +0200
-In-Reply-To: <20240908094357.291862-10-sui.jingfeng@linux.dev>
+Date: Tue, 01 Oct 2024 16:21:53 +0200
+In-Reply-To: <20240908094357.291862-12-sui.jingfeng@linux.dev>
 References: <20240908094357.291862-1-sui.jingfeng@linux.dev>
- <20240908094357.291862-10-sui.jingfeng@linux.dev>
+ <20240908094357.291862-12-sui.jingfeng@linux.dev>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
@@ -54,154 +53,70 @@ Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
 Am Sonntag, dem 08.09.2024 um 17:43 +0800 schrieb Sui Jingfeng:
-> Because there are a lot of data members in the struct etnaviv_drm_private=
-,
-> which are intended to be shared by all GPU cores. It can be lengthy and
-> daunting on error handling, the 'gem_lock' of struct etnaviv_drm_private
-> just be forgeten to destroy on driver leave.
+> Which is corresonding to the etnaviv_gem_obj_add()
 >=20
-As you seem to have based this patch on top of "drm/etnaviv: Fix
-missing mutex_destroy()", the last part of the above sentence doesn't
-match the code. Please drop.
-
-> Switch to use the dedicated helpers introduced, etnaviv_bind() and
-> etnaviv_unbind() gets simplified. Another potential benefit is that
-> we could put the struct drm_device into struct etnaviv_drm_private
-> in the future, which made them share the same life time.
->=20
-> Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
-> ---
->  drivers/gpu/drm/etnaviv/etnaviv_drv.c | 73 +++++++++++++++++----------
->  1 file changed, 46 insertions(+), 27 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etna=
-viv/etnaviv_drv.c
-> index 6591e420a051..809e5db85df4 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-> @@ -41,6 +41,45 @@ static struct device_node *etnaviv_of_first_available_=
-node(void)
->  	return NULL;
->  }
-> =20
-> +static struct etnaviv_drm_private *etnaviv_alloc_private(struct device *=
-dev)
-> +{
-> +	struct etnaviv_drm_private *priv;
-> +
-> +	priv =3D kzalloc(sizeof(*priv), GFP_KERNEL);
-> +	if (!priv)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	xa_init_flags(&priv->active_contexts, XA_FLAGS_ALLOC);
-> +
-> +	mutex_init(&priv->gem_lock);
-> +	INIT_LIST_HEAD(&priv->gem_list);
-> +	priv->num_gpus =3D 0;
-> +	priv->shm_gfp_mask =3D GFP_HIGHUSER | __GFP_RETRY_MAYFAIL | __GFP_NOWAR=
-N;
-> +
-> +	priv->cmdbuf_suballoc =3D etnaviv_cmdbuf_suballoc_new(dev);
-> +	if (IS_ERR(priv->cmdbuf_suballoc)) {
-
-If this is supposed to do everything by the books, we should also
-destroy the gem_lock mutex and active_contexts xarray here.
+While symmetry is nice, it's still not really symmetric, as this
+function isn't exported into the PRIME parts of the driver like
+etnaviv_gem_obj_add(). Given that I don't really see how this patch
+improves code legibility.
 
 Regards,
 Lucas
 
-> +		kfree(priv);
-> +		dev_err(dev, "Failed to create cmdbuf suballocator\n");
-> +		return ERR_PTR(-ENOMEM);
-> +	}
+> Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
+> ---
+>  drivers/gpu/drm/etnaviv/etnaviv_gem.c | 17 +++++++++++++----
+>  1 file changed, 13 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/etna=
+viv/etnaviv_gem.c
+> index 39cfece67b90..3732288ff530 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+> @@ -19,6 +19,8 @@
+>  static struct lock_class_key etnaviv_shm_lock_class;
+>  static struct lock_class_key etnaviv_userptr_lock_class;
+> =20
+> +static void etnaviv_gem_obj_remove(struct drm_gem_object *obj);
 > +
-> +	return priv;
-> +}
-> +
-> +static void etnaviv_free_private(struct etnaviv_drm_private *priv)
-> +{
-> +	if (!priv)
-> +		return;
-> +
-> +	etnaviv_cmdbuf_suballoc_destroy(priv->cmdbuf_suballoc);
-> +
-> +	xa_destroy(&priv->active_contexts);
-> +
-> +	mutex_destroy(&priv->gem_lock);
-> +
-> +	kfree(priv);
-> +}
-> +
->  static void load_gpu(struct drm_device *dev)
+>  static void etnaviv_gem_scatter_map(struct etnaviv_gem_object *etnaviv_o=
+bj)
 >  {
->  	struct etnaviv_drm_private *priv =3D dev->dev_private;
-> @@ -521,35 +560,21 @@ static int etnaviv_bind(struct device *dev)
->  	if (IS_ERR(drm))
->  		return PTR_ERR(drm);
+>  	struct drm_device *dev =3D etnaviv_obj->base.dev;
+> @@ -555,15 +557,12 @@ void etnaviv_gem_free_object(struct drm_gem_object =
+*obj)
+>  {
+>  	struct drm_device *drm =3D obj->dev;
+>  	struct etnaviv_gem_object *etnaviv_obj =3D to_etnaviv_bo(obj);
+> -	struct etnaviv_drm_private *priv =3D obj->dev->dev_private;
+>  	struct etnaviv_vram_mapping *mapping, *tmp;
 > =20
-> -	priv =3D kzalloc(sizeof(*priv), GFP_KERNEL);
-> -	if (!priv) {
-> -		dev_err(dev, "failed to allocate private data\n");
-> -		ret =3D -ENOMEM;
-> +	priv =3D etnaviv_alloc_private(dev);
-> +	if (IS_ERR(priv)) {
-> +		ret =3D PTR_ERR(priv);
->  		goto out_put;
->  	}
-> +
->  	drm->dev_private =3D priv;
+>  	/* object should not be active */
+>  	drm_WARN_ON(drm, is_active(etnaviv_obj));
 > =20
->  	dma_set_max_seg_size(dev, SZ_2G);
+> -	mutex_lock(&priv->gem_lock);
+> -	list_del(&etnaviv_obj->gem_node);
+> -	mutex_unlock(&priv->gem_lock);
+> +	etnaviv_gem_obj_remove(obj);
 > =20
-> -	xa_init_flags(&priv->active_contexts, XA_FLAGS_ALLOC);
-> -
-> -	mutex_init(&priv->gem_lock);
-> -	INIT_LIST_HEAD(&priv->gem_list);
-> -	priv->num_gpus =3D 0;
-> -	priv->shm_gfp_mask =3D GFP_HIGHUSER | __GFP_RETRY_MAYFAIL | __GFP_NOWAR=
-N;
-> -
-> -	priv->cmdbuf_suballoc =3D etnaviv_cmdbuf_suballoc_new(drm->dev);
-> -	if (IS_ERR(priv->cmdbuf_suballoc)) {
-> -		dev_err(drm->dev, "Failed to create cmdbuf suballocator\n");
-> -		ret =3D PTR_ERR(priv->cmdbuf_suballoc);
-> -		goto out_free_priv;
-> -	}
-> -
->  	dev_set_drvdata(dev, drm);
-> =20
->  	ret =3D component_bind_all(dev, drm);
->  	if (ret < 0)
-> -		goto out_destroy_suballoc;
-> +		goto out_free_priv;
-> =20
->  	load_gpu(drm);
-> =20
-> @@ -561,11 +586,8 @@ static int etnaviv_bind(struct device *dev)
-> =20
->  out_unbind:
->  	component_unbind_all(dev, drm);
-> -out_destroy_suballoc:
-> -	etnaviv_cmdbuf_suballoc_destroy(priv->cmdbuf_suballoc);
->  out_free_priv:
-> -	mutex_destroy(&priv->gem_lock);
-> -	kfree(priv);
-> +	etnaviv_free_private(priv);
->  out_put:
->  	drm_dev_put(drm);
-> =20
-> @@ -581,12 +603,9 @@ static void etnaviv_unbind(struct device *dev)
-> =20
->  	component_unbind_all(dev, drm);
-> =20
-> -	etnaviv_cmdbuf_suballoc_destroy(priv->cmdbuf_suballoc);
-> -
-> -	xa_destroy(&priv->active_contexts);
-> +	etnaviv_free_private(priv);
-> =20
->  	drm->dev_private =3D NULL;
-> -	kfree(priv);
-> =20
->  	drm_dev_put(drm);
+>  	list_for_each_entry_safe(mapping, tmp, &etnaviv_obj->vram_list,
+>  				 obj_node) {
+> @@ -595,6 +594,16 @@ void etnaviv_gem_obj_add(struct drm_device *dev, str=
+uct drm_gem_object *obj)
+>  	mutex_unlock(&priv->gem_lock);
 >  }
+> =20
+> +static void etnaviv_gem_obj_remove(struct drm_gem_object *obj)
+> +{
+> +	struct etnaviv_drm_private *priv =3D to_etnaviv_priv(obj->dev);
+> +	struct etnaviv_gem_object *etnaviv_obj =3D to_etnaviv_bo(obj);
+> +
+> +	mutex_lock(&priv->gem_lock);
+> +	list_del(&etnaviv_obj->gem_node);
+> +	mutex_unlock(&priv->gem_lock);
+> +}
+> +
+>  static const struct vm_operations_struct vm_ops =3D {
+>  	.fault =3D etnaviv_gem_fault,
+>  	.open =3D drm_gem_vm_open,
 
