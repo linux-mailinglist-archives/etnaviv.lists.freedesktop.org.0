@@ -2,35 +2,34 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DDEE98B6E6
-	for <lists+etnaviv@lfdr.de>; Tue,  1 Oct 2024 10:27:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91E6098BBE7
+	for <lists+etnaviv@lfdr.de>; Tue,  1 Oct 2024 14:17:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5833510E0F4;
-	Tue,  1 Oct 2024 08:27:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 63CCE10E174;
+	Tue,  1 Oct 2024 12:17:41 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
 Received: from metis.whiteo.stw.pengutronix.de
  (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D797D10E0F4
- for <etnaviv@lists.freedesktop.org>; Tue,  1 Oct 2024 08:27:51 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E0AEA10E173
+ for <etnaviv@lists.freedesktop.org>; Tue,  1 Oct 2024 12:17:39 +0000 (UTC)
 Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
  helo=[IPv6:::1]) by metis.whiteo.stw.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <l.stach@pengutronix.de>)
- id 1svYEU-0002XU-DN; Tue, 01 Oct 2024 10:27:46 +0200
-Message-ID: <ca5e444a22bae0a834a673e41e8d5b93c08f2351.camel@pengutronix.de>
-Subject: Re: [PATCH] drm/etnaviv: Print error message if inserting IOVA
- address range fails
+ id 1svboq-00079m-FC; Tue, 01 Oct 2024 14:17:32 +0200
+Message-ID: <7a6ffbb773784dee0ea3ee87e563ac4e4f7c9c90.camel@pengutronix.de>
+Subject: Re: [PATCH v3] drm/etnaviv: Request pages from DMA32 zone on
+ addressing_limited
 From: Lucas Stach <l.stach@pengutronix.de>
-To: Sui Jingfeng <sui.jingfeng@linux.dev>, Russell King
- <linux+etnaviv@armlinux.org.uk>, Christian Gmeiner
- <christian.gmeiner@gmail.com>
-Cc: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+To: Xiaolei Wang <xiaolei.wang@windriver.com>, sui.jingfeng@linux.dev, 
+ linux+etnaviv@armlinux.org.uk, christian.gmeiner@gmail.com,
+ airlied@gmail.com,  daniel@ffwll.ch
+Cc: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
  linux-kernel@vger.kernel.org
-Date: Tue, 01 Oct 2024 10:27:45 +0200
-In-Reply-To: <20240930221706.399139-1-sui.jingfeng@linux.dev>
-References: <20240930221706.399139-1-sui.jingfeng@linux.dev>
+Date: Tue, 01 Oct 2024 14:17:31 +0200
+In-Reply-To: <20240903020857.3250038-1-xiaolei.wang@windriver.com>
+References: <20240903020857.3250038-1-xiaolei.wang@windriver.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
@@ -54,77 +53,91 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Hi Sui,
+Hi Xiaolei,
 
-Am Dienstag, dem 01.10.2024 um 06:17 +0800 schrieb Sui Jingfeng:
-> Etnaviv assumes that GPU page size is 4KiB, yet on some systems, the CPU
-> page size is 16 KiB. The size of etnaviv buffer objects will be aligned
-> to CPU page size on kernel side, however, userspace still assumes the
-> page size is 4KiB and doing allocation with 4KiB page as unit. This
-> results in softpin(userspace managed per-process address spaces) fails.
-> Because kernel side BO takes up bigger address space than user space
-> assumes whenever the size of a BO is not CPU page size aligned.
+Am Dienstag, dem 03.09.2024 um 10:08 +0800 schrieb Xiaolei Wang:
+> Remove __GFP_HIGHMEM when requesting a page from DMA32 zone,
+> and since all vivante GPUs in the system will share the same
+> DMA constraints, move the check of whether to get a page from
+> DMA32 to etnaviv_bind().
 >=20
-
-Seems we need to track the GPU and CPU allocation sizes separately.
-Userspace is correct in assuming that the GPU page size is 4K and
-buffers are aligned to this granule. There should be no need to waste
-GPU VA space just because the CPU page size is larger than that and we
-need to overallocate buffers to suit the CPU.
-
-> Insert an error message to help debug when such an issue happen.
->=20
-> Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
+> Fixes: b72af445cd38 ("drm/etnaviv: request pages from DMA32 zone when nee=
+ded")
+> Suggested-by: Sui Jingfeng <sui.jingfeng@linux.dev>
+> Signed-off-by: Xiaolei Wang <xiaolei.wang@windriver.com>
 > ---
-> For example, when running glmark2-drm:
 >=20
-> [kernel space debug log]
+> change log
 >=20
->  etnaviv 0000:03:00.0: Insert bo failed, va: fd38b000, size: 4000
->  etnaviv 0000:03:00.0: Insert bo failed, va: fd38a000, size: 4000
+> v1:
+>   https://patchwork.kernel.org/project/dri-devel/patch/20240806104733.201=
+8783-1-xiaolei.wang@windriver.com/
 >=20
-> [user space debug log]
+> v2:
+>   Modify the issue of not retaining GFP_USER in v1 and update the commit =
+log.
 >=20
-> bo->va =3D 0xfd48c000, bo->size=3D100000
-> bo->va =3D 0xfd38c000, bo->size=3D100000
-> bo->va =3D 0xfd38b000, bo->size=3D1000   <-- Insert IOVA fails started at=
- here.
-> bo->va =3D 0xfd38a000, bo->size=3D1000
-> bo->va =3D 0xfd389000, bo->size=3D1000
->=20
-> [texture] texture-filter=3Dnearest:MESA: error: etna_cmd_stream_flush:238=
-: submit failed: -28 (No space left on device)
-> ---
->  drivers/gpu/drm/etnaviv/etnaviv_mmu.c | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_mmu.c b/drivers/gpu/drm/etna=
-viv/etnaviv_mmu.c
-> index 1661d589bf3e..682f27b27d59 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
-> @@ -310,8 +310,12 @@ int etnaviv_iommu_map_gem(struct etnaviv_iommu_conte=
-xt *context,
->  	else
->  		ret =3D etnaviv_iommu_find_iova(context, node,
->  					      etnaviv_obj->base.size);
-> -	if (ret < 0)
-> +	if (ret < 0) {
-> +		dev_err(context->global->dev,
-> +			"Insert iova failed, va: %llx, size: %zx\n",
-> +			va, etnaviv_obj->base.size);
+> v3:
+>   Use "priv->shm_gfp_mask =3D GFP_USER | __GFP_RETRY_MAYFAIL | __GFP_NOWA=
+RN;"
+> instead of
+>   "priv->shm_gfp_mask =3D GFP_HIGHUSER | __GFP_RETRY_MAYFAIL | __GFP_NOWA=
+RN;"
 
-As this might happen for a lot of buffers in a single submit and
-userspace might be unimpressed by the submit failure and keep pushing
-new submits, this has a potential to spam the logs. Please use
-dev_err_ratelimited. Other than that, this patch looks good.
+I don't understand this part of the changes in the new version. Why
+should we drop the HIGHMEM bit always and not only in the case where
+dma addressing is limited? This seems overly restrictive.
 
 Regards,
 Lucas
 
->  		goto unlock;
-> +	}
+> and move the check of whether to get a page from DMA32 to etnaviv_bind().
+>=20
+>  drivers/gpu/drm/etnaviv/etnaviv_drv.c | 10 +++++++++-
+>  drivers/gpu/drm/etnaviv/etnaviv_gpu.c |  8 --------
+>  2 files changed, 9 insertions(+), 9 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etna=
+viv/etnaviv_drv.c
+> index 6500f3999c5f..8cb2c3ec8e5d 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> @@ -536,7 +536,15 @@ static int etnaviv_bind(struct device *dev)
+>  	mutex_init(&priv->gem_lock);
+>  	INIT_LIST_HEAD(&priv->gem_list);
+>  	priv->num_gpus =3D 0;
+> -	priv->shm_gfp_mask =3D GFP_HIGHUSER | __GFP_RETRY_MAYFAIL | __GFP_NOWAR=
+N;
+> +	priv->shm_gfp_mask =3D GFP_USER | __GFP_RETRY_MAYFAIL | __GFP_NOWARN;
+> +
+> +	/*
+> +	 * If the GPU is part of a system with DMA addressing limitations,
+> +	 * request pages for our SHM backend buffers from the DMA32 zone to
+> +	 * hopefully avoid performance killing SWIOTLB bounce buffering.
+> +	 */
+> +	if (dma_addressing_limited(dev))
+> +		priv->shm_gfp_mask |=3D GFP_DMA32;
 > =20
->  	mapping->iova =3D node->start;
->  	ret =3D etnaviv_iommu_map(context, node->start, sgt,
+>  	priv->cmdbuf_suballoc =3D etnaviv_cmdbuf_suballoc_new(drm->dev);
+>  	if (IS_ERR(priv->cmdbuf_suballoc)) {
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etna=
+viv/etnaviv_gpu.c
+> index 7c7f97793ddd..5e753dd42f72 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> @@ -839,14 +839,6 @@ int etnaviv_gpu_init(struct etnaviv_gpu *gpu)
+>  	if (ret)
+>  		goto fail;
+> =20
+> -	/*
+> -	 * If the GPU is part of a system with DMA addressing limitations,
+> -	 * request pages for our SHM backend buffers from the DMA32 zone to
+> -	 * hopefully avoid performance killing SWIOTLB bounce buffering.
+> -	 */
+> -	if (dma_addressing_limited(gpu->dev))
+> -		priv->shm_gfp_mask |=3D GFP_DMA32;
+> -
+>  	/* Create buffer: */
+>  	ret =3D etnaviv_cmdbuf_init(priv->cmdbuf_suballoc, &gpu->buffer,
+>  				  PAGE_SIZE);
 
