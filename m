@@ -2,34 +2,34 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 630FA98BE22
-	for <lists+etnaviv@lfdr.de>; Tue,  1 Oct 2024 15:41:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 886D198BE72
+	for <lists+etnaviv@lfdr.de>; Tue,  1 Oct 2024 15:52:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1649810E619;
-	Tue,  1 Oct 2024 13:40:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6484B10E62A;
+	Tue,  1 Oct 2024 13:52:02 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
 Received: from metis.whiteo.stw.pengutronix.de
  (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 194E410E619
- for <etnaviv@lists.freedesktop.org>; Tue,  1 Oct 2024 13:40:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EFFF710E622
+ for <etnaviv@lists.freedesktop.org>; Tue,  1 Oct 2024 13:52:00 +0000 (UTC)
 Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
  helo=[IPv6:::1]) by metis.whiteo.stw.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <l.stach@pengutronix.de>)
- id 1svd7W-0007sc-4U; Tue, 01 Oct 2024 15:40:54 +0200
-Message-ID: <4a8d06075edb6b5e0d2d71355a55acfd19cd2983.camel@pengutronix.de>
-Subject: Re: [PATCH v15 04/19] drm/etnaviv: Make etnaviv_gem_prime_vmap() a
- static function
+ id 1svdID-0005Al-Mh; Tue, 01 Oct 2024 15:51:57 +0200
+Message-ID: <663c5f6f0610b7d3b47b115a51320f0eac7c4c06.camel@pengutronix.de>
+Subject: Re: [PATCH v15 05/19] drm/etnaviv: Add contructor and destructor
+ for etnaviv_gem_get_mapping structure
 From: Lucas Stach <l.stach@pengutronix.de>
 To: Sui Jingfeng <sui.jingfeng@linux.dev>
 Cc: Christian Gmeiner <christian.gmeiner@gmail.com>, Russell King
  <linux+etnaviv@armlinux.org.uk>, dri-devel@lists.freedesktop.org, 
  etnaviv@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Date: Tue, 01 Oct 2024 15:40:53 +0200
-In-Reply-To: <20240908094357.291862-5-sui.jingfeng@linux.dev>
+Date: Tue, 01 Oct 2024 15:51:57 +0200
+In-Reply-To: <20240908094357.291862-6-sui.jingfeng@linux.dev>
 References: <20240908094357.291862-1-sui.jingfeng@linux.dev>
- <20240908094357.291862-5-sui.jingfeng@linux.dev>
+ <20240908094357.291862-6-sui.jingfeng@linux.dev>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
@@ -54,111 +54,118 @@ Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
 Am Sonntag, dem 08.09.2024 um 17:43 +0800 schrieb Sui Jingfeng:
-> The etnaviv_gem_prime_vmap() function has no caller in the
-> etnaviv_gem_prime.c file, move it into etnaviv_gem.c file.
-> While at it, rename it as etnaviv_gem_object_vmap(), since
-> it is a intermidiate layer function, it has no direct relation
-> ship with the PRIME. The etnaviv_gem_prime.c file already has
-> etnaviv_gem_prime_vmap_impl() as the implementation to vmap
-> a imported GEM buffer object.
+> Because this make the code more easier to understand, When GPU access the
+> VRAM, it will allocate a new mapping to use if there don't have one.
 >=20
-I don't agree with the premise with this patch. This function is
-clearly prime specific, so I don't think it should move.
+> Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
+> ---
+>  drivers/gpu/drm/etnaviv/etnaviv_gem.c | 40 +++++++++++++++++++--------
+>  drivers/gpu/drm/etnaviv/etnaviv_gem.h |  6 ++++
+>  2 files changed, 34 insertions(+), 12 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/etna=
+viv/etnaviv_gem.c
+> index 85d4e7c87a6a..55004fa9fabd 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+> @@ -227,6 +227,30 @@ etnaviv_gem_get_vram_mapping(struct etnaviv_gem_obje=
+ct *obj,
+>  	return NULL;
+>  }
+> =20
+> +static struct etnaviv_vram_mapping *
+> +etnaviv_gem_vram_mapping_new(struct etnaviv_gem_object *etnaviv_obj)
+> +{
+> +	struct etnaviv_vram_mapping *mapping;
+> +
+> +	mapping =3D kzalloc(sizeof(*mapping), GFP_KERNEL);
+> +	if (!mapping)
+> +		return NULL;
+> +
+> +	INIT_LIST_HEAD(&mapping->scan_node);
+> +	mapping->object =3D etnaviv_obj;
+> +	mapping->use =3D 1;
+> +
+> +	list_add_tail(&mapping->obj_node, &etnaviv_obj->vram_list);
+> +
+> +	return mapping;
+> +}
+> +
+> +static void etnaviv_gem_vram_mapping_destroy(struct etnaviv_vram_mapping=
+ *mapping)
+> +{
+> +	list_del(&mapping->obj_node);
+> +	kfree(mapping);
+> +}
+> +
+>  void etnaviv_gem_mapping_unreference(struct etnaviv_vram_mapping *mappin=
+g)
+>  {
+>  	struct etnaviv_gem_object *etnaviv_obj =3D mapping->object;
+> @@ -289,27 +313,20 @@ struct etnaviv_vram_mapping *etnaviv_gem_mapping_ge=
+t(
+>  	 */
+>  	mapping =3D etnaviv_gem_get_vram_mapping(etnaviv_obj, NULL);
+>  	if (!mapping) {
+> -		mapping =3D kzalloc(sizeof(*mapping), GFP_KERNEL);
+> +		mapping =3D etnaviv_gem_vram_mapping_new(etnaviv_obj);
+>  		if (!mapping) {
+>  			ret =3D -ENOMEM;
+>  			goto out;
+>  		}
+> -
+> -		INIT_LIST_HEAD(&mapping->scan_node);
+> -		mapping->object =3D etnaviv_obj;
+>  	} else {
+> -		list_del(&mapping->obj_node);
+> +		mapping->use =3D 1;
+>  	}
+> =20
+> -	mapping->use =3D 1;
+> -
+>  	ret =3D etnaviv_iommu_map_gem(mmu_context, etnaviv_obj,
+>  				    mmu_context->global->memory_base,
+>  				    mapping, va);
+>  	if (ret < 0)
+> -		kfree(mapping);
+> -	else
+> -		list_add_tail(&mapping->obj_node, &etnaviv_obj->vram_list);
+> +		etnaviv_gem_vram_mapping_destroy(mapping);
+> =20
+>  out:
+>  	mutex_unlock(&etnaviv_obj->lock);
+> @@ -544,8 +561,7 @@ void etnaviv_gem_free_object(struct drm_gem_object *o=
+bj)
+>  		if (context)
+>  			etnaviv_iommu_unmap_gem(context, mapping);
+> =20
+> -		list_del(&mapping->obj_node);
+> -		kfree(mapping);
+> +		etnaviv_gem_vram_mapping_destroy(mapping);
+>  	}
+> =20
+>  	etnaviv_obj->ops->vunmap(etnaviv_obj);
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.h b/drivers/gpu/drm/etna=
+viv/etnaviv_gem.h
+> index d4965de3007c..f2ac64d8e90b 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem.h
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.h
+> @@ -31,6 +31,12 @@ struct etnaviv_vram_mapping {
+>  	u32 iova;
+>  };
+> =20
+> +static inline struct etnaviv_vram_mapping *
+> +to_etnaviv_vram_mapping(struct drm_mm_node *vram)
+> +{
+> +	return container_of(vram, struct etnaviv_vram_mapping, vram_node);
+> +}
+> +
+This hunk looks unrelated to this patch. Otherwise patch looks good.
 
 Regards,
 Lucas
 
-> Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
-> ---
->  drivers/gpu/drm/etnaviv/etnaviv_drv.h       |  1 -
->  drivers/gpu/drm/etnaviv/etnaviv_gem.c       | 16 +++++++++++++++-
->  drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c | 12 ------------
->  3 files changed, 15 insertions(+), 14 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.h b/drivers/gpu/drm/etna=
-viv/etnaviv_drv.h
-> index 2eb2ff13f6e8..c217b54b214c 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.h
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.h
-> @@ -55,7 +55,6 @@ int etnaviv_ioctl_gem_submit(struct drm_device *dev, vo=
-id *data,
-> =20
->  int etnaviv_gem_mmap_offset(struct drm_gem_object *obj, u64 *offset);
->  struct sg_table *etnaviv_gem_prime_get_sg_table(struct drm_gem_object *o=
-bj);
-> -int etnaviv_gem_prime_vmap(struct drm_gem_object *obj, struct iosys_map =
-*map);
->  struct drm_gem_object *etnaviv_gem_prime_import_sg_table(struct drm_devi=
-ce *dev,
->  	struct dma_buf_attachment *attach, struct sg_table *sg);
->  int etnaviv_gem_prime_pin(struct drm_gem_object *obj);
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/etna=
-viv/etnaviv_gem.c
-> index fad23494d08e..85d4e7c87a6a 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-> @@ -6,6 +6,7 @@
->  #include <drm/drm_gem.h>
->  #include <drm/drm_prime.h>
->  #include <linux/dma-mapping.h>
-> +#include <linux/iosys-map.h>
->  #include <linux/shmem_fs.h>
->  #include <linux/spinlock.h>
->  #include <linux/vmalloc.h>
-> @@ -340,6 +341,19 @@ void *etnaviv_gem_vmap(struct drm_gem_object *obj)
->  	return etnaviv_obj->vaddr;
->  }
-> =20
-> +static int etnaviv_gem_object_vmap(struct drm_gem_object *obj,
-> +				   struct iosys_map *map)
-> +{
-> +	void *vaddr;
-> +
-> +	vaddr =3D etnaviv_gem_vmap(obj);
-> +	if (!vaddr)
-> +		return -ENOMEM;
-> +	iosys_map_set_vaddr(map, vaddr);
-> +
-> +	return 0;
-> +}
-> +
->  void etnaviv_gem_vunmap(struct drm_gem_object *obj)
->  {
->  	struct etnaviv_gem_object *etnaviv_obj =3D to_etnaviv_bo(obj);
-> @@ -595,7 +609,7 @@ static const struct drm_gem_object_funcs etnaviv_gem_=
-object_funcs =3D {
->  	.pin =3D etnaviv_gem_prime_pin,
->  	.unpin =3D etnaviv_gem_prime_unpin,
->  	.get_sg_table =3D etnaviv_gem_prime_get_sg_table,
-> -	.vmap =3D etnaviv_gem_prime_vmap,
-> +	.vmap =3D etnaviv_gem_object_vmap,
->  	.vunmap =3D etnaviv_gem_object_vunmap,
->  	.mmap =3D etnaviv_gem_mmap,
->  	.vm_ops =3D &vm_ops,
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c b/drivers/gpu/dr=
-m/etnaviv/etnaviv_gem_prime.c
-> index bea50d720450..8f523cbee60a 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
-> @@ -25,18 +25,6 @@ struct sg_table *etnaviv_gem_prime_get_sg_table(struct=
- drm_gem_object *obj)
->  	return drm_prime_pages_to_sg(obj->dev, etnaviv_obj->pages, npages);
->  }
-> =20
-> -int etnaviv_gem_prime_vmap(struct drm_gem_object *obj, struct iosys_map =
-*map)
-> -{
-> -	void *vaddr;
-> -
-> -	vaddr =3D etnaviv_gem_vmap(obj);
-> -	if (!vaddr)
-> -		return -ENOMEM;
-> -	iosys_map_set_vaddr(map, vaddr);
-> -
-> -	return 0;
-> -}
-> -
->  int etnaviv_gem_prime_pin(struct drm_gem_object *obj)
->  {
->  	if (!obj->import_attach) {
+>  struct etnaviv_gem_object {
+>  	struct drm_gem_object base;
+>  	const struct etnaviv_gem_ops *ops;
 
