@@ -2,31 +2,31 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 746489B0C4B
-	for <lists+etnaviv@lfdr.de>; Fri, 25 Oct 2024 19:56:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B6DA9B1038
+	for <lists+etnaviv@lfdr.de>; Fri, 25 Oct 2024 22:44:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A1D410EB61;
-	Fri, 25 Oct 2024 17:56:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1BCA310EB7F;
+	Fri, 25 Oct 2024 20:44:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="fCXgk42h";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="MNInL612";
 	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from out-172.mta0.migadu.com (out-172.mta0.migadu.com
- [91.218.175.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5ECE010EB61
- for <etnaviv@lists.freedesktop.org>; Fri, 25 Oct 2024 17:56:30 +0000 (UTC)
+Received: from out-187.mta1.migadu.com (out-187.mta1.migadu.com
+ [95.215.58.187])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 409BB10E103
+ for <etnaviv@lists.freedesktop.org>; Fri, 25 Oct 2024 20:44:20 +0000 (UTC)
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1729878988;
+ t=1729889058;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding;
- bh=PiyqamZokvGQbMIllG7O8OFwcxqwj7PKjocQ08OcuZw=;
- b=fCXgk42hKmDm45qW6j6QPaXRUKy7M8bWP8SLOSqzQCGWUDrc81JQkg0EUudUGofAmAAP+m
- gl6zHifaPGjjosN74uDk5KKE7t6B6ccq8yz2VDN5YNVWXv6DQt2Dow7xNfm/kLDVfwscmh
- +nAnYyZFtWOPuMXe/hg05mx7m0O95Qw=
+ bh=ztrVlzbJYDXKngabmXQa19bNYJjSoNew/4bl4Bb5+R4=;
+ b=MNInL612oKc4OjrZvlDlt47LPzsAp9VZMufaTdMf4GUv0eEAjhte5Az3BebVpBDigmqlvt
+ Q0se7Ax16Y0qb4YCPXoMxmsdquYWGtjtV8U5keaBcg70ZoE5S8ZqGjGj60Y34BPOoHaex9
+ snZEoSHthP+31dr9WEsYgEmLlOhsBeM=
 From: Sui Jingfeng <sui.jingfeng@linux.dev>
 To: Lucas Stach <l.stach@pengutronix.de>,
  Russell King <linux+etnaviv@armlinux.org.uk>,
@@ -34,10 +34,10 @@ To: Lucas Stach <l.stach@pengutronix.de>,
 Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, Sui Jingfeng <sui.jingfeng@linux.dev>
-Subject: [PATCH] drm/etnaviv: etnaviv_cmdbuf.c: Drop the unneeded include of
- drm_mm.h
-Date: Sat, 26 Oct 2024 01:56:20 +0800
-Message-Id: <20241025175620.414666-1-sui.jingfeng@linux.dev>
+Subject: [PATCH v2 0/2] drm/etnaviv: Fix GPUVA range collision when CPU page
+ size is not equal to GPU page size
+Date: Sat, 26 Oct 2024 04:43:53 +0800
+Message-Id: <20241025204355.595805-1-sui.jingfeng@linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Migadu-Flow: FLOW_OUT
@@ -55,28 +55,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-The etnaviv_cmdbuf.c doesn't reference any functions or data members
-defined in drm_mm.h, remove unneeded headers may reduce kernel compile
-times.
+Etnaviv assumes that GPU page size is 4KiB, however, when using
+softpin capable GPUs on a different CPU page size configuration.
+The userspace allocated GPUVA ranges collision, unable to be
+inserted to the specified address hole exactly.
 
-Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
----
- drivers/gpu/drm/etnaviv/etnaviv_cmdbuf.c | 2 --
- 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_cmdbuf.c b/drivers/gpu/drm/etnaviv/etnaviv_cmdbuf.c
-index 66a407f1b3ee..7aa5f14d0c87 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_cmdbuf.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_cmdbuf.c
-@@ -5,8 +5,6 @@
- 
- #include <linux/dma-mapping.h>
- 
--#include <drm/drm_mm.h>
--
- #include "etnaviv_cmdbuf.h"
- #include "etnaviv_gem.h"
- #include "etnaviv_gpu.h"
+For example, when running glmark2-drm:
+
+[kernel space debug log]
+
+ etnaviv 0000:03:00.0: Insert bo failed, va: 0xfd38b000, size: 0x4000
+ etnaviv 0000:03:00.0: Insert bo failed, va: 0xfd38a000, size: 0x4000
+
+[user space debug log]
+
+bo->va = 0xfd38c000, bo->size=0x100000
+bo->va = 0xfd38b000, bo->size=0x1000  <-- Insert IOVA fails here.
+bo->va = 0xfd38a000, bo->size=0x1000
+bo->va = 0xfd389000, bo->size=0x1000
+
+
+The root cause is that kernel side BO takes up bigger address space
+than userspace assumes.
+
+To solve this problem, we first track the GPU visible size of GEM buffer
+object, then map and unmap the GEM BOs exactly with respect to its GPUVA
+size. Ensure that GPU VA is fully mapped/unmapped, not more and not less.
+
+v2:
+- Aligned to the GPU page size (Lucas)
+
+v1:
+- No GPUVA range wasting (Lucas)
+Link: https://lore.kernel.org/dri-devel/20241004194207.1013744-1-sui.jingfeng@linux.dev/
+
+v0:
+Link: https://lore.kernel.org/dri-devel/20240930221706.399139-1-sui.jingfeng@linux.dev/
+
+Sui Jingfeng (2):
+  drm/etnaviv: Record GPU visible size of GEM BO separately
+  drm/etnaviv: Map and unmap GPUVA range with respect to the GPUVA size
+
+ drivers/gpu/drm/etnaviv/etnaviv_gem.c | 11 ++++----
+ drivers/gpu/drm/etnaviv/etnaviv_gem.h |  5 ++++
+ drivers/gpu/drm/etnaviv/etnaviv_mmu.c | 36 +++++++++------------------
+ 3 files changed, 22 insertions(+), 30 deletions(-)
+
 -- 
 2.34.1
 
