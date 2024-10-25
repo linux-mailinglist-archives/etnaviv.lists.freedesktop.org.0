@@ -2,35 +2,35 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F108E9B0786
-	for <lists+etnaviv@lfdr.de>; Fri, 25 Oct 2024 17:14:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D38CE9B0792
+	for <lists+etnaviv@lfdr.de>; Fri, 25 Oct 2024 17:14:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C958B10E3E4;
-	Fri, 25 Oct 2024 15:14:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A35B210E3E4;
+	Fri, 25 Oct 2024 15:14:49 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
 Received: from metis.whiteo.stw.pengutronix.de
  (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 482E310E3E4
- for <etnaviv@lists.freedesktop.org>; Fri, 25 Oct 2024 15:14:20 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E21BA10E3E4
+ for <etnaviv@lists.freedesktop.org>; Fri, 25 Oct 2024 15:14:48 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
  by metis.whiteo.stw.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <l.stach@pengutronix.de>)
- id 1t4M14-0003Rh-67; Fri, 25 Oct 2024 17:14:18 +0200
+ id 1t4M1W-0003XB-Tj; Fri, 25 Oct 2024 17:14:46 +0200
 Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
  by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.96)
- (envelope-from <l.stach@pengutronix.de>) id 1t4M13-000ODz-2p;
- Fri, 25 Oct 2024 17:14:17 +0200
+ (envelope-from <l.stach@pengutronix.de>) id 1t4M1W-000OE6-2C;
+ Fri, 25 Oct 2024 17:14:46 +0200
 From: Lucas Stach <l.stach@pengutronix.de>
 To: etnaviv@lists.freedesktop.org
 Cc: Russell King <linux+etnaviv@armlinux.org.uk>,
  Christian Gmeiner <christian.gmeiner@gmail.com>,
  dri-devel@lists.freedesktop.org, kernel@pengutronix.de,
  patchwork-lst@pengutronix.de
-Subject: [PATCH] drm/etnaviv: always allocate 4K for kernel ringbuffers
-Date: Fri, 25 Oct 2024 17:14:17 +0200
-Message-Id: <20241025151417.2475966-1-l.stach@pengutronix.de>
+Subject: [PATCH] drm/etnaviv: flush shader L1 cache after user commandstream
+Date: Fri, 25 Oct 2024 17:14:46 +0200
+Message-Id: <20241025151446.2475994-1-l.stach@pengutronix.de>
 X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -53,30 +53,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Since the kernel ringbuffers are allocated from a larger suballocated
-area, same as the user commandbufs, they don't need to be CPU page
-sized. Allocate 4KB for the kernel ring buffers, as we never use more
-than that.
+The shader L1 cache is a writeback cache for shader loads/stores
+and thus must be flushed before any BOs backing the shader buffers
+are potentially freed.
 
+Cc: stable@vger.kernel.org
 Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
 ---
- drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/gpu/drm/etnaviv/etnaviv_buffer.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-index 7c7f97793ddd..7b39786871b3 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-@@ -848,8 +848,7 @@ int etnaviv_gpu_init(struct etnaviv_gpu *gpu)
- 		priv->shm_gfp_mask |= GFP_DMA32;
- 
- 	/* Create buffer: */
--	ret = etnaviv_cmdbuf_init(priv->cmdbuf_suballoc, &gpu->buffer,
--				  PAGE_SIZE);
-+	ret = etnaviv_cmdbuf_init(priv->cmdbuf_suballoc, &gpu->buffer, SZ_4K);
- 	if (ret) {
- 		dev_err(gpu->dev, "could not create command buffer\n");
- 		goto fail;
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_buffer.c b/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
+index 384df1659be6..b13a17276d07 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
+@@ -482,7 +482,8 @@ void etnaviv_buffer_queue(struct etnaviv_gpu *gpu, u32 exec_state,
+ 	} else {
+ 		CMD_LOAD_STATE(buffer, VIVS_GL_FLUSH_CACHE,
+ 				       VIVS_GL_FLUSH_CACHE_DEPTH |
+-				       VIVS_GL_FLUSH_CACHE_COLOR);
++				       VIVS_GL_FLUSH_CACHE_COLOR |
++				       VIVS_GL_FLUSH_CACHE_SHADER_L1);
+ 		if (has_blt) {
+ 			CMD_LOAD_STATE(buffer, VIVS_BLT_ENABLE, 0x1);
+ 			CMD_LOAD_STATE(buffer, VIVS_BLT_SET_COMMAND, 0x1);
 -- 
 2.39.5
 
