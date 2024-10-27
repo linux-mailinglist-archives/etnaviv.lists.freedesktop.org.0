@@ -2,67 +2,48 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D77A59B15BE
-	for <lists+etnaviv@lfdr.de>; Sat, 26 Oct 2024 09:07:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42A579B1C18
+	for <lists+etnaviv@lfdr.de>; Sun, 27 Oct 2024 04:59:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A5E8C10E2CC;
-	Sat, 26 Oct 2024 07:07:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8124A10E19C;
+	Sun, 27 Oct 2024 03:59:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="NqWKH1V8";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="RFgLLAxg";
 	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com
- [209.85.215.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D6F1110E2CC;
- Sat, 26 Oct 2024 07:07:11 +0000 (UTC)
-Received: by mail-pg1-f175.google.com with SMTP id
- 41be03b00d2f7-7ed9c16f687so2028371a12.0; 
- Sat, 26 Oct 2024 00:07:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1729926431; x=1730531231; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=VSZdGt6XyxhqgKU8LT1Y+ePARVbh/MxfM7kXa2gUtZg=;
- b=NqWKH1V88BFjHhY00BYb2VczPysc+cbIgzzufNNsOo3u5f73XJuCMFDfA2vtHs9bJh
- Cyp4PVRnTjPvKVM+/Yc5TQcxSXtUgnubA5b61VcFbtW/wrKowWDU0pIvHE154Cq/ltgo
- +lMhHrLo+3OFUy+yuFR12iok/YYJsETmhYXL7FLSk7RcgesNKZ5dMpZF2e5C+a+wIj4A
- /89cByNDI+Ut2HOxRQkSQnzjuoK2qiUySwD+d6P2BL7cMuUxW2+0CA5TuE4gUiqRyum/
- ebGlBWbaIjyHvUaMxhPvxVtNhfmdSCQi5eIOkgxIIFH2F2m0Dz14HN8evFGXM4Ng2Dyx
- w2XA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1729926431; x=1730531231;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=VSZdGt6XyxhqgKU8LT1Y+ePARVbh/MxfM7kXa2gUtZg=;
- b=hjuUyfWMiqFKJF6HNUVVRG7AmeyuO0RzWk6weUM3FGqwMaujwArbpPgHaNzDEPXU4l
- tXlGpA9FsZjpmLLBU9k0iZu4xRn91CHqpt4sCp3/K2c9NTA/x+WQu3MTExL/GXFKNWnD
- lUjOeYtDfB/n1o9LPfHgoWRkpAyjl6rOLSDOhn73OM8dDPtN6CPbno7gH2kgZjg7P0mK
- dS3kEMaRO3a24RtbXa02oCuVVWGb/BhyA5iyEKbiH3LkGCWaKePcJk3NAQNbc4Wh161E
- PtZOuUwvQYG4FNxMk3sBdmfjODWq+sgrICqoyfSFVa2kC0ek2CiiS0P5t6+W2b8+44KL
- 3c7Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUY6sZ9hCvwRHcmi0YjpyWOUL87IPzfO/2FjvVA/0h5aWhHbxdnN8PHfa6kYiu7vKQ3j81gUPkdIog=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwAyWBOYGtMjIKW3zUlB4PNuBBSMeUYMFiYIpwiHmEbjhI3ieJW
- YXpNL9vgnxPsHwwQUG+7Jipg7AhBBcQhNlk9CrOF3u6iIwl7KysvhBD/hsVDZpDQ7qwqRhJAgbB
- 7VgtlUQzLFCBdTtjy/K11wdz5roA=
-X-Google-Smtp-Source: AGHT+IG4kEbB0kl+W+RUx83pzEK+/MGy6K/8bG12M4ie3exwHjFB1j5Bo6VF4mRnF6/haFlIdrrBuVkNRsrdlG/Wpyg=
-X-Received: by 2002:a05:6a21:3a41:b0:1d9:22c1:1235 with SMTP id
- adf61e73a8af0-1d9a8401c39mr2665112637.22.1729926431291; Sat, 26 Oct 2024
- 00:07:11 -0700 (PDT)
+Received: from out-189.mta0.migadu.com (out-189.mta0.migadu.com
+ [91.218.175.189])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 98E1D10E19C
+ for <etnaviv@lists.freedesktop.org>; Sun, 27 Oct 2024 03:59:13 +0000 (UTC)
+Message-ID: <51f93661-697e-4b0f-b383-fc80ff0b6edd@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1730001551;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=rxokjpi64ojG2mVk/2Soqm7JX1QalF+tS1YKzDyo+ko=;
+ b=RFgLLAxgzOse5eYUbwD80fB3tX8DbEG6Eg9j8F3lwW7U+Uk1Hlm/tZF+9m/ER+pjlPERGv
+ 3WeM5kQ7p2tI9NoaYdi11Xpio49Tups6n4VTiDndW60mpqb8Hi/4dwpuG/tYkoKsi9hHyy
+ ABNf1fuWYg4JBfnijZ8g/Ifd8ijSf4c=
+Date: Sun, 27 Oct 2024 11:59:01 +0800
 MIME-Version: 1.0
+Subject: Re: drm/etnaviv: always allocate 4K for kernel ringbuffers
+To: Lucas Stach <l.stach@pengutronix.de>, etnaviv@lists.freedesktop.org
+Cc: Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ dri-devel@lists.freedesktop.org, kernel@pengutronix.de,
+ patchwork-lst@pengutronix.de
 References: <20241025151417.2475966-1-l.stach@pengutronix.de>
+Content-Language: en-US, en-AU
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Sui Jingfeng <sui.jingfeng@linux.dev>
 In-Reply-To: <20241025151417.2475966-1-l.stach@pengutronix.de>
-From: Christian Gmeiner <christian.gmeiner@gmail.com>
-Date: Sat, 26 Oct 2024 09:06:59 +0200
-Message-ID: <CAH9NwWeNW3Gc9zdQQtFE1EM7Ca9fVYaRgphSC+Le9MZQOCuHCA@mail.gmail.com>
-Subject: Re: [PATCH] drm/etnaviv: always allocate 4K for kernel ringbuffers
-To: Lucas Stach <l.stach@pengutronix.de>
-Cc: etnaviv@lists.freedesktop.org, 
- Russell King <linux+etnaviv@armlinux.org.uk>, dri-devel@lists.freedesktop.org, 
- kernel@pengutronix.de, patchwork-lst@pengutronix.de
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,43 +58,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Am Fr., 25. Okt. 2024 um 17:14 Uhr schrieb Lucas Stach <l.stach@pengutronix.de>:
->
+Hi,
+
+
+On 10/25/24 23:14, Lucas Stach wrote:
 > Since the kernel ringbuffers are allocated from a larger suballocated
 > area, same as the user commandbufs, they don't need to be CPU page
 > sized. Allocate 4KB for the kernel ring buffers, as we never use more
 > than that.
->
+> 
 > Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+> Reviewed-by: Christian Gmeiner <cgmeiner@igalia.com>
 
-Reviewed-by: Christian Gmeiner <cgmeiner@igalia.com>
+Tested-by: Sui Jingfeng <sui.jingfeng@linux.dev>
+
+
+Tested with on a 16 KiB system, it works fine as before.
+
+I notices that most test samples of glmark2 consumes only one page,
+only a few of them consumes more than one page command buffer, can
+up to 20 KiB.
 
 > ---
->  drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
->
+>   drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 3 +--
+>   1 file changed, 1 insertion(+), 2 deletions(-)
+> 
 > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
 > index 7c7f97793ddd..7b39786871b3 100644
 > --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
 > +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
 > @@ -848,8 +848,7 @@ int etnaviv_gpu_init(struct etnaviv_gpu *gpu)
->                 priv->shm_gfp_mask |= GFP_DMA32;
->
->         /* Create buffer: */
-> -       ret = etnaviv_cmdbuf_init(priv->cmdbuf_suballoc, &gpu->buffer,
-> -                                 PAGE_SIZE);
-> +       ret = etnaviv_cmdbuf_init(priv->cmdbuf_suballoc, &gpu->buffer, SZ_4K);
->         if (ret) {
->                 dev_err(gpu->dev, "could not create command buffer\n");
->                 goto fail;
-> --
-> 2.39.5
->
-
+>   		priv->shm_gfp_mask |= GFP_DMA32;
+>   
+>   	/* Create buffer: */
+> -	ret = etnaviv_cmdbuf_init(priv->cmdbuf_suballoc, &gpu->buffer,
+> -				  PAGE_SIZE);
+> +	ret = etnaviv_cmdbuf_init(priv->cmdbuf_suballoc, &gpu->buffer, SZ_4K);
+>   	if (ret) {
+>   		dev_err(gpu->dev, "could not create command buffer\n");
+>   		goto fail;
 
 -- 
-greets
---
-Christian Gmeiner, MSc
+Best regards
+Sui
 
-https://christian-gmeiner.info/privacypolicy
