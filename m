@@ -2,68 +2,43 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D76509B2A8D
-	for <lists+etnaviv@lfdr.de>; Mon, 28 Oct 2024 09:42:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8F089B3567
+	for <lists+etnaviv@lfdr.de>; Mon, 28 Oct 2024 16:53:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 489D610E436;
-	Mon, 28 Oct 2024 08:42:09 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="gnrke/Lq";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9EEC410E4FC;
+	Mon, 28 Oct 2024 15:53:43 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com
- [209.85.214.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3966810E434;
- Mon, 28 Oct 2024 08:42:08 +0000 (UTC)
-Received: by mail-pl1-f169.google.com with SMTP id
- d9443c01a7336-20cf6eea3c0so30940315ad.0; 
- Mon, 28 Oct 2024 01:42:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1730104928; x=1730709728; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=jgeaHDlJsiQ7cPxBGIdI6UvsE+ycYU+UJioLAbP51qo=;
- b=gnrke/Lq12wY5uXKbJOiXVtddasev+kR/8CXsmunufkd2PwCOUn3/XqIlFs2hWhFvZ
- zzJf/gmUxMreLTo61hI6pZL9VXP6YJRGOA4FBRF/pxHgl/W8FGwotIUxdpGPtv62Czng
- KcpVGKcSLjQZLMpYiLrOJsq8Sf6Vc9aMprPVQurO2mcktf2AWptlUbToZD0kXo+rr2Dk
- ej9i4L/bFq/4fODdtRSHE5FdvQ9SkTV/ruVsae1D0fymiN41o4mI4WSGsGu+RT1zCeLV
- IVuk5Kiq49Jt6YyMasEZE/FyhQ6XgL94gDQbHwL2X0QaUCcuJeHI5h5ajlPWaSgFBXzh
- eFVA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1730104928; x=1730709728;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=jgeaHDlJsiQ7cPxBGIdI6UvsE+ycYU+UJioLAbP51qo=;
- b=QJsNWGiV1f5L5Ocr8sJsUhZT/cz+Bk9wHOshbeBqfl1yiyIibmH2BWWJfVaCz4WS6m
- v8sP4URGR3hFdfpfUr0RHiKbYOJn5gKjdaWTbCPgQESmRicbjgw+QZtptPmDdT8DwfHI
- 06dYnY+uKTtd9R6JjYMOM5JfiHlioZC//J4Ch8QUbwk/b8fb8DE9gn4ShqxVeHuNscqq
- WnU4WGipOtHkiAeHgvU5xZc3N4YSmtfsni7MoXLhir4TyyNIclevvBS+CeszjrfPYAdr
- WN0fRgcRr1ub4xddaGOgd8pnZO40fURg78TKRXcqnLuWsrtpuuOHP57css+jq9aO6Lxx
- JYqQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVTy3NXBkIFdQQR0QHVBoVor4AZWdf6iOdFNa6AkRod2xF6Or9weGtHoXZZmNIa+lmDaLlCC+hlWfc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy7JhH8Utdbq0MwgWfNSLXmlEX0Jr3yI4WlRqZdD0+8+reBQBqY
- bXNWhtmnE/ovBQKNslmSyNacKmEgXUF/drhlhXtiDWj1c9YytEB+Y/Ajn/wQe6cQVZxMOgkpZik
- Ki0La2nI9x4HCvdSjMyuL8mAYtRqhplVtkps=
-X-Google-Smtp-Source: AGHT+IFXBh9JgVMnEtY5B2PC4DhCbduzikajWMSCKj8UupCqAASV0SLTO8UqQtqlyx3RuvR69Wub7Gdvf+AKzgfSv4g=
-X-Received: by 2002:a05:6a21:2d85:b0:1cf:ff65:22f4 with SMTP id
- adf61e73a8af0-1d9a8513106mr9750499637.41.1730104927403; Mon, 28 Oct 2024
- 01:42:07 -0700 (PDT)
-MIME-Version: 1.0
-References: <20241025151446.2475994-1-l.stach@pengutronix.de>
-In-Reply-To: <20241025151446.2475994-1-l.stach@pengutronix.de>
-From: Christian Gmeiner <christian.gmeiner@gmail.com>
-Date: Mon, 28 Oct 2024 09:41:55 +0100
-Message-ID: <CAH9NwWcNzPpO9BB4J_QLcKuKypXu6EP0h-QP0yr2U=G6e7pwZg@mail.gmail.com>
-Subject: Re: [PATCH] drm/etnaviv: flush shader L1 cache after user
- commandstream
-To: Lucas Stach <l.stach@pengutronix.de>
-Cc: etnaviv@lists.freedesktop.org, 
- Russell King <linux+etnaviv@armlinux.org.uk>, dri-devel@lists.freedesktop.org, 
- kernel@pengutronix.de, patchwork-lst@pengutronix.de
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E908A10E14F
+ for <etnaviv@lists.freedesktop.org>; Mon, 28 Oct 2024 15:53:41 +0000 (UTC)
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
+ helo=[IPv6:::1]) by metis.whiteo.stw.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1t5S3c-000401-OB; Mon, 28 Oct 2024 16:53:28 +0100
+Message-ID: <15a386d0093af21447aeb5c2f1ee98d61e89e9b2.camel@pengutronix.de>
+Subject: Re: [PATCH v4] drm/etnaviv: Request pages from DMA32 zone on
+ addressing_limited
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Xiaolei Wang <xiaolei.wang@windriver.com>, sui.jingfeng@linux.dev, 
+ christian.gmeiner@gmail.com, airlied@gmail.com, daniel@ffwll.ch, 
+ linux+etnaviv@armlinux.org.uk
+Cc: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
+Date: Mon, 28 Oct 2024 16:53:27 +0100
+In-Reply-To: <20241001233430.4072268-1-xiaolei.wang@windriver.com>
+References: <20241001233430.4072268-1-xiaolei.wang@windriver.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+MIME-Version: 1.0
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,50 +53,84 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Hi Lucas
+Am Mittwoch, dem 02.10.2024 um 07:34 +0800 schrieb Xiaolei Wang:
+> Remove __GFP_HIGHMEM when requesting a page from DMA32 zone,
+> and since all vivante GPUs in the system will share the same
+> DMA constraints, move the check of whether to get a page from
+> DMA32 to etnaviv_bind().
+>=20
+> Fixes: b72af445cd38 ("drm/etnaviv: request pages from DMA32 zone when nee=
+ded")
+> Suggested-by: Sui Jingfeng <sui.jingfeng@linux.dev>
+> Signed-off-by: Xiaolei Wang <xiaolei.wang@windriver.com>
+> Reviewed-by: Christian Gmeiner <cgmeiner@igalia.com>
 
->
-> The shader L1 cache is a writeback cache for shader loads/stores
-> and thus must be flushed before any BOs backing the shader buffers
-> are potentially freed.
->
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
-
-Reviewed-by: Christian Gmeiner <cgmeiner@igalia.com>
+Thanks, applied to etnaviv/next.
 
 > ---
->  drivers/gpu/drm/etnaviv/etnaviv_buffer.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_buffer.c b/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
-> index 384df1659be6..b13a17276d07 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
-> @@ -482,7 +482,8 @@ void etnaviv_buffer_queue(struct etnaviv_gpu *gpu, u32 exec_state,
->         } else {
->                 CMD_LOAD_STATE(buffer, VIVS_GL_FLUSH_CACHE,
->                                        VIVS_GL_FLUSH_CACHE_DEPTH |
-> -                                      VIVS_GL_FLUSH_CACHE_COLOR);
-> +                                      VIVS_GL_FLUSH_CACHE_COLOR |
-> +                                      VIVS_GL_FLUSH_CACHE_SHADER_L1);
->                 if (has_blt) {
->                         CMD_LOAD_STATE(buffer, VIVS_BLT_ENABLE, 0x1);
->                         CMD_LOAD_STATE(buffer, VIVS_BLT_SET_COMMAND, 0x1);
-> --
-> 2.39.5
->
+> v1:
+>   https://patchwork.kernel.org/project/dri-devel/patch/20240806104733.201=
+8783-1-xiaolei.wang@windriver.com/
+>=20
+> v2:
+>   Modify the issue of not retaining GFP_USER in v1 and update the commit =
+log.
+>=20
+> v3:
+>   Use "priv->shm_gfp_mask =3D GFP_USER | __GFP_RETRY_MAYFAIL | __GFP_NOWA=
+RN;"
+> instead of
+>   "priv->shm_gfp_mask =3D GFP_HIGHUSER | __GFP_RETRY_MAYFAIL | __GFP_NOWA=
+RN;"
+>=20
+> v4:
+>   drop the HIGHMEM bit only if dma addressing is limited.
+>=20
+>  drivers/gpu/drm/etnaviv/etnaviv_drv.c | 10 ++++++++++
+>  drivers/gpu/drm/etnaviv/etnaviv_gpu.c |  8 --------
+>  2 files changed, 10 insertions(+), 8 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etna=
+viv/etnaviv_drv.c
+> index 6500f3999c5f..19ec67a5a918 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> @@ -538,6 +538,16 @@ static int etnaviv_bind(struct device *dev)
+>  	priv->num_gpus =3D 0;
+>  	priv->shm_gfp_mask =3D GFP_HIGHUSER | __GFP_RETRY_MAYFAIL | __GFP_NOWAR=
+N;
+> =20
+> +	/*
+> +	 * If the GPU is part of a system with DMA addressing limitations,
+> +	 * request pages for our SHM backend buffers from the DMA32 zone to
+> +	 * hopefully avoid performance killing SWIOTLB bounce buffering.
+> +	 */
+> +	if (dma_addressing_limited(dev)) {
+> +		priv->shm_gfp_mask |=3D GFP_DMA32;
+> +		priv->shm_gfp_mask &=3D ~__GFP_HIGHMEM;
+> +	}
+> +
+>  	priv->cmdbuf_suballoc =3D etnaviv_cmdbuf_suballoc_new(drm->dev);
+>  	if (IS_ERR(priv->cmdbuf_suballoc)) {
+>  		dev_err(drm->dev, "Failed to create cmdbuf suballocator\n");
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etna=
+viv/etnaviv_gpu.c
+> index 7c7f97793ddd..5e753dd42f72 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> @@ -839,14 +839,6 @@ int etnaviv_gpu_init(struct etnaviv_gpu *gpu)
+>  	if (ret)
+>  		goto fail;
+> =20
+> -	/*
+> -	 * If the GPU is part of a system with DMA addressing limitations,
+> -	 * request pages for our SHM backend buffers from the DMA32 zone to
+> -	 * hopefully avoid performance killing SWIOTLB bounce buffering.
+> -	 */
+> -	if (dma_addressing_limited(gpu->dev))
+> -		priv->shm_gfp_mask |=3D GFP_DMA32;
+> -
+>  	/* Create buffer: */
+>  	ret =3D etnaviv_cmdbuf_init(priv->cmdbuf_suballoc, &gpu->buffer,
+>  				  PAGE_SIZE);
 
-While we're at it, should we also flush VIVS_GL_FLUSH_CACHE_UNK10 and
-VIVS_GL_FLUSH_CACHE_UNK11 as done
-in the blob kernel driver?
-https://github.com/nxp-imx/linux-imx/blob/lf-6.6.3-1.0.0/drivers/mxc/gpu-viv/hal/kernel/arch/gc_hal_kernel_hardware.c#L4883
-
-This could help with some image workloads that may be exposed soon.
-
---
-greets
---
-Christian Gmeiner, MSc
-
-https://christian-gmeiner.info/privacypolicy
