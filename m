@@ -2,32 +2,32 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EE639B3696
-	for <lists+etnaviv@lfdr.de>; Mon, 28 Oct 2024 17:35:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08A529B37A0
+	for <lists+etnaviv@lfdr.de>; Mon, 28 Oct 2024 18:28:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E6E3110E373;
-	Mon, 28 Oct 2024 16:35:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4316810E00E;
+	Mon, 28 Oct 2024 17:28:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="BFlP1loa";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="vdWtJHnL";
 	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from out-172.mta0.migadu.com (out-172.mta0.migadu.com
- [91.218.175.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A53A410E502
- for <etnaviv@lists.freedesktop.org>; Mon, 28 Oct 2024 16:35:03 +0000 (UTC)
-Message-ID: <05117bb4-bf3b-477e-b21e-2160af64ab6a@linux.dev>
+Received: from out-177.mta1.migadu.com (out-177.mta1.migadu.com
+ [95.215.58.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 98C5B10E00E
+ for <etnaviv@lists.freedesktop.org>; Mon, 28 Oct 2024 17:27:59 +0000 (UTC)
+Message-ID: <4823fcb2-09a0-4668-86fd-f345a900c4e2@linux.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1730133301;
+ t=1730136473;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=znXkDjY1xS3DilYPhkg5uzcU1hSWEQ2y8y3HfKsuMXg=;
- b=BFlP1loa0NpZW7BiEqx0ledkPQ83h8Vq73costvrarxHC3ojj4rHto382UbZOTyWdy81KD
- zTay6x58D5lpfgxLLYEI3IJ5N2k2TPd8xvT9u69q9wFTL/JPkA5btwHL+f7EwzocIS5QJ0
- 4uMdalQpCATnO/khn3Hov/nEzVGuq2U=
-Date: Tue, 29 Oct 2024 00:34:51 +0800
+ bh=vBDzbhX/4JRNYtY1tJljv+6aFQjq5c0O+TlEFUm+jCY=;
+ b=vdWtJHnLWYx1ivD4zdmhr/oyaiYTeHE30atLrZZnKNDc8A4YydU5lsh0T5pllWj4c9e4+2
+ +Qk6nm7UFrnbiZN5XkgZIwB2BmvJSR8jdpQ3rYkth1LY1PedCdiynTzcAjw4CGrStMTjDB
+ i2v8nDew/If/faqbLjd5y8X05WY3M1w=
+Date: Tue, 29 Oct 2024 01:27:30 +0800
 MIME-Version: 1.0
 Subject: Re: [PATCH 1/2] drm/etnaviv: Fix misunderstanding about the
  scatterlist structure
@@ -60,7 +60,8 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Hi, Dear reviewers
+Hi,
+
 
 On 2024/10/29 00:05, Sui Jingfeng wrote:
 > The 'offset' data member of the 'struct scatterlist' denotes the offset
@@ -85,22 +86,7 @@ On 2024/10/29 00:05, Sui Jingfeng wrote:
 > to make it looks right at least from the perspective of concept.
 >
 > while at it, always fix the absue types:
-
-
-'absue' -> 'abuse'
-
-
-By the way, sorry I'm just receive your message from my Thunderbird client.
-
-
-I sent those two patch first, then I run my Thunderbird client.
-
-Not seeing that you have already merged part of my patch, then there will be
-merge conflict I guess.
-
-I think I could wait the next round and respin my patch.
-
-
+>
 > - sg_dma_address returns DMA address, the type is dma_addr_t, not
 >    the phys_addr_t, for VRAM there may have another translation between
 >    the bus address and the final physical address of VRAM or carved out
@@ -124,8 +110,40 @@ I think I could wait the next round and respin my patch.
 >   	for_each_sgtable_dma_sg(sgt, sg, i) {
 > -		phys_addr_t pa = sg_dma_address(sg) - sg->offset;
 > -		size_t bytes = sg_dma_len(sg) + sg->offset;
+
+
+Wow, I know what's want here now.
+
+What's you want here is to let the GPU map the entire page, not partially mapping just implemented.
+
+But the area doesn't belong to us isn't right? Could lead to GPU out-of-bound access?
+
+
+ From the perfect mapping perspective, we should just map from where the
+sg_dma_address(sg) tell us, just use the sg_dma_len(sg) as length.
+
+
 > +		dma_addr_t pa = sg_dma_address(sg) + sg->offset;
 > +		unsigned int bytes = sg_dma_len(sg) - sg->offset;
+
+Neither 'sg_dma_len(sg) + sg->offset' nor 'sg_dma_len(sg) - sg->offset' is correct.
+
+Considering that when we are PRIME sharing buffer with another driver or
+sharing buffer with the CPU.
+
+If CPU stores the data at the middle position(say 2KiB of 4KiB),
+then we have to tell the GPU fetch the data from the 2KiB of 4KiB,
+not the 0 KiB of 4KiB. Seems quite difficult.
+  
+It could lead to concurrency problem of CPU put data at
+'sg_dma_address(sg) + sg->offset', and GPU fetch the data
+from sg_dma_address(sg) if 'sg->offset != 0'
+
+So have the 'sg->offset != 0' is a bad idea. So, let's ignore
+this and force 'sg->offset = 0' everywhere.
+
+Thanks.
+
 >   
 > -		VERB("map[%d]: %08x %pap(%zx)", i, iova, &pa, bytes);
 > +		VERB("map[%d]: %08x %pap(%x)", i, iova, &pa, bytes);
