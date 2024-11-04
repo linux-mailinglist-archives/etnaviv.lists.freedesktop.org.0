@@ -2,49 +2,44 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 016989BA135
-	for <lists+etnaviv@lfdr.de>; Sat,  2 Nov 2024 16:31:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F8299BAA04
+	for <lists+etnaviv@lfdr.de>; Mon,  4 Nov 2024 01:42:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D2E7B10E20C;
-	Sat,  2 Nov 2024 15:31:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 47E4E10E06A;
+	Mon,  4 Nov 2024 00:42:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="i2WJHXyK";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="Wwif5Mqr";
 	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from out-182.mta1.migadu.com (out-182.mta1.migadu.com
- [95.215.58.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 08FC710E20C
- for <etnaviv@lists.freedesktop.org>; Sat,  2 Nov 2024 15:31:39 +0000 (UTC)
-Message-ID: <91d75479-8569-40e1-914a-27268d66b5c0@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1730561492;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8FBHpeeHnkGexRTn09DvpW55xu1PDbDpzSjMrgnDg+k=;
- b=i2WJHXyKclJ+QbNVPY6OUqU+Xyi2WAkPbzDKHgEKxgtOrGX51uDUW5zVOXGjo2BU9v8mZ6
- oXM6jiL8shlzW8hLytFQAO1qHAJYhlJPlqedUk798h/cgsxKB6DZA957NVNLiA+90SnM6/
- C01ukS5dz935D8wFxpQxm/9Im4cOKtE=
-Date: Sat, 2 Nov 2024 23:31:24 +0800
-MIME-Version: 1.0
-Subject: Re: [PATCH v3] drm/etnaviv: Request pages from DMA32 zone on
- addressing_limited
-To: Lucas Stach <l.stach@pengutronix.de>,
- Xiaolei Wang <xiaolei.wang@windriver.com>, linux+etnaviv@armlinux.org.uk,
- christian.gmeiner@gmail.com, airlied@gmail.com, daniel@ffwll.ch
-Cc: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20240903020857.3250038-1-xiaolei.wang@windriver.com>
- <7a6ffbb773784dee0ea3ee87e563ac4e4f7c9c90.camel@pengutronix.de>
-Content-Language: en-US
+Received: from out-178.mta0.migadu.com (out-178.mta0.migadu.com
+ [91.218.175.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DEC6110E33C
+ for <etnaviv@lists.freedesktop.org>; Mon,  4 Nov 2024 00:42:09 +0000 (UTC)
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1730680927;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=mnu5J7z5ffD/k3tXSN3gqMpZQliUz1lpi/hSy+21gDs=;
+ b=Wwif5MqrNPC4eEbhBjHeVPrnjxpggDNWgBCDYagSZlw0wjeTeHBVYo6xAYVp9YzX0ByySb
+ XaA0Q222OGtb6DKQlYHqkthcZeOqpB1rv2nx9YLkSFbPpBrxbQOLxp2BZsYi7IlIJsy1CP
+ OVJjtz82OnQO7oMs3RhnrGGG30fKoh8=
 From: Sui Jingfeng <sui.jingfeng@linux.dev>
-In-Reply-To: <7a6ffbb773784dee0ea3ee87e563ac4e4f7c9c90.camel@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+To: Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>
+Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Sui Jingfeng <sui.jingfeng@linux.dev>
+Subject: [PATCH v16] drm/etnaviv: Fix page property being used for non
+ writecombine buffers
+Date: Mon,  4 Nov 2024 08:41:56 +0800
+Message-Id: <20241104004156.8635-1-sui.jingfeng@linux.dev>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-Migadu-Flow: FLOW_OUT
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -60,135 +55,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Hi,
+In the etnaviv_gem_vmap_impl() function, the driver vmap whatever buffers
+with write combine(WC) page property, this is incorrect. Cached buffers
+should be mapped with the cached page property and uncached buffers should
+be mapped with the uncached page property.
 
+Fixes: a0a5ab3e99b8 ("drm/etnaviv: call correct function when trying to vmap a DMABUF")
+Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
+---
+Split from my PCIe device driver wrapper support series, since this probably
+should be resend as a standalone patch.
 
-On 2024/10/1 20:17, Lucas Stach wrote:
-> Hi Xiaolei,
->
-> Am Dienstag, dem 03.09.2024 um 10:08 +0800 schrieb Xiaolei Wang:
->> Remove __GFP_HIGHMEM when requesting a page from DMA32 zone,
->> and since all vivante GPUs in the system will share the same
->> DMA constraints, move the check of whether to get a page from
->> DMA32 to etnaviv_bind().
->>
->> Fixes: b72af445cd38 ("drm/etnaviv: request pages from DMA32 zone when needed")
->> Suggested-by: Sui Jingfeng <sui.jingfeng@linux.dev>
->> Signed-off-by: Xiaolei Wang <xiaolei.wang@windriver.com>
->> ---
->>
->> change log
->>
->> v1:
->>    https://patchwork.kernel.org/project/dri-devel/patch/20240806104733.2018783-1-xiaolei.wang@windriver.com/
->>
->> v2:
->>    Modify the issue of not retaining GFP_USER in v1 and update the commit log.
->>
->> v3:
->>    Use "priv->shm_gfp_mask = GFP_USER | __GFP_RETRY_MAYFAIL | __GFP_NOWARN;"
->> instead of
->>    "priv->shm_gfp_mask = GFP_HIGHUSER | __GFP_RETRY_MAYFAIL | __GFP_NOWARN;"
-> I don't understand this part of the changes in the new version. Why
-> should we drop the HIGHMEM bit always and not only in the case where
-> dma addressing is limited? This seems overly restrictive.
+v15: Use `obj->flags & ETNA_BO_CACHE_MASK` (Lucas)
+---
+ drivers/gpu/drm/etnaviv/etnaviv_gem.c | 16 ++++++++++++++--
+ 1 file changed, 14 insertions(+), 2 deletions(-)
 
-While reading the implementation of the dma_alloc_attrs() function,
-except allocate memory from device coherent pool, the rest implementation
-just mask out __GFP_DMA, __GFP_DMA32 and __GFP_HIGHMEM anyway.
-
-So ?
-
-
-```
-void *dma_alloc_attrs(struct device *dev, size_t size, dma_addr_t *dma_handle,
-		gfp_t flag, unsigned long attrs)
-{
-	const struct dma_map_ops *ops = get_dma_ops(dev);
-	void *cpu_addr;
-
-	WARN_ON_ONCE(!dev->coherent_dma_mask);
-
-	/*
-	 * DMA allocations can never be turned back into a page pointer, so
-	 * requesting compound pages doesn't make sense (and can't even be
-	 * supported at all by various backends).
-	 */
-	if (WARN_ON_ONCE(flag & __GFP_COMP))
-		return NULL;
-
-	if (dma_alloc_from_dev_coherent(dev, size, dma_handle, &cpu_addr))
-		return cpu_addr;
-
-	/* let the implementation decide on the zone to allocate from: */
-	flag &= ~(__GFP_DMA | __GFP_DMA32 | __GFP_HIGHMEM);
-
-	if (dma_alloc_direct(dev, ops))
-		cpu_addr = dma_direct_alloc(dev, size, dma_handle, flag, attrs);
-	else if (use_dma_iommu(dev))
-		cpu_addr = iommu_dma_alloc(dev, size, dma_handle, flag, attrs);
-	else if (ops->alloc)
-		cpu_addr = ops->alloc(dev, size, dma_handle, flag, attrs);
-	else
-		return NULL;
-
-
-	return cpu_addr;
-}
-```
-
-
-> Regards,
-> Lucas
->
->> and move the check of whether to get a page from DMA32 to etnaviv_bind().
->>
->>   drivers/gpu/drm/etnaviv/etnaviv_drv.c | 10 +++++++++-
->>   drivers/gpu/drm/etnaviv/etnaviv_gpu.c |  8 --------
->>   2 files changed, 9 insertions(+), 9 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
->> index 6500f3999c5f..8cb2c3ec8e5d 100644
->> --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
->> +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
->> @@ -536,7 +536,15 @@ static int etnaviv_bind(struct device *dev)
->>   	mutex_init(&priv->gem_lock);
->>   	INIT_LIST_HEAD(&priv->gem_list);
->>   	priv->num_gpus = 0;
->> -	priv->shm_gfp_mask = GFP_HIGHUSER | __GFP_RETRY_MAYFAIL | __GFP_NOWARN;
->> +	priv->shm_gfp_mask = GFP_USER | __GFP_RETRY_MAYFAIL | __GFP_NOWARN;
->> +
->> +	/*
->> +	 * If the GPU is part of a system with DMA addressing limitations,
->> +	 * request pages for our SHM backend buffers from the DMA32 zone to
->> +	 * hopefully avoid performance killing SWIOTLB bounce buffering.
->> +	 */
->> +	if (dma_addressing_limited(dev))
->> +		priv->shm_gfp_mask |= GFP_DMA32;
->>   
->>   	priv->cmdbuf_suballoc = etnaviv_cmdbuf_suballoc_new(drm->dev);
->>   	if (IS_ERR(priv->cmdbuf_suballoc)) {
->> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
->> index 7c7f97793ddd..5e753dd42f72 100644
->> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
->> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
->> @@ -839,14 +839,6 @@ int etnaviv_gpu_init(struct etnaviv_gpu *gpu)
->>   	if (ret)
->>   		goto fail;
->>   
->> -	/*
->> -	 * If the GPU is part of a system with DMA addressing limitations,
->> -	 * request pages for our SHM backend buffers from the DMA32 zone to
->> -	 * hopefully avoid performance killing SWIOTLB bounce buffering.
->> -	 */
->> -	if (dma_addressing_limited(gpu->dev))
->> -		priv->shm_gfp_mask |= GFP_DMA32;
->> -
->>   	/* Create buffer: */
->>   	ret = etnaviv_cmdbuf_init(priv->cmdbuf_suballoc, &gpu->buffer,
->>   				  PAGE_SIZE);
-
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+index d51843d9a476..d2cb9dded051 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+@@ -362,6 +362,7 @@ static void etnaviv_gem_object_vunmap(struct drm_gem_object *obj,
+ static void *etnaviv_gem_vmap_impl(struct etnaviv_gem_object *obj)
+ {
+ 	struct page **pages;
++	pgprot_t prot;
+ 
+ 	lockdep_assert_held(&obj->lock);
+ 
+@@ -369,8 +370,19 @@ static void *etnaviv_gem_vmap_impl(struct etnaviv_gem_object *obj)
+ 	if (IS_ERR(pages))
+ 		return NULL;
+ 
+-	return vmap(pages, obj->base.size >> PAGE_SHIFT,
+-			VM_MAP, pgprot_writecombine(PAGE_KERNEL));
++	switch (obj->flags & ETNA_BO_CACHE_MASK) {
++	case ETNA_BO_CACHED:
++		prot = PAGE_KERNEL;
++		break;
++	case ETNA_BO_UNCACHED:
++		prot = pgprot_noncached(PAGE_KERNEL);
++		break;
++	case ETNA_BO_WC:
++	default:
++		prot = pgprot_writecombine(PAGE_KERNEL);
++	}
++
++	return vmap(pages, obj->base.size >> PAGE_SHIFT, VM_MAP, prot);
+ }
+ 
+ static inline enum dma_data_direction etnaviv_op_to_dma_dir(u32 op)
 -- 
-Best regards,
-Sui
+2.34.1
 
