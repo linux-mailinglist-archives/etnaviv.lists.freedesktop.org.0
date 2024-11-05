@@ -2,68 +2,71 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 066279BD986
-	for <lists+etnaviv@lfdr.de>; Wed,  6 Nov 2024 00:15:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 588999BDFFD
+	for <lists+etnaviv@lfdr.de>; Wed,  6 Nov 2024 09:08:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D87A910E056;
-	Tue,  5 Nov 2024 23:15:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3505510E12D;
+	Wed,  6 Nov 2024 08:08:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="iczZty3b";
+	dkim=pass (2048-bit key; secure) header.d=thalesgroup.com header.i=@thalesgroup.com header.b="aRNhYknY";
 	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9FCB210E056;
- Tue,  5 Nov 2024 23:15:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1730848556; x=1762384556;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=D47dKifSHDD99D2CuON8tyRur2IA3Z6+FyrpQvYEM5g=;
- b=iczZty3bW+MaC+Jd8ei/rBJPP77GqyPk8oviPRwvu9KNY6keAVvCj3QW
- DRbmrwEJMXj3nF8YXxxVMAKIK3FG4XX6rRSNCk781LWfCtM9CXbJk5o4F
- EVWstvw7IpuvVHndCZYwNEKPS5210BHA5jZIvjMbeWEON4nAH+y1XxIRm
- k8A17EnIXWbFXtDwsWyooZt0GKkGV9LZ7G4vKZNoY6VwOqtI1xcVXM4Pi
- /XMD2B/d7buZWvj+HxviQ6YGuwrR2KA1g0MnDyctY2jWvU4rlNjJdkptC
- ahTrsuf5c1PRfSwzg6SQ7YgfOW6hLOGIptGYJkkLw8Ewi4qJSUWxbQl0/ w==;
-X-CSE-ConnectionGUID: CZUbSOXyQ8KvpbKW0Z5Pdg==
-X-CSE-MsgGUID: oKz+bc7ESJuWzP0VX/3VJw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11247"; a="34551657"
-X-IronPort-AV: E=Sophos;i="6.11,261,1725346800"; d="scan'208";a="34551657"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
- by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Nov 2024 15:15:55 -0800
-X-CSE-ConnectionGUID: KRcCQQRQRrC6Ji9s4zSxVw==
-X-CSE-MsgGUID: xuMliGkySpegZc8x053Ttw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,261,1725346800"; d="scan'208";a="88765889"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
- by fmviesa004.fm.intel.com with ESMTP; 05 Nov 2024 15:15:52 -0800
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1t8Sm5-000mZb-1j;
- Tue, 05 Nov 2024 23:15:49 +0000
-Date: Wed, 6 Nov 2024 07:15:20 +0800
-From: kernel test robot <lkp@intel.com>
-To: LECOINTRE Philippe <philippe.lecointre@thalesgroup.com>,
- Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+X-Greylist: delayed 429 seconds by postgrey-1.36 at gabe;
+ Tue, 05 Nov 2024 14:44:38 UTC
+Received: from esa.hc1631-21.eu.iphmx.com (esa.hc1631-21.eu.iphmx.com
+ [23.90.122.185])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 364CA10E5C0;
+ Tue,  5 Nov 2024 14:44:38 +0000 (UTC)
+X-CSE-ConnectionGUID: Vq02H0HXRLq7ZZzlilO7wA==
+X-CSE-MsgGUID: MEilz9DuT0eaTuihfmGHxA==
+Authentication-Results: ob1.hc1631-21.eu.iphmx.com;
+ dkim=pass (signature verified)
+ header.i=@thalesgroup.com
+X-IronPort-AV: E=McAfee;i="6700,10204,11190"; a="21627455"
+X-IronPort-AV: E=Sophos;i="6.10,215,1719871200"; d="scan'208";a="21627455"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=thalesgroup.com; i=@thalesgroup.com; s=bbmfo20230504;
+ t=1730817448; h=from:to:cc:subject:date:message-id:
+ content-transfer-encoding:mime-version;
+ bh=o9Vc5ob2XHcxtObi7LqU5Blt1DnixNEvcsEGSma0b9s=;
+ b=aRNhYknYPOD3sgaqivT6XFdeZPAHTO6tsJ6O8vXCC0ERGwcxu3qQfZ4W
+ fNTBq6ds2arMl8TyOqYq+6y7atS8R4eAUQPQ1mp+O1QMlQ64WA+3hZU5j
+ T8CujKGqZs8YjHEQSvOwsiqRzw/EL8ruPunnvKxq0mn2FFpBgmyIBfFYS
+ yjMBWbocQraHvI7+cEu6xfvHiNhIhX7mK0hPzBYCrLb/N/5a/i0LGvp3x
+ eA7jbzwRXyHpVitjGZb2/u3lDGCLMnNyetYyh02xW5gworxfaXGlFUio5
+ wFtpTe1GCcr9beaG1nf237vXLVcMw70pZe+6bDqwgX+BsiGfUnt1MRGod Q==;
+X-CSE-ConnectionGUID: NpaAbpEEQfKN9Cfjfv13MQ==
+X-CSE-MsgGUID: AzbzTHI8TmKWilH2n4Zeng==
+X-CSE-ConnectionGUID: jZ31JfBtQsi7KpjpS38rQQ==
+X-CSE-MsgGUID: lV6Tz9o0Rj2ASal+F0ozYQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11246"; a="33983816"
+X-IronPort-AV: E=Sophos;i="6.11,260,1725314400"; d="scan'208";a="33983816"
+From: LECOINTRE Philippe <philippe.lecointre@thalesgroup.com>
+To: Lucas Stach <l.stach@pengutronix.de>, Russell King
+ <linux+etnaviv@armlinux.org.uk>, Christian Gmeiner
+ <christian.gmeiner@gmail.com>
+CC: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  "etnaviv@lists.freedesktop.org" <etnaviv@lists.freedesktop.org>,
  "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- LENAIN Simon <simon.lenain@thalesgroup.com>,
- BARBEAU Etienne <etienne.barbeau@thalesgroup.com>,
- LEJEUNE Sebastien <sebastien.lejeune@thalesgroup.com>
-Subject: Re: [PATCH] drm/etnaviv: add optional reset support
-Message-ID: <202411060619.P5NY0vzY-lkp@intel.com>
-References: <0825fa6ad3954cda970b42c25b45fb0d@thalesgroup.com>
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, LENAIN Simon
+ <simon.lenain@thalesgroup.com>, BARBEAU Etienne
+ <etienne.barbeau@thalesgroup.com>, LEJEUNE Sebastien
+ <sebastien.lejeune@thalesgroup.com>
+Subject: [PATCH] drm/etnaviv: add optional reset support
+Thread-Topic: [PATCH] drm/etnaviv: add optional reset support
+Thread-Index: AdsvjVFvm5nmXEwsR6+Q63EAaSdekw==
+Date: Tue, 5 Nov 2024 14:37:26 +0000
+Message-ID: <0825fa6ad3954cda970b42c25b45fb0d@thalesgroup.com>
+Accept-Language: fr-FR, en-US
+Content-Language: fr-FR
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-nodisclaimer: 0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0825fa6ad3954cda970b42c25b45fb0d@thalesgroup.com>
+X-Mailman-Approved-At: Wed, 06 Nov 2024 08:08:43 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,136 +81,121 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Hi LECOINTRE,
+Add optional reset support which is mentioned in vivante,gc.yaml to
+allow the driver to work on SoCs whose reset signal is asserted by default
+Avoid enabling the interrupt until everything is ready
 
-kernel test robot noticed the following build errors:
+Signed-off-by: LECOINTRE Philippe <philippe.lecointre@thalesgroup.com>
+Reviewed-by: LENAIN Simon <simon.lenain@thalesgroup.com>
+---
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 29 +++++++++++++++++++++++++++
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.h |  2 ++
+ 2 files changed, 31 insertions(+)
 
-[auto build test ERROR on drm/drm-next]
-[also build test ERROR on drm-exynos/exynos-drm-next drm-misc/drm-misc-next linus/master drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip v6.12-rc6]
-[cannot apply to next-20241105]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnavi=
+v/etnaviv_gpu.c
+index 7c7f97793ddd..f698fec50343 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+@@ -1,6 +1,7 @@
+ // SPDX-License-Identifier: GPL-2.0
+ /*
+  * Copyright (C) 2015-2018 Etnaviv Project
++ * Copyright (C) 2024 Thales
+  */
+=20
+ #include <linux/clk.h>
+@@ -13,6 +14,7 @@
+ #include <linux/platform_device.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/regulator/consumer.h>
++#include <linux/reset.h>
+ #include <linux/thermal.h>
+=20
+ #include "etnaviv_cmdbuf.h"
+@@ -1629,8 +1631,24 @@ static int etnaviv_gpu_clk_enable(struct etnaviv_gpu=
+ *gpu)
+ 	if (ret)
+ 		goto disable_clk_core;
+=20
++	/* 32 core clock cycles (slowest clock) required before deassertion. */
++	/* 1 microsecond might match all implementations */
++	usleep_range(1, 2);
++
++	ret =3D reset_control_deassert(gpu->rst);
++	if (ret)
++		goto disable_clk_shader;
++
++	/* 128 core clock cycles (slowest clock) required before any activity on =
+AHB. */
++	/* 1 microsecond might match all implementations */
++	usleep_range(1, 2);
++
++	enable_irq(gpu->irq);
++
+ 	return 0;
+=20
++disable_clk_shader:
++	clk_disable_unprepare(gpu->clk_shader);
+ disable_clk_core:
+ 	clk_disable_unprepare(gpu->clk_core);
+ disable_clk_bus:
+@@ -1643,6 +1661,8 @@ static int etnaviv_gpu_clk_enable(struct etnaviv_gpu =
+*gpu)
+=20
+ static int etnaviv_gpu_clk_disable(struct etnaviv_gpu *gpu)
+ {
++	disable_irq(gpu->irq);
++	reset_control_assert(gpu->rst);
+ 	clk_disable_unprepare(gpu->clk_shader);
+ 	clk_disable_unprepare(gpu->clk_core);
+ 	clk_disable_unprepare(gpu->clk_bus);
+@@ -1876,6 +1896,9 @@ static int etnaviv_gpu_platform_probe(struct platform=
+_device *pdev)
+ 	if (gpu->irq < 0)
+ 		return gpu->irq;
+=20
++	/* Avoid enabling the interrupt until everything is ready */
++	irq_set_status_flags(gpu->irq, IRQ_NOAUTOEN);
++
+ 	err =3D devm_request_irq(&pdev->dev, gpu->irq, irq_handler, 0,
+ 			       dev_name(gpu->dev), gpu);
+ 	if (err) {
+@@ -1883,6 +1906,12 @@ static int etnaviv_gpu_platform_probe(struct platfor=
+m_device *pdev)
+ 		return err;
+ 	}
+=20
++	/* Get Reset: */
++	gpu->rst =3D devm_reset_control_get_optional(&pdev->dev, NULL);
++	if (IS_ERR(gpu->rst))
++		return dev_err_probe(dev, PTR_ERR(gpu->rst),
++				     "failed to get reset\n");
++
+ 	/* Get Clocks: */
+ 	gpu->clk_reg =3D devm_clk_get_optional(&pdev->dev, "reg");
+ 	DBG("clk_reg: %p", gpu->clk_reg);
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h b/drivers/gpu/drm/etnavi=
+v/etnaviv_gpu.h
+index 31322195b9e4..8c181191755e 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
+@@ -1,6 +1,7 @@
+ /* SPDX-License-Identifier: GPL-2.0 */
+ /*
+  * Copyright (C) 2015-2018 Etnaviv Project
++ * Copyright (C) 2024 Thales
+  */
+=20
+ #ifndef __ETNAVIV_GPU_H__
+@@ -157,6 +158,7 @@ struct etnaviv_gpu {
+ 	struct clk *clk_reg;
+ 	struct clk *clk_core;
+ 	struct clk *clk_shader;
++	struct reset_control *rst;
+=20
+ 	unsigned int freq_scale;
+ 	unsigned int fe_waitcycles;
+--=20
+2.19.1
 
-url:    https://github.com/intel-lab-lkp/linux/commits/LECOINTRE-Philippe/drm-etnaviv-add-optional-reset-support/20241105-224118
-base:   git://anongit.freedesktop.org/drm/drm drm-next
-patch link:    https://lore.kernel.org/r/0825fa6ad3954cda970b42c25b45fb0d%40thalesgroup.com
-patch subject: [PATCH] drm/etnaviv: add optional reset support
-config: i386-buildonly-randconfig-004-20241106 (https://download.01.org/0day-ci/archive/20241106/202411060619.P5NY0vzY-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241106/202411060619.P5NY0vzY-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411060619.P5NY0vzY-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from drivers/gpu/drm/etnaviv/etnaviv_gpu.c:11:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> drivers/gpu/drm/etnaviv/etnaviv_gpu.c:1900:2: error: call to undeclared function 'irq_set_status_flags'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1900 |         irq_set_status_flags(gpu->irq, IRQ_NOAUTOEN);
-         |         ^
->> drivers/gpu/drm/etnaviv/etnaviv_gpu.c:1900:33: error: use of undeclared identifier 'IRQ_NOAUTOEN'
-    1900 |         irq_set_status_flags(gpu->irq, IRQ_NOAUTOEN);
-         |                                        ^
-   1 warning and 2 errors generated.
-
-
-vim +/irq_set_status_flags +1900 drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-
-  1874	
-  1875	static int etnaviv_gpu_platform_probe(struct platform_device *pdev)
-  1876	{
-  1877		struct device *dev = &pdev->dev;
-  1878		struct etnaviv_gpu *gpu;
-  1879		int err;
-  1880	
-  1881		gpu = devm_kzalloc(dev, sizeof(*gpu), GFP_KERNEL);
-  1882		if (!gpu)
-  1883			return -ENOMEM;
-  1884	
-  1885		gpu->dev = &pdev->dev;
-  1886		mutex_init(&gpu->lock);
-  1887		mutex_init(&gpu->sched_lock);
-  1888	
-  1889		/* Map registers: */
-  1890		gpu->mmio = devm_platform_ioremap_resource(pdev, 0);
-  1891		if (IS_ERR(gpu->mmio))
-  1892			return PTR_ERR(gpu->mmio);
-  1893	
-  1894		/* Get Interrupt: */
-  1895		gpu->irq = platform_get_irq(pdev, 0);
-  1896		if (gpu->irq < 0)
-  1897			return gpu->irq;
-  1898	
-  1899		/* Avoid enabling the interrupt until everything is ready */
-> 1900		irq_set_status_flags(gpu->irq, IRQ_NOAUTOEN);
-  1901	
-  1902		err = devm_request_irq(&pdev->dev, gpu->irq, irq_handler, 0,
-  1903				       dev_name(gpu->dev), gpu);
-  1904		if (err) {
-  1905			dev_err(dev, "failed to request IRQ%u: %d\n", gpu->irq, err);
-  1906			return err;
-  1907		}
-  1908	
-  1909		/* Get Reset: */
-  1910		gpu->rst = devm_reset_control_get_optional(&pdev->dev, NULL);
-  1911		if (IS_ERR(gpu->rst))
-  1912			return dev_err_probe(dev, PTR_ERR(gpu->rst),
-  1913					     "failed to get reset\n");
-  1914	
-  1915		/* Get Clocks: */
-  1916		gpu->clk_reg = devm_clk_get_optional(&pdev->dev, "reg");
-  1917		DBG("clk_reg: %p", gpu->clk_reg);
-  1918		if (IS_ERR(gpu->clk_reg))
-  1919			return PTR_ERR(gpu->clk_reg);
-  1920	
-  1921		gpu->clk_bus = devm_clk_get_optional(&pdev->dev, "bus");
-  1922		DBG("clk_bus: %p", gpu->clk_bus);
-  1923		if (IS_ERR(gpu->clk_bus))
-  1924			return PTR_ERR(gpu->clk_bus);
-  1925	
-  1926		gpu->clk_core = devm_clk_get(&pdev->dev, "core");
-  1927		DBG("clk_core: %p", gpu->clk_core);
-  1928		if (IS_ERR(gpu->clk_core))
-  1929			return PTR_ERR(gpu->clk_core);
-  1930		gpu->base_rate_core = clk_get_rate(gpu->clk_core);
-  1931	
-  1932		gpu->clk_shader = devm_clk_get_optional(&pdev->dev, "shader");
-  1933		DBG("clk_shader: %p", gpu->clk_shader);
-  1934		if (IS_ERR(gpu->clk_shader))
-  1935			return PTR_ERR(gpu->clk_shader);
-  1936		gpu->base_rate_shader = clk_get_rate(gpu->clk_shader);
-  1937	
-  1938		/* TODO: figure out max mapped size */
-  1939		dev_set_drvdata(dev, gpu);
-  1940	
-  1941		/*
-  1942		 * We treat the device as initially suspended.  The runtime PM
-  1943		 * autosuspend delay is rather arbitary: no measurements have
-  1944		 * yet been performed to determine an appropriate value.
-  1945		 */
-  1946		pm_runtime_use_autosuspend(gpu->dev);
-  1947		pm_runtime_set_autosuspend_delay(gpu->dev, 200);
-  1948		pm_runtime_enable(gpu->dev);
-  1949	
-  1950		err = component_add(&pdev->dev, &gpu_ops);
-  1951		if (err < 0) {
-  1952			dev_err(&pdev->dev, "failed to register component: %d\n", err);
-  1953			return err;
-  1954		}
-  1955	
-  1956		return 0;
-  1957	}
-  1958	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
