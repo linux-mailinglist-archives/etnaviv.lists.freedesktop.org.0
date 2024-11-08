@@ -2,38 +2,68 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A3269C1088
-	for <lists+etnaviv@lfdr.de>; Thu,  7 Nov 2024 22:06:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5A819C1EBC
+	for <lists+etnaviv@lfdr.de>; Fri,  8 Nov 2024 15:00:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F3E6B10E8E5;
-	Thu,  7 Nov 2024 21:06:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7202610E9BD;
+	Fri,  8 Nov 2024 14:00:24 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; secure) header.d=thalesgroup.com header.i=@thalesgroup.com header.b="LBvUxVwv";
+	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C5C610E8E4
- for <etnaviv@lists.freedesktop.org>; Thu,  7 Nov 2024 21:06:53 +0000 (UTC)
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
- helo=[IPv6:::1]) by metis.whiteo.stw.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1t99iN-0005xz-1j; Thu, 07 Nov 2024 22:06:51 +0100
-Message-ID: <c84075a0257e7bee222d008fa3118117422d664e.camel@pengutronix.de>
-Subject: [GIT PULL] etnaviv-next for 6.13
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>
-Cc: kernel@pengutronix.de, etnaviv@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org
-Date: Thu, 07 Nov 2024 22:06:50 +0100
-Content-Type: text/plain; charset="UTF-8"
+Received: from esa.hc1631-21.eu.iphmx.com (esa.hc1631-21.eu.iphmx.com
+ [23.90.122.185])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD8C310E9BD;
+ Fri,  8 Nov 2024 14:00:22 +0000 (UTC)
+X-CSE-ConnectionGUID: fExaHpHaRq6KMv4OzF8QUw==
+X-CSE-MsgGUID: irzIaqunS/ieGEssPbc27w==
+Authentication-Results: ob1.hc1631-21.eu.iphmx.com;
+ dkim=pass (signature verified)
+ header.i=@thalesgroup.com
+X-IronPort-AV: E=McAfee;i="6700,10204,11250"; a="21903967"
+X-IronPort-AV: E=Sophos;i="6.12,138,1728943200"; d="scan'208";a="21903967"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=thalesgroup.com; i=@thalesgroup.com; s=bbmfo20230504;
+ t=1731074421; h=from:to:cc:subject:date:message-id:
+ content-transfer-encoding:mime-version;
+ bh=EE9tBFBFd3mh1SD7uzfbGKLYqBxfml1THD7ynL3J6gg=;
+ b=LBvUxVwvUrHzPYjHZ+fCEcCSjH9tSKCORkN/cB9SBIoC0Ih0z8R/e2+y
+ 1O0DPk/cJGXGcMQri3i2F72vC0jkgQPtxphhIbyN6nES1d3fHnJ3+Yo1v
+ hdOILknkR70TpwFx8eE1W6BTM39vMHjRJCVGiEFN+FR64jetWwSMFxtg/
+ 5X/6+zPrHUryhkHBHC2xA/fl74CoZ9ZCzwqa77EnoPhSS0eop/VV+56WF
+ mdGf/8XQa/IGeu3YZxe86XmqZPeEZlvcWRSzWY86MiimNfnfd3mbTNvr+
+ 9JDmhmMKINCxmfMb/6obZehbpk8rlyiHgahEu2gdXd47k2MumbtZw6WAt w==;
+X-CSE-ConnectionGUID: 25JRx62TQR+14TWRMaizJw==
+X-CSE-MsgGUID: KUEoTu7URxS3mNoEqANzhQ==
+X-CSE-ConnectionGUID: B2LIapG6QcW74amwA6yqsg==
+X-CSE-MsgGUID: yAeelpCZSymhiU6uXUOSYw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11250"; a="34531874"
+X-IronPort-AV: E=Sophos;i="6.12,138,1728943200"; d="scan'208";a="34531874"
+From: LECOINTRE Philippe <philippe.lecointre@thalesgroup.com>
+To: Lucas Stach <l.stach@pengutronix.de>, Russell King
+ <linux+etnaviv@armlinux.org.uk>, Christian Gmeiner
+ <christian.gmeiner@gmail.com>
+CC: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ "etnaviv@lists.freedesktop.org" <etnaviv@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, LENAIN Simon
+ <simon.lenain@thalesgroup.com>, BARBEAU Etienne
+ <etienne.barbeau@thalesgroup.com>, LEJEUNE Sebastien
+ <sebastien.lejeune@thalesgroup.com>
+Subject: [PATCH v2] drm/etnaviv: add optional reset support
+Thread-Topic: [PATCH v2] drm/etnaviv: add optional reset support
+Thread-Index: Adsx5YIJONFfGHrTSZ2tfemyyzgnnQ==
+Date: Fri, 8 Nov 2024 14:00:03 +0000
+Message-ID: <dc139d10a4184d289c9ffd1d308c0db1@thalesgroup.com>
+Accept-Language: fr-FR, en-US
+Content-Language: fr-FR
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-nodisclaimer: 0
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,69 +78,130 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Hi Dave, hi Sima,
+Add optional reset support which is mentioned in vivante,gc.yaml to
+allow the driver to work on SoCs whose reset signal is asserted by default
+Avoid enabling the interrupt until everything is ready
 
-please pull the following changes for the next merge window. They were
-all in linux-next for at least a week.
+Signed-off-by: Philippe Lecointre <philippe.lecointre@thalesgroup.com>
+Reviewed-by: Simon Lenain <simon.lenain@thalesgroup.com>
+---
+v2:
+- Add missing include of irq.h
+---
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 30 +++++++++++++++++++++++++++
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.h |  2 ++
+ 2 files changed, 32 insertions(+)
 
-Regards,
-Lucas
-
-The following changes since commit 9852d85ec9d492ebef56dc5f229416c925758edc=
-:
-
-  Linux 6.12-rc1 (2024-09-29 15:06:19 -0700)
-
-are available in the Git repository at:
-
-  https://git.pengutronix.de/git/lst/linux drm-etnaviv-next-2024-11-07
-
-for you to fetch changes up to 2c7ac7dd1b6c295636849c242685b0dd15beb093:
-
-  drm/etnaviv: etnaviv_cmdbuf.c: Drop the unneeded include of drm_mm.h (202=
-4-10-28 16:51:27 +0100)
-
-----------------------------------------------------------------
-Lucas Stach (7):
-      drm/etnaviv: hold GPU lock across perfmon sampling
-      drm/etnaviv: assert GPU lock held in perfmon pipe_*_read functions
-      drm/etnaviv: unconditionally enable debug registers
-      drm/etnaviv: update hardware headers from rnndb
-      drm/etnaviv: take current primitive into account when checking for hu=
-ng GPU
-      drm/etnaviv: always allocate 4K for kernel ringbuffers
-      drm/etnaviv: flush shader L1 cache after user commandstream
-
-Sui Jingfeng (9):
-      drm/etnaviv: Use unsigned type to count the number of pages
-      drm/etnaviv: Use 'unsigned' type to count the number of pages
-      drm/etnaviv: Drop the <linux/pm_runtime.h> header
-      drm/etnaviv: Fix missing mutex_destroy()
-      drm/etnaviv: Replace the '&pdev->dev' with 'dev'
-      drm/etnaviv: Record GPU visible size of GEM BO separately
-      drm/etnaviv: Map and unmap GPUVA range with respect to the GPUVA size
-      drm/etnaviv: Drop the 'struct etnaviv_iommu_global::pta_lock' data me=
-mber
-      drm/etnaviv: etnaviv_cmdbuf.c: Drop the unneeded include of drm_mm.h
-
-Xiaolei Wang (1):
-      drm/etnaviv: Request pages from DMA32 zone on addressing_limited
-
- drivers/gpu/drm/etnaviv/etnaviv_buffer.c     |  3 ++-
- drivers/gpu/drm/etnaviv/etnaviv_cmdbuf.c     |  4 +--
- drivers/gpu/drm/etnaviv/etnaviv_drv.c        | 21 +++++++++++----
- drivers/gpu/drm/etnaviv/etnaviv_gem.c        | 14 +++++-----
- drivers/gpu/drm/etnaviv/etnaviv_gem.h        |  5 ++++
- drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c  |  2 +-
- drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c |  1 -
- drivers/gpu/drm/etnaviv/etnaviv_gpu.c        | 64 +++++++++++++++++++++---=
-----------------------
- drivers/gpu/drm/etnaviv/etnaviv_gpu.h        |  1 +
- drivers/gpu/drm/etnaviv/etnaviv_mmu.c        | 40 ++++++++++--------------=
------
- drivers/gpu/drm/etnaviv/etnaviv_mmu.h        |  1 -
- drivers/gpu/drm/etnaviv/etnaviv_perfmon.c    |  4 +++
- drivers/gpu/drm/etnaviv/etnaviv_sched.c      | 17 ++++++++++--
- drivers/gpu/drm/etnaviv/state_hi.xml.h       | 23 +++++++++--------
- 14 files changed, 108 insertions(+), 92 deletions(-)
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnavi=
+v/etnaviv_gpu.c
+index 7c7f97793ddd..3e0c5dd9f74b 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+@@ -1,6 +1,7 @@
+ // SPDX-License-Identifier: GPL-2.0
+ /*
+  * Copyright (C) 2015-2018 Etnaviv Project
++ * Copyright (C) 2024 Thales
+  */
+=20
+ #include <linux/clk.h>
+@@ -8,11 +9,13 @@
+ #include <linux/delay.h>
+ #include <linux/dma-fence.h>
+ #include <linux/dma-mapping.h>
++#include <linux/irq.h>
+ #include <linux/mod_devicetable.h>
+ #include <linux/module.h>
+ #include <linux/platform_device.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/regulator/consumer.h>
++#include <linux/reset.h>
+ #include <linux/thermal.h>
+=20
+ #include "etnaviv_cmdbuf.h"
+@@ -1629,8 +1632,24 @@ static int etnaviv_gpu_clk_enable(struct etnaviv_gpu=
+ *gpu)
+ 	if (ret)
+ 		goto disable_clk_core;
+=20
++	/* 32 core clock cycles (slowest clock) required before deassertion. */
++	/* 1 microsecond might match all implementations */
++	usleep_range(1, 2);
++
++	ret =3D reset_control_deassert(gpu->rst);
++	if (ret)
++		goto disable_clk_shader;
++
++	/* 128 core clock cycles (slowest clock) required before any activity on =
+AHB. */
++	/* 1 microsecond might match all implementations */
++	usleep_range(1, 2);
++
++	enable_irq(gpu->irq);
++
+ 	return 0;
+=20
++disable_clk_shader:
++	clk_disable_unprepare(gpu->clk_shader);
+ disable_clk_core:
+ 	clk_disable_unprepare(gpu->clk_core);
+ disable_clk_bus:
+@@ -1643,6 +1662,8 @@ static int etnaviv_gpu_clk_enable(struct etnaviv_gpu =
+*gpu)
+=20
+ static int etnaviv_gpu_clk_disable(struct etnaviv_gpu *gpu)
+ {
++	disable_irq(gpu->irq);
++	reset_control_assert(gpu->rst);
+ 	clk_disable_unprepare(gpu->clk_shader);
+ 	clk_disable_unprepare(gpu->clk_core);
+ 	clk_disable_unprepare(gpu->clk_bus);
+@@ -1876,6 +1897,9 @@ static int etnaviv_gpu_platform_probe(struct platform=
+_device *pdev)
+ 	if (gpu->irq < 0)
+ 		return gpu->irq;
+=20
++	/* Avoid enabling the interrupt until everything is ready */
++	irq_set_status_flags(gpu->irq, IRQ_NOAUTOEN);
++
+ 	err =3D devm_request_irq(&pdev->dev, gpu->irq, irq_handler, 0,
+ 			       dev_name(gpu->dev), gpu);
+ 	if (err) {
+@@ -1883,6 +1907,12 @@ static int etnaviv_gpu_platform_probe(struct platfor=
+m_device *pdev)
+ 		return err;
+ 	}
+=20
++	/* Get Reset: */
++	gpu->rst =3D devm_reset_control_get_optional(&pdev->dev, NULL);
++	if (IS_ERR(gpu->rst))
++		return dev_err_probe(dev, PTR_ERR(gpu->rst),
++				     "failed to get reset\n");
++
+ 	/* Get Clocks: */
+ 	gpu->clk_reg =3D devm_clk_get_optional(&pdev->dev, "reg");
+ 	DBG("clk_reg: %p", gpu->clk_reg);
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h b/drivers/gpu/drm/etnavi=
+v/etnaviv_gpu.h
+index 31322195b9e4..8c181191755e 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
+@@ -1,6 +1,7 @@
+ /* SPDX-License-Identifier: GPL-2.0 */
+ /*
+  * Copyright (C) 2015-2018 Etnaviv Project
++ * Copyright (C) 2024 Thales
+  */
+=20
+ #ifndef __ETNAVIV_GPU_H__
+@@ -157,6 +158,7 @@ struct etnaviv_gpu {
+ 	struct clk *clk_reg;
+ 	struct clk *clk_core;
+ 	struct clk *clk_shader;
++	struct reset_control *rst;
+=20
+ 	unsigned int freq_scale;
+ 	unsigned int fe_waitcycles;
+--=20
+2.19.1
 
