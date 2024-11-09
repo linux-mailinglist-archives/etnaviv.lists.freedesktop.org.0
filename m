@@ -2,46 +2,50 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEC729C1F74
-	for <lists+etnaviv@lfdr.de>; Fri,  8 Nov 2024 15:37:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51FBA9C2AFD
+	for <lists+etnaviv@lfdr.de>; Sat,  9 Nov 2024 08:24:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8482E10E9D9;
-	Fri,  8 Nov 2024 14:37:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC5F510E340;
+	Sat,  9 Nov 2024 07:24:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="Dh7NHJMO";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="BCNLZ9ry";
 	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from out-180.mta0.migadu.com (out-180.mta0.migadu.com
- [91.218.175.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1CBF910E9D9;
- Fri,  8 Nov 2024 14:37:16 +0000 (UTC)
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
+Received: from out-187.mta0.migadu.com (out-187.mta0.migadu.com
+ [91.218.175.187])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B20B10E23B
+ for <etnaviv@lists.freedesktop.org>; Sat,  9 Nov 2024 07:24:03 +0000 (UTC)
+Message-ID: <a078e53c-bf2b-48f1-9ffb-43772d98b898@linux.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1731076634;
+ t=1731137041;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=puMK3tZ6hX81FClc+8KRmHVrx6kvND1x2bgZSkomJhE=;
- b=Dh7NHJMOoT/k5c5YYk+R8acRm+PFutkIehud0L1v/wUCXkEzklRXPa1fVJY0D7wxA7PuLd
- PpwHal/CxzP3fSefKEO3qpZNhEKfILHqDmrNVJWItXTUZcwsFamT7wPmEz00UNeJccr4Zk
- CRiiZJPrpzYsvzEs88jNTKQvcSm79xM=
-From: Sui Jingfeng <sui.jingfeng@linux.dev>
-To: Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>
-Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Sui Jingfeng <sui.jingfeng@linux.dev>
-Subject: [PATCH 2/2] drm/etnaviv: Remove the etnaviv_iommuv2_ensure_stlb()
-Date: Fri,  8 Nov 2024 22:36:58 +0800
-Message-Id: <20241108143658.2229786-2-sui.jingfeng@linux.dev>
-In-Reply-To: <20241108143658.2229786-1-sui.jingfeng@linux.dev>
-References: <20241108143658.2229786-1-sui.jingfeng@linux.dev>
+ bh=bQA4uRInbhiWJgjyq+46jhajSmEbDaEWDLgB2uSB8Ok=;
+ b=BCNLZ9rywO4Od5GWlPJOnPsqGTlHJqBk7X3pj3k7XQ9dffMSrTahIKOkhM/P6QvdTt39QH
+ c+/utM/iUFO+vl/gHnRumE/OfTvTkqLbPW3wEjcbiLap4Rrn+UphKB7eoAzXrHXZ6wJahr
+ OFnNId4HWpIAa7PYsa0vlANW5D01Vlk=
+Date: Sat, 9 Nov 2024 15:23:55 +0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v15 01/19] drm/etnaviv: Implement
+ drm_gem_object_funcs::print_info()
+To: Lucas Stach <l.stach@pengutronix.de>
+Cc: Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20240908094357.291862-1-sui.jingfeng@linux.dev>
+ <20240908094357.291862-2-sui.jingfeng@linux.dev>
+ <e4270c6629f4f7ac086e7a177374bdbc306226a0.camel@pengutronix.de>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Sui Jingfeng <sui.jingfeng@linux.dev>
+In-Reply-To: <e4270c6629f4f7ac086e7a177374bdbc306226a0.camel@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-Migadu-Flow: FLOW_OUT
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -57,49 +61,103 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-The etnaviv_iommuv2_ensure_stlb() function have been replaced by the
-etnaviv_iommuv2_ensure_stlb_new(), remove it.
+Hi,
 
-Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
----
- drivers/gpu/drm/etnaviv/etnaviv_iommu_v2.c | 24 ----------------------
- 1 file changed, 24 deletions(-)
+On 2024/10/1 21:04, Lucas Stach wrote:
+> Hi Sui,
+>
+> Am Sonntag, dem 08.09.2024 um 17:43 +0800 schrieb Sui Jingfeng:
+>> It will be called by drm_gem_print_info() if implemented, and it can
+>> provide more information about the framebuffer objects.
+> Etnaviv GEM BOs are not framebuffer objects.
+>
+>> Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
+>> ---
+>>   drivers/gpu/drm/etnaviv/etnaviv_gem.c | 32 +++++++++++++++++++++++++++
+>>   drivers/gpu/drm/etnaviv/etnaviv_gem.h |  2 +-
+>>   2 files changed, 33 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+>> index 4247a10f8d4f..543d881585b3 100644
+>> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+>> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+>> @@ -534,8 +534,40 @@ static const struct vm_operations_struct vm_ops = {
+>>   	.close = drm_gem_vm_close,
+>>   };
+>>   
+>> +static const char *etnaviv_gem_obj_caching_info(u32 flags)
+>> +{
+>> +	switch (flags & ETNA_BO_CACHE_MASK) {
+>> +	case ETNA_BO_CACHED:
+>> +		return "cached";
+>> +	case ETNA_BO_UNCACHED:
+>> +		return "uncached";
+>> +	case ETNA_BO_WC:
+>> +		return "write-combine";
+> "write-combined" to be consistent with the other two.
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_iommu_v2.c b/drivers/gpu/drm/etnaviv/etnaviv_iommu_v2.c
-index fa6eed1ae1be..65b91eabb278 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_iommu_v2.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_iommu_v2.c
-@@ -113,30 +113,6 @@ static void etnaviv_iommuv2_free(struct etnaviv_iommu_context *context)
- 	vfree(v2_context);
- }
- 
--static int
--etnaviv_iommuv2_ensure_stlb(struct etnaviv_iommuv2_context *v2_context,
--			    int stlb)
--{
--	if (v2_context->stlb_cpu[stlb])
--		return 0;
--
--	v2_context->stlb_cpu[stlb] =
--			dma_alloc_wc(v2_context->base.global->dev, SZ_4K,
--				     &v2_context->stlb_dma[stlb],
--				     GFP_KERNEL);
--
--	if (!v2_context->stlb_cpu[stlb])
--		return -ENOMEM;
--
--	memset32(v2_context->stlb_cpu[stlb], MMUv2_PTE_EXCEPTION,
--		 SZ_4K / sizeof(u32));
--
--	v2_context->mtlb_cpu[stlb] =
--			v2_context->stlb_dma[stlb] | MMUv2_PTE_PRESENT;
--
--	return 0;
--}
--
- static int etnaviv_iommuv2_map(struct etnaviv_iommu_context *context,
- 			       unsigned long iova, phys_addr_t paddr,
- 			       size_t size, int prot)
+
+OK,
+
+
+>> +	default:
+>> +		break;
+>> +	}
+>> +
+>> +	return "unknown";
+>> +}
+>> +
+>> +static void etnaviv_gem_object_info(struct drm_printer *p,
+>> +				    unsigned int indent,
+>> +				    const struct drm_gem_object *obj)
+>> +{
+>> +	const struct etnaviv_gem_object *etnaviv_obj;
+>> +
+>> +	etnaviv_obj = container_of(obj, struct etnaviv_gem_object, base);
+>> +
+>> +	drm_printf_indent(p, indent, "caching mode=%s\n",
+>> +			  etnaviv_gem_obj_caching_info(etnaviv_obj->flags));
+>> +	drm_printf_indent(p, indent, "active=%s\n",
+>> +			  str_yes_no(is_active(etnaviv_obj)));
+>> +	drm_printf_indent(p, indent, "vaddr=%p\n", etnaviv_obj->vaddr);
+> Why should we expose the vaddr to userspace? I don't see why this would
+> be relevant even as debug info and it leaks the kernel vmap area
+> address, which could be abused to facilitate kernel exploits.
+
+
+This is nearly a re-implement for the etnaviv_gem_describe(),
+
+It's not intend to leak, but to give us a *hint* that
+if a specific buffer object have been VMAP-ed and
+we will know how many BOs have been vmap-ed.
+
+
+> Regards,
+> Lucas
+>
+>> +}
+>> +
+>>   static const struct drm_gem_object_funcs etnaviv_gem_object_funcs = {
+>>   	.free = etnaviv_gem_free_object,
+>> +	.print_info = etnaviv_gem_object_info,
+>>   	.pin = etnaviv_gem_prime_pin,
+>>   	.unpin = etnaviv_gem_prime_unpin,
+>>   	.get_sg_table = etnaviv_gem_prime_get_sg_table,
+>> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.h b/drivers/gpu/drm/etnaviv/etnaviv_gem.h
+>> index a42d260cac2c..3f8fe19a77cc 100644
+>> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem.h
+>> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.h
+>> @@ -68,7 +68,7 @@ struct etnaviv_gem_ops {
+>>   	int (*mmap)(struct etnaviv_gem_object *, struct vm_area_struct *);
+>>   };
+>>   
+>> -static inline bool is_active(struct etnaviv_gem_object *etnaviv_obj)
+>> +static inline bool is_active(const struct etnaviv_gem_object *etnaviv_obj)
+>>   {
+>>   	return atomic_read(&etnaviv_obj->gpu_active) != 0;
+>>   }
+
 -- 
-2.34.1
+Best regards,
+Sui
 
