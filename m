@@ -2,76 +2,91 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50F9F9CFE9B
-	for <lists+etnaviv@lfdr.de>; Sat, 16 Nov 2024 12:32:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 779DE9D2FFF
+	for <lists+etnaviv@lfdr.de>; Tue, 19 Nov 2024 22:23:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F9C410E3F9;
-	Sat, 16 Nov 2024 11:32:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 54F5F10E6AB;
+	Tue, 19 Nov 2024 21:23:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=inria.fr header.i=@inria.fr header.b="e6HMrvPi";
+	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.b="pVJ5a4Sb";
 	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-X-Greylist: delayed 430 seconds by postgrey-1.36 at gabe;
- Sat, 16 Nov 2024 11:32:05 UTC
-Received: from mail3-relais-sop.national.inria.fr
- (mail3-relais-sop.national.inria.fr [192.134.164.104])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4189C10E21D;
- Sat, 16 Nov 2024 11:32:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=inria.fr; s=dc;
- h=content-transfer-encoding:from:mime-version:subject:date:
- message-id:references:cc:in-reply-to:to;
- bh=anlUiHWGDGyJ8xswjmMdLXKoB6PZ+VXioMuGFa77dbg=;
- b=e6HMrvPibM0Fbpr/ONm0hFVcMKT8wC0+mQJzKmTLL/6XVEyPLKe8HZWV
- 9C9LRPkcO6Hd6rCjzjqag+sCK6WeODO+KGVznFmYkAs5A6UnqgiSZB6Nc
- xXNWMuA+9KGLx3MmUi1yOamiphAXkkAK5LOz38Lay2oYzEJOtPfPHDOwT E=;
-Authentication-Results: mail3-relais-sop.national.inria.fr;
- dkim=none (message not signed) header.i=none;
- spf=SoftFail smtp.mailfrom=Julia.Lawall@inria.fr;
- dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.12,159,1728943200"; d="scan'208";a="101793166"
-Received: from 105.39.22.93.rev.sfr.net (HELO smtpclient.apple)
- ([93.22.39.105]) by mail3-relais-sop.national.inria.fr with
- ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2024 12:24:33 +0100
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-From: Julia Lawall <Julia.Lawall@inria.fr>
-Mime-Version: 1.0 (1.0)
-Subject: Re: [PATCH v2 05/21] powerpc/papr_scm: Convert timeouts to
- secs_to_jiffies()
-Date: Sat, 16 Nov 2024 06:24:20 -0500
-Message-Id: <272B86FC-5CC9-4A3A-ACE0-F268E4E61C3D@inria.fr>
-References: <e4872a15-ff3d-4619-9b03-c7f0b6230934@stanley.mountain>
-Cc: Christophe Leroy <christophe.leroy@csgroup.eu>,
- Easwar Hariharan <eahariha@linux.microsoft.com>,
- Pablo Neira Ayuso <pablo@netfilter.org>,
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
+ [148.163.158.5])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 27B9210E19B;
+ Mon, 18 Nov 2024 08:26:43 +0000 (UTC)
+Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AHJiO3Y023687;
+ Mon, 18 Nov 2024 08:26:16 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+ :content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=pp1; bh=pofVBIDpbmPXxKdXBZzlW6SKJ1mpQg
+ 5f+nyOC0P54ZU=; b=pVJ5a4SbiQLc7KmL6NMVUat1TeAb+E4P6v1BT086o1mEhk
+ asPz+d9pnH3oUetVu+XCwbjmIJgCChQ2Yg76ElBtpMc3MPIe4GEIJkdBOh3EDOTs
+ BshLlGoNMECAtRDAXjrNjk0/DJ4p9T1LW6K46OwdwtMNuLDXUx7tw7C0oS59z+J9
+ QShMh32WGNHKvTgEgpik3EK5hVK4TsghRPVpOZt4uDmXgH2LYgfrkGGFgYTal2qH
+ dz0ScnJgPbYohwDb0fe9yXNM0o6w8EzUNqyOgMmUN0w1gT6xXC0tgw+yBkjkz/Fh
+ q242Ut9KG7OxmdBC6tktol2tQuFTw331MM4YUGlg==
+Received: from ppma22.wdc07v.mail.ibm.com
+ (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 42xgtt0eh7-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 18 Nov 2024 08:26:15 +0000 (GMT)
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+ by ppma22.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 4AI73j1E030931;
+ Mon, 18 Nov 2024 08:26:14 GMT
+Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
+ by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 42y63y27mu-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 18 Nov 2024 08:26:14 +0000
+Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com
+ [10.20.54.106])
+ by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 4AI8QAR549479982
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 18 Nov 2024 08:26:10 GMT
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id BD6AD20043;
+ Mon, 18 Nov 2024 08:26:10 +0000 (GMT)
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id A867E20040;
+ Mon, 18 Nov 2024 08:26:06 +0000 (GMT)
+Received: from osiris (unknown [9.171.77.223])
+ by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+ Mon, 18 Nov 2024 08:26:06 +0000 (GMT)
+Date: Mon, 18 Nov 2024 09:26:05 +0100
+From: Heiko Carstens <hca@linux.ibm.com>
+To: Easwar Hariharan <eahariha@linux.microsoft.com>
+Cc: Pablo Neira Ayuso <pablo@netfilter.org>,
  Jozsef Kadlecsik <kadlec@netfilter.org>,
  "David S. Miller" <davem@davemloft.net>,
  Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
  Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ Julia Lawall <Julia.Lawall@inria.fr>,
  Nicolas Palix <nicolas.palix@imag.fr>, Daniel Mack <daniel@zonque.org>,
  Haojian Zhuang <haojian.zhuang@gmail.com>,
  Robert Jarzmik <robert.jarzmik@free.fr>,
- Russell King <linux@armlinux.org.uk>, Heiko Carstens <hca@linux.ibm.com>,
- Vasily Gorbik <gor@linux.ibm.com>,
+ Russell King <linux@armlinux.org.uk>, Vasily Gorbik <gor@linux.ibm.com>,
  Alexander Gordeev <agordeev@linux.ibm.com>,
  Christian Borntraeger <borntraeger@linux.ibm.com>,
  Sven Schnelle <svens@linux.ibm.com>, Ofir Bitton <obitton@habana.ai>,
  Oded Gabbay <ogabbay@kernel.org>,
  Lucas De Marchi <lucas.demarchi@intel.com>,
- =?utf-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Jeroen de Borst <jeroendb@google.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jeroen de Borst <jeroendb@google.com>,
  Praveen Kaligineedi <pkaligineedi@google.com>,
  Shailend Chand <shailend@google.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
  James Smart <james.smart@broadcom.com>,
  Dick Kennedy <dick.kennedy@broadcom.com>,
  "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
  "Martin K. Petersen" <martin.petersen@oracle.com>,
- =?utf-8?Q?Roger_Pau_Monn=C3=A9?= <roger.pau@citrix.com>,
+ Roger Pau =?iso-8859-1?Q?Monn=E9?= <roger.pau@citrix.com>,
  Jens Axboe <axboe@kernel.dk>, Kalle Valo <kvalo@kernel.org>,
  Jeff Johnson <jjohnson@kernel.org>,
  Catalin Marinas <catalin.marinas@arm.com>,
@@ -87,29 +102,51 @@ Cc: Christophe Leroy <christophe.leroy@csgroup.eu>,
  Xiubo Li <xiubli@redhat.com>, Ilya Dryomov <idryomov@gmail.com>,
  Josh Poimboeuf <jpoimboe@kernel.org>, Jiri Kosina <jikos@kernel.org>,
  Miroslav Benes <mbenes@suse.cz>, Petr Mladek <pmladek@suse.com>,
- Joe Lawrence <joe.lawrence@redhat.com>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Lucas Stach <l.stach@pengutronix.de>,
+ Joe Lawrence <joe.lawrence@redhat.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Lucas Stach <l.stach@pengutronix.de>,
  Russell King <linux+etnaviv@armlinux.org.uk>,
  Christian Gmeiner <christian.gmeiner@gmail.com>,
  Louis Peens <louis.peens@corigine.com>,
  Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>,
  Naveen N Rao <naveen@kernel.org>,
- Madhavan Srinivasan <maddy@linux.ibm.com>, netfilter-devel@vger.kernel.org,
- coreteam@netfilter.org, netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
- cocci@inria.fr, linux-arm-kernel@lists.infradead.org,
- linux-s390@vger.kernel.org, dri-devel@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, linux-scsi@vger.kernel.org,
- xen-devel@lists.xenproject.org, linux-block@vger.kernel.org,
- linux-wireless@vger.kernel.org, ath11k@lists.infradead.org,
- linux-mm@kvack.org, linux-bluetooth@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-rpi-kernel@lists.infradead.org,
- ceph-devel@vger.kernel.org, live-patching@vger.kernel.org,
- linux-sound@vger.kernel.org, etnaviv@lists.freedesktop.org,
- oss-drivers@corigine.com, linuxppc-dev@lists.ozlabs.org,
+ Madhavan Srinivasan <maddy@linux.ibm.com>,
+ netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org, cocci@inria.fr,
+ linux-arm-kernel@lists.infradead.org, linux-s390@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ linux-scsi@vger.kernel.org, xen-devel@lists.xenproject.org,
+ linux-block@vger.kernel.org, linux-wireless@vger.kernel.org,
+ ath11k@lists.infradead.org, linux-mm@kvack.org,
+ linux-bluetooth@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-rpi-kernel@lists.infradead.org, ceph-devel@vger.kernel.org,
+ live-patching@vger.kernel.org, linux-sound@vger.kernel.org,
+ etnaviv@lists.freedesktop.org, oss-drivers@corigine.com,
+ linuxppc-dev@lists.ozlabs.org,
  Anna-Maria Behnsen <anna-maria@linutronix.de>
-In-Reply-To: <e4872a15-ff3d-4619-9b03-c7f0b6230934@stanley.mountain>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-X-Mailer: iPhone Mail (21E236)
+Subject: Re: [PATCH v2 04/21] s390: kernel: Convert timeouts to use
+ secs_to_jiffies()
+Message-ID: <20241118082605.17002-A-hca@linux.ibm.com>
+References: <20241115-converge-secs-to-jiffies-v2-0-911fb7595e79@linux.microsoft.com>
+ <20241115-converge-secs-to-jiffies-v2-4-911fb7595e79@linux.microsoft.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241115-converge-secs-to-jiffies-v2-4-911fb7595e79@linux.microsoft.com>
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: QBYvLy3JNa8evFseixOVfcUMyMppMmNG
+X-Proofpoint-ORIG-GUID: QBYvLy3JNa8evFseixOVfcUMyMppMmNG
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
+ definitions=2024-10-15_01,2024-10-11_01,2024-09-30_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1011 phishscore=0
+ mlxscore=0 malwarescore=0 mlxlogscore=858 adultscore=0 priorityscore=1501
+ bulkscore=0 impostorscore=0 spamscore=0 lowpriorityscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2409260000
+ definitions=main-2411180066
+X-Mailman-Approved-At: Tue, 19 Nov 2024 21:23:39 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -124,53 +161,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
+On Fri, Nov 15, 2024 at 09:26:21PM +0000, Easwar Hariharan wrote:
+> Changes made with the following Coccinelle rules:
+> 
+> @@ constant C; @@
+> 
+> - msecs_to_jiffies(C * 1000)
+> + secs_to_jiffies(C)
+> 
+> @@ constant C; @@
+> 
+> - msecs_to_jiffies(C * MSEC_PER_SEC)
+> + secs_to_jiffies(C)
+> 
+> Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
+> ---
+>  arch/s390/kernel/lgr.c      | 3 ++-
+>  arch/s390/kernel/time.c     | 4 ++--
+>  arch/s390/kernel/topology.c | 2 +-
+>  3 files changed, 5 insertions(+), 4 deletions(-)
 
-Sent from my iPhone
+...
 
-> On 16 Nov 2024, at 05:40, Dan Carpenter <dan.carpenter@linaro.org> wrote:
->=20
-> =EF=BB=BFOn Sat, Nov 16, 2024 at 11:06:55AM +0100, Christophe Leroy wrote:=
+> diff --git a/arch/s390/kernel/lgr.c b/arch/s390/kernel/lgr.c
+> index 6652e54cf3db9fbdd8cfb06f8a0dc1d4c05ae7d7..68021cb38574b122bbe3d9f70e9168305360017b 100644
+> --- a/arch/s390/kernel/lgr.c
+> +++ b/arch/s390/kernel/lgr.c
+> @@ -166,7 +166,8 @@ static struct timer_list lgr_timer;
+>   */
+>  static void lgr_timer_set(void)
+>  {
+> -	mod_timer(&lgr_timer, jiffies + msecs_to_jiffies(LGR_TIMER_INTERVAL_SECS * MSEC_PER_SEC));
+> +	mod_timer(&lgr_timer,
+> +		  jiffies + secs_to_jiffies(LGR_TIMER_INTERVAL_SECS));
+>  }
 
->>> diff --git a/arch/powerpc/platforms/pseries/papr_scm.c b/arch/powerpc/pl=
-atforms/pseries/papr_scm.c
->>> index 9e297f88adc5d97d4dc7b267b0bfebd58e5cf193..9e8086ec66e0f0e555ac2793=
-3854c06cfcf91a04 100644
->>> --- a/arch/powerpc/platforms/pseries/papr_scm.c
->>> +++ b/arch/powerpc/platforms/pseries/papr_scm.c
->>> @@ -543,7 +543,7 @@ static int drc_pmem_query_health(struct papr_scm_pri=
-v *p)
->>>=20
->>>         /* Jiffies offset for which the health data is assumed to be sam=
-e */
->>>         cache_timeout =3D p->lasthealth_jiffies +
->>> -               msecs_to_jiffies(MIN_HEALTH_QUERY_INTERVAL * 1000);
->>> +               secs_to_jiffies(MIN_HEALTH_QUERY_INTERVAL);
->>=20
->> Wouldn't it now fit on a single line ?
->>=20
->=20
-> Some maintainers still prefer to put a line break at 80 characters. =20
-
-Coccinelle tries for 80 chars. It may have a command line option to specify s=
-omething else.
-
-Julia
-
-> It's kind
-> of a nightmare for an automated script like this to figure out everyone's
-> preferences.  In this particular
-> file, there are some lines which go over 80
-> characters so sure.  Earlier in the patchset one of these introduced a lin=
-e
-> break that wasn't there before so I think maybe Coccinelle is applying the=
- 80
-> character line break rule?
->=20
-> There are sometimes where the 80 character rule really hurts readability, b=
-ut
-> here it doesn't make any difference.
->=20
-> regards,
-> dan carpenter
->=20
-
+Please don't add a new line break, especially not if the new line
+would be shorter than the old one.
