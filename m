@@ -2,74 +2,74 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E48E9DFEFE
-	for <lists+etnaviv@lfdr.de>; Mon,  2 Dec 2024 11:32:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B5539DFEFF
+	for <lists+etnaviv@lfdr.de>; Mon,  2 Dec 2024 11:32:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5681F10E6BD;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6847010E6BE;
 	Mon,  2 Dec 2024 10:32:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="SR+2143n";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="NF86R7YP";
 	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B524210E36F
- for <etnaviv@lists.freedesktop.org>; Thu, 28 Nov 2024 12:28:55 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B0B3510E36F
+ for <etnaviv@lists.freedesktop.org>; Thu, 28 Nov 2024 12:29:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1732796934;
+ s=mimecast20190719; t=1732796954;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZACMslqIaF7iVtmlx12c8LPoSlN7TzLegXngDuX2z78=;
- b=SR+2143n/ny/c1ljGZjDnEADm/Ip4JnzZKHEGegX2fSpQuWWcE1/kNzNUvhvIvpffUaami
- pQnV8KfkLGfnmwFF1tW7gB4vxoTu6M1GGF94HZMZeKWCvFMHdHksmJydcDHl7j7pLyw10t
- usmZaRSuxFMIGWqNTbACv75cFVGLQL0=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=0Nxf6CkGK3NslY+JLgqPcTLt32q1OCumzkrHYUKQkbE=;
+ b=NF86R7YPaO4OmYapdN/YmkctK36hyatOwgFnMmypDgOYs+5hDSzw9VI6kPrX1Sfwh9Y/oh
+ pkRUEbh4+BmMaTxCAagWRlwi7lwQxDFd7HAWNdry//JprUXWVkYB37Tpxs4gq9uxDC5E3q
+ Hb7mXLh0aj/aMRbdo2tBNwPWG0P55Bs=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-541-USt0O7ENOMGZVVbF_FkB3w-1; Thu, 28 Nov 2024 07:28:53 -0500
-X-MC-Unique: USt0O7ENOMGZVVbF_FkB3w-1
-X-Mimecast-MFC-AGG-ID: USt0O7ENOMGZVVbF_FkB3w
-Received: by mail-wr1-f70.google.com with SMTP id
- ffacd0b85a97d-38240d9ed31so455806f8f.3
- for <etnaviv@lists.freedesktop.org>; Thu, 28 Nov 2024 04:28:53 -0800 (PST)
+ us-mta-178-8GUsA5lPPBinLT3wFT_XPA-1; Thu, 28 Nov 2024 07:29:13 -0500
+X-MC-Unique: 8GUsA5lPPBinLT3wFT_XPA-1
+X-Mimecast-MFC-AGG-ID: 8GUsA5lPPBinLT3wFT_XPA
+Received: by mail-ed1-f70.google.com with SMTP id
+ 4fb4d7f45d1cf-5cfbec85442so510284a12.1
+ for <etnaviv@lists.freedesktop.org>; Thu, 28 Nov 2024 04:29:13 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1732796932; x=1733401732;
+ d=1e100.net; s=20230601; t=1732796952; x=1733401752;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ZACMslqIaF7iVtmlx12c8LPoSlN7TzLegXngDuX2z78=;
- b=XzKQ/vKGnXzAULw2aQ8vothJxvzg71T3xT7cNb0Ae3OFA05VB1+BQl0FOr99e5GzHl
- //va3Z6Cu2kxmtR6uKOxfXvRXM/UZZpXVFwbIkWudp8VuOqyVsoOwikBa90Huwqv5Q5L
- MStx0Fh/HGzcAWyyAdo9mJVFhJwbzT/fq3O8//Shtf/q4tIDmxzjpBsbrZ18KaEih7nj
- OnciAFSSeqh1Og05j7kOF6pGJ7zSYSpCM8hF5cG55AhFYfdWCaNT6KmPydb9lER6Rv7M
- OLIOcvUW5MQu03RWiDG+q71jA70uQNto5VIuAj8Wj4WEQo8RHImzG1DBOop9KqiGlGbQ
- tH9Q==
+ bh=0Nxf6CkGK3NslY+JLgqPcTLt32q1OCumzkrHYUKQkbE=;
+ b=sqN9fILdFWZx9MQFJhEF3JNUFwGk7Nj6S5xghQHk1gP0LsWGhTHR32hnUAmbz+U7Va
+ 3hPvhHLQsRf7PuJeSY+s51FamtHkvLF55XkiTzouNvupxKsa7O+doWm85BuiA1QjoCG6
+ HAUpdjfPiNHbH2ViZNmFYc0tPTevk7yvG3QLaNoz92ncctTg4BhlwJrg+rzJhOHGmuJd
+ QQ937OIQpaGG8RMenA3IUk6xTo4LAcGQoAoNoXCEeCFTPW3VhkxFDTrNvFK14ghvqbI/
+ gvXYrbDPkoHqC0ugkoXNmNDjaAoiM+rmCHKI0YM1A2AxXF0ciJiXLbMDxdRI5kUtp7ao
+ 8yng==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVCKGCxjFwi6d4R7o/Zn9WODUarJ2uCe8Pwv1Ib2f+EBytbxpqZDcxz3qnc5Yw2hmIixvMZbj+b@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwapNIdGJGATfkIZlm5yqLx0TIhW7fBRKOnNhxhA4i5VDowM+As
- dBdAY4P03nmG5cYoBVceoCkpjmRyWfghHB4vIdBgpj92cIHHEdoK38c7e5DwCjPEYQM2fSjhP2V
- 0KBobw2exU4xH5FWz+n4kIZt7H27n71NbclUiIOoo8BbE+UzrEIJwe8k5OS74nsVFU4ieVKf4We
- xXra2XQPBQ4xZ18bm4pYV8d9GM+sMHcp7GLDgEiQ==
-X-Gm-Gg: ASbGncvUV3vI0ITOHiGJZKaRQA2ukvbEsZMygavgR/cuGvnZC+sAgw/bXFhDp78NI1n
- eeEZDOSASdFnE/89Luttx9tCLmNo4rpc=
-X-Received: by 2002:a05:6000:18ac:b0:382:4a27:1319 with SMTP id
- ffacd0b85a97d-385c6eb5840mr5776113f8f.6.1732796931966; 
- Thu, 28 Nov 2024 04:28:51 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGGOqoP8tsZ6KQpRsoqtGa6KHF61EJ3NUmj3Aw3MlprtODTvHQ/TDY7uTpa3Nw0Vy2Is2RlK3QrcXMwzmVV8rU=
-X-Received: by 2002:a05:6000:18ac:b0:382:4a27:1319 with SMTP id
- ffacd0b85a97d-385c6eb5840mr5776067f8f.6.1732796931576; Thu, 28 Nov 2024
- 04:28:51 -0800 (PST)
+ AJvYcCV3RWv9LZdcQIxCt9ABFv49oMbYcKDWhHS8toFGsjJ1sBUXRvMATYzlLsR6S/pJCc2OQXUpg6PX@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxxQl6hxoOls3wd26QJIx/D1tG+lkHudEz21nJEmrzWZlTOrsEK
+ uZtfPajaP830axSaDTPQl3LI4RvUHF6B8QGwb6ARjTEbGlUpw4MTHt44cYRXTEGsbna0RigBprk
+ j3xUSnvHAuFEIO/fAJ3MkHZi3dJT5QSgeUNh2oVgTbLts17hUsZYaDjCx3ER/eR8WHe6NksXrwh
+ K+oZPhy+2KIM2jD7qQb4cXwQxU2XR10Q4eFQuj/Q==
+X-Gm-Gg: ASbGncujKcve0/9w59JQTQ9D46hFJSyVZV2pucj6aK0K1F5dDSSwDCeKC/476O68zRK
+ yWyWt/vMoX1vr64acLMYyJ3ega89j8pc=
+X-Received: by 2002:a05:6402:5243:b0:5cf:e26b:9797 with SMTP id
+ 4fb4d7f45d1cf-5d080c604fcmr5605173a12.29.1732796951986; 
+ Thu, 28 Nov 2024 04:29:11 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGuE0zkJ6zJza+fGet7qX+06h7Jmet7/bu0xRwgqC9A06SMAgod8PaoQJd1k5pY7KRDfw0cJAGqmNIglvOyUZo=
+X-Received: by 2002:a05:6402:5243:b0:5cf:e26b:9797 with SMTP id
+ 4fb4d7f45d1cf-5d080c604fcmr5605060a12.29.1732796951475; Thu, 28 Nov 2024
+ 04:29:11 -0800 (PST)
 MIME-Version: 1.0
-References: <20241115-converge-secs-to-jiffies-v2-0-911fb7595e79@linux.microsoft.com>
- <20241115-converge-secs-to-jiffies-v2-18-911fb7595e79@linux.microsoft.com>
-In-Reply-To: <20241115-converge-secs-to-jiffies-v2-18-911fb7595e79@linux.microsoft.com>
+References: <20241115-converge-secs-to-jiffies-v1-0-19aadc34941b@linux.microsoft.com>
+ <20241115-converge-secs-to-jiffies-v1-18-19aadc34941b@linux.microsoft.com>
+In-Reply-To: <20241115-converge-secs-to-jiffies-v1-18-19aadc34941b@linux.microsoft.com>
 From: Alex Markuze <amarkuze@redhat.com>
-Date: Thu, 28 Nov 2024 14:28:40 +0200
-Message-ID: <CAO8a2SgQ-==SjhDFZpi2s3r9FUGA96jwuJL7kTDwE=Hw4UcgUg@mail.gmail.com>
-Subject: Re: [PATCH v2 18/21] ceph: Convert timeouts to secs_to_jiffies()
+Date: Thu, 28 Nov 2024 14:29:00 +0200
+Message-ID: <CAO8a2SjKS2nWWVkAcqXkZhR+Q1TocULkwRk09ABf8XQjjzwJPQ@mail.gmail.com>
+Subject: Re: [PATCH 18/22] ceph: Convert timeouts to secs_to_jiffies()
 To: Easwar Hariharan <eahariha@linux.microsoft.com>
 Cc: Pablo Neira Ayuso <pablo@netfilter.org>,
  Jozsef Kadlecsik <kadlec@netfilter.org>, 
@@ -134,7 +134,7 @@ Cc: Pablo Neira Ayuso <pablo@netfilter.org>,
  oss-drivers@corigine.com, linuxppc-dev@lists.ozlabs.org, 
  Anna-Maria Behnsen <anna-maria@linutronix.de>
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: lmr2qmeKA4NjxqCS5Cr48Fbsr9JLKskQM3verU9qaSU_1732796932
+X-Mimecast-MFC-PROC-ID: lEo6R9fkMYaTj607xGw3iRg09_xeTYaOFa5IjbF91hQ_1732796952
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -155,7 +155,7 @@ Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
 looks good
 
-On Sat, Nov 16, 2024 at 12:32=E2=80=AFAM Easwar Hariharan
+On Fri, Nov 15, 2024 at 11:35=E2=80=AFPM Easwar Hariharan
 <eahariha@linux.microsoft.com> wrote:
 >
 > Changes made with the following Coccinelle rules:
