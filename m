@@ -2,44 +2,73 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 278899E2A3C
-	for <lists+etnaviv@lfdr.de>; Tue,  3 Dec 2024 19:04:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4123E9E597B
+	for <lists+etnaviv@lfdr.de>; Thu,  5 Dec 2024 16:13:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D729A10E481;
-	Tue,  3 Dec 2024 18:04:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C1FE10EEAC;
+	Thu,  5 Dec 2024 15:13:41 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; secure) header.d=thalesgroup.com header.i=@thalesgroup.com header.b="pc2p1rs6";
+	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C73D910E47C
- for <etnaviv@lists.freedesktop.org>; Tue,  3 Dec 2024 18:04:22 +0000 (UTC)
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
- helo=[IPv6:::1]) by metis.whiteo.stw.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1tIXFy-0007Zv-TO; Tue, 03 Dec 2024 19:04:18 +0100
-Message-ID: <bb0610b61e2f728554f035e25e5530e1a10fd36d.camel@pengutronix.de>
-Subject: Re: [PATCH 1/2] drm/etnaviv: Preallocate STLB according to CPU
- PAGE_SIZE
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Sui Jingfeng <sui.jingfeng@linux.dev>, Russell King
+X-Greylist: delayed 430 seconds by postgrey-1.36 at gabe;
+ Thu, 05 Dec 2024 15:13:39 UTC
+Received: from esa.hc1631-21.eu.iphmx.com (esa.hc1631-21.eu.iphmx.com
+ [23.90.123.40])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 37BC310EEAC;
+ Thu,  5 Dec 2024 15:13:39 +0000 (UTC)
+X-CSE-ConnectionGUID: DtLK0DlsS/Wb4CZkDKtkyg==
+X-CSE-MsgGUID: 7sik+0rLRP2CRNZEMG3ACQ==
+Authentication-Results: ob1.hc1631-21.eu.iphmx.com;
+ dkim=pass (signature verified)
+ header.i=@thalesgroup.com
+X-IronPort-AV: E=McAfee;i="6700,10204,11277"; a="24580185"
+X-IronPort-AV: E=Sophos;i="6.12,210,1728943200"; d="scan'208";a="24580185"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=thalesgroup.com; i=@thalesgroup.com; s=bbmfo20230504;
+ t=1733411179; h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=dFNyZ6CzMIcrFuNf7yf624oDb7uTHna8qfR7jQp9EpM=;
+ b=pc2p1rs6wM/SDwFC4gJIK4EhaTsMcaXcnbQD82z+Rsg59ejAYUoTRTBT
+ MKQnFgr8wUTJiObM+ik1jQ7E2hUyxM7jPrkYOGpilTvLH1H8yZAZDsdqe
+ CGQpA6WRKK8EFGXPFNc0i447e4zdqyCW5Lmxvue5Xf071tWoNhNk81aRX
+ R75rJbGXsaslefivqBBDMmKlkufFMO1RQWFhDL8Vs35mvAecuS9DXdm0K
+ dn71YoZdI/Brk8QcXygvhWsVucXUlBYoQEpY+fpjHKVJvwMOPmqBNZz57
+ Tj7X2kSknJNp+1sd9p/HcVDkqE9Y0T7gjifYnRGLPB3CZhO8lVWpKJr2c A==;
+X-CSE-ConnectionGUID: RCUkX0p4RFyi6/TDqjX0fQ==
+X-CSE-MsgGUID: pUEsyKGkTZeAfMQcYU/pNQ==
+X-CSE-ConnectionGUID: 8rvR8T5QRcKRxelbuKq7JQ==
+X-CSE-MsgGUID: wEwR4l06R1CYjqYp3BWqiA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11277"; a="36769402"
+X-IronPort-AV: E=Sophos;i="6.12,210,1728943200"; d="scan'208";a="36769402"
+From: LECOINTRE Philippe <philippe.lecointre@thalesgroup.com>
+To: Lucas Stach <l.stach@pengutronix.de>, Russell King
  <linux+etnaviv@armlinux.org.uk>, Christian Gmeiner
  <christian.gmeiner@gmail.com>
-Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
-Date: Tue, 03 Dec 2024 19:04:18 +0100
-In-Reply-To: <20241108143658.2229786-1-sui.jingfeng@linux.dev>
-References: <20241108143658.2229786-1-sui.jingfeng@linux.dev>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.4 (3.52.4-2.fc40) 
+CC: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ "etnaviv@lists.freedesktop.org" <etnaviv@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, LENAIN Simon
+ <simon.lenain@thalesgroup.com>, BARBEAU Etienne
+ <etienne.barbeau@thalesgroup.com>, LEJEUNE Sebastien
+ <sebastien.lejeune@thalesgroup.com>
+Subject: RE: [PATCH v2] drm/etnaviv: add optional reset support
+Thread-Topic: [PATCH v2] drm/etnaviv: add optional reset support
+Thread-Index: Adsx5YIJONFfGHrTSZ2tfemyyzgnnQTvw6IAAFjvBlA=
+Date: Thu, 5 Dec 2024 15:06:18 +0000
+Message-ID: <66770f0cadcf4728880efe3a2427f55d@thalesgroup.com>
+References: <dc139d10a4184d289c9ffd1d308c0db1@thalesgroup.com>
+ <3416531c050e5f6717e478eb7fd8fd6c30c21dd4.camel@pengutronix.de>
+In-Reply-To: <3416531c050e5f6717e478eb7fd8fd6c30c21dd4.camel@pengutronix.de>
+Accept-Language: fr-FR, en-US
+Content-Language: fr-FR
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-nodisclaimer: 0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,131 +83,122 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Am Freitag, dem 08.11.2024 um 22:36 +0800 schrieb Sui Jingfeng:
-> The dma_direct_alloc() allocate one page at minmium, which size is the CP=
-U
-> PAGE_SIZE. while the etnaviv_iommuv2_ensure_stlb() only ask for 4KiB. The
-> rest memory space that beyond 4KiB gets wasted on bigger page size system=
-s.
-> For example, on 16KiB CPU page size systems, we will waste the rest 12KiB=
-.
-> On 64KiB CPU page size systems, we will waste the rest 60KiB.
->=20
-> Since addresses within one page are always contiguous, the rest memory ca=
-n
-> be used to store adjacent slave TLB entries. Then, when the neighbourhood=
-s
-> TLB is being hit on the next time, we don't have to ask another one page
-> from the system. Saving both memorys and times overhead because of that.
->=20
-While this isn't adding a lot of code to etnaviv, I wonder if this
-couldn't be handled by using a dma_pool for the pagetable allocations.
-
-Regards,
-Lucas
-
-> Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
-> ---
->  drivers/gpu/drm/etnaviv/etnaviv_iommu_v2.c | 64 +++++++++++++++++++---
->  1 file changed, 56 insertions(+), 8 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_iommu_v2.c b/drivers/gpu/drm=
-/etnaviv/etnaviv_iommu_v2.c
-> index d664ae29ae20..fa6eed1ae1be 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_iommu_v2.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_iommu_v2.c
-> @@ -44,19 +44,66 @@ to_v2_context(struct etnaviv_iommu_context *context)
->  	return container_of(context, struct etnaviv_iommuv2_context, base);
->  }
-> =20
-> +static int etnaviv_iommuv2_stlb_free(struct etnaviv_iommuv2_context *con=
-text)
-> +{
-> +	struct device *dev =3D context->base.global->dev;
-> +	unsigned int i;
-> +
-> +	for (i =3D 0; i < MMUv2_MAX_STLB_ENTRIES; ++i) {
-> +		u32 *vaddr =3D context->stlb_cpu[i];
-> +
-> +		if (!vaddr)
-> +			continue;
-> +
-> +		context->stlb_cpu[i] =3D NULL;
-> +
-> +		if (i % (PAGE_SIZE / SZ_4K))
-> +			continue;
-> +
-> +		dma_free_wc(dev, PAGE_SIZE, vaddr, context->stlb_dma[i]);
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int
-> +etnaviv_iommuv2_ensure_stlb_new(struct etnaviv_iommuv2_context *context,
-> +				unsigned int stlb)
-> +{
-> +	struct device *dev =3D context->base.global->dev;
-> +	void *vaddr;
-> +	dma_addr_t daddr;
-> +	unsigned int i;
-> +
-> +	if (context->stlb_cpu[stlb])
-> +		return 0;
-> +
-> +	vaddr =3D dma_alloc_wc(dev, PAGE_SIZE, &daddr, GFP_KERNEL);
-> +	if (!vaddr)
-> +		return -ENOMEM;
-> +
-> +	memset32(vaddr, MMUv2_PTE_EXCEPTION, PAGE_SIZE / sizeof(u32));
-> +
-> +	stlb &=3D ~(PAGE_SIZE / SZ_4K - 1);
-> +
-> +	for (i =3D 0; i < PAGE_SIZE / SZ_4K; ++i) {
-> +		context->stlb_cpu[stlb + i] =3D vaddr;
-> +		context->stlb_dma[stlb + i] =3D daddr;
-> +		context->mtlb_cpu[stlb + i] =3D daddr | MMUv2_PTE_PRESENT;
-> +		vaddr +=3D SZ_4K;
-> +		daddr +=3D SZ_4K;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->  static void etnaviv_iommuv2_free(struct etnaviv_iommu_context *context)
->  {
->  	struct etnaviv_iommuv2_context *v2_context =3D to_v2_context(context);
-> -	int i;
-> =20
->  	drm_mm_takedown(&context->mm);
-> =20
-> -	for (i =3D 0; i < MMUv2_MAX_STLB_ENTRIES; i++) {
-> -		if (v2_context->stlb_cpu[i])
-> -			dma_free_wc(context->global->dev, SZ_4K,
-> -				    v2_context->stlb_cpu[i],
-> -				    v2_context->stlb_dma[i]);
-> -	}
-> +	etnaviv_iommuv2_stlb_free(v2_context);
-> =20
->  	dma_free_wc(context->global->dev, SZ_4K, v2_context->mtlb_cpu,
->  		    v2_context->mtlb_dma);
-> @@ -65,6 +112,7 @@ static void etnaviv_iommuv2_free(struct etnaviv_iommu_=
-context *context)
-> =20
->  	vfree(v2_context);
->  }
-> +
->  static int
->  etnaviv_iommuv2_ensure_stlb(struct etnaviv_iommuv2_context *v2_context,
->  			    int stlb)
-> @@ -109,7 +157,7 @@ static int etnaviv_iommuv2_map(struct etnaviv_iommu_c=
-ontext *context,
->  	mtlb_entry =3D (iova & MMUv2_MTLB_MASK) >> MMUv2_MTLB_SHIFT;
->  	stlb_entry =3D (iova & MMUv2_STLB_MASK) >> MMUv2_STLB_SHIFT;
-> =20
-> -	ret =3D etnaviv_iommuv2_ensure_stlb(v2_context, mtlb_entry);
-> +	ret =3D etnaviv_iommuv2_ensure_stlb_new(v2_context, mtlb_entry);
->  	if (ret)
->  		return ret;
-> =20
-
+SGkgTHVjYXMsDQoNCkkgYW0gZ3JhdGVmdWwgdG8geW91IGZvciB5b3VyIGFuc3dlciBhcyB0aGlz
+IGlzIG15IGZpcnN0IGF0dGVtcHQgdG8gY29udHJpYnV0ZSB0byB0aGUga2VybmVsLg0KDQo+IC0t
+LS0tTWVzc2FnZSBkJ29yaWdpbmUtLS0tLQ0KPiBEZcKgOiBMdWNhcyBTdGFjaCA8bC5zdGFjaEBw
+ZW5ndXRyb25peC5kZT4NCj4gRW52b3nDqcKgOiBtYXJkaSAzIGTDqWNlbWJyZSAyMDI0IDE4OjU4
+DQo+IMOAwqA6IExFQ09JTlRSRSBQaGlsaXBwZSA8cGhpbGlwcGUubGVjb2ludHJlQHRoYWxlc2dy
+b3VwLmNvbT47IFJ1c3NlbGwgS2luZw0KPiA8bGludXgrZXRuYXZpdkBhcm1saW51eC5vcmcudWs+
+OyBDaHJpc3RpYW4gR21laW5lcg0KPiA8Y2hyaXN0aWFuLmdtZWluZXJAZ21haWwuY29tPg0KPiBD
+Y8KgOiBEYXZpZCBBaXJsaWUgPGFpcmxpZWRAZ21haWwuY29tPjsgU2ltb25hIFZldHRlciA8c2lt
+b25hQGZmd2xsLmNoPjsNCj4gZXRuYXZpdkBsaXN0cy5mcmVlZGVza3RvcC5vcmc7IGRyaS1kZXZl
+bEBsaXN0cy5mcmVlZGVza3RvcC5vcmc7IGxpbnV4LQ0KPiBrZXJuZWxAdmdlci5rZXJuZWwub3Jn
+OyBMRU5BSU4gU2ltb24gPHNpbW9uLmxlbmFpbkB0aGFsZXNncm91cC5jb20+Ow0KPiBCQVJCRUFV
+IEV0aWVubmUgPGV0aWVubmUuYmFyYmVhdUB0aGFsZXNncm91cC5jb20+OyBMRUpFVU5FIFNlYmFz
+dGllbg0KPiA8c2ViYXN0aWVuLmxlamV1bmVAdGhhbGVzZ3JvdXAuY29tPg0KPiBPYmpldMKgOiBS
+ZTogW1BBVENIIHYyXSBkcm0vZXRuYXZpdjogYWRkIG9wdGlvbmFsIHJlc2V0IHN1cHBvcnQNCj4g
+DQo+IEhpIFBoaWxpcHBlLA0KPiANCj4gQW0gRnJlaXRhZywgZGVtIDA4LjExLjIwMjQgdW0gMTQ6
+MDAgKzAwMDAgc2NocmllYiBMRUNPSU5UUkUgUGhpbGlwcGU6DQo+ID4gQWRkIG9wdGlvbmFsIHJl
+c2V0IHN1cHBvcnQgd2hpY2ggaXMgbWVudGlvbmVkIGluIHZpdmFudGUsZ2MueWFtbCB0bw0KPiA+
+IGFsbG93IHRoZSBkcml2ZXIgdG8gd29yayBvbiBTb0NzIHdob3NlIHJlc2V0IHNpZ25hbCBpcyBh
+c3NlcnRlZCBieSBkZWZhdWx0DQo+ID4gQXZvaWQgZW5hYmxpbmcgdGhlIGludGVycnVwdCB1bnRp
+bCBldmVyeXRoaW5nIGlzIHJlYWR5DQo+ID4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBQaGlsaXBwZSBM
+ZWNvaW50cmUgPHBoaWxpcHBlLmxlY29pbnRyZUB0aGFsZXNncm91cC5jb20+DQo+ID4gUmV2aWV3
+ZWQtYnk6IFNpbW9uIExlbmFpbiA8c2ltb24ubGVuYWluQHRoYWxlc2dyb3VwLmNvbT4NCj4gPiAt
+LS0NCj4gPiB2MjoNCj4gPiAtIEFkZCBtaXNzaW5nIGluY2x1ZGUgb2YgaXJxLmgNCj4gPiAtLS0N
+Cj4gPiAgZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9ncHUuYyB8IDMwDQo+ICsrKysr
+KysrKysrKysrKysrKysrKysrKysrKw0KPiA+ICBkcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5h
+dml2X2dwdS5oIHwgIDIgKysNCj4gPiAgMiBmaWxlcyBjaGFuZ2VkLCAzMiBpbnNlcnRpb25zKCsp
+DQo+ID4NCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9n
+cHUuYw0KPiBiL2RyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfZ3B1LmMNCj4gPiBpbmRl
+eCA3YzdmOTc3OTNkZGQuLjNlMGM1ZGQ5Zjc0YiAxMDA2NDQNCj4gPiAtLS0gYS9kcml2ZXJzL2dw
+dS9kcm0vZXRuYXZpdi9ldG5hdml2X2dwdS5jDQo+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2V0
+bmF2aXYvZXRuYXZpdl9ncHUuYw0KPiA+IEBAIC0xLDYgKzEsNyBAQA0KPiA+ICAvLyBTUERYLUxp
+Y2Vuc2UtSWRlbnRpZmllcjogR1BMLTIuMA0KPiA+ICAvKg0KPiA+ICAgKiBDb3B5cmlnaHQgKEMp
+IDIwMTUtMjAxOCBFdG5hdml2IFByb2plY3QNCj4gPiArICogQ29weXJpZ2h0IChDKSAyMDI0IFRo
+YWxlcw0KPiA+ICAgKi8NCj4gPg0KPiA+ICAjaW5jbHVkZSA8bGludXgvY2xrLmg+DQo+ID4gQEAg
+LTgsMTEgKzksMTMgQEANCj4gPiAgI2luY2x1ZGUgPGxpbnV4L2RlbGF5Lmg+DQo+ID4gICNpbmNs
+dWRlIDxsaW51eC9kbWEtZmVuY2UuaD4NCj4gPiAgI2luY2x1ZGUgPGxpbnV4L2RtYS1tYXBwaW5n
+Lmg+DQo+ID4gKyNpbmNsdWRlIDxsaW51eC9pcnEuaD4NCj4gPiAgI2luY2x1ZGUgPGxpbnV4L21v
+ZF9kZXZpY2V0YWJsZS5oPg0KPiA+ICAjaW5jbHVkZSA8bGludXgvbW9kdWxlLmg+DQo+ID4gICNp
+bmNsdWRlIDxsaW51eC9wbGF0Zm9ybV9kZXZpY2UuaD4NCj4gPiAgI2luY2x1ZGUgPGxpbnV4L3Bt
+X3J1bnRpbWUuaD4NCj4gPiAgI2luY2x1ZGUgPGxpbnV4L3JlZ3VsYXRvci9jb25zdW1lci5oPg0K
+PiA+ICsjaW5jbHVkZSA8bGludXgvcmVzZXQuaD4NCj4gPiAgI2luY2x1ZGUgPGxpbnV4L3RoZXJt
+YWwuaD4NCj4gPg0KPiA+ICAjaW5jbHVkZSAiZXRuYXZpdl9jbWRidWYuaCINCj4gPiBAQCAtMTYy
+OSw4ICsxNjMyLDI0IEBAIHN0YXRpYyBpbnQgZXRuYXZpdl9ncHVfY2xrX2VuYWJsZShzdHJ1Y3QN
+Cj4gZXRuYXZpdl9ncHUgKmdwdSkNCj4gPiAgCWlmIChyZXQpDQo+ID4gIAkJZ290byBkaXNhYmxl
+X2Nsa19jb3JlOw0KPiA+DQo+ID4gKwkvKiAzMiBjb3JlIGNsb2NrIGN5Y2xlcyAoc2xvd2VzdCBj
+bG9jaykgcmVxdWlyZWQgYmVmb3JlIGRlYXNzZXJ0aW9uLiAqLw0KPiA+ICsJLyogMSBtaWNyb3Nl
+Y29uZCBtaWdodCBtYXRjaCBhbGwgaW1wbGVtZW50YXRpb25zICovDQo+ID4gKwl1c2xlZXBfcmFu
+Z2UoMSwgMik7DQo+ID4gKw0KPiA+ICsJcmV0ID0gcmVzZXRfY29udHJvbF9kZWFzc2VydChncHUt
+PnJzdCk7DQo+ID4gKwlpZiAocmV0KQ0KPiA+ICsJCWdvdG8gZGlzYWJsZV9jbGtfc2hhZGVyOw0K
+PiA+ICsNCj4gPiArCS8qIDEyOCBjb3JlIGNsb2NrIGN5Y2xlcyAoc2xvd2VzdCBjbG9jaykgcmVx
+dWlyZWQgYmVmb3JlIGFueSBhY3Rpdml0eSBvbg0KPiBBSEIuICovDQo+ID4gKwkvKiAxIG1pY3Jv
+c2Vjb25kIG1pZ2h0IG1hdGNoIGFsbCBpbXBsZW1lbnRhdGlvbnMgKi8NCj4gPiArCXVzbGVlcF9y
+YW5nZSgxLCAyKTsNCj4gDQo+IE1hc2hpbmcgdGhlIHJlc2V0IGhhbmRsaW5nIGludG8gdGhlIGNs
+b2NrIGhhbmRsaW5nIGlzIGEgYmFkIGlkZWEuIFRoZQ0KPiBjbG9ja3MgYXJlIGVuLS9kaXNhYmxl
+ZCBkdXJpbmcgcnVudGltZSBQTSBoYW5kbGluZy4gVGhlIGV0bmF2aXYgZHJpdmVyDQo+IGlzIHdy
+aXR0ZW4gaW4gYSB3YXkgdGhhdCB0aGUgR1BVIGRvZXMgbm90IG5lY2Vzc2FyaWx5IG5lZWQgdG8g
+YmUgcmVzZXQNCj4gZHVyaW5nIGEgcnVudGltZSBQTSB0cmFuc2l0aW9uLCB3aGljaCBhbGxvdyBm
+b3IgZmFzdGVyIHN0YXJ0dXAgdGltZXMuDQo+IA0KPiBUaGUgcmVzZXQgaGFuZGxpbmcgc2hvdWxk
+IHJlYWxseSBiZSBpdHMgb3duIHNlcGFyYXRlIGZ1bmN0aW9uIGFuZCB3b3VsZA0KPiBsb2dpY2Fs
+bHkgZ28gaW50byBldG5hdml2X2dwdV9pbml0KCkgYmV0d2VlbiB0aGUgcG1fcnVudGltZV9nZXRf
+c3luYygpDQo+IGFuZCBldG5hdml2X2h3X2lkZW50aWZ5KCkuDQo+IA0KDQpJIHdpbGwgcmV3b3Jr
+IHRoaXMgcGFydCB0byBtYXRjaCB5b3VyIGZlZWRiYWNrLg0KDQo+ID4gKw0KPiA+ICsJZW5hYmxl
+X2lycShncHUtPmlycSk7DQo+IA0KPiBEbyB5b3Ugc2VlIGFueSBpc3N1ZXMgd2l0aCB0aGUgSVJR
+IGJlaW5nIGVuYWJsZWQgZWFybGllcj8gQSBHUFUgYmVpbmcNCj4gaGVsZCBpbiByZXNldCBzaG91
+bGQgbm90IGJlIGFibGUgdG8gdHJpZ2dlciBhIElSUS4NCj4gDQoNCkkgaW50ZW5kIHRvIGF2b2lk
+IHNpdHVhdGlvbnMgd2hlcmUgSVJRIGFyZSB0cmlnZ2VyZWQgZm9yIHNvbWUgcmVhc29uIGFuZCB0
+aGUgR1BVIGlzIG5vdCBmdWxseSBvcGVyYXRpb25hbC4NClN1Y2ggaXNzdWVzIG1pZ2h0IGFwcGVh
+ciBjb25zaWRlcmluZyB0aGUgc3RhdGUgb2YgcmVzZXQgYW5kIGNsb2NrcyBmcm9tIGludGVybmFs
+IGJvb3QgdG8ga2VybmVsLg0KSSBhc3N1bWUgdGhpcyBzaXR1YXRpb24gbmV2ZXIgYXBwZWFyZWQg
+d2l0aCBTb0NzIHRoYXQgYXJlIHVzaW5nIHRoaXMgZHJpdmVyIGF0IHRoZSBtb21lbnQuDQpCdXQg
+aXQgYXBwZWFyIG9uIGEgU29DIGRldmVsb3BlZCBieSBhbiBpbmR1c3RyaWFsIHBhcnRuZXIsIHRo
+aXMgbGVhZCB0byBJUlEgc3BhbW1pbmcgd2l0aCBBWEkgYnVzIGVycm9yIGluIHRoZSBjb25zb2xl
+Lg0KDQo+ID4gKw0KPiA+ICAJcmV0dXJuIDA7DQo+ID4NCj4gPiArZGlzYWJsZV9jbGtfc2hhZGVy
+Og0KPiA+ICsJY2xrX2Rpc2FibGVfdW5wcmVwYXJlKGdwdS0+Y2xrX3NoYWRlcik7DQo+ID4gIGRp
+c2FibGVfY2xrX2NvcmU6DQo+ID4gIAljbGtfZGlzYWJsZV91bnByZXBhcmUoZ3B1LT5jbGtfY29y
+ZSk7DQo+ID4gIGRpc2FibGVfY2xrX2J1czoNCj4gPiBAQCAtMTY0Myw2ICsxNjYyLDggQEAgc3Rh
+dGljIGludCBldG5hdml2X2dwdV9jbGtfZW5hYmxlKHN0cnVjdA0KPiBldG5hdml2X2dwdSAqZ3B1
+KQ0KPiA+DQo+ID4gIHN0YXRpYyBpbnQgZXRuYXZpdl9ncHVfY2xrX2Rpc2FibGUoc3RydWN0IGV0
+bmF2aXZfZ3B1ICpncHUpDQo+ID4gIHsNCj4gPiArCWRpc2FibGVfaXJxKGdwdS0+aXJxKTsNCj4g
+PiArCXJlc2V0X2NvbnRyb2xfYXNzZXJ0KGdwdS0+cnN0KTsNCj4gPiAgCWNsa19kaXNhYmxlX3Vu
+cHJlcGFyZShncHUtPmNsa19zaGFkZXIpOw0KPiA+ICAJY2xrX2Rpc2FibGVfdW5wcmVwYXJlKGdw
+dS0+Y2xrX2NvcmUpOw0KPiA+ICAJY2xrX2Rpc2FibGVfdW5wcmVwYXJlKGdwdS0+Y2xrX2J1cyk7
+DQo+ID4gQEAgLTE4NzYsNiArMTg5Nyw5IEBAIHN0YXRpYyBpbnQgZXRuYXZpdl9ncHVfcGxhdGZv
+cm1fcHJvYmUoc3RydWN0DQo+IHBsYXRmb3JtX2RldmljZSAqcGRldikNCj4gPiAgCWlmIChncHUt
+PmlycSA8IDApDQo+ID4gIAkJcmV0dXJuIGdwdS0+aXJxOw0KPiA+DQo+ID4gKwkvKiBBdm9pZCBl
+bmFibGluZyB0aGUgaW50ZXJydXB0IHVudGlsIGV2ZXJ5dGhpbmcgaXMgcmVhZHkgKi8NCj4gPiAr
+CWlycV9zZXRfc3RhdHVzX2ZsYWdzKGdwdS0+aXJxLCBJUlFfTk9BVVRPRU4pOw0KPiA+ICsNCj4g
+PiAgCWVyciA9IGRldm1fcmVxdWVzdF9pcnEoJnBkZXYtPmRldiwgZ3B1LT5pcnEsIGlycV9oYW5k
+bGVyLCAwLA0KPiA+ICAJCQkgICAgICAgZGV2X25hbWUoZ3B1LT5kZXYpLCBncHUpOw0KPiA+ICAJ
+aWYgKGVycikgew0KPiA+IEBAIC0xODgzLDYgKzE5MDcsMTIgQEAgc3RhdGljIGludCBldG5hdml2
+X2dwdV9wbGF0Zm9ybV9wcm9iZShzdHJ1Y3QNCj4gcGxhdGZvcm1fZGV2aWNlICpwZGV2KQ0KPiA+
+ICAJCXJldHVybiBlcnI7DQo+ID4gIAl9DQo+ID4NCj4gPiArCS8qIEdldCBSZXNldDogKi8NCj4g
+PiArCWdwdS0+cnN0ID0gZGV2bV9yZXNldF9jb250cm9sX2dldF9vcHRpb25hbCgmcGRldi0+ZGV2
+LCBOVUxMKTsNCj4gPiArCWlmIChJU19FUlIoZ3B1LT5yc3QpKQ0KPiA+ICsJCXJldHVybiBkZXZf
+ZXJyX3Byb2JlKGRldiwgUFRSX0VSUihncHUtPnJzdCksDQo+ID4gKwkJCQkgICAgICJmYWlsZWQg
+dG8gZ2V0IHJlc2V0XG4iKTsNCj4gPiArDQo+ID4gIAkvKiBHZXQgQ2xvY2tzOiAqLw0KPiA+ICAJ
+Z3B1LT5jbGtfcmVnID0gZGV2bV9jbGtfZ2V0X29wdGlvbmFsKCZwZGV2LT5kZXYsICJyZWciKTsN
+Cj4gPiAgCURCRygiY2xrX3JlZzogJXAiLCBncHUtPmNsa19yZWcpOw0KPiA+IGRpZmYgLS1naXQg
+YS9kcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2X2dwdS5oDQo+IGIvZHJpdmVycy9ncHUv
+ZHJtL2V0bmF2aXYvZXRuYXZpdl9ncHUuaA0KPiA+IGluZGV4IDMxMzIyMTk1YjllNC4uOGMxODEx
+OTE3NTVlIDEwMDY0NA0KPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZf
+Z3B1LmgNCj4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2X2dwdS5oDQo+
+ID4gQEAgLTEsNiArMSw3IEBADQo+ID4gIC8qIFNQRFgtTGljZW5zZS1JZGVudGlmaWVyOiBHUEwt
+Mi4wICovDQo+ID4gIC8qDQo+ID4gICAqIENvcHlyaWdodCAoQykgMjAxNS0yMDE4IEV0bmF2aXYg
+UHJvamVjdA0KPiA+ICsgKiBDb3B5cmlnaHQgKEMpIDIwMjQgVGhhbGVzDQo+IA0KPiBJIGRvbid0
+IHRoaW5rIGFkZGluZyBhIHNpbmdsZSBtZW1iZXIgaGVyZSBkb2VzIHdhcnJhbnQgYSBDb3B5cmln
+aHQNCj4gc3RhdGVtZW50LCBpbiBmYWN0IEkgd291bGQgcHJlZmVyIHRoZW0gdG8gbm90IGJlIHRv
+dWNoZWQgYXQgYWxsLg0KPiBBdXRob3JzaGlwIG9mIGluZGl2aWR1YWwgY2hhbmdlcyB0byB0aGUg
+ZHJpdmVyIGEgY2xlYXJseSBhdHRyaWJ1dGFibGUNCj4gdmlhIHRoZSBnaXQgaGlzdG9yeS4NCj4g
+DQoNCkkgYWRkIHRoZXNlIENvcHlyaWdodCB3aGlsZSBmb2xsb3dpbmcgdGhlIHJ1bGVzIHRvIGNv
+bnRyaWJ1dGUgdG8gYW4gT1NTIHByb2plY3QgZnJvbSBteSBjb21wYW55Lg0KQWZ0ZXIgY2xhcmlm
+aWNhdGlvbnMgd2l0aCB0aGUgbGVnYWwgZGVwYXJ0bWVudCwgSSB3aWxsIHJlbW92ZSB0aGVzZSBj
+aGFuZ2VzIGluIG15IG5leHQgcmV2aXNpb24uDQoNClJlZ2FyZHMsDQpQaGlsaXBwZQ0KDQo+IFJl
+Z2FyZHMsDQo+IEx1Y2FzDQo+ID4gICAqLw0KPiA+DQo+ID4gICNpZm5kZWYgX19FVE5BVklWX0dQ
+VV9IX18NCj4gPiBAQCAtMTU3LDYgKzE1OCw3IEBAIHN0cnVjdCBldG5hdml2X2dwdSB7DQo+ID4g
+IAlzdHJ1Y3QgY2xrICpjbGtfcmVnOw0KPiA+ICAJc3RydWN0IGNsayAqY2xrX2NvcmU7DQo+ID4g
+IAlzdHJ1Y3QgY2xrICpjbGtfc2hhZGVyOw0KPiA+ICsJc3RydWN0IHJlc2V0X2NvbnRyb2wgKnJz
+dDsNCj4gPg0KPiA+ICAJdW5zaWduZWQgaW50IGZyZXFfc2NhbGU7DQo+ID4gIAl1bnNpZ25lZCBp
+bnQgZmVfd2FpdGN5Y2xlczsNCg0K
