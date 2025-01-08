@@ -2,38 +2,29 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 523039F9977
-	for <lists+etnaviv@lfdr.de>; Fri, 20 Dec 2024 19:27:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C64EBA062B5
+	for <lists+etnaviv@lfdr.de>; Wed,  8 Jan 2025 17:55:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3151D10E28C;
-	Fri, 20 Dec 2024 18:27:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A042010E31C;
+	Wed,  8 Jan 2025 16:55:32 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
 Received: from metis.whiteo.stw.pengutronix.de
  (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 92E7410E28C
- for <etnaviv@lists.freedesktop.org>; Fri, 20 Dec 2024 18:27:23 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0BD8E10E31C
+ for <etnaviv@lists.freedesktop.org>; Wed,  8 Jan 2025 16:55:31 +0000 (UTC)
 Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
  helo=[IPv6:::1]) by metis.whiteo.stw.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <l.stach@pengutronix.de>)
- id 1tOhiY-0004nC-HA; Fri, 20 Dec 2024 19:27:18 +0100
-Message-ID: <a3c162698944d0901efe5b9bcbd1f29304da8b39.camel@pengutronix.de>
-Subject: Re: [PATCH v4] drm/etnaviv: add optional reset support
+ id 1tVZJ1-00089f-Im; Wed, 08 Jan 2025 17:53:19 +0100
+Message-ID: <41c1e476c6014010247d164ac8d21bd6f922cce1.camel@pengutronix.de>
+Subject: [GIT PULL] etnaviv-next for 6.14
 From: Lucas Stach <l.stach@pengutronix.de>
-To: LECOINTRE Philippe <philippe.lecointre@thalesgroup.com>, Russell King
- <linux+etnaviv@armlinux.org.uk>, Christian Gmeiner
- <christian.gmeiner@gmail.com>
-Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- "etnaviv@lists.freedesktop.org" <etnaviv@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, LENAIN Simon
- <simon.lenain@thalesgroup.com>,  BARBEAU Etienne
- <etienne.barbeau@thalesgroup.com>, LEJEUNE Sebastien
- <sebastien.lejeune@thalesgroup.com>
-Date: Fri, 20 Dec 2024 19:27:17 +0100
-In-Reply-To: <a0b07a6b542d47339584f05c45951b9d@thalesgroup.com>
-References: <a0b07a6b542d47339584f05c45951b9d@thalesgroup.com>
+To: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>
+Cc: kernel@pengutronix.de, etnaviv@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org
+Date: Wed, 08 Jan 2025 17:53:19 +0100
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.52.4 (3.52.4-2.fc40) 
@@ -57,124 +48,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Am Dienstag, dem 17.12.2024 um 11:36 +0000 schrieb LECOINTRE Philippe:
-> Add optional reset support which is mentioned in vivante,gc.yaml to
-> allow the driver to work on SoCs whose reset signal is asserted by defaul=
-t
->=20
-Thanks, applied to etnaviv/next.
+Hi Dave, hi Sima,
+
+please pull the following changes for the next merge window. This time
+mostly cleanups from Jingfeng, but also explicit reset handling for
+SoCs where this isn't done as part of a powerdomain from Philippe and
+fdinfo memory stats support from Christian.
 
 Regards,
 Lucas
 
-> Signed-off-by: Philippe Lecointre <philippe.lecointre@thalesgroup.com>
-> Acked-by: Simon Lenain <simon.lenain@thalesgroup.com>
-> ---
-> v4:
-> - Rework to match feedback
-> ---
->  drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 41 +++++++++++++++++++++++++++
->  drivers/gpu/drm/etnaviv/etnaviv_gpu.h |  2 ++
->  2 files changed, 43 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etna=
-viv/etnaviv_gpu.c
-> index 2d4c112ce033..cf0d9049bcf1 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> @@ -13,6 +13,7 @@
->  #include <linux/platform_device.h>
->  #include <linux/pm_runtime.h>
->  #include <linux/regulator/consumer.h>
-> +#include <linux/reset.h>
->  #include <linux/thermal.h>
-> =20
->  #include "etnaviv_cmdbuf.h"
-> @@ -172,6 +173,29 @@ int etnaviv_gpu_get_param(struct etnaviv_gpu *gpu, u=
-32 param, u64 *value)
->  	return 0;
->  }
-> =20
-> +static int etnaviv_gpu_reset_deassert(struct etnaviv_gpu *gpu)
-> +{
-> +	int ret;
-> +
-> +	/*
-> +	 * 32 core clock cycles (slowest clock) required before deassertion
-> +	 * 1 microsecond might match all implementations without computation
-> +	 */
-> +	usleep_range(1, 2);
-> +
-> +	ret =3D reset_control_deassert(gpu->rst);
-> +	if (ret)
-> +		return ret;
-> +
-> +	/*
-> +	 * 128 core clock cycles (slowest clock) required before any activity o=
-n AHB
-> +	 * 1 microsecond might match all implementations without computation
-> +	 */
-> +	usleep_range(1, 2);
-> +
-> +	return 0;
-> +}
-> +
->  static inline bool etnaviv_is_model_rev(struct etnaviv_gpu *gpu, u32 mod=
-el, u32 revision)
->  {
->  	return gpu->identity.model =3D=3D model &&
-> @@ -799,6 +823,12 @@ int etnaviv_gpu_init(struct etnaviv_gpu *gpu)
->  		goto pm_put;
->  	}
-> =20
-> +	ret =3D etnaviv_gpu_reset_deassert(gpu);
-> +	if (ret) {
-> +		dev_err(gpu->dev, "GPU reset deassert failed\n");
-> +		goto fail;
-> +	}
-> +
->  	etnaviv_hw_identify(gpu);
-> =20
->  	if (gpu->identity.model =3D=3D 0) {
-> @@ -1860,6 +1890,17 @@ static int etnaviv_gpu_platform_probe(struct platf=
-orm_device *pdev)
->  	if (IS_ERR(gpu->mmio))
->  		return PTR_ERR(gpu->mmio);
-> =20
-> +
-> +	/* Get Reset: */
-> +	gpu->rst =3D devm_reset_control_get_optional_exclusive(&pdev->dev, NULL=
-);
-> +	if (IS_ERR(gpu->rst))
-> +		return dev_err_probe(dev, PTR_ERR(gpu->rst),
-> +				     "failed to get reset\n");
-> +
-> +	err =3D reset_control_assert(gpu->rst);
-> +	if (err)
-> +		return dev_err_probe(dev, err, "failed to assert reset\n");
-> +
->  	/* Get Interrupt: */
->  	gpu->irq =3D platform_get_irq(pdev, 0);
->  	if (gpu->irq < 0)
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h b/drivers/gpu/drm/etna=
-viv/etnaviv_gpu.h
-> index 4d8a7d48ade3..5cb46c84e03a 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
-> @@ -93,6 +93,7 @@ struct etnaviv_event {
->  struct etnaviv_cmdbuf_suballoc;
->  struct regulator;
->  struct clk;
-> +struct reset_control;
-> =20
->  #define ETNA_NR_EVENTS 30
-> =20
-> @@ -158,6 +159,7 @@ struct etnaviv_gpu {
->  	struct clk *clk_reg;
->  	struct clk *clk_core;
->  	struct clk *clk_shader;
-> +	struct reset_control *rst;
-> =20
->  	unsigned int freq_scale;
->  	unsigned int fe_waitcycles;
+The following changes since commit 40384c840ea1944d7c5a392e8975ed088ecf0b37=
+:
 
+  Linux 6.13-rc1 (2024-12-01 14:28:56 -0800)
+
+are available in the Git repository at:
+
+  https://git.pengutronix.de/git/lst/linux tags/drm-etnaviv-next-2025-01-08
+
+for you to fetch changes up to 6bde14ba5f7ef59e103ac317df6cc5ac4291ff4a:
+
+  drm/etnaviv: add optional reset support (2024-12-20 19:25:51 +0100)
+
+----------------------------------------------------------------
+- cleanups
+- add fdinfo memory support
+- add explicit reset handling
+
+----------------------------------------------------------------
+Christian Gmeiner (1):
+      drm/etnaviv: Add fdinfo support for memory stats
+
+Easwar Hariharan (1):
+      drm/etnaviv: Convert timeouts to secs_to_jiffies()
+
+LECOINTRE Philippe (1):
+      drm/etnaviv: add optional reset support
+
+Sui Jingfeng (6):
+      drm/etnaviv: Drop unused data member from the etnaviv_gem_object stru=
+cture
+      drm/etnaviv: etnaviv_cmdbuf.c: Drop the unneeded 'etnaviv_perfmon.h' =
+header
+      drm/etnaviv: Fix page property being used for non writecombine buffer=
+s
+      drm/etnaviv: Drop the offset in page manipulation
+      drm/etnaviv: Fix the debug log of the etnaviv_iommu_map()
+      drm/etnaviv: Improve VA, PA, SIZE alignment checking
+
+ drivers/gpu/drm/etnaviv/etnaviv_cmdbuf.c |  3 +--
+ drivers/gpu/drm/etnaviv/etnaviv_drv.c    | 12 +++++++++++-
+ drivers/gpu/drm/etnaviv/etnaviv_gem.c    | 28 ++++++++++++++++++++++++++--
+ drivers/gpu/drm/etnaviv/etnaviv_gem.h    |  2 --
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c    | 41 ++++++++++++++++++++++++++++=
++++++++++++++
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.h    |  2 ++
+ drivers/gpu/drm/etnaviv/etnaviv_mmu.c    | 26 +++++++++++---------------
+ 7 files changed, 92 insertions(+), 22 deletions(-)
