@@ -2,68 +2,38 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E27E2A2C1BC
-	for <lists+etnaviv@lfdr.de>; Fri,  7 Feb 2025 12:38:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD612A2E9A7
+	for <lists+etnaviv@lfdr.de>; Mon, 10 Feb 2025 11:38:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 495BD10EAE4;
-	Fri,  7 Feb 2025 11:37:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC23510E4F4;
+	Mon, 10 Feb 2025 10:38:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="LrDWYaql";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="blZ7Dd17";
 	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
- [209.85.221.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E29E910EADE
- for <etnaviv@lists.freedesktop.org>; Fri,  7 Feb 2025 11:36:37 +0000 (UTC)
-Received: by mail-wr1-f53.google.com with SMTP id
- ffacd0b85a97d-38dc33931d3so720980f8f.1
- for <etnaviv@lists.freedesktop.org>; Fri, 07 Feb 2025 03:36:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1738928196; x=1739532996;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=07jWE5Na2EvD1mlXARurINwQbGKxj2DlZ8vlYRLXvDg=;
- b=LrDWYaqlkO2rEHTk5/y8ilXTfDrkCf/5sVV3KR+HU+B9HpgPg+RCUo7J2W6nQdVqGl
- mA/WOngGFlbn+X7Dy59FI1wDXVuNHAkpORKSwZw9/ch/rw6cJSDcXbahkywR39sSVQal
- bP5mBy8TiD0Cwyz7z0NyvPCiR26EYPAybGevdBaXnlJIwW4oI9B+HnunQu7jDq+fPpip
- H3+G86Fopey6NpQy6x7A/jTX5gdIi60xB2YQBxp7eTMWjZ4PfawD83fWkaMHhjowJpHX
- be3x9Ki8NRkdQrtZFk6gCFCiBU6JMRA/g659uwbsVzN6HOql5h2X1Cajza79WWez2Yl3
- 31Zw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1738928196; x=1739532996;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=07jWE5Na2EvD1mlXARurINwQbGKxj2DlZ8vlYRLXvDg=;
- b=VXONOrlQh+RgrzPluWUkUd2KC1sO90DWsm8mvjFY//xwo80VTyR7glTb/v2cVvHV7O
- tjytI5Y9tF1ROwxHzaJTl8726HoCyjoAfFoXI6zY61By36by6Tkbq8GsmwbCMxQkKgFb
- KAGcO9VDBiFFMUuZ1AUAtIvQ41eMesM9JE7v8VWx6Vq+ifxmn6TrvSkQoEiyX5lkO54T
- PTVL49TFFp/nL2NSLHFIO7gHObidNl2wkUvlyddEHZ7WJjarVlCShtsNykrShLhSkyWy
- DQo/4ZtgCGxlHOqTElR2GmcfiU92F4iyxdiGvhAuVsOdtftR0/nrJ4F1ejUeBVveoPlO
- /6+A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUZ1YgIQZmjrDYeCt8gafR16NyKo6GVCIPAW5gmVCNg6y+xMdoEWJyEH+7kCxBbsUpKAvFgU5S9@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzOPpoJex675xIlia0pQYvYAjz2+3jyvyeTE/evKWdzSKDhTzaG
- gQl30aDiJanwuI9JB6kLbK/aBgosVLuO3St9JrKYgoMp6ZxhCdHu8dfHtZm4Tbw=
-X-Gm-Gg: ASbGncsj8QGEdLUrxIW9Jd0JYY4gCad2VNUyQMwpqmpB55lFM5kGVAPUzzEx2yU4Pno
- YCYIeisHsf0gbnAPC70Pu1ZMIX7TVR77S5gs0P9oBTbIqPIvKJI/caRfA2Q1LhrE+Su8HV38iWq
- w0tnWHQ5WZESw3ClJxknD6BHVqZoFA7VaxRnpNKO0MAXf3aXHM7S1NSoNy9k7QuQ5kyGrh4uzZW
- P3aGgjrIRUPdSuYFXBE6tgGkRacU1AYwbRidJ5WGZQe1tjtDWZk1Gh8DJS9j0C8caBVjmOLsyqZ
- 9PbnPLv08lLrVqlVC45i2zVGmVt/xhQ=
-X-Google-Smtp-Source: AGHT+IFWEY+mfEYchWI0bjst6Z4mhfepK3h4/Lnt+aY7pVb6DWG6Z3KOrK70lsqfRDjqVLIDTQKdyQ==
-X-Received: by 2002:a5d:6d0b:0:b0:38b:ed88:f045 with SMTP id
- ffacd0b85a97d-38dc90f0daemr2032656f8f.33.1738928195849; 
- Fri, 07 Feb 2025 03:36:35 -0800 (PST)
-Received: from [192.168.0.101] ([90.241.98.187])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-38dc0c5a894sm3741856f8f.95.2025.02.07.03.36.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 07 Feb 2025 03:36:35 -0800 (PST)
-Message-ID: <87cdf120-7ac9-4475-bc27-2ebaeb49bcae@ursulin.net>
-Date: Fri, 7 Feb 2025 11:36:33 +0000
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C5D9C10E4EE;
+ Mon, 10 Feb 2025 10:38:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=urkkeylgt43zIOtwmiIkj/ROa6IayJ/nK6KmHJrUstY=; b=blZ7Dd17AyCkEPXdEh+adODqRt
+ Riq60XvfytHj/sHmL93cgcJ4GMZfQnw7RTztue+YxobyvFEBuMES0xfaCgPwCLcgy3iN2o4fTvYDi
+ tm8R3Ky/cN562SFPk8QKF5kIUIL4iWgW5ciLWQMqsiDZR7PlulE05DEY90hC7RIn2aZNButNyaUdm
+ nDTz7GCCpUxA6n8GXWfWRFZrgbhcfupIdkMd2LdFCMV8EE3thewJSLJggZVi36Oea42u8rlt41d2b
+ mlCuGEJJenJDUx4GR0etx6hzQAgruCYzCboWGMH0HpUsb0Cq1A2CvoxQcFSEXIEI0XNcnXtsHfat8
+ iH1FzVkQ==;
+Received: from [187.36.213.55] (helo=[192.168.1.103])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1thRAe-007BaY-Cl; Mon, 10 Feb 2025 11:37:50 +0100
+Message-ID: <7df34e7e-d76f-40e4-be68-42f07e939806@igalia.com>
+Date: Mon, 10 Feb 2025 07:37:32 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v3] drm/sched: Use struct for drm_sched_init() params
@@ -87,8 +57,7 @@ To: Philipp Stanner <phasta@kernel.org>,
  Boris Brezillon <boris.brezillon@collabora.com>,
  Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
  Liviu Dudau <liviu.dudau@arm.com>, Matthew Brost <matthew.brost@intel.com>,
- Melissa Wen <mwen@igalia.com>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
- <mcanal@igalia.com>, Lucas De Marchi <lucas.demarchi@intel.com>,
+ Melissa Wen <mwen@igalia.com>, Lucas De Marchi <lucas.demarchi@intel.com>,
  =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>, Sunil Khatri <sunil.khatri@amd.com>,
  Lijo Lazar <lijo.lazar@amd.com>, Hawking Zhang <Hawking.Zhang@amd.com>,
@@ -100,8 +69,8 @@ Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org,
  intel-xe@lists.freedesktop.org, Christian Gmeiner <cgmeiner@igalia.com>
 References: <20250207110248.19435-2-phasta@kernel.org>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tursulin@ursulin.net>
+Content-Language: en-US
+From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
 In-Reply-To: <20250207110248.19435-2-phasta@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
@@ -119,8 +88,9 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
+Hi Philipp,
 
-On 07/02/2025 11:02, Philipp Stanner wrote:
+On 07/02/25 08:02, Philipp Stanner wrote:
 > drm_sched_init() has a great many parameters and upcoming new
 > functionality for the scheduler might add even more. Generally, the
 > great number of parameters reduces readability and has already caused
@@ -139,11 +109,10 @@ On 07/02/2025 11:02, Philipp Stanner wrote:
 > Reviewed-by: Christian Gmeiner <cgmeiner@igalia.com> # for Etnaviv
 > Reviewed-by: Frank Binns <frank.binns@imgtec.com> # for Imagination
 
-For the core part:
+Reviewed-by: Maíra Canal <mcanal@igalia.com> # for v3d
 
-Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-
-One optional nitpick below.
+Best Regards,
+- Maíra
 
 > ---
 > Changes in v3:
@@ -791,32 +760,6 @@ One optional nitpick below.
 > + * @score: score atomic shared with other schedulers. May be NULL.
 > + * @name: name (typically the driver's name). Used for debugging
 > + * @dev: associated device. Used for debugging
-
-I see that you tweaked some of the descriptions here probably with the 
-idea of improving them.
-
-As you are touching them anyway, perhaps use the opportunity to tidy it 
-further and make it all consistent in terms of whether they start with a 
-capital letter, whether they end with a full stop, whethere workqueue or wq.
-
-Construct "May be NULL. If NULL..." could probably be shortened as "If 
-NULL...".
-
-s/there's/there is/
-
-"timeout value in jiffies for the scheduler" is either a tautology since 
-it's about scheduler initialization, or perhaps "for the jobs" would be 
-useful?
-
-"score atomic shared with other scheduler. May be NULL." could end the 
-first sentence with "or NULL".
-
-Up to you if you want to do any of these, now, as a follow up, or at all.
-
-Regards,
-
-Tvrtko
-
 > + */
 > +struct drm_sched_init_args {
 > +	const struct drm_sched_backend_ops *ops;
@@ -841,3 +784,4 @@ Tvrtko
 >   
 >   void drm_sched_fini(struct drm_gpu_scheduler *sched);
 >   int drm_sched_job_init(struct drm_sched_job *job,
+
