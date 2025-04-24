@@ -2,50 +2,153 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4B6EA9979A
-	for <lists+etnaviv@lfdr.de>; Wed, 23 Apr 2025 20:15:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEACCA9A659
+	for <lists+etnaviv@lfdr.de>; Thu, 24 Apr 2025 10:40:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 927CE10E22D;
-	Wed, 23 Apr 2025 18:15:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C738710E77B;
+	Thu, 24 Apr 2025 08:39:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=mark.filion@collabora.com header.b="P96DMwiT";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="k/CrjkOu";
 	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from sender4-op-o16.zoho.com (sender4-op-o16.zoho.com
- [136.143.188.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1ABF710E22D
- for <etnaviv@lists.freedesktop.org>; Wed, 23 Apr 2025 18:15:56 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1745432154; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=MgBTUr2bNURqPlo7mLKyULU6+roH4IQ8wIGVY4dyVoQOyI9yD9YA11zKNqgbB8qxK+vRmvCbgnSTfXuxq1dl3t9JPZd/e2gNTYmJw2vKp1yqJo72YhjiMqL5aKr/NwKZp3XXO/yrrl6sDXG5knpldD3wppKPpbZCZ+RHr3G2fbQ=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1745432154;
- h=Content-Type:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To:Cc;
- bh=qkO4/HzMPZCJWE3lF3CGrm05Wq9ybppoyRYRxsHoiXo=; 
- b=TA3bgE0UAZpDbsJIAdi0xMF3Quzwx1iPTnFqtuJZO3ZHh81aTvukKSJm5uNZbn+ZpahZdTiRJ27MkU4wuw+y1a+4hDaKxv7D4O/AKrFYI2I3RTM2OtEFc+ePaKGrei546tRlDy97jmCyMZ905laBqEFY+u8DntVYv8SdiTcl+EA=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=mark.filion@collabora.com;
- dmarc=pass header.from=<mark.filion@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1745432154; 
- s=zohomail; d=collabora.com; i=mark.filion@collabora.com;
- h=Message-ID:Subject:Subject:From:From:To:To:Date:Date:Content-Type:MIME-Version:Message-Id:Reply-To:Cc;
- bh=qkO4/HzMPZCJWE3lF3CGrm05Wq9ybppoyRYRxsHoiXo=;
- b=P96DMwiTtKJF8NhnkNrF+u5k9ePwlmum+t75hrJDRUly2D7Hfa5bkYCZM5AUan9n
- XhfgMHGVH89SnpUTTTKy15NPtnIjhycbdofKDq1zZXGtvGDRMaOXk7eA+CyeLco+dD9
- z705Ih4P+p9p92edkqch1xFZAUQ/mDVk2NKNhdOc=
-Received: by mx.zohomail.com with SMTPS id 1745432153069609.107527811087;
- Wed, 23 Apr 2025 11:15:53 -0700 (PDT)
-Message-ID: <728033d56ea08a68a32a34531fd7bdac2a748bdf.camel@collabora.com>
-Subject: Announcement: 2025 X.Org Foundation Election Candidates
-From: Mark Filion <mark.filion@collabora.com>
-To: Etnaviv <etnaviv@lists.freedesktop.org>
-Date: Wed, 23 Apr 2025 14:15:51 -0400
-Content-Type: multipart/alternative; boundary="=-4lI+6mpI1UWzCkZ5P62D"
-User-Agent: Evolution 3.56.1 (3.56.1-1.fc42app2) 
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on2055.outbound.protection.outlook.com [40.107.92.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 103D110E76B;
+ Thu, 24 Apr 2025 08:39:46 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=LGJs90zMc1bACi2eGEiV0VbNAckeQz6pjDU5JLIBu+ZgTY7FWz0Xcz9sX3F53AyZq9uAgSwIpE+fYYXN3CMsS8nUj9CIKgcfprPoVO1jmXLyRmvZuRhBS7ilqK4sdj8nsNYz/xPak+j55Ea0D3vZhhuRrNA8NuzQCMc0hpdNsaLHR8bj/ub/pzxMiAv+F5UroL91d/cHFRyORnsg/qIA+DYdas9/e+ejB5HoM55Sc7BGSfrffA9NgWSwEplkQjgA2LwFFrkR5+5qFGJVLkqSfpWWkyKH5IZthFdgcaZSwDOVXldRMdZCSIQ0WH79HJpLf3oKMJmWcLDzKAzcfII1+A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=0tSD/J5biPvWWJwRdEfa6+ZRmIYWhZ7uE7oXnoFb3No=;
+ b=UEVYpA8rThNMzqotdfDWnsfV3sMXAZ+H3aTjsa5VB2ZimgOedKi+aI+feErDrCJR1Mb5DuB3YkjWl7F0DJICYEijC08HKHHJiFmjHZ2Ow1H+Qxq472yRmHXBUeOGhyyrHWDDl5s+QQJAAJjC2FCQUXevhdPy0lKS1TT6xfOZkuzphWGdNBkVb6AFoaCcrq/JRSaUykKdyIj97x2bpnXaUhakT9StBNV1U+nJlzZ9C+NGEy0vSTZ47kF68LN8yW/X4YgnwBdvD/KZ20sg7jpzudE1VIamvZsAJaGsIwztRTxRcU97Z1u3O7267Aai1hQCjmHLM7MyWZhYPaEAAP+UYQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=igalia.com smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0tSD/J5biPvWWJwRdEfa6+ZRmIYWhZ7uE7oXnoFb3No=;
+ b=k/CrjkOu73xtGphmNM2f/nyjLinzWsGsQR/aSCLuJ7R8gsWUYWGqJCQTaFD/LQ82pZF5y4rhBOE5v/Ee5h2um8sxm0Epn1O4euLhS19lKWVE8kSTt1mzZ3UFC+qzdlCA8aPFOW/5QCYNoR+JsvzXAjIXKWZRaMZ887y9L8vd2UI=
+Received: from DS7PR03CA0360.namprd03.prod.outlook.com (2603:10b6:8:55::33) by
+ DM3PR12MB9288.namprd12.prod.outlook.com (2603:10b6:0:4a::18) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8678.26; Thu, 24 Apr 2025 08:39:40 +0000
+Received: from CH3PEPF00000018.namprd21.prod.outlook.com
+ (2603:10b6:8:55:cafe::91) by DS7PR03CA0360.outlook.office365.com
+ (2603:10b6:8:55::33) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8655.36 via Frontend Transport; Thu,
+ 24 Apr 2025 08:39:40 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CH3PEPF00000018.mail.protection.outlook.com (10.167.244.123) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.8699.1 via Frontend Transport; Thu, 24 Apr 2025 08:39:39 +0000
+Received: from FRAPPELLOUX01.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 24 Apr
+ 2025 03:39:29 -0500
+From: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+To: 
+CC: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Alex Deucher
+ <alexander.deucher@amd.com>, Boris Brezillon <boris.brezillon@collabora.com>, 
+ Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>, "Dmitry
+ Baryshkov" <lumag@kernel.org>, Felix Kuehling <Felix.Kuehling@amd.com>,
+ "Frank Binns" <frank.binns@imgtec.com>, Jonathan Corbet <corbet@lwn.net>,
+ Liviu Dudau <liviu.dudau@arm.com>, Lizhi Hou <lizhi.hou@amd.com>, Lucas De
+ Marchi <lucas.demarchi@intel.com>, Lucas Stach <l.stach@pengutronix.de>,
+ Lyude Paul <lyude@redhat.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Matt Coster <matt.coster@imgtec.com>,
+ Matthew Brost <matthew.brost@intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Melissa Wen <mwen@igalia.com>, Min Ma <min.ma@amd.com>, Oded Gabbay
+ <ogabbay@kernel.org>, Philipp Stanner <phasta@kernel.org>, Qiang Yu
+ <yuq825@gmail.com>, Rob Clark <robdclark@gmail.com>, Rob Herring
+ <robh@kernel.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>, Simona Vetter
+ <simona@ffwll.ch>, Steven Price <steven.price@arm.com>, Sumit Semwal
+ <sumit.semwal@linaro.org>, "Thomas Zimmermann" <tzimmermann@suse.de>,
+ <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <etnaviv@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
+ <intel-xe@lists.freedesktop.org>, <lima@lists.freedesktop.org>,
+ <linaro-mm-sig@lists.linaro.org>, <linux-arm-msm@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-media@vger.kernel.org>, <nouveau@lists.freedesktop.org>
+Subject: [PATCH v9 00/10] Improve gpu_scheduler trace events + UAPI
+Date: Thu, 24 Apr 2025 10:38:12 +0200
+Message-ID: <20250424083834.15518-1-pierre-eric.pelloux-prayer@amd.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-X-ZohoMailClient: External
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PEPF00000018:EE_|DM3PR12MB9288:EE_
+X-MS-Office365-Filtering-Correlation-Id: 54712985-a53a-442f-999f-08dd830b8d94
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|36860700013|82310400026|1800799024|7416014|376014|13003099007; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?VE1QUnduWlMvMStxUzZqSWhneHVXRFlCczFJM3ZwSmhPYkNrZEZiMG9adE5D?=
+ =?utf-8?B?Mnc3dlhldFNNRk9ma3JRWlZ1Y0tMQWhzMjdzamhmV0Zld21BMVdZZHJKWjZU?=
+ =?utf-8?B?RkFoL1NJYTJLQkJ1Mm1FVitQR2E4blVsSWpkQTcySjQrQTZaZ01tVzAwKzFm?=
+ =?utf-8?B?Z1lKdjJvRm9JU0hIaVYvTENiVTFaOEhHQ3VWOFZhZWFMemlEbGRVMk4vQ3E4?=
+ =?utf-8?B?RjMrWGNXRDJkb1pNWmttWFA1RDBYUFJ0ZkE4OWI0TFZ2ZzF2L0hPa2djUWxC?=
+ =?utf-8?B?cHpEa2VHVUlpbkpiaFdvZ252aFVaeGc3cUppWHVrKytVbUMyWVQvRXV0WDFO?=
+ =?utf-8?B?Z2ZQYzk2OElkQnhINlBya2d5OE1KUUJSYnZMWGRpQkIvYmlWOFlCOENFamFM?=
+ =?utf-8?B?SmNQNnVMN0xUMG1BQkQrellhS28vTFN6VFBvTlhLMjFYR1I3aEZ6K2cxTTdW?=
+ =?utf-8?B?bFcvcFZFUmIwejVtVUVDOGdTYng5RW14YmJrcXZGL3hwbW9EL1M0M3JWVFZ5?=
+ =?utf-8?B?N3diVGErRzh3V0hJZDJoMXpMWVRTWSttZ0ZWYmVGQ3drY2RXZjRqakhoTGV0?=
+ =?utf-8?B?ZnowY1JYQW9DVGF5ZWJOTkV1b0RzeE8xRWZIUnRnam5XTnFqYjVYZG9PQ2lh?=
+ =?utf-8?B?WmpvS2phbEpyRzlaOUJvNFV4S2Y2Z3dLb2tENFFiNUdPQlJZWjZWRFprZjdi?=
+ =?utf-8?B?Q2J4OGJnQlVLUk1CY2hVTjc2eGU0cE5aREQxOXhMRXBmTXRUcTdEbTJrTm9Y?=
+ =?utf-8?B?NlF3Q2N1dDB4NTMzNWVTaE1DTzI5ZStWWXg2WnhYMmRWYnpqNmJqNmJOZWVa?=
+ =?utf-8?B?eWFIWGpHUFNYS1A4dWMvTS90SzZpNUMrL21Vb2hwVTlHVVNMV3lUMG5RZW5Y?=
+ =?utf-8?B?UjBKRG9HNkY2dFk1bXo4SEJjd0dnNytZNTYreVR4Q3VMSS9BMnNHQnlER1hk?=
+ =?utf-8?B?NEZ4dVRMKy9TWGd6VjA4N0dTOWs3eUc3OCtvUEFpY1puMmFPZUtjYmh4YlBE?=
+ =?utf-8?B?VmpiWWhVR3RQSUVncmYvTW5sVThQZEt0OEVnN1o4ZGgzenBiSXhSWGh2TGxO?=
+ =?utf-8?B?SUZzNmRWZ2YwbGhUaERIeGlmVGhDRE94MFhXRFF4dE50UUVYcEQ1TXNjL0d3?=
+ =?utf-8?B?SmNaT3VROGVVRTQxTHZaRWhiV0V5SzJKRDFxRXlqUllnN0NNb1Z3RzJJQzZu?=
+ =?utf-8?B?eVFrdjJQK3RsNkY4RXhSNjEzbWVmK1docWxzbngrTVdoNnpVaEJRMEw4Y0VZ?=
+ =?utf-8?B?UXZWUWdzUDZKS1BoU00rcFcrSWVLODlkZTd2NXVWVU51Um4wQnFaU0RpUnM0?=
+ =?utf-8?B?Q000d0NBZDF3cm9FalZYeXlWUnFFTlBBYnRRNlEvQ0dMeWZ1TzJ5a0JJS2U1?=
+ =?utf-8?B?RUU1RmFVTHQyaEVBUkNaMk1ra2hJcGdrSUdFbDJ6SSt3RC9aaUZDTFE4cUVY?=
+ =?utf-8?B?U0xGTkdhc0grYXhqeEF2TDdpT3FlZ2hqc2tKVmxOLzlFRVRVVS8xMFZ6QnFH?=
+ =?utf-8?B?NGRodE9ITy9ZT3VkdHdIVXNNN2Y0VHVtZmVBQzJmOURoV0pqSjZvaEQzK1By?=
+ =?utf-8?B?QVFmZEgyRWFGdGlON2R0STRxQ0lSNjU0bE1LMFRrS1VKSWMwZG1pK2NnZjlJ?=
+ =?utf-8?B?S0IrUnRzVHVBM2ZSNU9BU2tnb0RpRXZuQ1hKeG9pSkIza0dJYUh0M1lyRzYy?=
+ =?utf-8?B?dTlMaWtERFpNSis2QlBRQmxzdUNQNUkvOWE4Wkp3TFgzMkNITUp2SnFQbXhV?=
+ =?utf-8?B?Y3BJVy9qTU1lbzdoSi82dVhiMnB0QXhqUzUyVlJUa1I0WU80aDBld2dNaGlC?=
+ =?utf-8?B?UmNxR2pFZit4dHhPeXRSb2FVeHVKdXdTWE1kYUdmdzZWZHZWSFdzdDBUOC9k?=
+ =?utf-8?B?QVlYd08xSlBzZmpJUTZWcUErTk1XcVNaWlZyVC9nK3FoWndra1U2Q3lpdkJm?=
+ =?utf-8?B?Y2wwZzBUY1Q5U1dYa1FMckNNV1ZHbkR3dFNWOGVMcGJkU2gxa1RPRW5HcmE5?=
+ =?utf-8?B?OVJVMDNYWWt3PT0=?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(36860700013)(82310400026)(1800799024)(7416014)(376014)(13003099007);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Apr 2025 08:39:39.9052 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 54712985-a53a-442f-999f-08dd830b8d94
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CH3PEPF00000018.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM3PR12MB9288
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,640 +163,90 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
---=-4lI+6mpI1UWzCkZ5P62D
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi,
 
-To all X.Org Foundation Members:
+The initial goal of this series was to improve the drm and amdgpu
+trace events to be able to expose more of the inner workings of
+the scheduler and drivers to developers via tools.
 
-The election for the X.Org Foundation Board of Directors will begin on
-30 April 2025. We have five candidates who are running for four seats.
-They are (in alphabetical order):
+Then, the series evolved to become focused only on gpu_scheduler.
+The changes around vblank events will be part of a different
+series, as well as the amdgpu ones.
 
- * Andres Gomez
- * Arkadiusz Hiler
- * Megan Knight
- * Lyude Paul
- * Harry Wentland
+Moreover Sima suggested to make some trace events stable uAPI,
+so tools can rely on them long term.
 
-Attached below are the Personal Statements each candidate submitted for
-your consideration along with their Statements of Contribution that
-they submitted with the membership application. Please review each of
-the candidates' statements to help you decide whom to vote for during
-the upcoming election.
+The first patches extend and cleanup the gpu scheduler events,
+then add a documentation entry in drm-uapi.rst.
 
-If you have questions of the candidates, you should feel free to ask
-them here on the mailing list.
+The last 2 patches are new in v8. One is based on a suggestion
+from Tvrtko and gets rid of drm_sched_job::id. The other is a
+cleanup of amdgpu trace events to use the fence=%llu:%llu format.
 
-The election committee will provide detailed instructions on how the
-voting system will work when the voting period begins.
+The drm_sched_job patches don't affect gpuvis which has code to parse
+the gpu_scheduler events but these events are not enabled.
 
-PLEASE NOTE:=C2=A0To participate in this election you MUST renew your
-membership by 28 April 2025! Please go to the Members page for your
-membership application or renewal.
+Changes since v8:
+* swapped patches 8 & 9
+* rebased on drm-next
 
-Best,
+Changes since v7:
+* uint64_t -> u64
+* reworked dependencies tracing (Tvrtko)
+* use common name prefix for all events (Tvrtko)
+* dropped drm_sched_job::id (Tvrtko)
 
-Mark Filion, on behalf of the X.Org elections committee
+Useful links:
+- userspace tool using the updated events:
+https://gitlab.freedesktop.org/tomstdenis/umr/-/merge_requests/37
+- v8:
+https://lists.freedesktop.org/archives/dri-devel/2025-March/496781.html
 
-----
+Pierre-Eric Pelloux-Prayer (10):
+  drm/debugfs: output client_id in in drm_clients_info
+  drm/sched: store the drm client_id in drm_sched_fence
+  drm/sched: add device name to the drm_sched_process_job event
+  drm/sched: cleanup gpu_scheduler trace events
+  drm/sched: trace dependencies for gpu jobs
+  drm/sched: add the drm_client_id to the drm_sched_run/exec_job events
+  drm/sched: cleanup event names
+  drm: get rid of drm_sched_job::id
+  drm/doc: document some tracepoints as uAPI
+  drm/amdgpu: update trace format to match gpu_scheduler_trace
 
-Nominees (in alphabetical order)
+ Documentation/gpu/drm-uapi.rst                |  19 ++++
+ drivers/accel/amdxdna/aie2_ctx.c              |   3 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c    |   2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c        |   3 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_job.c       |   8 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_job.h       |   3 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h     |  32 +++---
+ drivers/gpu/drm/drm_debugfs.c                 |  10 +-
+ drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c  |   2 +-
+ drivers/gpu/drm/imagination/pvr_job.c         |   2 +-
+ drivers/gpu/drm/imagination/pvr_queue.c       |   5 +-
+ drivers/gpu/drm/imagination/pvr_queue.h       |   2 +-
+ drivers/gpu/drm/lima/lima_gem.c               |   2 +-
+ drivers/gpu/drm/lima/lima_sched.c             |   6 +-
+ drivers/gpu/drm/lima/lima_sched.h             |   3 +-
+ drivers/gpu/drm/msm/msm_gem_submit.c          |   8 +-
+ drivers/gpu/drm/nouveau/nouveau_sched.c       |   3 +-
+ drivers/gpu/drm/panfrost/panfrost_drv.c       |   2 +-
+ drivers/gpu/drm/panthor/panthor_drv.c         |   3 +-
+ drivers/gpu/drm/panthor/panthor_mmu.c         |   2 +-
+ drivers/gpu/drm/panthor/panthor_sched.c       |   5 +-
+ drivers/gpu/drm/panthor/panthor_sched.h       |   3 +-
+ .../gpu/drm/scheduler/gpu_scheduler_trace.h   | 100 +++++++++++++-----
+ drivers/gpu/drm/scheduler/sched_entity.c      |  16 ++-
+ drivers/gpu/drm/scheduler/sched_fence.c       |   4 +-
+ drivers/gpu/drm/scheduler/sched_internal.h    |   2 +-
+ drivers/gpu/drm/scheduler/sched_main.c        |  11 +-
+ .../gpu/drm/scheduler/tests/mock_scheduler.c  |   2 +-
+ drivers/gpu/drm/v3d/v3d_submit.c              |   2 +-
+ drivers/gpu/drm/xe/xe_sched_job.c             |   3 +-
+ include/drm/gpu_scheduler.h                   |  13 ++-
+ 31 files changed, 184 insertions(+), 97 deletions(-)
 
-Andres Gomez
-Current Affiliation: Igalia
+-- 
+2.43.0
 
-Personal Statement:
-
-I have been an active Open Source contributor since 2003, participating
-in projects like GNOME, and FreeDesktop, among others. I started to be
-actively involved with OSS graphic drivers in 2014, where I continue
-devoting much of my time, although from a coordination perspective for
-our team of developers at Igalia.
-
-By joining X.Org board I hope to give a bit more back to the community,
-helping to get things done. Among other things, I've contributed to
-create the graphic design for the public image of some past OSS events.
-I'll be happy to work in other tasks, including the organization of
-XDC. I could take part in the CfP committee, for example, or anything
-else the board could need help with.
-
-Arkadiusz Hiler
-Current Affiliation: CodeWeavers
-
-Personal Statement:
-
-Gaming on Linux is one of the main driving forces for the development
-of a lot of the technologies under the X.Org umbrella. I would like to
-represent the gaming part of the user space.
-
-During my 2 years on the board I've helped with finances and planning
-for the freedesktop.org migration, assuring that it's sustainable.
-
-I also have experience with running conferences and I'm more than happy
-to help any future XDC organizers on the ground and with streaming the
-events.
-
-Megan Knight
-Current Affiliation: Director of Software Communities, Arm
-
-Personal Statement:
-
-I am very new to the X.Org community, but eager to help out! I=E2=80=99ve b=
-een
-in open source for over a decade and have extensive experience planning
-large scale OS events, engaging with communities, delivering on
-Advocacy initiatives and being the translator between technical and
-business decision makers. Currently, I am working on a proposal to
-organize the upcoming 2026 edition of XDC and alsop plan to attend XDC
-2025.
-
-I currently serve as the Advocacy Chair for Yocto Project and in the
-last four years have improved developer relations, improved
-documentation and onboarding processes, increased their website SEO,
-migrated/redesigned their website to increase traffic, produce(d) 5+
-events a year from start to finish, and increased revenue by attracting
-new members/upleveling existing members.
-
-If elected, I look forward to diving deep into X.Org and will apply
-these skills so developers can focus on building great tech.
-
-Lyude Paul
-Current Affiliation: Red Hat
-
-Personal Statement:
-
-Hi! My name is Lyude Paul, and I'm currently employed at Red Hat as a
-Software Engineer. I'm also currently on the X.org Board of Directors
-as X.org's Secretary, and am also a member of the CoC team. I've also
-been a member of X.org for multiple years now and have contributed to a
-plethora of various projects in the X.org/freedesktop.org/linux kernel
-space such as: nova, nouveau, i915, amdgpu, the wayland protocol, igt-
-gpu-tools, libinput, and more.
-
-I've had a pretty long tenure on the board where I've accomplished a
-number of cool things For instance, I restarted X.org's relationship
-with VESA in order to give X.org members access to various VESA
-specifications that they might not have access to otherwise without a
-prior VESA membership. I worked to help enable X.og to provide funding
-for professional CoC training for any X.org/freeesktop.org project that
-requests it, and I've assisted through the transition of parent
-foundations for X.org from SPI to SFC. I love working in this
-community, and will do my best to serve the community throughout my
-tenusre if re-elected to the board of directors.
-
-Harry Wentland
-Current Affiliation: AMD
-
-Personal Statement:
-
-I've been lucky to be paid to help improve the Linux Desktop experience
-on AMD HW and in that capacity align with X.Org's mission to further
-the state of the open-source desktop. A healthy, diverse, open-source,
-and general-purpose desktop provides tremendous value to many people
-and is a bulwark against corporate silos.
-
-I've also been lucky to have previously served on X.Org's Board of
-Directors. If I am elected I am happy to support the board wherever
-needed, whether in supporting infrastructure, chasing sponsors, or
-organizing the conference.
-
-Statement of Contribution:
-
-I maintain AMD's DRM/KMS driver and have lately been exploring beyond
-that. I have also recently found myself helping to drive the color/HDR
-effort forward in small ways.
-
---=-4lI+6mpI1UWzCkZ5P62D
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-
-<html><head><style>pre,code,address {
-  margin: 0px;
-}
-h1,h2,h3,h4,h5,h6 {
-  margin-top: 0.2em;
-  margin-bottom: 0.2em;
-}
-ol,ul {
-  margin-top: 0em;
-  margin-bottom: 0em;
-}
-blockquote {
-  margin-top: 0em;
-  margin-bottom: 0em;
-}
-</style></head><body><div style=3D"caret-color: rgb(0, 0, 0); color: rgb(0,=
- 0, 0); font-family: &quot;Adwaita Sans&quot;; font-style: normal; font-var=
-iant-caps: normal; font-weight: 400; letter-spacing: normal; text-align: st=
-art; text-indent: 0px; text-transform: none; white-space: normal; word-spac=
-ing: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0.4); -webkit-text-str=
-oke-width: 0px; text-decoration: none;">To all X.Org Foundation Members:</d=
-iv><div style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); font-famil=
-y: &quot;Adwaita Sans&quot;; font-style: normal; font-variant-caps: normal;=
- font-weight: 400; letter-spacing: normal; text-align: start; text-indent: =
-0px; text-transform: none; white-space: normal; word-spacing: 0px; -webkit-=
-tap-highlight-color: rgba(0, 0, 0, 0.4); -webkit-text-stroke-width: 0px; te=
-xt-decoration: none;"><br></div><div style=3D"caret-color: rgb(0, 0, 0); co=
-lor: rgb(0, 0, 0); font-family: &quot;Adwaita Sans&quot;; font-style: norma=
-l; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; tex=
-t-align: start; text-indent: 0px; text-transform: none; white-space: normal=
-; word-spacing: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0.4); -webk=
-it-text-stroke-width: 0px; text-decoration: none;">The election for the X.O=
-rg Foundation Board of Directors will begin on 30 April 2025. We have five =
-candidates who are running for four seats. They are (in alphabetical order)=
-:</div><div style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); font-f=
-amily: &quot;Adwaita Sans&quot;; font-style: normal; font-variant-caps: nor=
-mal; font-weight: 400; letter-spacing: normal; text-align: start; text-inde=
-nt: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -web=
-kit-tap-highlight-color: rgba(0, 0, 0, 0.4); -webkit-text-stroke-width: 0px=
-; text-decoration: none;"><br></div><ul style=3D"caret-color: rgb(0, 0, 0);=
- color: rgb(0, 0, 0); font-family: &quot;Adwaita Sans&quot;; font-style: no=
-rmal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; =
-text-align: start; text-indent: 0px; text-transform: none; white-space: nor=
-mal; word-spacing: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0.4); -w=
-ebkit-text-stroke-width: 0px; text-decoration: none;"><li>Andres Gomez</li>=
-<li>Arkadiusz Hiler</li><li>Megan Knight</li><li>Lyude Paul</li><li>Harry W=
-entland</li></ul><div style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, =
-0); font-family: &quot;Adwaita Sans&quot;; font-style: normal; font-variant=
--caps: normal; font-weight: 400; letter-spacing: normal; text-align: start;=
- text-indent: 0px; text-transform: none; white-space: normal; word-spacing:=
- 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0.4); -webkit-text-stroke-=
-width: 0px; text-decoration: none;"><br></div><div style=3D"caret-color: rg=
-b(0, 0, 0); color: rgb(0, 0, 0); font-family: &quot;Adwaita Sans&quot;; fon=
-t-style: normal; font-variant-caps: normal; font-weight: 400; letter-spacin=
-g: normal; text-align: start; text-indent: 0px; text-transform: none; white=
--space: normal; word-spacing: 0px; -webkit-tap-highlight-color: rgba(0, 0, =
-0, 0.4); -webkit-text-stroke-width: 0px; text-decoration: none;">Attached b=
-elow are the Personal Statements each candidate submitted for your consider=
-ation along with their Statements of Contribution that they submitted with =
-the membership application. Please review each of the candidates' statement=
-s to help you decide whom to vote for during the upcoming election.</div><d=
-iv style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); font-family: &q=
-uot;Adwaita Sans&quot;; font-style: normal; font-variant-caps: normal; font=
--weight: 400; letter-spacing: normal; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; word-spacing: 0px; -webkit-tap-h=
-ighlight-color: rgba(0, 0, 0, 0.4); -webkit-text-stroke-width: 0px; text-de=
-coration: none;"><br></div><div style=3D"caret-color: rgb(0, 0, 0); color: =
-rgb(0, 0, 0); font-family: &quot;Adwaita Sans&quot;; font-style: normal; fo=
-nt-variant-caps: normal; font-weight: 400; letter-spacing: normal; text-ali=
-gn: start; text-indent: 0px; text-transform: none; white-space: normal; wor=
-d-spacing: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0.4); -webkit-te=
-xt-stroke-width: 0px; text-decoration: none;">If you have questions of the =
-candidates, you should feel free to ask them here on the mailing list.</div=
-><div style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); font-family:=
- &quot;Adwaita Sans&quot;; font-style: normal; font-variant-caps: normal; f=
-ont-weight: 400; letter-spacing: normal; text-align: start; text-indent: 0p=
-x; text-transform: none; white-space: normal; word-spacing: 0px; -webkit-ta=
-p-highlight-color: rgba(0, 0, 0, 0.4); -webkit-text-stroke-width: 0px; text=
--decoration: none;"><br></div><div style=3D"caret-color: rgb(0, 0, 0); colo=
-r: rgb(0, 0, 0); font-family: &quot;Adwaita Sans&quot;; font-style: normal;=
- font-variant-caps: normal; font-weight: 400; letter-spacing: normal; text-=
-align: start; text-indent: 0px; text-transform: none; white-space: normal; =
-word-spacing: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0.4); -webkit=
--text-stroke-width: 0px; text-decoration: none;">The election committee wil=
-l provide detailed instructions on how the voting system will work when the=
- voting period begins.</div><div style=3D"caret-color: rgb(0, 0, 0); color:=
- rgb(0, 0, 0); font-family: &quot;Adwaita Sans&quot;; font-style: normal; f=
-ont-variant-caps: normal; font-weight: 400; letter-spacing: normal; text-al=
-ign: start; text-indent: 0px; text-transform: none; white-space: normal; wo=
-rd-spacing: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0.4); -webkit-t=
-ext-stroke-width: 0px; text-decoration: none;"><br></div><div style=3D"care=
-t-color: rgb(0, 0, 0); color: rgb(0, 0, 0); font-family: &quot;Adwaita Sans=
-&quot;; font-style: normal; font-variant-caps: normal; font-weight: 400; le=
-tter-spacing: normal; text-align: start; text-indent: 0px; text-transform: =
-none; white-space: normal; word-spacing: 0px; -webkit-tap-highlight-color: =
-rgba(0, 0, 0, 0.4); -webkit-text-stroke-width: 0px; text-decoration: none;"=
-><b>PLEASE NOTE:</b><span class=3D"Apple-converted-space">&nbsp;</span>To p=
-articipate in this election you MUST renew your membership by 28 April 2025=
-! Please go to the Members page for your membership application or renewal.=
-</div><div style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); font-fa=
-mily: &quot;Adwaita Sans&quot;; font-style: normal; font-variant-caps: norm=
-al; font-weight: 400; letter-spacing: normal; text-align: start; text-inden=
-t: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -webk=
-it-tap-highlight-color: rgba(0, 0, 0, 0.4); -webkit-text-stroke-width: 0px;=
- text-decoration: none;"><br></div><div style=3D"caret-color: rgb(0, 0, 0);=
- color: rgb(0, 0, 0); font-family: &quot;Adwaita Sans&quot;; font-style: no=
-rmal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; =
-text-align: start; text-indent: 0px; text-transform: none; white-space: nor=
-mal; word-spacing: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0.4); -w=
-ebkit-text-stroke-width: 0px; text-decoration: none;"><div><span style=3D"f=
-ont-family: &quot;Times New Roman&quot;; font-size: 16.16px; font-variant-l=
-igatures: normal; orphans: 2; widows: 2; text-decoration-thickness: initial=
-; text-decoration-style: initial; text-decoration-color: initial;">Best,</s=
-pan></div><div><span style=3D"font-family: &quot;Times New Roman&quot;; fon=
-t-size: 16.16px; font-variant-ligatures: normal; orphans: 2; widows: 2; tex=
-t-decoration-thickness: initial; text-decoration-style: initial; text-decor=
-ation-color: initial;"><br></span></div><div><span style=3D"font-family: &q=
-uot;Times New Roman&quot;; font-size: 16.16px; font-variant-ligatures: norm=
-al; orphans: 2; widows: 2; text-decoration-thickness: initial; text-decorat=
-ion-style: initial; text-decoration-color: initial;">Mark Filion, on behalf=
- of the X.Org elections committee</span></div></div><div style=3D"caret-col=
-or: rgb(0, 0, 0); color: rgb(0, 0, 0); font-family: &quot;Adwaita Sans&quot=
-;; font-style: normal; font-variant-caps: normal; font-weight: 400; letter-=
-spacing: normal; text-align: start; text-indent: 0px; text-transform: none;=
- white-space: normal; word-spacing: 0px; -webkit-tap-highlight-color: rgba(=
-0, 0, 0, 0.4); -webkit-text-stroke-width: 0px; text-decoration: none;"><br>=
-</div><div style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); font-fa=
-mily: &quot;Adwaita Sans&quot;; font-style: normal; font-variant-caps: norm=
-al; font-weight: 400; letter-spacing: normal; text-align: start; text-inden=
-t: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -webk=
-it-tap-highlight-color: rgba(0, 0, 0, 0.4); -webkit-text-stroke-width: 0px;=
- text-decoration: none;">----</div><div style=3D"caret-color: rgb(0, 0, 0);=
- color: rgb(0, 0, 0); font-family: &quot;Adwaita Sans&quot;; font-style: no=
-rmal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; =
-text-align: start; text-indent: 0px; text-transform: none; white-space: nor=
-mal; word-spacing: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0.4); -w=
-ebkit-text-stroke-width: 0px; text-decoration: none;"><br></div><div style=
-=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); font-family: &quot;Adwa=
-ita Sans&quot;; font-style: normal; font-variant-caps: normal; font-weight:=
- 400; letter-spacing: normal; text-align: start; text-indent: 0px; text-tra=
-nsform: none; white-space: normal; word-spacing: 0px; -webkit-tap-highlight=
--color: rgba(0, 0, 0, 0.4); -webkit-text-stroke-width: 0px; text-decoration=
-: none;"><b><font size=3D"5">Nominees (in alphabetical order)</font></b></d=
-iv><div style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); font-famil=
-y: &quot;Adwaita Sans&quot;; font-style: normal; font-variant-caps: normal;=
- font-weight: 400; letter-spacing: normal; text-align: start; text-indent: =
-0px; text-transform: none; white-space: normal; word-spacing: 0px; -webkit-=
-tap-highlight-color: rgba(0, 0, 0, 0.4); -webkit-text-stroke-width: 0px; te=
-xt-decoration: none;"><b><br></b></div><div style=3D"caret-color: rgb(0, 0,=
- 0); color: rgb(0, 0, 0); font-family: &quot;Adwaita Sans&quot;; font-style=
-: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: norm=
-al; text-align: start; text-indent: 0px; text-transform: none; white-space:=
- normal; word-spacing: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0.4)=
-; -webkit-text-stroke-width: 0px; text-decoration: none;"><b><font size=3D"=
-4">Andres Gomez</font></b></div><div style=3D"caret-color: rgb(0, 0, 0); co=
-lor: rgb(0, 0, 0); font-family: &quot;Adwaita Sans&quot;; font-style: norma=
-l; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; tex=
-t-align: start; text-indent: 0px; text-transform: none; white-space: normal=
-; word-spacing: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0.4); -webk=
-it-text-stroke-width: 0px; text-decoration: none;">Current Affiliation: Iga=
-lia</div><div style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); font=
--family: &quot;Adwaita Sans&quot;; font-style: normal; font-variant-caps: n=
-ormal; font-weight: 400; letter-spacing: normal; text-align: start; text-in=
-dent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -w=
-ebkit-tap-highlight-color: rgba(0, 0, 0, 0.4); -webkit-text-stroke-width: 0=
-px; text-decoration: none;"><br></div><div style=3D"caret-color: rgb(0, 0, =
-0); color: rgb(0, 0, 0); font-family: &quot;Adwaita Sans&quot;; font-style:=
- normal; font-variant-caps: normal; font-weight: 400; letter-spacing: norma=
-l; text-align: start; text-indent: 0px; text-transform: none; white-space: =
-normal; word-spacing: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0.4);=
- -webkit-text-stroke-width: 0px; text-decoration: none;">Personal Statement=
-:</div><div style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); font-f=
-amily: &quot;Adwaita Sans&quot;; font-style: normal; font-variant-caps: nor=
-mal; font-weight: 400; letter-spacing: normal; text-align: start; text-inde=
-nt: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -web=
-kit-tap-highlight-color: rgba(0, 0, 0, 0.4); -webkit-text-stroke-width: 0px=
-; text-decoration: none;"><br></div><div style=3D"caret-color: rgb(0, 0, 0)=
-; color: rgb(0, 0, 0); font-family: &quot;Adwaita Sans&quot;; font-style: n=
-ormal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal;=
- text-align: start; text-indent: 0px; text-transform: none; white-space: no=
-rmal; word-spacing: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0.4); -=
-webkit-text-stroke-width: 0px; text-decoration: none;">I have been an activ=
-e Open Source contributor since 2003, participating in projects like GNOME,=
- and FreeDesktop, among others. I started to be actively involved with OSS =
-graphic drivers in 2014, where I continue devoting much of my time, althoug=
-h from a coordination perspective for our team of developers at Igalia.</di=
-v><div style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); font-family=
-: &quot;Adwaita Sans&quot;; font-style: normal; font-variant-caps: normal; =
-font-weight: 400; letter-spacing: normal; text-align: start; text-indent: 0=
-px; text-transform: none; white-space: normal; word-spacing: 0px; -webkit-t=
-ap-highlight-color: rgba(0, 0, 0, 0.4); -webkit-text-stroke-width: 0px; tex=
-t-decoration: none;"><br></div><div style=3D"caret-color: rgb(0, 0, 0); col=
-or: rgb(0, 0, 0); font-family: &quot;Adwaita Sans&quot;; font-style: normal=
-; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; text=
--align: start; text-indent: 0px; text-transform: none; white-space: normal;=
- word-spacing: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0.4); -webki=
-t-text-stroke-width: 0px; text-decoration: none;">By joining X.Org board I =
-hope to give a bit more back to the community, helping to get things done. =
-Among other things, I've contributed to create the graphic design for the p=
-ublic image of some past OSS events. I'll be happy to work in other tasks, =
-including the organization of XDC. I could take part in the CfP committee, =
-for example, or anything else the board could need help with.</div><div sty=
-le=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); font-family: &quot;Ad=
-waita Sans&quot;; font-style: normal; font-variant-caps: normal; font-weigh=
-t: 400; letter-spacing: normal; text-align: start; text-indent: 0px; text-t=
-ransform: none; white-space: normal; word-spacing: 0px; -webkit-tap-highlig=
-ht-color: rgba(0, 0, 0, 0.4); -webkit-text-stroke-width: 0px; text-decorati=
-on: none;"><br></div><div style=3D"caret-color: rgb(0, 0, 0); color: rgb(0,=
- 0, 0); font-family: &quot;Adwaita Sans&quot;; font-style: normal; font-var=
-iant-caps: normal; font-weight: 400; letter-spacing: normal; text-align: st=
-art; text-indent: 0px; text-transform: none; white-space: normal; word-spac=
-ing: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0.4); -webkit-text-str=
-oke-width: 0px; text-decoration: none;"><b><font size=3D"4">Arkadiusz Hiler=
-</font></b></div><div style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, =
-0); font-family: &quot;Adwaita Sans&quot;; font-style: normal; font-variant=
--caps: normal; font-weight: 400; letter-spacing: normal; text-align: start;=
- text-indent: 0px; text-transform: none; white-space: normal; word-spacing:=
- 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0.4); -webkit-text-stroke-=
-width: 0px; text-decoration: none;">Current Affiliation: CodeWeavers</div><=
-div style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); font-family: &=
-quot;Adwaita Sans&quot;; font-style: normal; font-variant-caps: normal; fon=
-t-weight: 400; letter-spacing: normal; text-align: start; text-indent: 0px;=
- text-transform: none; white-space: normal; word-spacing: 0px; -webkit-tap-=
-highlight-color: rgba(0, 0, 0, 0.4); -webkit-text-stroke-width: 0px; text-d=
-ecoration: none;"><br></div><div style=3D"caret-color: rgb(0, 0, 0); color:=
- rgb(0, 0, 0); font-family: &quot;Adwaita Sans&quot;; font-style: normal; f=
-ont-variant-caps: normal; font-weight: 400; letter-spacing: normal; text-al=
-ign: start; text-indent: 0px; text-transform: none; white-space: normal; wo=
-rd-spacing: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0.4); -webkit-t=
-ext-stroke-width: 0px; text-decoration: none;">Personal Statement:</div><di=
-v style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); font-family: &qu=
-ot;Adwaita Sans&quot;; font-style: normal; font-variant-caps: normal; font-=
-weight: 400; letter-spacing: normal; text-align: start; text-indent: 0px; t=
-ext-transform: none; white-space: normal; word-spacing: 0px; -webkit-tap-hi=
-ghlight-color: rgba(0, 0, 0, 0.4); -webkit-text-stroke-width: 0px; text-dec=
-oration: none;"><br></div><div style=3D"caret-color: rgb(0, 0, 0); color: r=
-gb(0, 0, 0); font-family: &quot;Adwaita Sans&quot;; font-style: normal; fon=
-t-variant-caps: normal; font-weight: 400; letter-spacing: normal; text-alig=
-n: start; text-indent: 0px; text-transform: none; white-space: normal; word=
--spacing: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0.4); -webkit-tex=
-t-stroke-width: 0px; text-decoration: none;">Gaming on Linux is one of the =
-main driving forces for the development of a lot of the technologies under =
-the X.Org umbrella. I would like to represent the gaming part of the user s=
-pace.</div><div style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); fo=
-nt-family: &quot;Adwaita Sans&quot;; font-style: normal; font-variant-caps:=
- normal; font-weight: 400; letter-spacing: normal; text-align: start; text-=
-indent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; =
--webkit-tap-highlight-color: rgba(0, 0, 0, 0.4); -webkit-text-stroke-width:=
- 0px; text-decoration: none;"><br></div><div style=3D"caret-color: rgb(0, 0=
-, 0); color: rgb(0, 0, 0); font-family: &quot;Adwaita Sans&quot;; font-styl=
-e: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: nor=
-mal; text-align: start; text-indent: 0px; text-transform: none; white-space=
-: normal; word-spacing: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0.4=
-); -webkit-text-stroke-width: 0px; text-decoration: none;">During my 2 year=
-s on the board I've helped with finances and planning for the freedesktop.o=
-rg migration, assuring that it's sustainable.</div><div style=3D"caret-colo=
-r: rgb(0, 0, 0); color: rgb(0, 0, 0); font-family: &quot;Adwaita Sans&quot;=
-; font-style: normal; font-variant-caps: normal; font-weight: 400; letter-s=
-pacing: normal; text-align: start; text-indent: 0px; text-transform: none; =
-white-space: normal; word-spacing: 0px; -webkit-tap-highlight-color: rgba(0=
-, 0, 0, 0.4); -webkit-text-stroke-width: 0px; text-decoration: none;"><br><=
-/div><div style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); font-fam=
-ily: &quot;Adwaita Sans&quot;; font-style: normal; font-variant-caps: norma=
-l; font-weight: 400; letter-spacing: normal; text-align: start; text-indent=
-: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -webki=
-t-tap-highlight-color: rgba(0, 0, 0, 0.4); -webkit-text-stroke-width: 0px; =
-text-decoration: none;">I also have experience with running conferences and=
- I'm more than happy to help any future XDC organizers on the ground and wi=
-th streaming the events.</div><div style=3D"caret-color: rgb(0, 0, 0); colo=
-r: rgb(0, 0, 0); font-family: &quot;Adwaita Sans&quot;; font-style: normal;=
- font-variant-caps: normal; font-weight: 400; letter-spacing: normal; text-=
-align: start; text-indent: 0px; text-transform: none; white-space: normal; =
-word-spacing: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0.4); -webkit=
--text-stroke-width: 0px; text-decoration: none;"><br></div><div style=3D"ca=
-ret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); font-family: &quot;Adwaita Sa=
-ns&quot;; font-style: normal; font-variant-caps: normal; font-weight: 400; =
-letter-spacing: normal; text-align: start; text-indent: 0px; text-transform=
-: none; white-space: normal; word-spacing: 0px; -webkit-tap-highlight-color=
-: rgba(0, 0, 0, 0.4); -webkit-text-stroke-width: 0px; text-decoration: none=
-;"><b><font size=3D"4">Megan Knight</font></b></div><div style=3D"caret-col=
-or: rgb(0, 0, 0); color: rgb(0, 0, 0); font-family: &quot;Adwaita Sans&quot=
-;; font-style: normal; font-variant-caps: normal; font-weight: 400; letter-=
-spacing: normal; text-align: start; text-indent: 0px; text-transform: none;=
- white-space: normal; word-spacing: 0px; -webkit-tap-highlight-color: rgba(=
-0, 0, 0, 0.4); -webkit-text-stroke-width: 0px; text-decoration: none;">Curr=
-ent Affiliation: Director of Software Communities, Arm</div><div style=3D"c=
-aret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); font-family: &quot;Adwaita S=
-ans&quot;; font-style: normal; font-variant-caps: normal; font-weight: 400;=
- letter-spacing: normal; text-align: start; text-indent: 0px; text-transfor=
-m: none; white-space: normal; word-spacing: 0px; -webkit-tap-highlight-colo=
-r: rgba(0, 0, 0, 0.4); -webkit-text-stroke-width: 0px; text-decoration: non=
-e;"><br></div><div style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);=
- font-family: &quot;Adwaita Sans&quot;; font-style: normal; font-variant-ca=
-ps: normal; font-weight: 400; letter-spacing: normal; text-align: start; te=
-xt-indent: 0px; text-transform: none; white-space: normal; word-spacing: 0p=
-x; -webkit-tap-highlight-color: rgba(0, 0, 0, 0.4); -webkit-text-stroke-wid=
-th: 0px; text-decoration: none;">Personal Statement:</div><div style=3D"car=
-et-color: rgb(0, 0, 0); color: rgb(0, 0, 0); font-family: &quot;Adwaita San=
-s&quot;; font-style: normal; font-variant-caps: normal; font-weight: 400; l=
-etter-spacing: normal; text-align: start; text-indent: 0px; text-transform:=
- none; white-space: normal; word-spacing: 0px; -webkit-tap-highlight-color:=
- rgba(0, 0, 0, 0.4); -webkit-text-stroke-width: 0px; text-decoration: none;=
-"><br></div><div style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); f=
-ont-family: &quot;Adwaita Sans&quot;; font-style: normal; font-variant-caps=
-: normal; font-weight: 400; letter-spacing: normal; text-align: start; text=
--indent: 0px; text-transform: none; white-space: normal; word-spacing: 0px;=
- -webkit-tap-highlight-color: rgba(0, 0, 0, 0.4); -webkit-text-stroke-width=
-: 0px; text-decoration: none;">I am very new to the X.Org community, but ea=
-ger to help out! I=E2=80=99ve been in open source for over a decade and hav=
-e extensive experience planning large scale OS events, engaging with commun=
-ities, delivering on Advocacy initiatives and being the translator between =
-technical and business decision makers. Currently, I am working on a propos=
-al to organize the upcoming 2026 edition of XDC and alsop plan to attend XD=
-C 2025.</div><div style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); =
-font-family: &quot;Adwaita Sans&quot;; font-style: normal; font-variant-cap=
-s: normal; font-weight: 400; letter-spacing: normal; text-align: start; tex=
-t-indent: 0px; text-transform: none; white-space: normal; word-spacing: 0px=
-; -webkit-tap-highlight-color: rgba(0, 0, 0, 0.4); -webkit-text-stroke-widt=
-h: 0px; text-decoration: none;"><br></div><div style=3D"caret-color: rgb(0,=
- 0, 0); color: rgb(0, 0, 0); font-family: &quot;Adwaita Sans&quot;; font-st=
-yle: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: n=
-ormal; text-align: start; text-indent: 0px; text-transform: none; white-spa=
-ce: normal; word-spacing: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0=
-.4); -webkit-text-stroke-width: 0px; text-decoration: none;">I currently se=
-rve as the Advocacy Chair for Yocto Project and in the last four years have=
- improved developer relations, improved documentation and onboarding proces=
-ses, increased their website SEO, migrated/redesigned their website to incr=
-ease traffic, produce(d) 5+ events a year from start to finish, and increas=
-ed revenue by attracting new members/upleveling existing members.</div><div=
- style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); font-family: &quo=
-t;Adwaita Sans&quot;; font-style: normal; font-variant-caps: normal; font-w=
-eight: 400; letter-spacing: normal; text-align: start; text-indent: 0px; te=
-xt-transform: none; white-space: normal; word-spacing: 0px; -webkit-tap-hig=
-hlight-color: rgba(0, 0, 0, 0.4); -webkit-text-stroke-width: 0px; text-deco=
-ration: none;"><br></div><div style=3D"caret-color: rgb(0, 0, 0); color: rg=
-b(0, 0, 0); font-family: &quot;Adwaita Sans&quot;; font-style: normal; font=
--variant-caps: normal; font-weight: 400; letter-spacing: normal; text-align=
-: start; text-indent: 0px; text-transform: none; white-space: normal; word-=
-spacing: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0.4); -webkit-text=
--stroke-width: 0px; text-decoration: none;">If elected, I look forward to d=
-iving deep into X.Org and will apply these skills so developers can focus o=
-n building great tech.</div><div style=3D"caret-color: rgb(0, 0, 0); color:=
- rgb(0, 0, 0); font-family: &quot;Adwaita Sans&quot;; font-style: normal; f=
-ont-variant-caps: normal; font-weight: 400; letter-spacing: normal; text-al=
-ign: start; text-indent: 0px; text-transform: none; white-space: normal; wo=
-rd-spacing: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0.4); -webkit-t=
-ext-stroke-width: 0px; text-decoration: none;"><br></div><div style=3D"care=
-t-color: rgb(0, 0, 0); color: rgb(0, 0, 0); font-family: &quot;Adwaita Sans=
-&quot;; font-style: normal; font-variant-caps: normal; font-weight: 400; le=
-tter-spacing: normal; text-align: start; text-indent: 0px; text-transform: =
-none; white-space: normal; word-spacing: 0px; -webkit-tap-highlight-color: =
-rgba(0, 0, 0, 0.4); -webkit-text-stroke-width: 0px; text-decoration: none;"=
-><b><font size=3D"4">Lyude Paul</font></b></div><div style=3D"caret-color: =
-rgb(0, 0, 0); color: rgb(0, 0, 0); font-family: &quot;Adwaita Sans&quot;; f=
-ont-style: normal; font-variant-caps: normal; font-weight: 400; letter-spac=
-ing: normal; text-align: start; text-indent: 0px; text-transform: none; whi=
-te-space: normal; word-spacing: 0px; -webkit-tap-highlight-color: rgba(0, 0=
-, 0, 0.4); -webkit-text-stroke-width: 0px; text-decoration: none;">Current =
-Affiliation: Red Hat</div><div style=3D"caret-color: rgb(0, 0, 0); color: r=
-gb(0, 0, 0); font-family: &quot;Adwaita Sans&quot;; font-style: normal; fon=
-t-variant-caps: normal; font-weight: 400; letter-spacing: normal; text-alig=
-n: start; text-indent: 0px; text-transform: none; white-space: normal; word=
--spacing: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0.4); -webkit-tex=
-t-stroke-width: 0px; text-decoration: none;"><br></div><div style=3D"caret-=
-color: rgb(0, 0, 0); color: rgb(0, 0, 0); font-family: &quot;Adwaita Sans&q=
-uot;; font-style: normal; font-variant-caps: normal; font-weight: 400; lett=
-er-spacing: normal; text-align: start; text-indent: 0px; text-transform: no=
-ne; white-space: normal; word-spacing: 0px; -webkit-tap-highlight-color: rg=
-ba(0, 0, 0, 0.4); -webkit-text-stroke-width: 0px; text-decoration: none;">P=
-ersonal Statement:</div><div style=3D"caret-color: rgb(0, 0, 0); color: rgb=
-(0, 0, 0); font-family: &quot;Adwaita Sans&quot;; font-style: normal; font-=
-variant-caps: normal; font-weight: 400; letter-spacing: normal; text-align:=
- start; text-indent: 0px; text-transform: none; white-space: normal; word-s=
-pacing: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0.4); -webkit-text-=
-stroke-width: 0px; text-decoration: none;"><br></div><div style=3D"caret-co=
-lor: rgb(0, 0, 0); color: rgb(0, 0, 0); font-family: &quot;Adwaita Sans&quo=
-t;; font-style: normal; font-variant-caps: normal; font-weight: 400; letter=
--spacing: normal; text-align: start; text-indent: 0px; text-transform: none=
-; white-space: normal; word-spacing: 0px; -webkit-tap-highlight-color: rgba=
-(0, 0, 0, 0.4); -webkit-text-stroke-width: 0px; text-decoration: none;">Hi!=
- My name is Lyude Paul, and I'm currently employed at Red Hat as a Software=
- Engineer. I'm also currently on the X.org Board of Directors as X.org's Se=
-cretary, and am also a member of the CoC team. I've also been a member of X=
-.org for multiple years now and have contributed to a plethora of various p=
-rojects in the X.org/freedesktop.org/linux kernel space such as: nova, nouv=
-eau, i915, amdgpu, the wayland protocol, igt-gpu-tools, libinput, and more.=
-</div><div style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); font-fa=
-mily: &quot;Adwaita Sans&quot;; font-style: normal; font-variant-caps: norm=
-al; font-weight: 400; letter-spacing: normal; text-align: start; text-inden=
-t: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -webk=
-it-tap-highlight-color: rgba(0, 0, 0, 0.4); -webkit-text-stroke-width: 0px;=
- text-decoration: none;"><br></div><div style=3D"caret-color: rgb(0, 0, 0);=
- color: rgb(0, 0, 0); font-family: &quot;Adwaita Sans&quot;; font-style: no=
-rmal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; =
-text-align: start; text-indent: 0px; text-transform: none; white-space: nor=
-mal; word-spacing: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0.4); -w=
-ebkit-text-stroke-width: 0px; text-decoration: none;">I've had a pretty lon=
-g tenure on the board where I've accomplished a number of cool things For i=
-nstance, I restarted X.org's relationship with VESA in order to give X.org =
-members access to various VESA specifications that they might not have acce=
-ss to otherwise without a prior VESA membership. I worked to help enable X.=
-og to provide funding for professional CoC training for any X.org/freeeskto=
-p.org project that requests it, and I've assisted through the transition of=
- parent foundations for X.org from SPI to SFC. I love working in this commu=
-nity, and will do my best to serve the community throughout my tenusre if r=
-e-elected to the board of directors.</div><div style=3D"caret-color: rgb(0,=
- 0, 0); color: rgb(0, 0, 0); font-family: &quot;Adwaita Sans&quot;; font-st=
-yle: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: n=
-ormal; text-align: start; text-indent: 0px; text-transform: none; white-spa=
-ce: normal; word-spacing: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0=
-.4); -webkit-text-stroke-width: 0px; text-decoration: none;"><br></div><div=
- style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); font-family: &quo=
-t;Adwaita Sans&quot;; font-style: normal; font-variant-caps: normal; font-w=
-eight: 400; letter-spacing: normal; text-align: start; text-indent: 0px; te=
-xt-transform: none; white-space: normal; word-spacing: 0px; -webkit-tap-hig=
-hlight-color: rgba(0, 0, 0, 0.4); -webkit-text-stroke-width: 0px; text-deco=
-ration: none;"><b><font size=3D"4">Harry Wentland</font></b></div><div styl=
-e=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); font-family: &quot;Adw=
-aita Sans&quot;; font-style: normal; font-variant-caps: normal; font-weight=
-: 400; letter-spacing: normal; text-align: start; text-indent: 0px; text-tr=
-ansform: none; white-space: normal; word-spacing: 0px; -webkit-tap-highligh=
-t-color: rgba(0, 0, 0, 0.4); -webkit-text-stroke-width: 0px; text-decoratio=
-n: none;">Current Affiliation: AMD</div><div style=3D"caret-color: rgb(0, 0=
-, 0); color: rgb(0, 0, 0); font-family: &quot;Adwaita Sans&quot;; font-styl=
-e: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: nor=
-mal; text-align: start; text-indent: 0px; text-transform: none; white-space=
-: normal; word-spacing: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0.4=
-); -webkit-text-stroke-width: 0px; text-decoration: none;"><br></div><div s=
-tyle=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); font-family: &quot;=
-Adwaita Sans&quot;; font-style: normal; font-variant-caps: normal; font-wei=
-ght: 400; letter-spacing: normal; text-align: start; text-indent: 0px; text=
--transform: none; white-space: normal; word-spacing: 0px; -webkit-tap-highl=
-ight-color: rgba(0, 0, 0, 0.4); -webkit-text-stroke-width: 0px; text-decora=
-tion: none;">Personal Statement:</div><div style=3D"caret-color: rgb(0, 0, =
-0); color: rgb(0, 0, 0); font-family: &quot;Adwaita Sans&quot;; font-style:=
- normal; font-variant-caps: normal; font-weight: 400; letter-spacing: norma=
-l; text-align: start; text-indent: 0px; text-transform: none; white-space: =
-normal; word-spacing: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0.4);=
- -webkit-text-stroke-width: 0px; text-decoration: none;"><br></div><div sty=
-le=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); font-family: &quot;Ad=
-waita Sans&quot;; font-style: normal; font-variant-caps: normal; font-weigh=
-t: 400; letter-spacing: normal; text-align: start; text-indent: 0px; text-t=
-ransform: none; white-space: normal; word-spacing: 0px; -webkit-tap-highlig=
-ht-color: rgba(0, 0, 0, 0.4); -webkit-text-stroke-width: 0px; text-decorati=
-on: none;">I've been lucky to be paid to help improve the Linux Desktop exp=
-erience on AMD HW and in that capacity align with X.Org's mission to furthe=
-r the state of the open-source desktop. A healthy, diverse, open-source, an=
-d general-purpose desktop provides tremendous value to many people and is a=
- bulwark against corporate silos.</div><div style=3D"caret-color: rgb(0, 0,=
- 0); color: rgb(0, 0, 0); font-family: &quot;Adwaita Sans&quot;; font-style=
-: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: norm=
-al; text-align: start; text-indent: 0px; text-transform: none; white-space:=
- normal; word-spacing: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0.4)=
-; -webkit-text-stroke-width: 0px; text-decoration: none;"><br></div><div st=
-yle=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); font-family: &quot;A=
-dwaita Sans&quot;; font-style: normal; font-variant-caps: normal; font-weig=
-ht: 400; letter-spacing: normal; text-align: start; text-indent: 0px; text-=
-transform: none; white-space: normal; word-spacing: 0px; -webkit-tap-highli=
-ght-color: rgba(0, 0, 0, 0.4); -webkit-text-stroke-width: 0px; text-decorat=
-ion: none;">I've also been lucky to have previously served on X.Org's Board=
- of Directors. If I am elected I am happy to support the board wherever nee=
-ded, whether in supporting infrastructure, chasing sponsors, or organizing =
-the conference.</div><div style=3D"caret-color: rgb(0, 0, 0); color: rgb(0,=
- 0, 0); font-family: &quot;Adwaita Sans&quot;; font-style: normal; font-var=
-iant-caps: normal; font-weight: 400; letter-spacing: normal; text-align: st=
-art; text-indent: 0px; text-transform: none; white-space: normal; word-spac=
-ing: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0.4); -webkit-text-str=
-oke-width: 0px; text-decoration: none;"><br></div><div style=3D"caret-color=
-: rgb(0, 0, 0); color: rgb(0, 0, 0); font-family: &quot;Adwaita Sans&quot;;=
- font-style: normal; font-variant-caps: normal; font-weight: 400; letter-sp=
-acing: normal; text-align: start; text-indent: 0px; text-transform: none; w=
-hite-space: normal; word-spacing: 0px; -webkit-tap-highlight-color: rgba(0,=
- 0, 0, 0.4); -webkit-text-stroke-width: 0px; text-decoration: none;">Statem=
-ent of Contribution:</div><div style=3D"caret-color: rgb(0, 0, 0); color: r=
-gb(0, 0, 0); font-family: &quot;Adwaita Sans&quot;; font-style: normal; fon=
-t-variant-caps: normal; font-weight: 400; letter-spacing: normal; text-alig=
-n: start; text-indent: 0px; text-transform: none; white-space: normal; word=
--spacing: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0.4); -webkit-tex=
-t-stroke-width: 0px; text-decoration: none;"><br></div><div style=3D"caret-=
-color: rgb(0, 0, 0); color: rgb(0, 0, 0); font-family: &quot;Adwaita Sans&q=
-uot;; font-style: normal; font-variant-caps: normal; font-weight: 400; lett=
-er-spacing: normal; text-align: start; text-indent: 0px; text-transform: no=
-ne; white-space: normal; word-spacing: 0px; -webkit-tap-highlight-color: rg=
-ba(0, 0, 0, 0.4); -webkit-text-stroke-width: 0px; text-decoration: none;">I=
- maintain AMD's DRM/KMS driver and have lately been exploring beyond that. =
-I have also recently found myself helping to drive the color/HDR effort for=
-ward in small ways.</div><div><span></span></div></body></html>
-
---=-4lI+6mpI1UWzCkZ5P62D--
