@@ -2,50 +2,75 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35E1DAA532E
-	for <lists+etnaviv@lfdr.de>; Wed, 30 Apr 2025 20:03:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3F17AA82D3
+	for <lists+etnaviv@lfdr.de>; Sat,  3 May 2025 23:00:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C716B10E7FA;
-	Wed, 30 Apr 2025 18:03:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E6AE10E228;
+	Sat,  3 May 2025 21:00:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=mark.filion@collabora.com header.b="YBg57rHJ";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="UoyFh9f+";
 	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from sender4-op-o16.zoho.com (sender4-op-o16.zoho.com
- [136.143.188.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D528810E2AF
- for <etnaviv@lists.freedesktop.org>; Wed, 30 Apr 2025 18:03:33 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1746036211; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=nE3GiLAnShReBr/sy020HNTOVVHUH0Z6mbkZAii8AYrp0quBtyBmPzDnG6pUCIlUWy8xtryITRazzuhR9hz/mppQQ7PPf4n1bIstwMwr8n0YWaUtzaIGmQfu9Ea53eiqSozwa8NjIqPEMPzcyLDvSFGIRoSV63Dr2OZEpKYwvgQ=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1746036211;
- h=Content-Type:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To:Cc;
- bh=rDjXvoRTIkxTlf5GtjPryUxkMl5EYzQQVKXEvC992Og=; 
- b=QRHjzht1BsMDLd4nlnDe4Y7Cefe6QMontETsjAs9rDdnKiEyfquKIhm068v/xOxJhtFsVFCbqrOO2Xl++uks1fPbvoQ2gZSkA+uugwy6IN9r6K83RaW7r7Nh9jg0SWOoeYKSMkG46/7ZiZKJRNwqebnPtoXef1QHGOyQCs6mpVU=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=mark.filion@collabora.com;
- dmarc=pass header.from=<mark.filion@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1746036211; 
- s=zohomail; d=collabora.com; i=mark.filion@collabora.com;
- h=Message-ID:Subject:Subject:From:From:To:To:Date:Date:Content-Type:MIME-Version:Message-Id:Reply-To:Cc;
- bh=rDjXvoRTIkxTlf5GtjPryUxkMl5EYzQQVKXEvC992Og=;
- b=YBg57rHJ6UrMrdfXPLuODwiz5vOoZSjLHzWjzSOOGse33yUJQVCbAa5baWLaAhcZ
- CwRKDLze/0jNLhdWBqs2yz4ro6pGGiS4IST16Ax/XtCgbSmZzYOItpq5/5I/zi/N3+t
- 7oaJ9dg3rAf5LaeCP1aCUG6KMVasp+VOUTnh7oEw=
-Received: by mx.zohomail.com with SMTPS id 1746036209030924.4156449445024;
- Wed, 30 Apr 2025 11:03:29 -0700 (PDT)
-Message-ID: <564a348db8c9eb3e48ccd6208f8f2badf515c535.camel@collabora.com>
-Subject: Announcement: 2025 X.Org Foundation Election voting OPEN
-From: Mark Filion <mark.filion@collabora.com>
-To: Etnaviv <etnaviv@lists.freedesktop.org>
-Date: Wed, 30 Apr 2025 14:03:28 -0400
-Content-Type: multipart/alternative; boundary="=-iGNL7wabkI1ZH5/0BJhQ"
-User-Agent: Evolution 3.56.1 (3.56.1-1.fc42app2) 
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C8F310E223;
+ Sat,  3 May 2025 21:00:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Cc:To:Content-Transfer-Encoding:Content-Type:MIME-Version:
+ Message-Id:Date:Subject:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=lxhSoIfN4iQm/O6riMc+khj2au53FSMA6l3ILbTZAbw=; b=UoyFh9f+qqtc7VRunF7/nK5ZMR
+ Io9a3CYUBpdeY4r+l1BTX0QNF3WfkD0A48L1yvF2B8VY37U+MMuurbpOwpGRK0Cond4YQGqjPdPPi
+ rvUpSfavi7QEjRhWieYpblKHXVC8O0BvlmN1t4tz7GQa3KvHzxePdSKxhSWSOFg2K/B9QYM3zZXLG
+ fE+72Z7ezuUojKq+J4ql9oUSEEJNRXadryRT1dyrlxsCYKOF4bLSa2YaRZtYIIApRUgfdSEYHdLa6
+ nZoDUuQpg5JjyQ6x4bH4N60OyFnKn051vk/IbueZUhNPG/Ee49YDtqbsGQ1Rbs4dSaZ+hJrniSznd
+ a4Nwn0DA==;
+Received: from [189.7.87.174] (helo=janis.local)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1uBJvs-002dbs-Rb; Sat, 03 May 2025 23:00:29 +0200
+From: =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+Subject: [PATCH 0/8] drm/sched: Allow drivers to skip the reset with
+ DRM_GPU_SCHED_STAT_RUNNING
+Date: Sat, 03 May 2025 17:59:51 -0300
+Message-Id: <20250503-sched-skip-reset-v1-0-ed0d6701a3fe@igalia.com>
 MIME-Version: 1.0
-X-ZohoMailClient: External
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAMiDFmgC/x3MQQqAIBBA0avErBswxYKuEi1MxxqCEiciCO+et
+ HyL/18QykwCY/NCppuFz6OiaxvwmztWQg7VoJW2yiqN4jcKKDsnzCR04RIH3/VGGxMc1Cxlivz
+ 8y2ku5QN5f59MYgAAAA==
+X-Change-ID: 20250502-sched-skip-reset-bf7c163233da
+To: Matthew Brost <matthew.brost@intel.com>, 
+ Danilo Krummrich <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>, 
+ Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, Simona Vetter <simona@ffwll.ch>, 
+ Melissa Wen <mwen@igalia.com>, Lucas Stach <l.stach@pengutronix.de>, 
+ Russell King <linux+etnaviv@armlinux.org.uk>, 
+ Christian Gmeiner <christian.gmeiner@gmail.com>, 
+ Lucas De Marchi <lucas.demarchi@intel.com>, 
+ =?utf-8?q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Boris Brezillon <boris.brezillon@collabora.com>, 
+ Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>
+Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org, 
+ etnaviv@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
+ =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3601; i=mcanal@igalia.com;
+ h=from:subject:message-id; bh=Ejd6PC9pI+Q9AgPMDLzll5NMMyC4pXm9R0tz4HZeZPg=;
+ b=owEBbQGS/pANAwAIAT/zDop2iPqqAcsmYgBoFoPmSQZ4dZrkG4Rlwsvq7yhjNZUkk+7YlPrOK
+ +w6LVC8KkeJATMEAAEIAB0WIQT45F19ARZ3Bymmd9E/8w6Kdoj6qgUCaBaD5gAKCRA/8w6Kdoj6
+ qnYlB/0UTi9N4U4s6vV0HSVJpKrggz4VPJ0FmFQI360uNOynEtKOYhB7Fkvie5RaIK3wbS09/88
+ Gy1SS1SoRfzblokZYzd//mJYqUctC1vxnP8G9yxc2VRnHAKTLki7OWHFqlvtJvNrgK3MLCDGWxu
+ 18BCFoxxAfQPmbhkphgBCxlGi2m62EfVb+xJDbZhuVAxh6rUEkNqlmUX53mmBN0ciQvc+KLCXH9
+ o8c3Yqpr7pehqkoDTO3B6e8nnUCa8NlHIb6BNE5Or6zoKEnWeM2hKCyy7HJ0OpkqilYQtCQt+2B
+ 4iceQEtARzuni/kHvFF6mzOOaJ7bNLEI4RIT0fCpyMhpM5ru
+X-Developer-Key: i=mcanal@igalia.com; a=openpgp;
+ fpr=F8E45D7D0116770729A677D13FF30E8A7688FAAA
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,195 +85,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
---=-iGNL7wabkI1ZH5/0BJhQ
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+When the DRM scheduler times out, it's possible that the GPU isn't hung;
+instead, a job may still be running, and there may be no valid reason to
+reset the hardware. This can occur in two situations:
 
-To all X.Org Foundation Members:
+  1. The GPU exposes some mechanism that ensures the GPU is still making
+     progress. By checking this mechanism, we can safely skip the reset,
+     rearm the timeout, and allow the job to continue running until
+     completion. This is the case for v3d and Etnaviv.
 
-The X.Org Foundation's annual election is now open and will remain open
-until 23:59 UTC on 14 May 2025.
+  2. TDR has fired before the IRQ that signals the fence. Consequently,
+     the job actually finishes, but it triggers a timeout before signaling
+     the completion fence.
 
-Four of the eight director seats are open during this election. The
-four nominees receiving the highest vote totals serving as directors
-for two year terms.
+These two scenarios are problematic because we remove the job from the
+`sched->pending_list` before calling `sched->ops->timedout_job()`. This
+means that when the job finally signals completion (e.g. in the IRQ
+handler), the scheduler won't call `sched->ops->free_job()`. As a result,
+the job and its resources won't be freed, leading to a memory leak.
 
-There were five candidates nominated. For a complete list of the
-candidates and their personal statements, please
-see=C2=A0https://www.x.org/wiki/BoardOfDirectors/Elections/2025/
+For v3d specifically, we have observed that these memory leaks can be
+significant in certain scenarios, as reported by users in [1][2]. To
+address this situation, I submitted a patch similar to commit 704d3d60fec4
+("drm/etnaviv: don't block scheduler when GPU is still active") for v3d [3].
+This patch has already landed in drm-misc-fixes and successfully resolved
+the users' issues.
 
-Here are some instructions on how to cast your vote:
+However, as I mentioned in [3], exposing the scheduler's internals within
+the drivers isn't ideal and I believe this specific situation can be
+addressed within the DRM scheduler framework.
 
-   1. Go directly to the voting link (you might need to log into the
-      member system first)
-     =20
-      https://members.x.org/ballot/16/vote
-     =20
-   2. There is a pull-down selection of candidates next to each
-      preference level.=C2=A0Note that you are NOT required to select your
-      preferences for all five candidates. You can leave more than one
-      blank.
-     =20
-   3. After you have completed your ballot, click the "Vote" button.
-      Note that once you click this button, your votes will be cast and
-      you will not be able to make further changes, so please make sure
-      you are satisfied with your votes before clicking the "Vote"
-      button.
+This series aims to resolve this issue by adding a new DRM sched status
+that allows a driver to skip the reset. This new status will indicate that
+the job should be reinserted into the pending list, and the driver will
+still signal its completion.
 
-After you click the "Cast vote" button, the system will verify that you
-have completed a valid ballot. If your ballot is invalid (e.g., you
-duplicated a selection or did not answer the By-laws approval
-question), it will return you to the previous voting page. If your
-ballot is valid, your votes will be recorded and the system will show
-you a notice that your votes were cast.
+The series can be divided into three parts:
 
-Note that the election will close at 23:59 UTC on 14 May 2025. At that
-time, the election committee will count the votes and present the
-results to the current board for validation. After the current board
-validates the results, the election committee will present the results
-to the Members.
+  * Patch 1: Implementation of the new status in the DRM scheduler.
+  * Patches 2-4: Some fixes to the DRM scheduler KUnit tests and the
+    addition of a test for the new status.
+  * Patches 5-8: Usage the new status in four different drivers.
 
-Mark Filion, on behalf of the X.Org elections committee
+[1] https://gitlab.freedesktop.org/mesa/mesa/-/issues/12227
+[2] https://github.com/raspberrypi/linux/issues/6817
+[3] https://lore.kernel.org/dri-devel/20250430210643.57924-1-mcanal@igalia.com/T/
 
---=-iGNL7wabkI1ZH5/0BJhQ
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Best Regards,
+- Maíra
 
-<html><head><style>pre,code,address {
-  margin: 0px;
-}
-h1,h2,h3,h4,h5,h6 {
-  margin-top: 0.2em;
-  margin-bottom: 0.2em;
-}
-ol,ul {
-  margin-top: 0em;
-  margin-bottom: 0em;
-}
-blockquote {
-  margin-top: 0em;
-  margin-bottom: 0em;
-}
-</style></head><body><div style=3D"caret-color: rgb(0, 0, 0); color: rgb(0,=
- 0, 0); font-family: &quot;Adwaita Sans&quot;; font-style: normal; font-var=
-iant-caps: normal; font-weight: 400; letter-spacing: normal; text-align: st=
-art; text-indent: 0px; text-transform: none; white-space: normal; word-spac=
-ing: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0.4); -webkit-text-str=
-oke-width: 0px; text-decoration: none;">To all X.Org Foundation Members:</d=
-iv><div style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); font-famil=
-y: &quot;Adwaita Sans&quot;; font-style: normal; font-variant-caps: normal;=
- font-weight: 400; letter-spacing: normal; text-align: start; text-indent: =
-0px; text-transform: none; white-space: normal; word-spacing: 0px; -webkit-=
-tap-highlight-color: rgba(0, 0, 0, 0.4); -webkit-text-stroke-width: 0px; te=
-xt-decoration: none;"><br></div><div style=3D"caret-color: rgb(0, 0, 0); co=
-lor: rgb(0, 0, 0); font-family: &quot;Adwaita Sans&quot;; font-style: norma=
-l; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; tex=
-t-align: start; text-indent: 0px; text-transform: none; white-space: normal=
-; word-spacing: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0.4); -webk=
-it-text-stroke-width: 0px; text-decoration: none;">The X.Org Foundation's a=
-nnual election is now open and will remain open until 23:59 UTC on 14 May 2=
-025.</div><div style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); fon=
-t-family: &quot;Adwaita Sans&quot;; font-style: normal; font-variant-caps: =
-normal; font-weight: 400; letter-spacing: normal; text-align: start; text-i=
-ndent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -=
-webkit-tap-highlight-color: rgba(0, 0, 0, 0.4); -webkit-text-stroke-width: =
-0px; text-decoration: none;"><br></div><div style=3D"caret-color: rgb(0, 0,=
- 0); color: rgb(0, 0, 0); font-family: &quot;Adwaita Sans&quot;; font-style=
-: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: norm=
-al; text-align: start; text-indent: 0px; text-transform: none; white-space:=
- normal; word-spacing: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0.4)=
-; -webkit-text-stroke-width: 0px; text-decoration: none;">Four of the eight=
- director seats are open during this election. The four nominees receiving =
-the highest vote totals serving as directors for two year terms.</div><div =
-style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); font-family: &quot=
-;Adwaita Sans&quot;; font-style: normal; font-variant-caps: normal; font-we=
-ight: 400; letter-spacing: normal; text-align: start; text-indent: 0px; tex=
-t-transform: none; white-space: normal; word-spacing: 0px; -webkit-tap-high=
-light-color: rgba(0, 0, 0, 0.4); -webkit-text-stroke-width: 0px; text-decor=
-ation: none;"><br></div><div style=3D"caret-color: rgb(0, 0, 0); color: rgb=
-(0, 0, 0); font-family: &quot;Adwaita Sans&quot;; font-style: normal; font-=
-variant-caps: normal; font-weight: 400; letter-spacing: normal; text-align:=
- start; text-indent: 0px; text-transform: none; white-space: normal; word-s=
-pacing: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0.4); -webkit-text-=
-stroke-width: 0px; text-decoration: none;">There were five candidates nomin=
-ated. For a complete list of the candidates and their personal statements, =
-please see&nbsp;<a href=3D"https://www.x.org/wiki/BoardOfDirectors/Election=
-s/2025/" style=3D"color: rgb(46, 52, 54);">https://www.x.org/wiki/BoardOfDi=
-rectors/Elections/2025/</a></div><div style=3D"caret-color: rgb(0, 0, 0); c=
-olor: rgb(0, 0, 0); font-family: &quot;Adwaita Sans&quot;; font-style: norm=
-al; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; te=
-xt-align: start; text-indent: 0px; text-transform: none; white-space: norma=
-l; word-spacing: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0.4); -web=
-kit-text-stroke-width: 0px; text-decoration: none;"><br></div><div style=3D=
-"caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); font-family: &quot;Adwaita=
- Sans&quot;; font-style: normal; font-variant-caps: normal; font-weight: 40=
-0; letter-spacing: normal; text-align: start; text-indent: 0px; text-transf=
-orm: none; white-space: normal; word-spacing: 0px; -webkit-tap-highlight-co=
-lor: rgba(0, 0, 0, 0.4); -webkit-text-stroke-width: 0px; text-decoration: n=
-one;">Here are some instructions on how to cast your vote:</div><div style=
-=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); font-family: &quot;Adwa=
-ita Sans&quot;; font-style: normal; font-variant-caps: normal; font-weight:=
- 400; letter-spacing: normal; text-align: start; text-indent: 0px; text-tra=
-nsform: none; white-space: normal; word-spacing: 0px; -webkit-tap-highlight=
--color: rgba(0, 0, 0, 0.4); -webkit-text-stroke-width: 0px; text-decoration=
-: none;"><br></div><ol style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0,=
- 0); font-family: &quot;Adwaita Sans&quot;; font-style: normal; font-varian=
-t-caps: normal; font-weight: 400; letter-spacing: normal; text-align: start=
-; text-indent: 0px; text-transform: none; white-space: normal; word-spacing=
-: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0.4); -webkit-text-stroke=
--width: 0px; text-decoration: none;"><li>Go directly to the voting link (yo=
-u might need to log into the member system first)<br><br><a href=3D"https:/=
-/members.x.org/ballot/16/vote" style=3D"color: rgb(46, 52, 54);">https://me=
-mbers.x.org/ballot/16/vote</a><br><br></li><li>There is a pull-down selecti=
-on of candidates next to each preference level.<span class=3D"Apple-convert=
-ed-space">&nbsp;</span>Note that you are NOT required to select your prefer=
-ences for all five candidates. You can leave more than one blank.<br><br></=
-li><li>After you have completed your ballot, click the "Vote" button. Note =
-that once you click this button, your votes will be cast and you will not b=
-e able to make further changes, so please make sure you are satisfied with =
-your votes before clicking the "Vote" button.</li></ol><div style=3D"caret-=
-color: rgb(0, 0, 0); color: rgb(0, 0, 0); font-family: &quot;Adwaita Sans&q=
-uot;; font-style: normal; font-variant-caps: normal; font-weight: 400; lett=
-er-spacing: normal; text-align: start; text-indent: 0px; text-transform: no=
-ne; white-space: normal; word-spacing: 0px; -webkit-tap-highlight-color: rg=
-ba(0, 0, 0, 0.4); -webkit-text-stroke-width: 0px; text-decoration: none;"><=
-br></div><div style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); font=
--family: &quot;Adwaita Sans&quot;; font-style: normal; font-variant-caps: n=
-ormal; font-weight: 400; letter-spacing: normal; text-align: start; text-in=
-dent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -w=
-ebkit-tap-highlight-color: rgba(0, 0, 0, 0.4); -webkit-text-stroke-width: 0=
-px; text-decoration: none;">After you click the "Cast vote" button, the sys=
-tem will verify that you have completed a valid ballot. If your ballot is i=
-nvalid (e.g., you duplicated a selection or did not answer the By-laws appr=
-oval question), it will return you to the previous voting page. If your bal=
-lot is valid, your votes will be recorded and the system will show you a no=
-tice that your votes were cast.</div><div style=3D"caret-color: rgb(0, 0, 0=
-); color: rgb(0, 0, 0); font-family: &quot;Adwaita Sans&quot;; font-style: =
-normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal=
-; text-align: start; text-indent: 0px; text-transform: none; white-space: n=
-ormal; word-spacing: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0.4); =
--webkit-text-stroke-width: 0px; text-decoration: none;"><br></div><div styl=
-e=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); font-family: &quot;Adw=
-aita Sans&quot;; font-style: normal; font-variant-caps: normal; font-weight=
-: 400; letter-spacing: normal; text-align: start; text-indent: 0px; text-tr=
-ansform: none; white-space: normal; word-spacing: 0px; -webkit-tap-highligh=
-t-color: rgba(0, 0, 0, 0.4); -webkit-text-stroke-width: 0px; text-decoratio=
-n: none;">Note that the election will close at 23:59 UTC on 14 May 2025. At=
- that time, the election committee will count the votes and present the res=
-ults to the current board for validation. After the current board validates=
- the results, the election committee will present the results to the Member=
-s.</div><div style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); font-=
-family: &quot;Adwaita Sans&quot;; font-style: normal; font-variant-caps: no=
-rmal; font-weight: 400; letter-spacing: normal; text-align: start; text-ind=
-ent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -we=
-bkit-tap-highlight-color: rgba(0, 0, 0, 0.4); -webkit-text-stroke-width: 0p=
-x; text-decoration: none;"><br></div><div style=3D"caret-color: rgb(0, 0, 0=
-); color: rgb(0, 0, 0); font-family: &quot;Adwaita Sans&quot;; font-style: =
-normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal=
-; text-align: start; text-indent: 0px; text-transform: none; white-space: n=
-ormal; word-spacing: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0.4); =
--webkit-text-stroke-width: 0px; text-decoration: none;">Mark Filion, on beh=
-alf of the X.Org elections committee</div><div><span></span></div></body></=
-html>
+---
+Maíra Canal (8):
+      drm/sched: Allow drivers to skip the reset and keep on running
+      drm/sched: Always free the job after the timeout
+      drm/sched: Reduce scheduler's timeout for timeout tests
+      drm/sched: Add new test for DRM_GPU_SCHED_STAT_RUNNING
+      drm/v3d: Use DRM_GPU_SCHED_STAT_RUNNING to skip the reset
+      drm/etnaviv: Use DRM_GPU_SCHED_STAT_RUNNING to skip the reset
+      drm/xe: Use DRM_GPU_SCHED_STAT_RUNNING to skip the reset
+      drm/panfrost: Use DRM_GPU_SCHED_STAT_RUNNING to skip the reset
 
---=-iGNL7wabkI1ZH5/0BJhQ--
+ drivers/gpu/drm/etnaviv/etnaviv_sched.c          | 12 ++---
+ drivers/gpu/drm/panfrost/panfrost_job.c          |  8 ++--
+ drivers/gpu/drm/scheduler/sched_main.c           | 14 ++++++
+ drivers/gpu/drm/scheduler/tests/mock_scheduler.c | 13 ++++++
+ drivers/gpu/drm/scheduler/tests/tests_basic.c    | 57 ++++++++++++++++++++++--
+ drivers/gpu/drm/v3d/v3d_sched.c                  |  4 +-
+ drivers/gpu/drm/xe/xe_guc_submit.c               |  8 +---
+ include/drm/gpu_scheduler.h                      |  2 +
+ 8 files changed, 94 insertions(+), 24 deletions(-)
+---
+base-commit: 760e296124ef3b6e14cd1d940f2a01c5ed7c0dac
+change-id: 20250502-sched-skip-reset-bf7c163233da
+
