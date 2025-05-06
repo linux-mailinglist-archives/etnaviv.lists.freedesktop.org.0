@@ -2,19 +2,19 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96EFAAAC2B4
-	for <lists+etnaviv@lfdr.de>; Tue,  6 May 2025 13:32:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 367D0AAC30B
+	for <lists+etnaviv@lfdr.de>; Tue,  6 May 2025 13:49:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C7EF10E661;
-	Tue,  6 May 2025 11:32:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F0B8D10E24E;
+	Tue,  6 May 2025 11:49:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="nhNaH0bH";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="iMriznvV";
 	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 75E5910E65E;
- Tue,  6 May 2025 11:32:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD45B10E229;
+ Tue,  6 May 2025 11:49:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
@@ -22,22 +22,21 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
  Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=jWax/7UjKOTXSjxDDCNFk6s+HaIdKBbx9TwvhLVsDn4=; b=nhNaH0bHa0YFAC4xJCXjsmGA5n
- +h/G0Ng9RWI2g+wlQi5Ys3+r1gvqVugqAqSkBe2t5pm7cEqVFb5F4cgf6WTvFKu8bVbL4L4UYLDHU
- dOjnNTRHO+05QW34blajjQC515+0ahSlWIK6RvntxPLws9DMxmzsYhnDfA39icD23uyw/soy6zaQv
- wsYeyLEWoL/rTIFxmx5b+9j6DGXoZ8osmjQd/nM8taxGcn17DBlPpsEXgVSzBj/EXGqbCDfKwYG4c
- 1i/HRebBMkm4ZNn3Oz/DfROO0VeRCx5Z9NjJvVYNObTJhFCaj1Dkk0aqBf1DAwOGq3YCvIq+dWQUT
- 01rCGXrQ==;
+ bh=3nUJeKu5hc5iq3UUI3PLIEAN55A3Qspo0XQ9EIuePlc=; b=iMriznvV4puYwKi3gUMz8BR2eR
+ WZH1ys49sVdiifcVpn7pZiOR14mjDH/q7mIJGUkAzzhFll36ix+B3zhOleYKT6FuYx9Bu+PTZFG1I
+ TcmRKKZjyrS02CWvjSpvtRT8ExMrCplmA/NWc4gYgJgl58/Gymr3tdd0gubbPAVM+rZyi34/wT7bE
+ kHhaqeFcHNZW7djFNBFvQlgCASzYnCJ0Bg+2yduEOhVsyqoMxSN/nmGiNTLDPSOuWKt6myE8uLxof
+ XTqwSJSuhLGfiqwQFDoHmHUykh5APxtqIp2UKCWHkX+pDUBqOVniotqzDwSYM8AdYdpBvWvpBhvlg
+ DTcdzPFA==;
 Received: from [81.79.92.254] (helo=[192.168.0.101])
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1uCGTO-004Anm-8a; Tue, 06 May 2025 13:32:03 +0200
-Message-ID: <f48aa17a-3135-4480-b396-2e2077a7d2aa@igalia.com>
-Date: Tue, 6 May 2025 12:32:02 +0100
+ id 1uCGk8-004BBl-Cm; Tue, 06 May 2025 13:49:21 +0200
+Message-ID: <3fe178ec-9c16-4abc-b302-64f0077d8af4@igalia.com>
+Date: Tue, 6 May 2025 12:49:20 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/8] drm/sched: Allow drivers to skip the reset and keep
- on running
+Subject: Re: [PATCH 2/8] drm/sched: Always free the job after the timeout
 To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
  Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>,
  Philipp Stanner <phasta@kernel.org>,
@@ -54,10 +53,10 @@ To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
 Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org,
  etnaviv@lists.freedesktop.org, intel-xe@lists.freedesktop.org
 References: <20250503-sched-skip-reset-v1-0-ed0d6701a3fe@igalia.com>
- <20250503-sched-skip-reset-v1-1-ed0d6701a3fe@igalia.com>
+ <20250503-sched-skip-reset-v1-2-ed0d6701a3fe@igalia.com>
 Content-Language: en-GB
 From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <20250503-sched-skip-reset-v1-1-ed0d6701a3fe@igalia.com>
+In-Reply-To: <20250503-sched-skip-reset-v1-2-ed0d6701a3fe@igalia.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: etnaviv@lists.freedesktop.org
@@ -76,120 +75,102 @@ Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
 
 On 03/05/2025 21:59, Maíra Canal wrote:
-> When the DRM scheduler times out, it's possible that the GPU isn't hung;
-> instead, a job may still be running, and there may be no valid reason to
-> reset the hardware. This can occur in two situations:
+> Currently, if we add the assertions presented in this commit to the mock
+> scheduler, we will see the following output:
 > 
->    1. The GPU exposes some mechanism that ensures the GPU is still making
->       progress. By checking this mechanism, we can safely skip the reset,
->       rearm the timeout, and allow the job to continue running until
->       completion. This is the case for v3d and Etnaviv.
->    2. TDR has fired before the IRQ that signals the fence. Consequently,
->       the job actually finishes, but it triggers a timeout before signaling
->       the completion fence.
+> [15:47:08] ============== [PASSED] drm_sched_basic_tests ==============
+> [15:47:08] ======== drm_sched_basic_timeout_tests (1 subtest) =========
+> [15:47:08] # drm_sched_basic_timeout: ASSERTION FAILED at drivers/gpu/drm/scheduler/tests/tests_basic.c:246
+> [15:47:08] Expected list_empty(&sched->job_list) to be true, but is false
+> [15:47:08] [FAILED] drm_sched_basic_timeout
+> [15:47:08] # module: drm_sched_tests
 > 
-> These two scenarios are problematic because we remove the job from the
-> `sched->pending_list` before calling `sched->ops->timedout_job()`. This
-> means that when the job finally signals completion (e.g. in the IRQ
-> handler), the scheduler won't call `sched->ops->free_job()`. As a result,
-> the job and its resources won't be freed, leading to a memory leak.
+> This occurs because `mock_sched_timedout_job()` doesn't properly handle
+> the hang. From the DRM sched documentation, `drm_sched_stop()` and
+> `drm_sched_start()` are typically used for reset recovery. If these
+> functions are not used, the offending job won't be freed and should be
+> freed by the caller.
 > 
-> To resolve this issue, we create a new `drm_gpu_sched_stat` that allows a
-> driver to skip the reset. This new status will indicate that the job
-> should be reinserted into the pending list, and the driver will still
-> signal its completion.
+> Currently, the mock scheduler doesn't use the functions provided by the
+> API, nor does it handle the freeing of the job. As a result, the job isn't
+> removed from the job list.
 
-Since this is de facto what drivers do today I agree it makes sense to 
-formalise handling for it in the scheduler itself.
+For the record the job does gets freed via the kunit managed allocation.
 
-Acked-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+It was a design choice for this test to be a *strict* unit test which 
+tests only a _single_ thing. And that is that the timedout_job() hook 
+gets called. As such the hook was implemented to satisfy that single 
+requirement only.
 
-Some minor comments below.
+But I also do not oppose making it test multiple things in one test per se.
 
+> This commit mocks a GPU reset by stopping the scheduler affected by the
+> reset, waiting a couple of microseconds to mimic a hardware reset, and
+> then restart the affected scheduler.
+> 
 > Signed-off-by: Maíra Canal <mcanal@igalia.com>
 > ---
->   drivers/gpu/drm/scheduler/sched_main.c | 14 ++++++++++++++
->   include/drm/gpu_scheduler.h            |  2 ++
->   2 files changed, 16 insertions(+)
+>   drivers/gpu/drm/scheduler/tests/mock_scheduler.c | 10 ++++++++++
+>   drivers/gpu/drm/scheduler/tests/tests_basic.c    |  3 +++
+>   2 files changed, 13 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-> index 829579c41c6b5d8b2abce5ad373c7017469b7680..68ca827d77e32187a034309f881135dbc639a9b4 100644
-> --- a/drivers/gpu/drm/scheduler/sched_main.c
-> +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> @@ -568,6 +568,17 @@ static void drm_sched_job_timedout(struct work_struct *work)
->   			job->sched->ops->free_job(job);
->   			sched->free_guilty = false;
->   		}
+> diff --git a/drivers/gpu/drm/scheduler/tests/mock_scheduler.c b/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
+> index f999c8859cf7adb8f06fc8a37969656dd3249fa7..e9af202d84bd55ea5cc048215e39f5407bc84458 100644
+> --- a/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
+> +++ b/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
+> @@ -1,6 +1,8 @@
+>   // SPDX-License-Identifier: GPL-2.0
+>   /* Copyright (c) 2025 Valve Corporation */
+>   
+> +#include <linux/delay.h>
 > +
-> +		/*
-> +		 * If the driver indicated that the GPU is still running and wants to skip
-> +		 * the reset, reinsert the job back into the pending list and realarm the
-
-re-arm
-
-> +		 * timeout.
-> +		 */
-> +		if (status == DRM_GPU_SCHED_STAT_RUNNING) {
-> +			spin_lock(&sched->job_list_lock);
-> +			list_add(&job->list, &sched->pending_list);
-> +			spin_unlock(&sched->job_list_lock);
-> +		}
->   	} else {
->   		spin_unlock(&sched->job_list_lock);
->   	}
-> @@ -590,6 +601,9 @@ static void drm_sched_job_timedout(struct work_struct *work)
->    * This function is typically used for reset recovery (see the docu of
->    * drm_sched_backend_ops.timedout_job() for details). Do not call it for
->    * scheduler teardown, i.e., before calling drm_sched_fini().
-> + *
-> + * As it's used for reset recovery, drm_sched_stop() shouldn't be called
-> + * if the scheduler skipped the timeout (DRM_SCHED_STAT_RUNNING).
-
-s/scheduler/driver/ ?
-
->    */
->   void drm_sched_stop(struct drm_gpu_scheduler *sched, struct drm_sched_job *bad)
+>   #include "sched_tests.h"
+>   
+>   /*
+> @@ -203,10 +205,18 @@ static struct dma_fence *mock_sched_run_job(struct drm_sched_job *sched_job)
+>   static enum drm_gpu_sched_stat
+>   mock_sched_timedout_job(struct drm_sched_job *sched_job)
 >   {
-> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-> index 1a7e377d4cbb4fc12ed93c548b236970217945e8..fe9043b6d43141bee831b5fc16b927202a507d51 100644
-> --- a/include/drm/gpu_scheduler.h
-> +++ b/include/drm/gpu_scheduler.h
-> @@ -389,11 +389,13 @@ struct drm_sched_job {
->    * @DRM_GPU_SCHED_STAT_NONE: Reserved. Do not use.
->    * @DRM_GPU_SCHED_STAT_NOMINAL: Operation succeeded.
->    * @DRM_GPU_SCHED_STAT_ENODEV: Error: Device is not available anymore.
-> + * @DRM_GPU_SCHED_STAT_RUNNING: GPU is still running, so skip the reset.
+> +	struct drm_mock_scheduler *sched =
+> +		drm_sched_to_mock_sched(sched_job->sched);
+>   	struct drm_mock_sched_job *job = drm_sched_job_to_mock_job(sched_job);
+>   
+>   	job->flags |= DRM_MOCK_SCHED_JOB_TIMEDOUT;
+>   
+> +	drm_sched_stop(&sched->base, &job->base);
+> +
+> +	usleep_range(200, 500);
 
-s/GPU/job/ ?
+msleep(10) or something to make it seem less like the actual numbers are 
+relevant?
 
->    */
->   enum drm_gpu_sched_stat {
->   	DRM_GPU_SCHED_STAT_NONE,
->   	DRM_GPU_SCHED_STAT_NOMINAL,
->   	DRM_GPU_SCHED_STAT_ENODEV,
-> +	DRM_GPU_SCHED_STAT_RUNNING,
+ > +> +	drm_sched_start(&sched->base, 0);
+> +
+>   	return DRM_GPU_SCHED_STAT_NOMINAL;
+>   }
+>   
+> diff --git a/drivers/gpu/drm/scheduler/tests/tests_basic.c b/drivers/gpu/drm/scheduler/tests/tests_basic.c
+> index 7230057e0594c6246f02608f07fcb1f8d738ac75..8f960f0fd31d0af7873f410ceba2d636f58a5474 100644
+> --- a/drivers/gpu/drm/scheduler/tests/tests_basic.c
+> +++ b/drivers/gpu/drm/scheduler/tests/tests_basic.c
+> @@ -241,6 +241,9 @@ static void drm_sched_basic_timeout(struct kunit *test)
+>   			job->flags & DRM_MOCK_SCHED_JOB_TIMEDOUT,
+>   			DRM_MOCK_SCHED_JOB_TIMEDOUT);
+>   
+> +	KUNIT_ASSERT_TRUE(test, list_empty(&sched->job_list));
 
-I am wondering if we could make it more obvious what is the difference 
-between "nominal" and "running" and from whose point of view should 
-those statuses be considered.
-
-So far we have "nominal" which means scheduler/hardware is working fine 
-but the job may or may have not been cancelled. With "running" we kind 
-of split it into two sub-statuses and it would be nice for that to be 
-intuitively visible from the naming. But I struggle to suggest an 
-elegant name while preserving nominal as is.
-
-Thinking out loud here - perhaps that is pointing towards an alternative 
-that instead of a new status, a new helper to re-insert the single job 
-(like drm_sched_resubmit_job(sched, job)) would fit better? Although it 
-would be more churn.
+Hmm I think this assert could be racy because it appears to rely on the 
+free worker to run and cleanup the "finished" job in the window between 
+drm_mock_sched_job_wait_finished() (or drm_sched_start(), depends how 
+you look at it) and here. Am I missing something?
 
 Regards,
 
 Tvrtko
 
->   };
+> +	KUNIT_ASSERT_TRUE(test, list_empty(&sched->done_list));
+ > +>   	drm_mock_sched_entity_free(entity);
+>   }
 >   
->   /**
 > 
 
