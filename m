@@ -2,50 +2,44 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9A87AAFE2B
-	for <lists+etnaviv@lfdr.de>; Thu,  8 May 2025 17:04:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B688AB0114
+	for <lists+etnaviv@lfdr.de>; Thu,  8 May 2025 19:08:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C63A510E931;
-	Thu,  8 May 2025 15:04:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 52D1010E20E;
+	Thu,  8 May 2025 17:08:14 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id A42FF10E930;
- Thu,  8 May 2025 15:04:31 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 91085106F;
- Thu,  8 May 2025 08:04:20 -0700 (PDT)
-Received: from [10.57.21.179] (unknown [10.57.21.179])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8CB1B3F58B;
- Thu,  8 May 2025 08:04:27 -0700 (PDT)
-Message-ID: <6e2fec36-8631-4ba6-8b66-d8b7c8cba5f6@arm.com>
-Date: Thu, 8 May 2025 16:04:25 +0100
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CCA2C10E20E
+ for <etnaviv@lists.freedesktop.org>; Thu,  8 May 2025 17:08:13 +0000 (UTC)
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
+ helo=[IPv6:::1]) by metis.whiteo.stw.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1uD4j8-0004jx-Ex; Thu, 08 May 2025 19:08:06 +0200
+Message-ID: <a18f214ab0487a1c562f9e2f7f66ab1345925177.camel@pengutronix.de>
+Subject: Re: [PATCH v2] drm/etnaviv: Fix flush sequence logic
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Tomeu Vizoso <tomeu@tomeuvizoso.net>, linux-kernel@vger.kernel.org
+Cc: Russell King <linux+etnaviv@armlinux.org.uk>, Christian Gmeiner
+ <christian.gmeiner@gmail.com>, David Airlie <airlied@gmail.com>, Simona
+ Vetter <simona@ffwll.ch>, Philipp Zabel <p.zabel@pengutronix.de>, Guido
+ =?ISO-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>,
+ etnaviv@lists.freedesktop.org,  dri-devel@lists.freedesktop.org
+Date: Thu, 08 May 2025 19:08:04 +0200
+In-Reply-To: <20250508145624.4154317-1-tomeu@tomeuvizoso.net>
+References: <20250507112131.3686966-1-tomeu@tomeuvizoso.net>
+ <20250508145624.4154317-1-tomeu@tomeuvizoso.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.4 (3.52.4-2.fc40) 
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 8/8] drm/panfrost: Use DRM_GPU_SCHED_STAT_RUNNING to skip
- the reset
-To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>,
- Philipp Stanner <phasta@kernel.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, Simona Vetter <simona@ffwll.ch>,
- Melissa Wen <mwen@igalia.com>, Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Rob Herring <robh@kernel.org>
-Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org,
- etnaviv@lists.freedesktop.org, intel-xe@lists.freedesktop.org
-References: <20250503-sched-skip-reset-v1-0-ed0d6701a3fe@igalia.com>
- <20250503-sched-skip-reset-v1-8-ed0d6701a3fe@igalia.com>
-From: Steven Price <steven.price@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20250503-sched-skip-reset-v1-8-ed0d6701a3fe@igalia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,49 +54,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-On 03/05/2025 21:59, Maíra Canal wrote:
-> Panfrost can skip the reset if TDR has fired before the IRQ handler.
-> Currently, since Panfrost doesn't take any action on these scenarios, the
-> job is being leaked, considering that `free_job()` won't be called.
-> 
-> To avoid such leaks, use the DRM_GPU_SCHED_STAT_RUNNING status to skip the
-> reset and rearm the timer.
-> 
-> Signed-off-by: Maíra Canal <mcanal@igalia.com>
+Am Donnerstag, dem 08.05.2025 um 16:56 +0200 schrieb Tomeu Vizoso:
+> We should be comparing the last submitted sequence number with that of
+> the address space we may be switching to.
+>=20
+This isn't the relevant change here though: if we switch the address
+space, the comparison is moot, as we do a full flush on AS switch
+anyway. The relevant change is that with the old code we would record
+the flush sequence of the AS we switch away from as the current flush
+sequence, so we might miss a necessary flush on the next submission if
+that one doesn't require a AS switch, but would only flush based on
+sequence mismatch.
 
-Reviewed-by: Steven Price <steven.price@arm.com>
+Mind if I rewrite the commit message along those lines while applying?
 
+Regards,
+Lucas
+
+> Fixes: 27b67278e007 ("drm/etnaviv: rework MMU handling")
+> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
 > ---
->  drivers/gpu/drm/panfrost/panfrost_job.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
-> index 5657106c2f7d0a0ca6162850767f58f3200cce13..2948d5c02115544a0e0babffd850f1506152849d 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
-> @@ -751,11 +751,11 @@ static enum drm_gpu_sched_stat panfrost_job_timedout(struct drm_sched_job
->  	int js = panfrost_job_get_slot(job);
->  
->  	/*
-> -	 * If the GPU managed to complete this jobs fence, the timeout is
-> -	 * spurious. Bail out.
-> +	 * If the GPU managed to complete this jobs fence, TDR has fired before
-> +	 * IRQ and the timeout is spurious. Bail out.
->  	 */
->  	if (dma_fence_is_signaled(job->done_fence))
-> -		return DRM_GPU_SCHED_STAT_NOMINAL;
-> +		return DRM_GPU_SCHED_STAT_RUNNING;
->  
->  	/*
->  	 * Panfrost IRQ handler may take a long time to process an interrupt
-> @@ -770,7 +770,7 @@ static enum drm_gpu_sched_stat panfrost_job_timedout(struct drm_sched_job
->  
->  	if (dma_fence_is_signaled(job->done_fence)) {
->  		dev_warn(pfdev->dev, "unexpectedly high interrupt latency\n");
-> -		return DRM_GPU_SCHED_STAT_NOMINAL;
-> +		return DRM_GPU_SCHED_STAT_RUNNING;
->  	}
->  
->  	dev_err(pfdev->dev, "gpu sched timeout, js=%d, config=0x%x, status=0x%x, head=0x%x, tail=0x%x, sched_job=%p",
-> 
+>  drivers/gpu/drm/etnaviv/etnaviv_buffer.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_buffer.c b/drivers/gpu/drm/e=
+tnaviv/etnaviv_buffer.c
+> index b13a17276d07..88385dc3b30d 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
+> @@ -347,7 +347,7 @@ void etnaviv_buffer_queue(struct etnaviv_gpu *gpu, u3=
+2 exec_state,
+>  	u32 link_target, link_dwords;
+>  	bool switch_context =3D gpu->exec_state !=3D exec_state;
+>  	bool switch_mmu_context =3D gpu->mmu_context !=3D mmu_context;
+> -	unsigned int new_flush_seq =3D READ_ONCE(gpu->mmu_context->flush_seq);
+> +	unsigned int new_flush_seq =3D READ_ONCE(mmu_context->flush_seq);
+>  	bool need_flush =3D switch_mmu_context || gpu->flush_seq !=3D new_flush=
+_seq;
+>  	bool has_blt =3D !!(gpu->identity.minor_features5 &
+>  			  chipMinorFeatures5_BLT_ENGINE);
 
