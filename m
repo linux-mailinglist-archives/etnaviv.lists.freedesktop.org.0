@@ -2,68 +2,64 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40ACDAB35B5
-	for <lists+etnaviv@lfdr.de>; Mon, 12 May 2025 13:13:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A047AAB39E5
+	for <lists+etnaviv@lfdr.de>; Mon, 12 May 2025 16:00:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0561910E36C;
-	Mon, 12 May 2025 11:13:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7868A10E422;
+	Mon, 12 May 2025 14:00:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="bd9SEtH0";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="cyWCEN/F";
 	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9444F10E07E;
- Mon, 12 May 2025 11:13:49 +0000 (UTC)
-Received: from smtp102.mailbox.org (smtp102.mailbox.org
- [IPv6:2001:67c:2050:b231:465::102])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4Zwxn50f9fz9ssn;
- Mon, 12 May 2025 13:13:45 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; 
- t=1747048425; h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=t6VQc38QgN1MZ4OmUxYUyjJ/74JTeCoEhU5uT0CRDss=;
- b=bd9SEtH0bMp6mWlqOp+/XoubT+R/6A/FI2Xoos41tlXzHlyWQHVW83MP77g7ftlzQm3XBZ
- NKznZA6R0Kjxc0uTiAi34aTsvM6BwqBCrWV4Gz5eRks/IYUm3eUgg/g5CJxPj9jx5bWsv6
- B4iqXD0wyZDx8QyCGAa9NIzv+CL2tI8SGumjnTSDjt6kLtHPCZp2mPoGKpWoA6IX2I1KDw
- 25IvFWMuzCalDcNHFDj79H2xJGFGZYTVXYjZHE1e04Ut/Lg2CU22ZhTdgliNxecABYLQMB
- V7T8DxNc1gIcdJaIXYEYEZ27gjHsuSDnODpXmxXWSg3/THot+8arackkZBzEQA==
-Message-ID: <c0ce8bc07bf5547af5084cfcb2c7572d786fdc0e.camel@mailbox.org>
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E4CF610E42C;
+ Mon, 12 May 2025 14:00:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=CT/INSm43oaHzi76xEBP3/56/mExLc1uyM0zE8TBYCA=; b=cyWCEN/FDjFE5kwntL1OA6XmuV
+ L8NpGd8lyBQ/3jU5OjVAxtx1VYH9dQS1laThP+jSQ0q9hGgEHl8veSw+y1n5mU/+d5QMOs6nfeFhX
+ DjK6qL3JQFV6gKFtv3EQPnMlTRbjIxqnoSCbv6ljfxWke6N5mINra43ovzJQvkzezqjYff9uo9wsO
+ y+P0tXC86Z/HcQjsou0J/oHrYAtN2mG6V/iOZdQpRuRMOyai+ojudFFtVO9Bb49X8rhdbN49So6re
+ Dq5xWUdCVQxh0cz+D6qCmKi9n1kaXHTX0EOplTMDRyxsToWGP024t4gshWMHY4TN2jocNfwuHjdUv
+ ssLuC6UA==;
+Received: from [189.7.87.163] (helo=[192.168.0.7])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1uETbo-0076rD-At; Mon, 12 May 2025 15:59:41 +0200
+Message-ID: <ee449d95-27c8-4f0c-919e-2939cbe5b2cc@igalia.com>
+Date: Mon, 12 May 2025 10:59:33 -0300
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 1/8] drm/sched: Allow drivers to skip the reset and keep
  on running
-From: Philipp Stanner <phasta@mailbox.org>
-To: Matthew Brost <matthew.brost@intel.com>, =?ISO-8859-1?Q?Ma=EDra?= Canal
- <mcanal@igalia.com>
-Cc: Danilo Krummrich <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>,
- Christian =?ISO-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,  Simona Vetter
- <simona@ffwll.ch>, Melissa Wen <mwen@igalia.com>, Lucas Stach
- <l.stach@pengutronix.de>,  Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>, Lucas De Marchi
- <lucas.demarchi@intel.com>, Thomas =?ISO-8859-1?Q?Hellstr=F6m?=
- <thomas.hellstrom@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Boris Brezillon <boris.brezillon@collabora.com>, Rob Herring
- <robh@kernel.org>, Steven Price <steven.price@arm.com>, 
- kernel-dev@igalia.com, dri-devel@lists.freedesktop.org, 
+To: phasta@kernel.org, Matthew Brost <matthew.brost@intel.com>,
+ Danilo Krummrich <dakr@kernel.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, Simona Vetter <simona@ffwll.ch>,
+ Melissa Wen <mwen@igalia.com>, Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>
+Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org,
  etnaviv@lists.freedesktop.org, intel-xe@lists.freedesktop.org
-Date: Mon, 12 May 2025 13:13:39 +0200
-In-Reply-To: <aBodbVPeVtAWK6OX@lstrano-desk.jf.intel.com>
 References: <20250503-sched-skip-reset-v1-0-ed0d6701a3fe@igalia.com>
  <20250503-sched-skip-reset-v1-1-ed0d6701a3fe@igalia.com>
- <aBl2xaVBlYYyBt2o@lstrano-desk.jf.intel.com>
- <aBodbVPeVtAWK6OX@lstrano-desk.jf.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-MIME-Version: 1.0
-X-MBO-RS-ID: 7ecf2ece5d64cbd60af
-X-MBO-RS-META: zqp8xmeyc65fxuih986y7ajugjzybuu7
+ <82495d71bf97fbf6970ba6b016b3a121fc4b84f2.camel@mailbox.org>
+Content-Language: en-US
+From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+In-Reply-To: <82495d71bf97fbf6970ba6b016b3a121fc4b84f2.camel@mailbox.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,162 +71,211 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: phasta@kernel.org
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-On Tue, 2025-05-06 at 07:32 -0700, Matthew Brost wrote:
-> On Mon, May 05, 2025 at 07:41:09PM -0700, Matthew Brost wrote:
-> > On Sat, May 03, 2025 at 05:59:52PM -0300, Ma=C3=ADra Canal wrote:
-> > > When the DRM scheduler times out, it's possible that the GPU
-> > > isn't hung;
-> > > instead, a job may still be running, and there may be no valid
-> > > reason to
-> > > reset the hardware. This can occur in two situations:
-> > >=20
-> > > =C2=A0 1. The GPU exposes some mechanism that ensures the GPU is stil=
-l
-> > > making
-> > > =C2=A0=C2=A0=C2=A0=C2=A0 progress. By checking this mechanism, we can=
- safely skip the
-> > > reset,
-> > > =C2=A0=C2=A0=C2=A0=C2=A0 rearm the timeout, and allow the job to cont=
-inue running
-> > > until
-> > > =C2=A0=C2=A0=C2=A0=C2=A0 completion. This is the case for v3d and Etn=
-aviv.
-> > > =C2=A0 2. TDR has fired before the IRQ that signals the fence.
-> > > Consequently,
-> > > =C2=A0=C2=A0=C2=A0=C2=A0 the job actually finishes, but it triggers a=
- timeout before
-> > > signaling
-> > > =C2=A0=C2=A0=C2=A0=C2=A0 the completion fence.
-> > >=20
-> >=20
-> > We have both of these cases in Xe too. We implement the requeuing
-> > in Xe
-> > via driver side function - xe_sched_add_pending_job but this looks
-> > better and will make use of this.
-> >=20
-> > > These two scenarios are problematic because we remove the job
-> > > from the
-> > > `sched->pending_list` before calling `sched->ops-
-> > > >timedout_job()`. This
-> > > means that when the job finally signals completion (e.g. in the
-> > > IRQ
-> > > handler), the scheduler won't call `sched->ops->free_job()`. As a
-> > > result,
-> > > the job and its resources won't be freed, leading to a memory
-> > > leak.
-> > >=20
-> > > To resolve this issue, we create a new `drm_gpu_sched_stat` that
-> > > allows a
-> > > driver to skip the reset. This new status will indicate that the
-> > > job
-> > > should be reinserted into the pending list, and the driver will
-> > > still
-> > > signal its completion.
-> > >=20
-> > > Signed-off-by: Ma=C3=ADra Canal <mcanal@igalia.com>
-> >=20
-> > Reviewed-by: Matthew Brost <matthew.brost@intel.com>
-> >=20
->=20
-> Wait - nevermind I think one issue is below.
->=20
-> > > ---
-> > > =C2=A0drivers/gpu/drm/scheduler/sched_main.c | 14 ++++++++++++++
-> > > =C2=A0include/drm/gpu_scheduler.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 2 ++
-> > > =C2=A02 files changed, 16 insertions(+)
-> > >=20
-> > > diff --git a/drivers/gpu/drm/scheduler/sched_main.c
-> > > b/drivers/gpu/drm/scheduler/sched_main.c
-> > > index
-> > > 829579c41c6b5d8b2abce5ad373c7017469b7680..68ca827d77e32187a034309
-> > > f881135dbc639a9b4 100644
-> > > --- a/drivers/gpu/drm/scheduler/sched_main.c
-> > > +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> > > @@ -568,6 +568,17 @@ static void drm_sched_job_timedout(struct
-> > > work_struct *work)
-> > > =C2=A0			job->sched->ops->free_job(job);
-> > > =C2=A0			sched->free_guilty =3D false;
-> > > =C2=A0		}
-> > > +
-> > > +		/*
-> > > +		 * If the driver indicated that the GPU is still
-> > > running and wants to skip
-> > > +		 * the reset, reinsert the job back into the
-> > > pending list and realarm the
-> > > +		 * timeout.
-> > > +		 */
-> > > +		if (status =3D=3D DRM_GPU_SCHED_STAT_RUNNING) {
-> > > +			spin_lock(&sched->job_list_lock);
-> > > +			list_add(&job->list, &sched-
-> > > >pending_list);
-> > > +			spin_unlock(&sched->job_list_lock);
-> > > +		}
->=20
-> I think you need to requeue free_job wq here. It is possible the
-> free_job wq ran, didn't find a job, goes to sleep, then we add a
-> signaled job here which will never get freed.
+Hi Philipp,
 
-I wonder if that could be solved by holding job_list_lock a bit longer.
-free_job_work will try to check the list for the next signaled job, but
-will wait for the lock.
+On 12/05/25 08:04, Philipp Stanner wrote:
+> On Sat, 2025-05-03 at 17:59 -0300, Maíra Canal wrote:
+>> When the DRM scheduler times out, it's possible that the GPU isn't
+>> hung;
+>> instead, a job may still be running, and there may be no valid reason
+>> to
+>> reset the hardware. This can occur in two situations:
+>>
+>>    1. The GPU exposes some mechanism that ensures the GPU is still
+>> making
+>>       progress. By checking this mechanism, we can safely skip the
+>> reset,
+>>       rearm the timeout, and allow the job to continue running until
+>>       completion. This is the case for v3d and Etnaviv.
+> 
+> Who is "we" and where is the reset skipped? In the timedout_job()
+> callback?
 
-If that works, we could completely rely on the standard mechanism
-without requeuing, which would be neat.
+"we" is just a generic way to say "we, the driver developers". The reset
+is skipped in the `timedout_job()` callback.
 
-P.
+> 
+>>    2. TDR has fired before the IRQ that signals the fence.
+> 
+> Any concern about saying "Timeout" instead of "TDR"? I think most of us
+> aren't familiar with that acronym.
 
->=20
-> Matt
->=20
-> > > =C2=A0	} else {
-> > > =C2=A0		spin_unlock(&sched->job_list_lock);
-> > > =C2=A0	}
-> > > @@ -590,6 +601,9 @@ static void drm_sched_job_timedout(struct
-> > > work_struct *work)
-> > > =C2=A0 * This function is typically used for reset recovery (see the
-> > > docu of
-> > > =C2=A0 * drm_sched_backend_ops.timedout_job() for details). Do not
-> > > call it for
-> > > =C2=A0 * scheduler teardown, i.e., before calling drm_sched_fini().
-> > > + *
-> > > + * As it's used for reset recovery, drm_sched_stop() shouldn't
-> > > be called
-> > > + * if the scheduler skipped the timeout
-> > > (DRM_SCHED_STAT_RUNNING).
-> > > =C2=A0 */
-> > > =C2=A0void drm_sched_stop(struct drm_gpu_scheduler *sched, struct
-> > > drm_sched_job *bad)
-> > > =C2=A0{
-> > > diff --git a/include/drm/gpu_scheduler.h
-> > > b/include/drm/gpu_scheduler.h
-> > > index
-> > > 1a7e377d4cbb4fc12ed93c548b236970217945e8..fe9043b6d43141bee831b5f
-> > > c16b927202a507d51 100644
-> > > --- a/include/drm/gpu_scheduler.h
-> > > +++ b/include/drm/gpu_scheduler.h
-> > > @@ -389,11 +389,13 @@ struct drm_sched_job {
-> > > =C2=A0 * @DRM_GPU_SCHED_STAT_NONE: Reserved. Do not use.
-> > > =C2=A0 * @DRM_GPU_SCHED_STAT_NOMINAL: Operation succeeded.
-> > > =C2=A0 * @DRM_GPU_SCHED_STAT_ENODEV: Error: Device is not available
-> > > anymore.
-> > > + * @DRM_GPU_SCHED_STAT_RUNNING: GPU is still running, so skip
-> > > the reset.
-> > > =C2=A0 */
-> > > =C2=A0enum drm_gpu_sched_stat {
-> > > =C2=A0	DRM_GPU_SCHED_STAT_NONE,
-> > > =C2=A0	DRM_GPU_SCHED_STAT_NOMINAL,
-> > > =C2=A0	DRM_GPU_SCHED_STAT_ENODEV,
-> > > +	DRM_GPU_SCHED_STAT_RUNNING,
-> > > =C2=A0};
-> > > =C2=A0
-> > > =C2=A0/**
-> > >=20
-> > > --=20
-> > > 2.49.0
-> > >=20
+I'll use "Timeout" in v2.
+
+> 
+>> Consequently,
+>>       the job actually finishes, but it triggers a timeout before
+>> signaling
+>>       the completion fence.
+> 
+> That formulation doesn't seem correct. Once the timeout fired, the job,
+> as far as the GPU is concerned, is already finished, isn't it?
+
+Yes, but there is a race-condition between the IRQ handler (which will
+indeed signal the fence) and timeout handler.
+
+> 
+> What is the "completion fence"? In the scheduler, we call the fence
+> returned by backend_ops.run_job() the "hardware fence".
+ > > And who is the "it" in "it triggers a timeout"? I assume you want to
+> say "the job has actually finished, but the scheduler triggers a
+> timeout anyways".
+> 
+
+I'll address it in v2.
+
+> 
+> Also the purpose of that list is a bit unclear to me. It seems to be a
+> list of problems, but point 1 seems valid?
+> 
+
+Point 2 is also valid, otherwise Xe, Panfrost, Lima, and Etnaviv
+wouldn't have to handle this situation. TDR can "win" the race-condition
+and although the hardware fence will be signaled in the IRQ handler, the
+job won't be freed.
+
+> 
+>>
+>> These two scenarios are problematic because we remove the job from
+>> the
+>> `sched->pending_list` before calling `sched->ops->timedout_job()`.
+> 
+> Who is "we"? :)
+
+Ditto.
+
+> 
+> 
+>> This
+>> means that when the job finally signals completion (e.g. in the IRQ
+>> handler),
+> 
+> A job doesn't signal completion.
+> 
+> The hardware / driver signals job completion by signaling the hardware
+> fence.
+
+I'll address it in v2.
+
+> 
+>>   the scheduler won't call `sched->ops->free_job()`. As a result,
+>> the job and its resources won't be freed, leading to a memory leak.
+> 
+> OK, I think I get it. But isn't another explanation of the issue that
+> the driver callback doesn't take care of cleaning up the job that has
+> timed out (from the scheduler's perspective)?
+> 
+> It's not clear to me that the scheduler actually contains a bug here,
+> but rather is designed in a way that doesn't consider that some GPUs
+> have special timeout requirements or, rather, can have bursts of
+> slowness that don't actually indicate a timeout.
+> 
+> I think the commit message should be very clear about whether this is
+> an improvement of a design weakness or an actual bug fix.
+> 
+>>
+>> To resolve this issue, we create a new `drm_gpu_sched_stat` that
+>> allows a
+>> driver to skip the reset. This new status will indicate that the job
+>> should be reinserted into the pending list, and the driver will still
+>> signal its completion.
+> 
+> Hmm, yes, I think that this is the right way to address that problem.
+> +1
+> 
+> 
+>>
+>> Signed-off-by: Maíra Canal <mcanal@igalia.com>
+>> ---
+>>   drivers/gpu/drm/scheduler/sched_main.c | 14 ++++++++++++++
+>>   include/drm/gpu_scheduler.h            |  2 ++
+>>   2 files changed, 16 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c
+>> b/drivers/gpu/drm/scheduler/sched_main.c
+>> index
+>> 829579c41c6b5d8b2abce5ad373c7017469b7680..68ca827d77e32187a034309f881
+>> 135dbc639a9b4 100644
+>> --- a/drivers/gpu/drm/scheduler/sched_main.c
+>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+>> @@ -568,6 +568,17 @@ static void drm_sched_job_timedout(struct
+>> work_struct *work)
+>>   			job->sched->ops->free_job(job);
+>>   			sched->free_guilty = false;
+>>   		}
+>> +
+>> +		/*
+>> +		 * If the driver indicated that the GPU is still
+>> running and wants to skip
+>> +		 * the reset, reinsert the job back into the pending
+>> list and realarm the
+>> +		 * timeout.
+>> +		 */
+>> +		if (status == DRM_GPU_SCHED_STAT_RUNNING) {
+>> +			spin_lock(&sched->job_list_lock);
+>> +			list_add(&job->list, &sched->pending_list);
+>> +			spin_unlock(&sched->job_list_lock);
+>> +		}
+>>   	} else {
+>>   		spin_unlock(&sched->job_list_lock);
+>>   	}
+>> @@ -590,6 +601,9 @@ static void drm_sched_job_timedout(struct
+>> work_struct *work)
+>>    * This function is typically used for reset recovery (see the docu
+>> of
+>>    * drm_sched_backend_ops.timedout_job() for details). Do not call it
+>> for
+>>    * scheduler teardown, i.e., before calling drm_sched_fini().
+>> + *
+>> + * As it's used for reset recovery, drm_sched_stop() shouldn't be
+>> called
+>> + * if the scheduler skipped the timeout (DRM_SCHED_STAT_RUNNING).
+> 
+> The same comment then applies to the counterpart, drm_sched_start().
+> 
+
+Thanks for your review! I'll address all your comments in v2.
+
+Best Regards,
+- Maíra
+
+> We might also want to look into who uses drm_sched_wqueue_{start,stop}
+> and consider if they need a comment. Though I don't expect you to do
+> that. Those functions are hacky legacy anyways.
+> 
+> 
+> P.
+> 
+>>    */
+>>   void drm_sched_stop(struct drm_gpu_scheduler *sched, struct
+>> drm_sched_job *bad)
+>>   {
+>> diff --git a/include/drm/gpu_scheduler.h
+>> b/include/drm/gpu_scheduler.h
+>> index
+>> 1a7e377d4cbb4fc12ed93c548b236970217945e8..fe9043b6d43141bee831b5fc16b
+>> 927202a507d51 100644
+>> --- a/include/drm/gpu_scheduler.h
+>> +++ b/include/drm/gpu_scheduler.h
+>> @@ -389,11 +389,13 @@ struct drm_sched_job {
+>>    * @DRM_GPU_SCHED_STAT_NONE: Reserved. Do not use.
+>>    * @DRM_GPU_SCHED_STAT_NOMINAL: Operation succeeded.
+>>    * @DRM_GPU_SCHED_STAT_ENODEV: Error: Device is not available
+>> anymore.
+>> + * @DRM_GPU_SCHED_STAT_RUNNING: GPU is still running, so skip the
+>> reset.
+>>    */
+>>   enum drm_gpu_sched_stat {
+>>   	DRM_GPU_SCHED_STAT_NONE,
+>>   	DRM_GPU_SCHED_STAT_NOMINAL,
+>>   	DRM_GPU_SCHED_STAT_ENODEV,
+>> +	DRM_GPU_SCHED_STAT_RUNNING,
+>>   };
+>>   
+>>   /**
+>>
+> 
 
