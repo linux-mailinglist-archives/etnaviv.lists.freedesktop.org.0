@@ -2,97 +2,68 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82CBBAB0368
-	for <lists+etnaviv@lfdr.de>; Thu,  8 May 2025 21:12:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D225AB3352
+	for <lists+etnaviv@lfdr.de>; Mon, 12 May 2025 11:25:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6124510E012;
-	Thu,  8 May 2025 19:12:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E202910E170;
+	Mon, 12 May 2025 09:25:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=tomeuvizoso-net.20230601.gappssmtp.com header.i=@tomeuvizoso-net.20230601.gappssmtp.com header.b="J8qWSCxt";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="vYGn906P";
 	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com
- [209.85.128.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C65B010E012
- for <etnaviv@lists.freedesktop.org>; Thu,  8 May 2025 19:12:05 +0000 (UTC)
-Received: by mail-yw1-f170.google.com with SMTP id
- 00721157ae682-70a338b1ce5so9419217b3.0
- for <etnaviv@lists.freedesktop.org>; Thu, 08 May 2025 12:12:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tomeuvizoso-net.20230601.gappssmtp.com; s=20230601; t=1746731522;
- x=1747336322; darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=RTf3AI95bM3SluiF+bL7cREfN/HXYnAFwT21a0zqJvw=;
- b=J8qWSCxt+9DsUcBeCZ2sTf2i7EpheyZCw6ameEm3+p5Q7wBvJWeyzUSdSAwJVXjO+R
- x3yczkSfCos/HipYbMsK1JWwLfVJ/eBgq6Knw7VK4IPgB93nXyeX5sSEZ+/BWbgdMedQ
- 7fHbMWrq2Gq+BPt+ueHUZIys2N6tyTI12t+5eisbToqz0X9dKC2Wq+ffo3tMdxMhW40E
- 5NxZiYyugQmApi7QfLLInAm1aUSpoGNDDFxHct7rgsH8RL3nxN6YeMmx2VTvQX5Bt5t4
- bQ4QsuboQyt4pI3tAltQD+F/kJ2KQb1MosrFetnyOO9/lDc2a5rAcQ2iY1W4hc/qZqHs
- HdzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1746731522; x=1747336322;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=RTf3AI95bM3SluiF+bL7cREfN/HXYnAFwT21a0zqJvw=;
- b=Z1rRX97YHlhAyXJIMPAJht1j+GaPWdwwQlK/yTozmMhfBF0wx1T3Un86i3kM5qIDs5
- D1Ucv/kJUuKANVRg34meijiouAfaXUcQXuz4XZZcZwVI6wWR1flskBZhUCUk+x5eFPL5
- ZDF90M/bmvEUoDWripgT3wv+di7UvC1d8Jfus2MGghVNDhyfGScBjLklnmaNMvB/keUE
- +Th+ECbzQxVv9fYiH+yi16TiP5AcUjeTlsnj7XQ9uGvOrxE20PdXTzZNchN4DgoOcbyK
- Ym8bVfNz+c/j8Jw0fTkmIjH7mfdGsV4fcuCZ7/2f+ucE7sGA0iGyFrrMaiH4dhjcSUCb
- /afQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVbjV3fIlLDQji/KNFohkEFJoaJ+Bgxpxw4isrjQlvpqZVaGa6vVNsXRjxxgcQQ3qQOowE43Pru@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw3Bro0u3ilxoK5l6SnscOseR0oAvaGLusFlG/RPW35z5D5Uof8
- G1IBdIcZN6KgfEW6GzzG96gObKd0PqvLDAbrr+so5moS6diVWGP6OdIIoR8NQxCq+05Os5ZVX96
- ma4RBYQ==
-X-Gm-Gg: ASbGnct8V+nj/5GguWRdIBC+Yp3HskCf16N+qJ7FGV5IELWl1BElleaGrRsGR6R9XJX
- 8s6YrqyaSxL2L/z5OQ4poiS1RcDPytE9c69BboDoN1WD7G/cGaIROETFGrKaTxQ+uODwxqdWAm0
- eO77BW23XhwULPyGmuCa0TfcirZE+mpaBaOVyUMR+PP8aYHv/v5kA865ddjYo9EWw20wrwFqryx
- C8DhkB3en9sJNR06FMBLkM2kbC1Ku4Ycdisxc7B2MUtTXQlktTyAJFyyMsqe/qw/+j5XYRvOhq8
- JVfSIY3GmOV5vZoTg/Q7Fg116gJOEeNENXR3opSw7O7HhydHNL3NRNqIGaFdc7Un6jNP7yEi05Z
- HXWuFr82S
-X-Google-Smtp-Source: AGHT+IEM/fzzXs1956VU17theM/urtccdrmfKcouqy4HT5UuiysZTr0icphh81TtuH38lZMVic6yww==
-X-Received: by 2002:a05:690c:3803:b0:6fb:b37f:2072 with SMTP id
- 00721157ae682-70a3fa57232mr8929227b3.22.1746731522048; 
- Thu, 08 May 2025 12:12:02 -0700 (PDT)
-Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com.
- [209.85.219.177]) by smtp.gmail.com with ESMTPSA id
- 00721157ae682-70a3d8be1ecsm1993547b3.50.2025.05.08.12.12.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 08 May 2025 12:12:01 -0700 (PDT)
-Received: by mail-yb1-f177.google.com with SMTP id
- 3f1490d57ef6-e740a09eae0so1302017276.1; 
- Thu, 08 May 2025 12:12:01 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCViVGWQ0r8FAqpv+0GUCpMnrKNtiYNN6iNC33GL2RpSnrcHwSAuMTf0QcKYyiTg83hncV6dBbd5mQ==@lists.freedesktop.org,
- AJvYcCWY8v8xeCQ4osJDCspijC5cUiz5EwcM6GMhriOo7qGwtzKIIrBFo4AbmcivivvtN682inDKlcXTlmg=@lists.freedesktop.org
-X-Received: by 2002:a05:6902:210e:b0:e73:2039:10b5 with SMTP id
- 3f1490d57ef6-e78fdbe1809mr948464276.5.1746731520724; Thu, 08 May 2025
- 12:12:00 -0700 (PDT)
-MIME-Version: 1.0
-References: <20250507112131.3686966-1-tomeu@tomeuvizoso.net>
- <20250508145624.4154317-1-tomeu@tomeuvizoso.net>
- <a18f214ab0487a1c562f9e2f7f66ab1345925177.camel@pengutronix.de>
-In-Reply-To: <a18f214ab0487a1c562f9e2f7f66ab1345925177.camel@pengutronix.de>
-From: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Date: Thu, 8 May 2025 21:11:48 +0200
-X-Gmail-Original-Message-ID: <CAAObsKDwVB7w0mK3qkJJ-x3sOVxbcM5pbjxJk-106baaiwM=dg@mail.gmail.com>
-X-Gm-Features: ATxdqUHU3XaLDR8S2zaGYwUwcL8lv1VNDzcEDTTYilVdMESYY9EBz9Cry6NW0ic
-Message-ID: <CAAObsKDwVB7w0mK3qkJJ-x3sOVxbcM5pbjxJk-106baaiwM=dg@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/etnaviv: Fix flush sequence logic
-To: Lucas Stach <l.stach@pengutronix.de>
-Cc: linux-kernel@vger.kernel.org, Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Philipp Zabel <p.zabel@pengutronix.de>, 
- =?UTF-8?Q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>, 
- etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A156410E170;
+ Mon, 12 May 2025 09:25:00 +0000 (UTC)
+Received: from smtp202.mailbox.org (smtp202.mailbox.org
+ [IPv6:2001:67c:2050:b231:465::202])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4ZwvMX5fwgz9smN;
+ Mon, 12 May 2025 11:24:56 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; 
+ t=1747041896; h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Jx6/lo73KV9uhh+6cHg1qBPdgm6rkh+b+VT/ZKn9Omg=;
+ b=vYGn906PpXjLXF+d3ECyenHZsLtn59hDjs6W3Jh27Bfd+XJIlY761XhkRes9nXHE2SGAij
+ ALGb7sJanGlJHN9w+U6xz3y5djtoFy6CNCcvPSobCAKHeVo4PqJ5pqHNPpZZ/92qaVk1on
+ IRllAvesOJOwV/khQ/+KWrJOtuM33aVEesHUGAb8O0sHR/DusyWhgPI5Af3g0QM6ZmJ4Rq
+ YZnOYljeguDVgWExKY6aHDdNbSpWuNd8PqqFfIpWmHZCyQmUbZ2tJldA6E7Vqi6A9YQgTJ
+ /Qmw4H9W/WXF+bXHPpz7JS7ZVE50xdLiZU0ipCPikHbPsc7RIIM1P3m7UgINgw==
+Message-ID: <73e6d7c4d216456f10960b5409de46c669bdc3ce.camel@mailbox.org>
+Subject: Re: [PATCH 1/8] drm/sched: Allow drivers to skip the reset and keep
+ on running
+From: Philipp Stanner <phasta@mailbox.org>
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, =?ISO-8859-1?Q?Ma=EDra?=
+ Canal <mcanal@igalia.com>, Matthew Brost <matthew.brost@intel.com>, Danilo
+ Krummrich <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>, Christian
+ =?ISO-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>, Melissa Wen <mwen@igalia.com>, Lucas Stach
+ <l.stach@pengutronix.de>, Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>, Lucas De Marchi
+ <lucas.demarchi@intel.com>, Thomas =?ISO-8859-1?Q?Hellstr=F6m?=
+ <thomas.hellstrom@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>, Rob Herring
+ <robh@kernel.org>, Steven Price <steven.price@arm.com>
+Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org, 
+ etnaviv@lists.freedesktop.org, intel-xe@lists.freedesktop.org
+Date: Mon, 12 May 2025 11:24:48 +0200
+In-Reply-To: <95daf571-fa56-4e49-9c45-adb3932aecdb@igalia.com>
+References: <20250503-sched-skip-reset-v1-0-ed0d6701a3fe@igalia.com>
+ <20250503-sched-skip-reset-v1-1-ed0d6701a3fe@igalia.com>
+ <f48aa17a-3135-4480-b396-2e2077a7d2aa@igalia.com>
+ <4020cf8b-3524-46c9-a082-adaf4c1797c2@igalia.com>
+ <95daf571-fa56-4e49-9c45-adb3932aecdb@igalia.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-MBO-RS-ID: cceb89f7b8e4215d719
+X-MBO-RS-META: ee3qndim4nmfrwoxiac3r5pseqn7m559
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,58 +75,191 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: phasta@kernel.org
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-On Thu, May 8, 2025 at 7:08=E2=80=AFPM Lucas Stach <l.stach@pengutronix.de>=
- wrote:
->
-> Am Donnerstag, dem 08.05.2025 um 16:56 +0200 schrieb Tomeu Vizoso:
-> > We should be comparing the last submitted sequence number with that of
-> > the address space we may be switching to.
-> >
-> This isn't the relevant change here though: if we switch the address
-> space, the comparison is moot, as we do a full flush on AS switch
-> anyway. The relevant change is that with the old code we would record
-> the flush sequence of the AS we switch away from as the current flush
-> sequence, so we might miss a necessary flush on the next submission if
-> that one doesn't require a AS switch, but would only flush based on
-> sequence mismatch.
+On Wed, 2025-05-07 at 13:50 +0100, Tvrtko Ursulin wrote:
+>=20
+> On 07/05/2025 13:33, Ma=C3=ADra Canal wrote:
+> > Hi Tvrtko,
+> >=20
+> > Thanks for the review!
+> >=20
+> > On 06/05/25 08:32, Tvrtko Ursulin wrote:
+> > >=20
+> > > On 03/05/2025 21:59, Ma=C3=ADra Canal wrote:
+> > > > When the DRM scheduler times out, it's possible that the GPU
+> > > > isn't hung;
+> > > > instead, a job may still be running, and there may be no valid
+> > > > reason to
+> > > > reset the hardware. This can occur in two situations:
+> > > >=20
+> > > > =C2=A0=C2=A0 1. The GPU exposes some mechanism that ensures the GPU=
+ is
+> > > > still=20
+> > > > making
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 progress. By checking this mechanism=
+, we can safely skip
+> > > > the=20
+> > > > reset,
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 rearm the timeout, and allow the job=
+ to continue running
+> > > > until
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 completion. This is the case for v3d=
+ and Etnaviv.
+> > > > =C2=A0=C2=A0 2. TDR has fired before the IRQ that signals the fence=
+.
+> > > > Consequently,
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 the job actually finishes, but it tr=
+iggers a timeout
+> > > > before=20
+> > > > signaling
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 the completion fence.
+> > > >=20
+> > > > These two scenarios are problematic because we remove the job
+> > > > from the
+> > > > `sched->pending_list` before calling `sched->ops-
+> > > > >timedout_job()`. This
+> > > > means that when the job finally signals completion (e.g. in the
+> > > > IRQ
+> > > > handler), the scheduler won't call `sched->ops->free_job()`. As
+> > > > a=20
+> > > > result,
+> > > > the job and its resources won't be freed, leading to a memory
+> > > > leak.
+> > > >=20
+> > > > To resolve this issue, we create a new `drm_gpu_sched_stat`
+> > > > that=20
+> > > > allows a
+> > > > driver to skip the reset. This new status will indicate that
+> > > > the job
+> > > > should be reinserted into the pending list, and the driver will
+> > > > still
+> > > > signal its completion.
+> > >=20
+> >=20
+> > [...]
+> >=20
+> > > > diff --git a/include/drm/gpu_scheduler.h
+> > > > b/include/drm/gpu_scheduler.h
+> > > > index=20
+> > > > 1a7e377d4cbb4fc12ed93c548b236970217945e8..fe9043b6d43141bee831b
+> > > > 5fc16b927202a507d51 100644
+> > > > --- a/include/drm/gpu_scheduler.h
+> > > > +++ b/include/drm/gpu_scheduler.h
+> > > > @@ -389,11 +389,13 @@ struct drm_sched_job {
+> > > > =C2=A0=C2=A0 * @DRM_GPU_SCHED_STAT_NONE: Reserved. Do not use.
+> > > > =C2=A0=C2=A0 * @DRM_GPU_SCHED_STAT_NOMINAL: Operation succeeded.
+> > > > =C2=A0=C2=A0 * @DRM_GPU_SCHED_STAT_ENODEV: Error: Device is not ava=
+ilable
+> > > > anymore.
+> > > > + * @DRM_GPU_SCHED_STAT_RUNNING: GPU is still running, so skip
+> > > > the=20
+> > > > reset.
+> > >=20
+> > > s/GPU/job/ ?
+> > >=20
+> > > > =C2=A0=C2=A0 */
+> > > > =C2=A0 enum drm_gpu_sched_stat {
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 DRM_GPU_SCHED_STAT_NONE,
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 DRM_GPU_SCHED_STAT_NOMINAL,
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 DRM_GPU_SCHED_STAT_ENODEV,
+> > > > +=C2=A0=C2=A0=C2=A0 DRM_GPU_SCHED_STAT_RUNNING,
+> > >=20
+> > > I am wondering if we could make it more obvious what is the
+> > > difference=20
+> > > between "nominal" and "running" and from whose point of view
+> > > should=20
+> > > those statuses be considered.
+> > =C2=A0> > So far we have "nominal" which means scheduler/hardware is
+> > working=20
+> > fine
+> > > but the job may or may have not been cancelled. With "running" we
+> > > kind=20
+> > > of split it into two sub-statuses and it would be nice for that
+> > > to be=20
+> > > intuitively visible from the naming. But I struggle to suggest an
+> > > elegant name while preserving nominal as is.
+> >=20
+> > I was thinking: how about changing DRM_GPU_SCHED_STAT_NOMINAL to
+> > DRM_GPU_SCHED_STAT_RESET (the hardware is fine, but we reset it)?
+> >=20
+> > Then, when we skip the reset, we would have
+> > DRM_GPU_SCHED_STAT_NOMINAL
+> > (which means the hardware is fine and we didn't reset it).
+> >=20
+> > I'm open to other suggestions.
+>=20
+> DRM_GPU_SCHED_STAT_RESET sounds like a good name and seems to paint a
+> consistent story between running - reset - enodev.
+>=20
+> > > Thinking out loud here - perhaps that is pointing towards an=20
+> > > alternative that instead of a new status, a new helper to re-
+> > > insert=20
+> > > the single job (like drm_sched_resubmit_job(sched, job)) would
+> > > fit=20
+> > > better? Although it would be more churn.
+> > >=20
+> >=20
+> > Although your solution might be more elegant, I'm worried that such
+> > a
+> > function could be used improperly by new users (e.g. being called
+> > in
+> > contexts other than `timedout_job()`).
+>=20
+> We could call it drm_sched_untimedout_job(). </humour>
+>=20
+> > I'd prefer to have a new status as it'll be use solely for
+> > `timedout_job()` (making it harder for users to use it
+> > inappropriately).
+> > With the addition of Matthew's feedback (calling
+> > `drm_sched_run_free_queue()` after adding the job to the pending
+> > list),
+> > I think it makes even more sense to keep it inside the timeout
+> > function.
+> >=20
+> > I hope others can chime in and give their opinions about your idea.
+>=20
+> Yeah - Philipp - Danilo - what do you prefer? Third enum with or a
+> new=20
+> helper?
 
-Ah, you are right.
+I'm also afraid that providing yet another helper for this specific
+case opens the door to abuse. We had (and still have) issues with the
+familiar drm_sched_resubmit_jobs() function. Christian has been very
+clear that this was a bad idea, and I'd rather not walk a road that
+looks similar to that one.
 
-> Mind if I rewrite the commit message along those lines while applying?
+I tend to think that the status codes are the appropriate mechanism to
+address this. They were, after all, invented to inform the scheduler
+about what is going on inside the driver.
 
-Sure, no problem.
+That said, currently, ENODEV is basically the only error, and
+everything unequal ENODEV (i.e., NOMINAL) is the "OK state".
+
+A timeout occurring and the GPU not hanging is, therefore, also "OK".
+Whatever the name will be, the docu for NOMINAL must also be adjusted.
+
+How about calling it "NORMAL" instead of "NOMINAL", since that state
+actually describes what is both OK and "the norm", i.e., most commonly
+the case?
+
+And I wouldn't call it RUNNING, since the GPU is also running in
+NOMINAL state. "NO_HANG" could hint more effectively at the fact that
+the GPU is, contrary to the scheduler's believe, not hanging.
+
+(I've been out for a few days and am catching up to a lot of things.
+Just had time to get deeper into this series. Apologies if my picture
+isn't complete yet)
 
 Thanks,
+P.
 
-Tomeu
 
+>=20
 > Regards,
-> Lucas
->
-> > Fixes: 27b67278e007 ("drm/etnaviv: rework MMU handling")
-> > Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-> > ---
-> >  drivers/gpu/drm/etnaviv/etnaviv_buffer.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_buffer.c b/drivers/gpu/drm=
-/etnaviv/etnaviv_buffer.c
-> > index b13a17276d07..88385dc3b30d 100644
-> > --- a/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
-> > +++ b/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
-> > @@ -347,7 +347,7 @@ void etnaviv_buffer_queue(struct etnaviv_gpu *gpu, =
-u32 exec_state,
-> >       u32 link_target, link_dwords;
-> >       bool switch_context =3D gpu->exec_state !=3D exec_state;
-> >       bool switch_mmu_context =3D gpu->mmu_context !=3D mmu_context;
-> > -     unsigned int new_flush_seq =3D READ_ONCE(gpu->mmu_context->flush_=
-seq);
-> > +     unsigned int new_flush_seq =3D READ_ONCE(mmu_context->flush_seq);
-> >       bool need_flush =3D switch_mmu_context || gpu->flush_seq !=3D new=
-_flush_seq;
-> >       bool has_blt =3D !!(gpu->identity.minor_features5 &
-> >                         chipMinorFeatures5_BLT_ENGINE);
->
+>=20
+> Tvrtko
+>=20
+
