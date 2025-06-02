@@ -2,66 +2,65 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C9C6ACAAE6
-	for <lists+etnaviv@lfdr.de>; Mon,  2 Jun 2025 10:54:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F56CACAB2C
+	for <lists+etnaviv@lfdr.de>; Mon,  2 Jun 2025 11:06:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8EC3C10E1D1;
-	Mon,  2 Jun 2025 08:54:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E133D10E4D6;
+	Mon,  2 Jun 2025 09:06:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="rh636Y97";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="K4Y/D8Xz";
 	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F393C10E1CB;
- Mon,  2 Jun 2025 08:54:24 +0000 (UTC)
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4b9nhX6NLyz9sNt;
- Mon,  2 Jun 2025 10:54:20 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; 
- t=1748854461; h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HMWfO9yF1kqfn3T4qNiEbmeo46/OruuGKNYpiRK4GAk=;
- b=rh636Y97NIzT6xsNNULI1EWoO5cMAvWvVNPhAjL4PuEOd9Jvoy8pk3zbEvAAT7Av/r/q1d
- 38moCafSyQzqaKfcmuC8Kgz4dSQG9PSkXP61LGQ9LSNqzy9WnXcXee4ecQbCUSyq1Vh4PS
- qiT4bnyNIlYdwDeBrI6e7WpwLmRL0O2HkC4tD/2pyGMZT/nHdTjRaU2RiGzY8FqC6D/lek
- yizqv2aHhRCXg8LqMUNG+Shx+s/eHKq0GD+eMPHaIy3ng6kSUddKaR4jwremOSgSnowiZj
- BbjOgzTU1JU+LqO3cmyWBFZxEGVXOtBbZlFe3NnUuXdnopUqZUjERNiW1Nblsg==
-Message-ID: <e7be78c8f69d0f9ec88bfee1b17eaaa78c4098ad.camel@mailbox.org>
-Subject: Re: [PATCH v2 3/8] drm/sched: Reduce scheduler's timeout for
- timeout tests
-From: Philipp Stanner <phasta@mailbox.org>
-To: =?ISO-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>, Matthew Brost
- <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>, Philipp
- Stanner <phasta@kernel.org>, Christian =?ISO-8859-1?Q?K=F6nig?=
- <ckoenig.leichtzumerken@gmail.com>, Tvrtko Ursulin
- <tvrtko.ursulin@igalia.com>,  Simona Vetter <simona@ffwll.ch>, David Airlie
- <airlied@gmail.com>, Melissa Wen <mwen@igalia.com>, Lucas Stach
- <l.stach@pengutronix.de>, Russell King <linux+etnaviv@armlinux.org.uk>, 
- Christian Gmeiner <christian.gmeiner@gmail.com>, Lucas De Marchi
- <lucas.demarchi@intel.com>, Thomas =?ISO-8859-1?Q?Hellstr=F6m?=
- <thomas.hellstrom@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Boris Brezillon <boris.brezillon@collabora.com>, Rob Herring
- <robh@kernel.org>, Steven Price <steven.price@arm.com>, Liviu Dudau
- <liviu.dudau@arm.com>
-Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org, 
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E3FA10E4D6;
+ Mon,  2 Jun 2025 09:06:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=w5iby8XYqaEcAItEkbRF2LO0ixU/PQmrd5oCRUkNHpM=; b=K4Y/D8XzP37ZUD3jB7LriyjGLq
+ Ewsi3HETC+fFSVb4gfPWkrK+vblY/c9MZlasqoDgEunpkujgJFNBLzafQMPolvJGB5r7L5NA3V/44
+ tMwf+vTk6VuyCIqLUuNGoXWlAQLV882dnrhKKyFyYoQr0zC+XP+13xIwN6KWJEFbAPsx8oHl/Ucqg
+ hb8DaXc/rao/vWgyzXDc1SIMrr3lIb7DAu6Efu7WjJ8DuH5snfh7zH1+cqhyaKgI40nldJPs/ZkE5
+ qJPS/YUi3qnu9u2QgOLnOBakUaiGYSPIACC21TWwAaJ5kLppkEwkkoLcj4IB3eZUlMuM+n9G3zDVr
+ gzaOOBNQ==;
+Received: from [81.79.92.254] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1uM17K-00GDbV-Fi; Mon, 02 Jun 2025 11:06:02 +0200
+Message-ID: <8a621f9e-0fc7-431d-925d-f6e1d0928516@igalia.com>
+Date: Mon, 2 Jun 2025 10:06:01 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/8] drm/sched: Reduce scheduler's timeout for timeout
+ tests
+To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>,
+ Philipp Stanner <phasta@kernel.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Melissa Wen <mwen@igalia.com>, Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
+ Liviu Dudau <liviu.dudau@arm.com>
+Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org,
  etnaviv@lists.freedesktop.org, intel-xe@lists.freedesktop.org
-Date: Mon, 02 Jun 2025 10:54:13 +0200
-In-Reply-To: <20250530-sched-skip-reset-v2-3-c40a8d2d8daa@igalia.com>
 References: <20250530-sched-skip-reset-v2-0-c40a8d2d8daa@igalia.com>
  <20250530-sched-skip-reset-v2-3-c40a8d2d8daa@igalia.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-MIME-Version: 1.0
-X-MBO-RS-ID: 18396aa7140b1c94ab8
-X-MBO-RS-META: 8pz43qbtn1as1nbmepw5uhdghafczndw
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <20250530-sched-skip-reset-v2-3-c40a8d2d8daa@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,85 +72,80 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: phasta@kernel.org
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-I'd call that patch sth like "Make timeout unit tests faster". Makes
-more obvious what it's about.
 
-P.
-
-On Fri, 2025-05-30 at 11:01 -0300, Ma=C3=ADra Canal wrote:
-> As more KUnit tests are introduced to evaluate the basic capabilities
-> of
-> the `timedout_job()` hook, the test suite will continue to increase
-> in
-> duration. To reduce the overall running time of the test suite,
-> decrease
+On 30/05/2025 15:01, Maíra Canal wrote:
+> As more KUnit tests are introduced to evaluate the basic capabilities of
+> the `timedout_job()` hook, the test suite will continue to increase in
+> duration. To reduce the overall running time of the test suite, decrease
 > the scheduler's timeout for the timeout tests.
->=20
+> 
 > Before this commit:
->=20
-> [15:42:26] Elapsed time: 15.637s total, 0.002s configuring, 10.387s
-> building, 5.229s running
->=20
+> 
+> [15:42:26] Elapsed time: 15.637s total, 0.002s configuring, 10.387s building, 5.229s running
+> 
 > After this commit:
->=20
-> [15:45:26] Elapsed time: 9.263s total, 0.002s configuring, 5.168s
-> building, 4.037s running
->=20
-> Signed-off-by: Ma=C3=ADra Canal <mcanal@igalia.com>
+> 
+> [15:45:26] Elapsed time: 9.263s total, 0.002s configuring, 5.168s building, 4.037s running
+> 
+> Signed-off-by: Maíra Canal <mcanal@igalia.com>
 > ---
-> =C2=A0drivers/gpu/drm/scheduler/tests/tests_basic.c | 8 +++++---
-> =C2=A01 file changed, 5 insertions(+), 3 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/scheduler/tests/tests_basic.c
-> b/drivers/gpu/drm/scheduler/tests/tests_basic.c
-> index
-> 7230057e0594c6246f02608f07fcb1f8d738ac75..41c648782f4548e202bd8711b45
-> d28eead9bd0b2 100644
+>   drivers/gpu/drm/scheduler/tests/tests_basic.c | 8 +++++---
+>   1 file changed, 5 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/scheduler/tests/tests_basic.c b/drivers/gpu/drm/scheduler/tests/tests_basic.c
+> index 7230057e0594c6246f02608f07fcb1f8d738ac75..41c648782f4548e202bd8711b45d28eead9bd0b2 100644
 > --- a/drivers/gpu/drm/scheduler/tests/tests_basic.c
 > +++ b/drivers/gpu/drm/scheduler/tests/tests_basic.c
 > @@ -5,6 +5,8 @@
-> =C2=A0
-> =C2=A0#include "sched_tests.h"
-> =C2=A0
+>   
+>   #include "sched_tests.h"
+>   
 > +#define MOCK_TIMEOUT (HZ / 5)
 > +
-> =C2=A0/*
-> =C2=A0 * DRM scheduler basic tests should check the basic functional
-> correctness of
-> =C2=A0 * the scheduler, including some very light smoke testing. More
-> targeted tests,
-> @@ -28,7 +30,7 @@ static void drm_sched_basic_exit(struct kunit
-> *test)
-> =C2=A0
-> =C2=A0static int drm_sched_timeout_init(struct kunit *test)
-> =C2=A0{
-> -	test->priv =3D drm_mock_sched_new(test, HZ);
-> +	test->priv =3D drm_mock_sched_new(test, MOCK_TIMEOUT);
-> =C2=A0
-> =C2=A0	return 0;
-> =C2=A0}
-> @@ -227,14 +229,14 @@ static void drm_sched_basic_timeout(struct
-> kunit *test)
-> =C2=A0	done =3D drm_mock_sched_job_wait_scheduled(job, HZ);
-> =C2=A0	KUNIT_ASSERT_TRUE(test, done);
-> =C2=A0
-> -	done =3D drm_mock_sched_job_wait_finished(job, HZ / 2);
-> +	done =3D drm_mock_sched_job_wait_finished(job, MOCK_TIMEOUT /
-> 2);
-> =C2=A0	KUNIT_ASSERT_FALSE(test, done);
-> =C2=A0
-> =C2=A0	KUNIT_ASSERT_EQ(test,
-> =C2=A0			job->flags & DRM_MOCK_SCHED_JOB_TIMEDOUT,
-> =C2=A0			0);
-> =C2=A0
-> -	done =3D drm_mock_sched_job_wait_finished(job, HZ);
-> +	done =3D drm_mock_sched_job_wait_finished(job, MOCK_TIMEOUT);
-> =C2=A0	KUNIT_ASSERT_FALSE(test, done);
-> =C2=A0
-> =C2=A0	KUNIT_ASSERT_EQ(test,
->=20
+>   /*
+>    * DRM scheduler basic tests should check the basic functional correctness of
+>    * the scheduler, including some very light smoke testing. More targeted tests,
+> @@ -28,7 +30,7 @@ static void drm_sched_basic_exit(struct kunit *test)
+>   
+>   static int drm_sched_timeout_init(struct kunit *test)
+>   {
+> -	test->priv = drm_mock_sched_new(test, HZ);
+> +	test->priv = drm_mock_sched_new(test, MOCK_TIMEOUT);
+>   
+>   	return 0;
+>   }
+> @@ -227,14 +229,14 @@ static void drm_sched_basic_timeout(struct kunit *test)
+>   	done = drm_mock_sched_job_wait_scheduled(job, HZ);
+>   	KUNIT_ASSERT_TRUE(test, done);
+>   
+> -	done = drm_mock_sched_job_wait_finished(job, HZ / 2);
+> +	done = drm_mock_sched_job_wait_finished(job, MOCK_TIMEOUT / 2);
+>   	KUNIT_ASSERT_FALSE(test, done);
+>   
+>   	KUNIT_ASSERT_EQ(test,
+>   			job->flags & DRM_MOCK_SCHED_JOB_TIMEDOUT,
+>   			0);
+>   
+> -	done = drm_mock_sched_job_wait_finished(job, HZ);
+> +	done = drm_mock_sched_job_wait_finished(job, MOCK_TIMEOUT);
+>   	KUNIT_ASSERT_FALSE(test, done);
+
+Thinking about the potential for false negatives - scheduler timeout is 
+set to 200ms and total wait is 300ms before checking if the timeout hook 
+was executed by the scheduler core. So false negative only if scheduler 
+core would be lax with the timed out work handling. Or the lax delayed 
+work mechanism. Probably fine until we learn otherwise.
+
+Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+
+Regards,
+
+Tvrtko
+
+>   
+>   	KUNIT_ASSERT_EQ(test,
+> 
 
