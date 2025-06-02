@@ -2,41 +2,41 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78566ACAA12
-	for <lists+etnaviv@lfdr.de>; Mon,  2 Jun 2025 09:47:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C9C6ACAAE6
+	for <lists+etnaviv@lfdr.de>; Mon,  2 Jun 2025 10:54:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 57EC710E1AD;
-	Mon,  2 Jun 2025 07:47:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8EC3C10E1D1;
+	Mon,  2 Jun 2025 08:54:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="WXuGXTqJ";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="rh636Y97";
 	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 92B0C10E0B7;
- Mon,  2 Jun 2025 07:47:57 +0000 (UTC)
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F393C10E1CB;
+ Mon,  2 Jun 2025 08:54:24 +0000 (UTC)
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4b9mCr0fc6z9sp8;
- Mon,  2 Jun 2025 09:47:52 +0200 (CEST)
+ by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4b9nhX6NLyz9sNt;
+ Mon,  2 Jun 2025 10:54:20 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
  s=mail20150812; 
- t=1748850472; h=from:from:reply-to:reply-to:subject:subject:date:date:
+ t=1748854461; h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hejt7sYJc8Ownw56oeoTeIt/sZiijhclsSfRWFWApL0=;
- b=WXuGXTqJug0dj4yMg/P/Qhxpfss+b63jVyhi3fO8krVRSHKnM1VEKw1nEqeQ+pKOOvIF9T
- s6f8ESDihH2IkD8b7DV13UNYQ+pyuJOusNj/0+tAR72zflWyFNsAtwDOcX3BA5L2DWsIw8
- oM1YVDbbGRus4OVEqr3R3y06/uAZseBcCFey5axgvZLdieZlmcPiYxopGyh11jecTwe76j
- N1xu9LrTB96Xs5iDuniQNwbS7Ut+AKk7JBWE5+aFisbYzdbDr++VpNAlKQ5sC4hkQLOTJ4
- D16HPbCT0GUsHPrT4vaug/izpW2N8XSGuP8xPpNB1YnRRhZ4N7eVnYf1yCyQpQ==
-Message-ID: <ab293f2f435287d46c6fca38d554fda0790dfe3f.camel@mailbox.org>
-Subject: Re: [PATCH v2 7/8] drm/xe: Use DRM_GPU_SCHED_STAT_NO_HANG to skip
- the reset
+ bh=HMWfO9yF1kqfn3T4qNiEbmeo46/OruuGKNYpiRK4GAk=;
+ b=rh636Y97NIzT6xsNNULI1EWoO5cMAvWvVNPhAjL4PuEOd9Jvoy8pk3zbEvAAT7Av/r/q1d
+ 38moCafSyQzqaKfcmuC8Kgz4dSQG9PSkXP61LGQ9LSNqzy9WnXcXee4ecQbCUSyq1Vh4PS
+ qiT4bnyNIlYdwDeBrI6e7WpwLmRL0O2HkC4tD/2pyGMZT/nHdTjRaU2RiGzY8FqC6D/lek
+ yizqv2aHhRCXg8LqMUNG+Shx+s/eHKq0GD+eMPHaIy3ng6kSUddKaR4jwremOSgSnowiZj
+ BbjOgzTU1JU+LqO3cmyWBFZxEGVXOtBbZlFe3NnUuXdnopUqZUjERNiW1Nblsg==
+Message-ID: <e7be78c8f69d0f9ec88bfee1b17eaaa78c4098ad.camel@mailbox.org>
+Subject: Re: [PATCH v2 3/8] drm/sched: Reduce scheduler's timeout for
+ timeout tests
 From: Philipp Stanner <phasta@mailbox.org>
 To: =?ISO-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>, Matthew Brost
  <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>, Philipp
@@ -53,15 +53,15 @@ To: =?ISO-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>, Matthew Brost
  <liviu.dudau@arm.com>
 Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org, 
  etnaviv@lists.freedesktop.org, intel-xe@lists.freedesktop.org
-Date: Mon, 02 Jun 2025 09:47:44 +0200
-In-Reply-To: <20250530-sched-skip-reset-v2-7-c40a8d2d8daa@igalia.com>
+Date: Mon, 02 Jun 2025 10:54:13 +0200
+In-Reply-To: <20250530-sched-skip-reset-v2-3-c40a8d2d8daa@igalia.com>
 References: <20250530-sched-skip-reset-v2-0-c40a8d2d8daa@igalia.com>
- <20250530-sched-skip-reset-v2-7-c40a8d2d8daa@igalia.com>
+ <20250530-sched-skip-reset-v2-3-c40a8d2d8daa@igalia.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-MBO-RS-META: 67bdxuhmgntkdgh18tykp5zn3ixomcup
-X-MBO-RS-ID: 2ce5eb5acf6937cdf73
+X-MBO-RS-ID: 18396aa7140b1c94ab8
+X-MBO-RS-META: 8pz43qbtn1as1nbmepw5uhdghafczndw
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,71 +77,81 @@ Reply-To: phasta@kernel.org
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-On Fri, 2025-05-30 at 11:01 -0300, Ma=C3=ADra Canal wrote:
-> Xe can skip the reset if TDR has fired before the free job worker and
-> can
-> also re-arm the timeout timer in some scenarios. Instead of using the
-> scheduler internals to add the job to the pending list, use the
-> DRM_GPU_SCHED_STAT_NO_HANG status to skip the reset and re-arm the
-> timer.
->=20
-> Note that, in the first case, there is no need to restart submission
-> if it
-> hasn't been stopped.
->=20
-> Signed-off-by: Ma=C3=ADra Canal <mcanal@igalia.com>
-> ---
-> =C2=A0drivers/gpu/drm/xe/xe_guc_submit.c | 12 +++---------
-> =C2=A01 file changed, 3 insertions(+), 9 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/xe/xe_guc_submit.c
-> b/drivers/gpu/drm/xe/xe_guc_submit.c
-> index
-> 98363d688cbbf884e17e6610366202a3372f5fe0..0149c85aa1a85b2b2e739774310
-> d7b3265e33228 100644
-> --- a/drivers/gpu/drm/xe/xe_guc_submit.c
-> +++ b/drivers/gpu/drm/xe/xe_guc_submit.c
-> @@ -1067,12 +1067,8 @@ guc_exec_queue_timedout_job(struct
-> drm_sched_job *drm_job)
-> =C2=A0	 * list so job can be freed and kick scheduler ensuring free
-> job is not
-> =C2=A0	 * lost.
-> =C2=A0	 */
-> -	if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &job->fence-
-> >flags)) {
-> -		xe_sched_add_pending_job(sched, job);
-> -		xe_sched_submission_start(sched);
-> -
-> -		return DRM_GPU_SCHED_STAT_RESET;
-> -	}
-> +	if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &job->fence-
-> >flags))
-> +		return DRM_GPU_SCHED_STAT_NO_HANG;
-> =C2=A0
-> =C2=A0	/* Kill the run_job entry point */
-> =C2=A0	xe_sched_submission_stop(sched);
-> @@ -1247,10 +1243,8 @@ guc_exec_queue_timedout_job(struct
-> drm_sched_job *drm_job)
-> =C2=A0	 * but there is not currently an easy way to do in DRM
-> scheduler. With
-> =C2=A0	 * some thought, do this in a follow up.
-> =C2=A0	 */
-> -	xe_sched_add_pending_job(sched, job);
-> =C2=A0	xe_sched_submission_start(sched);
-> -
-> -	return DRM_GPU_SCHED_STAT_RESET;
-> +	return DRM_GPU_SCHED_STAT_NO_HANG;
-> =C2=A0}
-
-This patch removes two of three uses of xe_sched_add_pending_job().
-There's now only one left, in the same function, slightly above.
-
-@Matthew, can that call be removed, too? Should that be done in this
-patch or seperately?
+I'd call that patch sth like "Make timeout unit tests faster". Makes
+more obvious what it's about.
 
 P.
 
+On Fri, 2025-05-30 at 11:01 -0300, Ma=C3=ADra Canal wrote:
+> As more KUnit tests are introduced to evaluate the basic capabilities
+> of
+> the `timedout_job()` hook, the test suite will continue to increase
+> in
+> duration. To reduce the overall running time of the test suite,
+> decrease
+> the scheduler's timeout for the timeout tests.
+>=20
+> Before this commit:
+>=20
+> [15:42:26] Elapsed time: 15.637s total, 0.002s configuring, 10.387s
+> building, 5.229s running
+>=20
+> After this commit:
+>=20
+> [15:45:26] Elapsed time: 9.263s total, 0.002s configuring, 5.168s
+> building, 4.037s running
+>=20
+> Signed-off-by: Ma=C3=ADra Canal <mcanal@igalia.com>
+> ---
+> =C2=A0drivers/gpu/drm/scheduler/tests/tests_basic.c | 8 +++++---
+> =C2=A01 file changed, 5 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/scheduler/tests/tests_basic.c
+> b/drivers/gpu/drm/scheduler/tests/tests_basic.c
+> index
+> 7230057e0594c6246f02608f07fcb1f8d738ac75..41c648782f4548e202bd8711b45
+> d28eead9bd0b2 100644
+> --- a/drivers/gpu/drm/scheduler/tests/tests_basic.c
+> +++ b/drivers/gpu/drm/scheduler/tests/tests_basic.c
+> @@ -5,6 +5,8 @@
 > =C2=A0
-> =C2=A0static void __guc_exec_queue_fini_async(struct work_struct *w)
+> =C2=A0#include "sched_tests.h"
+> =C2=A0
+> +#define MOCK_TIMEOUT (HZ / 5)
+> +
+> =C2=A0/*
+> =C2=A0 * DRM scheduler basic tests should check the basic functional
+> correctness of
+> =C2=A0 * the scheduler, including some very light smoke testing. More
+> targeted tests,
+> @@ -28,7 +30,7 @@ static void drm_sched_basic_exit(struct kunit
+> *test)
+> =C2=A0
+> =C2=A0static int drm_sched_timeout_init(struct kunit *test)
+> =C2=A0{
+> -	test->priv =3D drm_mock_sched_new(test, HZ);
+> +	test->priv =3D drm_mock_sched_new(test, MOCK_TIMEOUT);
+> =C2=A0
+> =C2=A0	return 0;
+> =C2=A0}
+> @@ -227,14 +229,14 @@ static void drm_sched_basic_timeout(struct
+> kunit *test)
+> =C2=A0	done =3D drm_mock_sched_job_wait_scheduled(job, HZ);
+> =C2=A0	KUNIT_ASSERT_TRUE(test, done);
+> =C2=A0
+> -	done =3D drm_mock_sched_job_wait_finished(job, HZ / 2);
+> +	done =3D drm_mock_sched_job_wait_finished(job, MOCK_TIMEOUT /
+> 2);
+> =C2=A0	KUNIT_ASSERT_FALSE(test, done);
+> =C2=A0
+> =C2=A0	KUNIT_ASSERT_EQ(test,
+> =C2=A0			job->flags & DRM_MOCK_SCHED_JOB_TIMEDOUT,
+> =C2=A0			0);
+> =C2=A0
+> -	done =3D drm_mock_sched_job_wait_finished(job, HZ);
+> +	done =3D drm_mock_sched_job_wait_finished(job, MOCK_TIMEOUT);
+> =C2=A0	KUNIT_ASSERT_FALSE(test, done);
+> =C2=A0
+> =C2=A0	KUNIT_ASSERT_EQ(test,
 >=20
 
