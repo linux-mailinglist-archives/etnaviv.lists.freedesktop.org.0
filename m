@@ -2,42 +2,41 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0957ACA9BF
-	for <lists+etnaviv@lfdr.de>; Mon,  2 Jun 2025 09:13:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9433BACA9EC
+	for <lists+etnaviv@lfdr.de>; Mon,  2 Jun 2025 09:28:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A855010E1C9;
-	Mon,  2 Jun 2025 07:13:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E1BBF10E1A9;
+	Mon,  2 Jun 2025 07:28:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="Lu2UMz40";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="H62SjE7x";
 	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE36D10E1C9;
- Mon,  2 Jun 2025 07:13:47 +0000 (UTC)
-Received: from smtp1.mailbox.org (smtp1.mailbox.org
- [IPv6:2001:67c:2050:b231:465::1])
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 43BAC10E1A9;
+ Mon,  2 Jun 2025 07:28:32 +0000 (UTC)
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4b9lSS2nrpz9tX0;
- Mon,  2 Jun 2025 09:13:44 +0200 (CEST)
+ by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4b9lnT06qrz9sx4;
+ Mon,  2 Jun 2025 09:28:29 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
  s=mail20150812; 
- t=1748848424; h=from:from:reply-to:reply-to:subject:subject:date:date:
+ t=1748849309; h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=dvhppmyhyICdwplZYutmaZL5qmaJdZkSh6zxnqcq8gs=;
- b=Lu2UMz40Uaxdgu45tQWbLRfKYxXvZrc2bKkrKJq5vJbmhdsUvrQadbXZTt3qxgg/+rHr81
- IcbZLUhua3nyev+q1fD8p6TSCphKXdilVNyNUaMFWCifROVOuCghxGO5NFMesI1zivvFSK
- 7x9o1iMqwSNpbbjq2IHlU3JZgJ7gh24AFCpa7W2xnaHY3JrNG9+8KMIhaH0sia2kc/DeLN
- /ZKVdbwaDNUnVrJyzXBdeDPZmvkt19Ew0/MhXr9M/4fEM7iwsRV+qFiuOtqlSKhkfHlIML
- 6umVayUivJ0/i+51Vl+zhF0I7qNh2BDOSqGPbog9NmYbZun1Vz34+JEVbKJBVQ==
-Message-ID: <b25c1cabe52436c83cb570a5d65ede2fc548fc0b.camel@mailbox.org>
-Subject: Re: [PATCH v2 5/8] drm/v3d: Use DRM_GPU_SCHED_STAT_NO_HANG to skip
- the reset
+ bh=Q4Z3hNYSaUur4wcMuiWKEU1FHOZ6WUJKWRnKKswCKBU=;
+ b=H62SjE7x+g3o4fUzabF1/Qw//M0kb+SZ7rULQF7CTgb4T93TjvTc7q3qcILsDXrLGbxcD4
+ WEd09UvE3Y1sXu6v5AFDySqs9HZin+cuS063LCi1F4E+27tas42UQMg6pS00o7S5UVFoLk
+ Ov9q2IUKnNtb7rul8saYIcN/sj6dRglyBeJRV2/h3rMjntQiTilA4N9QdhqapWciCusqV6
+ m79Vj+n7F5AhUfIj+Q2/berwaJ5GB2syhD8cioGoOI2UQ+QeVgAZ/nd5bWz/4rkrcBx7Ko
+ Xz8AY7HgzwW1J/e5kkgr9de3kh9g99SbuX2I6IdNPw+bs4dDHXkgRnC8xeGOmQ==
+Message-ID: <964e59ba1539083ef29b06d3c78f5e2e9b138ab8.camel@mailbox.org>
+Subject: Re: [PATCH v2 6/8] drm/etnaviv: Use DRM_GPU_SCHED_STAT_NO_HANG to
+ skip the reset
 From: Philipp Stanner <phasta@mailbox.org>
 To: =?ISO-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>, Matthew Brost
  <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>, Philipp
@@ -54,15 +53,15 @@ To: =?ISO-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>, Matthew Brost
  <liviu.dudau@arm.com>
 Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org, 
  etnaviv@lists.freedesktop.org, intel-xe@lists.freedesktop.org
-Date: Mon, 02 Jun 2025 09:13:34 +0200
-In-Reply-To: <20250530-sched-skip-reset-v2-5-c40a8d2d8daa@igalia.com>
+Date: Mon, 02 Jun 2025 09:28:19 +0200
+In-Reply-To: <20250530-sched-skip-reset-v2-6-c40a8d2d8daa@igalia.com>
 References: <20250530-sched-skip-reset-v2-0-c40a8d2d8daa@igalia.com>
- <20250530-sched-skip-reset-v2-5-c40a8d2d8daa@igalia.com>
+ <20250530-sched-skip-reset-v2-6-c40a8d2d8daa@igalia.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-MBO-RS-META: nwwk7zrhtdbczu8hebu1gxxgu8musq7f
-X-MBO-RS-ID: ba8a497f0f63299ba83
+X-MBO-RS-ID: aaf42f8f3d60101e047
+X-MBO-RS-META: pxxett1jfp4y7zqgtq3m1pk34heme5ym
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,70 +78,104 @@ Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
 On Fri, 2025-05-30 at 11:01 -0300, Ma=C3=ADra Canal wrote:
-> When a CL/CSD job times out, we check if the GPU has made any
-> progress
-> since the last timeout. If so, instead of resetting the hardware, we
-> skip
-> the reset and allow the timer to be rearmed. This gives long-running
-> jobs
-> a chance to complete.
+> Etnaviv can skip a hardware reset in two situations:
 >=20
-> Use the DRM_GPU_SCHED_STAT_NO_HANG status to skip the reset and re-
-> arm
-> the timer.
+> =C2=A0 1. TDR has fired before the free-job worker and the timeout is
+> spurious.
+> =C2=A0 2. The GPU is still making progress on the front-end and we can
+> give
+> =C2=A0=C2=A0=C2=A0=C2=A0 the job a chance to complete.
+>=20
+> Instead of relying on the scheduler internals, use the
+> DRM_GPU_SCHED_STAT_NO_HANG status to skip the reset and re-arm the
+
+In the four patches adjusting the drivers, I rather recommend to write:
+
+"Instead of manipulating scheduler internals, inform the scheduler that
+this job did not actually time out and no reset was performed through
+the new status code DRM_GPU_SCHED_STAT_NO_HANG."
+
+> timer.
 >=20
 > Signed-off-by: Ma=C3=ADra Canal <mcanal@igalia.com>
 > ---
-> =C2=A0drivers/gpu/drm/v3d/v3d_sched.c | 4 ++--
-> =C2=A01 file changed, 2 insertions(+), 2 deletions(-)
+> =C2=A0drivers/gpu/drm/etnaviv/etnaviv_sched.c | 11 ++++-------
+> =C2=A01 file changed, 4 insertions(+), 7 deletions(-)
 >=20
-> diff --git a/drivers/gpu/drm/v3d/v3d_sched.c
-> b/drivers/gpu/drm/v3d/v3d_sched.c
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+> b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
 > index
-> e1997387831541fb053e472672004cf511c25558..fbb09a8aff3740b5cd59573b5f2
-> e26b2ee352dfb 100644
-> --- a/drivers/gpu/drm/v3d/v3d_sched.c
-> +++ b/drivers/gpu/drm/v3d/v3d_sched.c
-> @@ -761,7 +761,7 @@ v3d_cl_job_timedout(struct drm_sched_job
-> *sched_job, enum v3d_queue q,
-> =C2=A0	if (*timedout_ctca !=3D ctca || *timedout_ctra !=3D ctra) {
-> =C2=A0		*timedout_ctca =3D ctca;
-> =C2=A0		*timedout_ctra =3D ctra;
-> -		return DRM_GPU_SCHED_STAT_RESET;
+> 7146069a98492f5fab2a49d96e2054f649e1fe3d..46f5391e84a12232b247886cf13
+> 11f8e09f42f04 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+> @@ -40,11 +40,11 @@ static enum drm_gpu_sched_stat
+> etnaviv_sched_timedout_job(struct drm_sched_job
+> =C2=A0	int change;
+> =C2=A0
+> =C2=A0	/*
+> -	 * If the GPU managed to complete this jobs fence, the
+> timout is
+> -	 * spurious. Bail out.
+> +	 * If the GPU managed to complete this jobs fence, the
+> timeout has
+> +	 * fired before free-job worker. The timeout is spurious, so
+> bail out.
+> =C2=A0	 */
+> =C2=A0	if (dma_fence_is_signaled(submit->out_fence))
+> -		goto out_no_timeout;
+> +		return DRM_GPU_SCHED_STAT_NO_HANG;
+> =C2=A0
+> =C2=A0	/*
+> =C2=A0	 * If the GPU is still making forward progress on the front-
+> end (which
+> @@ -70,7 +70,7 @@ static enum drm_gpu_sched_stat
+> etnaviv_sched_timedout_job(struct drm_sched_job
+> =C2=A0		gpu->hangcheck_dma_addr =3D dma_addr;
+> =C2=A0		gpu->hangcheck_primid =3D primid;
+> =C2=A0		gpu->hangcheck_fence =3D gpu->completed_fence;
+> -		goto out_no_timeout;
 > +		return DRM_GPU_SCHED_STAT_NO_HANG;
 > =C2=A0	}
 > =C2=A0
-> =C2=A0	return v3d_gpu_reset_for_timeout(v3d, sched_job);
-> @@ -805,7 +805,7 @@ v3d_csd_job_timedout(struct drm_sched_job
-> *sched_job)
-> =C2=A0	 */
-> =C2=A0	if (job->timedout_batches !=3D batches) {
-> =C2=A0		job->timedout_batches =3D batches;
-> -		return DRM_GPU_SCHED_STAT_RESET;
-> +		return DRM_GPU_SCHED_STAT_NO_HANG;
-> =C2=A0	}
+> =C2=A0	/* block scheduler */
+> @@ -86,10 +86,7 @@ static enum drm_gpu_sched_stat
+> etnaviv_sched_timedout_job(struct drm_sched_job
+> =C2=A0	drm_sched_resubmit_jobs(&gpu->sched);
+> =C2=A0
+> =C2=A0	drm_sched_start(&gpu->sched, 0);
+> -	return DRM_GPU_SCHED_STAT_RESET;
+> =C2=A0
+> -out_no_timeout:
+> -	list_add(&sched_job->list, &sched_job->sched->pending_list);
 
-Wait a second, help me out here quickly. You already added workaround
-stuff where you manipulate the scheduler's pending_list, as you state
-in the cover letter. That code here [1].
+Here you actually remove the manipulation of the scheduler internals,
+but you didn't in v3d. Just to point that out.
 
-Don't you have to remove the very same code in this series again to
-still have correct behavior in your driver?
 
-As I see it, all drm branches end up in Linus's tree ultimately. So I'd
-think about potential branch-races in case you didn't already.
+And BTW I'm just seeing that the pending_list gets manipulated here
+with the scheduler's workqueues running and no locks being hold.=20
+
+Oh man :(
+
+That is most certainly a bug, and I recommend that the etnaviv
+maintainers at least add the appropriate lock here and backport that
+since it can race any time.
+
+
+But thx for working on that, Ma=C3=ADra. Good that we can remove the stuff
+this way.
+
+Thinking about it, this patch even fixes a bug. So could contain a
+Fixes: tag. But I'm not sure if it's worth it to mark the entire series
+for Stable. Opinions?
 
 
 P.
 
 
-
-[1] https://lore.kernel.org/dri-devel/20250430210643.57924-1-mcanal@igalia.=
-com/T/
-
-
-
+> =C2=A0	return DRM_GPU_SCHED_STAT_RESET;
+> =C2=A0}
 > =C2=A0
-> =C2=A0	return v3d_gpu_reset_for_timeout(v3d, sched_job);
 >=20
 
