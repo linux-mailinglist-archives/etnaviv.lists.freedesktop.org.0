@@ -2,19 +2,19 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F56CACAB2C
-	for <lists+etnaviv@lfdr.de>; Mon,  2 Jun 2025 11:06:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81A1EACAB79
+	for <lists+etnaviv@lfdr.de>; Mon,  2 Jun 2025 11:34:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E133D10E4D6;
-	Mon,  2 Jun 2025 09:06:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A57910E4DF;
+	Mon,  2 Jun 2025 09:34:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="K4Y/D8Xz";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="dzuVkQPG";
 	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E3FA10E4D6;
- Mon,  2 Jun 2025 09:06:30 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C09F710E4D8;
+ Mon,  2 Jun 2025 09:34:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
@@ -22,22 +22,22 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
  Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=w5iby8XYqaEcAItEkbRF2LO0ixU/PQmrd5oCRUkNHpM=; b=K4Y/D8XzP37ZUD3jB7LriyjGLq
- Ewsi3HETC+fFSVb4gfPWkrK+vblY/c9MZlasqoDgEunpkujgJFNBLzafQMPolvJGB5r7L5NA3V/44
- tMwf+vTk6VuyCIqLUuNGoXWlAQLV882dnrhKKyFyYoQr0zC+XP+13xIwN6KWJEFbAPsx8oHl/Ucqg
- hb8DaXc/rao/vWgyzXDc1SIMrr3lIb7DAu6Efu7WjJ8DuH5snfh7zH1+cqhyaKgI40nldJPs/ZkE5
- qJPS/YUi3qnu9u2QgOLnOBakUaiGYSPIACC21TWwAaJ5kLppkEwkkoLcj4IB3eZUlMuM+n9G3zDVr
- gzaOOBNQ==;
+ bh=/QGNQ0M7JKXU87bamlcCASAmNmkwaRuX75JE5c3F9Ng=; b=dzuVkQPGkk/FR2UKQWNmxDKB4E
+ r0iatD1eF6q2/L6sexll3FA7Ba9iCttz9WvZ0MKLNLwb9D7Iot15vqCFmTDNQXY3x2HxqHKW1HPz+
+ LCd9EKTvkWIz59UYYAzNLp2Q81/IC7iho4zK86a+S/UN6JX17v1bZVJCRV9JAv6jQKbZKVsMj/LRn
+ Rhk6WOakjhp6Dkv5ygCk8vt0UQnQerHdNh5c+AqxU8edcmikYQpNkvEEPh5LNRsxBkJ25SQsUOV/m
+ 9jys1fLgsIs4VTFzg6HTMFjP5awrk366+jt3E9AIjcqhfTU6PHmqRWJ2EzBdDE082/lMhJNu59P8A
+ nZjR4HHg==;
 Received: from [81.79.92.254] (helo=[192.168.0.101])
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1uM17K-00GDbV-Fi; Mon, 02 Jun 2025 11:06:02 +0200
-Message-ID: <8a621f9e-0fc7-431d-925d-f6e1d0928516@igalia.com>
-Date: Mon, 2 Jun 2025 10:06:01 +0100
+ id 1uM1Yh-00GE3I-PR; Mon, 02 Jun 2025 11:34:19 +0200
+Message-ID: <ebf3d2f9-3358-439d-9a18-a37c328ebe57@igalia.com>
+Date: Mon, 2 Jun 2025 10:34:18 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/8] drm/sched: Reduce scheduler's timeout for timeout
- tests
+Subject: Re: [PATCH v2 4/8] drm/sched: Add new test for
+ DRM_GPU_SCHED_STAT_NO_HANG
 To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
  Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>,
  Philipp Stanner <phasta@kernel.org>,
@@ -55,10 +55,10 @@ To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
 Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org,
  etnaviv@lists.freedesktop.org, intel-xe@lists.freedesktop.org
 References: <20250530-sched-skip-reset-v2-0-c40a8d2d8daa@igalia.com>
- <20250530-sched-skip-reset-v2-3-c40a8d2d8daa@igalia.com>
+ <20250530-sched-skip-reset-v2-4-c40a8d2d8daa@igalia.com>
 Content-Language: en-GB
 From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <20250530-sched-skip-reset-v2-3-c40a8d2d8daa@igalia.com>
+In-Reply-To: <20250530-sched-skip-reset-v2-4-c40a8d2d8daa@igalia.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: etnaviv@lists.freedesktop.org
@@ -77,75 +77,125 @@ Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
 
 On 30/05/2025 15:01, Maíra Canal wrote:
-> As more KUnit tests are introduced to evaluate the basic capabilities of
-> the `timedout_job()` hook, the test suite will continue to increase in
-> duration. To reduce the overall running time of the test suite, decrease
-> the scheduler's timeout for the timeout tests.
-> 
-> Before this commit:
-> 
-> [15:42:26] Elapsed time: 15.637s total, 0.002s configuring, 10.387s building, 5.229s running
-> 
-> After this commit:
-> 
-> [15:45:26] Elapsed time: 9.263s total, 0.002s configuring, 5.168s building, 4.037s running
+> Add a test to submit a single job against a scheduler with the timeout
+> configured and verify that if the job is still running, the timeout
+> handler will skip the reset and allow the job to complete.
 > 
 > Signed-off-by: Maíra Canal <mcanal@igalia.com>
 > ---
->   drivers/gpu/drm/scheduler/tests/tests_basic.c | 8 +++++---
->   1 file changed, 5 insertions(+), 3 deletions(-)
+>   drivers/gpu/drm/scheduler/tests/mock_scheduler.c |  5 +++
+>   drivers/gpu/drm/scheduler/tests/sched_tests.h    |  1 +
+>   drivers/gpu/drm/scheduler/tests/tests_basic.c    | 43 ++++++++++++++++++++++++
+>   3 files changed, 49 insertions(+)
 > 
+> diff --git a/drivers/gpu/drm/scheduler/tests/mock_scheduler.c b/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
+> index fdf5f34b39e02c8a8648d8bea566a27fd3251516..39429f5cd19ee3c23816f257d566b47d3daa4baa 100644
+> --- a/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
+> +++ b/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
+> @@ -208,6 +208,11 @@ mock_sched_timedout_job(struct drm_sched_job *sched_job)
+>   
+>   	job->flags |= DRM_MOCK_SCHED_JOB_TIMEDOUT;
+>   
+> +	if (job->flags & DRM_MOCK_SCHED_JOB_DONT_RESET) {
+> +		job->flags &= ~DRM_MOCK_SCHED_JOB_DONT_RESET;
+
+If it isn't important to clear the flag I would consider omitting it.
+
+> +		return DRM_GPU_SCHED_STAT_NO_HANG;
+> +	}
+> +
+>   	return DRM_GPU_SCHED_STAT_RESET;
+>   }
+>   
+> diff --git a/drivers/gpu/drm/scheduler/tests/sched_tests.h b/drivers/gpu/drm/scheduler/tests/sched_tests.h
+> index 27caf8285fb74b9f3c9ce2daa1c44d4a0c967e92..5259f181e55387c41efbcd3f6addc9465331d787 100644
+> --- a/drivers/gpu/drm/scheduler/tests/sched_tests.h
+> +++ b/drivers/gpu/drm/scheduler/tests/sched_tests.h
+> @@ -98,6 +98,7 @@ struct drm_mock_sched_job {
+>   
+>   #define DRM_MOCK_SCHED_JOB_DONE		0x1
+>   #define DRM_MOCK_SCHED_JOB_TIMEDOUT	0x2
+> +#define DRM_MOCK_SCHED_JOB_DONT_RESET	0x4
+>   	unsigned long		flags;
+>   
+>   	struct list_head	link;
 > diff --git a/drivers/gpu/drm/scheduler/tests/tests_basic.c b/drivers/gpu/drm/scheduler/tests/tests_basic.c
-> index 7230057e0594c6246f02608f07fcb1f8d738ac75..41c648782f4548e202bd8711b45d28eead9bd0b2 100644
+> index 41c648782f4548e202bd8711b45d28eead9bd0b2..2ba2d1b0c3cad9626ab9d89cfae05244c670a826 100644
 > --- a/drivers/gpu/drm/scheduler/tests/tests_basic.c
 > +++ b/drivers/gpu/drm/scheduler/tests/tests_basic.c
-> @@ -5,6 +5,8 @@
->   
->   #include "sched_tests.h"
->   
-> +#define MOCK_TIMEOUT (HZ / 5)
-> +
->   /*
->    * DRM scheduler basic tests should check the basic functional correctness of
->    * the scheduler, including some very light smoke testing. More targeted tests,
-> @@ -28,7 +30,7 @@ static void drm_sched_basic_exit(struct kunit *test)
->   
->   static int drm_sched_timeout_init(struct kunit *test)
->   {
-> -	test->priv = drm_mock_sched_new(test, HZ);
-> +	test->priv = drm_mock_sched_new(test, MOCK_TIMEOUT);
->   
->   	return 0;
+> @@ -246,8 +246,51 @@ static void drm_sched_basic_timeout(struct kunit *test)
+>   	drm_mock_sched_entity_free(entity);
 >   }
-> @@ -227,14 +229,14 @@ static void drm_sched_basic_timeout(struct kunit *test)
->   	done = drm_mock_sched_job_wait_scheduled(job, HZ);
->   	KUNIT_ASSERT_TRUE(test, done);
 >   
-> -	done = drm_mock_sched_job_wait_finished(job, HZ / 2);
-> +	done = drm_mock_sched_job_wait_finished(job, MOCK_TIMEOUT / 2);
->   	KUNIT_ASSERT_FALSE(test, done);
->   
->   	KUNIT_ASSERT_EQ(test,
->   			job->flags & DRM_MOCK_SCHED_JOB_TIMEDOUT,
->   			0);
->   
-> -	done = drm_mock_sched_job_wait_finished(job, HZ);
+> +static void drm_sched_skip_reset(struct kunit *test)
+> +{
+> +	struct drm_mock_scheduler *sched = test->priv;
+> +	struct drm_mock_sched_entity *entity;
+> +	struct drm_mock_sched_job *job;
+> +	bool done;
+> +
+> +	/*
+> +	 * Submit a single job against a scheduler with the timeout configured
+> +	 * and verify that if the job is still running, the timeout handler
+> +	 * will skip the reset and allow the job to complete.
+> +	 */
+> +
+> +	entity = drm_mock_sched_entity_new(test,
+> +					   DRM_SCHED_PRIORITY_NORMAL,
+> +					   sched);
+> +	job = drm_mock_sched_job_new(test, entity);
+> +
+> +	job->flags = DRM_MOCK_SCHED_JOB_DONT_RESET;
+> +
+> +	drm_mock_sched_job_set_duration_us(job, jiffies_to_usecs(2 * MOCK_TIMEOUT));
+
+Might be easier to not set the duration but advance the job manually 
+after the timeout assert. One time based interaction less.
+
+> +	drm_mock_sched_job_submit(job);
+> +
 > +	done = drm_mock_sched_job_wait_finished(job, MOCK_TIMEOUT);
->   	KUNIT_ASSERT_FALSE(test, done);
+> +	KUNIT_ASSERT_FALSE(test, done);
+> +
+> +	KUNIT_ASSERT_EQ(test,
+> +			job->flags & DRM_MOCK_SCHED_JOB_TIMEDOUT,
+> +			DRM_MOCK_SCHED_JOB_TIMEDOUT);
+> +
+> +	KUNIT_ASSERT_EQ(test,
+> +			job->flags & DRM_MOCK_SCHED_JOB_DONT_RESET,
+> +			0);
 
-Thinking about the potential for false negatives - scheduler timeout is 
-set to 200ms and total wait is 300ms before checking if the timeout hook 
-was executed by the scheduler core. So false negative only if scheduler 
-core would be lax with the timed out work handling. Or the lax delayed 
-work mechanism. Probably fine until we learn otherwise.
 
-Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Wait_finished for 200ms is equal to the configured job timeout so could 
+this be a bit racy? Safer to wait for 2 * MOCK_TIMEOUT I think.
+
+(I also wonder whether I should have made the flags bit operations 
+atomic so the visibility between CPU cores running different threads is 
+guaranteed. I might follow up with that tweak.)
+
+> +
+> +	KUNIT_ASSERT_FALSE(test, list_empty(&sched->job_list));
+
+Going back to my first comment - if you remove the set_duration and 
+instead of this assert have do KUNIT_ASSERT_EQ(drm_mock_sched_advance(), 
+1) I think that should be good enough and simpler.
 
 Regards,
 
 Tvrtko
 
+> +
+> +	done = drm_mock_sched_job_wait_finished(job, MOCK_TIMEOUT);
+> +	KUNIT_ASSERT_TRUE(test, done);
+> +
+> +	drm_mock_sched_entity_free(entity);
+> +}
+> +
+>   static struct kunit_case drm_sched_timeout_tests[] = {
+>   	KUNIT_CASE(drm_sched_basic_timeout),
+> +	KUNIT_CASE(drm_sched_skip_reset),
+>   	{}
+>   };
 >   
->   	KUNIT_ASSERT_EQ(test,
 > 
 
