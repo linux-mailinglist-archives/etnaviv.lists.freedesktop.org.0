@@ -2,56 +2,73 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F480ACB7FB
-	for <lists+etnaviv@lfdr.de>; Mon,  2 Jun 2025 17:34:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44F7FACEF51
+	for <lists+etnaviv@lfdr.de>; Thu,  5 Jun 2025 14:35:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EAF4810E558;
-	Mon,  2 Jun 2025 15:34:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7AA4C10E87A;
+	Thu,  5 Jun 2025 12:35:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="Ds5aAgcJ";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="UXwzIoU3";
 	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BEA8810E558;
- Mon,  2 Jun 2025 15:34:05 +0000 (UTC)
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4b9yYk1jt6z9shl;
- Mon,  2 Jun 2025 17:34:02 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; 
- t=1748878442; h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=4Awe1dhGUcwlwFptO9inKqI3/zNABpay/R4/pLVsmyo=;
- b=Ds5aAgcJ8EJJRaU39n2e8A+c7O2PKcwTNUlOxkrBaNM0oOiv47UtPEM6qsDp+nGtN6eSdG
- y/W2S02jag5AaEPGflZPTHhtde3qjXecJ3SOvevWK4xo8OvhGXAwkRfKTg1IxRxn7xFNZW
- JqMiwt7a5wKzU8Cc5Mq6tsDpJXeIG9rgwv26ZNp23kBwTkKK7/IcTgMPfqRqODV4F81ZMy
- QCygn6GH/A2CnUuzZl8CRJchuRJ1PNzKy/HlVzfHr8QwV8etgqbYQvJQhTAzYh1STvD9cp
- +v07SPM6GFlwMqRfpaYh0OQwR5q3p/Z5gy8gUqMNjXSVAgWIfc9PlGFfGg+nIQ==
-Message-ID: <3cb4d2c9c5db4b459344ee1ff6ebdea77804ee4b.camel@mailbox.org>
-Subject: Re: [PATCH] drm/etnaviv: Protect the scheduler's pending list with
- its lock
-From: Philipp Stanner <phasta@mailbox.org>
-To: =?ISO-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>, Lucas Stach
- <l.stach@pengutronix.de>, Philipp Zabel <p.zabel@pengutronix.de>, Russell
- King <linux+etnaviv@armlinux.org.uk>, Christian Gmeiner
- <cgmeiner@igalia.com>,  Philipp Stanner <phasta@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org, 
- kernel-dev@igalia.com, stable@vger.kernel.org
-Date: Mon, 02 Jun 2025 17:33:58 +0200
-In-Reply-To: <20250602132240.93314-1-mcanal@igalia.com>
-References: <20250602132240.93314-1-mcanal@igalia.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com
+ [209.85.208.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2728410E1BF
+ for <etnaviv@lists.freedesktop.org>; Wed,  4 Jun 2025 21:20:57 +0000 (UTC)
+Received: by mail-ed1-f52.google.com with SMTP id
+ 4fb4d7f45d1cf-6020ff8d54bso387502a12.2
+ for <etnaviv@lists.freedesktop.org>; Wed, 04 Jun 2025 14:20:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1749072055; x=1749676855; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:from:to:cc:subject:date:message-id:reply-to;
+ bh=/jgnW+seAU5B54GuyMKF0J551SIwtf+uOkY04EcOe54=;
+ b=UXwzIoU3QYR8/PZvJS5OFj9ie+/UgrK25bvaxsFgh7TzXpc9ObpTPg1t283QOwVwGV
+ KKmzZ8HtuC1HgheMrSmz0ctkECYrQEcD0vSEqhUE/27BmWxngZA/1Rify4SyusLWkE2e
+ 7EFmTT91JcUB+eoF47Z55ky4nVrxopukH1oouvs3w/XP/S6gLkBi2p/VhHZkQBeHXjZh
+ 2zHBLyYyJyc6p2O2mTguBkHkvPgCsYBMbMe7n7r+f0b1svvdeS9eXNcEwJazr+QP97Wh
+ if+tp+0Wue0TnAbxjQ8JiHAYwAH6wPjP52pZedi1csMAPkFk6tCRpWnWqKIOENAV3nIT
+ eYaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1749072056; x=1749676856;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=/jgnW+seAU5B54GuyMKF0J551SIwtf+uOkY04EcOe54=;
+ b=ED5eRMQu7/21YTsLAPCDM76CyN8w1+EEFNsfaMPhoY9ZnH2bXrZRpJ1T2blxRDetWh
+ 7Azu71hr2x9OmnlKDpXog2JfVvVQXy7iT26TjD0B6ATvkUBwsCu6erEWUSUhP1fI7jNr
+ FpcE4AMEa3dcpOQoUErDkunrR55sNb5AE/4DF3eK6Re2LahKRPWFR0Oh2DqBDxt4fFWu
+ lM4Gw8EuOclFRAel/QkN3ELAZN5sLXGHVyPXtDCCnSN5HtjvuLt5VT+q3jvIoCTy7F58
+ mKa4LOC/q/DW7N32c3E53bFIEd2Mta0N4x4ap4ictHlqQKTzV+8AJ8WY/roPPSegNVF7
+ DWvg==
+X-Gm-Message-State: AOJu0YwSD5kg+UOF2JFWInjLcWmtgUTlyB48UCXCGPY8mcaNnSbP21Hs
+ EskFUkxEajgJUPM5GEZR4Ankl66laTxsHydUkor+ikP/vDo5mwufg1ZxWX5Hu0Al
+X-Gm-Gg: ASbGnct1bnKrlULYyXwS4YT2dSEPkUSqhrdfBXL3BoK8vETf9QP9Y7GsDZDaCkvnIFa
+ Jxe/vrQpJ9BLKkF5358EPgscF8uA9vlxSq9bAhgg12rD0+9SfYGRWSoskWOVdY6Gohlgiq/v/mR
+ 3ssLljksEaTih6P/s5aeM0gsAaXQ4noBSXZ4pCb/IYoi56uoi63i+ltNfjdX2GYepIruOwy/LXs
+ yn0ts1RXlLMFbampV36Z7nBaUmOjh0NYwIb5JEbFK4/0T48FEvcBhs1H9ozPpLPSFSEkXewx+qo
+ rVnjoE1fN3fF8vtI1aO64amw6LFbHpSsgal2uxZKg3mw8xocfQpzFtfJNVoLHHim
+X-Google-Smtp-Source: AGHT+IEi+rvwyOCje3Sf+uzVcWBgwmkUKv4J+W2OO/2AzGMWVeJOIxclSpJfcdamgJTgJ79X/F75PQ==
+X-Received: by 2002:a17:906:dc93:b0:ad2:43b6:dd75 with SMTP id
+ a640c23a62f3a-addf8c9b356mr411068466b.10.1749072055477; 
+ Wed, 04 Jun 2025 14:20:55 -0700 (PDT)
+Received: from rivendell.box ([2a02:2454:c280:4800:63d:9df9:3ebb:5fc6])
+ by smtp.googlemail.com with ESMTPSA id
+ a640c23a62f3a-ada5dd043a9sm1145699466b.89.2025.06.04.14.20.54
+ for <etnaviv@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 04 Jun 2025 14:20:55 -0700 (PDT)
+From: Gert Wollny <gw.fossdev@gmail.com>
+X-Google-Original-From: Gert Wollny <gert.wollny@collabora.com>
+To: etnaviv@lists.freedesktop.org
+Subject: RFC: Add PPU flop reset 
+Date: Wed,  4 Jun 2025 23:19:18 +0200
+Message-ID: <20250604212032.3387616-1-gert.wollny@collabora.com>
+X-Mailer: git-send-email 2.47.2
 MIME-Version: 1.0
-X-MBO-RS-META: rho4fa8zrfi8ucdopgjd97j174pda5hb
-X-MBO-RS-ID: 12d2fd6bc7dd542828a
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Thu, 05 Jun 2025 12:35:02 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,91 +80,20 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: phasta@kernel.org
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-On Mon, 2025-06-02 at 10:22 -0300, Ma=C3=ADra Canal wrote:
-> Commit 704d3d60fec4 ("drm/etnaviv: don't block scheduler when GPU is
-> still
-> active") ensured that active jobs are returned to the pending list
-> when
-> extending the timeout. However, it didn't use the pending list's lock
-> to
-> manipulate the list, which causes a race condition as the scheduler's
-> workqueues are running.
->=20
-> Hold the lock while manipulating the scheduler's pending list to
-> prevent
-> a race.
->=20
-> Cc: stable@vger.kernel.org
-> Fixes: 704d3d60fec4 ("drm/etnaviv: don't block scheduler when GPU is
-> still active")
+This series adds running the PPU flop reset which is required for some
+hardware. This implementation was tested with the STM vendor kernel based on 
+linux-6.6.48 and that is provided with 
+  https://github.com/STMicroelectronics/oe-manifest/
+  Release: openstlinux-6.6-yocto-scarthgap-mpu-v25.04.30
 
-Could also contain a "Closes: " with the link to the appropriate
-message from thread [1] from below.
+The command stream is based on the stream that is emitted in the acccording 
+code of the galcore kernel. Since I have only a stm32mp257f-ev1 board to
+test this for all parts that are emitted conditionally in the galcore kernel
+only the part that is required for this board is submitted here. 
 
-You might also include "Reported-by: Philipp" since I technically first
-described the problem. But no hard feelings on that
-
-> Signed-off-by: Ma=C3=ADra Canal <mcanal@igalia.com>
-
-Reviewed-by: Philipp Stanner <phasta@kernel.org>
-
-> ---
-> Hi,
->=20
-> I'm proposing this workaround patch to address the race-condition
-> caused
-> by manipulating the pending list without using its lock. Although I
-> understand this isn't a complete solution (see [1]), it's not
-> reasonable
-> to backport the new DRM stat series [2] to the stable branches.
->=20
-> Therefore, I believe the best solution is backporting this fix to the
-> stable branches, which will fix the race and will keep adding the job
-> back to the pending list (which will avoid most memory leaks).
->=20
-> [1]
-> https://lore.kernel.org/dri-devel/bcc0ed477f8a6f3bb06665b1756bcb98fb7af87=
-1.camel@mailbox.org/
-> [2]
-> https://lore.kernel.org/dri-devel/20250530-sched-skip-reset-v2-0-c40a8d2d=
-8daa@igalia.com/
->=20
-> Best Regards,
-> - Ma=C3=ADra
-> ---
-> =C2=A0drivers/gpu/drm/etnaviv/etnaviv_sched.c | 5 ++++-
-> =C2=A01 file changed, 4 insertions(+), 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-> b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-> index 76a3a3e517d8..71e2e6b9d713 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-> @@ -35,6 +35,7 @@ static enum drm_gpu_sched_stat
-> etnaviv_sched_timedout_job(struct drm_sched_job
-> =C2=A0							=C2=A0
-> *sched_job)
-> =C2=A0{
-> =C2=A0	struct etnaviv_gem_submit *submit =3D
-> to_etnaviv_submit(sched_job);
-> +	struct drm_gpu_scheduler *sched =3D sched_job->sched;
-> =C2=A0	struct etnaviv_gpu *gpu =3D submit->gpu;
-> =C2=A0	u32 dma_addr, primid =3D 0;
-> =C2=A0	int change;
-> @@ -89,7 +90,9 @@ static enum drm_gpu_sched_stat
-> etnaviv_sched_timedout_job(struct drm_sched_job
-> =C2=A0	return DRM_GPU_SCHED_STAT_NOMINAL;
-> =C2=A0
-> =C2=A0out_no_timeout:
-> -	list_add(&sched_job->list, &sched_job->sched->pending_list);
-> +	spin_lock(&sched->job_list_lock);
-> +	list_add(&sched_job->list, &sched->pending_list);
-> +	spin_unlock(&sched->job_list_lock);
-> =C2=A0	return DRM_GPU_SCHED_STAT_NOMINAL;
-> =C2=A0}
-> =C2=A0
+Thanks for any comments, 
+Gert 
 
