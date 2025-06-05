@@ -2,71 +2,71 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 470A2ACEF52
+	by mail.lfdr.de (Postfix) with ESMTPS id 23145ACEF50
 	for <lists+etnaviv@lfdr.de>; Thu,  5 Jun 2025 14:35:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D99210E882;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 277F010E83D;
 	Thu,  5 Jun 2025 12:35:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="hyx1R8j+";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="YjzQjZNx";
 	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com
- [209.85.208.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6EF1C10E806
- for <etnaviv@lists.freedesktop.org>; Thu,  5 Jun 2025 12:12:56 +0000 (UTC)
-Received: by mail-ed1-f42.google.com with SMTP id
- 4fb4d7f45d1cf-606741e8e7cso1532229a12.1
- for <etnaviv@lists.freedesktop.org>; Thu, 05 Jun 2025 05:12:56 -0700 (PDT)
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com
+ [209.85.208.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 15E4F10E806
+ for <etnaviv@lists.freedesktop.org>; Thu,  5 Jun 2025 12:12:57 +0000 (UTC)
+Received: by mail-ed1-f51.google.com with SMTP id
+ 4fb4d7f45d1cf-60477f1a044so1537068a12.0
+ for <etnaviv@lists.freedesktop.org>; Thu, 05 Jun 2025 05:12:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1749125575; x=1749730375; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1749125576; x=1749730376; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=dhq8N85DNbCg64/021wjsDyrSdEvY3ei6kXgVhuu4gM=;
- b=hyx1R8j+x7J9MCW/A2EA5JMkoHi31q48SNPrHBvt8nNaRKBi2R5gC4M9w2POq0KvF+
- j4txi2Ds56gTpXiWRU2nMiIVJz4rqraPOAd5/91N7pGA8lptXQ8an6Ly6/H2g/Zir0bV
- E7Y1Amh0Fhx44PeSHLsXEbhmL+Z3YgN8sKs4+6akiVhPABEGg9pZA8IanPcXAB1Oyl39
- UwcswJMbynFeoFM9/fYpR1T4zxQotUnRrLcZNR6B3www/Le0QUjz+4o34ay2u498ZD7J
- DZ3qyQtiBhbEibnktp8j7jn+akTCuoals7K4EhR5f98SUKq2JMgE5iDHmmwDOjEodp5X
- mOfw==
+ bh=y9zNALnQWTXcJqsJ+K+qLSJhT/CLM1q+Dop83ialWRE=;
+ b=YjzQjZNxHmdOysSVyLEictlGUCRhJfFtUZQLnoV1yhQq4yZYBi0aGL/DKGPV8R5uY6
+ NU+fvBkY6qlK1GoWcINsBt7kosWWZxaZs4eyeIXNFEajKdHA/c2mkmGjmP27PSx+GJl3
+ PqDBnefEADoE1LZrifk9lU/LFsg8g0XmMCTvUTRrXqZ8pmSdmDJqBAVovM2VPZ2uksLP
+ RkJHBmm2eQkTESGWQDWdEkQRQdAtTpM28mUAJIloDEDV3bW+F5202PoR/nyl12q6yLPh
+ ZXtL5bVkJBZhw+ss+WTi+XUCz/ykou3oEnE3zpB2f+950IgW4tqLphlPWOAS8ky0mcbO
+ W1RQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1749125575; x=1749730375;
+ d=1e100.net; s=20230601; t=1749125576; x=1749730376;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=dhq8N85DNbCg64/021wjsDyrSdEvY3ei6kXgVhuu4gM=;
- b=Ftpl3ImGaO8g4QVAlxumhMfyRjicqC5OS4tlGYBHTH3EENme7Pq0FpfyjYMnni6nEZ
- B6qnfOt2oLZAH+AZbIv7DjgUCBIWN+KqdWp/TWtVMQHVrrJYepvCvauRTT0h3tIsc46h
- +ynDU1NSI718x6r0Sq7XEPx/pkWOY5bwNPGGaLZThFG/VlrCwmQGbsvgZPXUtarIZmgC
- KKRA/qcZ9NWsMypkFdhJHLHQ+i4Q0/Y/uiqY+oU+XEV4oPAqZK7z5sicdU8ZkUbmBvf/
- ol5exPuJIhjGhbOqf1T3erdUdRBPdxlea3u31HkLxREv0CCbeJlSCXCjbEOCG3kzlXwH
- VCrg==
-X-Gm-Message-State: AOJu0YzuG+x2K3pXG2XrjmO+j4NGpCYu1vvH51us1dTWtd//QU1jzIxX
- quvqUpzCJ8nV6PxQMPtKgCyUeKlNFqPTU31kZfwyi5i229rwfxQ2K4fPkfae0A==
-X-Gm-Gg: ASbGnctRyp8q9T4TFpZH/AL2sshy6uIxJ87XNEyx9yoiLDHYPrJr3YaN6Z+5OuHAR/Q
- glcwPGihvMROp2NdxSuIBIoXtgE7kktxVl2FYjvpF8C/NPcLTj1QeyGf1vrF8W24gyBANYk2Sgt
- IQ4JA6cGvV1O/9JN4Rz/nvjc2BKhVCM10sgqPvX6iiDTlbaNfJZN7xLGFDy29deXcc/uMIa9UE5
- A75oOonqCtkt4Vjd5wES2EKZEwZLXNh0WplcH8F2SV9hJdrRNLmry2Fjzo2xQtAtYiFXBW/3A6V
- m5oH8FO397XocoNF0KojNbFpBk6hHhGCL+aSIT6xU9aVdwy1UBsJrKCYzIsfexIJ6ywEyA==
-X-Google-Smtp-Source: AGHT+IG8lyX6WKZ5tkHUDN5Bqv7UOG08HrcPR0mCyltrA78AYYWwDq4SvoDZ/IxOwzHLwbEa1jhxGA==
-X-Received: by 2002:a05:6402:1d4f:b0:607:35d8:51ac with SMTP id
- 4fb4d7f45d1cf-60735d855a6mr813828a12.0.1749125574885; 
- Thu, 05 Jun 2025 05:12:54 -0700 (PDT)
+ bh=y9zNALnQWTXcJqsJ+K+qLSJhT/CLM1q+Dop83ialWRE=;
+ b=JUp7DdKU02dV+9nhmPspe9LZRxhHP/uel3aPmRBqxUzJWb5tRMf/panDOQx+xKY+fs
+ BcaC7OypS/fpfqJ4ZAJmVMJBLBmsxk2r7EOr8r32C5/6ZkHH6Nz2p8Fh+ltI9LtzaSm+
+ qqXNgkfOI5II0IAt8bbrCaAbmQWP7KNexZMS8ENMljNmdklo7RMVKbu9QRyZO8w7yqMu
+ Q6s0W8qrX7BGIDxFTfx/dXeF7Sd1SU3AJFaOpEMeQnGjWLYMLJVr9QEwiBwasKcrGobd
+ 0KlRhGBgQHh/AbudIwBQt5WzueWfUz0Q3YyP0tb8FdJ++EXpgDatewyjMifulJhLDkZ1
+ wnlQ==
+X-Gm-Message-State: AOJu0YxquZQ5A7knC8x1zH+60Gc/HlxBEgmg2B3tAaS5j+H8FIqOQ3d3
+ nbmPjM+FHBMSMARzD7q8zFQqFqB4uusbi8RD3Siu5bZ+THRS0BcElMe97MeX6Q==
+X-Gm-Gg: ASbGncv/imQcOKoaj6b3UlR3Cy7FszQVmzkTUGh1wbWdfx5ZaN3iUqhuT/Jb7swsnl2
+ WFWef4N8erZkSGb9hTb5QK7HproOG3iYSFbKyp2IN+PFU0lSZvsgzVkQBs/f0cfO0uXsqP9ho5H
+ STukgBl82YfDqoa6I4S56/xCheNZfsF8T09ampe1T0n9qpG/UsbRHnT/dUtkViQ3h4bRoHd3IMj
+ HMcPC5bfKbJOWOFiihvgH2d9O0kDm38nn+XDyBcbDr3Z33Qh3VrckUv0/sMM6DJXfJnHSttylT7
+ dx86qHb0u0sT6sBe+VlXiQPCpYEW0HBQk944N0kZfdlcDpt931agvx9M6kb6i9cc7u0ALQ==
+X-Google-Smtp-Source: AGHT+IHOWZUcORUDhD8kMmQYKxZN5VTt8qIXiQVIEdO6iOyFshEoaif8dyHxVJsu9ggaWbCAoUJSJw==
+X-Received: by 2002:a05:6402:34cc:b0:5f7:29e0:5cf9 with SMTP id
+ 4fb4d7f45d1cf-606e91ff76dmr5679428a12.5.1749125575489; 
+ Thu, 05 Jun 2025 05:12:55 -0700 (PDT)
 Received: from rivendell.box ([2a02:2454:c280:4800:7b01:afa0:a96d:a592])
  by smtp.googlemail.com with ESMTPSA id
  4fb4d7f45d1cf-606bea242d3sm3360645a12.60.2025.06.05.05.12.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Jun 2025 05:12:54 -0700 (PDT)
+ Thu, 05 Jun 2025 05:12:55 -0700 (PDT)
 From: Gert Wollny <gw.fossdev@gmail.com>
 X-Google-Original-From: Gert Wollny <gert.wollny@collabora.com>
 To: etnaviv@lists.freedesktop.org
 Cc: Gert Wollny <gert.wollny@collabora.com>
-Subject: [RFC PATCH 1/4] etnaviv: Add command stream definitions required for
- a PPU flop reset
-Date: Thu,  5 Jun 2025 14:12:03 +0200
-Message-ID: <20250605121230.3405127-2-gert.wollny@collabora.com>
+Subject: [RFC PATCH 2/4] etnaviv: move some functions to a header to be able
+ to use them
+Date: Thu,  5 Jun 2025 14:12:04 +0200
+Message-ID: <20250605121230.3405127-3-gert.wollny@collabora.com>
 X-Mailer: git-send-email 2.47.2
 In-Reply-To: <20250605121230.3405127-1-gert.wollny@collabora.com>
 References: <20250605121230.3405127-1-gert.wollny@collabora.com>
@@ -89,113 +89,191 @@ Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
 Signed-off-by: Gert Wollny <gert.wollny@collabora.com>
 ---
- drivers/gpu/drm/etnaviv/state_3d.xml.h | 93 ++++++++++++++++++++++++++
- 1 file changed, 93 insertions(+)
+ drivers/gpu/drm/etnaviv/etnaviv_buffer.c | 71 +-------------------
+ drivers/gpu/drm/etnaviv/etnaviv_buffer.h | 85 ++++++++++++++++++++++++
+ 2 files changed, 86 insertions(+), 70 deletions(-)
+ create mode 100644 drivers/gpu/drm/etnaviv/etnaviv_buffer.h
 
-diff --git a/drivers/gpu/drm/etnaviv/state_3d.xml.h b/drivers/gpu/drm/etnaviv/state_3d.xml.h
-index ebbd4fcf3096..7bd1181aa44c 100644
---- a/drivers/gpu/drm/etnaviv/state_3d.xml.h
-+++ b/drivers/gpu/drm/etnaviv/state_3d.xml.h
-@@ -4,6 +4,99 @@
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_buffer.c b/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
+index b13a17276d07..9e007d977efe 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
+@@ -9,6 +9,7 @@
+ #include "etnaviv_gpu.h"
+ #include "etnaviv_gem.h"
+ #include "etnaviv_mmu.h"
++#include "etnaviv_buffer.h"
  
- /* This is a cut-down version of the state_3d.xml.h file */
+ #include "common.xml.h"
+ #include "state.xml.h"
+@@ -17,76 +18,6 @@
+ #include "state_3d.xml.h"
+ #include "cmdstream.xml.h"
  
-+#define VIVS_CL_CONFIG						0x00000900
-+#define VIVS_CL_CONFIG_DIMENSIONS__MASK			0x00000003
-+#define VIVS_CL_CONFIG_DIMENSIONS__SHIFT			0
-+#define VIVS_CL_CONFIG_DIMENSIONS(x)				(((x) << VIVS_CL_CONFIG_DIMENSIONS__SHIFT) & VIVS_CL_CONFIG_DIMENSIONS__MASK)
-+#define VIVS_CL_CONFIG_TRAVERSE_ORDER__MASK			0x00000070
-+#define VIVS_CL_CONFIG_TRAVERSE_ORDER__SHIFT			4
-+#define VIVS_CL_CONFIG_TRAVERSE_ORDER(x)			(((x) << VIVS_CL_CONFIG_TRAVERSE_ORDER__SHIFT) & VIVS_CL_CONFIG_TRAVERSE_ORDER__MASK)
-+#define VIVS_CL_CONFIG_ENABLE_SWATH_X				0x00000100
-+#define VIVS_CL_CONFIG_ENABLE_SWATH_Y				0x00000200
-+#define VIVS_CL_CONFIG_ENABLE_SWATH_Z				0x00000400
-+#define VIVS_CL_CONFIG_SWATH_SIZE_X__MASK			0x0000f000
-+#define VIVS_CL_CONFIG_SWATH_SIZE_X__SHIFT			12
-+#define VIVS_CL_CONFIG_SWATH_SIZE_X(x)				(((x) << VIVS_CL_CONFIG_SWATH_SIZE_X__SHIFT) & VIVS_CL_CONFIG_SWATH_SIZE_X__MASK)
-+#define VIVS_CL_CONFIG_SWATH_SIZE_Y__MASK			0x000f0000
-+#define VIVS_CL_CONFIG_SWATH_SIZE_Y__SHIFT			16
-+#define VIVS_CL_CONFIG_SWATH_SIZE_Y(x)				(((x) << VIVS_CL_CONFIG_SWATH_SIZE_Y__SHIFT) & VIVS_CL_CONFIG_SWATH_SIZE_Y__MASK)
-+#define VIVS_CL_CONFIG_SWATH_SIZE_Z__MASK			0x00f00000
-+#define VIVS_CL_CONFIG_SWATH_SIZE_Z__SHIFT			20
-+#define VIVS_CL_CONFIG_SWATH_SIZE_Z(x)				(((x) << VIVS_CL_CONFIG_SWATH_SIZE_Z__SHIFT) & VIVS_CL_CONFIG_SWATH_SIZE_Z__MASK)
-+
-+#define VIVS_CL_CONFIG_DIMENSIONS__MASK			0x00000003
-+#define VIVS_CL_CONFIG_DIMENSIONS__SHIFT			0
-+#define VIVS_CL_CONFIG_DIMENSIONS(x)				(((x) << VIVS_CL_CONFIG_DIMENSIONS__SHIFT) & VIVS_CL_CONFIG_DIMENSIONS__MASK)
-+
-+#define VIVS_CL_CONFIG_VALUE_ORDER__MASK			0x07000000
-+#define VIVS_CL_CONFIG_VALUE_ORDER__SHIFT			24
-+#define VIVS_CL_CONFIG_VALUE_ORDER(x)				(((x) << VIVS_CL_CONFIG_VALUE_ORDER__SHIFT) & VIVS_CL_CONFIG_VALUE_ORDER__MASK)
-+
-+#define VIVS_CL_GLOBAL_WORK_OFFSET_X				0x0000092c
-+#define VIVS_CL_GLOBAL_WORK_OFFSET_Y				0x00000934
-+#define VIVS_CL_GLOBAL_WORK_OFFSET_Z				0x0000093c
-+
-+#define VIVS_CL_KICKER						0x00000920
-+#define VIVS_CL_THREAD_ALLOCATION				0x0000091c
-+#define VIVS_CL_UNK00924					0x00000924
-+
-+#define VIVS_CL_WORKGROUP_COUNT_X				0x00000940
-+#define VIVS_CL_WORKGROUP_COUNT_Y				0x00000944
-+#define VIVS_CL_WORKGROUP_COUNT_Z				0x00000948
-+#define VIVS_CL_WORKGROUP_SIZE_X				0x0000094c
-+#define VIVS_CL_WORKGROUP_SIZE_Y				0x00000950
-+#define VIVS_CL_WORKGROUP_SIZE_Z				0x00000954
-+
-+#define VIVS_PA_VS_OUTPUT_COUNT				0x00000aa8
-+#define VIVS_PS_CONTROL_EXT					0x00001030
-+#define VIVS_PS_ICACHE_COUNT					0x00001094
-+#define VIVS_PS_ICACHE_PREFETCH				0x00001048
-+
-+#define VIVS_PS_INPUT_COUNT					0x00001008
-+#define VIVS_PS_INPUT_COUNT_COUNT__MASK			0x0000001f
-+#define VIVS_PS_INPUT_COUNT_COUNT__SHIFT			0
-+#define VIVS_PS_INPUT_COUNT_COUNT(x)				(((x) << VIVS_PS_INPUT_COUNT_COUNT__SHIFT) & VIVS_PS_INPUT_COUNT_COUNT__MASK)
-+
-+
-+#define VIVS_PS_NEWRANGE_LOW					0x0000087c
-+#define VIVS_PS_NEWRANGE_HIGH					0x00001090
-+#define VIVS_PS_SAMPLER_BASE					0x00001058
-+
-+#define VIVS_PS_UNIFORM_BASE					0x00001024
-+#define VIVS_PS_INST_ADDR					0x00001028
-+
-+#define VIVS_PS_TEMP_REGISTER_CONTROL				0x0000100c
-+#define VIVS_PS_TEMP_REGISTER_CONTROL_NUM_TEMPS__MASK		0x0000003f
-+#define VIVS_PS_TEMP_REGISTER_CONTROL_NUM_TEMPS__SHIFT		0
-+#define VIVS_PS_TEMP_REGISTER_CONTROL_NUM_TEMPS(x)		(((x) << VIVS_PS_TEMP_REGISTER_CONTROL_NUM_TEMPS__SHIFT) & VIVS_PS_TEMP_REGISTER_CONTROL_NUM_TEMPS__MASK)
-+
-+#define VIVS_PS_VARYING_NUM_COMPONENTS(i0)		       (0x00001080 + 0x4*(i0))
-+#define VIVS_PS_VARYING_NUM_COMPONENTS__ESIZE			0x00000004
-+#define VIVS_PS_VARYING_NUM_COMPONENTS__LEN			0x00000004
-+
-+#define VIVS_SH_CONFIG						0x00015600
-+#define VIVS_SH_CONFIG_RTNE_ROUNDING				0x00000002
-+
-+#define VIVS_SH_HALTI5_UNIFORMS(i0)			       (0x00036000 + 0x4*(i0))
-+#define VIVS_SH_HALTI5_UNIFORMS__ESIZE				0x00000004
-+#define VIVS_SH_HALTI5_UNIFORMS__LEN				0x00000800
-+
-+#define VIVS_VS_HALTI5_UNK008A0				0x000008a0
-+#define VIVS_VS_HALTI5_UNK008A0_A__MASK			0x0000003f
-+#define VIVS_VS_HALTI5_UNK008A0_A__SHIFT			0
-+#define VIVS_VS_HALTI5_UNK008A0_A(x)				(((x) << VIVS_VS_HALTI5_UNK008A0_A__SHIFT) & VIVS_VS_HALTI5_UNK008A0_A__MASK)
+-/*
+- * Command Buffer helper:
+- */
+-
+-
+-static inline void OUT(struct etnaviv_cmdbuf *buffer, u32 data)
+-{
+-	u32 *vaddr = (u32 *)buffer->vaddr;
+-
+-	BUG_ON(buffer->user_size >= buffer->size);
+-
+-	vaddr[buffer->user_size / 4] = data;
+-	buffer->user_size += 4;
+-}
+-
+-static inline void CMD_LOAD_STATE(struct etnaviv_cmdbuf *buffer,
+-	u32 reg, u32 value)
+-{
+-	u32 index = reg >> VIV_FE_LOAD_STATE_HEADER_OFFSET__SHR;
+-
+-	buffer->user_size = ALIGN(buffer->user_size, 8);
+-
+-	/* write a register via cmd stream */
+-	OUT(buffer, VIV_FE_LOAD_STATE_HEADER_OP_LOAD_STATE |
+-		    VIV_FE_LOAD_STATE_HEADER_COUNT(1) |
+-		    VIV_FE_LOAD_STATE_HEADER_OFFSET(index));
+-	OUT(buffer, value);
+-}
+-
+-static inline void CMD_END(struct etnaviv_cmdbuf *buffer)
+-{
+-	buffer->user_size = ALIGN(buffer->user_size, 8);
+-
+-	OUT(buffer, VIV_FE_END_HEADER_OP_END);
+-}
+-
+-static inline void CMD_WAIT(struct etnaviv_cmdbuf *buffer,
+-			    unsigned int waitcycles)
+-{
+-	buffer->user_size = ALIGN(buffer->user_size, 8);
+-
+-	OUT(buffer, VIV_FE_WAIT_HEADER_OP_WAIT | waitcycles);
+-}
+-
+-static inline void CMD_LINK(struct etnaviv_cmdbuf *buffer,
+-	u16 prefetch, u32 address)
+-{
+-	buffer->user_size = ALIGN(buffer->user_size, 8);
+-
+-	OUT(buffer, VIV_FE_LINK_HEADER_OP_LINK |
+-		    VIV_FE_LINK_HEADER_PREFETCH(prefetch));
+-	OUT(buffer, address);
+-}
+-
+-static inline void CMD_STALL(struct etnaviv_cmdbuf *buffer,
+-	u32 from, u32 to)
+-{
+-	buffer->user_size = ALIGN(buffer->user_size, 8);
+-
+-	OUT(buffer, VIV_FE_STALL_HEADER_OP_STALL);
+-	OUT(buffer, VIV_FE_STALL_TOKEN_FROM(from) | VIV_FE_STALL_TOKEN_TO(to));
+-}
+-
+-static inline void CMD_SEM(struct etnaviv_cmdbuf *buffer, u32 from, u32 to)
+-{
+-	CMD_LOAD_STATE(buffer, VIVS_GL_SEMAPHORE_TOKEN,
+-		       VIVS_GL_SEMAPHORE_TOKEN_FROM(from) |
+-		       VIVS_GL_SEMAPHORE_TOKEN_TO(to));
+-}
+-
+ static void etnaviv_cmd_select_pipe(struct etnaviv_gpu *gpu,
+ 	struct etnaviv_cmdbuf *buffer, u8 pipe)
+ {
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_buffer.h b/drivers/gpu/drm/etnaviv/etnaviv_buffer.h
+new file mode 100644
+index 000000000000..0cb65a0c3bfc
+--- /dev/null
++++ b/drivers/gpu/drm/etnaviv/etnaviv_buffer.h
+@@ -0,0 +1,85 @@
 +
 +
-+#define VIVS_VS_ICACHE_CONTROL					0x00000868
-+#define VIVS_VS_ICACHE_CONTROL_ENABLE				0x00000001
++#ifndef etnaviv_buffer_h
++#define etnaviv_buffer_h
 +
-+#define VIVS_VS_ICACHE_INVALIDATE				0x000008b0
++#include "etnaviv_cmdbuf.h"
++#include "etnaviv_gpu.h"
++#include "etnaviv_gem.h"
++#include "etnaviv_mmu.h"
 +
-+#define VIVS_VS_OUTPUT_COUNT					0x00000804
-+#define VIVS_VS_OUTPUT_COUNT_COUNT__MASK			0x000000ff
-+#define VIVS_VS_OUTPUT_COUNT_COUNT__SHIFT			0
-+#define VIVS_VS_OUTPUT_COUNT_COUNT(x)				(((x) << VIVS_VS_OUTPUT_COUNT_COUNT__SHIFT) & VIVS_VS_OUTPUT_COUNT_COUNT__MASK)
++#include "common.xml.h"
++#include "linux/printk.h"
++#include "state.xml.h"
++#include "state_blt.xml.h"
++#include "state_hi.xml.h"
++#include "state_3d.xml.h"
++#include "cmdstream.xml.h"
 +
- #define VIVS_TS_FLUSH_CACHE					0x00001650
- #define VIVS_TS_FLUSH_CACHE_FLUSH				0x00000001
- 
++static inline void OUT(struct etnaviv_cmdbuf *buffer, u32 data)
++{
++	u32 *vaddr = (u32 *)buffer->vaddr;
++
++	BUG_ON(buffer->user_size >= buffer->size);
++	
++	vaddr[buffer->user_size / 4] = data;
++	buffer->user_size += 4;
++}
++
++static inline void CMD_LOAD_STATE(struct etnaviv_cmdbuf *buffer,
++	u32 reg, u32 value)
++{
++  
++	u32 index = reg >> VIV_FE_LOAD_STATE_HEADER_OFFSET__SHR;
++
++	buffer->user_size = ALIGN(buffer->user_size, 8);
++
++	/* write a register via cmd stream */
++	OUT(buffer, VIV_FE_LOAD_STATE_HEADER_OP_LOAD_STATE |
++		    VIV_FE_LOAD_STATE_HEADER_COUNT(1) |
++		    VIV_FE_LOAD_STATE_HEADER_OFFSET(index));
++	OUT(buffer, value);
++}
++
++static inline void CMD_END(struct etnaviv_cmdbuf *buffer)
++{
++	buffer->user_size = ALIGN(buffer->user_size, 8);
++
++	OUT(buffer, VIV_FE_END_HEADER_OP_END);
++}
++
++static inline void CMD_WAIT(struct etnaviv_cmdbuf *buffer,
++			    unsigned int waitcycles)
++{
++	buffer->user_size = ALIGN(buffer->user_size, 8);
++
++	OUT(buffer, VIV_FE_WAIT_HEADER_OP_WAIT | waitcycles);
++}
++
++static inline void CMD_LINK(struct etnaviv_cmdbuf *buffer,
++	u16 prefetch, u32 address)
++{
++	buffer->user_size = ALIGN(buffer->user_size, 8);
++
++	OUT(buffer, VIV_FE_LINK_HEADER_OP_LINK |
++		    VIV_FE_LINK_HEADER_PREFETCH(prefetch));
++	OUT(buffer, address);
++}
++
++static inline void CMD_STALL(struct etnaviv_cmdbuf *buffer,
++	u32 from, u32 to)
++{
++	buffer->user_size = ALIGN(buffer->user_size, 8);
++
++	OUT(buffer, VIV_FE_STALL_HEADER_OP_STALL);
++	OUT(buffer, VIV_FE_STALL_TOKEN_FROM(from) | VIV_FE_STALL_TOKEN_TO(to));
++}
++
++static inline void CMD_SEM(struct etnaviv_cmdbuf *buffer, u32 from, u32 to)
++{
++	CMD_LOAD_STATE(buffer, VIVS_GL_SEMAPHORE_TOKEN,
++		       VIVS_GL_SEMAPHORE_TOKEN_FROM(from) |
++		       VIVS_GL_SEMAPHORE_TOKEN_TO(to));
++}
++
++#endif
 -- 
 2.47.2
 
