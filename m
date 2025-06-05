@@ -2,71 +2,71 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23145ACEF50
-	for <lists+etnaviv@lfdr.de>; Thu,  5 Jun 2025 14:35:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62D79ACEF56
+	for <lists+etnaviv@lfdr.de>; Thu,  5 Jun 2025 14:35:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 277F010E83D;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 95A8C10E898;
 	Thu,  5 Jun 2025 12:35:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="YjzQjZNx";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="UiqPzZLN";
 	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com
- [209.85.208.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 15E4F10E806
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com
+ [209.85.208.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A40FC10E806
  for <etnaviv@lists.freedesktop.org>; Thu,  5 Jun 2025 12:12:57 +0000 (UTC)
-Received: by mail-ed1-f51.google.com with SMTP id
- 4fb4d7f45d1cf-60477f1a044so1537068a12.0
+Received: by mail-ed1-f54.google.com with SMTP id
+ 4fb4d7f45d1cf-60727e46168so1327137a12.0
  for <etnaviv@lists.freedesktop.org>; Thu, 05 Jun 2025 05:12:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gmail.com; s=20230601; t=1749125576; x=1749730376; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=y9zNALnQWTXcJqsJ+K+qLSJhT/CLM1q+Dop83ialWRE=;
- b=YjzQjZNxHmdOysSVyLEictlGUCRhJfFtUZQLnoV1yhQq4yZYBi0aGL/DKGPV8R5uY6
- NU+fvBkY6qlK1GoWcINsBt7kosWWZxaZs4eyeIXNFEajKdHA/c2mkmGjmP27PSx+GJl3
- PqDBnefEADoE1LZrifk9lU/LFsg8g0XmMCTvUTRrXqZ8pmSdmDJqBAVovM2VPZ2uksLP
- RkJHBmm2eQkTESGWQDWdEkQRQdAtTpM28mUAJIloDEDV3bW+F5202PoR/nyl12q6yLPh
- ZXtL5bVkJBZhw+ss+WTi+XUCz/ykou3oEnE3zpB2f+950IgW4tqLphlPWOAS8ky0mcbO
- W1RQ==
+ bh=Rv18Nm+XvBnug5jkCOLPhd1kajolgW5alKdvqyQ8Do4=;
+ b=UiqPzZLN6UcBg5C6DQweRiymPYw3hRm4/oUSpaBsfzgOEBX7Ri7gU75xrxY3LdZQpG
+ FPyj2SKwAlUbGNJlMUDzJOsXD9oMUQ/fOAEZu8TH14qdzK+g/ITGCu1Arq5vYobVdDWD
+ Qxm+4kO60VIJXKSw/Ax9hXiGCYa4HtSAHHJfrs9zkNQeYj1rIRZHv2+fBJityYZChhS0
+ d20LAlu/1387miQHWKpKKzWLQTCIELUV9zPv7xkrAyCGrTJ1BiYHQNClRVOhyYMS0v0K
+ 7FKAPYL3JFbudvlAKi1+ELhJa7HqxzhJtyC19qQ86aFFpD+vxyG2JmPvRYxtQLPwb7Cn
+ V+Dg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20230601; t=1749125576; x=1749730376;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=y9zNALnQWTXcJqsJ+K+qLSJhT/CLM1q+Dop83ialWRE=;
- b=JUp7DdKU02dV+9nhmPspe9LZRxhHP/uel3aPmRBqxUzJWb5tRMf/panDOQx+xKY+fs
- BcaC7OypS/fpfqJ4ZAJmVMJBLBmsxk2r7EOr8r32C5/6ZkHH6Nz2p8Fh+ltI9LtzaSm+
- qqXNgkfOI5II0IAt8bbrCaAbmQWP7KNexZMS8ENMljNmdklo7RMVKbu9QRyZO8w7yqMu
- Q6s0W8qrX7BGIDxFTfx/dXeF7Sd1SU3AJFaOpEMeQnGjWLYMLJVr9QEwiBwasKcrGobd
- 0KlRhGBgQHh/AbudIwBQt5WzueWfUz0Q3YyP0tb8FdJ++EXpgDatewyjMifulJhLDkZ1
- wnlQ==
-X-Gm-Message-State: AOJu0YxquZQ5A7knC8x1zH+60Gc/HlxBEgmg2B3tAaS5j+H8FIqOQ3d3
- nbmPjM+FHBMSMARzD7q8zFQqFqB4uusbi8RD3Siu5bZ+THRS0BcElMe97MeX6Q==
-X-Gm-Gg: ASbGncv/imQcOKoaj6b3UlR3Cy7FszQVmzkTUGh1wbWdfx5ZaN3iUqhuT/Jb7swsnl2
- WFWef4N8erZkSGb9hTb5QK7HproOG3iYSFbKyp2IN+PFU0lSZvsgzVkQBs/f0cfO0uXsqP9ho5H
- STukgBl82YfDqoa6I4S56/xCheNZfsF8T09ampe1T0n9qpG/UsbRHnT/dUtkViQ3h4bRoHd3IMj
- HMcPC5bfKbJOWOFiihvgH2d9O0kDm38nn+XDyBcbDr3Z33Qh3VrckUv0/sMM6DJXfJnHSttylT7
- dx86qHb0u0sT6sBe+VlXiQPCpYEW0HBQk944N0kZfdlcDpt931agvx9M6kb6i9cc7u0ALQ==
-X-Google-Smtp-Source: AGHT+IHOWZUcORUDhD8kMmQYKxZN5VTt8qIXiQVIEdO6iOyFshEoaif8dyHxVJsu9ggaWbCAoUJSJw==
-X-Received: by 2002:a05:6402:34cc:b0:5f7:29e0:5cf9 with SMTP id
- 4fb4d7f45d1cf-606e91ff76dmr5679428a12.5.1749125575489; 
- Thu, 05 Jun 2025 05:12:55 -0700 (PDT)
+ bh=Rv18Nm+XvBnug5jkCOLPhd1kajolgW5alKdvqyQ8Do4=;
+ b=DZYVmWh6+Z6jMmNYXsSowXdQpmhkSgiYrqMKnY9P6nOnYc3Ki3JbqIe7RHKteTph+e
+ ANIKoMRcDT7CtTNSb8Dz9Hbl4Z0IYjZTn5cNegT9vyM7ObC3uq6CtQzFLil4LbRasnOy
+ pNMeyPevFxrN3pgHr3DCsgOl3b+de7lDVr8MIH4ctjNBVVW01uqLbu3YlGeF+stWb5hG
+ A4xMRT5E/nvcbawD8pGvEK8QFHIbFGHTwGYcivcUBDfZ0JMaV3LVdvMCyTyWR+Kj23+/
+ oOGJYb6wxVjBOxZrUxgMaupvtwTPdfr3mTN78PrKvDjjzE7O2yw6fh6btFQWakyV/60g
+ PZUw==
+X-Gm-Message-State: AOJu0Yz0xmsfBmc9RAoxqzbuGka+kkkLimaBqBy47MguO5Lmkr+k0C9a
+ KPc9mC887Z/hBOkcwwjqVyqUQZsUS51P5BPP2BuQpUsqlJuKc9LC6NAsM55nbQ==
+X-Gm-Gg: ASbGncvRp047GukQYv2OWSNcbljCa7N5Whxnv8HIDynqYzFV33/TVaKdgGg4GiMDg+S
+ 4COVXzT952d0x4k0bKBWZrX80Zlj3ZQm81yZSKV2Xy1q/ZPpfyLCOeo/krZ3F4Rw4kwVrLX19eJ
+ WlywUu/69FHBWxVsFOPfh74wijW6kVg1im4C7AgAB0rQTHZera9TAOnrJFe7dFC2b+0Ipdf8DMw
+ ISVLIVG6VnI4pkk51FKxZbDpWAcadqtn8bi6FLFL/uaOOZf0Ca32MrXAIF7lEsqLefGVvfH5Td8
+ h8YtHqDebjjvPcn9IhrYkstQrO9wmuHVu4ukmVcgS+pRiCoJqL3ucrNgqClHtZmiwrpAKg==
+X-Google-Smtp-Source: AGHT+IFFkufnDMAk5sjOMupKCUKvaQ4LzwcogCmaJi6ZR+TuIsTncmqI3U73nlDq9rTA4SFHxg9CrA==
+X-Received: by 2002:a05:6402:51c9:b0:607:671:2e81 with SMTP id
+ 4fb4d7f45d1cf-6070671331fmr4498132a12.11.1749125576102; 
+ Thu, 05 Jun 2025 05:12:56 -0700 (PDT)
 Received: from rivendell.box ([2a02:2454:c280:4800:7b01:afa0:a96d:a592])
  by smtp.googlemail.com with ESMTPSA id
- 4fb4d7f45d1cf-606bea242d3sm3360645a12.60.2025.06.05.05.12.54
+ 4fb4d7f45d1cf-606bea242d3sm3360645a12.60.2025.06.05.05.12.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 05 Jun 2025 05:12:55 -0700 (PDT)
 From: Gert Wollny <gw.fossdev@gmail.com>
 X-Google-Original-From: Gert Wollny <gert.wollny@collabora.com>
 To: etnaviv@lists.freedesktop.org
 Cc: Gert Wollny <gert.wollny@collabora.com>
-Subject: [RFC PATCH 2/4] etnaviv: move some functions to a header to be able
- to use them
-Date: Thu,  5 Jun 2025 14:12:04 +0200
-Message-ID: <20250605121230.3405127-3-gert.wollny@collabora.com>
+Subject: [RFC PATCH 3/4] etnaviv: Add a new function to emit a series of
+ states to cmd stream
+Date: Thu,  5 Jun 2025 14:12:05 +0200
+Message-ID: <20250605121230.3405127-4-gert.wollny@collabora.com>
 X-Mailer: git-send-email 2.47.2
 In-Reply-To: <20250605121230.3405127-1-gert.wollny@collabora.com>
 References: <20250605121230.3405127-1-gert.wollny@collabora.com>
@@ -89,191 +89,34 @@ Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
 Signed-off-by: Gert Wollny <gert.wollny@collabora.com>
 ---
- drivers/gpu/drm/etnaviv/etnaviv_buffer.c | 71 +-------------------
- drivers/gpu/drm/etnaviv/etnaviv_buffer.h | 85 ++++++++++++++++++++++++
- 2 files changed, 86 insertions(+), 70 deletions(-)
- create mode 100644 drivers/gpu/drm/etnaviv/etnaviv_buffer.h
+ drivers/gpu/drm/etnaviv/etnaviv_buffer.h | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_buffer.c b/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
-index b13a17276d07..9e007d977efe 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
-@@ -9,6 +9,7 @@
- #include "etnaviv_gpu.h"
- #include "etnaviv_gem.h"
- #include "etnaviv_mmu.h"
-+#include "etnaviv_buffer.h"
- 
- #include "common.xml.h"
- #include "state.xml.h"
-@@ -17,76 +18,6 @@
- #include "state_3d.xml.h"
- #include "cmdstream.xml.h"
- 
--/*
-- * Command Buffer helper:
-- */
--
--
--static inline void OUT(struct etnaviv_cmdbuf *buffer, u32 data)
--{
--	u32 *vaddr = (u32 *)buffer->vaddr;
--
--	BUG_ON(buffer->user_size >= buffer->size);
--
--	vaddr[buffer->user_size / 4] = data;
--	buffer->user_size += 4;
--}
--
--static inline void CMD_LOAD_STATE(struct etnaviv_cmdbuf *buffer,
--	u32 reg, u32 value)
--{
--	u32 index = reg >> VIV_FE_LOAD_STATE_HEADER_OFFSET__SHR;
--
--	buffer->user_size = ALIGN(buffer->user_size, 8);
--
--	/* write a register via cmd stream */
--	OUT(buffer, VIV_FE_LOAD_STATE_HEADER_OP_LOAD_STATE |
--		    VIV_FE_LOAD_STATE_HEADER_COUNT(1) |
--		    VIV_FE_LOAD_STATE_HEADER_OFFSET(index));
--	OUT(buffer, value);
--}
--
--static inline void CMD_END(struct etnaviv_cmdbuf *buffer)
--{
--	buffer->user_size = ALIGN(buffer->user_size, 8);
--
--	OUT(buffer, VIV_FE_END_HEADER_OP_END);
--}
--
--static inline void CMD_WAIT(struct etnaviv_cmdbuf *buffer,
--			    unsigned int waitcycles)
--{
--	buffer->user_size = ALIGN(buffer->user_size, 8);
--
--	OUT(buffer, VIV_FE_WAIT_HEADER_OP_WAIT | waitcycles);
--}
--
--static inline void CMD_LINK(struct etnaviv_cmdbuf *buffer,
--	u16 prefetch, u32 address)
--{
--	buffer->user_size = ALIGN(buffer->user_size, 8);
--
--	OUT(buffer, VIV_FE_LINK_HEADER_OP_LINK |
--		    VIV_FE_LINK_HEADER_PREFETCH(prefetch));
--	OUT(buffer, address);
--}
--
--static inline void CMD_STALL(struct etnaviv_cmdbuf *buffer,
--	u32 from, u32 to)
--{
--	buffer->user_size = ALIGN(buffer->user_size, 8);
--
--	OUT(buffer, VIV_FE_STALL_HEADER_OP_STALL);
--	OUT(buffer, VIV_FE_STALL_TOKEN_FROM(from) | VIV_FE_STALL_TOKEN_TO(to));
--}
--
--static inline void CMD_SEM(struct etnaviv_cmdbuf *buffer, u32 from, u32 to)
--{
--	CMD_LOAD_STATE(buffer, VIVS_GL_SEMAPHORE_TOKEN,
--		       VIVS_GL_SEMAPHORE_TOKEN_FROM(from) |
--		       VIVS_GL_SEMAPHORE_TOKEN_TO(to));
--}
--
- static void etnaviv_cmd_select_pipe(struct etnaviv_gpu *gpu,
- 	struct etnaviv_cmdbuf *buffer, u8 pipe)
- {
 diff --git a/drivers/gpu/drm/etnaviv/etnaviv_buffer.h b/drivers/gpu/drm/etnaviv/etnaviv_buffer.h
-new file mode 100644
-index 000000000000..0cb65a0c3bfc
---- /dev/null
+index 0cb65a0c3bfc..b0a093b28774 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_buffer.h
 +++ b/drivers/gpu/drm/etnaviv/etnaviv_buffer.h
-@@ -0,0 +1,85 @@
-+
-+
-+#ifndef etnaviv_buffer_h
-+#define etnaviv_buffer_h
-+
-+#include "etnaviv_cmdbuf.h"
-+#include "etnaviv_gpu.h"
-+#include "etnaviv_gem.h"
-+#include "etnaviv_mmu.h"
-+
-+#include "common.xml.h"
-+#include "linux/printk.h"
-+#include "state.xml.h"
-+#include "state_blt.xml.h"
-+#include "state_hi.xml.h"
-+#include "state_3d.xml.h"
-+#include "cmdstream.xml.h"
-+
-+static inline void OUT(struct etnaviv_cmdbuf *buffer, u32 data)
+@@ -41,6 +41,20 @@ static inline void CMD_LOAD_STATE(struct etnaviv_cmdbuf *buffer,
+ 	OUT(buffer, value);
+ }
+ 
++static inline void CMD_LOAD_STATES_START(struct etnaviv_cmdbuf *buffer,
++					u32 reg, u32 nvalues)
 +{
-+	u32 *vaddr = (u32 *)buffer->vaddr;
-+
-+	BUG_ON(buffer->user_size >= buffer->size);
-+	
-+	vaddr[buffer->user_size / 4] = data;
-+	buffer->user_size += 4;
-+}
-+
-+static inline void CMD_LOAD_STATE(struct etnaviv_cmdbuf *buffer,
-+	u32 reg, u32 value)
-+{
-+  
 +	u32 index = reg >> VIV_FE_LOAD_STATE_HEADER_OFFSET__SHR;
 +
 +	buffer->user_size = ALIGN(buffer->user_size, 8);
 +
 +	/* write a register via cmd stream */
 +	OUT(buffer, VIV_FE_LOAD_STATE_HEADER_OP_LOAD_STATE |
-+		    VIV_FE_LOAD_STATE_HEADER_COUNT(1) |
-+		    VIV_FE_LOAD_STATE_HEADER_OFFSET(index));
-+	OUT(buffer, value);
++	    VIV_FE_LOAD_STATE_HEADER_OFFSET(index) |
++	    (VIV_FE_LOAD_STATE_HEADER_COUNT(nvalues) &
++	     VIV_FE_LOAD_STATE_HEADER_COUNT__MASK));
 +}
 +
-+static inline void CMD_END(struct etnaviv_cmdbuf *buffer)
-+{
-+	buffer->user_size = ALIGN(buffer->user_size, 8);
-+
-+	OUT(buffer, VIV_FE_END_HEADER_OP_END);
-+}
-+
-+static inline void CMD_WAIT(struct etnaviv_cmdbuf *buffer,
-+			    unsigned int waitcycles)
-+{
-+	buffer->user_size = ALIGN(buffer->user_size, 8);
-+
-+	OUT(buffer, VIV_FE_WAIT_HEADER_OP_WAIT | waitcycles);
-+}
-+
-+static inline void CMD_LINK(struct etnaviv_cmdbuf *buffer,
-+	u16 prefetch, u32 address)
-+{
-+	buffer->user_size = ALIGN(buffer->user_size, 8);
-+
-+	OUT(buffer, VIV_FE_LINK_HEADER_OP_LINK |
-+		    VIV_FE_LINK_HEADER_PREFETCH(prefetch));
-+	OUT(buffer, address);
-+}
-+
-+static inline void CMD_STALL(struct etnaviv_cmdbuf *buffer,
-+	u32 from, u32 to)
-+{
-+	buffer->user_size = ALIGN(buffer->user_size, 8);
-+
-+	OUT(buffer, VIV_FE_STALL_HEADER_OP_STALL);
-+	OUT(buffer, VIV_FE_STALL_TOKEN_FROM(from) | VIV_FE_STALL_TOKEN_TO(to));
-+}
-+
-+static inline void CMD_SEM(struct etnaviv_cmdbuf *buffer, u32 from, u32 to)
-+{
-+	CMD_LOAD_STATE(buffer, VIVS_GL_SEMAPHORE_TOKEN,
-+		       VIVS_GL_SEMAPHORE_TOKEN_FROM(from) |
-+		       VIVS_GL_SEMAPHORE_TOKEN_TO(to));
-+}
-+
-+#endif
+ static inline void CMD_END(struct etnaviv_cmdbuf *buffer)
+ {
+ 	buffer->user_size = ALIGN(buffer->user_size, 8);
 -- 
 2.47.2
 
