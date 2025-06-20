@@ -2,51 +2,44 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A3B9ADF7F4
-	for <lists+etnaviv@lfdr.de>; Wed, 18 Jun 2025 22:42:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3F1BAE231D
+	for <lists+etnaviv@lfdr.de>; Fri, 20 Jun 2025 21:56:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC41B10E95B;
-	Wed, 18 Jun 2025 20:42:28 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="nJerHS5G";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 962C110E163;
+	Fri, 20 Jun 2025 19:56:55 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0264210E94F;
- Wed, 18 Jun 2025 20:42:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1750279338;
- bh=l5UaRJI9ED4qxZ3oMPVtbi+aP7TlXVHBIO9LNim8MDQ=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=nJerHS5GcEy0ZmtuASGKCKZWxX+o1aZ+/ZRXMuM0Zb26SmnDg/4mOQsxObGrn5AZu
- SygaqO26BbRW4Mg0O618Y9hF0c8RjINjP0DXR+VffVzCMHojLzF1+wBL7khDGGP/LR
- DxTXdHro3121TJ2e3iakmylMCP8DJ7bRneTjC3SNVts6ZFHSd/iNZncFTOygP1Tlr8
- h2PObC67Q+M6wDftvi/ep1uSuzys9TZEr/FQ77c9ToEfvSiz7hIwwvZl7y20nao6wx
- NH2AdwvvF/WpUoEdP9C2wGaGaG2RoR0/dPeua4ZqfnObp0onna17P7eWkyPZl34wwo
- A9mWCXqK/G2uw==
-Received: from localhost.localdomain (unknown [89.186.158.57])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: gerddie)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 72D5017E1580;
- Wed, 18 Jun 2025 22:42:18 +0200 (CEST)
-From: Gert Wollny <gert.wollny@collabora.com>
-To: Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>
-Cc: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Gert Wollny <gert.wollny@collabora.com>
-Subject: [PATCH v2 6/6] drm/etnaviv: Add module parameter to force PPU flop
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2325F10E134
+ for <etnaviv@lists.freedesktop.org>; Fri, 20 Jun 2025 19:56:53 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.whiteo.stw.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1uShqy-0005Ng-Hz; Fri, 20 Jun 2025 21:56:48 +0200
+Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
+ by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.96)
+ (envelope-from <l.stach@pengutronix.de>) id 1uShqx-004Vkz-2D;
+ Fri, 20 Jun 2025 21:56:47 +0200
+From: Lucas Stach <l.stach@pengutronix.de>
+To: etnaviv@lists.freedesktop.org
+Cc: Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ dri-devel@lists.freedesktop.org, kernel@pengutronix.de,
+ patchwork-slt@pengutronix.de
+Subject: [PATCH 1/2] drm/etnaviv: reset bit 0 when disabling pulse eater for
  reset
-Date: Wed, 18 Jun 2025 22:43:34 +0200
-Message-ID: <20250618204400.21808-7-gert.wollny@collabora.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250618204400.21808-1-gert.wollny@collabora.com>
-References: <20250618204400.21808-1-gert.wollny@collabora.com>
+Date: Fri, 20 Jun 2025 21:56:46 +0200
+Message-Id: <20250620195647.2770349-1-l.stach@pengutronix.de>
+X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,38 +54,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Signed-off-by: Gert Wollny <gert.wollny@collabora.com>
----
- drivers/gpu/drm/etnaviv/etnaviv_flop_reset.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+It seems this bit is sticky across the reset. The downstream driver
+pulses this bit on and off in the reset sequence, which had been
+missed when porting this part over from the Vivante driver.
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_flop_reset.c b/drivers/gpu/drm/etnaviv/etnaviv_flop_reset.c
-index c33647e96636..bf4cae4be815 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_flop_reset.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_flop_reset.c
-@@ -16,6 +16,9 @@ enum etnaviv_flop_reset_type {
- 	flop_reset_tp = 1 << 2
- };
+While no bad behavior has been observed when the bit is active after
+reset, better be safe than sorry and copy this part verbatim.
+
+Fixes: b0da08559c74 ("drm/etnaviv: disable MLCG and pulse eater on GPU reset")
+Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+---
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+index cf0d9049bcf1..bf59f4ee0e72 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+@@ -550,6 +550,8 @@ static int etnaviv_hw_reset(struct etnaviv_gpu *gpu)
+ 		gpu_write_power(gpu, VIVS_PM_PULSE_EATER, pulse_eater);
+ 		pulse_eater |= BIT(0);
+ 		gpu_write_power(gpu, VIVS_PM_PULSE_EATER, pulse_eater);
++		pulse_eater &= ~BIT(0);
++		gpu_write_power(gpu, VIVS_PM_PULSE_EATER, pulse_eater);
  
-+static int etnaviv_force_flop_reset = 0;
-+module_param_named(force_flop_reset, etnaviv_force_flop_reset, int , 0);
-+
- #define PPU_IMAGE_STRIDE 64
- #define PPU_IMAGE_XSIZE 64
- #define PPU_IMAGE_YSIZE 6
-@@ -151,6 +154,12 @@ etnaviv_flop_reset_ppu_require(const struct etnaviv_chip_identity *chip_id)
- 			return (e->flags & flop_reset_ppu) != 0;
- 	}
- 
-+	if (etnaviv_force_flop_reset & flop_reset_ppu) {
-+		pr_warn("Forcing flop reset for model: 0x%04x, revision: 0x%04x\n",
-+			chip_id->model, chip_id->revision);
-+		return true;
-+	}
-+
- 	return false;
- }
- 
+ 		/* enable clock */
+ 		control = VIVS_HI_CLOCK_CONTROL_FSCALE_VAL(fscale);
 -- 
-2.49.0
+2.39.5
 
