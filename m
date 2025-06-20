@@ -2,25 +2,25 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3F1BAE231D
+	by mail.lfdr.de (Postfix) with ESMTPS id 775DDAE231C
 	for <lists+etnaviv@lfdr.de>; Fri, 20 Jun 2025 21:56:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 962C110E163;
-	Fri, 20 Jun 2025 19:56:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB3F310E134;
+	Fri, 20 Jun 2025 19:56:54 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
 Received: from metis.whiteo.stw.pengutronix.de
  (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2325F10E134
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 237DE10E163
  for <etnaviv@lists.freedesktop.org>; Fri, 20 Jun 2025 19:56:53 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
  by metis.whiteo.stw.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <l.stach@pengutronix.de>)
- id 1uShqy-0005Ng-Hz; Fri, 20 Jun 2025 21:56:48 +0200
+ id 1uShqy-0005Nh-Hz; Fri, 20 Jun 2025 21:56:48 +0200
 Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
  by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.96)
- (envelope-from <l.stach@pengutronix.de>) id 1uShqx-004Vkz-2D;
+ (envelope-from <l.stach@pengutronix.de>) id 1uShqx-004Vkz-2V;
  Fri, 20 Jun 2025 21:56:47 +0200
 From: Lucas Stach <l.stach@pengutronix.de>
 To: etnaviv@lists.freedesktop.org
@@ -28,11 +28,13 @@ Cc: Russell King <linux+etnaviv@armlinux.org.uk>,
  Christian Gmeiner <christian.gmeiner@gmail.com>,
  dri-devel@lists.freedesktop.org, kernel@pengutronix.de,
  patchwork-slt@pengutronix.de
-Subject: [PATCH 1/2] drm/etnaviv: reset bit 0 when disabling pulse eater for
+Subject: [PATCH 2/2] drm/etnaviv: don't touch clock gating register during
  reset
-Date: Fri, 20 Jun 2025 21:56:46 +0200
-Message-Id: <20250620195647.2770349-1-l.stach@pengutronix.de>
+Date: Fri, 20 Jun 2025 21:56:47 +0200
+Message-Id: <20250620195647.2770349-2-l.stach@pengutronix.de>
 X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250620195647.2770349-1-l.stach@pengutronix.de>
+References: <20250620195647.2770349-1-l.stach@pengutronix.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
@@ -54,32 +56,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-It seems this bit is sticky across the reset. The downstream driver
-pulses this bit on and off in the reset sequence, which had been
-missed when porting this part over from the Vivante driver.
-
-While no bad behavior has been observed when the bit is active after
-reset, better be safe than sorry and copy this part verbatim.
+While the Vivante driver also claims to disable clock gating during reset
+(in reality it doesn't because it clears the wrong register and *enables*
+clock gating for all modules), it has been shown that switching the clock
+gating enable state in the reset sequence has made the GPU reset less
+reliable and often leaves parts of the GPU in indeterminate state.
 
 Fixes: b0da08559c74 ("drm/etnaviv: disable MLCG and pulse eater on GPU reset")
 Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
 ---
- drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-index cf0d9049bcf1..bf59f4ee0e72 100644
+index bf59f4ee0e72..a1e84deba6c0 100644
 --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
 +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-@@ -550,6 +550,8 @@ static int etnaviv_hw_reset(struct etnaviv_gpu *gpu)
- 		gpu_write_power(gpu, VIVS_PM_PULSE_EATER, pulse_eater);
- 		pulse_eater |= BIT(0);
- 		gpu_write_power(gpu, VIVS_PM_PULSE_EATER, pulse_eater);
-+		pulse_eater &= ~BIT(0);
-+		gpu_write_power(gpu, VIVS_PM_PULSE_EATER, pulse_eater);
+@@ -542,9 +542,6 @@ static int etnaviv_hw_reset(struct etnaviv_gpu *gpu)
+ 		unsigned int fscale = 1 << (6 - gpu->freq_scale);
+ 		u32 pulse_eater = 0x01590880;
  
- 		/* enable clock */
- 		control = VIVS_HI_CLOCK_CONTROL_FSCALE_VAL(fscale);
+-		/* disable clock gating */
+-		gpu_write_power(gpu, VIVS_PM_POWER_CONTROLS, 0x0);
+-
+ 		/* disable pulse eater */
+ 		pulse_eater |= BIT(17);
+ 		gpu_write_power(gpu, VIVS_PM_PULSE_EATER, pulse_eater);
 -- 
 2.39.5
 
