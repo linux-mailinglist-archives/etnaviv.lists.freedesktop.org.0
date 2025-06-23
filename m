@@ -2,45 +2,66 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18F68AE3FE4
-	for <lists+etnaviv@lfdr.de>; Mon, 23 Jun 2025 14:25:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DDBAAE46B3
+	for <lists+etnaviv@lfdr.de>; Mon, 23 Jun 2025 16:28:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E713310E13E;
-	Mon, 23 Jun 2025 12:25:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 44F9610E1E7;
+	Mon, 23 Jun 2025 14:28:44 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="HFXsnp3L";
+	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 820B410E1BD
- for <etnaviv@lists.freedesktop.org>; Mon, 23 Jun 2025 12:25:06 +0000 (UTC)
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
- helo=[IPv6:::1]) by metis.whiteo.stw.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1uTgEQ-00084L-4d; Mon, 23 Jun 2025 14:25:02 +0200
-Message-ID: <424c7fbf417c6d13c5842d78e83d72f705e021f1.camel@pengutronix.de>
-Subject: Re: [PATCH v2 5/6] drm/etnaviv: Add PPU flop reset
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Gert Wollny <gert.wollny@collabora.com>, Russell King
- <linux+etnaviv@armlinux.org.uk>, Christian Gmeiner
- <christian.gmeiner@gmail.com>
-Cc: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
-Date: Mon, 23 Jun 2025 14:25:01 +0200
-In-Reply-To: <7c8b78f040d872f7f119f849e7969a7f2a4e9c86.camel@collabora.com>
-References: <20250618204400.21808-1-gert.wollny@collabora.com>
- <20250618204400.21808-6-gert.wollny@collabora.com>
- <3197df27de7438c67558060414bff16662cb155a.camel@pengutronix.de>
- <7c8b78f040d872f7f119f849e7969a7f2a4e9c86.camel@collabora.com>
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE10A10E1E7;
+ Mon, 23 Jun 2025 14:28:41 +0000 (UTC)
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4bQr6Y6ynbz9sr5;
+ Mon, 23 Jun 2025 16:28:37 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; 
+ t=1750688918; h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=mOEQG/MVnD4dMaWYCPkdxKhpyc6LKjTjie4SPoHZoTI=;
+ b=HFXsnp3LEc6Qu272/yGaq4yLpzgWnclYcza8mx1AuKZvwctJA1j9YkXY6qKNKNA+xGadJy
+ OhuPo/4Jq5ZJ/acQNFeS4ABip5XrjaLAeLegCrPrSarD1KeP8izfUqmx4CdMxH7Thv1il8
+ Z3C+9yhQ9gvCrQEGDn6kHeDFeu8G+G29CqYGq03GnXiSCVfwnMelMkP+KSlYApeL+CJ7Nh
+ 5Uy+9lWaEfJ4eJOtqGfgLDye6bEvnZ82OciwuJ9tO2ZHd4FRmwKlBXoiSpWD238SVbWX1e
+ E/zkeSTX9QuNwoTggtMuSEjt7A9WFueSX4oJD+yxz8iRFhHqZ7fAPGj1mjpGJQ==
+Message-ID: <066b0328ff184b42a666a94c9ac61eebc5b65083.camel@mailbox.org>
+Subject: Re: [PATCH v3 7/8] drm/xe: Use DRM_GPU_SCHED_STAT_NO_HANG to skip
+ the reset
+From: Philipp Stanner <phasta@mailbox.org>
+To: =?ISO-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>, Matthew Brost
+ <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>, Philipp
+ Stanner <phasta@kernel.org>, Christian =?ISO-8859-1?Q?K=F6nig?=
+ <ckoenig.leichtzumerken@gmail.com>, Tvrtko Ursulin
+ <tvrtko.ursulin@igalia.com>,  Simona Vetter <simona@ffwll.ch>, David Airlie
+ <airlied@gmail.com>, Melissa Wen <mwen@igalia.com>, Lucas Stach
+ <l.stach@pengutronix.de>, Russell King <linux+etnaviv@armlinux.org.uk>, 
+ Christian Gmeiner <christian.gmeiner@gmail.com>, Lucas De Marchi
+ <lucas.demarchi@intel.com>, Thomas =?ISO-8859-1?Q?Hellstr=F6m?=
+ <thomas.hellstrom@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>, Rob Herring
+ <robh@kernel.org>, Steven Price <steven.price@arm.com>, Liviu Dudau
+ <liviu.dudau@arm.com>
+Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org, 
+ etnaviv@lists.freedesktop.org, intel-xe@lists.freedesktop.org
+Date: Mon, 23 Jun 2025 16:28:29 +0200
+In-Reply-To: <20250618-sched-skip-reset-v3-7-8be5cca2725d@igalia.com>
+References: <20250618-sched-skip-reset-v3-0-8be5cca2725d@igalia.com>
+ <20250618-sched-skip-reset-v3-7-8be5cca2725d@igalia.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.4 (3.52.4-2.fc40) 
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
+X-MBO-RS-META: 7smptmyxwq6ybttot1ch8kfpjub7sz6p
+X-MBO-RS-ID: 12fc29333fa89c418c3
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,43 +73,76 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: phasta@kernel.org
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Am Montag, dem 23.06.2025 um 14:05 +0200 schrieb Gert Wollny:
-> On Fri, 2025-06-20 at 22:22 +0200, Lucas Stach wrote:
-> >=20
-> > > @@ -1807,6 +1808,11 @@ static int etnaviv_gpu_bind(struct device
-> > > *dev, struct device *master,
-> > > =C2=A0		ret =3D -ENXIO;
-> > > =C2=A0		goto out_sched;
-> > > =C2=A0	}
-> > > +
-> > > +	if (etnaviv_flop_reset_ppu_require(&gpu->identity) &&
-> > > +	=C2=A0=C2=A0=C2=A0 !priv->flop_reset_data_ppu)
-> > > +		etnaviv_flop_reset_ppu_init(priv);
-> > > +
-> > I don't see why you would need to do this in the bind callback. You
-> > should be able to move this to etnaviv_gpu_init(), so you have the
-> > needed identification data. gpu_init is also executed serially over
-> > all GPUs in the device, so there is no problem with potential races
-> > there.
+On Wed, 2025-06-18 at 11:47 -0300, Ma=C3=ADra Canal wrote:
+> Xe can skip the reset if TDR has fired before the free job worker and
+> can
+> also re-arm the timeout timer in some scenarios. Instead of
+> manipulating
+> scheduler's internals, inform the scheduler that the job did not
+> actually
+> timeout and no reset was performed through the new status code
+> DRM_GPU_SCHED_STAT_NO_HANG.
 >=20
-> I moved this here because you wrote before:=20
+> Note that, in the first case, there is no need to restart submission
+> if it
+> hasn't been stopped.
 >=20
-> > But then you should allocate this buffer
-> > in etnaviv_gpu_bind to avoid races between GPUs starting up and=20
-> > trying to allocate this global memory.
+> Signed-off-by: Ma=C3=ADra Canal <mcanal@igalia.com>
+
+Did you have the opportunity to test that one?
+
+If not, at least a RB from one of the Intel folks is likely a desirable
+thing, since the changes are non-trivial.
+
+P.
+
+> ---
+> =C2=A0drivers/gpu/drm/xe/xe_guc_submit.c | 12 +++---------
+> =C2=A01 file changed, 3 insertions(+), 9 deletions(-)
 >=20
-Yea, sorry about this. I hadn't noticed the dependency on the HW
-identification when I wrote this.
+> diff --git a/drivers/gpu/drm/xe/xe_guc_submit.c
+> b/drivers/gpu/drm/xe/xe_guc_submit.c
+> index
+> 9c7e445b9ea7ce7e3610eadca023e6d810e683e9..f6289eeffd852e40b33d0e455d9
+> bcc21a4fb1467 100644
+> --- a/drivers/gpu/drm/xe/xe_guc_submit.c
+> +++ b/drivers/gpu/drm/xe/xe_guc_submit.c
+> @@ -1078,12 +1078,8 @@ guc_exec_queue_timedout_job(struct
+> drm_sched_job *drm_job)
+> =C2=A0	 * list so job can be freed and kick scheduler ensuring free
+> job is not
+> =C2=A0	 * lost.
+> =C2=A0	 */
+> -	if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &job->fence-
+> >flags)) {
+> -		xe_sched_add_pending_job(sched, job);
+> -		xe_sched_submission_start(sched);
+> -
+> -		return DRM_GPU_SCHED_STAT_RESET;
+> -	}
+> +	if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &job->fence-
+> >flags))
+> +		return DRM_GPU_SCHED_STAT_NO_HANG;
+> =C2=A0
+> =C2=A0	/* Kill the run_job entry point */
+> =C2=A0	xe_sched_submission_stop(sched);
+> @@ -1261,10 +1257,8 @@ guc_exec_queue_timedout_job(struct
+> drm_sched_job *drm_job)
+> =C2=A0	 * but there is not currently an easy way to do in DRM
+> scheduler. With
+> =C2=A0	 * some thought, do this in a follow up.
+> =C2=A0	 */
+> -	xe_sched_add_pending_job(sched, job);
+> =C2=A0	xe_sched_submission_start(sched);
+> -
+> -	return DRM_GPU_SCHED_STAT_RESET;
+> +	return DRM_GPU_SCHED_STAT_NO_HANG;
+> =C2=A0}
+> =C2=A0
+> =C2=A0static void __guc_exec_queue_fini_async(struct work_struct *w)
+>=20
 
-> If etnaviv_gpu_init() is fine, I'll move it there.=20
-
-I'm not saying that I may not again miss some implicit dependency, but
-as far as I can see right now moving it there should be fine.
-gpu_init() fulfills the same properties with regard to init ordering
-between the GPUs as gpu_bind().
-
-Regards,
-Lucas
