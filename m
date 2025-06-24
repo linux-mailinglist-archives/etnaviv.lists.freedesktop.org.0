@@ -2,65 +2,53 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D9E2AE606A
-	for <lists+etnaviv@lfdr.de>; Tue, 24 Jun 2025 11:14:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 099F0AE60FE
+	for <lists+etnaviv@lfdr.de>; Tue, 24 Jun 2025 11:38:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 75C7189FD4;
-	Tue, 24 Jun 2025 09:14:45 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="PqzidIKm";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D06E10E55A;
+	Tue, 24 Jun 2025 09:38:25 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1BE3689FD4;
- Tue, 24 Jun 2025 09:14:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=yzL8Uifc+rzD8qaTrVT/O7hLL73vXjI3lloUG7iwRts=; b=PqzidIKmk7zti1YwkxZqeyzcfy
- PPgxj3Fcrm53PSXpn9rM0ZtIZ6W90nlmI0tDJswoVD4yGDcw/zZ6n/zbb6ZKHs2q4b8cDPkmm3Vak
- i0l7So8JC6JxFmote9vu69SXsyfWZKk/SGFa2taaVpZhvJtVhn/DI0Uc2fTWE/74i8FLAmHQDEMkH
- hzB8muYeXWAQVTPZFyR8O6eVzSLHFWbaKkxwylX4wUjuJHISLGpoGboi04fa4yQ/SPd0zadBGXBnL
- rkxVGAUb+rNH+yFnPmgqMz6pE6jo/jTfo5SMuhZRVzQFLiCZrmBPZ/yieOrBqFWKDzlmWrXKcEmTF
- qiN7dTVA==;
-Received: from [81.79.92.254] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1uTzjc-007vna-5G; Tue, 24 Jun 2025 11:14:32 +0200
-Message-ID: <8016b15f-237b-40cd-b9f7-2e5878401941@igalia.com>
-Date: Tue, 24 Jun 2025 10:14:30 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 5/8] drm/v3d: Use DRM_GPU_SCHED_STAT_NO_HANG to skip
- the reset
-To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>,
- Philipp Stanner <phasta@kernel.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Melissa Wen <mwen@igalia.com>, Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
- Liviu Dudau <liviu.dudau@arm.com>
-Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org,
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD9F110E55A
+ for <etnaviv@lists.freedesktop.org>; Tue, 24 Jun 2025 09:38:24 +0000 (UTC)
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
+ helo=[IPv6:::1]) by metis.whiteo.stw.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1uU061-0000ys-4O; Tue, 24 Jun 2025 11:37:41 +0200
+Message-ID: <fbc1de81cbb50ea1c74ea153b2d8f7ef619bb151.camel@pengutronix.de>
+Subject: Re: [PATCH v3 6/8] drm/etnaviv: Use DRM_GPU_SCHED_STAT_NO_HANG to
+ skip the reset
+From: Lucas Stach <l.stach@pengutronix.de>
+To: =?ISO-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>, Matthew Brost
+ <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>, Philipp
+ Stanner <phasta@kernel.org>, Christian =?ISO-8859-1?Q?K=F6nig?=
+ <ckoenig.leichtzumerken@gmail.com>, Tvrtko Ursulin
+ <tvrtko.ursulin@igalia.com>,  Simona Vetter <simona@ffwll.ch>, David Airlie
+ <airlied@gmail.com>, Melissa Wen <mwen@igalia.com>, Russell King
+ <linux+etnaviv@armlinux.org.uk>, Christian Gmeiner
+ <christian.gmeiner@gmail.com>,  Lucas De Marchi <lucas.demarchi@intel.com>,
+ Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Boris Brezillon
+ <boris.brezillon@collabora.com>, Rob Herring <robh@kernel.org>, Steven
+ Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>
+Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org, 
  etnaviv@lists.freedesktop.org, intel-xe@lists.freedesktop.org
+Date: Tue, 24 Jun 2025 11:37:38 +0200
+In-Reply-To: <20250618-sched-skip-reset-v3-6-8be5cca2725d@igalia.com>
 References: <20250618-sched-skip-reset-v3-0-8be5cca2725d@igalia.com>
- <20250618-sched-skip-reset-v3-5-8be5cca2725d@igalia.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <20250618-sched-skip-reset-v3-5-8be5cca2725d@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+ <20250618-sched-skip-reset-v3-6-8be5cca2725d@igalia.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.4 (3.52.4-2.fc40) 
+MIME-Version: 1.0
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,70 +63,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-
-On 18/06/2025 15:47, Maíra Canal wrote:
-> When a CL/CSD job times out, we check if the GPU has made any progress
-> since the last timeout. If so, instead of resetting the hardware, we skip
-> the reset and allow the timer to be rearmed. This gives long-running jobs
-> a chance to complete.
-> 
+Am Mittwoch, dem 18.06.2025 um 11:47 -0300 schrieb Ma=C3=ADra Canal:
+> Etnaviv can skip a hardware reset in two situations:
+>=20
+>   1. TDR has fired before the free-job worker and the timeout is spurious=
+.
+>   2. The GPU is still making progress on the front-end and we can give
+>      the job a chance to complete.
+>=20
 > Instead of manipulating scheduler's internals, inform the scheduler that
 > the job did not actually timeout and no reset was performed through
 > the new status code DRM_GPU_SCHED_STAT_NO_HANG.
-> 
-> Signed-off-by: Maíra Canal <mcanal@igalia.com>
+>=20
+> Signed-off-by: Ma=C3=ADra Canal <mcanal@igalia.com>
+
+Reviewed-by: Lucas Stach <l.stach@pengutronix.de>
+
 > ---
->   drivers/gpu/drm/v3d/v3d_sched.c | 16 ++--------------
->   1 file changed, 2 insertions(+), 14 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/v3d/v3d_sched.c b/drivers/gpu/drm/v3d/v3d_sched.c
-> index e2b7f24d528e773968daea0f5b31c869584bb692..cc85f1b19ac405146a2a516f335a46376684bc91 100644
-> --- a/drivers/gpu/drm/v3d/v3d_sched.c
-> +++ b/drivers/gpu/drm/v3d/v3d_sched.c
-> @@ -744,16 +744,6 @@ v3d_gpu_reset_for_timeout(struct v3d_dev *v3d, struct drm_sched_job *sched_job)
->   	return DRM_GPU_SCHED_STAT_RESET;
->   }
->   
-> -static void
-> -v3d_sched_skip_reset(struct drm_sched_job *sched_job)
-> -{
-> -	struct drm_gpu_scheduler *sched = sched_job->sched;
-> -
-> -	spin_lock(&sched->job_list_lock);
-> -	list_add(&sched_job->list, &sched->pending_list);
-> -	spin_unlock(&sched->job_list_lock);
-> -}
-> -
->   static enum drm_gpu_sched_stat
->   v3d_cl_job_timedout(struct drm_sched_job *sched_job, enum v3d_queue q,
->   		    u32 *timedout_ctca, u32 *timedout_ctra)
-> @@ -772,8 +762,7 @@ v3d_cl_job_timedout(struct drm_sched_job *sched_job, enum v3d_queue q,
->   		*timedout_ctca = ctca;
->   		*timedout_ctra = ctra;
->   
-> -		v3d_sched_skip_reset(sched_job);
-> -		return DRM_GPU_SCHED_STAT_RESET;
+>  drivers/gpu/drm/etnaviv/etnaviv_sched.c | 11 ++++-------
+>  1 file changed, 4 insertions(+), 7 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sched.c b/drivers/gpu/drm/et=
+naviv/etnaviv_sched.c
+> index 7146069a98492f5fab2a49d96e2054f649e1fe3d..46f5391e84a12232b247886cf=
+1311f8e09f42f04 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+> @@ -40,11 +40,11 @@ static enum drm_gpu_sched_stat etnaviv_sched_timedout=
+_job(struct drm_sched_job
+>  	int change;
+> =20
+>  	/*
+> -	 * If the GPU managed to complete this jobs fence, the timout is
+> -	 * spurious. Bail out.
+> +	 * If the GPU managed to complete this jobs fence, the timeout has
+> +	 * fired before free-job worker. The timeout is spurious, so bail out.
+>  	 */
+>  	if (dma_fence_is_signaled(submit->out_fence))
+> -		goto out_no_timeout;
 > +		return DRM_GPU_SCHED_STAT_NO_HANG;
->   	}
->   
->   	return v3d_gpu_reset_for_timeout(v3d, sched_job);
-> @@ -818,8 +807,7 @@ v3d_csd_job_timedout(struct drm_sched_job *sched_job)
->   	if (job->timedout_batches != batches) {
->   		job->timedout_batches = batches;
->   
-> -		v3d_sched_skip_reset(sched_job);
-> -		return DRM_GPU_SCHED_STAT_RESET;
+> =20
+>  	/*
+>  	 * If the GPU is still making forward progress on the front-end (which
+> @@ -70,7 +70,7 @@ static enum drm_gpu_sched_stat etnaviv_sched_timedout_j=
+ob(struct drm_sched_job
+>  		gpu->hangcheck_dma_addr =3D dma_addr;
+>  		gpu->hangcheck_primid =3D primid;
+>  		gpu->hangcheck_fence =3D gpu->completed_fence;
+> -		goto out_no_timeout;
 > +		return DRM_GPU_SCHED_STAT_NO_HANG;
->   	}
->   
->   	return v3d_gpu_reset_for_timeout(v3d, sched_job);
-> 
-
-This one is easy, it looks the same before and after so:
-
-Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-
-Regards,
-
-Tvrtko
+>  	}
+> =20
+>  	/* block scheduler */
+> @@ -86,10 +86,7 @@ static enum drm_gpu_sched_stat etnaviv_sched_timedout_=
+job(struct drm_sched_job
+>  	drm_sched_resubmit_jobs(&gpu->sched);
+> =20
+>  	drm_sched_start(&gpu->sched, 0);
+> -	return DRM_GPU_SCHED_STAT_RESET;
+> =20
+> -out_no_timeout:
+> -	list_add(&sched_job->list, &sched_job->sched->pending_list);
+>  	return DRM_GPU_SCHED_STAT_RESET;
+>  }
+> =20
+>=20
 
