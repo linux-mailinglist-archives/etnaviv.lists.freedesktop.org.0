@@ -2,72 +2,65 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95BD2AE5F57
-	for <lists+etnaviv@lfdr.de>; Tue, 24 Jun 2025 10:31:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40560AE6053
+	for <lists+etnaviv@lfdr.de>; Tue, 24 Jun 2025 11:10:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D18410E506;
-	Tue, 24 Jun 2025 08:31:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 113E810E0BC;
+	Tue, 24 Jun 2025 09:10:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ajJ3DfkB";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="B+mrV9UN";
 	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com
- [209.85.216.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C1FDD10E506;
- Tue, 24 Jun 2025 08:31:43 +0000 (UTC)
-Received: by mail-pj1-f44.google.com with SMTP id
- 98e67ed59e1d1-3134c67a173so5519544a91.1; 
- Tue, 24 Jun 2025 01:31:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1750753902; x=1751358702; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=RLm1eCOS558a0OxABxyreVhiNPYo5PVwJq6HLdRyQY4=;
- b=ajJ3DfkBmLc+YoqIRHsam/GoZn8xalRAm4h9CNBeBqc0BY3+YtBPvtNpJzWl6WFHeh
- 8jPXFIrCHWNKORa8R3ESSWAiNiTqIndrAvw6lNNYlWaL7Ng8i+PsGdIzLNtnbIc5hp/P
- nLagkdUtutMmApsNjWCZUOEXC3+BicTi2+nCdUso/5aSwPQ1NrEvHuQIQvnIRhlUW3Wk
- 2/BuYhcgflP8MEtW81iQpRB5RAnyKZj89j5+5z10M5CHKk0L9kqKuEjYWkKOvwqH9bQF
- AaOVb9HinkNqGrGxW7QuvBQg4BgEcMylHwf3zWrg+QT+kgwC5D79o9UNk17Gq7ZAKimn
- nabw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1750753902; x=1751358702;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=RLm1eCOS558a0OxABxyreVhiNPYo5PVwJq6HLdRyQY4=;
- b=bwEg80hGel1EPi6oPtn30a4CzzOU+sXtclida6nY1N3PIWcWuyv12hQeSWYokuELdO
- JA39XtYTIEDA/w0RgMSynlk11xjMRLt8bkJ+CQB135XwesQSKUHNzOOweYELZkyj386C
- LJuKfitM+Yn5entAM5fynm3zFMdpROiN58o0GNy38fOxuyDQzKxXpwh2iynbdVFoEa8Y
- Vlxjy+LzaAoStIsXTMP1C913bAgRRYhGFtRcmWawDCK1GZ500peSJxGM3jMlvOp+hDrU
- IimFTRHv/OQ7le58SKynlRerXI/WHkdyElKC6KzzmMTIrX+ToYurNfrMeugFzWjCYo79
- 4Oog==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVzYa7/kJDNrkEPJdkv9cpVP4OZlA7DuJnaXImqJOemMemSpFA21pagVmftfCIqDN6kFX+tVQJtwoQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyXMQqc0MEUVOAClJNiiFyn9DhiCCyRNZQWdTD/coaSmG+6i3BX
- d/TRbJIL+mIdJa3ddN+r8bA6T8Jm6Xy4i+P+v27FRQRoOjRxuKwdgixwDpJ89A5UalRGe32vpzh
- OvlwajZO9W+d3muir/BMuekkLBMUn5MQ=
-X-Gm-Gg: ASbGnctUfcR0E4wOHfzVMrg1HpmY5jnjj2TW6db5VwodsgpET0QhXXPMifdtRVuMebE
- +ccAnd9AixGi9GGvMIZMWxGctcj1Sd1Wwh5e2HIuhQJNdY9OEJr1NDTxJYascMqKMYsJp42EtYS
- 5EgBONoJwltm9oKUG9R8qdX7G1PTYnYiZQw9FxeFNbZYcmPKr9OeXm
-X-Google-Smtp-Source: AGHT+IEXsmebtdLEDU4+D7wfNeISKIT4XGszutosXR7ErbIhUbYXn7g0OjaLVPWrYv4hqFiV0lJiZ9QwH/kl/wffxuM=
-X-Received: by 2002:a17:90b:574d:b0:312:e51c:af67 with SMTP id
- 98e67ed59e1d1-3159d6267eamr22961507a91.1.1750753902390; Tue, 24 Jun 2025
- 01:31:42 -0700 (PDT)
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B318B10E0BC;
+ Tue, 24 Jun 2025 09:10:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=Tm9kOEYwUrFAr95B8IVMeN439ZzQ9V26BFpvOYCOJcA=; b=B+mrV9UNYD0PLo5DE32dNf7WnJ
+ 0rDYcVKCVb2J8yzNFtiC5qLxnOLW4dWinwzmkZmxOAYW43MhMI0iDU4zVtcMEdcttRpLdNP1kNsVs
+ qbePxDeYORpfJfWz6YKp0nyqIgQpg+7A4y/yIhvss8urtdv0TOBfMiVLRWz9lpVGAGRDmJSNXTdVr
+ PTuIddTAV7tY2wdEiPXjS/kZhFsb3fkJ7ibKg3d2MOwzjErPSy+NpK9LOL1A/gDLI3bm5MOBV2hLi
+ FximOx71WuRwlIxGMm6tz7OyZkfmIWEOPdmcGiOuiUvPO366qMF/rkgSVh8V7PH4sS//n7yIe79Y9
+ 2hXC3LQw==;
+Received: from [81.79.92.254] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1uTzer-007vfv-4l; Tue, 24 Jun 2025 11:09:37 +0200
+Message-ID: <ea49f6de-5890-4f2a-8a55-8542d0bfeaa3@igalia.com>
+Date: Tue, 24 Jun 2025 10:09:35 +0100
 MIME-Version: 1.0
-References: <20250620195741.2770474-1-l.stach@pengutronix.de>
-In-Reply-To: <20250620195741.2770474-1-l.stach@pengutronix.de>
-From: Christian Gmeiner <christian.gmeiner@gmail.com>
-Date: Tue, 24 Jun 2025 10:31:31 +0200
-X-Gm-Features: AX0GCFuTF3S7xGMmIthZrCWwrOdEiDpVZkoxKCqfNOBAiqKO6_qaSePJOzJkWB0
-Message-ID: <CAH9NwWfzXyMz7DVmmSFy_jKHBrSj2p_QAU1152yMPu0hN2=s3Q@mail.gmail.com>
-Subject: Re: [PATCH] drm/etnaviv: disable pulse eater on cores with 3D pipe
- and revision > 0x5420
-To: Lucas Stach <l.stach@pengutronix.de>
-Cc: etnaviv@lists.freedesktop.org, 
- Russell King <linux+etnaviv@armlinux.org.uk>, dri-devel@lists.freedesktop.org, 
- kernel@pengutronix.de, patchwork-slt@pengutronix.de
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 4/8] drm/sched: Add new test for
+ DRM_GPU_SCHED_STAT_NO_HANG
+To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>,
+ Philipp Stanner <phasta@kernel.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Melissa Wen <mwen@igalia.com>, Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
+ Liviu Dudau <liviu.dudau@arm.com>
+Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org,
+ etnaviv@lists.freedesktop.org, intel-xe@lists.freedesktop.org
+References: <20250618-sched-skip-reset-v3-0-8be5cca2725d@igalia.com>
+ <20250618-sched-skip-reset-v3-4-8be5cca2725d@igalia.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <20250618-sched-skip-reset-v3-4-8be5cca2725d@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,45 +75,112 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
->
-> The downstream driver switched from only disabling internal DFS on those
-> cores to clearing bit 16 and setting bit 17 in commit "MGS-3448: gpu-viv:
-> fix 6.2.4 remaning issues". This, as far as is known, completely disables
-> the pulse eater.
->
-> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
 
-Reviewed-by: Christian Gmeiner <cgmeiner@igalia.com>
-
+On 18/06/2025 15:47, Maíra Canal wrote:
+> Add a test to submit a single job against a scheduler with the timeout
+> configured and verify that if the job is still running, the timeout
+> handler will skip the reset and allow the job to complete.
+> 
+> Signed-off-by: Maíra Canal <mcanal@igalia.com>
 > ---
->  drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> index a1e84deba6c0..a2b3785e49b3 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> @@ -747,9 +747,10 @@ static void etnaviv_gpu_setup_pulse_eater(struct etnaviv_gpu *gpu)
->         if ((gpu->identity.revision > 0x5420) &&
->             (gpu->identity.features & chipFeatures_PIPE_3D))
->         {
-> -               /* Performance fix: disable internal DFS */
-> +               /* Performance fix: disable internal DFS and pulse-eater */
->                 pulse_eater = gpu_read_power(gpu, VIVS_PM_PULSE_EATER);
-> -               pulse_eater |= BIT(18);
-> +               pulse_eater &= ~BIT(16);
-> +               pulse_eater |= BIT(18) | BIT(17);
->         }
->
->         gpu_write_power(gpu, VIVS_PM_PULSE_EATER, pulse_eater);
-> --
-> 2.39.5
->
+>   drivers/gpu/drm/scheduler/tests/mock_scheduler.c |  5 +++
+>   drivers/gpu/drm/scheduler/tests/sched_tests.h    |  1 +
+>   drivers/gpu/drm/scheduler/tests/tests_basic.c    | 47 ++++++++++++++++++++++++
+>   3 files changed, 53 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/scheduler/tests/mock_scheduler.c b/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
+> index 27383a260a48d7b63d0c9d31067ecef9bbe1273f..20ebd78acf07fad302038d66886ebfe5a9b4f1a0 100644
+> --- a/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
+> +++ b/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
+> @@ -207,6 +207,11 @@ mock_sched_timedout_job(struct drm_sched_job *sched_job)
+>   
+>   	job->flags |= DRM_MOCK_SCHED_JOB_TIMEDOUT;
+>   
+> +	if (job->flags & DRM_MOCK_SCHED_JOB_DONT_RESET) {
+> +		job->flags &= ~DRM_MOCK_SCHED_JOB_DONT_RESET;
+> +		return DRM_GPU_SCHED_STAT_NO_HANG;
+> +	}
+> +
+>   	return DRM_GPU_SCHED_STAT_RESET;
+>   }
+>   
+> diff --git a/drivers/gpu/drm/scheduler/tests/sched_tests.h b/drivers/gpu/drm/scheduler/tests/sched_tests.h
+> index fbba38137f0c324cf2472fe5b3a8a78ec016e829..4adf961e1930203fe94241a8a0ae5f7817874a39 100644
+> --- a/drivers/gpu/drm/scheduler/tests/sched_tests.h
+> +++ b/drivers/gpu/drm/scheduler/tests/sched_tests.h
+> @@ -98,6 +98,7 @@ struct drm_mock_sched_job {
+>   
+>   #define DRM_MOCK_SCHED_JOB_DONE		0x1
+>   #define DRM_MOCK_SCHED_JOB_TIMEDOUT	0x2
+> +#define DRM_MOCK_SCHED_JOB_DONT_RESET	0x4
+>   	unsigned long		flags;
+>   
+>   	struct list_head	link;
+> diff --git a/drivers/gpu/drm/scheduler/tests/tests_basic.c b/drivers/gpu/drm/scheduler/tests/tests_basic.c
+> index 41c648782f4548e202bd8711b45d28eead9bd0b2..91c0449590ed24c3da18ab7d930cca47d7c317c7 100644
+> --- a/drivers/gpu/drm/scheduler/tests/tests_basic.c
+> +++ b/drivers/gpu/drm/scheduler/tests/tests_basic.c
+> @@ -246,8 +246,55 @@ static void drm_sched_basic_timeout(struct kunit *test)
+>   	drm_mock_sched_entity_free(entity);
+>   }
+>   
+> +static void drm_sched_skip_reset(struct kunit *test)
+> +{
+> +	struct drm_mock_scheduler *sched = test->priv;
+> +	struct drm_mock_sched_entity *entity;
+> +	struct drm_mock_sched_job *job;
+> +	unsigned int i;
+> +	bool done;
+> +
+> +	/*
+> +	 * Submit a single job against a scheduler with the timeout configured
+> +	 * and verify that if the job is still running, the timeout handler
+> +	 * will skip the reset and allow the job to complete.
+> +	 */
+> +
+> +	entity = drm_mock_sched_entity_new(test,
+> +					   DRM_SCHED_PRIORITY_NORMAL,
+> +					   sched);
+> +	job = drm_mock_sched_job_new(test, entity);
+> +
+> +	job->flags = DRM_MOCK_SCHED_JOB_DONT_RESET;
+> +
+> +	drm_mock_sched_job_submit(job);
+> +
+> +	done = drm_mock_sched_job_wait_scheduled(job, HZ);
+> +	KUNIT_ASSERT_TRUE(test, done);
+> +
+> +	done = drm_mock_sched_job_wait_finished(job, 2 * MOCK_TIMEOUT);
+> +	KUNIT_ASSERT_FALSE(test, done);
+> +
+> +	KUNIT_ASSERT_EQ(test,
+> +			job->flags & DRM_MOCK_SCHED_JOB_TIMEDOUT,
+> +			DRM_MOCK_SCHED_JOB_TIMEDOUT);
+> +
+> +	KUNIT_ASSERT_EQ(test,
+> +			job->flags & DRM_MOCK_SCHED_JOB_DONT_RESET,
+> +			0);
+> +
+> +	i = drm_mock_sched_advance(sched, 1);
+> +	KUNIT_ASSERT_EQ(test, i, 1);
+> +
+> +	done = drm_mock_sched_job_wait_finished(job, HZ);
+> +	KUNIT_ASSERT_TRUE(test, done);
+> +
+> +	drm_mock_sched_entity_free(entity);
+> +}
+> +
+>   static struct kunit_case drm_sched_timeout_tests[] = {
+>   	KUNIT_CASE(drm_sched_basic_timeout),
+> +	KUNIT_CASE(drm_sched_skip_reset),
+>   	{}
+>   };
+>   
+> 
 
+Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 
--- 
-greets
---
-Christian Gmeiner, MSc
+Regards,
 
-https://christian-gmeiner.info/privacypolicy
+Tvrtko
+
