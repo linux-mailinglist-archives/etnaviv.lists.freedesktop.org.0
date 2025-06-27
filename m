@@ -2,53 +2,72 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 099F0AE60FE
-	for <lists+etnaviv@lfdr.de>; Tue, 24 Jun 2025 11:38:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B12AAEB1DC
+	for <lists+etnaviv@lfdr.de>; Fri, 27 Jun 2025 11:00:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D06E10E55A;
-	Tue, 24 Jun 2025 09:38:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D856610E98C;
+	Fri, 27 Jun 2025 09:00:17 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="mDkM+Ukz";
+	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD9F110E55A
- for <etnaviv@lists.freedesktop.org>; Tue, 24 Jun 2025 09:38:24 +0000 (UTC)
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
- helo=[IPv6:::1]) by metis.whiteo.stw.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1uU061-0000ys-4O; Tue, 24 Jun 2025 11:37:41 +0200
-Message-ID: <fbc1de81cbb50ea1c74ea153b2d8f7ef619bb151.camel@pengutronix.de>
-Subject: Re: [PATCH v3 6/8] drm/etnaviv: Use DRM_GPU_SCHED_STAT_NO_HANG to
- skip the reset
-From: Lucas Stach <l.stach@pengutronix.de>
-To: =?ISO-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>, Matthew Brost
- <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>, Philipp
- Stanner <phasta@kernel.org>, Christian =?ISO-8859-1?Q?K=F6nig?=
- <ckoenig.leichtzumerken@gmail.com>, Tvrtko Ursulin
- <tvrtko.ursulin@igalia.com>,  Simona Vetter <simona@ffwll.ch>, David Airlie
- <airlied@gmail.com>, Melissa Wen <mwen@igalia.com>, Russell King
- <linux+etnaviv@armlinux.org.uk>, Christian Gmeiner
- <christian.gmeiner@gmail.com>,  Lucas De Marchi <lucas.demarchi@intel.com>,
- Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Boris Brezillon
- <boris.brezillon@collabora.com>, Rob Herring <robh@kernel.org>, Steven
- Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>
-Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org, 
- etnaviv@lists.freedesktop.org, intel-xe@lists.freedesktop.org
-Date: Tue, 24 Jun 2025 11:37:38 +0200
-In-Reply-To: <20250618-sched-skip-reset-v3-6-8be5cca2725d@igalia.com>
-References: <20250618-sched-skip-reset-v3-0-8be5cca2725d@igalia.com>
- <20250618-sched-skip-reset-v3-6-8be5cca2725d@igalia.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.4 (3.52.4-2.fc40) 
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com
+ [209.85.215.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE80110E9A0;
+ Fri, 27 Jun 2025 09:00:16 +0000 (UTC)
+Received: by mail-pg1-f181.google.com with SMTP id
+ 41be03b00d2f7-b0b2d0b2843so1549065a12.2; 
+ Fri, 27 Jun 2025 02:00:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1751014816; x=1751619616; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=b7ABMCzj1MQL7lIC/PP3TTKTlISD28zGpqEaDICVqfo=;
+ b=mDkM+UkzPiKiSxkepMefsnINW408wSwmmLLxtr3O7gQgp/bTPeLGfKVZYT43ynD+J1
+ kq367MP8fkAWVovVGWbkSMso+0xJCPY/Mf+eqW/GDE0wrQMWXIIGa8z/PgsHjPlYX4R+
+ pw17tdQYcQvt5IN5BLHDw1qSd5Tx0hVaF+1yrum7J84wzIi34BF5AefYaeAS1NGqeaso
+ YT6H+LlzVfJiBRXPvk7It851SjpFEoLpWNZ9ZHJWbeStWmXklUyZKWcV2GT80Byu30RM
+ h/fjTzgEp2bE/JDKXMcVNnWYIvbLIyIKMGAxT7yRcHMR/F27sckPjDNHmS8FHdWPvTfd
+ mDgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1751014816; x=1751619616;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=b7ABMCzj1MQL7lIC/PP3TTKTlISD28zGpqEaDICVqfo=;
+ b=XjhHaSi0mlri98YdLmJ7mruPXA11eT9AKMVGb9frNbmOch23yxsvpGZmZO0IiCOUF2
+ PW4X4EmkL7iXhZpmjTXFOvNQUue1KHEP1BmJI18A7wqikpfO9op6lPURX0fwu/H1oCZL
+ W1q11DUo80I8wWOgCfbGsZAExC9MgMryd0fRUS7AFHy6iL+rb4fzgwRNkRDQJssUJE+b
+ jSzGRmRUFatBK7M9augYpJAA4VAL97v+nBnIRfB/ARja3JuNw8rx22t//860E8H6GL7+
+ G3iP7UHliH4xdnTYemgjjuIALLVp84jaB1wT8oJ3rHicMbBrNj+JAO44XZVchNW0so+L
+ e6jg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXrwXlvPj7mJC6C0YzcL8GVuyCUD9KLlh5nOLgS6EazzXZfpuqT8Nn9DOcpAmIne7W9dtrsliNHBPE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Ywm3y7iXuhJLWgNDap1+Cq9KVC76Qs5DYL8yhCNC76cTNJUBfkx
+ 2/d5SCueL/f1oqsrYyeqtejOOa1PWD++EEUXyqDAhM9oy8dN52oPd0oe2tiCd2c8QIOAXvDG+9w
+ DLe+SgBy92c/TWfRCqhPptT9BO8R5YKA=
+X-Gm-Gg: ASbGncuHedj6DdbkMdyducjmCs5SDwQ2LqhvjGMD9gPNXUwG/61JHl6NLbLWifuQGwR
+ /grnQFrkwHI4VE8iAI1AoIZ8o19IhmZvqdG5vSs/zWbfA2XJOzzwOKMmNiONFbHcL7b1dcyxdPu
+ 5n/BTWPDkHfbpQ7/zoh44ksDVuElsiA2AyR5hzc2oMgw==
+X-Google-Smtp-Source: AGHT+IGWBpKEvutW5awd4diBl2RsntZ5az8DcXW2+5cjBEqEFgCNlfoH4DPNqO8MWiYh20tWLDjuBmjUwZMDrJOsK78=
+X-Received: by 2002:a17:90b:224c:b0:311:baa0:89ca with SMTP id
+ 98e67ed59e1d1-318c926d37dmr2560054a91.34.1751014816160; Fri, 27 Jun 2025
+ 02:00:16 -0700 (PDT)
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
+References: <20250620195839.2772261-1-l.stach@pengutronix.de>
+In-Reply-To: <20250620195839.2772261-1-l.stach@pengutronix.de>
+From: Christian Gmeiner <christian.gmeiner@gmail.com>
+Date: Fri, 27 Jun 2025 11:00:04 +0200
+X-Gm-Features: Ac12FXwOmbyVRDUwEY3x4961ivImjE7jscRzZlYSAZij9uScxhvsALOPn-Sjxbo
+Message-ID: <CAH9NwWdzFKLvG6hzWeSiKocQBjtqdsArdTO8KjvngEj3UihNhA@mail.gmail.com>
+Subject: Re: [PATCH] drm/etnaviv: remove unnecessary cache flushes on pipe
+ switch
+To: Lucas Stach <l.stach@pengutronix.de>
+Cc: etnaviv@lists.freedesktop.org, 
+ Russell King <linux+etnaviv@armlinux.org.uk>, dri-devel@lists.freedesktop.org, 
+ kernel@pengutronix.de, patchwork-slt@pengutronix.de
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,69 +82,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Am Mittwoch, dem 18.06.2025 um 11:47 -0300 schrieb Ma=C3=ADra Canal:
-> Etnaviv can skip a hardware reset in two situations:
->=20
->   1. TDR has fired before the free-job worker and the timeout is spurious=
-.
->   2. The GPU is still making progress on the front-end and we can give
->      the job a chance to complete.
->=20
-> Instead of manipulating scheduler's internals, inform the scheduler that
-> the job did not actually timeout and no reset was performed through
-> the new status code DRM_GPU_SCHED_STAT_NO_HANG.
->=20
-> Signed-off-by: Ma=C3=ADra Canal <mcanal@igalia.com>
+>
+> The current pipe switch sequence is ported from the Vivante driver,
+> which does flush some caches before switching to another pipe. This
+> however, is not necessary with etnaviv, as we always flush all write
+> caches before completion of a cmdstream. Thus the caches are already
+> clean before execution of the next cmdstream, which may
+> trigger a pipe switch, is started.
+>
+> Drop the unnecessary cache flushes. This also avoids sending a stall
+> command into a GPU where the active pipe has not been selected, yet.
+>
+> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
 
-Reviewed-by: Lucas Stach <l.stach@pengutronix.de>
+Reviewed-by: Christian Gmeiner <cgmeiner@igalia.com>
 
 > ---
->  drivers/gpu/drm/etnaviv/etnaviv_sched.c | 11 ++++-------
->  1 file changed, 4 insertions(+), 7 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sched.c b/drivers/gpu/drm/et=
-naviv/etnaviv_sched.c
-> index 7146069a98492f5fab2a49d96e2054f649e1fe3d..46f5391e84a12232b247886cf=
-1311f8e09f42f04 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-> @@ -40,11 +40,11 @@ static enum drm_gpu_sched_stat etnaviv_sched_timedout=
-_job(struct drm_sched_job
->  	int change;
-> =20
->  	/*
-> -	 * If the GPU managed to complete this jobs fence, the timout is
-> -	 * spurious. Bail out.
-> +	 * If the GPU managed to complete this jobs fence, the timeout has
-> +	 * fired before free-job worker. The timeout is spurious, so bail out.
->  	 */
->  	if (dma_fence_is_signaled(submit->out_fence))
-> -		goto out_no_timeout;
-> +		return DRM_GPU_SCHED_STAT_NO_HANG;
-> =20
->  	/*
->  	 * If the GPU is still making forward progress on the front-end (which
-> @@ -70,7 +70,7 @@ static enum drm_gpu_sched_stat etnaviv_sched_timedout_j=
-ob(struct drm_sched_job
->  		gpu->hangcheck_dma_addr =3D dma_addr;
->  		gpu->hangcheck_primid =3D primid;
->  		gpu->hangcheck_fence =3D gpu->completed_fence;
-> -		goto out_no_timeout;
-> +		return DRM_GPU_SCHED_STAT_NO_HANG;
->  	}
-> =20
->  	/* block scheduler */
-> @@ -86,10 +86,7 @@ static enum drm_gpu_sched_stat etnaviv_sched_timedout_=
-job(struct drm_sched_job
->  	drm_sched_resubmit_jobs(&gpu->sched);
-> =20
->  	drm_sched_start(&gpu->sched, 0);
-> -	return DRM_GPU_SCHED_STAT_RESET;
-> =20
-> -out_no_timeout:
-> -	list_add(&sched_job->list, &sched_job->sched->pending_list);
->  	return DRM_GPU_SCHED_STAT_RESET;
+>  drivers/gpu/drm/etnaviv/etnaviv_buffer.c | 21 +--------------------
+>  1 file changed, 1 insertion(+), 20 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_buffer.c b/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
+> index b13a17276d07..09c5d1d0271c 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
+> @@ -90,25 +90,6 @@ static inline void CMD_SEM(struct etnaviv_cmdbuf *buffer, u32 from, u32 to)
+>  static void etnaviv_cmd_select_pipe(struct etnaviv_gpu *gpu,
+>         struct etnaviv_cmdbuf *buffer, u8 pipe)
+>  {
+> -       u32 flush = 0;
+> -
+> -       lockdep_assert_held(&gpu->lock);
+> -
+> -       /*
+> -        * This assumes that if we're switching to 2D, we're switching
+> -        * away from 3D, and vice versa.  Hence, if we're switching to
+> -        * the 2D core, we need to flush the 3D depth and color caches,
+> -        * otherwise we need to flush the 2D pixel engine cache.
+> -        */
+> -       if (gpu->exec_state == ETNA_PIPE_2D)
+> -               flush = VIVS_GL_FLUSH_CACHE_PE2D;
+> -       else if (gpu->exec_state == ETNA_PIPE_3D)
+> -               flush = VIVS_GL_FLUSH_CACHE_DEPTH | VIVS_GL_FLUSH_CACHE_COLOR;
+> -
+> -       CMD_LOAD_STATE(buffer, VIVS_GL_FLUSH_CACHE, flush);
+> -       CMD_SEM(buffer, SYNC_RECIPIENT_FE, SYNC_RECIPIENT_PE);
+> -       CMD_STALL(buffer, SYNC_RECIPIENT_FE, SYNC_RECIPIENT_PE);
+> -
+>         CMD_LOAD_STATE(buffer, VIVS_GL_PIPE_SELECT,
+>                        VIVS_GL_PIPE_SELECT_PIPE(pipe));
 >  }
-> =20
->=20
+> @@ -382,7 +363,7 @@ void etnaviv_buffer_queue(struct etnaviv_gpu *gpu, u32 exec_state,
+>
+>                 /* pipe switch commands */
+>                 if (switch_context)
+> -                       extra_dwords += 4;
+> +                       extra_dwords += 1;
+>
+>                 /* PTA load command */
+>                 if (switch_mmu_context && gpu->sec_mode == ETNA_SEC_KERNEL)
+> --
+> 2.39.5
+>
 
+
+-- 
+greets
+--
+Christian Gmeiner, MSc
+
+https://christian-gmeiner.info/privacypolicy
