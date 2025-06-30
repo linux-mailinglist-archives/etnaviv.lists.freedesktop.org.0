@@ -2,66 +2,50 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C267AEE00C
-	for <lists+etnaviv@lfdr.de>; Mon, 30 Jun 2025 16:05:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBAA3AEE82D
+	for <lists+etnaviv@lfdr.de>; Mon, 30 Jun 2025 22:25:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9261510E448;
-	Mon, 30 Jun 2025 14:05:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5395310E08D;
+	Mon, 30 Jun 2025 20:25:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="KBmql+Fx";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="AanQbKGq";
 	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3361A10E21F;
- Mon, 30 Jun 2025 14:05:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=NsoRSXh/tF63PrYJexdAXdZ1iyK7cA3n0ECT2UqM9gs=; b=KBmql+FxfDgi4UGUkuxAaDOdbz
- ZR1L6ZpXCt3JvvywEu3kqpSxdOD6Iod9ValT7qglwtcVp1pKqgK5N9IDfqt+WkDZkcRvLl8MXxVMK
- sNChfg8iePJMjiPYghqjq6hPdzveEbMypthA3ofnVvDyyr8eutjmPxThBStCz483+b97G3aO0b83t
- U6ZHWyXe4VFj90q3/q/hgaIM4E8EsjDqqX8T5sNLMlz/Qn30Pb0k6S1OaxcUBgXrTI8PUgSY3ZVES
- zI6UrlwS79eBa8aWEzqmkPQFR8Fk3t/J77xTm5dOBYG0L8qR3orgwPYWw/EGzdi5rtGlH0vN9t4mr
- Sw0Z+D4w==;
-Received: from [189.7.87.79] (helo=[192.168.0.7])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1uWF7a-00AVLt-5J; Mon, 30 Jun 2025 16:04:34 +0200
-Message-ID: <4487245c-17d0-4e4a-b3fb-209a95c60664@igalia.com>
-Date: Mon, 30 Jun 2025 11:04:25 -0300
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 3/8] drm/sched: Make timeout KUnit tests faster
-To: phasta@kernel.org, Matthew Brost <matthew.brost@intel.com>,
- Danilo Krummrich <dakr@kernel.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, Simona Vetter <simona@ffwll.ch>,
- David Airlie <airlied@gmail.com>, Melissa Wen <mwen@igalia.com>,
- Lucas Stach <l.stach@pengutronix.de>,
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E81A10E08D;
+ Mon, 30 Jun 2025 20:25:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1751315118;
+ bh=Wd8iVGImoZ4KGRRGZ13eWDlE5yPes2wVWWgg3oEX5Ic=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=AanQbKGq6x5chkKHukUYTWUa5+xgfPTycnCZpb6z2wyDIj79tWqot4YXh9ZXuqIqJ
+ GFWb198SWE8r57/NK/uQRNl6/kte5dyNbNFpTbksBc3W3MMcSEplpF7aWF0ix8laxq
+ EVDqUaRnYjH9wEWHS2oiQpTVH/6+VdUf9PbHWzZRs7Y9tRqFkFZqPzf9uRD6SroyNN
+ fU1hYwbfVQiWTqVQh4GvatwDk42ecfgMF6myQCuv2uXs1QU1PPin/PzdPZJFhpuwgk
+ sLPg52hDC/B4sctOhukETQBdeh0wMD1A+t4s4cs1c8cbXeL1iCaEmdarTg2qUfzyRY
+ AcmSmyaCwngmw==
+Received: from localhost.localdomain (unknown [92.206.120.105])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: gerddie)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id CE3B617E0342;
+ Mon, 30 Jun 2025 22:25:17 +0200 (CEST)
+From: Gert Wollny <gert.wollny@collabora.com>
+To: Lucas Stach <l.stach@pengutronix.de>,
  Russell King <linux+etnaviv@armlinux.org.uk>,
  Christian Gmeiner <christian.gmeiner@gmail.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
- Liviu Dudau <liviu.dudau@arm.com>
-Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org,
- etnaviv@lists.freedesktop.org, intel-xe@lists.freedesktop.org
-References: <20250618-sched-skip-reset-v3-0-8be5cca2725d@igalia.com>
- <20250618-sched-skip-reset-v3-3-8be5cca2725d@igalia.com>
- <2670247a8982f794a508f4cf3ae43ad7ac66862a.camel@mailbox.org>
- <27c7fef3-ce37-48b9-bf63-3b3417618835@igalia.com>
- <8e727f9644df9ba7d8c5f3966e146e5eb0684121.camel@mailbox.org>
-Content-Language: en-US
-From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-In-Reply-To: <8e727f9644df9ba7d8c5f3966e146e5eb0684121.camel@mailbox.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH v3 0/5] drm/etnaviv: Add support for running a PPU flop reset
+Date: Mon, 30 Jun 2025 22:26:26 +0200
+Message-ID: <20250630202703.13844-1-gert.wollny@collabora.com>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20250618204400.21808-1-gert.wollny@collabora.com>
+References: <20250618204400.21808-1-gert.wollny@collabora.com>
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -77,103 +61,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Hi Philipp,
+Dear all,
 
-On 30/06/25 09:20, Philipp Stanner wrote:
-> On Mon, 2025-06-30 at 09:05 -0300, Maíra Canal wrote:
->> Hi Philipp,
->>
->> On 30/06/25 08:53, Philipp Stanner wrote:
->>> On Wed, 2025-06-18 at 11:47 -0300, Maíra Canal wrote:
->>>> As more KUnit tests are introduced to evaluate the basic
->>>> capabilities
->>>> of
->>>> the `timedout_job()` hook, the test suite will continue to
->>>> increase
->>>> in
->>>> duration. To reduce the overall running time of the test suite,
->>>> decrease
->>>> the scheduler's timeout for the timeout tests.
->>>>
->>>> Before this commit:
->>>>
->>>> [15:42:26] Elapsed time: 15.637s total, 0.002s configuring,
->>>> 10.387s
->>>> building, 5.229s running
->>>>
->>>> After this commit:
->>>>
->>>> [15:45:26] Elapsed time: 9.263s total, 0.002s configuring, 5.168s
->>>> building, 4.037s running
->>>
->>> I guess those times were measured with the entire series?
->>
->> No, they were measured without the new test that I introduced in the
->> next patch.
->>
->>>
->>> It's not clear to me whether this patch is independent from the
->>> series.
->>> I suppose it is. We should aim towards having series's narrowly
->>> focused
->>> topic-wise, but I get why you included it here.
->>
->>   From my perspective, this patch is a preparation to the next one. As
->> I'll introduce another timeout-related test in the next patch, I was
->> trying to ensure that we will keep the time-budget reasonable.
->>
->>>
->>> That said, is there a specific reason for you aiming at ~10s
->>> (9.263)?
->>> That's only a bit faster than the 15.637.
->>>
->>
->> Actually, the only thing that this patch affects is the runtime. So,
->> it
->> went from 5.229s to 4.037s (-22.8%). However, as we add more and more
->> timeout tests, the absolute difference would get more significant.
-> 
-> I understand that. My point is that the decrease of total run time that
-> you state in your commit message doesn't sound that significant to me.
-> ~10s is still pretty long.
-> 
->>
->>> Couldn't it make sense, as you're at it already, to speed this up
->>> to
->>> just a few seconds, like 3-5? Then it should really be quiet IRW
->>> that
->>> topic for a while.
->>
->> I believe that further decreasing the timeout could lead to racy
->> scenarios and flaky tests.
-> 
-> That doesn't make sense to me. What could race with what? I guess you
-> mean the completion's timeout racing with the signaling timer.
+this is the third version of the series to add PPU flop reset. 
+Changes w.r.t. the previous version are: 
 
-I discussed a bit about it with Tvrtko in v1 [1][2].
+  * initialize the PPU flop reset data in etnaviv_gpu_init (Lucas)
+    - consequently drop the patch to identify GPU earlier 
+  * also test feature PIPE_3D when forcing the flop reset (Lucas)
+  * move a few defines around and fix formatting in some places
 
-[1] 
-https://lore.kernel.org/all/7cc3cc3d-7f67-4c69-bccb-32133e1d7cba@igalia.com/
-[2] 
-https://lore.kernel.org/all/146f3943-0a94-4399-9f49-be8228a86828@igalia.com/
+Many thanks for any comments, 
+Gert 
 
-Best Regards,
-- Maíra
-
-> 
-> Anyways, I'm personally not suffering from the tests being too slow. So
-> just take this as ideas. I'm fine with it being merged as it is now.
-> 
-> 
-> P.
-> 
->>
->> Best Regards,
->> - Maíra
->>
->>>
->>>
->>> P.
->>>
-
-
+[PATCH v3 1/5] drm/etnaviv: Add command stream definitions required
+[PATCH v3 2/5] drm/etnaviv: move some functions to a header to be
+[PATCH v3 3/5] drm/etnaviv: Add a new function to emit a series of
+[PATCH v3 4/5] drm/etnaviv: Add PPU flop reset
+[PATCH v3 5/5] drm/etnaviv: Add module parameter to force PPU flop
