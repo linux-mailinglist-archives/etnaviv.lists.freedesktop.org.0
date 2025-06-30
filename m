@@ -2,72 +2,65 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B12AAEB1DC
-	for <lists+etnaviv@lfdr.de>; Fri, 27 Jun 2025 11:00:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE0F8AEDADC
+	for <lists+etnaviv@lfdr.de>; Mon, 30 Jun 2025 13:26:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D856610E98C;
-	Fri, 27 Jun 2025 09:00:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C83A10E40E;
+	Mon, 30 Jun 2025 11:26:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="mDkM+Ukz";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="q0KCCkkE";
 	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com
- [209.85.215.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE80110E9A0;
- Fri, 27 Jun 2025 09:00:16 +0000 (UTC)
-Received: by mail-pg1-f181.google.com with SMTP id
- 41be03b00d2f7-b0b2d0b2843so1549065a12.2; 
- Fri, 27 Jun 2025 02:00:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1751014816; x=1751619616; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=b7ABMCzj1MQL7lIC/PP3TTKTlISD28zGpqEaDICVqfo=;
- b=mDkM+UkzPiKiSxkepMefsnINW408wSwmmLLxtr3O7gQgp/bTPeLGfKVZYT43ynD+J1
- kq367MP8fkAWVovVGWbkSMso+0xJCPY/Mf+eqW/GDE0wrQMWXIIGa8z/PgsHjPlYX4R+
- pw17tdQYcQvt5IN5BLHDw1qSd5Tx0hVaF+1yrum7J84wzIi34BF5AefYaeAS1NGqeaso
- YT6H+LlzVfJiBRXPvk7It851SjpFEoLpWNZ9ZHJWbeStWmXklUyZKWcV2GT80Byu30RM
- h/fjTzgEp2bE/JDKXMcVNnWYIvbLIyIKMGAxT7yRcHMR/F27sckPjDNHmS8FHdWPvTfd
- mDgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1751014816; x=1751619616;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=b7ABMCzj1MQL7lIC/PP3TTKTlISD28zGpqEaDICVqfo=;
- b=XjhHaSi0mlri98YdLmJ7mruPXA11eT9AKMVGb9frNbmOch23yxsvpGZmZO0IiCOUF2
- PW4X4EmkL7iXhZpmjTXFOvNQUue1KHEP1BmJI18A7wqikpfO9op6lPURX0fwu/H1oCZL
- W1q11DUo80I8wWOgCfbGsZAExC9MgMryd0fRUS7AFHy6iL+rb4fzgwRNkRDQJssUJE+b
- jSzGRmRUFatBK7M9augYpJAA4VAL97v+nBnIRfB/ARja3JuNw8rx22t//860E8H6GL7+
- G3iP7UHliH4xdnTYemgjjuIALLVp84jaB1wT8oJ3rHicMbBrNj+JAO44XZVchNW0so+L
- e6jg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXrwXlvPj7mJC6C0YzcL8GVuyCUD9KLlh5nOLgS6EazzXZfpuqT8Nn9DOcpAmIne7W9dtrsliNHBPE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywm3y7iXuhJLWgNDap1+Cq9KVC76Qs5DYL8yhCNC76cTNJUBfkx
- 2/d5SCueL/f1oqsrYyeqtejOOa1PWD++EEUXyqDAhM9oy8dN52oPd0oe2tiCd2c8QIOAXvDG+9w
- DLe+SgBy92c/TWfRCqhPptT9BO8R5YKA=
-X-Gm-Gg: ASbGncuHedj6DdbkMdyducjmCs5SDwQ2LqhvjGMD9gPNXUwG/61JHl6NLbLWifuQGwR
- /grnQFrkwHI4VE8iAI1AoIZ8o19IhmZvqdG5vSs/zWbfA2XJOzzwOKMmNiONFbHcL7b1dcyxdPu
- 5n/BTWPDkHfbpQ7/zoh44ksDVuElsiA2AyR5hzc2oMgw==
-X-Google-Smtp-Source: AGHT+IGWBpKEvutW5awd4diBl2RsntZ5az8DcXW2+5cjBEqEFgCNlfoH4DPNqO8MWiYh20tWLDjuBmjUwZMDrJOsK78=
-X-Received: by 2002:a17:90b:224c:b0:311:baa0:89ca with SMTP id
- 98e67ed59e1d1-318c926d37dmr2560054a91.34.1751014816160; Fri, 27 Jun 2025
- 02:00:16 -0700 (PDT)
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B37D10E40E;
+ Mon, 30 Jun 2025 11:26:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=KTch8RGig26EdKTqZ+Ga+GYQ19PjBijkv/2Y6AchRSU=; b=q0KCCkkEvB5qp409GDnecogLWH
+ 42L+RGwe4AocX3/YUlZAjZ7ykK0aT0pzPOKJwl6IJCv5jPpuxI7Iwsz36l+iBa723b49VqO5HA8R/
+ We7YlqlZLaXHiZNFcBiyJiGyYYY8wDwHwgZ1UoU8URGiQMGTP7tDjkPSV96rY00EoyFHovPCqIw9v
+ pezxtu5TPWGI/xDxpcHZcbcVVMPPV7i4E3lpCVGzMafWejLwKihHBRux91jRJryLzExSyw6tpx00u
+ uArUBNwTAN210qEjdt8NGReno5BSTLOd5Q+dWlt6Uxi9oo48SHuUJnBQ4F/gKe5lw0hSHufSxZmLU
+ ZcrGjO9w==;
+Received: from [189.7.87.79] (helo=[192.168.0.7])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1uWCdn-00AS3d-PV; Mon, 30 Jun 2025 13:25:40 +0200
+Message-ID: <9c9afdec-491c-4ab7-b642-c9ea4660b117@igalia.com>
+Date: Mon, 30 Jun 2025 08:25:28 -0300
 MIME-Version: 1.0
-References: <20250620195839.2772261-1-l.stach@pengutronix.de>
-In-Reply-To: <20250620195839.2772261-1-l.stach@pengutronix.de>
-From: Christian Gmeiner <christian.gmeiner@gmail.com>
-Date: Fri, 27 Jun 2025 11:00:04 +0200
-X-Gm-Features: Ac12FXwOmbyVRDUwEY3x4961ivImjE7jscRzZlYSAZij9uScxhvsALOPn-Sjxbo
-Message-ID: <CAH9NwWdzFKLvG6hzWeSiKocQBjtqdsArdTO8KjvngEj3UihNhA@mail.gmail.com>
-Subject: Re: [PATCH] drm/etnaviv: remove unnecessary cache flushes on pipe
- switch
-To: Lucas Stach <l.stach@pengutronix.de>
-Cc: etnaviv@lists.freedesktop.org, 
- Russell King <linux+etnaviv@armlinux.org.uk>, dri-devel@lists.freedesktop.org, 
- kernel@pengutronix.de, patchwork-slt@pengutronix.de
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/8] drm/sched: Allow drivers to skip the reset and
+ keep on running
+To: Matthew Brost <matthew.brost@intel.com>,
+ Danilo Krummrich <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, Simona Vetter <simona@ffwll.ch>,
+ David Airlie <airlied@gmail.com>, Melissa Wen <mwen@igalia.com>,
+ Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
+ Liviu Dudau <liviu.dudau@arm.com>
+Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org,
+ etnaviv@lists.freedesktop.org, intel-xe@lists.freedesktop.org
+References: <20250618-sched-skip-reset-v3-0-8be5cca2725d@igalia.com>
+ <20250618-sched-skip-reset-v3-2-8be5cca2725d@igalia.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+In-Reply-To: <20250618-sched-skip-reset-v3-2-8be5cca2725d@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,72 +75,154 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
->
-> The current pipe switch sequence is ported from the Vivante driver,
-> which does flush some caches before switching to another pipe. This
-> however, is not necessary with etnaviv, as we always flush all write
-> caches before completion of a cmdstream. Thus the caches are already
-> clean before execution of the next cmdstream, which may
-> trigger a pipe switch, is started.
->
-> Drop the unnecessary cache flushes. This also avoids sending a stall
-> command into a GPU where the active pipe has not been selected, yet.
->
-> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+Hi,
 
-Reviewed-by: Christian Gmeiner <cgmeiner@igalia.com>
+@Matthew, @Philipp, @Danilo, do you folks have some feedback about this
+patch and also 1/8 and 7/8? I'd be glad to hear your thoughts and/or
+gather some R-b's. Thanks!
 
+Best Regards,
+- Maíra
+
+On 18/06/25 11:47, Maíra Canal wrote:
+> When the DRM scheduler times out, it's possible that the GPU isn't hung;
+> instead, a job may still be running, and there may be no valid reason to
+> reset the hardware. This can occur in two situations:
+> 
+>    1. The GPU exposes some mechanism that ensures the GPU is still making
+>       progress. By checking this mechanism, the driver can safely skip the
+>       reset, re-arm the timeout, and allow the job to continue running until
+>       completion. This is the case for v3d, Etnaviv, and Xe.
+>    2. Timeout has fired before the free-job worker. Consequently, the
+>       scheduler calls `timedout_job()` for a job that isn't timed out.
+> 
+> These two scenarios are problematic because the job was removed from the
+> `sched->pending_list` before calling `sched->ops->timedout_job()`, which
+> means that when the job finishes, it won't be freed by the scheduler
+> though `sched->ops->free_job()` - leading to a memory leak.
+> 
+> To solve those problems, create a new `drm_gpu_sched_stat`, called
+> DRM_GPU_SCHED_STAT_NO_HANG, that allows a driver to skip the reset. The
+> new status will indicate that the job must be reinserted into the
+> pending list, and the hardware / driver will still complete that job.
+> 
+> Signed-off-by: Maíra Canal <mcanal@igalia.com>
 > ---
->  drivers/gpu/drm/etnaviv/etnaviv_buffer.c | 21 +--------------------
->  1 file changed, 1 insertion(+), 20 deletions(-)
->
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_buffer.c b/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
-> index b13a17276d07..09c5d1d0271c 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
-> @@ -90,25 +90,6 @@ static inline void CMD_SEM(struct etnaviv_cmdbuf *buffer, u32 from, u32 to)
->  static void etnaviv_cmd_select_pipe(struct etnaviv_gpu *gpu,
->         struct etnaviv_cmdbuf *buffer, u8 pipe)
->  {
-> -       u32 flush = 0;
-> -
-> -       lockdep_assert_held(&gpu->lock);
-> -
-> -       /*
-> -        * This assumes that if we're switching to 2D, we're switching
-> -        * away from 3D, and vice versa.  Hence, if we're switching to
-> -        * the 2D core, we need to flush the 3D depth and color caches,
-> -        * otherwise we need to flush the 2D pixel engine cache.
-> -        */
-> -       if (gpu->exec_state == ETNA_PIPE_2D)
-> -               flush = VIVS_GL_FLUSH_CACHE_PE2D;
-> -       else if (gpu->exec_state == ETNA_PIPE_3D)
-> -               flush = VIVS_GL_FLUSH_CACHE_DEPTH | VIVS_GL_FLUSH_CACHE_COLOR;
-> -
-> -       CMD_LOAD_STATE(buffer, VIVS_GL_FLUSH_CACHE, flush);
-> -       CMD_SEM(buffer, SYNC_RECIPIENT_FE, SYNC_RECIPIENT_PE);
-> -       CMD_STALL(buffer, SYNC_RECIPIENT_FE, SYNC_RECIPIENT_PE);
-> -
->         CMD_LOAD_STATE(buffer, VIVS_GL_PIPE_SELECT,
->                        VIVS_GL_PIPE_SELECT_PIPE(pipe));
->  }
-> @@ -382,7 +363,7 @@ void etnaviv_buffer_queue(struct etnaviv_gpu *gpu, u32 exec_state,
->
->                 /* pipe switch commands */
->                 if (switch_context)
-> -                       extra_dwords += 4;
-> +                       extra_dwords += 1;
->
->                 /* PTA load command */
->                 if (switch_mmu_context && gpu->sec_mode == ETNA_SEC_KERNEL)
-> --
-> 2.39.5
->
+>   drivers/gpu/drm/scheduler/sched_main.c | 43 ++++++++++++++++++++++++++++++++--
+>   include/drm/gpu_scheduler.h            |  3 +++
+>   2 files changed, 44 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+> index fb6d9eddf5b378910b66d456f3610ff2ca7c0f41..5e1c07ca867cb14746cec9a7e53896fe17af6e58 100644
+> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> @@ -380,11 +380,16 @@ static void drm_sched_run_free_queue(struct drm_gpu_scheduler *sched)
+>   {
+>   	struct drm_sched_job *job;
+>   
+> -	spin_lock(&sched->job_list_lock);
+>   	job = list_first_entry_or_null(&sched->pending_list,
+>   				       struct drm_sched_job, list);
+>   	if (job && dma_fence_is_signaled(&job->s_fence->finished))
+>   		__drm_sched_run_free_queue(sched);
+> +}
+> +
+> +static void drm_sched_run_free_queue_unlocked(struct drm_gpu_scheduler *sched)
+> +{
+> +	spin_lock(&sched->job_list_lock);
+> +	drm_sched_run_free_queue(sched);
+>   	spin_unlock(&sched->job_list_lock);
+>   }
+>   
+> @@ -537,6 +542,31 @@ static void drm_sched_job_begin(struct drm_sched_job *s_job)
+>   	spin_unlock(&sched->job_list_lock);
+>   }
+>   
+> +/**
+> + * drm_sched_job_reinsert_on_false_timeout - Reinsert the job on a false timeout
+> + * @sched: scheduler instance
+> + * @job: job to be reinserted on the pending list
+> + *
+> + * In the case of a "false timeout" - when a timeout occurs but the GPU isn't
+> + * hung and the job is making progress, the scheduler must reinsert the job back
+> + * into the pending list. Otherwise, the job and its resources won't be freed
+> + * through the &drm_sched_backend_ops.free_job callback.
+> + *
+> + * Note that after reinserting the job, the scheduler enqueues the free-job
+> + * work again if ready. Otherwise, a signaled job could be added to the pending
+> + * list, but never freed.
+> + *
+> + * This function must be used in "false timeout" cases only.
+> + */
+> +static void drm_sched_job_reinsert_on_false_timeout(struct drm_gpu_scheduler *sched,
+> +						    struct drm_sched_job *job)
+> +{
+> +	spin_lock(&sched->job_list_lock);
+> +	list_add(&job->list, &sched->pending_list);
+> +	drm_sched_run_free_queue(sched);
+> +	spin_unlock(&sched->job_list_lock);
+> +}
+> +
+>   static void drm_sched_job_timedout(struct work_struct *work)
+>   {
+>   	struct drm_gpu_scheduler *sched;
+> @@ -570,6 +600,9 @@ static void drm_sched_job_timedout(struct work_struct *work)
+>   			job->sched->ops->free_job(job);
+>   			sched->free_guilty = false;
+>   		}
+> +
+> +		if (status == DRM_GPU_SCHED_STAT_NO_HANG)
+> +			drm_sched_job_reinsert_on_false_timeout(sched, job);
+>   	} else {
+>   		spin_unlock(&sched->job_list_lock);
+>   	}
+> @@ -592,6 +625,9 @@ static void drm_sched_job_timedout(struct work_struct *work)
+>    * This function is typically used for reset recovery (see the docu of
+>    * drm_sched_backend_ops.timedout_job() for details). Do not call it for
+>    * scheduler teardown, i.e., before calling drm_sched_fini().
+> + *
+> + * As it's used for reset recovery, drm_sched_stop() shouldn't be called
+> + * if the driver skipped the reset (DRM_GPU_SCHED_STAT_NO_HANG).
+>    */
+>   void drm_sched_stop(struct drm_gpu_scheduler *sched, struct drm_sched_job *bad)
+>   {
+> @@ -677,6 +713,9 @@ EXPORT_SYMBOL(drm_sched_stop);
+>    * drm_sched_backend_ops.timedout_job() for details). Do not call it for
+>    * scheduler startup. The scheduler itself is fully operational after
+>    * drm_sched_init() succeeded.
+> + *
+> + * As it's used for reset recovery, drm_sched_start() shouldn't be called
+> + * if the driver skipped the reset (DRM_GPU_SCHED_STAT_NO_HANG).
+>    */
+>   void drm_sched_start(struct drm_gpu_scheduler *sched, int errno)
+>   {
+> @@ -1198,7 +1237,7 @@ static void drm_sched_free_job_work(struct work_struct *w)
+>   	if (job)
+>   		sched->ops->free_job(job);
+>   
+> -	drm_sched_run_free_queue(sched);
+> +	drm_sched_run_free_queue_unlocked(sched);
+>   	drm_sched_run_job_queue(sched);
+>   }
+>   
+> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+> index 83e5c00d8dd9a83ab20547a93d6fc572de97616e..423bcc7d7584d3f85cc5a10982f3cf637a781825 100644
+> --- a/include/drm/gpu_scheduler.h
+> +++ b/include/drm/gpu_scheduler.h
+> @@ -393,11 +393,14 @@ struct drm_sched_job {
+>    * @DRM_GPU_SCHED_STAT_NONE: Reserved. Do not use.
+>    * @DRM_GPU_SCHED_STAT_RESET: The GPU hung and successfully reset.
+>    * @DRM_GPU_SCHED_STAT_ENODEV: Error: Device is not available anymore.
+> + * @DRM_GPU_SCHED_STAT_NO_HANG: Contrary to scheduler's belief, the GPU
+> + * did not hang and is operational.
+>    */
+>   enum drm_gpu_sched_stat {
+>   	DRM_GPU_SCHED_STAT_NONE,
+>   	DRM_GPU_SCHED_STAT_RESET,
+>   	DRM_GPU_SCHED_STAT_ENODEV,
+> +	DRM_GPU_SCHED_STAT_NO_HANG,
+>   };
+>   
+>   /**
+> 
 
-
--- 
-greets
---
-Christian Gmeiner, MSc
-
-https://christian-gmeiner.info/privacypolicy
