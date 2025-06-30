@@ -2,42 +2,40 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BE71AEDB86
-	for <lists+etnaviv@lfdr.de>; Mon, 30 Jun 2025 13:46:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10784AEDBD3
+	for <lists+etnaviv@lfdr.de>; Mon, 30 Jun 2025 13:53:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 31C6710E420;
-	Mon, 30 Jun 2025 11:46:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 59F2D10E0E2;
+	Mon, 30 Jun 2025 11:53:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="dNoKlOVv";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="Skz5zas5";
 	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D02B710E41D;
- Mon, 30 Jun 2025 11:46:43 +0000 (UTC)
-Received: from smtp102.mailbox.org (smtp102.mailbox.org
- [IPv6:2001:67c:2050:b231:465::102])
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7061510E0E2;
+ Mon, 30 Jun 2025 11:53:19 +0000 (UTC)
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4bW4BS4YRyz9smN;
- Mon, 30 Jun 2025 13:46:40 +0200 (CEST)
+ by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4bW4L42cdhz9tSK;
+ Mon, 30 Jun 2025 13:53:16 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
  s=mail20150812; 
- t=1751284000; h=from:from:reply-to:reply-to:subject:subject:date:date:
+ t=1751284396; h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hknamIhTl3df4BnqS3Y+jLQLujmfMkt5ZKTr+yE/7A4=;
- b=dNoKlOVvp03WPtVLbhySIAM/pN69jC2Oa+/cVzh6IJi5DZ/2RbGlAhSvtiysalc3Sp0KIe
- CXkJ2cbf9Xeu2SDLkTVdcvcdRNavuJ7hiujDc+0g08IRQATrZI8Z9OeHRdW9GuqHpuLMlR
- OZo2xmAowbPcVXY+bzimA8iqWadiGLQxlJpxPhnsl5eHAMvJIaKFTrMe6tykDGiFX/lZBL
- uQdKQcDANjDszRT0A8UjDUDhf+PilbefsBxR6/u5UrvlfLILuRYhJ117eZ2vGxUhRlpXaP
- rAOnaigLWRjNhrf1EE14OOfnOVCAFSPjKiY69aD5KcUr0X7bX3La+31Qf4/gfw==
-Message-ID: <31490caec4e3c76ec1664536f3cd865880d7bf84.camel@mailbox.org>
-Subject: Re: [PATCH v3 2/8] drm/sched: Allow drivers to skip the reset and
- keep on running
+ bh=XRnpnsPX4W8wk3xgYzOL4NiZH+WSaegDxNqtv+5bV0Q=;
+ b=Skz5zas5xRsL7z1k9vtmslkMw5DnNbrahAJa+buxkA7iQSW8UkppqvHtPbSw3q3jrK40/F
+ 8bV4CAg9NdEWNfO3e6Ix8kMYK69RIs8Rz2lIjJnKV+bObQX8o2luHKILkHF4dSwVmJRX7b
+ o6CP//rq+nvsYwNU83yv4aMP5IHxApT+HOytnvymP8iPqwAa9qcIbjYOck9cCBMAas0nSM
+ K4UYwL/EZL0y1B9esAyfisMoxKQtQx9SPb+7uFfNcjeoJWAG8O99mJNo3REt/m1h0T+z3+
+ /0FFlY76iSuhObo5Vds+6scg/cDF6NO1PpEnemGCO5VjM80wzHl9+/3lxPve4A==
+Message-ID: <2670247a8982f794a508f4cf3ae43ad7ac66862a.camel@mailbox.org>
+Subject: Re: [PATCH v3 3/8] drm/sched: Make timeout KUnit tests faster
 From: Philipp Stanner <phasta@mailbox.org>
 To: =?ISO-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>, Matthew Brost
  <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>, Philipp
@@ -54,15 +52,15 @@ To: =?ISO-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>, Matthew Brost
  <liviu.dudau@arm.com>
 Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org, 
  etnaviv@lists.freedesktop.org, intel-xe@lists.freedesktop.org
-Date: Mon, 30 Jun 2025 13:46:31 +0200
-In-Reply-To: <20250618-sched-skip-reset-v3-2-8be5cca2725d@igalia.com>
+Date: Mon, 30 Jun 2025 13:53:09 +0200
+In-Reply-To: <20250618-sched-skip-reset-v3-3-8be5cca2725d@igalia.com>
 References: <20250618-sched-skip-reset-v3-0-8be5cca2725d@igalia.com>
- <20250618-sched-skip-reset-v3-2-8be5cca2725d@igalia.com>
+ <20250618-sched-skip-reset-v3-3-8be5cca2725d@igalia.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-MBO-RS-META: pcpb6jmc3f6wend4y3ymt7c8p8amma5q
-X-MBO-RS-ID: be78f09847359c297f1
+X-MBO-RS-META: st1n1zgqmi69q5xfirhmscj1bcyfowfc
+X-MBO-RS-ID: 0f2ad816c4561e1bfe6
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,213 +77,93 @@ Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
 On Wed, 2025-06-18 at 11:47 -0300, Ma=C3=ADra Canal wrote:
-> When the DRM scheduler times out, it's possible that the GPU isn't
-> hung;
-> instead, a job may still be running, and there may be no valid reason
-> to
-> reset the hardware. This can occur in two situations:
->=20
-> =C2=A0 1. The GPU exposes some mechanism that ensures the GPU is still
-> making
-> =C2=A0=C2=A0=C2=A0=C2=A0 progress. By checking this mechanism, the driver=
- can safely skip
-> the
-> =C2=A0=C2=A0=C2=A0=C2=A0 reset, re-arm the timeout, and allow the job to =
-continue running
-> until
-> =C2=A0=C2=A0=C2=A0=C2=A0 completion. This is the case for v3d, Etnaviv, a=
-nd Xe.
-> =C2=A0 2. Timeout has fired before the free-job worker. Consequently, the
-> =C2=A0=C2=A0=C2=A0=C2=A0 scheduler calls `timedout_job()` for a job that =
-isn't timed out.
-
-Optional nit: I'd hint here that timedout_job() is a driver callback.
-
->=20
-> These two scenarios are problematic because the job was removed from
-> the
-> `sched->pending_list` before calling `sched->ops->timedout_job()`,
-> which
-> means that when the job finishes, it won't be freed by the scheduler
-> though `sched->ops->free_job()` - leading to a memory leak.
->=20
-> To solve those problems, create a new `drm_gpu_sched_stat`, called
-> DRM_GPU_SCHED_STAT_NO_HANG, that allows a driver to skip the reset.
-> The
-> new status will indicate that the job must be reinserted into the
-> pending list, and the hardware / driver will still complete that job.
->=20
-> Signed-off-by: Ma=C3=ADra Canal <mcanal@igalia.com>
-> ---
-> =C2=A0drivers/gpu/drm/scheduler/sched_main.c | 43
-> ++++++++++++++++++++++++++++++++--
-> =C2=A0include/drm/gpu_scheduler.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 3 +++
-> =C2=A02 files changed, 44 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/scheduler/sched_main.c
-> b/drivers/gpu/drm/scheduler/sched_main.c
-> index
-> fb6d9eddf5b378910b66d456f3610ff2ca7c0f41..5e1c07ca867cb14746cec9a7e53
-> 896fe17af6e58 100644
-> --- a/drivers/gpu/drm/scheduler/sched_main.c
-> +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> @@ -380,11 +380,16 @@ static void drm_sched_run_free_queue(struct
-> drm_gpu_scheduler *sched)
-> =C2=A0{
-> =C2=A0	struct drm_sched_job *job;
-> =C2=A0
-> -	spin_lock(&sched->job_list_lock);
-> =C2=A0	job =3D list_first_entry_or_null(&sched->pending_list,
-> =C2=A0				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct drm_sched_job, list=
-);
-> =C2=A0	if (job && dma_fence_is_signaled(&job->s_fence->finished))
-> =C2=A0		__drm_sched_run_free_queue(sched);
-> +}
-> +
-> +static void drm_sched_run_free_queue_unlocked(struct
-> drm_gpu_scheduler *sched)
-> +{
-> +	spin_lock(&sched->job_list_lock);
-> +	drm_sched_run_free_queue(sched);
-> =C2=A0	spin_unlock(&sched->job_list_lock);
-> =C2=A0}
-> =C2=A0
-> @@ -537,6 +542,31 @@ static void drm_sched_job_begin(struct
-> drm_sched_job *s_job)
-> =C2=A0	spin_unlock(&sched->job_list_lock);
-> =C2=A0}
-> =C2=A0
-> +/**
-> + * drm_sched_job_reinsert_on_false_timeout - Reinsert the job on a
-
-nit: The other docstrings all start with lower case after the -
-
-> false timeout
-> + * @sched: scheduler instance
-> + * @job: job to be reinserted on the pending list
-> + *
-> + * In the case of a "false timeout" - when a timeout occurs but the
-> GPU isn't
-> + * hung and the job is making progress, the scheduler must reinsert
-> the job back
-> + * into the pending list. Otherwise, the job and its resources won't
-> be freed
-> + * through the &drm_sched_backend_ops.free_job callback.
-> + *
-> + * Note that after reinserting the job, the scheduler enqueues the
-> free-job
-> + * work again if ready. Otherwise, a signaled job could be added to
-> the pending
-> + * list, but never freed.
-> + *
-> + * This function must be used in "false timeout" cases only.
-> + */
-> +static void drm_sched_job_reinsert_on_false_timeout(struct
-> drm_gpu_scheduler *sched,
-> +						=C2=A0=C2=A0=C2=A0 struct
-> drm_sched_job *job)
-> +{
-> +	spin_lock(&sched->job_list_lock);
-> +	list_add(&job->list, &sched->pending_list);
-> +	drm_sched_run_free_queue(sched);
-> +	spin_unlock(&sched->job_list_lock);
-> +}
-> +
-> =C2=A0static void drm_sched_job_timedout(struct work_struct *work)
-> =C2=A0{
-> =C2=A0	struct drm_gpu_scheduler *sched;
-> @@ -570,6 +600,9 @@ static void drm_sched_job_timedout(struct
-> work_struct *work)
-> =C2=A0			job->sched->ops->free_job(job);
-> =C2=A0			sched->free_guilty =3D false;
-> =C2=A0		}
-> +
-> +		if (status =3D=3D DRM_GPU_SCHED_STAT_NO_HANG)
-> +			drm_sched_job_reinsert_on_false_timeout(sche
-> d, job);
-> =C2=A0	} else {
-> =C2=A0		spin_unlock(&sched->job_list_lock);
-> =C2=A0	}
-> @@ -592,6 +625,9 @@ static void drm_sched_job_timedout(struct
-> work_struct *work)
-> =C2=A0 * This function is typically used for reset recovery (see the docu
+> As more KUnit tests are introduced to evaluate the basic capabilities
 > of
-> =C2=A0 * drm_sched_backend_ops.timedout_job() for details). Do not call i=
-t
-> for
-> =C2=A0 * scheduler teardown, i.e., before calling drm_sched_fini().
-> + *
-> + * As it's used for reset recovery, drm_sched_stop() shouldn't be
-> called
-> + * if the driver skipped the reset (DRM_GPU_SCHED_STAT_NO_HANG).
-> =C2=A0 */
-> =C2=A0void drm_sched_stop(struct drm_gpu_scheduler *sched, struct
-> drm_sched_job *bad)
-> =C2=A0{
-> @@ -677,6 +713,9 @@ EXPORT_SYMBOL(drm_sched_stop);
-> =C2=A0 * drm_sched_backend_ops.timedout_job() for details). Do not call i=
-t
-> for
-> =C2=A0 * scheduler startup. The scheduler itself is fully operational
-> after
-> =C2=A0 * drm_sched_init() succeeded.
-> + *
-> + * As it's used for reset recovery, drm_sched_start() shouldn't be
-> called
-> + * if the driver skipped the reset (DRM_GPU_SCHED_STAT_NO_HANG).
-> =C2=A0 */
-> =C2=A0void drm_sched_start(struct drm_gpu_scheduler *sched, int errno)
-> =C2=A0{
-> @@ -1198,7 +1237,7 @@ static void drm_sched_free_job_work(struct
-> work_struct *w)
-> =C2=A0	if (job)
-> =C2=A0		sched->ops->free_job(job);
-> =C2=A0
-> -	drm_sched_run_free_queue(sched);
-> +	drm_sched_run_free_queue_unlocked(sched);
-> =C2=A0	drm_sched_run_job_queue(sched);
-> =C2=A0}
-> =C2=A0
-> diff --git a/include/drm/gpu_scheduler.h
-> b/include/drm/gpu_scheduler.h
-> index
-> 83e5c00d8dd9a83ab20547a93d6fc572de97616e..423bcc7d7584d3f85cc5a10982f
-> 3cf637a781825 100644
-> --- a/include/drm/gpu_scheduler.h
-> +++ b/include/drm/gpu_scheduler.h
-> @@ -393,11 +393,14 @@ struct drm_sched_job {
-> =C2=A0 * @DRM_GPU_SCHED_STAT_NONE: Reserved. Do not use.
-> =C2=A0 * @DRM_GPU_SCHED_STAT_RESET: The GPU hung and successfully reset.
-> =C2=A0 * @DRM_GPU_SCHED_STAT_ENODEV: Error: Device is not available
-> anymore.
-> + * @DRM_GPU_SCHED_STAT_NO_HANG: Contrary to scheduler's belief, the
-> GPU
-> + * did not hang and is operational.
+> the `timedout_job()` hook, the test suite will continue to increase
+> in
+> duration. To reduce the overall running time of the test suite,
+> decrease
+> the scheduler's timeout for the timeout tests.
+>=20
+> Before this commit:
+>=20
+> [15:42:26] Elapsed time: 15.637s total, 0.002s configuring, 10.387s
+> building, 5.229s running
+>=20
+> After this commit:
+>=20
+> [15:45:26] Elapsed time: 9.263s total, 0.002s configuring, 5.168s
+> building, 4.037s running
 
-Maybe
+I guess those times were measured with the entire series?
 
-s/belief/assumption
+It's not clear to me whether this patch is independent from the series.
+I suppose it is. We should aim towards having series's narrowly focused
+topic-wise, but I get why you included it here.
 
-and
+That said, is there a specific reason for you aiming at ~10s (9.263)?
+That's only a bit faster than the 15.637.
 
-s/operational/still running
+Couldn't it make sense, as you're at it already, to speed this up to
+just a few seconds, like 3-5? Then it should really be quiet IRW that
+topic for a while.
 
-
-Up to you, I think either is fine.
-
-Code itself looks good.
 
 P.
 
-> =C2=A0 */
-> =C2=A0enum drm_gpu_sched_stat {
-> =C2=A0	DRM_GPU_SCHED_STAT_NONE,
-> =C2=A0	DRM_GPU_SCHED_STAT_RESET,
-> =C2=A0	DRM_GPU_SCHED_STAT_ENODEV,
-> +	DRM_GPU_SCHED_STAT_NO_HANG,
-> =C2=A0};
+>=20
+> Signed-off-by: Ma=C3=ADra Canal <mcanal@igalia.com>
+> Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+> ---
+> =C2=A0drivers/gpu/drm/scheduler/tests/tests_basic.c | 8 +++++---
+> =C2=A01 file changed, 5 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/scheduler/tests/tests_basic.c
+> b/drivers/gpu/drm/scheduler/tests/tests_basic.c
+> index
+> 7230057e0594c6246f02608f07fcb1f8d738ac75..41c648782f4548e202bd8711b45
+> d28eead9bd0b2 100644
+> --- a/drivers/gpu/drm/scheduler/tests/tests_basic.c
+> +++ b/drivers/gpu/drm/scheduler/tests/tests_basic.c
+> @@ -5,6 +5,8 @@
 > =C2=A0
-> =C2=A0/**
+> =C2=A0#include "sched_tests.h"
+> =C2=A0
+> +#define MOCK_TIMEOUT (HZ / 5)
+> +
+> =C2=A0/*
+> =C2=A0 * DRM scheduler basic tests should check the basic functional
+> correctness of
+> =C2=A0 * the scheduler, including some very light smoke testing. More
+> targeted tests,
+> @@ -28,7 +30,7 @@ static void drm_sched_basic_exit(struct kunit
+> *test)
+> =C2=A0
+> =C2=A0static int drm_sched_timeout_init(struct kunit *test)
+> =C2=A0{
+> -	test->priv =3D drm_mock_sched_new(test, HZ);
+> +	test->priv =3D drm_mock_sched_new(test, MOCK_TIMEOUT);
+> =C2=A0
+> =C2=A0	return 0;
+> =C2=A0}
+> @@ -227,14 +229,14 @@ static void drm_sched_basic_timeout(struct
+> kunit *test)
+> =C2=A0	done =3D drm_mock_sched_job_wait_scheduled(job, HZ);
+> =C2=A0	KUNIT_ASSERT_TRUE(test, done);
+> =C2=A0
+> -	done =3D drm_mock_sched_job_wait_finished(job, HZ / 2);
+> +	done =3D drm_mock_sched_job_wait_finished(job, MOCK_TIMEOUT /
+> 2);
+> =C2=A0	KUNIT_ASSERT_FALSE(test, done);
+> =C2=A0
+> =C2=A0	KUNIT_ASSERT_EQ(test,
+> =C2=A0			job->flags & DRM_MOCK_SCHED_JOB_TIMEDOUT,
+> =C2=A0			0);
+> =C2=A0
+> -	done =3D drm_mock_sched_job_wait_finished(job, HZ);
+> +	done =3D drm_mock_sched_job_wait_finished(job, MOCK_TIMEOUT);
+> =C2=A0	KUNIT_ASSERT_FALSE(test, done);
+> =C2=A0
+> =C2=A0	KUNIT_ASSERT_EQ(test,
 >=20
 
