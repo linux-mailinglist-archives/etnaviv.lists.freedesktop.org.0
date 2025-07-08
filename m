@@ -2,52 +2,67 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC07BAFB6CB
-	for <lists+etnaviv@lfdr.de>; Mon,  7 Jul 2025 17:04:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42872AFC388
+	for <lists+etnaviv@lfdr.de>; Tue,  8 Jul 2025 09:02:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A96010E4C1;
-	Mon,  7 Jul 2025 15:04:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D220410E5A2;
+	Tue,  8 Jul 2025 07:02:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=mark.filion@collabora.com header.b="g9RXb9Pg";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="vIz9Xrep";
 	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-X-Greylist: delayed 903 seconds by postgrey-1.36 at gabe;
- Mon, 07 Jul 2025 15:04:46 UTC
-Received: from sender4-op-o16.zoho.com (sender4-op-o16.zoho.com
- [136.143.188.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E49CB10E4C1
- for <etnaviv@lists.freedesktop.org>; Mon,  7 Jul 2025 15:04:46 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1751899782; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=IUmh/+xeDJXpqD5tUamo059MgKIpV3VulWEBVKdq9k81IGFbZvOA3MjlFD/Dk4PFNFbaBRKOfbz7nNKVWAIWLnVdeOp+xlaYzk74BmckxCdbYd0Bk9Ij9GbB5pZ2F4yxGKENd+HYj5m+pUhDu15F50jvkgy+1WYZvRsTT9q83l4=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1751899782;
- h=Content-Type:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To:Cc;
- bh=0XUVDXk2CV1ND0S19HfauzYdnVkPx0j3x+EE3PcYBmA=; 
- b=DWR/rK2o8YJk+XYaYIz7DIUtzOnu/IWZ9de+N5QHwH0xe8qgQYfLAto3r3sdPPStStbvrOynUMNr8/0vKwPRRO7e7mVuL4XLuE78VZDmqiNoF3p64YLlcpLTVnec14kECd6Br/mQS6Ll0rrTY/zt6FFjRueFtXH7H0x/koz38qs=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=mark.filion@collabora.com;
- dmarc=pass header.from=<mark.filion@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1751899782; 
- s=zohomail; d=collabora.com; i=mark.filion@collabora.com;
- h=Message-ID:Subject:Subject:From:From:To:To:Date:Date:Content-Type:MIME-Version:Message-Id:Reply-To:Cc;
- bh=0XUVDXk2CV1ND0S19HfauzYdnVkPx0j3x+EE3PcYBmA=;
- b=g9RXb9PgrXXFSBjiV8kGkczenr19ZzyvL/fBn0TR4luM+XfTGtjTfTwI4u/yw0WA
- 1BebUNgndYJwaxTDYAJiQupKKn8Guouorzj4RVgftjyyIS9T09sdqcIaABwHCHJoySF
- W+wVx0AjH0qWKMaUJd2nvva95IgHsa28DGJLy9Lw=
-Received: by mx.zohomail.com with SMTPS id 1751899779824740.7095877903106;
- Mon, 7 Jul 2025 07:49:39 -0700 (PDT)
-Message-ID: <d63e460a19b7f4147257ad6675d4bc9710a735bf.camel@collabora.com>
-Subject: Reminder: Final week to submit a talk for XDC 2025!
-From: Mark Filion <mark.filion@collabora.com>
-To: etnaviv@lists.freedesktop.org
-Date: Mon, 07 Jul 2025 10:49:38 -0400
-Content-Type: multipart/alternative; boundary="=-KPNXPEiho/9TIdABChpW"
-User-Agent: Evolution 3.56.2 (3.56.2-1.fc42app2) 
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E22F410E598;
+ Tue,  8 Jul 2025 07:02:32 +0000 (UTC)
+Received: from smtp1.mailbox.org (smtp1.mailbox.org
+ [IPv6:2001:67c:2050:b231:465::1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4bbsVs6CKhz9snW;
+ Tue,  8 Jul 2025 09:02:29 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; 
+ t=1751958149; h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=WYrigsPXQUSAcsZwd04iu3vJ9pX/CAA6CTElzKsZ9AI=;
+ b=vIz9XrepfJqhBuaXCldtQtASlKEkN3xdBlH0H1j9loYji3SqL0Fq/Bzq7B/n15l+XQlafC
+ N2xKhy3RTYqy7zwecAsTnsooxktYOb0XKLZKTEjMoS1pU7dQQXFcn1bAbcwmCT198R/PgG
+ 7bPQWmiayfNtdwQkU3ypLmZlX2PIWPJHDd1t6csP0QNKaQH8lIJ+gFqtZduKkLdo21OGGP
+ z2qCQ803zDxt8ZiUAoyMqVObqmDvrV8bx1BD8M+AAN7xDNu2vpzVhAAiV+zzriefFlvsAx
+ ntmuy093z8i4rlRduJ9YpEVEfIv/aLuhFc7TBRwApXdAQcZ2zfnmxZWzb3jm8Q==
+Message-ID: <c5f4bb06f88338c03cc903a3ff5c58607625aade.camel@mailbox.org>
+Subject: Re: [PATCH v4 2/8] drm/sched: Allow drivers to skip the reset and
+ keep on running
+From: Philipp Stanner <phasta@mailbox.org>
+To: =?ISO-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>, Matthew Brost
+ <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>, Philipp
+ Stanner <phasta@kernel.org>, Christian =?ISO-8859-1?Q?K=F6nig?=
+ <ckoenig.leichtzumerken@gmail.com>, Tvrtko Ursulin
+ <tvrtko.ursulin@igalia.com>,  Simona Vetter <simona@ffwll.ch>, David Airlie
+ <airlied@gmail.com>, Melissa Wen <mwen@igalia.com>, Lucas Stach
+ <l.stach@pengutronix.de>, Russell King <linux+etnaviv@armlinux.org.uk>, 
+ Christian Gmeiner <christian.gmeiner@gmail.com>, Lucas De Marchi
+ <lucas.demarchi@intel.com>, Thomas =?ISO-8859-1?Q?Hellstr=F6m?=
+ <thomas.hellstrom@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>, Rob Herring
+ <robh@kernel.org>, Steven Price <steven.price@arm.com>, Liviu Dudau
+ <liviu.dudau@arm.com>
+Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org, 
+ etnaviv@lists.freedesktop.org, intel-xe@lists.freedesktop.org
+Date: Tue, 08 Jul 2025 09:02:19 +0200
+In-Reply-To: <20250707-sched-skip-reset-v4-2-036c0f0f584f@igalia.com>
+References: <20250707-sched-skip-reset-v4-0-036c0f0f584f@igalia.com>
+ <20250707-sched-skip-reset-v4-2-036c0f0f584f@igalia.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-ZohoMailClient: External
+X-MBO-RS-META: w7184u37jz3s9m8ipncq1ggehbnm65qp
+X-MBO-RS-ID: 4e281e4d2b4ba90d534
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,222 +74,276 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: phasta@kernel.org
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
---=-KPNXPEiho/9TIdABChpW
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Mon, 2025-07-07 at 11:46 -0300, Ma=C3=ADra Canal wrote:
+> When the DRM scheduler times out, it's possible that the GPU isn't
+> hung;
+> instead, a job may still be running, and there may be no valid reason
+> to
+> reset the hardware. This can occur in two situations:
+>=20
+> =C2=A0 1. The GPU exposes some mechanism that ensures the GPU is still
+> making
+> =C2=A0=C2=A0=C2=A0=C2=A0 progress. By checking this mechanism, the driver=
+ can safely skip
 
-Hello!
+I think this should be rephrased, because it reads as if there is a
+mechanism with which the GPU can be forced to still make progress even
+with a while (1) job or something.
 
-It's the final week to submit a talk for XDC 2025, which will
-take place at the TU Wien Kuppelsaal in Vienna, Austria on 29
-September to 1 October. CfP ends this coming Friday, 11 July at 23:59
-CEST.
+I think what we want probably is:
 
-=C2=A0=C2=A0=C2=A0=C2=A0https://xdc2025.x.org
-=C2=A0=C2=A0
-As usual, the conference is free of charge and open to the general
-public. If you plan on attending, please make sure to register as early
-as possible:
+"When the DRM scheduler times out, it's possible that the GPU isn't
+hung; instead, a job just took unusually long (longer than the timeout)
+but is still running, and there is, thus, no reason to reset the
+hardware. A false-positive timeout can occur in two scenarios:
 
-=C2=A0=C2=A0=C2=A0=C2=A0https://indico.freedesktop.org/event/10/registratio=
-ns/
+1. The job took too long, but the driver determined through a GPU-
+specific mechanism that the hardware is still making progress. Hence,
+the driver would like the scheduler to skip the timeout and treat the
+job as still pending from then onward.
 
-In addition to registration, the CfP is now open for talks, demos, and
-workshops at XDC 2025. While any serious proposal will be gratefully
-considered, topics of interest to X.Org and freedesktop.org developers
-are encouraged. The program focus is on new development, ongoing
-challenges and anything else that will spark discussions among
-attendees in the hallway track.
+> the
+> =C2=A0=C2=A0=C2=A0=C2=A0 reset, re-arm the timeout, and allow the job to =
+continue running
+> until
+> =C2=A0=C2=A0=C2=A0=C2=A0 completion. This is the case for v3d, Etnaviv, a=
+nd Xe.
+> =C2=A0 2. Timeout has fired before the free-job worker. Consequently, the
+> =C2=A0=C2=A0=C2=A0=C2=A0 scheduler calls `sched->ops->timedout_job()` for=
+ a job that
+> isn't
+> =C2=A0=C2=A0=C2=A0=C2=A0 timed out.
 
-We are open to talks across all layers of the graphics stack, from the
-kernel to desktop environments / graphical applications and about how
-to make things better for the developers who build them. Head to the
-CfP page to learn more:
 
-=C2=A0=C2=A0=C2=A0=C2=A0https://indico.freedesktop.org/event/10/abstracts/
+"2. The job actually did complete from the driver's point of view, but
+there was a race with the scheduler's timeout, which determined this
+job timed out slightly before the free-job worker could remove it from
+the pending_list."
 
-The deadline for submissions Friday, 11 July 2025.
 
-We are looking forward to seeing you in Vienna! If you have any
-questions, please email the organizer (hfink at snap.com), adding on
-CC the X.org board (board at foundation.x.org).
+Feel free to adjust the wording to your liking.
 
-And don't forget, you can follow us on Mastodon for all the latest
-updates and to stay connected:
+>=20
+> These two scenarios are problematic because the job was removed from
+> the
+> `sched->pending_list` before calling `sched->ops->timedout_job()`,
+> which
+> means that when the job finishes, it won't be freed by the scheduler
+> though `sched->ops->free_job()` - leading to a memory leak.
+>=20
+> To solve those problems, create a new `drm_gpu_sched_stat`, called
+> DRM_GPU_SCHED_STAT_NO_HANG, that allows a driver to skip the reset.
 
-=C2=A0=C2=A0=C2=A0=C2=A0https://floss.social/@XOrgDevConf
+nit:
+s/that/which
 
-Best,
+? Reads a bit clearer IMO
 
-Mark
+> The
+> new status will indicate that the job must be reinserted into the
+> pending list, and the hardware / driver will still complete that job.
 
---=-KPNXPEiho/9TIdABChpW
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+I think it would be cool to write it as pending_list consistently
+throughout the patch.
 
-<html><head><style>pre,code,address {
-  margin: 0px;
-}
-h1,h2,h3,h4,h5,h6 {
-  margin-top: 0.2em;
-  margin-bottom: 0.2em;
-}
-ol,ul {
-  margin-top: 0em;
-  margin-bottom: 0em;
-}
-blockquote {
-  margin-top: 0em;
-  margin-bottom: 0em;
-}
-</style></head><body><div style=3D"caret-color: rgb(0, 0, 0); color: rgb(0,=
- 0, 0); font-family: &quot;Adwaita Sans&quot;; font-style: normal; font-var=
-iant-caps: normal; font-weight: 400; letter-spacing: normal; text-align: st=
-art; text-indent: 0px; text-transform: none; white-space: normal; word-spac=
-ing: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0.4); -webkit-text-str=
-oke-width: 0px; text-decoration: none;">H<span style=3D"caret-color: rgb(46=
-, 52, 54); color: rgb(46, 52, 54); font-family: &quot;Adwaita Mono&quot;;">=
-ello!</span></div><div style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0,=
- 0); font-family: &quot;Adwaita Sans&quot;; font-style: normal; font-varian=
-t-caps: normal; font-weight: 400; letter-spacing: normal; text-align: start=
-; text-indent: 0px; text-transform: none; white-space: normal; word-spacing=
-: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0.4); -webkit-text-stroke=
--width: 0px; text-decoration: none;"><br style=3D"caret-color: rgb(46, 52, =
-54); color: rgb(46, 52, 54); font-family: &quot;Adwaita Mono&quot;;"><span =
-style=3D"caret-color: rgb(46, 52, 54); color: rgb(46, 52, 54); font-family:=
- &quot;Adwaita Mono&quot;;">It's the final week to submit a talk for XDC 20=
-25, which will</span><br style=3D"caret-color: rgb(46, 52, 54); color: rgb(=
-46, 52, 54); font-family: &quot;Adwaita Mono&quot;;"><span style=3D"caret-c=
-olor: rgb(46, 52, 54); color: rgb(46, 52, 54); font-family: &quot;Adwaita M=
-ono&quot;;">take place at the TU Wien Kuppelsaal in Vienna, Austria on 29</=
-span><br style=3D"caret-color: rgb(46, 52, 54); color: rgb(46, 52, 54); fon=
-t-family: &quot;Adwaita Mono&quot;;"><span style=3D"caret-color: rgb(46, 52=
-, 54); color: rgb(46, 52, 54); font-family: &quot;Adwaita Mono&quot;;">Sept=
-ember to 1 October. CfP ends this coming Friday, 11 July at 23:59 CEST.</sp=
-an><br style=3D"caret-color: rgb(46, 52, 54); color: rgb(46, 52, 54); font-=
-family: &quot;Adwaita Mono&quot;;"><br style=3D"caret-color: rgb(46, 52, 54=
-); color: rgb(46, 52, 54); font-family: &quot;Adwaita Mono&quot;;"><span st=
-yle=3D"caret-color: rgb(46, 52, 54); color: rgb(46, 52, 54); font-family: &=
-quot;Adwaita Mono&quot;;">&nbsp;&nbsp;&nbsp;&nbsp;</span><a href=3D"https:/=
-/xdc2025.x.org/" title=3D"Click to open https://xdc2025.x.org/" style=3D"co=
-lor: rgb(46, 52, 54); font-family: &quot;Adwaita Mono&quot;;">https://xdc20=
-25.x.org</a><br style=3D"caret-color: rgb(46, 52, 54); color: rgb(46, 52, 5=
-4); font-family: &quot;Adwaita Mono&quot;;"><span style=3D"caret-color: rgb=
-(46, 52, 54); color: rgb(46, 52, 54); font-family: &quot;Adwaita Mono&quot;=
-;">&nbsp;&nbsp;</span><br style=3D"caret-color: rgb(46, 52, 54); color: rgb=
-(46, 52, 54); font-family: &quot;Adwaita Mono&quot;;"><span style=3D"caret-=
-color: rgb(46, 52, 54); color: rgb(46, 52, 54); font-family: &quot;Adwaita =
-Mono&quot;;">As usual, the conference is free of charge and open to the gen=
-eral</span><br style=3D"caret-color: rgb(46, 52, 54); color: rgb(46, 52, 54=
-); font-family: &quot;Adwaita Mono&quot;;"><span style=3D"caret-color: rgb(=
-46, 52, 54); color: rgb(46, 52, 54); font-family: &quot;Adwaita Mono&quot;;=
-">public. If you plan on attending, please make sure to register as early</=
-span><br style=3D"caret-color: rgb(46, 52, 54); color: rgb(46, 52, 54); fon=
-t-family: &quot;Adwaita Mono&quot;;"><span style=3D"caret-color: rgb(46, 52=
-, 54); color: rgb(46, 52, 54); font-family: &quot;Adwaita Mono&quot;;">as p=
-ossible:</span><br style=3D"caret-color: rgb(46, 52, 54); color: rgb(46, 52=
-, 54); font-family: &quot;Adwaita Mono&quot;;"><br style=3D"caret-color: rg=
-b(46, 52, 54); color: rgb(46, 52, 54); font-family: &quot;Adwaita Mono&quot=
-;;"><span style=3D"caret-color: rgb(46, 52, 54); color: rgb(46, 52, 54); fo=
-nt-family: &quot;Adwaita Mono&quot;;">&nbsp;&nbsp;&nbsp;&nbsp;</span><a hre=
-f=3D"https://indico.freedesktop.org/event/10/registrations/" title=3D"Click=
- to open https://indico.freedesktop.org/event/10/registrations/" style=3D"c=
-olor: rgb(46, 52, 54); font-family: &quot;Adwaita Mono&quot;;">https://indi=
-co.freedesktop.org/event/10/registrations/</a><br style=3D"caret-color: rgb=
-(46, 52, 54); color: rgb(46, 52, 54); font-family: &quot;Adwaita Mono&quot;=
-;"><br style=3D"caret-color: rgb(46, 52, 54); color: rgb(46, 52, 54); font-=
-family: &quot;Adwaita Mono&quot;;"><span style=3D"caret-color: rgb(46, 52, =
-54); color: rgb(46, 52, 54); font-family: &quot;Adwaita Mono&quot;;">In add=
-ition to registration, the CfP is now open for talks, demos, and</span><br =
-style=3D"caret-color: rgb(46, 52, 54); color: rgb(46, 52, 54); font-family:=
- &quot;Adwaita Mono&quot;;"><span style=3D"caret-color: rgb(46, 52, 54); co=
-lor: rgb(46, 52, 54); font-family: &quot;Adwaita Mono&quot;;">workshops at =
-XDC 2025. While any serious proposal will be gratefully</span><br style=3D"=
-caret-color: rgb(46, 52, 54); color: rgb(46, 52, 54); font-family: &quot;Ad=
-waita Mono&quot;;"><span style=3D"caret-color: rgb(46, 52, 54); color: rgb(=
-46, 52, 54); font-family: &quot;Adwaita Mono&quot;;">considered, topics of =
-interest to X.Org and freedesktop.org developers</span><br style=3D"caret-c=
-olor: rgb(46, 52, 54); color: rgb(46, 52, 54); font-family: &quot;Adwaita M=
-ono&quot;;"><span style=3D"caret-color: rgb(46, 52, 54); color: rgb(46, 52,=
- 54); font-family: &quot;Adwaita Mono&quot;;">are encouraged. The program f=
-ocus is on new development, ongoing</span><br style=3D"caret-color: rgb(46,=
- 52, 54); color: rgb(46, 52, 54); font-family: &quot;Adwaita Mono&quot;;"><=
-span style=3D"caret-color: rgb(46, 52, 54); color: rgb(46, 52, 54); font-fa=
-mily: &quot;Adwaita Mono&quot;;">challenges and anything else that will spa=
-rk discussions among</span><br style=3D"caret-color: rgb(46, 52, 54); color=
-: rgb(46, 52, 54); font-family: &quot;Adwaita Mono&quot;;"><span style=3D"c=
-aret-color: rgb(46, 52, 54); color: rgb(46, 52, 54); font-family: &quot;Adw=
-aita Mono&quot;;">attendees in the hallway track.</span><br style=3D"caret-=
-color: rgb(46, 52, 54); color: rgb(46, 52, 54); font-family: &quot;Adwaita =
-Mono&quot;;"><br style=3D"caret-color: rgb(46, 52, 54); color: rgb(46, 52, =
-54); font-family: &quot;Adwaita Mono&quot;;"><span style=3D"caret-color: rg=
-b(46, 52, 54); color: rgb(46, 52, 54); font-family: &quot;Adwaita Mono&quot=
-;;">We are open to talks across all layers of the graphics stack, from the<=
-/span><br style=3D"caret-color: rgb(46, 52, 54); color: rgb(46, 52, 54); fo=
-nt-family: &quot;Adwaita Mono&quot;;"><span style=3D"caret-color: rgb(46, 5=
-2, 54); color: rgb(46, 52, 54); font-family: &quot;Adwaita Mono&quot;;">ker=
-nel to desktop environments / graphical applications and about how</span><b=
-r style=3D"caret-color: rgb(46, 52, 54); color: rgb(46, 52, 54); font-famil=
-y: &quot;Adwaita Mono&quot;;"><span style=3D"caret-color: rgb(46, 52, 54); =
-color: rgb(46, 52, 54); font-family: &quot;Adwaita Mono&quot;;">to make thi=
-ngs better for the developers who build them. Head to the</span><br style=
-=3D"caret-color: rgb(46, 52, 54); color: rgb(46, 52, 54); font-family: &quo=
-t;Adwaita Mono&quot;;"><span style=3D"caret-color: rgb(46, 52, 54); color: =
-rgb(46, 52, 54); font-family: &quot;Adwaita Mono&quot;;">CfP page to learn =
-more:</span><br style=3D"caret-color: rgb(46, 52, 54); color: rgb(46, 52, 5=
-4); font-family: &quot;Adwaita Mono&quot;;"><br style=3D"caret-color: rgb(4=
-6, 52, 54); color: rgb(46, 52, 54); font-family: &quot;Adwaita Mono&quot;;"=
-><span style=3D"caret-color: rgb(46, 52, 54); color: rgb(46, 52, 54); font-=
-family: &quot;Adwaita Mono&quot;;">&nbsp;&nbsp;&nbsp;&nbsp;</span><a href=
-=3D"https://indico.freedesktop.org/event/10/abstracts/" title=3D"Click to o=
-pen https://indico.freedesktop.org/event/10/abstracts/" style=3D"color: rgb=
-(46, 52, 54); font-family: &quot;Adwaita Mono&quot;;">https://indico.freede=
-sktop.org/event/10/abstracts/</a><br style=3D"caret-color: rgb(46, 52, 54);=
- color: rgb(46, 52, 54); font-family: &quot;Adwaita Mono&quot;;"><br style=
-=3D"caret-color: rgb(46, 52, 54); color: rgb(46, 52, 54); font-family: &quo=
-t;Adwaita Mono&quot;;"><span style=3D"caret-color: rgb(46, 52, 54); color: =
-rgb(46, 52, 54); font-family: &quot;Adwaita Mono&quot;;">The deadline for s=
-ubmissions Friday, 11 July 2025.</span><br style=3D"caret-color: rgb(46, 52=
-, 54); color: rgb(46, 52, 54); font-family: &quot;Adwaita Mono&quot;;"><br =
-style=3D"caret-color: rgb(46, 52, 54); color: rgb(46, 52, 54); font-family:=
- &quot;Adwaita Mono&quot;;"><span style=3D"caret-color: rgb(46, 52, 54); co=
-lor: rgb(46, 52, 54); font-family: &quot;Adwaita Mono&quot;;">We are lookin=
-g forward to seeing you in Vienna! If you have any</span><br style=3D"caret=
--color: rgb(46, 52, 54); color: rgb(46, 52, 54); font-family: &quot;Adwaita=
- Mono&quot;;"><span style=3D"caret-color: rgb(46, 52, 54); color: rgb(46, 5=
-2, 54); font-family: &quot;Adwaita Mono&quot;;">questions, please email the=
- organizer (hfink at snap.com), adding on</span><br style=3D"caret-color: r=
-gb(46, 52, 54); color: rgb(46, 52, 54); font-family: &quot;Adwaita Mono&quo=
-t;;"><span style=3D"caret-color: rgb(46, 52, 54); color: rgb(46, 52, 54); f=
-ont-family: &quot;Adwaita Mono&quot;;">CC the X.org board (board at foundat=
-ion.x.org).</span><br style=3D"caret-color: rgb(46, 52, 54); color: rgb(46,=
- 52, 54); font-family: &quot;Adwaita Mono&quot;;"><br style=3D"caret-color:=
- rgb(46, 52, 54); color: rgb(46, 52, 54); font-family: &quot;Adwaita Mono&q=
-uot;;"><span style=3D"caret-color: rgb(46, 52, 54); color: rgb(46, 52, 54);=
- font-family: &quot;Adwaita Mono&quot;;">And don't forget, you can follow u=
-s on Mastodon for all the latest</span><br style=3D"caret-color: rgb(46, 52=
-, 54); color: rgb(46, 52, 54); font-family: &quot;Adwaita Mono&quot;;"><spa=
-n style=3D"caret-color: rgb(46, 52, 54); color: rgb(46, 52, 54); font-famil=
-y: &quot;Adwaita Mono&quot;;">updates and to stay connected:</span><br styl=
-e=3D"caret-color: rgb(46, 52, 54); color: rgb(46, 52, 54); font-family: &qu=
-ot;Adwaita Mono&quot;;"><br style=3D"caret-color: rgb(46, 52, 54); color: r=
-gb(46, 52, 54); font-family: &quot;Adwaita Mono&quot;;"><span style=3D"care=
-t-color: rgb(46, 52, 54); color: rgb(46, 52, 54); font-family: &quot;Adwait=
-a Mono&quot;;">&nbsp;&nbsp;&nbsp;&nbsp;</span><a href=3D"https://floss.soci=
-al/@XOrgDevConf" title=3D"Click to open https://floss.social/@XOrgDevConf" =
-style=3D"color: rgb(46, 52, 54); font-family: &quot;Adwaita Mono&quot;;">ht=
-tps://floss.social/@XOrgDevConf</a><br style=3D"caret-color: rgb(46, 52, 54=
-); color: rgb(46, 52, 54); font-family: &quot;Adwaita Mono&quot;;"><br styl=
-e=3D"caret-color: rgb(46, 52, 54); color: rgb(46, 52, 54); font-family: &qu=
-ot;Adwaita Mono&quot;;"><span style=3D"caret-color: rgb(46, 52, 54); color:=
- rgb(46, 52, 54); font-family: &quot;Adwaita Mono&quot;;">Best,</span><br s=
-tyle=3D"caret-color: rgb(46, 52, 54); color: rgb(46, 52, 54); font-family: =
-&quot;Adwaita Mono&quot;;"><br style=3D"caret-color: rgb(46, 52, 54); color=
-: rgb(46, 52, 54); font-family: &quot;Adwaita Mono&quot;;"><span style=3D"c=
-aret-color: rgb(46, 52, 54); color: rgb(46, 52, 54); font-family: &quot;Adw=
-aita Mono&quot;;">Mark</span></div><div><span></span></div></body></html>
+>=20
+> Signed-off-by: Ma=C3=ADra Canal <mcanal@igalia.com>
+> ---
+> =C2=A0drivers/gpu/drm/scheduler/sched_main.c | 43
+> ++++++++++++++++++++++++++++++++--
+> =C2=A0include/drm/gpu_scheduler.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 3 +++
+> =C2=A02 files changed, 44 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/scheduler/sched_main.c
+> b/drivers/gpu/drm/scheduler/sched_main.c
+> index
+> 0f32e2cb43d6af294408968a970990f9f5c47bee..d3f48526883cc7ceea0cd1d0c62
+> fb119f7092704 100644
+> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> @@ -374,11 +374,16 @@ static void drm_sched_run_free_queue(struct
+> drm_gpu_scheduler *sched)
+> =C2=A0{
+> =C2=A0	struct drm_sched_job *job;
+> =C2=A0
+> -	spin_lock(&sched->job_list_lock);
+> =C2=A0	job =3D list_first_entry_or_null(&sched->pending_list,
+> =C2=A0				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct drm_sched_job, list=
+);
+> =C2=A0	if (job && dma_fence_is_signaled(&job->s_fence->finished))
+> =C2=A0		__drm_sched_run_free_queue(sched);
+> +}
+> +
+> +static void drm_sched_run_free_queue_unlocked(struct
+> drm_gpu_scheduler *sched)
+> +{
+> +	spin_lock(&sched->job_list_lock);
+> +	drm_sched_run_free_queue(sched);
+> =C2=A0	spin_unlock(&sched->job_list_lock);
+> =C2=A0}
+> =C2=A0
+> @@ -531,6 +536,31 @@ static void drm_sched_job_begin(struct
+> drm_sched_job *s_job)
+> =C2=A0	spin_unlock(&sched->job_list_lock);
+> =C2=A0}
+> =C2=A0
+> +/**
+> + * drm_sched_job_reinsert_on_false_timeout - reinsert the job on a
+> false timeout
+> + * @sched: scheduler instance
+> + * @job: job to be reinserted on the pending list
+> + *
+> + * In the case of a "false timeout" - when a timeout occurs but the
+> GPU isn't
+> + * hung and the job is making progress, the scheduler must reinsert
 
---=-KPNXPEiho/9TIdABChpW--
+nit:
+s/job/GPU
+
+> the job back
+> + * into the pending list. Otherwise, the job and its resources won't
+>=20
+> Dito
+>  be freed
+> + * through the &drm_sched_backend_ops.free_job callback.
+> + *
+> + * Note that after reinserting the job, the scheduler enqueues the
+> free-job
+> + * work again if ready. Otherwise, a signaled job could be added to
+> the pending
+> + * list, but never freed.
+> + *
+> + * This function must be used in "false timeout" cases only.
+
+I think the "Note" should be removed, because it reads as if the API
+user has to mind about that in any way.
+
+If you want to highlight that, maybe move it down in the function body
+as a code comment. I think it's good to know, but not relevant for the
+API user, or is it?
+
+> + */
+> +static void drm_sched_job_reinsert_on_false_timeout(struct
+> drm_gpu_scheduler *sched,
+> +						=C2=A0=C2=A0=C2=A0 struct
+> drm_sched_job *job)
+> +{
+> +	spin_lock(&sched->job_list_lock);
+> +	list_add(&job->list, &sched->pending_list);
+> +	drm_sched_run_free_queue(sched);
+> +	spin_unlock(&sched->job_list_lock);
+> +}
+> +
+> =C2=A0static void drm_sched_job_timedout(struct work_struct *work)
+> =C2=A0{
+> =C2=A0	struct drm_gpu_scheduler *sched;
+> @@ -564,6 +594,9 @@ static void drm_sched_job_timedout(struct
+> work_struct *work)
+> =C2=A0			job->sched->ops->free_job(job);
+> =C2=A0			sched->free_guilty =3D false;
+> =C2=A0		}
+> +
+> +		if (status =3D=3D DRM_GPU_SCHED_STAT_NO_HANG)
+> +			drm_sched_job_reinsert_on_false_timeout(sche
+> d, job);
+> =C2=A0	} else {
+> =C2=A0		spin_unlock(&sched->job_list_lock);
+> =C2=A0	}
+> @@ -586,6 +619,9 @@ static void drm_sched_job_timedout(struct
+> work_struct *work)
+> =C2=A0 * This function is typically used for reset recovery (see the docu
+> of
+> =C2=A0 * drm_sched_backend_ops.timedout_job() for details). Do not call i=
+t
+> for
+> =C2=A0 * scheduler teardown, i.e., before calling drm_sched_fini().
+> + *
+> + * As it's used for reset recovery, drm_sched_stop() shouldn't be
+> called
+> + * if the driver skipped the reset (DRM_GPU_SCHED_STAT_NO_HANG).
+
+I know I suggested these comments; but reading them again I think
+they're confusing.
+
+It reads as if drm_sched_stop() should not be called if the driver,
+sometime in the past, skipped a reset.
+
+It would be more waterproof like so:
+
+"As it is only used for reset recovery, drivers must not call this
+function in their &struct drm_sched_backend_ops.timedout_job callback
+if they are skipping the reset through status &enum
+drm_gpu_sched_stat.DRM_GPU_SCHED_STAT_NO_HANG."
+
+Note that we should also prohibit using the function with
+s/should/must not
+
+Better safe than sorry..
+
+> =C2=A0 */
+> =C2=A0void drm_sched_stop(struct drm_gpu_scheduler *sched, struct
+> drm_sched_job *bad)
+> =C2=A0{
+> @@ -671,6 +707,9 @@ EXPORT_SYMBOL(drm_sched_stop);
+> =C2=A0 * drm_sched_backend_ops.timedout_job() for details). Do not call i=
+t
+> for
+> =C2=A0 * scheduler startup. The scheduler itself is fully operational
+> after
+> =C2=A0 * drm_sched_init() succeeded.
+> + *
+> + * As it's used for reset recovery, drm_sched_start() shouldn't be
+> called
+> + * if the driver skipped the reset (DRM_GPU_SCHED_STAT_NO_HANG).
+
+Same.
+
+
+Otherwise, great series. Looking forward to having this merged.
+
+P.
+
+> =C2=A0 */
+> =C2=A0void drm_sched_start(struct drm_gpu_scheduler *sched, int errno)
+> =C2=A0{
+> @@ -1192,7 +1231,7 @@ static void drm_sched_free_job_work(struct
+> work_struct *w)
+> =C2=A0	if (job)
+> =C2=A0		sched->ops->free_job(job);
+> =C2=A0
+> -	drm_sched_run_free_queue(sched);
+> +	drm_sched_run_free_queue_unlocked(sched);
+> =C2=A0	drm_sched_run_job_queue(sched);
+> =C2=A0}
+> =C2=A0
+> diff --git a/include/drm/gpu_scheduler.h
+> b/include/drm/gpu_scheduler.h
+> index
+> 83e5c00d8dd9a83ab20547a93d6fc572de97616e..257d21d8d1d2c4f035d6d4882e1
+> 59de59b263c76 100644
+> --- a/include/drm/gpu_scheduler.h
+> +++ b/include/drm/gpu_scheduler.h
+> @@ -393,11 +393,14 @@ struct drm_sched_job {
+> =C2=A0 * @DRM_GPU_SCHED_STAT_NONE: Reserved. Do not use.
+> =C2=A0 * @DRM_GPU_SCHED_STAT_RESET: The GPU hung and successfully reset.
+> =C2=A0 * @DRM_GPU_SCHED_STAT_ENODEV: Error: Device is not available
+> anymore.
+> + * @DRM_GPU_SCHED_STAT_NO_HANG: Contrary to scheduler's assumption,
+> the GPU
+> + * did not hang and is still running.
+> =C2=A0 */
+> =C2=A0enum drm_gpu_sched_stat {
+> =C2=A0	DRM_GPU_SCHED_STAT_NONE,
+> =C2=A0	DRM_GPU_SCHED_STAT_RESET,
+> =C2=A0	DRM_GPU_SCHED_STAT_ENODEV,
+> +	DRM_GPU_SCHED_STAT_NO_HANG,
+> =C2=A0};
+> =C2=A0
+> =C2=A0/**
+>=20
+
