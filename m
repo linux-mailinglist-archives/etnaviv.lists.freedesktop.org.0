@@ -2,19 +2,19 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29363AFCA89
-	for <lists+etnaviv@lfdr.de>; Tue,  8 Jul 2025 14:38:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1DBAAFCB43
+	for <lists+etnaviv@lfdr.de>; Tue,  8 Jul 2025 15:03:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F284C10E627;
-	Tue,  8 Jul 2025 12:38:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE0FE10E63D;
+	Tue,  8 Jul 2025 13:03:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="DgJNQlW+";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="JdFEu7PE";
 	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 06F9810E623;
- Tue,  8 Jul 2025 12:38:50 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 843CD10E633;
+ Tue,  8 Jul 2025 13:03:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
@@ -22,44 +22,58 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
  Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=nz52Vhd7cY2RNkcVzOpq7hOZdNmmSQJYBRliIIMfQG8=; b=DgJNQlW+EGW2mmvL5q/wpgg1HQ
- DnhHooWTPyUIgKGp+iGSA3AKeCq1Tpc1nOF5KzsoAIN1R+i2zavZJXe9rNfCXY4Npd8YTKdFvKm7L
- seU+ltQ8WVaH1RCH8ioN4p2llFI5ndXFRyuSuIid/ArwTanLHMVY9MbgkVkMJ/skARLyH0hTKKXws
- SQaJsDtQFjt02ewp1j2g5UZ6YLrAUOUFc2Aww6O8wunD8sbEu+KX6GRACdlxRM14/xEaUH13ugWxA
- CPuAQvUZE3f+rhn8nV215busmJxCADITSx4pyVOYm+V96GgIlPdx0GniepNilFSCJud4ib273g9rv
- 7E7/IrNA==;
-Received: from [187.36.210.68] (helo=[192.168.1.103])
+ bh=CyMyoOzxPeWjgAxgKPF6kohtSbJRtTIW2hnbquSOXqk=; b=JdFEu7PEjSL5zluijTDqwm7bFA
+ KDlzpRB62hDf7FTri4sgFMFKZ9IAbPwIbYxurQtIBHxzwiWvg5jpYcdIw5ZV6JcMx18tCRGq54vWL
+ K8zJscgwk4rVzcCcRm85O7NyKIaWwzFgKqUUD09LpuHl8Kw5Vc2NFrjxyc4gUZnr8kkxmIhhJFAzi
+ WJdR3Rqn1sgRx4mr0s0c/UH5926jQuHMDLbdyLOnd/A/M7EZNEgwT9GQk9TkS5fSAvboLI2hv7Jv1
+ nNXvHxy60BlEKNAApOnC74HQN94woOay2aU4owCh1Ue/GWN7kAGbHNIRnUnwCZRuHk+y1l+jvswqS
+ DYPnZUTw==;
+Received: from [84.65.48.237] (helo=[192.168.0.101])
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1uZ7ak-00E0Tq-6n; Tue, 08 Jul 2025 14:38:34 +0200
-Message-ID: <525ee8f5-cf98-4a31-94e6-700fb2982ab3@igalia.com>
-Date: Tue, 8 Jul 2025 09:38:24 -0300
+ id 1uZ7xn-00E173-9x; Tue, 08 Jul 2025 15:02:23 +0200
+Message-ID: <b5d0921c-7cbf-4d55-aa47-c35cd7861c02@igalia.com>
+Date: Tue, 8 Jul 2025 14:02:20 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/8] drm/sched: Allow drivers to skip the reset and
- keep on running
-To: phasta@kernel.org, Matthew Brost <matthew.brost@intel.com>,
- Danilo Krummrich <dakr@kernel.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, Simona Vetter <simona@ffwll.ch>,
- David Airlie <airlied@gmail.com>, Melissa Wen <mwen@igalia.com>,
- Lucas Stach <l.stach@pengutronix.de>,
+Subject: Re: [PATCH v4] drm/sched: Use struct for drm_sched_init() params
+To: Philipp Stanner <phasta@kernel.org>, Min Ma <min.ma@amd.com>,
+ Lizhi Hou <lizhi.hou@amd.com>, Oded Gabbay <ogabbay@kernel.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Xinhui Pan <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Lucas Stach <l.stach@pengutronix.de>,
  Russell King <linux+etnaviv@armlinux.org.uk>,
  Christian Gmeiner <christian.gmeiner@gmail.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Qiang Yu <yuq825@gmail.com>, Rob Clark <robdclark@gmail.com>,
+ Sean Paul <sean@poorly.run>, Konrad Dybcio <konradybcio@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
+ Danilo Krummrich <dakr@redhat.com>,
  Boris Brezillon <boris.brezillon@collabora.com>,
  Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
- Liviu Dudau <liviu.dudau@arm.com>
-Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org,
- etnaviv@lists.freedesktop.org, intel-xe@lists.freedesktop.org
-References: <20250707-sched-skip-reset-v4-0-036c0f0f584f@igalia.com>
- <20250707-sched-skip-reset-v4-2-036c0f0f584f@igalia.com>
- <c5f4bb06f88338c03cc903a3ff5c58607625aade.camel@mailbox.org>
-Content-Language: en-US
-From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-In-Reply-To: <c5f4bb06f88338c03cc903a3ff5c58607625aade.camel@mailbox.org>
+ Liviu Dudau <liviu.dudau@arm.com>, Matthew Brost <matthew.brost@intel.com>,
+ Melissa Wen <mwen@igalia.com>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
+ <mcanal@igalia.com>, Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Sunil Khatri <sunil.khatri@amd.com>,
+ Lijo Lazar <lijo.lazar@amd.com>, Hawking Zhang <Hawking.Zhang@amd.com>,
+ Mario Limonciello <mario.limonciello@amd.com>, Ma Jun <Jun.Ma2@amd.com>,
+ Yunxiang Li <Yunxiang.Li@amd.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
+ lima@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, Christian Gmeiner <cgmeiner@igalia.com>
+References: <20250211111422.21235-2-phasta@kernel.org>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <20250211111422.21235-2-phasta@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: etnaviv@lists.freedesktop.org
@@ -76,62 +90,116 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Hi Philipp,
 
-On 08/07/25 04:02, Philipp Stanner wrote:
-> On Mon, 2025-07-07 at 11:46 -0300, Maíra Canal wrote:
->> When the DRM scheduler times out, it's possible that the GPU isn't
->> hung;
->> instead, a job may still be running, and there may be no valid reason
->> to
->> reset the hardware. This can occur in two situations:
->>
->>    1. The GPU exposes some mechanism that ensures the GPU is still
->> making
->>       progress. By checking this mechanism, the driver can safely skip
-> 
-> I think this should be rephrased, because it reads as if there is a
-> mechanism with which the GPU can be forced to still make progress even
-> with a while (1) job or something.
-> 
-> I think what we want probably is:
-> 
-> "When the DRM scheduler times out, it's possible that the GPU isn't
-> hung; instead, a job just took unusually long (longer than the timeout)
-> but is still running, and there is, thus, no reason to reset the
-> hardware. A false-positive timeout can occur in two scenarios:
-> 
-> 1. The job took too long, but the driver determined through a GPU-
-> specific mechanism that the hardware is still making progress. Hence,
-> the driver would like the scheduler to skip the timeout and treat the
-> job as still pending from then onward.
-> 
 
-Applied it locally.
-
->> the
->>       reset, re-arm the timeout, and allow the job to continue running
->> until
->>       completion. This is the case for v3d, Etnaviv, and Xe.
->>    2. Timeout has fired before the free-job worker. Consequently, the
->>       scheduler calls `sched->ops->timedout_job()` for a job that
->> isn't
->>       timed out.
+On 11/02/2025 11:14, Philipp Stanner wrote:
+> drm_sched_init() has a great many parameters and upcoming new
+> functionality for the scheduler might add even more. Generally, the
+> great number of parameters reduces readability and has already caused
+> one missnaming, addressed in:
 > 
+> commit 6f1cacf4eba7 ("drm/nouveau: Improve variable name in
+> nouveau_sched_init()").
 > 
-> "2. The job actually did complete from the driver's point of view, but
-> there was a race with the scheduler's timeout, which determined this
-> job timed out slightly before the free-job worker could remove it from
-> the pending_list."
+> Introduce a new struct for the scheduler init parameters and port all
+> users.
 > 
+> Signed-off-by: Philipp Stanner <phasta@kernel.org>
+> Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
+> Acked-by: Matthew Brost <matthew.brost@intel.com> # for Xe
+> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com> # for Panfrost and Panthor
+> Reviewed-by: Christian Gmeiner <cgmeiner@igalia.com> # for Etnaviv
+> Reviewed-by: Frank Binns <frank.binns@imgtec.com> # for Imagination
+> Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com> # for Sched
+> Reviewed-by: Maíra Canal <mcanal@igalia.com> # for v3d
+> ---
+> Changes in v4:
+>    - Add forgotten driver accel/amdxdna. (Me)
+>    - Rephrase the "init to NULL" comments. (Tvrtko)
+>    - Apply RBs by Tvrtko and Maira.
+>    - Terminate the last struct members with a comma, so that future
+>      fields can be added with a minimal patch diff. (Me)
+> 
+> Changes in v3:
+>    - Various formatting requirements.
+> 
+> Changes in v2:
+>    - Point out that the hang-limit is deprecated. (Christian)
+>    - Initialize the structs to 0 at declaration. (Planet Earth)
+>    - Don't set stuff explicitly to 0 / NULL. (Tvrtko)
+>    - Make the structs const where possible. (Boris)
+>    - v3d: Use just 1, universal, function for sched-init. (Maíra)
+> ---
 
-Actually, for this second point, I prefer my wording. It's more straight
-to the point and easier to understand when you read the code. I'd prefer
-to keep the second point as it is.
+8><
 
-All other comments have been applied. Thanks for your feedback!
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
+> index 9b8e82fb8bc4..5657106c2f7d 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+> @@ -836,8 +836,16 @@ static irqreturn_t panfrost_job_irq_handler(int irq, void *data)
+>   
+>   int panfrost_job_init(struct panfrost_device *pfdev)
+>   {
+> +	struct drm_sched_init_args args = {
+> +		.ops = &panfrost_sched_ops,
+> +		.num_rqs = DRM_SCHED_PRIORITY_COUNT,
+> +		.credit_limit = 2,
+> +		.timeout = msecs_to_jiffies(JOB_TIMEOUT_MS),
+> +		.timeout_wq = pfdev->reset.wq,
 
-Best Regards,
-- Maíra
+^^^
 
+> +		.name = "pan_js",
+> +		.dev = pfdev->dev,
+> +	};
+>   	struct panfrost_job_slot *js;
+> -	unsigned int nentries = 2;
+>   	int ret, j;
+>   
+>   	/* All GPUs have two entries per queue, but without jobchain
+> @@ -845,7 +853,7 @@ int panfrost_job_init(struct panfrost_device *pfdev)
+>   	 * so let's just advertise one entry in that case.
+>   	 */
+>   	if (!panfrost_has_hw_feature(pfdev, HW_FEATURE_JOBCHAIN_DISAMBIGUATION))
+> -		nentries = 1;
+> +		args.credit_limit = 1;
+>   
+>   	pfdev->js = js = devm_kzalloc(pfdev->dev, sizeof(*js), GFP_KERNEL);
+>   	if (!js)
+
+Stumbled on this while looking at drm_sched_init() workqueue usage.
+
+I think this patch might need a fixup. Because somewhere around here in 
+the code there is this:
+
+	pfdev->reset.wq = alloc_ordered_workqueue("panfrost-reset", 0);
+	if (!pfdev->reset.wq)
+		return -ENOMEM;
+
+Which means that after the patch panfrost is using system_wq for the 
+timeout handler instead the one it creates.
+
+> @@ -875,13 +883,7 @@ int panfrost_job_init(struct panfrost_device *pfdev)
+>   	for (j = 0; j < NUM_JOB_SLOTS; j++) {
+>   		js->queue[j].fence_context = dma_fence_context_alloc(1);
+>   
+> -		ret = drm_sched_init(&js->queue[j].sched,
+> -				     &panfrost_sched_ops, NULL,
+> -				     DRM_SCHED_PRIORITY_COUNT,
+> -				     nentries, 0,
+> -				     msecs_to_jiffies(JOB_TIMEOUT_MS),
+> -				     pfdev->reset.wq,
+> -				     NULL, "pan_js", pfdev->dev);
+> +		ret = drm_sched_init(&js->queue[j].sched, &args);
+
+^^^
+
+>   		if (ret) {
+>   			dev_err(pfdev->dev, "Failed to create scheduler: %d.", ret);
+>   			goto err_sched;
+
+Regards,
+
+Tvrtko
 
