@@ -2,68 +2,66 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3964DAFC754
-	for <lists+etnaviv@lfdr.de>; Tue,  8 Jul 2025 11:47:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29363AFCA89
+	for <lists+etnaviv@lfdr.de>; Tue,  8 Jul 2025 14:38:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1275010E1AA;
-	Tue,  8 Jul 2025 09:47:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F284C10E627;
+	Tue,  8 Jul 2025 12:38:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="mtZijEkb";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="DgJNQlW+";
 	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C4BAE10E178;
- Tue,  8 Jul 2025 09:47:13 +0000 (UTC)
-Received: from smtp102.mailbox.org (smtp102.mailbox.org
- [IPv6:2001:67c:2050:b231:465::102])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4bbx8t4Kc2z9sJ3;
- Tue,  8 Jul 2025 11:47:10 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; 
- t=1751968030; h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=vaJ6RtbBBb0eQbhnTlVKDQKFU0i19YTXBJGSLvTE4qc=;
- b=mtZijEkbcKgMjYLu1Fl/CHYnpPPoCbsHQ/cM3PHgceYTzxqBYPoX6ugk1mZN4O/M+eH+D/
- 2xLaqpdtXYVhmLQiRaet9APmwKsf1U0j1SobXibg2y4uSYMKiX46+ItLOJkjJCGRfy1JSR
- smQsNcIzAXlZx87ebJKneZJMO/V++DVPliKyLVywuqSSLhl/9QSQK/T27nbgVwtmmAyVKb
- jZE+jlgbP5PpMPF6Gn193E3Ec4F6C0AAJiMkNYIZ9skLRxAvmPAwp51yZ3sthMFzNubDln
- rAcKELNWmoYmzJDR+ib6dA0NzeyLgN+HHYGFSSmRiZosrEnHZXjTS7BUktxGnw==
-Message-ID: <ab41ef32bd39bd623ea1e4ab48a847898718d499.camel@mailbox.org>
-Subject: Re: [PATCH v4 7/8] drm/xe: Use DRM_GPU_SCHED_STAT_NO_HANG to skip
- the reset
-From: Philipp Stanner <phasta@mailbox.org>
-To: Matthew Brost <matthew.brost@intel.com>, =?ISO-8859-1?Q?Ma=EDra?= Canal
- <mcanal@igalia.com>
-Cc: Danilo Krummrich <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>,
- Christian =?ISO-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,  Simona Vetter
- <simona@ffwll.ch>, David Airlie <airlied@gmail.com>, Melissa Wen
- <mwen@igalia.com>, Lucas Stach <l.stach@pengutronix.de>, Russell King
- <linux+etnaviv@armlinux.org.uk>,  Christian Gmeiner
- <christian.gmeiner@gmail.com>, Lucas De Marchi <lucas.demarchi@intel.com>,
- Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Boris Brezillon
- <boris.brezillon@collabora.com>, Rob Herring <robh@kernel.org>, Steven
- Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, 
- kernel-dev@igalia.com, dri-devel@lists.freedesktop.org, 
- etnaviv@lists.freedesktop.org, intel-xe@lists.freedesktop.org
-Date: Tue, 08 Jul 2025 11:47:02 +0200
-In-Reply-To: <aGzHMu//q1uCfNDu@lstrano-desk.jf.intel.com>
-References: <20250707-sched-skip-reset-v4-0-036c0f0f584f@igalia.com>
- <20250707-sched-skip-reset-v4-7-036c0f0f584f@igalia.com>
- <aGzHMu//q1uCfNDu@lstrano-desk.jf.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 06F9810E623;
+ Tue,  8 Jul 2025 12:38:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=nz52Vhd7cY2RNkcVzOpq7hOZdNmmSQJYBRliIIMfQG8=; b=DgJNQlW+EGW2mmvL5q/wpgg1HQ
+ DnhHooWTPyUIgKGp+iGSA3AKeCq1Tpc1nOF5KzsoAIN1R+i2zavZJXe9rNfCXY4Npd8YTKdFvKm7L
+ seU+ltQ8WVaH1RCH8ioN4p2llFI5ndXFRyuSuIid/ArwTanLHMVY9MbgkVkMJ/skARLyH0hTKKXws
+ SQaJsDtQFjt02ewp1j2g5UZ6YLrAUOUFc2Aww6O8wunD8sbEu+KX6GRACdlxRM14/xEaUH13ugWxA
+ CPuAQvUZE3f+rhn8nV215busmJxCADITSx4pyVOYm+V96GgIlPdx0GniepNilFSCJud4ib273g9rv
+ 7E7/IrNA==;
+Received: from [187.36.210.68] (helo=[192.168.1.103])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1uZ7ak-00E0Tq-6n; Tue, 08 Jul 2025 14:38:34 +0200
+Message-ID: <525ee8f5-cf98-4a31-94e6-700fb2982ab3@igalia.com>
+Date: Tue, 8 Jul 2025 09:38:24 -0300
 MIME-Version: 1.0
-X-MBO-RS-ID: cef63236238073c2cab
-X-MBO-RS-META: yqwke6o95a8n4a1je8nxfztqyfp4j8po
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 2/8] drm/sched: Allow drivers to skip the reset and
+ keep on running
+To: phasta@kernel.org, Matthew Brost <matthew.brost@intel.com>,
+ Danilo Krummrich <dakr@kernel.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, Simona Vetter <simona@ffwll.ch>,
+ David Airlie <airlied@gmail.com>, Melissa Wen <mwen@igalia.com>,
+ Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
+ Liviu Dudau <liviu.dudau@arm.com>
+Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org,
+ etnaviv@lists.freedesktop.org, intel-xe@lists.freedesktop.org
+References: <20250707-sched-skip-reset-v4-0-036c0f0f584f@igalia.com>
+ <20250707-sched-skip-reset-v4-2-036c0f0f584f@igalia.com>
+ <c5f4bb06f88338c03cc903a3ff5c58607625aade.camel@mailbox.org>
+Content-Language: en-US
+From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+In-Reply-To: <c5f4bb06f88338c03cc903a3ff5c58607625aade.camel@mailbox.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,88 +73,65 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: phasta@kernel.org
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-On Tue, 2025-07-08 at 00:22 -0700, Matthew Brost wrote:
-> On Mon, Jul 07, 2025 at 11:46:36AM -0300, Ma=C3=ADra Canal wrote:
-> > Xe can skip the reset if TDR has fired before the free job worker
-> > and can
-> > also re-arm the timeout timer in some scenarios. Instead of
-> > manipulating
-> > scheduler's internals, inform the scheduler that the job did not
-> > actually
-> > timeout and no reset was performed through the new status code
-> > DRM_GPU_SCHED_STAT_NO_HANG.
-> >=20
-> > Note that, in the first case, there is no need to restart
-> > submission if it
-> > hasn't been stopped.
-> >=20
-> > Signed-off-by: Ma=C3=ADra Canal <mcanal@igalia.com>
->=20
-> I'm fairly certain this is correct. However, Intel's CI didn't run
-> with
-> your latest series. Can you resubmit and ensure a clean CI run before
-> merging?
+Hi Philipp,
 
-How can someone who's not at Intel ensure that?
+On 08/07/25 04:02, Philipp Stanner wrote:
+> On Mon, 2025-07-07 at 11:46 -0300, Maíra Canal wrote:
+>> When the DRM scheduler times out, it's possible that the GPU isn't
+>> hung;
+>> instead, a job may still be running, and there may be no valid reason
+>> to
+>> reset the hardware. This can occur in two situations:
+>>
+>>    1. The GPU exposes some mechanism that ensures the GPU is still
+>> making
+>>       progress. By checking this mechanism, the driver can safely skip
+> 
+> I think this should be rephrased, because it reads as if there is a
+> mechanism with which the GPU can be forced to still make progress even
+> with a while (1) job or something.
+> 
+> I think what we want probably is:
+> 
+> "When the DRM scheduler times out, it's possible that the GPU isn't
+> hung; instead, a job just took unusually long (longer than the timeout)
+> but is still running, and there is, thus, no reason to reset the
+> hardware. A false-positive timeout can occur in two scenarios:
+> 
+> 1. The job took too long, but the driver determined through a GPU-
+> specific mechanism that the hardware is still making progress. Hence,
+> the driver would like the scheduler to skip the timeout and treat the
+> job as still pending from then onward.
+> 
 
-P.
+Applied it locally.
 
->  CI can be a bit flaky=E2=80=94if you get some failures, ping me and
-> I=E2=80=99ll let you know if they're related to this patch.
->=20
-> With clean CI:
-> Reviewed-by: Matthew Brost matthew.brost@intel.com
->=20
-> > ---
-> > =C2=A0drivers/gpu/drm/xe/xe_guc_submit.c | 12 +++---------
-> > =C2=A01 file changed, 3 insertions(+), 9 deletions(-)
-> >=20
-> > diff --git a/drivers/gpu/drm/xe/xe_guc_submit.c
-> > b/drivers/gpu/drm/xe/xe_guc_submit.c
-> > index
-> > 9c7e445b9ea7ce7e3610eadca023e6d810e683e9..f6289eeffd852e40b33d0e455
-> > d9bcc21a4fb1467 100644
-> > --- a/drivers/gpu/drm/xe/xe_guc_submit.c
-> > +++ b/drivers/gpu/drm/xe/xe_guc_submit.c
-> > @@ -1078,12 +1078,8 @@ guc_exec_queue_timedout_job(struct
-> > drm_sched_job *drm_job)
-> > =C2=A0	 * list so job can be freed and kick scheduler ensuring
-> > free job is not
-> > =C2=A0	 * lost.
-> > =C2=A0	 */
-> > -	if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &job->fence-
-> > >flags)) {
-> > -		xe_sched_add_pending_job(sched, job);
-> > -		xe_sched_submission_start(sched);
-> > -
-> > -		return DRM_GPU_SCHED_STAT_RESET;
-> > -	}
-> > +	if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &job->fence-
-> > >flags))
-> > +		return DRM_GPU_SCHED_STAT_NO_HANG;
-> > =C2=A0
-> > =C2=A0	/* Kill the run_job entry point */
-> > =C2=A0	xe_sched_submission_stop(sched);
-> > @@ -1261,10 +1257,8 @@ guc_exec_queue_timedout_job(struct
-> > drm_sched_job *drm_job)
-> > =C2=A0	 * but there is not currently an easy way to do in DRM
-> > scheduler. With
-> > =C2=A0	 * some thought, do this in a follow up.
-> > =C2=A0	 */
-> > -	xe_sched_add_pending_job(sched, job);
-> > =C2=A0	xe_sched_submission_start(sched);
-> > -
-> > -	return DRM_GPU_SCHED_STAT_RESET;
-> > +	return DRM_GPU_SCHED_STAT_NO_HANG;
-> > =C2=A0}
-> > =C2=A0
-> > =C2=A0static void __guc_exec_queue_fini_async(struct work_struct *w)
-> >=20
-> > --=20
-> > 2.50.0
-> >=20
+>> the
+>>       reset, re-arm the timeout, and allow the job to continue running
+>> until
+>>       completion. This is the case for v3d, Etnaviv, and Xe.
+>>    2. Timeout has fired before the free-job worker. Consequently, the
+>>       scheduler calls `sched->ops->timedout_job()` for a job that
+>> isn't
+>>       timed out.
+> 
+> 
+> "2. The job actually did complete from the driver's point of view, but
+> there was a race with the scheduler's timeout, which determined this
+> job timed out slightly before the free-job worker could remove it from
+> the pending_list."
+> 
+
+Actually, for this second point, I prefer my wording. It's more straight
+to the point and easier to understand when you read the code. I'd prefer
+to keep the second point as it is.
+
+All other comments have been applied. Thanks for your feedback!
+
+Best Regards,
+- Maíra
+
 
