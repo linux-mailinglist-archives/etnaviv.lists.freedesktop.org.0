@@ -2,92 +2,83 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAFEDAFE3DA
-	for <lists+etnaviv@lfdr.de>; Wed,  9 Jul 2025 11:17:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABEAEAFE566
+	for <lists+etnaviv@lfdr.de>; Wed,  9 Jul 2025 12:15:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B940710E76E;
-	Wed,  9 Jul 2025 09:17:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E8B0310E78C;
+	Wed,  9 Jul 2025 10:15:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="Lgo3sV9+";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="WDgn0IoC";
 	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mslow3.mail.gandi.net (mslow3.mail.gandi.net [217.70.178.249])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BAE5510E659;
- Tue,  8 Jul 2025 14:24:22 +0000 (UTC)
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net
- [IPv6:2001:4b98:dc4:8::229])
- by mslow3.mail.gandi.net (Postfix) with ESMTP id 5B1E7581B9C;
- Tue,  8 Jul 2025 14:01:44 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 474CE431F1;
- Tue,  8 Jul 2025 14:01:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1751983301;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E530010E789;
+ Wed,  9 Jul 2025 10:15:13 +0000 (UTC)
+Received: from smtp2.mailbox.org (smtp2.mailbox.org
+ [IPv6:2001:67c:2050:b231:465::2])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4bcYkk5Z6Tz9v0W;
+ Wed,  9 Jul 2025 12:15:10 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; 
+ t=1752056110; h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mKpow068b4y6O1gxSiix706lmsCcguNU+95VkipNyxc=;
- b=Lgo3sV9+gKq1MzSb3ze4M4OEbuhr7FakwYPT9tazV9qSlmudZFOkdpZL8GO9QMEqZ42kj/
- TZK8iAyz+zdfEKAnswjR/DFDa+8UttlvUSpLXuLMo28qib/q8BHdgHWoSR5lncXXryezzZ
- LfnN+w7w7M2RrYSuVdZ9mCQA0CZvSthCoMrWtHddMHMabJsD7Pc1Q5M6BKscmIhMkRszqa
- dLsqM27GXSASr7zHaVHqculMu1nSRGWIaWPhVHaeEjE8HlnzKmebCrSn0EB88zyoSK2Xqz
- cytfNarTG/DIfgCIPHsawnykOc8QT1UWUKLDp+f4SMAGN64QSJs+ZqyRl+gA/A==
-Date: Tue, 8 Jul 2025 16:01:09 +0200
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
- <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Laurent
- Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
- <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Douglas Anderson
- <dianders@chromium.org>, Lucas Stach <l.stach@pengutronix.de>, Russell King
- <linux+etnaviv@armlinux.org.uk>, Christian Gmeiner
- <christian.gmeiner@gmail.com>, Inki Dae <inki.dae@samsung.com>, Seung-Woo
- Kim <sw0312.kim@samsung.com>, Kyungmin Park <kyungmin.park@samsung.com>,
- Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar
- <alim.akhtar@samsung.com>, Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi
- <rodrigo.vivi@intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>, Laurentiu
- Palcu <laurentiu.palcu@oss.nxp.com>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team
- <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, Qiang Yu
- <yuq825@gmail.com>, Jessica Zhang <jessica.zhang@oss.qualcomm.com>, Boris
- Brezillon <boris.brezillon@collabora.com>, Steven Price
- <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, Thierry Reding
- <thierry.reding@gmail.com>, Mikko Perttunen <mperttunen@nvidia.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Jyri Sarha <jyri.sarha@iki.fi>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Dave Stevenson
- <dave.stevenson@raspberrypi.com>, =?UTF-8?B?TWHDrXJh?= Canal
- <mcanal@igalia.com>, Raspberry Pi Kernel Maintenance
- <kernel-list@raspberrypi.com>, Dmitry Baryshkov
- <dmitry.baryshkov@oss.qualcomm.com>, Damon Ding
- <damon.ding@rock-chips.com>, Ayushi Makhija <quic_amakhija@quicinc.com>,
- Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <u.kleine-koenig@baylibre.com>,
- Chen-Yu Tsai <wenst@chromium.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, etnaviv@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, imx@lists.linux.dev,
- lima@lists.freedesktop.org, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH 20/80] drivers: drm: Remove redundant
- pm_runtime_mark_last_busy() calls
-Message-ID: <20250708160109.08055641@booty>
-In-Reply-To: <20250704075413.3218307-1-sakari.ailus@linux.intel.com>
-References: <20250704075225.3212486-1-sakari.ailus@linux.intel.com>
- <20250704075413.3218307-1-sakari.ailus@linux.intel.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+ bh=mFira+KRxdt8d2FwCbb09WeKAggOn2O87AQVoaADDDg=;
+ b=WDgn0IoCwgiKpF286Do31Pin7PJ2guwZj4o9mUTgcnO0KxKRTMpqV1aW5zxiX3N5htkerQ
+ kLhuJfncnmUQFLRQycp7T3gADDfsZpqselBwPENiHlokvruIwHszV22QpuL2+jmHRmt6SC
+ 2yWvgFkRY9erkLCMUhDcYQiYSuAD9QcIo7iKFxOvDGh2JLrZV6jU9u+yBUUarJcP9qa938
+ xzxeTJYjxtsL2NhiXfY1Iu86YK4LH1w0II4PxVwZh64bszBzCJlB/lXJnIgWpIqwwXfUWN
+ OnrrZ4LsSmNbTztfn1SQlVuOOhFrIzV65WwXMXNPPStL+o/Z9X9QGj9JNOiJlQ==
+Message-ID: <acb81a4e86f4f683c4f83509afdc5f24ea01e64d.camel@mailbox.org>
+Subject: Re: [PATCH v4] drm/sched: Use struct for drm_sched_init() params
+From: Philipp Stanner <phasta@mailbox.org>
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, Philipp Stanner
+ <phasta@kernel.org>, Min Ma <min.ma@amd.com>, Lizhi Hou
+ <lizhi.hou@amd.com>,  Oded Gabbay <ogabbay@kernel.org>, Alex Deucher
+ <alexander.deucher@amd.com>, Christian =?ISO-8859-1?Q?K=F6nig?=
+ <christian.koenig@amd.com>, Xinhui Pan <Xinhui.Pan@amd.com>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Lucas Stach
+ <l.stach@pengutronix.de>, Russell King <linux+etnaviv@armlinux.org.uk>, 
+ Christian Gmeiner <christian.gmeiner@gmail.com>, Frank Binns
+ <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>,  Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Qiang Yu
+ <yuq825@gmail.com>,  Rob Clark <robdclark@gmail.com>, Sean Paul
+ <sean@poorly.run>, Konrad Dybcio <konradybcio@kernel.org>,  Abhinav Kumar
+ <quic_abhinavk@quicinc.com>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>, Marijn Suijten
+ <marijn.suijten@somainline.org>, Karol Herbst <kherbst@redhat.com>, Lyude
+ Paul <lyude@redhat.com>, Danilo Krummrich <dakr@redhat.com>, Boris
+ Brezillon <boris.brezillon@collabora.com>, Rob Herring <robh@kernel.org>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Matthew Brost <matthew.brost@intel.com>, Melissa Wen <mwen@igalia.com>, 
+ =?ISO-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>, Lucas De Marchi
+ <lucas.demarchi@intel.com>, Thomas =?ISO-8859-1?Q?Hellstr=F6m?=
+ <thomas.hellstrom@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Sunil Khatri <sunil.khatri@amd.com>,  Lijo Lazar <lijo.lazar@amd.com>,
+ Hawking Zhang <Hawking.Zhang@amd.com>, Mario Limonciello
+ <mario.limonciello@amd.com>, Ma Jun <Jun.Ma2@amd.com>, Yunxiang Li
+ <Yunxiang.Li@amd.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ amd-gfx@lists.freedesktop.org, etnaviv@lists.freedesktop.org, 
+ lima@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, 
+ freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
+ intel-xe@lists.freedesktop.org, Christian Gmeiner <cgmeiner@igalia.com>
+Date: Wed, 09 Jul 2025 12:14:54 +0200
+In-Reply-To: <b5d0921c-7cbf-4d55-aa47-c35cd7861c02@igalia.com>
+References: <20250211111422.21235-2-phasta@kernel.org>
+ <b5d0921c-7cbf-4d55-aa47-c35cd7861c02@igalia.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdefgeekiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfohfogggtgfesthhqfedtredtjeenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeelheeufeetjeeigeeutdeiueelgeetkeeffeetgeeivdelleejhffhgefgjeelkeenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepkeejrdduvddtrddvudekrddvtdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepkeejrdduvddtrddvudekrddvtdejpdhhvghlohepsghoohhthidpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeehjedprhgtphhtthhopehsrghkrghrihdrrghilhhusheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopegrnhgurhiivghjrdhhrghjuggrsehinhhtvghlrdgtohhmpdhrtghpthhtohepnhgvihhlrdgrrhhmshhtrhhonhhgsehlihhnrghrohdrohhrghdprhgtphhtthhopehrfhhoshhssehkvghrnhgvlhdrohhrghdprhgtphhtthhop
- efnrghurhgvnhhtrdhpihhntghhrghrthesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtohepjhhonhgrsheskhifihgsohhordhsvgdprhgtphhtthhopehjvghrnhgvjhdrshhkrhgrsggvtgesghhmrghilhdrtghomhdprhgtphhtthhopehmrggrrhhtvghnrdhlrghnkhhhohhrshhtsehlihhnuhigrdhinhhtvghlrdgtohhm
-X-GND-Sasl: luca.ceresoli@bootlin.com
-X-Mailman-Approved-At: Wed, 09 Jul 2025 09:17:26 +0000
+MIME-Version: 1.0
+X-MBO-RS-ID: 2cfb6c6c64b390fa220
+X-MBO-RS-META: ay4k4wqr33dnoj1dmtnedfghmj9cfjnj
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,24 +90,149 @@ List-Post: <mailto:etnaviv@lists.freedesktop.org>
 List-Help: <mailto:etnaviv-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: phasta@kernel.org
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-On Fri,  4 Jul 2025 10:54:13 +0300
-Sakari Ailus <sakari.ailus@linux.intel.com> wrote:
-
-> pm_runtime_put_autosuspend(), pm_runtime_put_sync_autosuspend(),
-> pm_runtime_autosuspend() and pm_request_autosuspend() now include a call
-> to pm_runtime_mark_last_busy(). Remove the now-reduntant explicit call to
-> pm_runtime_mark_last_busy().
+On Tue, 2025-07-08 at 14:02 +0100, Tvrtko Ursulin wrote:
 >=20
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+>=20
+> On 11/02/2025 11:14, Philipp Stanner wrote:
+> > drm_sched_init() has a great many parameters and upcoming new
+> > functionality for the scheduler might add even more. Generally, the
+> > great number of parameters reduces readability and has already
+> > caused
+> > one missnaming, addressed in:
+> >=20
+> > commit 6f1cacf4eba7 ("drm/nouveau: Improve variable name in
+> > nouveau_sched_init()").
+> >=20
+> > Introduce a new struct for the scheduler init parameters and port
+> > all
+> > users.
+> >=20
+> > Signed-off-by: Philipp Stanner <phasta@kernel.org>
+> > Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
+> > Acked-by: Matthew Brost <matthew.brost@intel.com> # for Xe
+> > Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com> # for
+> > Panfrost and Panthor
+> > Reviewed-by: Christian Gmeiner <cgmeiner@igalia.com> # for Etnaviv
+> > Reviewed-by: Frank Binns <frank.binns@imgtec.com> # for Imagination
+> > Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com> # for Sched
+> > Reviewed-by: Ma=C3=ADra Canal <mcanal@igalia.com> # for v3d
+> > ---
+> > Changes in v4:
+> > =C2=A0=C2=A0 - Add forgotten driver accel/amdxdna. (Me)
+> > =C2=A0=C2=A0 - Rephrase the "init to NULL" comments. (Tvrtko)
+> > =C2=A0=C2=A0 - Apply RBs by Tvrtko and Maira.
+> > =C2=A0=C2=A0 - Terminate the last struct members with a comma, so that =
+future
+> > =C2=A0=C2=A0=C2=A0=C2=A0 fields can be added with a minimal patch diff.=
+ (Me)
+> >=20
+> > Changes in v3:
+> > =C2=A0=C2=A0 - Various formatting requirements.
+> >=20
+> > Changes in v2:
+> > =C2=A0=C2=A0 - Point out that the hang-limit is deprecated. (Christian)
+> > =C2=A0=C2=A0 - Initialize the structs to 0 at declaration. (Planet Eart=
+h)
+> > =C2=A0=C2=A0 - Don't set stuff explicitly to 0 / NULL. (Tvrtko)
+> > =C2=A0=C2=A0 - Make the structs const where possible. (Boris)
+> > =C2=A0=C2=A0 - v3d: Use just 1, universal, function for sched-init. (Ma=
+=C3=ADra)
+> > ---
+>=20
+> 8><
+>=20
+> > diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c
+> > b/drivers/gpu/drm/panfrost/panfrost_job.c
+> > index 9b8e82fb8bc4..5657106c2f7d 100644
+> > --- a/drivers/gpu/drm/panfrost/panfrost_job.c
+> > +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+> > @@ -836,8 +836,16 @@ static irqreturn_t
+> > panfrost_job_irq_handler(int irq, void *data)
+> > =C2=A0=20
+> > =C2=A0 int panfrost_job_init(struct panfrost_device *pfdev)
+> > =C2=A0 {
+> > +	struct drm_sched_init_args args =3D {
+> > +		.ops =3D &panfrost_sched_ops,
+> > +		.num_rqs =3D DRM_SCHED_PRIORITY_COUNT,
+> > +		.credit_limit =3D 2,
+> > +		.timeout =3D msecs_to_jiffies(JOB_TIMEOUT_MS),
+> > +		.timeout_wq =3D pfdev->reset.wq,
+>=20
+> ^^^
+>=20
+> > +		.name =3D "pan_js",
+> > +		.dev =3D pfdev->dev,
+> > +	};
+> > =C2=A0=C2=A0	struct panfrost_job_slot *js;
+> > -	unsigned int nentries =3D 2;
+> > =C2=A0=C2=A0	int ret, j;
+> > =C2=A0=20
+> > =C2=A0=C2=A0	/* All GPUs have two entries per queue, but without
+> > jobchain
+> > @@ -845,7 +853,7 @@ int panfrost_job_init(struct panfrost_device
+> > *pfdev)
+> > =C2=A0=C2=A0	 * so let's just advertise one entry in that case.
+> > =C2=A0=C2=A0	 */
+> > =C2=A0=C2=A0	if (!panfrost_has_hw_feature(pfdev,
+> > HW_FEATURE_JOBCHAIN_DISAMBIGUATION))
+> > -		nentries =3D 1;
+> > +		args.credit_limit =3D 1;
+> > =C2=A0=20
+> > =C2=A0=C2=A0	pfdev->js =3D js =3D devm_kzalloc(pfdev->dev, sizeof(*js),
+> > GFP_KERNEL);
+> > =C2=A0=C2=A0	if (!js)
+>=20
+> Stumbled on this while looking at drm_sched_init() workqueue usage.
+>=20
+> I think this patch might need a fixup. Because somewhere around here
+> in=20
+> the code there is this:
+>=20
+> 	pfdev->reset.wq =3D alloc_ordered_workqueue("panfrost-reset",
+> 0);
+> 	if (!pfdev->reset.wq)
+> 		return -ENOMEM;
+>=20
+> Which means that after the patch panfrost is using system_wq for the=20
+> timeout handler instead the one it creates.
 
-With the cleanups required by Laurent and Ma=C3=ADra:
+Ouch yes, that's definitely a very subtle bug. AFAICS it comes to be by
+pfdev being initialized to 0.
 
-Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Let me provide a fix..
 
---=20
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+P.
+
+>=20
+> > @@ -875,13 +883,7 @@ int panfrost_job_init(struct panfrost_device
+> > *pfdev)
+> > =C2=A0=C2=A0	for (j =3D 0; j < NUM_JOB_SLOTS; j++) {
+> > =C2=A0=C2=A0		js->queue[j].fence_context =3D
+> > dma_fence_context_alloc(1);
+> > =C2=A0=20
+> > -		ret =3D drm_sched_init(&js->queue[j].sched,
+> > -				=C2=A0=C2=A0=C2=A0=C2=A0 &panfrost_sched_ops, NULL,
+> > -				=C2=A0=C2=A0=C2=A0=C2=A0 DRM_SCHED_PRIORITY_COUNT,
+> > -				=C2=A0=C2=A0=C2=A0=C2=A0 nentries, 0,
+> > -				=C2=A0=C2=A0=C2=A0=C2=A0
+> > msecs_to_jiffies(JOB_TIMEOUT_MS),
+> > -				=C2=A0=C2=A0=C2=A0=C2=A0 pfdev->reset.wq,
+> > -				=C2=A0=C2=A0=C2=A0=C2=A0 NULL, "pan_js", pfdev->dev);
+> > +		ret =3D drm_sched_init(&js->queue[j].sched, &args);
+>=20
+> ^^^
+>=20
+> > =C2=A0=C2=A0		if (ret) {
+> > =C2=A0=C2=A0			dev_err(pfdev->dev, "Failed to create
+> > scheduler: %d.", ret);
+> > =C2=A0=C2=A0			goto err_sched;
+>=20
+> Regards,
+>=20
+> Tvrtko
+>=20
+
