@@ -2,95 +2,101 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA9A4B015D4
-	for <lists+etnaviv@lfdr.de>; Fri, 11 Jul 2025 10:24:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BB3DB01843
+	for <lists+etnaviv@lfdr.de>; Fri, 11 Jul 2025 11:40:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E0F710E9CD;
-	Fri, 11 Jul 2025 08:24:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4635C10EA03;
+	Fri, 11 Jul 2025 09:40:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="xX41uABp";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="ZE6jb4va";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="axuzd4QO";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ZE6jb4va";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="axuzd4QO";
 	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-qt1-f193.google.com (mail-qt1-f193.google.com
- [209.85.160.193])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B7DDA10E91C
- for <etnaviv@lists.freedesktop.org>; Thu, 10 Jul 2025 16:01:12 +0000 (UTC)
-Received: by mail-qt1-f193.google.com with SMTP id
- d75a77b69052e-4a585dc5f4aso14033291cf.2
- for <etnaviv@lists.freedesktop.org>; Thu, 10 Jul 2025 09:01:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1752163272; x=1752768072;
- darn=lists.freedesktop.org; 
- h=mime-version:user-agent:autocrypt:references:in-reply-to:date:to
- :from:subject:message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=h2JvzJqEFY8FcNSNGs4AC4X799LbBQx2h7PFI9T2cfQ=;
- b=xX41uABpz5C6Agw/IjNAZ4yubxuufgiUFu2ZdJJbSmVcOhRS2Yo8BXY3AT3Sw/7nxJ
- 9HfDrzq9dlfR/+Ge3t8LPOY5/po+HIEve9enHSPRp0QqVQZroUjiSY3bPArTr23/IUx3
- XQBT4uF5ZFPe9fuH6T7kdp0UglWdClKh7EAfHombxj+WmqGMkt6nxis2pQdrUgpLFm30
- 03qByckU0Qfxz61sk06nwhnS1Va3s/XKuISWwBqjBwI30Xg+7r12x18GZVtZSwRfteUb
- AKJX12tNdK2BzgSl1d/L4COR4RxrLSJP+Nk/+B44okDFpLVHiKe4Zg9DRKkipxq71jXS
- ZSJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752163272; x=1752768072;
- h=mime-version:user-agent:autocrypt:references:in-reply-to:date:to
- :from:subject:message-id:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=h2JvzJqEFY8FcNSNGs4AC4X799LbBQx2h7PFI9T2cfQ=;
- b=I7RqXX/bDeB19r9mKAjvJBLJ8U7nF9/KdjA0F/vH0PxiAovA80bkGM7Fdtb/yEZ8ue
- qOrc7U88gwZI4fe/NNenwPVPdUW3bLRGuBTyWEw25vMwDagc7MaY+v4jKWEzWBjwV0xj
- naW5j4436+wzUps4znpTCPefHy4eWxp5C1ciARMBNoGGyjjPcl9k+7yQ//xAwHW4M8ZN
- LZFfE8qYmn1FnJaKqUQeSHidhIv2aS/b0VeQatRQBPinOoXjQA+jf/mjp+Oc6hCBLv41
- Id97aljMx7683AgyideMPF4kTD4PItCy1Ov4q9NPblmjgcTV1u2L73LbAbgW04c30enZ
- ANIQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXHgk49r3rEwxzrrCMyCq65785vBQmxyq4hjG+fpw1cVBG9LKuUAswZWAnU3k2GgY2OmtcVbTnJ@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywf8HKdRSVpxMrPakXO1eyzfXOogr07jon41lr90twviOsLgTX6
- MPvOXP3ULpUq6jabwgD1qwKPi/AecUg5PiS6OB28vFsOwERuIIr6ZRcItozabYDencI=
-X-Gm-Gg: ASbGncvRQoZb7hWGXc6TaRugD6i4VzK3q5cI2XRqgjS01drSZ5CAABh2IqgLT3eU1W5
- c/p8xKTaH24I6AN0rk5Qe/XMSxQPQWteEBRMynS6xDiKmrXfm9gl3wv/iEtKaL3PxzfZHoLz8+u
- c5ZnVWBr9YGoaKToXitVUCZ+9v6vicWwfYm0J5uxyhc2cvNzxabWS3X22T4pYAtu/uyIG1XZeV6
- Sd92pdyzNlp+cvwyT8XtkrK/Ay9CPu5iu/PSq4k19hMMSuAeVci/W4nyiumxc6g5/8AIGiFdMe4
- WWWbvJTpm7w/SyE4RUsD9oSuPy6xMSm5ty73OYZBfmcg8Rbe5VrBH7Equ4NvoEFm3nk=
-X-Google-Smtp-Source: AGHT+IFbQFapyLU2kvG8JwQQkxoFge/HX+KIphHVjcEQzpniLu173HdtuK79yftQGxLEwpJMC++ZBw==
-X-Received: by 2002:a05:622a:8cc:b0:4a4:30a0:39c0 with SMTP id
- d75a77b69052e-4a9f80b0c22mr23008391cf.28.1752163271437; 
- Thu, 10 Jul 2025 09:01:11 -0700 (PDT)
-Received: from ?IPv6:2606:6d00:17:b699::5ac? ([2606:6d00:17:b699::5ac])
- by smtp.gmail.com with ESMTPSA id
- d75a77b69052e-4a9edefb55asm10028431cf.77.2025.07.10.09.01.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Jul 2025 09:01:09 -0700 (PDT)
-Message-ID: <775b0f527f365fa4217a5d9acfbb80e4f87078ef.camel@ndufresne.ca>
-Subject: Re: DMA-BUFs always uncached on arm64, causing poor camera
- performance on Librem 5
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Pavel Machek <pavel@ucw.cz>, kraxel@redhat.com,
- vivek.kasireddy@intel.com, 	dri-devel@lists.freedesktop.org,
- sumit.semwal@linaro.org, 	benjamin.gaignard@collabora.com,
- Brian.Starkey@arm.com, jstultz@google.com, 	tjmercier@google.com,
- linux-media@vger.kernel.org, 	linaro-mm-sig@lists.linaro.org, kernel list
- <linux-kernel@vger.kernel.org>, 	laurent.pinchart@ideasonboard.com,
- l.stach@pengutronix.de, 	linux+etnaviv@armlinux.org.uk,
- christian.gmeiner@gmail.com, 	etnaviv@lists.freedesktop.org,
- phone-devel@vger.kernel.org
-Date: Thu, 10 Jul 2025 12:01:07 -0400
-In-Reply-To: <aG94uNDrL1MdHJPM@duo.ucw.cz>
-References: <aG94uNDrL1MdHJPM@duo.ucw.cz>
-Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual;
- keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
- /e0MU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAY29sbGFib3JhLmNvbT6ImQQTFg
- oAQQIbAwULCQgHAgIiAgYVCgkICwIEFgIDAQIeBwIXgBYhBO8NUoEVxMPCGgRvEtlBlFEpYHL0BQJ
- oLLLGBQkJZfd1AAoJENlBlFEpYHL0BEkA/3qkWYt99myYFSmTJUF8UB/7OroEm3vr1HRqXeQe9Qp2
- AP0bsoAe6KjEPa/pJfuJ2khrOPPHxvyt/PBNbI5BYcIABLQnTmljb2xhcyBEdWZyZXNuZSA8bmljb
- 2xhc0BuZHVmcmVzbmUuY2E+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AWIQ
- TvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyy+AUJCWX3dQAKCRDZQZRRKWBy9FJ5AQCNy8SX8DpHbLa
- cy58vgDwyIpB89mok9eWGGejY9mqpRwEAhHzs+/n5xlVlM3bqy1yHnAzJqVwqBE1D0jG0a9V6VQI=
-Content-Type: multipart/signed; micalg="pgp-sha512";
- protocol="application/pgp-signature"; boundary="=-Nzv40WcQzqiJQr2kcTPI"
-User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D66010E9FC
+ for <etnaviv@lists.freedesktop.org>; Fri, 11 Jul 2025 09:40:57 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id C3780211FC;
+ Fri, 11 Jul 2025 09:40:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1752226855; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=h0883Wqf17skQgZn6h1IBaTGVuiIBe68IG/rFY4ui60=;
+ b=ZE6jb4vaaAoTBFUSSql9UqKtC5TQfBpsearRTD4oWnf7gfn4ZqznerF4Ap5U05lpMZW3U2
+ foBixpcX1pSB8PKnOC42G13/W6C3Z+6EoASPTEgqLtWF9iR61+izDz9YH+XtVYqEKF3ZQu
+ sd03QFqB+7X4l8wicyP59B1xspjyOuA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1752226855;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=h0883Wqf17skQgZn6h1IBaTGVuiIBe68IG/rFY4ui60=;
+ b=axuzd4QORDBRylMnpV308EuCwqXEbTzukgNBc37ptELYs7D4rumTrBKPOI+H/tsCOVCD51
+ FPs41WdigfPj16Ag==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1752226855; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=h0883Wqf17skQgZn6h1IBaTGVuiIBe68IG/rFY4ui60=;
+ b=ZE6jb4vaaAoTBFUSSql9UqKtC5TQfBpsearRTD4oWnf7gfn4ZqznerF4Ap5U05lpMZW3U2
+ foBixpcX1pSB8PKnOC42G13/W6C3Z+6EoASPTEgqLtWF9iR61+izDz9YH+XtVYqEKF3ZQu
+ sd03QFqB+7X4l8wicyP59B1xspjyOuA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1752226855;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=h0883Wqf17skQgZn6h1IBaTGVuiIBe68IG/rFY4ui60=;
+ b=axuzd4QORDBRylMnpV308EuCwqXEbTzukgNBc37ptELYs7D4rumTrBKPOI+H/tsCOVCD51
+ FPs41WdigfPj16Ag==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3FBE91388B;
+ Fri, 11 Jul 2025 09:40:55 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id 9EUsDifccGjbcAAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Fri, 11 Jul 2025 09:40:55 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: simona@ffwll.ch, airlied@gmail.com, christian.koenig@amd.com,
+ torvalds@linux-foundation.org, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, l.stach@pengutronix.de, linux+etnaviv@armlinux.org.uk,
+ kraxel@redhat.com, christian.gmeiner@gmail.com,
+ dmitry.osipenko@collabora.com, gurchetansingh@chromium.org,
+ olvaffe@gmail.com, zack.rusin@broadcom.com
+Cc: bcm-kernel-feedback-list@broadcom.com, dri-devel@lists.freedesktop.org,
+ etnaviv@lists.freedesktop.org, virtualization@lists.linux.dev,
+ intel-gfx@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH 0/9] drm: Revert general use of struct drm_gem_object.dma_buf
+Date: Fri, 11 Jul 2025 11:35:15 +0200
+Message-ID: <20250711093744.120962-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.50.0
 MIME-Version: 1.0
-X-Mailman-Approved-At: Fri, 11 Jul 2025 08:24:32 +0000
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-1.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ MID_CONTAINS_FROM(1.00)[]; R_MISSING_CHARSET(0.50)[];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo];
+ RCVD_VIA_SMTP_AUTH(0.00)[];
+ FUZZY_RATELIMITED(0.00)[rspamd.com]; ARC_NA(0.00)[];
+ RCPT_COUNT_TWELVE(0.00)[20]; MIME_TRACE(0.00)[0:+];
+ TAGGED_RCPT(0.00)[etnaviv]; FROM_HAS_DN(0.00)[];
+ FREEMAIL_TO(0.00)[ffwll.ch,gmail.com,amd.com,linux-foundation.org,linux.intel.com,kernel.org,pengutronix.de,armlinux.org.uk,redhat.com,collabora.com,chromium.org,broadcom.com];
+ RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ RCVD_TLS_ALL(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
+ TO_DN_SOME(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com]
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Spam-Score: -1.30
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,96 +111,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
+Revert the use of drm_gem_object.dma_buf back to .import_attach->dmabuf
+in the affected places. Also revert any fixes on top. Separates references
+to imported and exported DMA bufs within a GEM object; as before.
 
---=-Nzv40WcQzqiJQr2kcTPI
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Using the dma_buf as the one authoritative field for the DMA buf turns
+out to be fragile. The GEM object's dma_buf pointer can be NULL if
+userspace releases the GEM handle too early. Sima mentioned that the fix
+in commit 5307dce878d4 ("drm/gem: Acquire references on GEM handles for
+framebuffers") is conceptionally broken. Linus still notices boot-up
+hangs that might be related.
 
-Hi Pavel,
+Reverting the whole thing is the only sensible action here.
 
-Le jeudi 10 juillet 2025 =C3=A0 10:24 +0200, Pavel Machek a =C3=A9crit=C2=
-=A0:
-> Hi!
->=20
-> It seems that DMA-BUFs are always uncached on arm64... which is a
-> problem.
->=20
-> I'm trying to get useful camera support on Librem 5, and that includes
-> recording vidos (and taking photos).
->=20
-> memcpy() from normal memory is about 2msec/1MB. Unfortunately, for
-> DMA-BUFs it is 20msec/1MB, and that basically means I can't easily do
-> 760p video recording. Plus, copying full-resolution photo buffer takes
-> more than 200msec!
->=20
-> There's possibility to do some processing on GPU, and its implemented her=
-e:
->=20
-> https://gitlab.com/tui/tui/-/tree/master/icam?ref_type=3Dheads
->=20
-> but that hits the same problem in the end -- data is in DMA-BUF,
-> uncached, and takes way too long to copy out.
->=20
-> And that's ... wrong. DMA ended seconds ago, complete cache flush
-> would be way cheaper than copying single frame out, and I still have
-> to deal with uncached frames.
->=20
-> So I have two questions:
->=20
-> 1) Is my analysis correct that, no matter how I get frame from v4l and
-> process it on GPU, I'll have to copy it from uncached memory in the
-> end?
->=20
-> 2) Does anyone have patches / ideas / roadmap how to solve that? It
-> makes GPU unusable for computing, and camera basically unusable for
-> video.
+Tested on virtio; and amdgpu, simpledrm plus udl for dma-buf sharing.
 
-If CPU access is strictly required for your use case, the way forward is to
-implement=C2=A0V4L2_BUF_CAP_SUPPORTS_MMAP_CACHE_HINT in the capture driver.=
- Very
-little drivers enable that.
+Thomas Zimmermann (9):
+  Revert "drm/framebuffer: Acquire internal references on GEM handles"
+  Revert "drm/gem: Acquire references on GEM handles for framebuffers"
+  Revert "drm/virtio: Use dma_buf from GEM object instance"
+  Revert "drm/vmwgfx: Use dma_buf from GEM object instance"
+  Revert "drm/etnaviv: Use dma_buf from GEM object instance"
+  Revert "drm/prime: Use dma_buf from GEM object instance"
+  Revert "drm/gem-framebuffer: Use dma_buf from GEM object instance"
+  Revert "drm/gem-shmem: Use dma_buf from GEM object instance"
+  Revert "drm/gem-dma: Use dma_buf from GEM object instance"
 
-Once your driver have that capability, you will be able to set
-V4L2_MEMORY_FLAG_NON_COHERENT while doing REQBUFS or CREATE_BUFS ioctl. Tha=
-t
-gives you allocation with CPU cache working, but you'll get the invalidatio=
-n (or
-flush) overhead by default. When capture data have not been read by CPU, yo=
-u can
-always queue it back with the V4L2_BUF_FLAG_NO_CACHE_INVALIDATE. But for yo=
-ur
-use case, it seems that you want the invalidation to take place, otherwise =
-your
-software will endup reading old cache data instead of the next frame data.
+ drivers/gpu/drm/drm_framebuffer.c            | 31 +---------
+ drivers/gpu/drm/drm_gem.c                    | 64 +++-----------------
+ drivers/gpu/drm/drm_gem_dma_helper.c         |  2 +-
+ drivers/gpu/drm/drm_gem_framebuffer_helper.c |  8 ++-
+ drivers/gpu/drm/drm_gem_shmem_helper.c       |  4 +-
+ drivers/gpu/drm/drm_internal.h               |  2 -
+ drivers/gpu/drm/drm_prime.c                  |  8 ++-
+ drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c  |  4 +-
+ drivers/gpu/drm/virtio/virtgpu_prime.c       |  5 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_gem.c          |  6 +-
+ include/drm/drm_framebuffer.h                |  7 ---
+ 11 files changed, 35 insertions(+), 106 deletions(-)
 
-Please note that the integration in the DMABuf SYNC ioctl was missing for a
-while, so make sure you have recent enough kernel or get ready for backport=
-s.
-The feature itself was commonly used with CPU only access, notably on Chrom=
-eOS
-using libyuv. No DMABuf was involved initially.
+-- 
+2.50.0
 
-regards,
-
-Nicolas
-
-[0] https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/vidioc-r=
-eqbufs.html#v4l2-buf-cap-supports-mmap-cache-hints
-
->=20
-> Best regards,
-> 								Pavel
-
---=-Nzv40WcQzqiJQr2kcTPI
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaG/jwwAKCRDZQZRRKWBy
-9BRcAP404riqHZv877jAk3LeonpmR8YSE9c6bNWGPspAtHTMNAEAzVw7ScK+PCWl
-1/uUbQsGbqWd6r5mH47vDOU14pKwSQM=
-=wFFh
------END PGP SIGNATURE-----
-
---=-Nzv40WcQzqiJQr2kcTPI--
