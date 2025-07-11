@@ -2,94 +2,87 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17A4FB023D6
-	for <lists+etnaviv@lfdr.de>; Fri, 11 Jul 2025 20:37:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56985B0268A
+	for <lists+etnaviv@lfdr.de>; Fri, 11 Jul 2025 23:52:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ACC5D10EAC5;
-	Fri, 11 Jul 2025 18:37:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EEED810EAC7;
+	Fri, 11 Jul 2025 21:52:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="OaODnWna";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="X1OUWwSy";
 	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com
- [209.85.208.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A5CE10EABF
- for <etnaviv@lists.freedesktop.org>; Fri, 11 Jul 2025 18:37:49 +0000 (UTC)
-Received: by mail-ed1-f52.google.com with SMTP id
- 4fb4d7f45d1cf-607cf70b00aso4612920a12.2
- for <etnaviv@lists.freedesktop.org>; Fri, 11 Jul 2025 11:37:49 -0700 (PDT)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
+ [209.85.128.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C17410E2E7
+ for <etnaviv@lists.freedesktop.org>; Fri, 11 Jul 2025 21:52:49 +0000 (UTC)
+Received: by mail-wm1-f44.google.com with SMTP id
+ 5b1f17b1804b1-4538bc52a8dso18154775e9.2
+ for <etnaviv@lists.freedesktop.org>; Fri, 11 Jul 2025 14:52:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux-foundation.org; s=google; t=1752259068; x=1752863868;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=NqSyi099qnjScevbzt/A0T/7PehrNF3qhUlbAV32+2s=;
- b=OaODnWnaN5CivgXgPSCd+ru572xlTwIy1fnSyrok3/qU/LfTy4StEXm7i2NaHknrjA
- CzLhtXATAiii6rnVk1K5zkBvQiAFuhTcPT31gLvwFE9bX29w6Zb8bOFscL8ZRpJc+AlD
- 11D3GhOe/osO7pg8BJzsIJzIpNHRVO9gXUoVo=
+ d=ffwll.ch; s=google; t=1752270768; x=1752875568; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=Q8RRcJnGL7VYeTaYAkj6SgjU8fJ+4S8aRG1AWN+AY7A=;
+ b=X1OUWwSyufA3fpUSnkqFCJWyc5iBenFP9M79ihfjmowtT9ZLvCLahCGG9kRR1BDzIV
+ Zw5sIex8TAhMgN/XchllgWkTxe4BJSv/R7FCX+HuqdpWxGPXL0IBMAOlzcPOo86A/amM
+ tfXVQZdSnU9FkEb1plNmM7A9t4rOa2JxejYjM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752259068; x=1752863868;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=NqSyi099qnjScevbzt/A0T/7PehrNF3qhUlbAV32+2s=;
- b=tXqCk7ycSDRD3Y7HTaxkd2RgnMqeY6EkRsSXbN6Zuomjb919zs4nIipsSCjovumiM7
- ySt0WgIrb9KEJlOnxwc+aqSB6o7xZIIPV9sUYcbFkPglt0yASE3zBkAkXBGhTUfNxJwm
- KDp7+UshKe2HMMwl8lUgTn9R0bUqc7WmUFRgGyD8P/HkWs9vUBOed8KaQBtbQaypeSEd
- ViIFdL1uvCtUuxWy7b8RAjaqfFLfd+yBtUpJ6uDxcG2jEMQuJRvA4D0QNKz1gGJfrSNw
- ISxgXpKsgOeN/LfuBbEwhaz3bR1TYE+iIYQNxBLH43UqjOajt3QocyWSjQem0vIiSB7U
- oxVw==
+ d=1e100.net; s=20230601; t=1752270768; x=1752875568;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Q8RRcJnGL7VYeTaYAkj6SgjU8fJ+4S8aRG1AWN+AY7A=;
+ b=bJxPNtB9oTHeY0GJ6YtWmUK0doRVJqePJAZpvPbTqCsWNeE+JhLoF+BmwsqNx7nDSx
+ R2SBVavtZ/GAe1XElprLRTY+CGcdSMpdyDV2h9IGQrnY6vZ4I0vJnTjGDQ52fUpRLG5W
+ xEctpwhBV0P8dNbU4kVMx6Uv1dAfkSiKlfVLS7zPi0DJA9MUgrb4dhRDqIen7+cieygh
+ rcbxuITOfJJke9tq/LB4RmKOjafonRKIgiKty3Zdem14uZL9CtsDLeLo7NWhQaXuIPve
+ Qc4LW95lyixvBfSZNdsdJAgLK3Z9ylhHKUY5G6DzDf0wfGdy2CHhAvf6WShHOmOD5ibu
+ ODCg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU8Qi57X/9pzxppQe7JX4YXQ+FaFXNjyg/ATolYs3P5mYoWcIYxrFhFQyBss3XaT3I/Hrbdltf5@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw5t57qBQWL+8MwCFZ0OXL/c3KspqYgrmmlT25QS7FBvr5PLbw3
- e6HlSorGChPjbRO4+tHy58C18P1Eci284Uw5/8WXIRbEK2cBrNYG9gnvnYOsW48yyYZJr7skMl+
- ROcUpj8n9iQ==
-X-Gm-Gg: ASbGncvT/513c3xA5waagSoGz5ZCYsghYBa15bAwyuKVrFa2Sy5cvnyaV8yZZQqWNe4
- WeXseSQd31yGslKps/cWn358e4Oyn/hpAv6FlAtCEkguZEoqyNt7tC1Ojqe86FKasmf6Y57wKCi
- JkZNMTvggEEvS6DJwxGzrG7CA+RNpVH48jtIIq36sqScOOg1vUpSwHjtVE0XmttgJEj0Gw6cF7u
- /5T1/AfKLUDrT6DESeSCGXDyDjs51VC1N4HTnbweD+zkk7WDQIgcljWPJwZ6QNpJHZuKdeY9SVz
- G5Vaz1Jrg3mKV9WclUKJAG/s9qxT738iRqdjlJCRdXXy/x/SlR5Pvql+5DSFAmnGKUwjKI77Zv3
- 2jvOextjNr5R5nEimp3wmDK3/n3YmPWKQQ5Rm1Imm4j9zF05PnqhWgomTfHg1L6EXw1yVb/k2
-X-Google-Smtp-Source: AGHT+IEgp2tivvxZNMn75vMdNX9chfElxrZ+NQzMc1Tv1yDLyVatK3r9kcL7weNfTsFMlrSqUN4IZw==
-X-Received: by 2002:aa7:db90:0:b0:60f:ea89:5128 with SMTP id
- 4fb4d7f45d1cf-611e85082b0mr3284153a12.34.1752259067698; 
- Fri, 11 Jul 2025 11:37:47 -0700 (PDT)
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com.
- [209.85.208.49]) by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-611c9542fe5sm2484536a12.35.2025.07.11.11.37.46
- for <etnaviv@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 11 Jul 2025 11:37:47 -0700 (PDT)
-Received: by mail-ed1-f49.google.com with SMTP id
- 4fb4d7f45d1cf-607cf70b00aso4612874a12.2
- for <etnaviv@lists.freedesktop.org>; Fri, 11 Jul 2025 11:37:46 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCUYQ9M11XjUQdJ8sWaPwwpd9OCnkFAAuW0IJr/NBSpkKOgonsm59DbiUWKh58lQKwS8+KmYqN7x@lists.freedesktop.org
-X-Received: by 2002:a05:6402:1d4e:b0:607:5af9:19b6 with SMTP id
- 4fb4d7f45d1cf-611e7c107efmr3549154a12.15.1752259066540; Fri, 11 Jul 2025
- 11:37:46 -0700 (PDT)
-MIME-Version: 1.0
+ AJvYcCWZIP33M/sQAmP5IVSChVjjpdVTRfVfhbkMY8uQa5blqFgBJP2KSKuhtWlXixKmv4zM1RIeH71b@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyefpH30PMkFkxMsPuLUIRSpNSJe0KFa+MaTTGBboY7SA0+JTjp
+ 3OTfkx0fJ9/Hx5xxaYp4OBcIsJO/P5wZCIBV6fqhOf4HuT4wVP938HOIU8Y8GkTASUs=
+X-Gm-Gg: ASbGnctmhN2I8mLehRdHSHICspSBDKtDT3U5Ygnoqy5V6iUBgsq3t3eFCzbTM6vQGiO
+ k7qbP+rrZycwYRYYod7ryr6xTA3sxMpHEm9l3A9z/WYcPB5R/LlBKd31JaXqJIlSNTEK/48IX4U
+ 2OXG/aIl0OICoZjRBWVBMx0h5WD/3N884EgaU0T71PMIRC3ZS3vN/ih4yuB2LFu29ntR5IT5+cI
+ tHmXArCCsj+58V+JE/YfmKS/clYhb0kcMD7EX7zePfoUAXDwdzVR8mEqyLg8OJa7eloj3io5deX
+ avDUWbbEUfwHRoSq3j4BAGehwz5IzyDRp9GyUZbkt32pazSFGe8xvbq7tlyZM0vk8n/nj0qDcQa
+ lHEz6VcYDv4hBoVNZ8vSrf1RsZyVWaBCBUQ==
+X-Google-Smtp-Source: AGHT+IFN19WMRiUUdCkB96tSscJeaW1XzTJqoWGFT70YkkmatxtYFIYZq8faZzHYKBK1l+DS/8d3rw==
+X-Received: by 2002:a05:600c:c0c1:b0:455:ed0f:e8ec with SMTP id
+ 5b1f17b1804b1-455ed0fec5dmr32188645e9.9.1752270767429; 
+ Fri, 11 Jul 2025 14:52:47 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3b5e8e1e8cfsm5387021f8f.80.2025.07.11.14.52.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 11 Jul 2025 14:52:46 -0700 (PDT)
+Date: Fri, 11 Jul 2025 23:52:44 +0200
+From: Simona Vetter <simona.vetter@ffwll.ch>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, simona@ffwll.ch,
+ airlied@gmail.com, christian.koenig@amd.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ l.stach@pengutronix.de, linux+etnaviv@armlinux.org.uk,
+ kraxel@redhat.com, christian.gmeiner@gmail.com,
+ dmitry.osipenko@collabora.com, gurchetansingh@chromium.org,
+ olvaffe@gmail.com, zack.rusin@broadcom.com,
+ bcm-kernel-feedback-list@broadcom.com,
+ dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
+ virtualization@lists.linux.dev, intel-gfx@lists.freedesktop.org
+Subject: Re: [PATCH 0/9] drm: Revert general use of struct
+ drm_gem_object.dma_buf
+Message-ID: <aHGHrNVtupuOHODi@phenom.ffwll.local>
 References: <20250711093744.120962-1-tzimmermann@suse.de>
  <CAHk-=whnUp7M-RZ6yzOyF6bzA4cmbckaH4ii_+6nBm0PqKOaQg@mail.gmail.com>
  <CAHk-=wif6u3C4gk7BtR1M+0SvHruXZ7xycP5oDdg-SF1D=ELqQ@mail.gmail.com>
-In-Reply-To: <CAHk-=wif6u3C4gk7BtR1M+0SvHruXZ7xycP5oDdg-SF1D=ELqQ@mail.gmail.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Fri, 11 Jul 2025 11:37:30 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wi3Fbiii2K9fgmoAgoJYoLuRyWfOZhh57FmREE15RbiUg@mail.gmail.com>
-X-Gm-Features: Ac12FXz4IEMNfmtixe8DP0mDcYY7Ge-_C9kKvhQh3DPD6bVXdbf7Bxr8kqE2eLE
-Message-ID: <CAHk-=wi3Fbiii2K9fgmoAgoJYoLuRyWfOZhh57FmREE15RbiUg@mail.gmail.com>
-Subject: Re: [PATCH 0/9] drm: Revert general use of struct
- drm_gem_object.dma_buf
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: simona@ffwll.ch, airlied@gmail.com, christian.koenig@amd.com, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, l.stach@pengutronix.de, 
- linux+etnaviv@armlinux.org.uk, kraxel@redhat.com, christian.gmeiner@gmail.com, 
- dmitry.osipenko@collabora.com, gurchetansingh@chromium.org, olvaffe@gmail.com, 
- zack.rusin@broadcom.com, bcm-kernel-feedback-list@broadcom.com, 
- dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org, 
- virtualization@lists.linux.dev, intel-gfx@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
+ <CAHk-=wi3Fbiii2K9fgmoAgoJYoLuRyWfOZhh57FmREE15RbiUg@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHk-=wi3Fbiii2K9fgmoAgoJYoLuRyWfOZhh57FmREE15RbiUg@mail.gmail.com>
+X-Operating-System: Linux phenom 6.12.30-amd64 
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,25 +97,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-On Fri, 11 Jul 2025 at 10:35, Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
->
-> I'm hoping the login time timeout / hang ends up being due to a known
-> netlink regression, and it just happened to look like a drm issue
-> because it exposes itself as a hang at the first graphical login
->
-> A netlink regression *might* fit the pattern, in that it might just
-> cause first login dependency issues and resulting timeouts.
+On Fri, Jul 11, 2025 at 11:37:30AM -0700, Linus Torvalds wrote:
+> On Fri, 11 Jul 2025 at 10:35, Linus Torvalds
+> <torvalds@linux-foundation.org> wrote:
+> >
+> > I'm hoping the login time timeout / hang ends up being due to a known
+> > netlink regression, and it just happened to look like a drm issue
+> > because it exposes itself as a hang at the first graphical login
+> >
+> > A netlink regression *might* fit the pattern, in that it might just
+> > cause first login dependency issues and resulting timeouts.
+> 
+> Well, considering the random timing behavior of this bug, it's hard to
+> be really sure, but two boots with the alleged "fix" for the netlink
+> issue made the behavior worse, so it does look like my problems on
+> this machine were a combination of the drm refcounting issue and the
+> netlink thing.
+> 
+> I guess I'll have to do a lot more rebooting to be sure, since the
+> hangs and timeouts have been so random. But the netlink "fixes" did
+> give me a hang that was very different from the previous ones I've
+> seen, so I think the drm code is off the hook on this one.
 
-Well, considering the random timing behavior of this bug, it's hard to
-be really sure, but two boots with the alleged "fix" for the netlink
-issue made the behavior worse, so it does look like my problems on
-this machine were a combination of the drm refcounting issue and the
-netlink thing.
+Ok sounds good, I won't include the drm reverts then. I do think the
+change from ->import_attach.dmabuf to ->dma_buf is still suspect, and the
+handle_count reference change for fb won't cover all the other places this
+might blow up (just less likely since the most common multi-gpu use-cases
+are sharing render buffers to a display driver). But better we take
+another week to really think this through before rushing things.
 
-I guess I'll have to do a lot more rebooting to be sure, since the
-hangs and timeouts have been so random. But the netlink "fixes" did
-give me a hang that was very different from the previous ones I've
-seen, so I think the drm code is off the hook on this one.
+The handle_count changes do look reasonable to me too, but for an entirely
+different bug around bo import/export. And I think we'll want a testcase
+for that to make sure, and evaluate options properly.
 
-                 Linus
+But now I'll just type the pr summary and then w/e for me.
+
+Cheers, Sima
+-- 
+Simona Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
