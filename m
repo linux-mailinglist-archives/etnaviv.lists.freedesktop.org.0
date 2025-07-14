@@ -2,53 +2,52 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08A24B03A61
-	for <lists+etnaviv@lfdr.de>; Mon, 14 Jul 2025 11:10:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0A19B03AB6
+	for <lists+etnaviv@lfdr.de>; Mon, 14 Jul 2025 11:23:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AAFAF10E433;
-	Mon, 14 Jul 2025 09:10:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 881B410E438;
+	Mon, 14 Jul 2025 09:23:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="to4jG3U/";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="PZ7UaZ42";
 	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2067.outbound.protection.outlook.com [40.107.93.67])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD15B10E148;
- Mon, 14 Jul 2025 09:10:26 +0000 (UTC)
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2067.outbound.protection.outlook.com [40.107.220.67])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E34B10E438;
+ Mon, 14 Jul 2025 09:23:43 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=GK52gW4FTxnpM6Q+DWqV3MfC6u6QMsMuAf1UGoKPXi3ftwwR9ppg97UPTfJYS/iW5P8LmjvySOmO1YsIZnyXFU/dr2tS0PTsHblLngFK5l1yDj7lpHB/Sr93AKS8EU7hnnU9s4A8eMgHe+MnAC0MICEpeKf/OLZYX2nErWtacEwdXsDV+7pdF5ojsK2DmW1DWD8S7FZ0hQrV42UASm/O4RvTexugIuXQLKuaTUKBopm4tUFW3756zN08en6WGV/gFXnGRRbI2fvLhAsbEtGuUTn0570EGHukydw+gMXgZLzMuJNV7v/O62EsE9SS7F0A0SPjb4HQdFqOmZ+C1avhog==
+ b=hQnMjUo4FTnpZyMpqIMvSS8kNgQ9UI3rbPEZlgnsnb0T035RnpMcQko9HoS5pExG/Sdhn2WL1EZn1Px0E1Y4wbes+PpdPx3MHfMVX9FSb7eIjj/Mm05wp5pwArAV9oOeej+4eJrTH8XQQLTUp8fmZFnzsYTMnJEnakY/TcXrGXYNmrMT9NpgcdbFVoESxRdRKGBigyvF95GxqFXEjH8jTFQNH9H5zWEa+s9sWlsGR1kNeLKwjUxZA0465ZAfVMOfVLP35jrLTTKKjBYryh3ktKeZMECm7Hc+gqAw7DGMU2eJQozTTTUDo8Dqq+LA/jELGWSZyOrwHU9wozx4CXYdPA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YIejdYh5wvA7eSAK+z0/k5cMtAwUWiigQ1IyoX0LxZo=;
- b=rQhfus78aK2lWDxpcMJHWLFp8NN2HeW+kcUQ4RPnKnSOZ/ubNNGelNTu0PqI3xG8FXACUgM3bCPcBgN9zB4fzqIyKH21TdsJs9hDwNHPaZs2UQmRhNe5En/IK/69jiqrqMqeCixjG7+GC7h5hi061rRenIzjMYJEhZTibeQW1nFq5OeL3WoZ6NURNoN2PiSK3m9Qvp4HrL8oDEuoy9fHuERrCkXhAPUShQLRWhgi68apX6OWbmUrr/3tmiz60BRFAPrIzapYQgO0Eil0ce/19GDAXvIHdt2dmtqF8pqhAhGETg2NDTEZzkIrUEsC1qiKYstlQRLOwuo4tzxOEny4Ng==
+ bh=C3U1SyA6sNKiJyaopN2+zglpbqIi7VKicB+kpAk/3ZA=;
+ b=P4Zwajzbklqg0XFGOpNPY1oKq/bqjo6rpz2mD2fXCo/59fOu0c5aXT16UNJPUk30YomD+W9VIQt7U6p+s00UP5Ij/dFQtDetOGXxZmuORpyCN1pcgzKUFD/doeGT1s5NeOIeBaE5lMkhpgQ/yt98OeK2b2eofgiyzd3F+uGKIzwDzhqlEpAtyUrnKVxNKKJd8ZBmIqIBbQmllLqKq9B/bxRgYpeNIxssHyE5fZBawPWB3aIGtmfLNixSEgtCe8zOCjr7tvnMHRm9NsmKhUy3s/iGWF5XJRRSACbLl46AnctU/VyLgNGPUyYfN2+aGnWW3WZsfDd7p2u2rYrhBrHKsA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YIejdYh5wvA7eSAK+z0/k5cMtAwUWiigQ1IyoX0LxZo=;
- b=to4jG3U/vKybY+Kz+6mt/qAht0Z5elNvjOmyuZgkZ8q+z8Z3C20FMTPSBFPK94v4xP9k9f6FssbbiniDU03Nj6LQEz0h1A/nu18DrwKt8NHZi6iQbg3Rsu8oR92MCr+NbQlxbT9+N8SwiaL1bNN5S4qQeqo4n2p/R4+y1QMRmgI=
+ bh=C3U1SyA6sNKiJyaopN2+zglpbqIi7VKicB+kpAk/3ZA=;
+ b=PZ7UaZ42FXDodijq6iF5/J3vldfh7v7GW0CZmrK8I+CFanNtk2qEqRvzXXXWOwdeYjLQcF+VL/gUyvVViRdkzGvVQAzNEGJLLOWFJh7OR4v0OTX6ZWHLnpE9UIEvnLCGcSkpM0CEAOhnMRb6kedV3wb4FpdRib0RGcrOAIUajGc=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by DM4PR12MB6301.namprd12.prod.outlook.com (2603:10b6:8:a5::21) with
+ by DS0PR12MB6583.namprd12.prod.outlook.com (2603:10b6:8:d1::12) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.35; Mon, 14 Jul
- 2025 09:10:24 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.20; Mon, 14 Jul
+ 2025 09:23:40 +0000
 Received: from PH7PR12MB5685.namprd12.prod.outlook.com
  ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
  ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.8901.033; Mon, 14 Jul 2025
- 09:10:24 +0000
-Message-ID: <23612bf4-e59e-48ff-9782-f9c7ce963e6b@amd.com>
-Date: Mon, 14 Jul 2025 11:10:16 +0200
+ 09:23:40 +0000
+Message-ID: <2818cf80-4dac-4628-9079-2dd6311b48ae@amd.com>
+Date: Mon, 14 Jul 2025 11:23:33 +0200
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v5 2/8] drm/sched: Allow drivers to skip the reset and
  keep on running
-To: Matthew Brost <matthew.brost@intel.com>
-Cc: phasta@kernel.org, =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- Danilo Krummrich <dakr@kernel.org>,
+To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, phasta@kernel.org,
+ Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>,
  Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, Simona Vetter <simona@ffwll.ch>,
  David Airlie <airlied@gmail.com>, Melissa Wen <mwen@igalia.com>,
  Lucas Stach <l.stach@pengutronix.de>,
@@ -59,113 +58,115 @@ Cc: phasta@kernel.org, =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>,
  Boris Brezillon <boris.brezillon@collabora.com>,
  Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
- Liviu Dudau <liviu.dudau@arm.com>, kernel-dev@igalia.com,
- dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org
+ Liviu Dudau <liviu.dudau@arm.com>
+Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org,
+ etnaviv@lists.freedesktop.org, intel-xe@lists.freedesktop.org
 References: <20250708-sched-skip-reset-v5-0-2612b601f01a@igalia.com>
  <20250708-sched-skip-reset-v5-2-2612b601f01a@igalia.com>
  <20499b2a-0695-430a-9280-035a7e04d328@amd.com>
  <335c9bc57d19f17a3ba0da311f287dfdc3d580c7.camel@mailbox.org>
  <176e7f13-52e8-42d6-a9db-0bb237790aef@amd.com>
- <aHFIph/XCWMSlFAV@lstrano-desk.jf.intel.com>
+ <2347cd33-5289-4e6f-8296-b34bc05eff8b@igalia.com>
 Content-Language: en-US
 From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <aHFIph/XCWMSlFAV@lstrano-desk.jf.intel.com>
+In-Reply-To: <2347cd33-5289-4e6f-8296-b34bc05eff8b@igalia.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MN2PR15CA0009.namprd15.prod.outlook.com
- (2603:10b6:208:1b4::22) To PH7PR12MB5685.namprd12.prod.outlook.com
+X-ClientProxiedBy: BL0PR02CA0007.namprd02.prod.outlook.com
+ (2603:10b6:207:3c::20) To PH7PR12MB5685.namprd12.prod.outlook.com
  (2603:10b6:510:13c::22)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DM4PR12MB6301:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6193ff0f-e8bb-4241-6d7b-08ddc2b64401
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DS0PR12MB6583:EE_
+X-MS-Office365-Filtering-Correlation-Id: 140b17af-edb9-4c5e-67e5-08ddc2b81edf
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?VEdIVWs4M0RLYjlOZkFFOWJ6R3pJbnRRUFlEdjR5TnB6dDZMYVYxeStqZis2?=
- =?utf-8?B?SW8rR2JTYXk4eVZGWnBvUU1wYVlDSGxEOHJuQUl2WkFrdVp6UjQrWWlNQ3Nk?=
- =?utf-8?B?czNVNDNDUmdJL2FmenA5SUY3TTRwekw0SHBZeVd5aGFOSFN2NjZCMHlLSFhv?=
- =?utf-8?B?TlVTYmVkbGxWaU5iMXJIRG5NVnFLNXdPUXR6UWNoZ2VvbHQ0SDhsZHFyZmNY?=
- =?utf-8?B?bTZoNW9STGliTWNrVVJ6YWs5dmZ4Q1JJN2twZ2c0RU5POWFoVEIrU0tEUFFR?=
- =?utf-8?B?eXJtMVpwRUpUdlExTzdDdVFhdDJFaDR1a2xzbVRhaXJIQzN3TE5XL21IZzc3?=
- =?utf-8?B?Ymt4OFo2b1BlZDVjRnFPMEp0d2pYdUJnZm1jVHp3eGdjM20zekx4a0hJNUtl?=
- =?utf-8?B?dXluMW9yRHNXWEhIdVMvYllQY1RXR09neW9OTGRIeWRkdVV3dHhiSm5CUW5l?=
- =?utf-8?B?N0JxQm1JQ2ZHMW5mN01KOGQ4U2MvMFN6N20yc0d1aEZ5OEFjN3dGMVAyWFMz?=
- =?utf-8?B?MnlyNjdEVnEwUGg1azVaeFNBYVpTMzVKQldoMEV6bEJVeDRtYWlQTmVXM3Vp?=
- =?utf-8?B?SVBhdHFqZ2wvdXdFM1VWdkp3anBDbmIvSm13Q2k1dnJtelI5V1paV3dvTHF4?=
- =?utf-8?B?bVRDT0hJa0t5Y0NzWXBkT0F1V05UMEphNkxQTml0Z3hEbkExR3hMbGl0NXVs?=
- =?utf-8?B?TDdFcEJ1NSs0aXVQWlBKOUFSQlpNalkzYTBLeXByUmxTYkFEbktVY0lFbERy?=
- =?utf-8?B?dlB1M3hKSzZEMkVuK3J3VGEyQUtLN0dnWUtGbDhXZmN1VlhCYlVrZjFVS1lX?=
- =?utf-8?B?Z21FUXhhMng4SVdaakVOOTdPTSs3ZHE2TXFpM01SeHZHd2t1aCtWMXgxUFJG?=
- =?utf-8?B?Y2cxOFN3R0tIWHVlcDcvcEliQjMrODI1dFdUSFFtQW9DOUpaeGdLdVZHZk9s?=
- =?utf-8?B?ZEd2Q24weDVaOTNsbzVTcmVubGdnMzI1VklJeU02WkQxMVp4KzRjRi96bmxU?=
- =?utf-8?B?eEUwRUxiT0JzeDFPblpoSFJOS1JLNDNYaW5KQnNSSzNrN0JvUklWZHpQa2ZT?=
- =?utf-8?B?NjY3RjI2cU9KS2ZCUGJGcnlGRXpCS0lZV0NtSXo4U3V1dklYbm5Ld0xvNFNV?=
- =?utf-8?B?RWRoVnRST2tuRGlGazI3WERxaXlCQTVsdy90NU5NS001bDdlMDRpcFFXVjdN?=
- =?utf-8?B?MStPLy92eEYxaDI4WlF1Y3ZTRTVNWGlaWmdwS1FaWTdJejhLb3c5VjRQd24w?=
- =?utf-8?B?Ky81TTJMbzlYWlpiOVlXMGEvUy9HWkhGb2hqVEE5TUJtYVkvWWxOZzFvdkVP?=
- =?utf-8?B?VWdLa3VFcll6dzRobjZnTWhXUDE5Unl2UDZoZDZKZGZoVmFJc1E3VzBVd2VN?=
- =?utf-8?B?ZEtuY29nY0lUV3Vod3ZsRzdJV21HTVlWWjdFcFF6RkNaWUdNdnRwUFpoZDdk?=
- =?utf-8?B?UEsrZ2hBWHZvTmEvRUdDcTFUSDhsZzJGSmJOR1JFZjVPa1ZQcGFTR3BMd0M3?=
- =?utf-8?B?WVNhbEtvaGxzVFdROXlnVjZaeWVxZDJ2OVJOYTcyTklqRFgrdldjSHNQZjNn?=
- =?utf-8?B?cXpYclpCdFlLUThuN0NPQlczaWNNWElYc1BxcDQxaDltUnhKMkdCdXpEZG5a?=
- =?utf-8?B?QUFlMjl4aHlOYkdlUStHSGozOGRxWDN0OTZIdFJnaFRHRk1zODRxbjNoQTl0?=
- =?utf-8?B?MFo2bkUzN1cvRFRzS1hSTTFtd21uMExVSE81SytxYWY4cVprSTRIRjMwZHhF?=
- =?utf-8?B?L0wxSlFDNzBrR2o3cy91TjlzN1E1aEdTa0dDbDF2ajdScE5ZT0pvMXpXRWgv?=
- =?utf-8?B?NllkQXJGVC94RFRqSU1NdGhFVUV3RTFHaEJYaTE4VE1lWmltUUJDVzM3bm55?=
- =?utf-8?B?Z3hibkpnekVEeEd0REtTcW5aV1VQOHNsL2pqRHBUL2dpbmt6Vm93NHNMc2V6?=
- =?utf-8?Q?rMAaxIIkBuQ=3D?=
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|1800799024|376014|7416014|366016|921020; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?UlduMHl6Q3d6akMwcXBaUmxqazVEVTh1cGwrZ04yUndySm5McHJFSjRsM29Q?=
+ =?utf-8?B?TTcvSEc2UC96L29hYkpYRHdpZmw5NnA0SHlGTm1BSHhuVmtiSWhWdG1PY042?=
+ =?utf-8?B?cXhEK3RGeE9BcXVxUHg1bkxnSU10S3ZaUWNKck9OVktyb0VMc216T1BvUGF6?=
+ =?utf-8?B?dCtRQ0Q4WXgySzBZWGtGUnZWd2lsUjZObCtXaFppQWtGRHpxY3B6ZFgwbmlN?=
+ =?utf-8?B?TVdUdUdaMEhVSlp0SUtIOGUzeUVPeUJRWm54NnlDb0VueUtyemtRWXVoeWdG?=
+ =?utf-8?B?SmJsek94c0FwTllTVWY0U2lMWENEeW5nakVXeDRabWxjYTlPaUNMYTZXRWUz?=
+ =?utf-8?B?NTNGUWg0K282QXByT3FIajJMRlYybGJZMFNmZmsxQ0N5RkY0ZFcyL1kwdHp0?=
+ =?utf-8?B?a2trTi9zRzJNVWFaaHVQYTlmamJ3NG12cDkrMGpDY3g3aFlsT3hJQmdRNzlx?=
+ =?utf-8?B?THFucnNQdTNCRWZTVFZiZUowQVpPSTdoNUlJbTBUTk5wbUdRRTZRR2FERzQ1?=
+ =?utf-8?B?SmlvZmN0Yis4cER2SjhWRStzTXZIUURHRDN6c1dpeWpNZTNyazZqRGtIeldS?=
+ =?utf-8?B?UWJTK1V2M0diOW9QR0cxZjBMdXhmdmxNempBWm9GS0ZDN2p4Qm9pRkJnQU16?=
+ =?utf-8?B?L0wzRXEwTWNaV3g5TkNnbCswMDBMUW9aNDdGTHNWYkM1MzQrLytSYzBLYmN1?=
+ =?utf-8?B?TjRqVVYxQnJUR1Q0Y3dESkZ2NWpPUnlPck1EZFNXQnorN2dwaGlzeE92QmNt?=
+ =?utf-8?B?dGVkOWFHUkk1b1NSWndOVTVrbjRtSXhoNXhuU2swdDd3ZFFUTnBnZ2F4b3VQ?=
+ =?utf-8?B?SEhhWDhzcUZ5bWVlc1crNi9lU3BEdGVqeGh4dFlWWFU4QmN6Y1F1dHo3USti?=
+ =?utf-8?B?RHJEdTVLc2ZUcTBoZ2txNEJXa0c4WUZZVDJDRjhWYkdlamQyOGxnSlRRQ1p2?=
+ =?utf-8?B?cTI2QmdPa2doMGtIYkdXVDhDdFdYNnppTnBJbXhTZVZIMWFpdDFtR0Y3eUxl?=
+ =?utf-8?B?R2hOYnNLRzlGRnpyS1E3MjhCVC9scmlCcTlmb01CWEptSGpHYVlzak5HZ2xy?=
+ =?utf-8?B?aGM2UktPV3J4M0xGMkt1U2pLZERTQzRtdzlmaGpTNU52aFd1ODFRSVFMb290?=
+ =?utf-8?B?QmI3dkNlSzR1bVZrZVFsQVZVVllMc0ZTd3E2VFhXekxyMWFxWUtQSE50M2E0?=
+ =?utf-8?B?Ym12RFdEQUxFVS9xaE55RERrZWtTUFU0UmcvZFBWUzM5VVZyaXMySWR3d0tx?=
+ =?utf-8?B?MlZLUXlRUllDV1lCZ1g5b0w2MmhvNmNNREVxbHVoMGpYL2crdkpSendDbGd4?=
+ =?utf-8?B?ZVRMSkRlZThXVWNyNmp4UFZCTmtSNGN6RFBOa1dDcXNlT3R5djB4d3JQdExi?=
+ =?utf-8?B?N2NRVzQxREVzVmdjSWRKWTU3dlhVeWQwbUt5MUdmdVpQVFBMSjR3SmVqdjZR?=
+ =?utf-8?B?ckNTUDlES3k3RGxNRG5KcCtwT1VNdWU4SnNWVUUrOTJ2Tmd2V003VEtBci92?=
+ =?utf-8?B?QTUyY1IyWkZEd0p6Lzd6eHUwQzJDUHNvdldQMG1RZFh6VC80Q1hsMGcyT2Jw?=
+ =?utf-8?B?L3FLb3ZEK29sTG1VYUVVZm44SEpZUFdhUmJpZ3pWUWthNGRScS9YT244YWJP?=
+ =?utf-8?B?dmdzR2JyNG5qeEpMcjlEM1dzemFUQVgzQ3FYYXk1VEtmNWJVWWQ3RUtCTlhL?=
+ =?utf-8?B?Mkk2eHdYL1M1bTY4bTVaQS90K1hhYXlwYnh5M01raG5ldGxKdTI3eWx6aTFT?=
+ =?utf-8?B?RzJjOTBsNDRyVXIvT0tpTkRLVHIrM0dXUTlnQWozM3BYbmdDOUR0ODUyV3lt?=
+ =?utf-8?B?NVlFb2wrQnFhT1FFOHdYRnNmenIwdVRsVExrbmxqWkpaOWorM1hKZUJzRWl2?=
+ =?utf-8?B?VXhhRGI2Y1B4N1JmSXJEaFFrdkovQmhsU04ydVVvTmVuVlY4c0NnQS9WNkJo?=
+ =?utf-8?B?ZGNIaVIwOHVoUkRoZXdteXJlamwwelVjNVZ3Z1RBU0poNllOQU0vTUtQWHhv?=
+ =?utf-8?B?RWFwREFoVzhnPT0=?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(7416014)(376014)(366016)(1800799024); DIR:OUT; SFP:1101; 
+ SFS:(13230040)(1800799024)(376014)(7416014)(366016)(921020); DIR:OUT; SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YWNER1Fldm9wZDFUUXp2dXEreElhZzMyK3R0T2Mrc1M3eVBDdzZ0YkdUSy82?=
- =?utf-8?B?bis1SUsxb2pyZzdJbTVZcHh0UHpXaWhXdEJEcE90akhPSyt4S25GaWhncVFY?=
- =?utf-8?B?M3hjbVNEcUh6azNqeDlUVC9vTUdtcTI1RkhqMzNoSHJ3NkR5MjdxK2J1ek9z?=
- =?utf-8?B?ZTFHUGJEem9UQTBDSTJUNW42TmxaL3l1cC92SjdFL0VJWFp3RHRCU2ZzSGd4?=
- =?utf-8?B?SnhYNG1MS0RNemFsa1V4OVgyNUIwRDRNdzA5bnk0S0FHWDRWOHZhZXlhZktD?=
- =?utf-8?B?OE44RVQyTjFvQ1UrbDhDV2dBMTFpbFd6TElDV0NwWUVsK001Rzh6TWtaS3Rl?=
- =?utf-8?B?YlFSbHdJa1FIdDFxNE0rODVnMjBLaVpVTXVKbm95MXp1dXltQ2FYZ3RiU2Y4?=
- =?utf-8?B?TGljQWlkWnhpYkdCczBkTVNvOHc3RFZ3T0EzcUpuSVZUdDdvZ3g1dlJKNHFn?=
- =?utf-8?B?VlJuU2N0dzBUUmZhMVpIR1dMOGg2VXRiT1djcDFBK3BWamtZYktqbXBoZ2pU?=
- =?utf-8?B?RXMwMFlpbGFIdk1XRWpUcHdEaW5XZHlESmFzOXR2b1N0Y2hOb3N1azJodWVD?=
- =?utf-8?B?VlQ0V3NzaTdGUlA3ZFlDM1pQWUNuRDBJdXJLandwbjFJUXBCOS81amNrZUZz?=
- =?utf-8?B?b0hMb2g5QlJzRk4vT2lzbWdLTUFLWUNFYkg3TEEyNGVTZHo2WWhDS3dGV2dK?=
- =?utf-8?B?RElXS2dRWEpIOGozMVRadjY3SVZHLzdpaFV1UWJWb3MxODBaWmU4MmFCeG93?=
- =?utf-8?B?MU01V1IrWWdrbnhGSGhrM29RaDlZclBNa01YZk9HU2RRM254WUJTY2d3TnBR?=
- =?utf-8?B?YlZQY2N1OWRPc0FwMTdWbVpqdEExRndkRHZCRllkblVwTHhoR3Z5Z1FtYWQ4?=
- =?utf-8?B?d3A1azJvbW9PYUdmSWg4R3ZRdUVDSDZuS3FUMXV6VktVeVdnL3hFelE1Sm5D?=
- =?utf-8?B?dHRoVHpLNGp0QWV2S0V0UnNLRGprTk9RdE5McEVURDJrdFliUmlFQU56L0Ix?=
- =?utf-8?B?YkdhY0V1ai9jK0M3VWtSRjVhMkxMYkdhaVlWNTdRMGZIQkNxOHhnbWZ3MGdh?=
- =?utf-8?B?QWIwdUJtR2Z1SUlCVkJsVzJNYy9JamdjYXJGZGkyS3FVN1FVUzFqZW5tQU13?=
- =?utf-8?B?V21CQ1RSNHVWeGNldlVUQk1wZUp1NGpkQXpVZ215bE92SUIyTklKczRVRG9W?=
- =?utf-8?B?dE9IMU43TUFHaFBQVzNTVG1WcnMwQWZzbktRM2NrOHNxU1hFREFIbnBKbENB?=
- =?utf-8?B?NUNMblZOQjNJdlF5aWpiSDQrTkIrdXJkdXF2UnA1K2pSYzZFYjJ4ZkRjZ0VK?=
- =?utf-8?B?aE03ZWJ3VHQ1SkhxSjd2NVBDTHVJelRyZnp4c0g1YVprVGZMNEUyVklvQUNa?=
- =?utf-8?B?RDdkbGRxY3FnV0ZhTjhHNWppNXNFaXkySUQ0aVk4cmU1RDJ1N3NiS1daQW5z?=
- =?utf-8?B?N3ZIODBsVXlNNXpSWDlSVVBpRlhSTjBSS2pCWldua21hTHkrSWdZMHRpSFNo?=
- =?utf-8?B?WDE3MDdRYWJGN1NFOXRaUWsyZVhldnhrN2wyZ1RoaGVXenh0Y1BDQlJGbkFG?=
- =?utf-8?B?WnVHYkZkTDN5NWFuUTJpRmcyQ3g3Y0pqMERhU21OZ1o4eFJjOVhPWTk1M3c1?=
- =?utf-8?B?NFQrcHBLbkx1Zk5JMkJCZTl4c3d1MnVlR1E3TFlQOCtGVERLM1h5VXpiazE3?=
- =?utf-8?B?aWlWMFQwS0dHcEtPQjlGbHIyMks0NHArNjc2SDlTQnFWRjMwczhCZnMzbGlz?=
- =?utf-8?B?cWRQZUVNeXVWSkoxMGY0N1h1QW9ZS3NYRjk5ckpqRWxHY0xXRG0vMnhKTTVm?=
- =?utf-8?B?K0d3Sjd4WWszeDA4cGhGa3BpRTgyTCtBVTNWN3ZzbVNTWDdvS0hjVHNFTldK?=
- =?utf-8?B?QnJkOEpuWTc5Z0llT1NCZzQwTUoxRlN1QnBKV2o3OGNJdUloYmFPMFlEK2Vw?=
- =?utf-8?B?eURGT1Q3VWExMThObEo0YW1Ea1NUZlZSSi9MZWlzeTFobndobllsUzNFY3li?=
- =?utf-8?B?UUFUM1JqN2UwaTBnbUlMQjdiOWZYRkM5OWVqOVVjK0p4dWtIQUQyWGwwOTF6?=
- =?utf-8?B?WFo2cGU2U2NUbmRBaHlpcWZEeUk0bHk3dTFiTzlNL3drUE1rYUdvMUxseHJs?=
- =?utf-8?Q?6KYN6IhFJLnv8YzbE4xJ+Tp7M?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MDNOR01zT01aM3ZJUm95Z1lzMlVlbEJpTDBFRzhpcnNweldnM3dFMGMvdVJn?=
+ =?utf-8?B?d2UvbEswOWZrYnJtbWozZ0tDNkdacTR0M2JKZWh5L0Z2d2hZNGpJcjNLdzBQ?=
+ =?utf-8?B?MVBWNjBIM2N1UHh5ZEVDcDJJeVRzUXJjNnJOTG1GOVd3aGszNnhwQlVmKzNk?=
+ =?utf-8?B?V21OVmlTQjVPOGhCNUFNL21YZW5nY05ZaVFJWDN6c3pDUmd3eDBmTW45djRZ?=
+ =?utf-8?B?STd3YVBlemF2b3hLR3V3aUovM2tFK0VZNUdRVy8zWGZxRVdMb0NhRUd5Vzg4?=
+ =?utf-8?B?OWRtSm94TUlzS3RXZXI3OEFhZ2pJb0ZBYVp3THcvRTBvOUQvUHNwZkhhNUxo?=
+ =?utf-8?B?L0F2ODJEYXlSR1o0K0NTYXdzTzFsczQxdi9XaWFrNW8vek5UNGdaY2wvcnQ2?=
+ =?utf-8?B?blBLM3hyV0ZpRURoWVc2Y0kyV0I2UHREWW85M3k3ZkFZSUFtOHhtOUNicXRT?=
+ =?utf-8?B?TFBtNHUrUTBsZk9XNmhMMGZBN3ZSSmpsU01DZzVGYk1WcHlPOUVDT1JrMGNq?=
+ =?utf-8?B?QkRnUWJJN0h3d0o0TmFlOWdjVDlYL3dGN1ZkMXR5SlNTQ21lb0NQMWxqTFdz?=
+ =?utf-8?B?NklxM3plQ1VrcXhYN0RpRUw0d3drRGlnZFlEYWpXeGFFeExyOGM2SFhwOXBN?=
+ =?utf-8?B?SzJXYlg0SjZLU200TEZUdFM5ZEp3U3UybnJERGxyTFBtSDVrSFEvQXgvQ1hm?=
+ =?utf-8?B?bDZKUjNWZXY2a2wvRVNsUDlkYVVram1FeHFpL0pFbm1iY1FCTWdJTGxGQXFJ?=
+ =?utf-8?B?SWMxN3lyaHZHU3pZUnYzSzZmTVJMZ3hvZ2FxWWRWQ1ZrUjFGR29tMFVVbW50?=
+ =?utf-8?B?dSttUEE5RkdraW04THR5UUEvRWdPRHEvYkRpNHdrdXRYTEVYd3d1VlNpaXJj?=
+ =?utf-8?B?eFRyUkRQTU8rcXM5SkI0ZzFEL1V5R1RqTm9QSGRoQmsvRk43eW9DYm5oak5z?=
+ =?utf-8?B?OXhQR0lCTkptdkU4MVRVYzR2YmM3SDFLdVRXZ0pJZm1IS2k4K1ZBVWlLd0RM?=
+ =?utf-8?B?d0NjMnlPVm14dE96dzFPY1lOcUl1NXJQQnBxQzhBSnhFQ0NiYUlZMXhRY05r?=
+ =?utf-8?B?aTRPMS9icitKRGdBT2lER2VIdThTS2FIRmtyUDBxdGVLVGE1U3o2QjlIK055?=
+ =?utf-8?B?Y0FNMDE3WHllUmIvbll1dldXQjFBTlpib1loWHhnMEl5TE1pRGhmTS9JU0xR?=
+ =?utf-8?B?MGhkd245K3M3alhqTWkvWUloVW1mclNvcDYvU3J2RXRLdHNjK1NvWlE5bEc2?=
+ =?utf-8?B?VHhrS1FGcGFSK2NoN2FRMVBZRHlSQ1dnSmhqVUlkWCtxS1JTaHhQU3AyeWFn?=
+ =?utf-8?B?dTV5VDdKcVEzWEF1UVUrV0M5NFlxSTJnU0dyZVMvd0t6Q3poZlpRQUd4WTZv?=
+ =?utf-8?B?aWlzMU1ZK0NGaFZLOVkvelJWRlBCTVE5Ly9xeXV3M1RGcXIzcDVYQ2hNRStF?=
+ =?utf-8?B?bERVdWVuenZlK1JQU2h3bklCeFljYlZYS3FzNi9uU3VNVkNudDJTcUo5ZU5D?=
+ =?utf-8?B?VTZmUC9ORHdFREFGYkRJMzNqdjhOV0NPVnFKQWwrUEdZYlFST1p1TFZLKzBa?=
+ =?utf-8?B?SitPeUhEWHFkNlZrWnQ1WjVGSXlBQUQ0TzNIM1dQY1dwVXJPcFRVYXE1cVh0?=
+ =?utf-8?B?ZkNmU1ByRGpyYVNvZUlrZ2ZiVHNtU2dvbDRqNGhQTXBnMDJRMGkzdklyaTVI?=
+ =?utf-8?B?b1NnTWZHMVhXcXM2NU9EcFcyRk5GRU0wUmdGb0h5VDhKUFJxRVR6R1JVWDY5?=
+ =?utf-8?B?bk5wTWNGclRJSUJWdXZPV0gvSzFOaDZlMm9CRUg5dGJHWFRLcmtEZnVnZyta?=
+ =?utf-8?B?S293WC9aQnFvUWx4K1YwdUMvOVVoeGV1Q293eUdLenRycjFSb1J2aHFEZUYr?=
+ =?utf-8?B?RTA5SmMydU1kT1RhNk1NN3dvQ1pCZVhheFh1bVpxV29NbVRSbU9VSjlsejJ6?=
+ =?utf-8?B?QWRTbEhWYVdKckVjUHp4UzdpT2V0U25sT0NGOVR6YUdHbUZqQVFIcWlhM2tn?=
+ =?utf-8?B?ZWwzazBTTFo2by9adWFWOTdkT1N6cTdUeklUL3hmczNpa04wMGlneDU0VmtO?=
+ =?utf-8?B?Z3UwWGJyZzZmOEh1RjF6MG1PZkpMNHhqdW5aTG5iT2thVzU0Qm9PWmgralND?=
+ =?utf-8?Q?jzmymIJQzzStml8sKExNY3thu?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6193ff0f-e8bb-4241-6d7b-08ddc2b64401
+X-MS-Exchange-CrossTenant-Network-Message-Id: 140b17af-edb9-4c5e-67e5-08ddc2b81edf
 X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jul 2025 09:10:24.0095 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jul 2025 09:23:40.6693 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: c7Tsih1vBPNz26Vhm0jFFHvceh7xbLJx2TXDuW/GK8gJqvCT2SjMTqHBeawBz5Z5
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6301
+X-MS-Exchange-CrossTenant-UserPrincipalName: u/1CrBOAHbvqEDR+OE0EVpfNdo8dYPvk1bTASYu9eGK7U3j87cQpHzOE0ITiMffA
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB6583
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -180,8 +181,10 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-On 11.07.25 19:23, Matthew Brost wrote:
-> On Fri, Jul 11, 2025 at 05:20:49PM +0200, Christian König wrote:
+On 13.07.25 21:03, Maíra Canal wrote:
+> Hi Christian,
+> 
+> On 11/07/25 12:20, Christian König wrote:
 >> On 11.07.25 15:37, Philipp Stanner wrote:
 >>> On Fri, 2025-07-11 at 15:22 +0200, Christian König wrote:
 >>>>
@@ -192,14 +195,14 @@ On 11.07.25 19:23, Matthew Brost wrote:
 >>>>> still running, and there is, thus, no reason to reset the hardware. This
 >>>>> can occur in two scenarios:
 >>>>>
->>>>>   1. The job is taking longer than the timeout, but the driver determined
->>>>>      through a GPU-specific mechanism that the hardware is still making
->>>>>      progress. Hence, the driver would like the scheduler to skip the
->>>>>      timeout and treat the job as still pending from then onward. This
->>>>>      happens in v3d, Etnaviv, and Xe.
->>>>>   2. Timeout has fired before the free-job worker. Consequently, the
->>>>>      scheduler calls `sched->ops->timedout_job()` for a job that isn't
->>>>>      timed out.
+>>>>>    1. The job is taking longer than the timeout, but the driver determined
+>>>>>       through a GPU-specific mechanism that the hardware is still making
+>>>>>       progress. Hence, the driver would like the scheduler to skip the
+>>>>>       timeout and treat the job as still pending from then onward. This
+>>>>>       happens in v3d, Etnaviv, and Xe.
+>>>>>    2. Timeout has fired before the free-job worker. Consequently, the
+>>>>>       scheduler calls `sched->ops->timedout_job()` for a job that isn't
+>>>>>       timed out.
 >>>>>
 >>>>> These two scenarios are problematic because the job was removed from the
 >>>>> `sched->pending_list` before calling `sched->ops->timedout_job()`, which
@@ -224,44 +227,6 @@ On 11.07.25 19:23, Matthew Brost wrote:
 >>
 >> That's what I strongly disagree on. The job is just a state bag between the submission and scheduling state of a submission.
 >>
-> 
-> See below. free_job is called after the fence signals, and drivers have
-> now built assumptions around this, which would be hard to untangle.
-> Sure, the scheduler could have been designed to free the job immediately
-> after calling run_job(), but it wasn’t.
-
-Exactly that's the point! The scheduler *was* designed around the idea of immediately freeing the job when it starts to run.
-
-The original idea was that the scheduler just works with a void* as the job representation and converts that into the HW fence by calling run_job.
-
-This avoids tons of problems, starting from that you can't allocate memory for the HW fence while run_job is called all the way to that you don't have a properly defined job lifetime.
-
-I screamed out quite loud when people started to change this because it was absolutely foreseeable that this goes boom, but I just wasn't the maintainer of that stuff at this point.
-
-> Honestly, I kind of agree with
-> freeing the job immediately after running it—but that’s not the world we
-> live in, and we don’t have a time machine to fix it.
-
-Yeah, that's unfortunately true. 
-
-> I’d rather document
-> the current rules around job lifetime and look for ways to improve it.
-
-Exactly that's what I'm trying to do here.
-
-See we have spend the last 8 years iterating over the same problem over and over again, and the current solution just barely works. Take a look at the git history how often we have tried to get this to work properly.
-
-And yes, it's well known that it leaks the job when the driver doesn't do a reset and as Maíra absolutely correctly pointed out as well that re-inserting the job during the reset is just a completely broken design.
-
-It's just that everybody working on that has given up at some point.
-
-> Changing the job lifetime rules would require broad community buy-in,
-> which I doubt everyone would agree to.
-
-Well, changing the parameter of the timedout callback from the job to the fence should be relatively easy to do. That should immediately fix the issue Maíra is working on.
-
-Then potentially changing the job lifetime in the scheduler can be a different topic.
-
 >> For the scheduler the control starts when it is pushed into the entity and ends when run_job is called.
 >>
 >> The real representation of the submission is the scheduler fence and that object has a perfectly defined lifetime, state and error handling.
@@ -284,201 +249,22 @@ Then potentially changing the job lifetime in the scheduler can be a different t
 >>
 >> Take a look at the git history or job destruction, we already had exactly that approach, removed it and said that leaking memory is at least better than an use after free issue.
 >>
->>>>
->>>> Instead we should track the HW fences (or maybe the scheduler fences which point to the HW fence) the scheduler waits for.
->>>>
->>>> This HW fence is then given as a parameter to the driver when we run into a timeout.
->>>>
->>>> This has the clear advantage that dma_fence objects have a well defined livetime and necessary state transition. E.g. you can check at all times if the fence is signaled or not.
->>>
->>> I'd say that centralizing job handling in the scheduler is a
->>> prerequisite of what you suggest. You can't clean up anything while
->>> certain drivers (sometimes without even locking!) just willy-nilly re-
->>> add jobs to the pending_list.
->>
->> The point is we should get completely rid of the pending list.
->>
->> Then the whole question of removing or re-adding anything to the pending list doesn't appear in the first place.
->>
->> The issue with that is that we need to change the timeout callback to take the fence and not the job. And that is a rather big change affecting all drivers using the scheduler.
->>
 > 
-> I agree with the idea that the pending list should generally be a list
-> of pending fences, but once you start considering the implications, I'm
-> not really sure it works—or at least, not easily.
-> 
-> Most drivers these days decouple the fence and the job (i.e., the fence
-> isn't embedded in the job), so there's no inherent way to go from a
-> fence → job. In Xe, the job’s fence can be one of a variety of different
-> fences, depending on the submission type. To handle fence timeouts, we
-> don’t necessarily need the job itself, but we do need the driver-side
-> software queue. In Xe, this would be the scheduler, given the 1:1
-> relationship—so we could likely make it work. For drivers without a 1:1
-> relationship, it's unclear how this would be resolved, though perhaps
-> the hardware queue would be sufficient in that case.
-> 
-> It also follows that the job would be freed immediately after run_job()
-> if we don’t maintain a pending list of jobs, right? That opens a huge
-> can of worms, especially considering how Xe depends on the job being
-> freed only after the fence signals. Our job reference counts tie into
-> power management, hold a reference to the software queue, which in turn
-> reference-counts the VM, etc. I suspect other drivers do similar things.
-> It seems far simpler to just keep the job around until its fence
-> signals.
-> 
-> TL;DR: This seems like quite a lot of trouble.
+> If the job was removed from the pending list in the beginning of the
+> timeout and drm_sched_get_finished_job() fetches jobs from the pending
+> list, how can we end up with an use-after-free issue?
 
-For a start my idea is to have a pointer to the job in the scheduler fence, then track the pending fences instead of the pending jobs.
+By adding it back into the list after the timeout handling completed.
 
-As a next step give the timedout callback the scheduler fence (which has both HW fence pointer and job at that point) instead of the job and stop messing with the pending list all together during a timeout.
+We had exactly that before we came up with the horrible design to add it back to the pending list in drm_sched_stop() and the free_guilty flag.
 
-As a next step we could move the job pointer from the scheduler fence into the driver specific HW fence.
-
-Then we add a DMA-buf utility object which starts a work item when a dma_fence signals (I wanted to do that anyway cause that is a rather common pattern).
-
-This utility object would then replace the free_job callback from the scheduler, so that drivers can basically decide themselves when they want their job object freed.
+Could be that your approach now works better, but I'm really not sure about that.
 
 Regards,
 Christian.
 
 > 
-> Matt
+> Best Regards,
+> - Maíra
 > 
->> Regards,
->> Christian. 
->>
->>>
->>>
->>> P.
->>>
->>>>
->>>> Regards,
->>>> Christian.
->>>>
->>>>>  
->>>>> Signed-off-by: Maíra Canal <mcanal@igalia.com>
->>>>> ---
->>>>>  drivers/gpu/drm/scheduler/sched_main.c | 46 ++++++++++++++++++++++++++++++++--
->>>>>  include/drm/gpu_scheduler.h            |  3 +++
->>>>>  2 files changed, 47 insertions(+), 2 deletions(-)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
->>>>> index 0f32e2cb43d6af294408968a970990f9f5c47bee..657846d56dacd4f26fffc954fc3d025c1e6bfc9f 100644
->>>>> --- a/drivers/gpu/drm/scheduler/sched_main.c
->>>>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
->>>>> @@ -374,11 +374,16 @@ static void drm_sched_run_free_queue(struct drm_gpu_scheduler *sched)
->>>>>  {
->>>>>  	struct drm_sched_job *job;
->>>>>  
->>>>> -	spin_lock(&sched->job_list_lock);
->>>>>  	job = list_first_entry_or_null(&sched->pending_list,
->>>>>  				       struct drm_sched_job, list);
->>>>>  	if (job && dma_fence_is_signaled(&job->s_fence->finished))
->>>>>  		__drm_sched_run_free_queue(sched);
->>>>> +}
->>>>> +
->>>>> +static void drm_sched_run_free_queue_unlocked(struct drm_gpu_scheduler *sched)
->>>>> +{
->>>>> +	spin_lock(&sched->job_list_lock);
->>>>> +	drm_sched_run_free_queue(sched);
->>>>>  	spin_unlock(&sched->job_list_lock);
->>>>>  }
->>>>>  
->>>>> @@ -531,6 +536,32 @@ static void drm_sched_job_begin(struct drm_sched_job *s_job)
->>>>>  	spin_unlock(&sched->job_list_lock);
->>>>>  }
->>>>>  
->>>>> +/**
->>>>> + * drm_sched_job_reinsert_on_false_timeout - reinsert the job on a false timeout
->>>>> + * @sched: scheduler instance
->>>>> + * @job: job to be reinserted on the pending list
->>>>> + *
->>>>> + * In the case of a "false timeout" - when a timeout occurs but the GPU isn't
->>>>> + * hung and is making progress, the scheduler must reinsert the job back into
->>>>> + * @sched->pending_list. Otherwise, the job and its resources won't be freed
->>>>> + * through the &struct drm_sched_backend_ops.free_job callback.
->>>>> + *
->>>>> + * This function must be used in "false timeout" cases only.
->>>>> + */
->>>>> +static void drm_sched_job_reinsert_on_false_timeout(struct drm_gpu_scheduler *sched,
->>>>> +						    struct drm_sched_job *job)
->>>>> +{
->>>>> +	spin_lock(&sched->job_list_lock);
->>>>> +	list_add(&job->list, &sched->pending_list);
->>>>> +
->>>>> +	/* After reinserting the job, the scheduler enqueues the free-job work
->>>>> +	 * again if ready. Otherwise, a signaled job could be added to the
->>>>> +	 * pending list, but never freed.
->>>>> +	 */
->>>>> +	drm_sched_run_free_queue(sched);
->>>>> +	spin_unlock(&sched->job_list_lock);
->>>>> +}
->>>>> +
->>>>>  static void drm_sched_job_timedout(struct work_struct *work)
->>>>>  {
->>>>>  	struct drm_gpu_scheduler *sched;
->>>>> @@ -564,6 +595,9 @@ static void drm_sched_job_timedout(struct work_struct *work)
->>>>>  			job->sched->ops->free_job(job);
->>>>>  			sched->free_guilty = false;
->>>>>  		}
->>>>> +
->>>>> +		if (status == DRM_GPU_SCHED_STAT_NO_HANG)
->>>>> +			drm_sched_job_reinsert_on_false_timeout(sched, job);
->>>>>  	} else {
->>>>>  		spin_unlock(&sched->job_list_lock);
->>>>>  	}
->>>>> @@ -586,6 +620,10 @@ static void drm_sched_job_timedout(struct work_struct *work)
->>>>>   * This function is typically used for reset recovery (see the docu of
->>>>>   * drm_sched_backend_ops.timedout_job() for details). Do not call it for
->>>>>   * scheduler teardown, i.e., before calling drm_sched_fini().
->>>>> + *
->>>>> + * As it's only used for reset recovery, drivers must not call this function
->>>>> + * in their &struct drm_sched_backend_ops.timedout_job callback when they
->>>>> + * skip a reset using &enum drm_gpu_sched_stat.DRM_GPU_SCHED_STAT_NO_HANG.
->>>>>   */
->>>>>  void drm_sched_stop(struct drm_gpu_scheduler *sched, struct drm_sched_job *bad)
->>>>>  {
->>>>> @@ -671,6 +709,10 @@ EXPORT_SYMBOL(drm_sched_stop);
->>>>>   * drm_sched_backend_ops.timedout_job() for details). Do not call it for
->>>>>   * scheduler startup. The scheduler itself is fully operational after
->>>>>   * drm_sched_init() succeeded.
->>>>> + *
->>>>> + * As it's only used for reset recovery, drivers must not call this function
->>>>> + * in their &struct drm_sched_backend_ops.timedout_job callback when they
->>>>> + * skip a reset using &enum drm_gpu_sched_stat.DRM_GPU_SCHED_STAT_NO_HANG.
->>>>>   */
->>>>>  void drm_sched_start(struct drm_gpu_scheduler *sched, int errno)
->>>>>  {
->>>>> @@ -1192,7 +1234,7 @@ static void drm_sched_free_job_work(struct work_struct *w)
->>>>>  	if (job)
->>>>>  		sched->ops->free_job(job);
->>>>>  
->>>>> -	drm_sched_run_free_queue(sched);
->>>>> +	drm_sched_run_free_queue_unlocked(sched);
->>>>>  	drm_sched_run_job_queue(sched);
->>>>>  }
->>>>>  
->>>>> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
->>>>> index 83e5c00d8dd9a83ab20547a93d6fc572de97616e..257d21d8d1d2c4f035d6d4882e159de59b263c76 100644
->>>>> --- a/include/drm/gpu_scheduler.h
->>>>> +++ b/include/drm/gpu_scheduler.h
->>>>> @@ -393,11 +393,14 @@ struct drm_sched_job {
->>>>>   * @DRM_GPU_SCHED_STAT_NONE: Reserved. Do not use.
->>>>>   * @DRM_GPU_SCHED_STAT_RESET: The GPU hung and successfully reset.
->>>>>   * @DRM_GPU_SCHED_STAT_ENODEV: Error: Device is not available anymore.
->>>>> + * @DRM_GPU_SCHED_STAT_NO_HANG: Contrary to scheduler's assumption, the GPU
->>>>> + * did not hang and is still running.
->>>>>   */
->>>>>  enum drm_gpu_sched_stat {
->>>>>  	DRM_GPU_SCHED_STAT_NONE,
->>>>>  	DRM_GPU_SCHED_STAT_RESET,
->>>>>  	DRM_GPU_SCHED_STAT_ENODEV,
->>>>> +	DRM_GPU_SCHED_STAT_NO_HANG,
->>>>>  };
->>>>>  
->>>>>  /**
->>>>>
->>>>
->>>
->>
 
