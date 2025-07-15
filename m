@@ -2,69 +2,88 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D56BCB05A30
-	for <lists+etnaviv@lfdr.de>; Tue, 15 Jul 2025 14:31:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CF29B05AD0
+	for <lists+etnaviv@lfdr.de>; Tue, 15 Jul 2025 15:07:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7651E892AA;
-	Tue, 15 Jul 2025 12:31:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A14710E37C;
+	Tue, 15 Jul 2025 13:07:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="QF8lJOGM";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="iOC+mIX/";
 	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B0CD8892AA;
- Tue, 15 Jul 2025 12:31:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
- In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=G5tGG9amdL2b0ifcnhepNyhm4h9SwYWFaCFHBzhKkUo=; b=QF8lJOGMamFp3i34+/XW5O2GDn
- 71NiknX0apJ3b+619bcPJXd2PBL6R+06254tF6QlVTJftkaOUrW4vUD7h893zRA+7bBCQlOvxCGcx
- OihUhWlMYgOIKNjWzUITbw2ZxNZ+2dBdmUshHouaClGY7bLUvTeLBaRLkKKiMsCaK9Qy9jR7J1TdZ
- G22u76BSZtn+pdiLUbBD3VBZFgIqKhGNyIEAGz5ebzQk+JSxz0BRsSFj87fHZ4Nug49hXI8Iar+8M
- jNIFqj05xBUYz3euuROmgAnbGnDrRGI7DVRpewUxl+JB3cJJM8HUM+ospZkqODk+qBaPdajyFGg7J
- GLKyCtsg==;
-Received: from [187.36.210.68] (helo=morissey)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1ubenv-00GpXn-Oc; Tue, 15 Jul 2025 14:30:40 +0200
-From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
-To: Matthew Brost <matthew.brost@intel.com>,
- Danilo Krummrich <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- Simona Vetter <simona@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Melissa Wen <mwen@igalia.com>, Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
- Liviu Dudau <liviu.dudau@arm.com>,
- =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
-Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org,
- etnaviv@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- Min Ma <min.ma@amd.com>, Lizhi Hou <lizhi.hou@amd.com>,
- Oded Gabbay <ogabbay@kernel.org>, Frank Binns <frank.binns@imgtec.com>,
- Matt Coster <matt.coster@imgtec.com>, Qiang Yu <yuq825@gmail.com>,
- Lyude Paul <lyude@redhat.com>, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Subject: Re: [PATCH v6 0/8] drm/sched: Allow drivers to skip the reset with
- DRM_GPU_SCHED_STAT_NO_HANG
-Date: Tue, 15 Jul 2025 09:30:18 -0300
-Message-ID: <175258238784.119068.1577042922667240898.b4-ty@igalia.com>
-X-Mailer: git-send-email 2.50.0
-In-Reply-To: <20250714-sched-skip-reset-v6-0-5c5ba4f55039@igalia.com>
-References: <20250714-sched-skip-reset-v6-0-5c5ba4f55039@igalia.com>
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
+ [209.85.221.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8EB2B10E380
+ for <etnaviv@lists.freedesktop.org>; Tue, 15 Jul 2025 13:07:56 +0000 (UTC)
+Received: by mail-wr1-f54.google.com with SMTP id
+ ffacd0b85a97d-3a536ecbf6fso3413572f8f.2
+ for <etnaviv@lists.freedesktop.org>; Tue, 15 Jul 2025 06:07:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1752584875; x=1753189675; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=Vhalk+tFLZLcoAcVW7SM+79/QnX7jEAgMagSpNChQks=;
+ b=iOC+mIX/YvvgoKYr29TQaOR+cBKdPNGwnVRUK/l7YrOEIUADSMd1pcdIyWJn/vgBSa
+ KF1PlE6Yxeau0WqaORHmxMroTmiR7BwVgVoxIzLgqzJU+nIjSq/UMD696o2fqDjrGVLE
+ 5+KVda7qJJ5ldXxrFKWG4ydTdcWNhhhh6gcqY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1752584875; x=1753189675;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Vhalk+tFLZLcoAcVW7SM+79/QnX7jEAgMagSpNChQks=;
+ b=Qradef2XVQFOQnqLnmxGF6LqiqzBBpL83uhJrnB+TTmL53MuVVFUWK0zseuNGv6hpA
+ h2vqAbCTZypM9pXNtNtuhNJj8F89UWxxXJy5W6Kg+tj9lmqhVhUmgv5Nskr+8PyK5+D6
+ NV+TYEk0QbvPYCaLF/2+6378fN26MmlqOT7znwm8vu5vfEMBAYDxMYJJUgII/07mfBLg
+ x3AUk27RyKyhft3rpnzHSf7AmMczpfkeHlkFq5LM4gT4maEBR0LLPOJVGEgAOon60QL6
+ s0+o0vxp87MnCHm0G3hWzd8C8WOL2Wbd0yLc5e0fFakWRLqMTFHg0aIfTepQa37kwU6P
+ RX9A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXuNejFaI/bN9D476RjYf/oYEGYKR91QsowbOTVz9eSw2RNLh4rIXcbK3FZLAMv3bcFZSbVVELS@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzddC2Y5oKg5IFpq2KY6LaargVlGm4+X8IPnib+QJVhRscUcEwN
+ cqb9d2mtTncn5xQ/RzCRspojQ5FDIEydlnPVs7+zw1/yvs1cXDc/VmnGDMR91HfYRNw=
+X-Gm-Gg: ASbGncv8U7TZEAHaR7Rb+51AI+0CVQCg328uOEgErAvcVAO+C38UtPGZSj9YRi4Gkjq
+ 8ZuReL8z5t92nYPczSq8Qst2DkcYpK6IC1ih4FgYPfiZVyJw7dZZhhHQO79zZsoZPqvAZnIRBFA
+ gu3TWxM/SgFiOOtk5rPqoTMrpSZJnEX0MgKDDzWCTfxBZyjmwF3Xe1plDyg986GSQ1IiT1P28z7
+ WRCMv8eueC5xzFDwDS0JN/KjuFFKV7YfCDuiFXMMTJn/Nj91RpNjz47dMYNLmPk2M+iJaIm+ki5
+ Ywkc6YX/17bcHS254yKDxVn5ner6GX38sIhWmYxNiAuL7OTWD5peMSunMGohe6P00OJVmzeJcqp
+ 3cRcfKb0L7JjVcWfZtxOP9BKUOzgBTioDV09OViAIoG8M
+X-Google-Smtp-Source: AGHT+IFvjJv0iQ1esKVhC2U9EfqSY36m9csxovxVuTxGwCMaO1aKfhcXc28AxThBk/EuVM6f1XOsAA==
+X-Received: by 2002:a05:6000:2c09:b0:3a3:63d3:369a with SMTP id
+ ffacd0b85a97d-3b5f188e822mr16534712f8f.25.1752584874381; 
+ Tue, 15 Jul 2025 06:07:54 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3b5e8e0d76fsm15422563f8f.64.2025.07.15.06.07.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 15 Jul 2025 06:07:53 -0700 (PDT)
+Date: Tue, 15 Jul 2025 15:07:51 +0200
+From: Simona Vetter <simona.vetter@ffwll.ch>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Simona Vetter <simona.vetter@ffwll.ch>, simona@ffwll.ch,
+ airlied@gmail.com, christian.koenig@amd.com,
+ torvalds@linux-foundation.org, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, l.stach@pengutronix.de,
+ linux+etnaviv@armlinux.org.uk, kraxel@redhat.com,
+ christian.gmeiner@gmail.com, dmitry.osipenko@collabora.com,
+ gurchetansingh@chromium.org, olvaffe@gmail.com,
+ zack.rusin@broadcom.com, bcm-kernel-feedback-list@broadcom.com,
+ dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
+ virtualization@lists.linux.dev, intel-gfx@lists.freedesktop.org
+Subject: Re: [PATCH 0/9] drm: Revert general use of struct
+ drm_gem_object.dma_buf
+Message-ID: <aHZSp3BBBgS0p88B@phenom.ffwll.local>
+References: <20250711093744.120962-1-tzimmermann@suse.de>
+ <aHT6i723ffg2_m2v@phenom.ffwll.local>
+ <7053d7c9-62c1-480c-bca6-ca8ad6ca49a0@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <7053d7c9-62c1-480c-bca6-ca8ad6ca49a0@suse.de>
+X-Operating-System: Linux phenom 6.12.30-amd64 
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,32 +98,127 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-
-On Mon, 14 Jul 2025 19:07:01 -0300, Maíra Canal wrote:
-> TL;DR: No changes from v5, I just rebased it on top of drm-misc-next. I
-> plan to push the series to the drm-misc tree tomorrow.
+On Tue, Jul 15, 2025 at 09:41:12AM +0200, Thomas Zimmermann wrote:
+> Hi
 > 
-> Thanks for all the reviews!
+> Am 14.07.25 um 14:39 schrieb Simona Vetter:
+> > On Fri, Jul 11, 2025 at 11:35:15AM +0200, Thomas Zimmermann wrote:
+> > > Revert the use of drm_gem_object.dma_buf back to .import_attach->dmabuf
+> > > in the affected places. Also revert any fixes on top. Separates references
+> > > to imported and exported DMA bufs within a GEM object; as before.
+> > > 
+> > > Using the dma_buf as the one authoritative field for the DMA buf turns
+> > > out to be fragile. The GEM object's dma_buf pointer can be NULL if
+> > > userspace releases the GEM handle too early. Sima mentioned that the fix
+> > > in commit 5307dce878d4 ("drm/gem: Acquire references on GEM handles for
+> > > framebuffers") is conceptionally broken. Linus still notices boot-up
+> > > hangs that might be related.
+> > > 
+> > > Reverting the whole thing is the only sensible action here.
+> > > 
+> > > Tested on virtio; and amdgpu, simpledrm plus udl for dma-buf sharing.
+> > > 
+> > > Thomas Zimmermann (9):
+> > >    Revert "drm/framebuffer: Acquire internal references on GEM handles"
+> > >    Revert "drm/gem: Acquire references on GEM handles for framebuffers"
+> > Ok, I think all the below we should still apply for -fixes, because
+> > fundamentally gem_bo->dma_buf is not invariant over the lifetime of the
+> > buffer, while gem_bo->import_attach.dmabuf is. And so we blow up.
+> > 
+> > For display drivers the handle_count reference mostly papers over the
+> > issues, but even display drivers are allowed to keep internal references
+> > to the underlying gem bo for longer. So there could be a bunch of really
+> > tricky bugs lurking.
+> > 
+> > For render drivers it's even clearer, they don't have framebuffers as
+> > objects, so there the fb handle_count references does not help.
+> > 
+> > I'm not opposed to trying to unify these fields for imported dma_buf, but
+> > currently they're just not. Hence all the reverts.
+> 
+> Thanks for the write up.
+> 
+> > 
+> > The patches also need Fixes: and as needed, cc: stable added for merging.
+> > With that and the above text as additional justification added:
+> > 
+> > Reviewed-by: Simona Vetter <simona.vetter@ffwll.ch>
+> > 
+> > Also we'd need to chase down any addiotional conversions that have only
+> > landed in -next meanwhile of course.
+> > 
+> > ₣or the handle_count patches I'm less sure. I don't think they're
+> > justified for fixing the gem_bo->dma_buf NULL pointer issues, but they do
+> > probably help with the GETFB/2 confusion Christian has pointed out.
+> > Personally my preference is:
+> > 1. Apply the two reverts.
+> > 2. Create an igt testcase for the GETFB confusion
+> > 3. Figure out what the right fix for that is, which might or might not be
+> > the handle_count reference of drm_fb.
+> > 
+> > But with my maintainer hat on I don't mind about the exact path, as long
+> > as we get there somehow. If you decide to do land the reverts, they also
+> > have my:
+> > 
+> > Reviewed-by: Simona Vetter <simona.vetter@ffwll.ch>
+> 
+> Let's first revert all the dma_buf switching in drm-misc and other trees.
+> They should
+> be easy. If we revert the framebuffer-related A changes first, we might end
+> up with
+> these intermediate errors again.
+> 
+> There's no hurry with the framebuffer changes. We can address them after
+> upstream
+> picked up the dma-buf reverts.
+
+Yeah I think that's the most prudent path forward, otherwise we might
+accidentally regress linux-next in an avoidable way.
+-Sima
+
+> 
+> Best regards
+> Thomas
+> 
+> > 
+> > Cheers, Sima
+> > 
+> > >    Revert "drm/virtio: Use dma_buf from GEM object instance"
+> > >    Revert "drm/vmwgfx: Use dma_buf from GEM object instance"
+> > >    Revert "drm/etnaviv: Use dma_buf from GEM object instance"
+> > >    Revert "drm/prime: Use dma_buf from GEM object instance"
+> > >    Revert "drm/gem-framebuffer: Use dma_buf from GEM object instance"
+> > >    Revert "drm/gem-shmem: Use dma_buf from GEM object instance"
+> > >    Revert "drm/gem-dma: Use dma_buf from GEM object instance"
+> > > 
+> > >   drivers/gpu/drm/drm_framebuffer.c            | 31 +---------
+> > >   drivers/gpu/drm/drm_gem.c                    | 64 +++-----------------
+> > >   drivers/gpu/drm/drm_gem_dma_helper.c         |  2 +-
+> > >   drivers/gpu/drm/drm_gem_framebuffer_helper.c |  8 ++-
+> > >   drivers/gpu/drm/drm_gem_shmem_helper.c       |  4 +-
+> > >   drivers/gpu/drm/drm_internal.h               |  2 -
+> > >   drivers/gpu/drm/drm_prime.c                  |  8 ++-
+> > >   drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c  |  4 +-
+> > >   drivers/gpu/drm/virtio/virtgpu_prime.c       |  5 +-
+> > >   drivers/gpu/drm/vmwgfx/vmwgfx_gem.c          |  6 +-
+> > >   include/drm/drm_framebuffer.h                |  7 ---
+> > >   11 files changed, 35 insertions(+), 106 deletions(-)
+> > > 
+> > > -- 
+> > > 2.50.0
+> > > 
+> 
+> -- 
+> --
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Frankenstrasse 146, 90461 Nuernberg, Germany
+> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+> HRB 36809 (AG Nuernberg)
 > 
 
-Applied, thanks!
-
-[1/8] drm/sched: Rename DRM_GPU_SCHED_STAT_NOMINAL to DRM_GPU_SCHED_STAT_RESET
-      commit: 0a5dc1b67ef5c7e851b57764a2aab8cc4341a7b7
-[2/8] drm/sched: Allow drivers to skip the reset and keep on running
-      commit: 0b1217bfdfddf664c15954d1d51ee18ed88a2ccf
-[3/8] drm/sched: Make timeout KUnit tests faster
-      commit: 9b9b5a3605b9a5ef1d412e47b2ae70090c8d3580
-[4/8] drm/sched: Add new test for DRM_GPU_SCHED_STAT_NO_HANG
-      commit: 1472e7549f84c472a9ebb9a8bb0aaafe985ea608
-[5/8] drm/v3d: Use DRM_GPU_SCHED_STAT_NO_HANG to skip the reset
-      commit: 6b37fbacd087fbd517b6b276ca8bebd1dc052fb7
-[6/8] drm/etnaviv: Use DRM_GPU_SCHED_STAT_NO_HANG to skip the reset
-      commit: 8902c2b17a6ec723ab7924bc4113bef47603c0dc
-[7/8] drm/xe: Use DRM_GPU_SCHED_STAT_NO_HANG to skip the reset
-      commit: 53dcd0eaa271e870ca5d0b203be67b468214c1bc
-[8/8] drm/panfrost: Use DRM_GPU_SCHED_STAT_NO_HANG to skip the reset
-      commit: 9fb32803dfba63697080db7969bc3aa1bf323dc3
-
-Best regards,
-- Maíra
+-- 
+Simona Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
