@@ -2,59 +2,80 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C25BBB0D75F
-	for <lists+etnaviv@lfdr.de>; Tue, 22 Jul 2025 12:31:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 248D0B1323B
+	for <lists+etnaviv@lfdr.de>; Mon, 28 Jul 2025 00:28:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 70AAE10E656;
-	Tue, 22 Jul 2025 10:31:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C957A10E31F;
+	Sun, 27 Jul 2025 22:28:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=icenowy.me header.i=uwu@icenowy.me header.b="DAfrqHNI";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="CZhu1meJ";
 	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com
- [136.143.188.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9743510E1D4;
- Sat, 19 Jul 2025 06:46:46 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1752907597; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=Tv5PtB/Hu0pilIetNsmQ8GuCl9Blw4g6utc7I3xb4Gg5bSglvP2IAOT08JkoaDtaueGoGl7W8XeV/kY7B18zEueCZHOQBw7FkEOCZO3DUqKzEWDtioxvGrSuDLYR/00ExjqNmutnCPMKZALgIA9M68wjPjS/SLDOuZ5YkhRIhvc=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1752907597;
- h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=LHHndUs+/G5YW9qx+xWQMhGSrQiJOYOxKpwiXLvTjD4=; 
- b=J9Gg8BZ4Hu8LrN5jAWdG8xXcdN8RODt53r1YHiqUGw5Mw7fYpnmp4GchY3OPUF+zf4g1Vp4QVybOn4DGEctAhvFrELtGyP6BqCUiBSeJppQP5APttY42mVQHG7XIvI6Kce23ty2h87kBjjeiwLSFh1UvQXEvAuL/cpGErA5fmBY=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=icenowy.me;
- spf=pass  smtp.mailfrom=uwu@icenowy.me;
- dmarc=pass header.from=<uwu@icenowy.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1752907597; 
- s=zmail2; d=icenowy.me; i=uwu@icenowy.me;
- h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=LHHndUs+/G5YW9qx+xWQMhGSrQiJOYOxKpwiXLvTjD4=;
- b=DAfrqHNIFLYKxJLY3UrTlPvNkcRk3XRcSOk0Ql1kUxWQUg6cqmAiBurjZmFU76dW
- ik51svEVHL17MoIcOHDU1mNTDgkOvIxvE82drY7SOhLIUKg5pWOfEvY00ojmu+8xTxJ
- wKKVGNQTMrSqOLwoG4nF3xsezxb68HvJhrxSY3aQREYlkKCxdWD/POS+qzjUoQMWpkb
- NnJqloVoYPaBPMan/hmGfpVo8mSXkXaiVyoyXN9aXz9Z43e8kDsZTYYf8vKYlIIBve2
- Tji0PASQhUY3GDgYjsc9Ibko3plTz9gvo2gvQXSg4nIpg8YQ9euAThOxEJX0Jb1hanV
- OX0PGejKGg==
-Received: by mx.zohomail.com with SMTPS id 1752907596122572.0044863390824;
- Fri, 18 Jul 2025 23:46:36 -0700 (PDT)
-From: Icenowy Zheng <uwu@icenowy.me>
-To: Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Icenowy Zheng <uwu@icenowy.me>
-Subject: [RFC PATCH] drm/etnaviv: set the 32-bit coherent DMA mask later
-Date: Sat, 19 Jul 2025 14:46:24 +0800
-Message-ID: <20250719064624.690606-1-uwu@icenowy.me>
-X-Mailer: git-send-email 2.50.0
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com
+ [209.85.216.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 796CA10E1A3;
+ Sun, 27 Jul 2025 22:28:55 +0000 (UTC)
+Received: by mail-pj1-f54.google.com with SMTP id
+ 98e67ed59e1d1-31c4a546cc2so3065443a91.2; 
+ Sun, 27 Jul 2025 15:28:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1753655335; x=1754260135; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=7aE55925tcWmGaX7tTb9viX7+snG3Kn2dzQ5QJ3oigY=;
+ b=CZhu1meJ6/nrxGyV44rNpw+112P/T2Clm+NzvTjGGSs/m0saWhoLIDn5Var4g3Uonz
+ akOJ1tKxvz7wwGI8Tn9QWB9Dwx8B+VfIOrRTzV27oREC1KCzP7E//6XQc/SNC3K6S6FB
+ cnIUTwK0ZXHQ7UL80MGgqGmb9JlTVu3XAuBlyRgd/1k9cFnGSgEEPORywtuVh9oyjNY3
+ dhZLfYYe79r0JIBaxLFKIIAFHXEqk04SC+lyA4pNc3r0zUuPm2/PEgPmoyp2sr3ZkrUG
+ p9J+j9D2anYUjGOhXNLvQVslMnNhbMwAEBScUK2YRunlHWmeEQ0lUwkBkr1LWm1Bqqqm
+ +Npw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1753655335; x=1754260135;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=7aE55925tcWmGaX7tTb9viX7+snG3Kn2dzQ5QJ3oigY=;
+ b=c9MFxXBbbkVAx/fi24X8woKQLIZm4+poX1BHhYD6qi/vNwtH7JM7jIvVy5nYDSo6ft
+ 08Xj714Ic/gkfUPhYLcW/h8tJH+xtNj+y3B7RuCOpDj86D0RtsbNUppvvwTUdMqKJ4eN
+ aVUKT2cXJlRoYCRMXC7d6zMd3O6T2l5uB4/0r96Or2iVF9h7wjBO0+W/fYUIM2OpuDyr
+ Xq9UW0O3gEY8sft1vkbB+arVramJbg6HjfCe0jNOMImorUH1ev8apLa3/QKv/CAZaOBR
+ HGdudSsHFVcsEaoC2WKGI1PQTLrHkoXGyiuqHNtdPCLg5H9v6J0xJlUtHD/rTzV8ugXS
+ eOkg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWRjOJUBf8l9n/sXHI+HWwyMJ52OX2OJRxLrk2iZGwsRWAc1cBL+9FSVb77+V89o0vZgMCdwGeKSg==@lists.freedesktop.org,
+ AJvYcCXNxy2pGuRVOG2qt9bQ+ZuCIijv9samoVQPHp0X2XJPCPkPOoSipiwYJX0+Eqv4yAY/0iJlJlTuT+A=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx4tmUdJY0GXuva5NKgvg9JkiLJDlE3Cmc42TPi5ILNfqL04U4a
+ DF0/ze7Zf0sANxco5y4SmAHIzDx+lqK0iCxGAYfgDrnJ0XxnI3A0nheokmEDlEx9pD3T1NBuZY0
+ IC8fx7Mj+CJyWwLJwnzVuDNiWGkEwxhY=
+X-Gm-Gg: ASbGncul6VH7EHDt0N2kDr6uTQVL9XPvJInd+E1LGhKdjudLmsA1afCsKpZ9FVh3ai4
+ 0LTtXV5/lNF1YHRHP1dAzq0RcrNpjwaQaPwZjtObQnZiifpW4DeIrEEBomtY5L5tqNDl9jkNon7
+ wzDQh8xjDcy3pRupRbTpF/Qb/TPfVjZt9039kb5O6YjGYeb+donvHWuOWxxw1kB4SvivDMAglNG
+ BC1vw==
+X-Google-Smtp-Source: AGHT+IFB+UC79G6GOvpYCOqLMKe5c6XQOXyyyhKfZRzw/xMYi0ZwUgQjJFrdTLPc9goYRCJRriQdvkUAynVP85BQUE0=
+X-Received: by 2002:a17:90b:584b:b0:311:e305:4e97 with SMTP id
+ 98e67ed59e1d1-31e77a01261mr14286891a91.19.1753655334777; Sun, 27 Jul 2025
+ 15:28:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
-X-Mailman-Approved-At: Tue, 22 Jul 2025 10:31:23 +0000
+References: <20250507112131.3686966-1-tomeu@tomeuvizoso.net>
+ <20250508145624.4154317-1-tomeu@tomeuvizoso.net>
+ <a18f214ab0487a1c562f9e2f7f66ab1345925177.camel@pengutronix.de>
+ <CAAObsKDwVB7w0mK3qkJJ-x3sOVxbcM5pbjxJk-106baaiwM=dg@mail.gmail.com>
+In-Reply-To: <CAAObsKDwVB7w0mK3qkJJ-x3sOVxbcM5pbjxJk-106baaiwM=dg@mail.gmail.com>
+From: Christian Gmeiner <christian.gmeiner@gmail.com>
+Date: Mon, 28 Jul 2025 00:28:42 +0200
+X-Gm-Features: Ac12FXxXmcLRHhwJZhvSwh_E4TOWBWwI2_AjoaRN2XLAJ0SAZOxjnsj19GW09HQ
+Message-ID: <CAH9NwWfMCYKFF6Z+XiV9=4BANeyPk6bgNV_8FYM0cGwXuyDSxw@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/etnaviv: Fix flush sequence logic
+To: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+Cc: Lucas Stach <l.stach@pengutronix.de>, linux-kernel@vger.kernel.org, 
+ Russell King <linux+etnaviv@armlinux.org.uk>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Philipp Zabel <p.zabel@pengutronix.de>, 
+ =?UTF-8?Q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>, 
+ etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,67 +90,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-The etnaviv driver wants to use 40-bit DMA mask and 32-bit coherent
-allocation mask, to be able to access memory up to 40-bit, but still
-limit page tables to lower 32-bit.
+Hi Lucas,
 
-However, the call to of_dma_configure() next to setting the masks ruined
-everything -- of_dma_configure will use the coherent allocation mask to
-clip the DMA accessibility mask, leads to a setup with both masks as
-32-bit.
+> > > We should be comparing the last submitted sequence number with that o=
+f
+> > > the address space we may be switching to.
+> > >
+> > This isn't the relevant change here though: if we switch the address
+> > space, the comparison is moot, as we do a full flush on AS switch
+> > anyway. The relevant change is that with the old code we would record
+> > the flush sequence of the AS we switch away from as the current flush
+> > sequence, so we might miss a necessary flush on the next submission if
+> > that one doesn't require a AS switch, but would only flush based on
+> > sequence mismatch.
+>
+> Ah, you are right.
+>
+> > Mind if I rewrite the commit message along those lines while applying?
+>
 
-In this situation PRIME imports stop to work because of SWIOTLB getting
-activated.
+Now that v6.16 has been tagged, I was wondering why this patch didn=E2=80=
+=99t make
+it into this release. From the timeline, it seemed like there was
+enough time for it
+to be included, so I=E2=80=99m just trying to understand if it was overlook=
+ed
+or deferred
+for a reason.
 
-Set a 40-bit coherent mask before of_dma_configure() and then the real
-32-bit mask after it, to prevent main DMA mask being clipped.
+I also haven=E2=80=99t seen any recent activity at
+https://git.pengutronix.de/cgit/lst/linux/, which
+made me unsure about the current status of patch queue handling.
 
-Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
----
-This patch is marked RFC because the practice looks a little dirty.
+--=20
+Thanks
+--
+Christian Gmeiner, MSc
 
-P.S. unfortunately the testing situation isn't mainlined yet -- I am
-using etnaviv as the X.org 2D accelerator on TH1520 SoC (with
-xf86-video-thead DDX), and importing buffers from powervr device
-(open source Vulkan driver, hacked to add xcb WSI support). Both devices
-are a few patches away from mainline, and the display engine
-(VeriSilicon DC8200) support is a big TODO.
-
- drivers/gpu/drm/etnaviv/etnaviv_drv.c | 13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-index 3e91747ed339..cded63904c65 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-@@ -650,9 +650,11 @@ static int etnaviv_pdev_probe(struct platform_device *pdev)
- 	 * To make things easy, we set the dma_coherent_mask to 32
- 	 * bit to make sure we are allocating the command buffers and
- 	 * TLBs in the lower 4 GiB address space.
-+	 *
-+	 * As coherent_mask may mislead of_dma_configure(), set it to
-+	 * the same with main dma mask temporarily as a hack.
- 	 */
--	if (dma_set_mask(dev, DMA_BIT_MASK(40)) ||
--	    dma_set_coherent_mask(dev, DMA_BIT_MASK(32))) {
-+	if (dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(40))) {
- 		dev_dbg(dev, "No suitable DMA available\n");
- 		return -ENODEV;
- 	}
-@@ -668,6 +670,13 @@ static int etnaviv_pdev_probe(struct platform_device *pdev)
- 		of_node_put(first_node);
- 	}
- 
-+	/*
-+	 * Now as of_dma_configure() is done, we're now safe to set
-+	 * coherent_dma_mask to the real value.
-+	 */
-+	if (dma_set_coherent_mask(&pdev->dev, DMA_BIT_MASK(32)))
-+		return -ENODEV;
-+
- 	return component_master_add_with_match(dev, &etnaviv_master_ops, match);
- }
- 
--- 
-2.50.1
-
+https://christian-gmeiner.info/privacypolicy
