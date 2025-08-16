@@ -2,79 +2,60 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2C22B1D431
-	for <lists+etnaviv@lfdr.de>; Thu,  7 Aug 2025 10:18:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E482B28B82
+	for <lists+etnaviv@lfdr.de>; Sat, 16 Aug 2025 09:48:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7EFBB10E0A4;
-	Thu,  7 Aug 2025 08:18:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 644D610E089;
+	Sat, 16 Aug 2025 07:48:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="RMDjB81C";
+	dkim=pass (2048-bit key; unprotected) header.d=icenowy.me header.i=uwu@icenowy.me header.b="Ejc61UXZ";
 	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com
- [209.85.216.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 378E310E0A4
- for <etnaviv@lists.freedesktop.org>; Thu,  7 Aug 2025 08:18:04 +0000 (UTC)
-Received: by mail-pj1-f46.google.com with SMTP id
- 98e67ed59e1d1-32117db952aso707369a91.0
- for <etnaviv@lists.freedesktop.org>; Thu, 07 Aug 2025 01:18:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1754554684; x=1755159484; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Dw8ug+LMzmBVHLzIqovkEJblmn/DZTHqcZfHClcLJAw=;
- b=RMDjB81C/DqDA/y2pr60rzGLfP8YX7x1s0O6YrvgA900cj8064qhHCxJPHLUKmljJu
- cBdMp3E3/8kesb5LiA0MGFFyATQN9xd3l/hhSfLWH7Uhe8xNA7HFrw0BixPcoCeMc6iU
- YOfkKg9/q6wloaf97tPZrScx5oEr9AC/cZVWhvBHn3pQfDpEJyc9qGvdh801mUAlDlM6
- IBVtSgRdIFITl1IBbCYeeumvZYC3tn8s0YDrrCIaxVZx5eacBpTtoEK/tYBZP3QQ3X6M
- uyLlG/Pi5vOEts/DK7upErif7WqbSZ8NDY4HvVuVQWpYOhgyADaT8qAJWxIuHFXExlq5
- m9Nw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1754554684; x=1755159484;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Dw8ug+LMzmBVHLzIqovkEJblmn/DZTHqcZfHClcLJAw=;
- b=o9Ze2mof9ku6TBHhx+ErTVzDmUMOXNmLZnG66+eZuhJ3H4h0dy+B7ZV0oXPKcLDcpc
- GZ7AUlPb3xbS3/LoHSZzxAA9olo1pbTRc4yiRy50Rev1udb0PiZdF1yKsrHAaPgGEIZg
- bC9XMGGe/1aZXSqAlGvYj2SuVUpQQtvik6MCW/qJAn+CwOGnoNTF5mRwuCmhohdC8D0y
- h7Bd/naSx6/sg06udz0VE1E3qaMoeQztcsnEx+BpIeaAqhFblrrTJAWY03zx8UPljNvh
- uBqiJ22SUJXWzL3jQEUEzdlua4InNdbKydGDpDg6M9yiGq0kkl8e1womr6McbahKABVb
- Jt7g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXGKHq79mkwLISs4JInpekSck24nhpKOdjRwsp9UaW77vfQqxJGVrn4VS5l10l/hKxp2xL+cr+e@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxW6MbReNBY9FZqKlGDZBthiCm7HozLsounn5ycUCm35lcaWNAJ
- HJ0eIM8TrBA/oGnkqV4eMBGjQUJHItPVXv3IdbT8tFFGBZpdaPDR7I1s1xZI8RDs719OnFUGzsz
- KM7Gn2mOWVaP+XLv380uRQaAGBotU1cg=
-X-Gm-Gg: ASbGncsXB1ATASMnYjpJzKMYSTDlEaYQhxf01UIBkwQCQsAhe9fLwjSzAo97t+z6gQ2
- FnpAmWBm+K9OVf6k0nQ6Nzr+iQVJNgPoAHsY/FtfOzxnjoQwuoMlva71dxs3ilJeTlx7vTKKg7U
- hFUxb8svFJGZ+HXlVMzy6vqMMLYAtXe/qTKfcQuk5A+zDqnnShgX5jGy0uvRUFjd8CCwK0uRrkd
- 4xx7ujU1SfNVOy9
-X-Google-Smtp-Source: AGHT+IFlZTSr1n/OIGX+/EDCiS0sp4ARQm2CiN5P905L8+/uP6dzPOMKNCSpXynlOVBCJUKyM/vCd8aa0R7m2VSmZEs=
-X-Received: by 2002:a17:90b:4a0e:b0:31f:30a6:56ff with SMTP id
- 98e67ed59e1d1-32166ca78d0mr8320888a91.19.1754554683498; Thu, 07 Aug 2025
- 01:18:03 -0700 (PDT)
+Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com
+ [136.143.188.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A30A10E089;
+ Sat, 16 Aug 2025 07:48:31 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1755330499; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=A3Z3+ERcLsXTZoUMsAKaue8d2lHMezKapHDW7CIAizHx7DFRfYlxDHl+oVMKxnmPZY92upxn8WP/kd4f+7bf+jsr1MnwPaJcr8/jIOcz3+GNX0aQ4IJ4fqVaxzRc3JfmxSBluUTF+yRkWlC0VTRHWhhUNjiGrObr/M4mTFUAnV4=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1755330499;
+ h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=ZvPMHxn9L7TiQAMN2zR904XCsjoFl4D3E0wwP1N3GjU=; 
+ b=bIO4+m8a1j6drs3qvNV5RvzSKhP+SZUi8yeO98ZXPG+TBg5VKrHp/Njbb/5iI7gsCD65Q/zm6ocF7VE9SKPhyNhsMyAnJlyC5vqutdkj9BMITfuE/Cr50OYT3+MhtIATV6I/N+9MLyBLy2LEVM8PZVf9ox4t95At6GA1DtkLJWU=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=icenowy.me;
+ spf=pass  smtp.mailfrom=uwu@icenowy.me;
+ dmarc=pass header.from=<uwu@icenowy.me>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1755330499; 
+ s=zmail2; d=icenowy.me; i=uwu@icenowy.me;
+ h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=ZvPMHxn9L7TiQAMN2zR904XCsjoFl4D3E0wwP1N3GjU=;
+ b=Ejc61UXZtgJgtPUu0kbjrf9a3gMGZBwkNEp6GNXbaNY9cd5k5v4MN4OUPJjCST4P
+ vJN8xP6j2quoP+UiX8rOPTDhpmQnuK7Ca4VoiCwf6BwMohPt4vXBZPMyL3+ugPn0b9i
+ ATAD/sVL2HgXoQASdKdxOM9iCXCGoRJ2YVlrcA37+Otde/CsMDzREbQSi2+UMXaWEOu
+ bc5y0Bxy7VrFu0J6Uh0IWJt84uFla/nVJOI0ZWnDF68SbRdbcf4rtTsUWqBsxdbUacv
+ IPzTuUPVP9O4Da7Joos9Te4/Pvrpl4RUT0Z00JnjGCuQZZ7aQaQJxIi8PwtiVwQXa0M
+ uk4u/S+V8Q==
+Received: by mx.zohomail.com with SMTPS id 1755330497800252.9936948125818;
+ Sat, 16 Aug 2025 00:48:17 -0700 (PDT)
+From: Icenowy Zheng <uwu@icenowy.me>
+To: Drew Fustini <fustini@kernel.org>, Guo Ren <guoren@kernel.org>,
+ Fu Wei <wefu@redhat.com>, Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+ etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Icenowy Zheng <uwu@icenowy.me>
+Subject: [PATCH 0/7] drm/etnaviv: add support for GC620 on T-Head TH1520
+Date: Sat, 16 Aug 2025 15:47:50 +0800
+Message-ID: <20250816074757.2559055-1-uwu@icenowy.me>
+X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
-References: <c4e6fa63-22af-4704-8cd8-60695c6a1d9b.6e2e464b-d864-4023-9e6f-7b1f7b7b3187.ecd3e5e5-68d5-465d-8973-f436b71c74fa@emailsignatures365.codetwo.com>
- <c4e6fa63-22af-4704-8cd8-60695c6a1d9b.a45007e2-be76-4ed0-b1ad-172f8b66e281.6ecc422e-3d59-4178-8377-cef24856beea@emailsignatures365.codetwo.com>
- <DBBPR03MB10462C52F7A92D60E5FC55515B723A@DBBPR03MB10462.eurprd03.prod.outlook.com>
- <CAOMZO5CvZoaj+nODZV0vfRK5ucOJ33bCtaZOgGSvciY-AJtGFA@mail.gmail.com>
- <DBBPR03MB1046232B226FA8719CAAFAEE5B723A@DBBPR03MB10462.eurprd03.prod.outlook.com>
- <CAOMZO5AgBWRvPLi-ZvGsD0nGLMD+bO9fDbymjOpfwcU0-x5YRQ@mail.gmail.com>
- <DBBPR03MB10462D0932F2045396A2A5E97B72DA@DBBPR03MB10462.eurprd03.prod.outlook.com>
- <CAFXsbZobSt-2wZVLMJKksrpw-PUsibZei_YYOgBOs=hkqHtURQ@mail.gmail.com>
- <DBBPR03MB104620073A4893427E36E6BE6B72CA@DBBPR03MB10462.eurprd03.prod.outlook.com>
-In-Reply-To: <DBBPR03MB104620073A4893427E36E6BE6B72CA@DBBPR03MB10462.eurprd03.prod.outlook.com>
-From: Christian Gmeiner <christian.gmeiner@gmail.com>
-Date: Thu, 7 Aug 2025 10:17:51 +0200
-X-Gm-Features: Ac12FXyAhB7B9Fa5oHEdn3RWpOq0MRnyNUF9md2FV5q0nAtLikFNOuWe-2giEtA
-Message-ID: <CAH9NwWe_hYBsOBjnSdAdSw+E4WwL545qWYc11Da4fQ1FEQiLaQ@mail.gmail.com>
-Subject: Re: running etnaviv driver on i.mx6
-To: Wagner Andre <andre.wagner@richard-wolf.com>
-Cc: Chris Healy <cphealy@gmail.com>, Fabio Estevam <festevam@gmail.com>, 
- "etnaviv@lists.freedesktop.org" <etnaviv@lists.freedesktop.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,21 +70,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Hi
+This patchset tries to add support for the GC620 2D accelerator, which
+is a quirky thing -- it has quirks on both MMU and DEC.
 
->
-> What do you think, which option is best? What problems are likely if not switching to a later mesa version than 23.2.1? Is the there a coupling between mesa versions and linux kernel (etnaviv driver) versions?
->
+The DEC quirk is bound to the model number and revision number
+currently, and only involves writing to some DEC registers at specific
+situation.
 
-mesa provides an implementation of well defined APIs (OpenGL,
-OpenGLES, ..) and there are no problems with only updating mesa. I use
-this combination on a daily basis during mesa development.
-The kernel driver introduces new features in a way that remains
-compatible with older mesa versions.
+The MMU quirk is more weird -- it contains a broken implementation of
+PTA, which blocks directly writing MTLB address to switch MMU context,
+but loading page table IDs different to the initial one does not work
+either. A shared context practice, like what's done for IOMMUv1, has to
+be used instead.
+
+The DT patch isn't ready because the VP (video processing) subsystem on
+TH1520 does not have proper clock and reset driver yet, and the DT patch
+included in this patchset uses fake clocks and ignore resets.
+
+Tested by the etnaviv_2d_test program in libdrm tests.
+
+Icenowy Zheng (7):
+  drm/etnaviv: add HWDB entry for GC620 r5552 c20b
+  drm/etnaviv: add handle for GPUs with only SECURITY_AHB flag
+  drm/etnaviv: setup DEC400EX on GC620 r5552
+  drm/etnaviv: protect whole iommuv2 ctx alloc func under global mutex
+  drm/etnaviv: prepare for shared_context support for iommuv2
+  drm/etnaviv: add shared context support for iommuv2
+  [NOT FOR UPSTREAM] riscv: dts: thead: enable GC620 G2D on TH1520
+
+ arch/riscv/boot/dts/thead/th1520.dtsi      | 19 +++++++++++++
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c      | 19 ++++++++++---
+ drivers/gpu/drm/etnaviv/etnaviv_hwdb.c     | 31 ++++++++++++++++++++++
+ drivers/gpu/drm/etnaviv/etnaviv_iommu.c    |  8 +++---
+ drivers/gpu/drm/etnaviv/etnaviv_iommu_v2.c | 23 +++++++++++-----
+ drivers/gpu/drm/etnaviv/etnaviv_mmu.c      |  1 +
+ drivers/gpu/drm/etnaviv/etnaviv_mmu.h      | 24 +++++++----------
+ 7 files changed, 96 insertions(+), 29 deletions(-)
 
 -- 
-greets
---
-Christian Gmeiner, MSc
+2.50.1
 
-https://christian-gmeiner.info/privacypolicy
