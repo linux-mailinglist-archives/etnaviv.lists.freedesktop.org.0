@@ -2,64 +2,37 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0FC7B40932
-	for <lists+etnaviv@lfdr.de>; Tue,  2 Sep 2025 17:40:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7116B435E0
+	for <lists+etnaviv@lfdr.de>; Thu,  4 Sep 2025 10:37:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9ECED10E1D5;
-	Tue,  2 Sep 2025 15:40:25 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=icenowy.me header.i=uwu@icenowy.me header.b="DY7B30bt";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6866710E10A;
+	Thu,  4 Sep 2025 08:37:13 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com
- [136.143.188.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 80CB210E1D5;
- Tue,  2 Sep 2025 15:40:24 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1756827613; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=aWSAyqXGsbZjyShKncpMOh2bidqXBUaIDVtuzUJ9ynIU8Ey2gXXZZi9XAQdK5sp4Nrz81JWpmpb48FI2REhZHUnKA7sM1fNZke6JLLHmCJEkTd+jtJPnz/ts1VpUaa+25zLVdw2OSDkBo+VH2/puV1S60oIb7tuLMYKPBy9NZfY=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1756827613;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=l0a5d8Bq/rNvK9rZz6eVzwJDRq62Oo1VLiOvhjtNKw8=; 
- b=XviKQ7S2Lz1VZUPRK6bGbuRdPZHwIg+emTIBGm6CanG9Zoq9HsZFIiNlXQ6sm4II4EUcTAjetTPLQwev+DyRmtLqpd/B5fvOiqbO+nkxk+p41UXtegdRbi+fEKkLqGCQSI38bHQpSwpxjhyJR0RHbQPWApyObAmD5DRYFHh79fc=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=icenowy.me;
- spf=pass  smtp.mailfrom=uwu@icenowy.me;
- dmarc=pass header.from=<uwu@icenowy.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1756827613; 
- s=zmail2; d=icenowy.me; i=uwu@icenowy.me;
- h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
- bh=l0a5d8Bq/rNvK9rZz6eVzwJDRq62Oo1VLiOvhjtNKw8=;
- b=DY7B30btFfiDhiATF39UO6rTAcb9BQuxHUdDLHInGZWVjnvJFTd5P5XJXwvFuD1+
- ztTip4d26jnvXJNgfPR2ZcTRMNzNvUJRHnU0f9X+lASTyUTKZNKyqaHlfD5UpLYYsrR
- 4C0avRo+a3k3iTTRnH9NtwKs6SBij7nW6rirOnveSQhFq0D1fIz+yYzCZDFb3CdFaOv
- Ys9fM4ltdce7ejncw23vjKEba45VWRCrAh93kwluVrPodct5ycgMnRKnr5O7p2QU07d
- FQqNZ+9YGJ+ciBbPG0hIOy3NFAj3VX3ZCBdnvu82CGZLp6dFrQsMaIFNWO3UYADi4Ri
- MBHpOorwRA==
-Received: by mx.zohomail.com with SMTPS id 1756827610463291.94280483667023;
- Tue, 2 Sep 2025 08:40:10 -0700 (PDT)
-Message-ID: <05ef7c0df0a2235277030b9e33f34082e8938faa.camel@icenowy.me>
-Subject: Re: [PATCH 6/7] drm/etnaviv: add shared context support for iommuv2
-From: Icenowy Zheng <uwu@icenowy.me>
-To: Drew Fustini <fustini@kernel.org>, Guo Ren <guoren@kernel.org>, Fu Wei
- <wefu@redhat.com>, Lucas Stach <l.stach@pengutronix.de>, Russell King
- <linux+etnaviv@armlinux.org.uk>, Christian Gmeiner
- <christian.gmeiner@gmail.com>,  David Airlie <airlied@gmail.com>, Simona
- Vetter <simona@ffwll.ch>
-Cc: linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org, 
- etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Date: Tue, 02 Sep 2025 23:40:02 +0800
-In-Reply-To: <20250816074757.2559055-7-uwu@icenowy.me>
-References: <20250816074757.2559055-1-uwu@icenowy.me>
- <20250816074757.2559055-7-uwu@icenowy.me>
-Organization: Anthon Open-Source Community
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-User-Agent: Evolution 3.44.4 
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id B2CA810E21C;
+ Wed,  3 Sep 2025 23:30:35 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DF4A61655;
+ Wed,  3 Sep 2025 16:30:26 -0700 (PDT)
+Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0E1483F694;
+ Wed,  3 Sep 2025 16:30:33 -0700 (PDT)
+Date: Thu, 4 Sep 2025 00:29:24 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Lucas Stach <l.stach@pengutronix.de>, Russell King
+ <linux+etnaviv@armlinux.org.uk>
+Cc: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Chen-Yu Tsai <wens@csie.org>, linux-sunxi
+ <linux-sunxi@lists.linux.dev>
+Subject: drm/etnaviv: detecting disabled Vivante GPU?
+Message-ID: <20250904002924.2bc63b73@minigeek.lan>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 MIME-Version: 1.0
-X-ZohoMailClient: External
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Mailman-Approved-At: Thu, 04 Sep 2025 08:37:12 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,71 +47,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-5ZyoIDIwMjUtMDgtMTbmmJ/mnJ/lha3nmoQgMTU6NDcgKzA4MDDvvIxJY2Vub3d5IFpoZW5n5YaZ
-6YGT77yaCj4gVW5mb3J0dW5hdGVseSB0aGUgR0M2MjAgR1BVIHNlZW1zIHRvIGhhdmUgYnJva2Vu
-IFBUQSBjYXBpYmlsaXR5LCBhbmQKPiBzd2l0Y2hpbmcgcGFnZSB0YWJsZSBJRCBpbiBjb21tYW5k
-IHN0cmVhbSBhZnRlciBpdCdzIHJ1bm5pbmcgd29uJ3QKPiB3b3JrLgo+IEFzIGRpcmVjdGx5IHN3
-aXRjaGluZyBtdGxiIGlzbid0IHdvcmtpbmcgZWl0aGVyLCB0aGVyZSB3aWxsIGJlIG5vCj4gcmVs
-aWFibGUgd2F5IHRvIHN3aXRjaCBwYWdlIHRhYmxlIGluIHRoZSBjb21tYW5kIHN0cmVhbSwgYW5k
-IGEgc2hhcmVkCj4gY29udGV4dCwgbGlrZSBpb21tdXYxLCBpcyBuZWVkZWQuCj4gCj4gQWRkIHN1
-cHBvcnQgZm9yIHRoaXMgc2hhcmVkIGNvbnRleHQgc2l0dWF0aW9uLiBTaGFyZWQgY29udGV4dCBp
-cyBzZXQKPiB3aGVuIHRoZSBicm9rZW4gUFRBIGlzIGtub3duLCBhbmQgdGhlIGNvbnRleHQgYWxs
-b2NhdGlvbiBjb2RlIHdpbGwgYmUKPiBtYWRlIHNob3J0IGNpcmN1aXQgd2hlbiBhIHNoYXJlZCBj
-b250ZXh0IGlzIHNldC4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBJY2Vub3d5IFpoZW5nIDx1d3VAaWNl
-bm93eS5tZT4KPiAtLS0KPiDCoGRyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfaW9tbXVf
-djIuYyB8IDggKysrKysrKysKPiDCoGRyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfbW11
-LmPCoMKgwqDCoMKgIHwgMSArCj4gwqBkcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2X21t
-dS5owqDCoMKgwqDCoCB8IDIgKysKPiDCoDMgZmlsZXMgY2hhbmdlZCwgMTEgaW5zZXJ0aW9ucygr
-KQo+IAo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2X2lvbW11
-X3YyLmMKPiBiL2RyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfaW9tbXVfdjIuYwo+IGlu
-ZGV4IDU2NTRhNjA0YzcwY2YuLjk2MGJhM2Q2NTlkYzUgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9n
-cHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9pb21tdV92Mi5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJt
-L2V0bmF2aXYvZXRuYXZpdl9pb21tdV92Mi5jCgpXZWxsLCBJIGZvcmdvdCB0byBjbGVhbiBzaGFy
-ZWRfY29udGV4dCBpbiBldG5hdml2X2lvbW11djJfZnJlZSgpIHdoZW4KdGhlIHNoYXJlZCBjb250
-ZXh0IGlzIHRvcm4gZG93bi4uLgoKPiBAQCAtMjczLDYgKzI3MywxMiBAQCBldG5hdml2X2lvbW11
-djJfY29udGV4dF9hbGxvYyhzdHJ1Y3QKPiBldG5hdml2X2lvbW11X2dsb2JhbCAqZ2xvYmFsKQo+
-IMKgwqDCoMKgwqDCoMKgwqBzdHJ1Y3QgZXRuYXZpdl9pb21tdV9jb250ZXh0ICpjb250ZXh0Owo+
-IMKgCj4gwqDCoMKgwqDCoMKgwqDCoG11dGV4X2xvY2soJmdsb2JhbC0+bG9jayk7Cj4gK8KgwqDC
-oMKgwqDCoMKgaWYgKGdsb2JhbC0+c2hhcmVkX2NvbnRleHQpIHsKPiArwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgY29udGV4dCA9IGdsb2JhbC0+c2hhcmVkX2NvbnRleHQ7Cj4gK8KgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGV0bmF2aXZfaW9tbXVfY29udGV4dF9nZXQoY29udGV4
-dCk7Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoG11dGV4X3VubG9jaygmZ2xvYmFs
-LT5sb2NrKTsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgcmV0dXJuIGNvbnRleHQ7
-Cj4gK8KgwqDCoMKgwqDCoMKgfQo+IMKgCj4gwqDCoMKgwqDCoMKgwqDCoHYyX2NvbnRleHQgPSB2
-emFsbG9jKHNpemVvZigqdjJfY29udGV4dCkpOwo+IMKgwqDCoMKgwqDCoMKgwqBpZiAoIXYyX2Nv
-bnRleHQpCj4gQEAgLTMwMSw2ICszMDcsOCBAQCBldG5hdml2X2lvbW11djJfY29udGV4dF9hbGxv
-YyhzdHJ1Y3QKPiBldG5hdml2X2lvbW11X2dsb2JhbCAqZ2xvYmFsKQo+IMKgwqDCoMKgwqDCoMKg
-wqBtdXRleF9pbml0KCZjb250ZXh0LT5sb2NrKTsKPiDCoMKgwqDCoMKgwqDCoMKgSU5JVF9MSVNU
-X0hFQUQoJmNvbnRleHQtPm1hcHBpbmdzKTsKPiDCoMKgwqDCoMKgwqDCoMKgZHJtX21tX2luaXQo
-JmNvbnRleHQtPm1tLCBTWl80SywgKHU2NClTWl8xRyAqIDQgLSBTWl80Syk7Cj4gK8KgwqDCoMKg
-wqDCoMKgaWYgKGdsb2JhbC0+djIuYnJva2VuX3B0YSkKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgZ2xvYmFsLT5zaGFyZWRfY29udGV4dCA9IGNvbnRleHQ7Cj4gwqAKPiDCoMKgwqDC
-oMKgwqDCoMKgbXV0ZXhfdW5sb2NrKCZnbG9iYWwtPmxvY2spOwo+IMKgwqDCoMKgwqDCoMKgwqBy
-ZXR1cm4gY29udGV4dDsKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYvZXRu
-YXZpdl9tbXUuYwo+IGIvZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9tbXUuYwo+IGlu
-ZGV4IGRmNTE5MjA4M2IyMDEuLmEwZjljOTUwNTA0ZTAgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9n
-cHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9tbXUuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9ldG5h
-dml2L2V0bmF2aXZfbW11LmMKPiBAQCAtNTA0LDYgKzUwNCw3IEBAIGludCBldG5hdml2X2lvbW11
-X2dsb2JhbF9pbml0KHN0cnVjdCBldG5hdml2X2dwdQo+ICpncHUpCj4gwqDCoMKgwqDCoMKgwqDC
-oG1lbXNldDMyKGdsb2JhbC0+YmFkX3BhZ2VfY3B1LCAweGRlYWQ1NWFhLCBTWl80SyAvCj4gc2l6
-ZW9mKHUzMikpOwo+IMKgCj4gwqDCoMKgwqDCoMKgwqDCoGlmICh2ZXJzaW9uID09IEVUTkFWSVZf
-SU9NTVVfVjIpIHsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgZ2xvYmFsLT52Mi5i
-cm9rZW5fcHRhID0gZ3B1LT5pZGVudGl0eS5tb2RlbCA9PQo+IGNoaXBNb2RlbF9HQzYyMDsKPiDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGdsb2JhbC0+djIucHRhX2NwdSA9IGRtYV9h
-bGxvY193YyhkZXYsCj4gRVROQVZJVl9QVEFfU0laRSwKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoCAmZ2xvYmFsLT52Mi5wdGFfZG1hLAo+IEdGUF9LRVJORUwpOwo+IMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgaWYgKCFnbG9iYWwtPnYyLnB0YV9jcHUpCj4gZGlm
-ZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfbW11LmgKPiBiL2RyaXZl
-cnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfbW11LmgKPiBpbmRleCAyZWM0YWNkYTAyYmM2Li41
-NjI3ZDJhMGQwMjM3IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2
-aXZfbW11LmgKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2X21tdS5oCj4g
-QEAgLTU1LDYgKzU1LDggQEAgc3RydWN0IGV0bmF2aXZfaW9tbXVfZ2xvYmFsIHsKPiDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHU2NCAqcHRhX2NwdTsKPiDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoGRtYV9hZGRyX3QgcHRhX2RtYTsKPiDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoERFQ0xBUkVfQklUTUFQKHB0YV9hbGxvYywgRVROQVZJVl9QVEFfRU5UUklF
-Uyk7Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoC8qIFdoZXRoZXIgcnVudGltZSBz
-d2l0Y2hpbmcgcGFnZSB0YWJsZSBJRCB3aWxsIGZhaWwKPiAqLwo+ICvCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqBib29sIGJyb2tlbl9wdGE7Cj4gwqDCoMKgwqDCoMKgwqDCoH0gdjI7Cj4g
-wqB9Owo+IMKgCgo=
+Hi,
 
+the Allwinner A523/A527/T527 family of SoCs feature a Vivante
+"VIP9000"(?) NPU, though it seems to be disabled on many SKUs.
+See https://linux-sunxi.org/A523#Family_of_sun55iw3 for a table, the
+row labelled "NPU" indicates which model has the IP. We suspect it's
+all the same die, with the NPU selectively fused off on some packages.
+
+Board vendors seem to use multiple SKUs of the SoC on the same board,
+so it's hard to say which particular board has the NPU or not. We
+figured that on unsupported SoCs all the NPU registers read as 0,
+though, so were wondering if that could be considered as a bail-out
+check for the driver?
+At the moment I get this, on a SoC with a disabled NPU:
+[    1.677612] etnaviv etnaviv: bound 7122000.npu (ops gpu_ops)
+[    1.683849] etnaviv-gpu 7122000.npu: model: GC0, revision: 0
+[    1.690020] etnaviv-gpu 7122000.npu: Unknown GPU model
+[    1.696145] [drm] Initialized etnaviv 1.4.0 for etnaviv on minor 0
+[    1.953053] etnaviv-gpu 7122000.npu: GPU not yet idle, mask: 0x00000000
+
+Chen-Yu got this on his board featuring the NPU:
+    etnaviv-gpu 7122000.npu: model: GC9000, revision: 9003
+
+If I get the code correctly, then etnaviv_gpu_init() correctly detects
+the "unsupported" GPU model, and returns -ENXIO, but load_gpu() in
+etnaviv_drv.c then somewhat ignores this, since it keeps looking for more
+GPUs, and fails to notice that *none* showed up:
+/sys/kernel/debug/dri/etnaviv/gpu is empty in my case.
+
+Quick questions:
+- Is reading 0 from VIVS_HI_CHIP_IDENTITY (or any other of the ID
+  registers) an invalid ID, so we can use that to detect those disabled
+  NPUs? If not, can any other register used to check this? The whole
+  block seems to be RAZ/WI when the NPU is disabled.
+
+- Would it be acceptable to change the logic to error out of the
+  driver's init or probe routine when no GPU/NPU has been found, at
+  best with a proper error message? As it stands at the moment, the
+  driver is loaded, but of course nothing is usable, so it keeps
+  confusing users.
+
+Happy to provide a patch, but just wanted to test the waters.
+
+Cheers,
+Andre
