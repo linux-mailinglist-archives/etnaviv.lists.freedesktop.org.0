@@ -2,63 +2,77 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6988DB43414
-	for <lists+etnaviv@lfdr.de>; Thu,  4 Sep 2025 09:33:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3709AB4380A
+	for <lists+etnaviv@lfdr.de>; Thu,  4 Sep 2025 12:10:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1534610E99A;
-	Thu,  4 Sep 2025 07:33:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB8C510E23E;
+	Thu,  4 Sep 2025 10:10:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=icenowy.me header.i=uwu@icenowy.me header.b="VQCh6Vix";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="HpGfQ1Kz";
 	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com
- [136.143.188.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B5F4410E995;
- Thu,  4 Sep 2025 07:33:36 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1756971210; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=chm57lNvJ9riBqQbo0LKStfYeAL1ujNx1RZ+faJKURC2EDz6dVAkX0mXCT+g2GNotQ/FJCSDO4Oiv8rfYrQ1zNOVlwl6oUeM+xUJg9HryRRvtd3HjpV9N0svGgWIDiNW+qk2ALOb57skhobci2jXzZhnCzNzrJNqkTe6ucUZWUk=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1756971210;
- h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=fCwqZzYjFLFE1aXsxQ6a7vK/RQ+fI8vudZin6LlNzRI=; 
- b=HqDTvMckkf/GLYlTyjCzQWYziLJjW6+slf1Ah/GdRIOHWQpjjGBCpGdo8DfO2FNkCB25i81be7tQju29hoFjyEIilOBmlZoA9B7c1R2QZFVg0RNcs4RvAHwSaVxz++Nr7hi8Kuo8MXirRlNk0X+uT2Ufs96d4hfAlCxTSbHusP8=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=icenowy.me;
- spf=pass  smtp.mailfrom=uwu@icenowy.me;
- dmarc=pass header.from=<uwu@icenowy.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1756971210; 
- s=zmail2; d=icenowy.me; i=uwu@icenowy.me;
- h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=fCwqZzYjFLFE1aXsxQ6a7vK/RQ+fI8vudZin6LlNzRI=;
- b=VQCh6Vixphv4lpAxB9jBHVDb+fd2IxbakryIb2MoVcRIvySAz51xU+xPhI7JZM99
- Lxy2/zYQGTgKOrUNmGpOKZbjHelaqaEGc8OPf/C0L68RYiZ62ue4r95PGn100+q4GJG
- bn38YlzuMKCy2n9WKHH7mOABx/rmvPC6YjdmME5UHLItSXa5MVch+a2ACzCTmJHQdyo
- 7iPv7KattTZNujvZ38YdKMdP3+d4+fRRsc4FEAmMuX5+5QRcwgc0NWeJj/OLLiqGyAj
- AGczcdtAIZyO1wcxV908ns2M41kbGFBzkaw5ObhftFFgc2KLr7OISZwj01foQO3A6GU
- QjvELnvkxA==
-Received: by mx.zohomail.com with SMTPS id 175697120750530.399496796533526;
- Thu, 4 Sep 2025 00:33:27 -0700 (PDT)
-From: Icenowy Zheng <uwu@icenowy.me>
-To: Drew Fustini <fustini@kernel.org>, Guo Ren <guoren@kernel.org>,
- Fu Wei <wefu@redhat.com>, Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: Han Gao <rabenda.cn@gmail.com>, linux-riscv@lists.infradead.org,
- etnaviv@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Icenowy Zheng <uwu@icenowy.me>
-Subject: [PATCH v2 7/7] [NOT FOR UPSTREAM] riscv: dts: thead: enable GC620 G2D
- on TH1520
-Date: Thu,  4 Sep 2025 15:31:51 +0800
-Message-ID: <20250904073151.686227-8-uwu@icenowy.me>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20250904073151.686227-1-uwu@icenowy.me>
-References: <20250904073151.686227-1-uwu@icenowy.me>
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com
+ [209.85.216.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7DB0A10E1AB;
+ Thu,  4 Sep 2025 10:10:42 +0000 (UTC)
+Received: by mail-pj1-f51.google.com with SMTP id
+ 98e67ed59e1d1-327f87275d4so939894a91.1; 
+ Thu, 04 Sep 2025 03:10:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1756980642; x=1757585442; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Mzz9fRqkvT5uX5MoAuPEzgbckQvhFxni4jRgfGvmtgU=;
+ b=HpGfQ1KzndybC0qKqiUJJ9sRMIEKdx28RaDfDOgM9Ue3INmwv085VuDHzvpTrtFePk
+ Je6uUaOlo5u1IeQfiAiQ+PXhHK9MAu9MB6lma9cx620uxbK0Vz4jTnrPE0POsTE2boab
+ Anur5PzZgS69MbTKPWUq6ZbQ9BUpJkUXifzmndzBT/btPdAl9r711DgP7Z1z2VDjzM1d
+ /Ea/qQqsUzXZtkYx/Z8SiRfdznWTP1xvNLuuxpys/RDbbmfomd5ldlVFv8QyXvT6YMgR
+ hPtQQwe24qOcLmPeErQLoM2IGRTrmh788Ir3gEcv1g4sZHinDkXs3JTrgWLqCKuTmbnS
+ aWQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1756980642; x=1757585442;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Mzz9fRqkvT5uX5MoAuPEzgbckQvhFxni4jRgfGvmtgU=;
+ b=wYcOZtTWFzcxnzWC+I1cfPEj5+ATfIHfe4fMNTMD/4JFwf0qXmFiq8bjgYiq0t5Vkd
+ P2FHmik9nVzwqIgtBHKK64sXu4dWMktyT12RJifvmuyq1V6ezp6IdoBx6TF2ECLNcy92
+ Ua3RFx0Nq8qbwfOhuGCr6YW+AGH5q0OkmNHa+XMfpiBWcrxjLh2DSGJeF/F2t8RbNR+l
+ L8VvY3Fyy6N4csEBvDxwDSKrsjEGQT/UE/LIpTG7jiBGKKCIvbZIQ2GzH2hiqcLClQOr
+ mVhz7phKblkiiFm6KhxbhCBALQmvIrS32UaAIEgjgVJ4OZNtthZanWA26IsuUD24NuXR
+ AvBw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW7fOla08oQ5zY45eTkavuAWGNQKFODgxk5hWbsS+foY1BI/UoxZhxH/NcsaRM1bsGj0614Ks08ew==@lists.freedesktop.org,
+ AJvYcCXFExC82Ls2nPtTisi1VUGV4x2CRWcz3dl/nzu9nZ8l8shIjSnKAP5sOIfP0JvwLa276Bb5SmXRnpc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Ywg4WP5PG1DNk87Pct2WGXJmtwgwb3Gyt8ORgYK8uKSbOhiaPs3
+ 46+8SpIjFulZHQs67N0IVloUsyKNLOih7fGz0da45LbSLjwPhIDeL8Fw0p817n79GVGvWk7KEm6
+ i+YDi8IIpz9zdxpwlj/3B2zCurZ7MlTQ=
+X-Gm-Gg: ASbGncvSbmS1HflSTsrrb92X1hBF5ptkYmkUdmswrL06HZM1JW71iPw5IiCrR2EBC3T
+ q1gxk5DUSH+rCq2qJTWlwxVx2Bw8UBB9jEMnN5cjYQUD7a14eNj1P/AfrEHz60eoGDiNAuIrK6D
+ fPli3wEtp91nM9t07dlnbOjoYQf5heIEMFTRQQoxjG6ManyV525lOHgF5LqTfKu2osaGp3Dh0FF
+ ly0Lgfua4SJhLR/
+X-Google-Smtp-Source: AGHT+IEcr6S5zr86X7JbbP5sYJWvgrw9FGbOqdwNbxj9i0AU+TbarxyEOKi8uBCwkBmAEckqzOKfKywVq1s6p5aN8Pk=
+X-Received: by 2002:a17:90b:2252:b0:327:edde:609e with SMTP id
+ 98e67ed59e1d1-3281543caffmr28305888a91.12.1756980641893; Thu, 04 Sep 2025
+ 03:10:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+References: <20250904002924.2bc63b73@minigeek.lan>
+In-Reply-To: <20250904002924.2bc63b73@minigeek.lan>
+From: Christian Gmeiner <christian.gmeiner@gmail.com>
+Date: Thu, 4 Sep 2025 12:10:30 +0200
+X-Gm-Features: Ac12FXy-UNDQKQzOziQWMNs3hr0MwNpnD0zv9eFEeEfrnSbWD3LfsO0NbySuusI
+Message-ID: <CAH9NwWepSZnBP7tot9it_bDEbSC14PrMePz+fBtHfHz4ikLDYA@mail.gmail.com>
+Subject: Re: drm/etnaviv: detecting disabled Vivante GPU?
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>, 
+ etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, Chen-Yu Tsai <wens@csie.org>, 
+ linux-sunxi <linux-sunxi@lists.linux.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,57 +87,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-The T-Head TH1520 SoC contains a GC620 2D graphics accelerator.
+Hi
 
-Enable it in the devicetree to allow using etnaviv driver with it.
+>
+> the Allwinner A523/A527/T527 family of SoCs feature a Vivante
+> "VIP9000"(?) NPU, though it seems to be disabled on many SKUs.
+> See https://linux-sunxi.org/A523#Family_of_sun55iw3 for a table, the
+> row labelled "NPU" indicates which model has the IP. We suspect it's
+> all the same die, with the NPU selectively fused off on some packages.
+>
+> Board vendors seem to use multiple SKUs of the SoC on the same board,
+> so it's hard to say which particular board has the NPU or not. We
+> figured that on unsupported SoCs all the NPU registers read as 0,
+> though, so were wondering if that could be considered as a bail-out
+> check for the driver?
+> At the moment I get this, on a SoC with a disabled NPU:
+> [    1.677612] etnaviv etnaviv: bound 7122000.npu (ops gpu_ops)
+> [    1.683849] etnaviv-gpu 7122000.npu: model: GC0, revision: 0
+> [    1.690020] etnaviv-gpu 7122000.npu: Unknown GPU model
+> [    1.696145] [drm] Initialized etnaviv 1.4.0 for etnaviv on minor 0
+> [    1.953053] etnaviv-gpu 7122000.npu: GPU not yet idle, mask: 0x0000000=
+0
+>
+> Chen-Yu got this on his board featuring the NPU:
+>     etnaviv-gpu 7122000.npu: model: GC9000, revision: 9003
+>
+> If I get the code correctly, then etnaviv_gpu_init() correctly detects
+> the "unsupported" GPU model, and returns -ENXIO, but load_gpu() in
+> etnaviv_drv.c then somewhat ignores this, since it keeps looking for more
+> GPUs, and fails to notice that *none* showed up:
+> /sys/kernel/debug/dri/etnaviv/gpu is empty in my case.
+>
 
-This patch is currently very dirty because it relies on the bootloader
-leaving the clocks enabled, and the core clock is a fake one.
+Looks fine to me - no wrong behavior.
 
-Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
----
-No changes in v2.
+> Quick questions:
+> - Is reading 0 from VIVS_HI_CHIP_IDENTITY (or any other of the ID
+>   registers) an invalid ID, so we can use that to detect those disabled
+>   NPUs? If not, can any other register used to check this? The whole
+>   block seems to be RAZ/WI when the NPU is disabled.
+>
+> - Would it be acceptable to change the logic to error out of the
+>   driver's init or probe routine when no GPU/NPU has been found, at
+>   best with a proper error message? As it stands at the moment, the
+>   driver is loaded, but of course nothing is usable, so it keeps
+>   confusing users.
+>
 
- arch/riscv/boot/dts/thead/th1520.dtsi | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+From an application standpoint, it=E2=80=99s not confusing since there is n=
+o etnaviv
+device to interact with. The user might wonder about the kernel messages,
+but that=E2=80=99s actually caused by an incorrect device tree. If the SoC =
+doesn=E2=80=99t
+have an NPU, it shouldn=E2=80=99t be enabled in the DTS.
 
-diff --git a/arch/riscv/boot/dts/thead/th1520.dtsi b/arch/riscv/boot/dts/thead/th1520.dtsi
-index 03f1d73190499..bc7dd7ee59dd5 100644
---- a/arch/riscv/boot/dts/thead/th1520.dtsi
-+++ b/arch/riscv/boot/dts/thead/th1520.dtsi
-@@ -225,6 +225,13 @@ aonsys_clk: clock-73728000 {
- 		#clock-cells = <0>;
- 	};
- 
-+	gc620_cclk: clk-gc620-fake {
-+		compatible = "fixed-clock";
-+		clock-frequency = <264000000>;
-+		clock-output-names = "gc620_cclk";
-+		#clock-cells = <0>;
-+	};
-+
- 	stmmac_axi_config: stmmac-axi-config {
- 		snps,wr_osr_lmt = <15>;
- 		snps,rd_osr_lmt = <15>;
-@@ -495,6 +502,18 @@ uart2: serial@ffec010000 {
- 			status = "disabled";
- 		};
- 
-+		/* Vivante GC620, 2D only */
-+		g2d: gpu@ffecc80000 {
-+			compatible = "vivante,gc";
-+			reg = <0xff 0xecc80000 0x0 0x40000>;
-+			interrupt-parent = <&plic>;
-+			interrupts = <101 IRQ_TYPE_LEVEL_HIGH>;
-+
-+			clocks = <&gc620_cclk>;
-+			clock-names = "core";
-+			status = "okay";
-+		};
-+
- 		clk: clock-controller@ffef010000 {
- 			compatible = "thead,th1520-clk-ap";
- 			reg = <0xff 0xef010000 0x0 0x1000>;
--- 
-2.51.0
+--=20
+greets
+--
+Christian Gmeiner, MSc
 
+https://christian-gmeiner.info/privacypolicy
