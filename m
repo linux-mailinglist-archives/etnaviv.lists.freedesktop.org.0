@@ -2,60 +2,59 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 471D9B4336C
-	for <lists+etnaviv@lfdr.de>; Thu,  4 Sep 2025 09:08:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DBA9B433FF
+	for <lists+etnaviv@lfdr.de>; Thu,  4 Sep 2025 09:32:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB55910E988;
-	Thu,  4 Sep 2025 07:08:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC99310E992;
+	Thu,  4 Sep 2025 07:32:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=icenowy.me header.i=uwu@icenowy.me header.b="NH7GAz86";
+	dkim=pass (2048-bit key; unprotected) header.d=icenowy.me header.i=uwu@icenowy.me header.b="fJmEpBPV";
 	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
 Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com
  [136.143.188.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 441AA10E987;
- Thu,  4 Sep 2025 07:08:19 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1756969689; cv=none; 
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 16EE810E992;
+ Thu,  4 Sep 2025 07:32:31 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1756971141; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=GL62wGC45A2lfwNmxK3TvV+dA8GVYqqoCli0Vfbho9/hiqN6gwieBzshVdY7q7+XiGwf1Anv720UQLPoGHZ5DSXO/uiU1s3mFSLx9WFuyWQ3STE9rLvm45R6yTextg2fFw6d9TLf8Sus+9EbrIDXTXGELJyE9Bk/f//mZGGPE7M=
+ b=DohdtRdsnWm+FTyceYTJ1ADB2Cu4BDb1acLuTd4SkmAWJE7xnDdnSJc2Mwa+DXakk4L+tYo3jZ3vfJPtoGaY/ES6YnB3yk4Qf3gfhZXM50Z+xWAl7tk7CFwx+yCY5Q2dmf/VMXmBQJpcZ07zN7gMhyTmZdM2fC6kW6/6qvOgOZM=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1756969689;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=U92wAadGlZGVk5xT5ZZbqnMlSjqsBe3r1oVXLxvdA00=; 
- b=ewN3dqtbOAl9ZapX4b0yMP4Sem5lMGn1cG1tVX9b0bkWPv5d5xC86bF0WN279Xlh8ZA1puhbM2vO6GrBvcL/F3AB7Ny+/JGEMC7vN74V9h08y4gukyqoR3dh+kZ50PfWrybuOj7HRyDAw0ZPTuXHWjIHlhdoEQZFt/38WpYKpBs=
+ s=zohoarc; t=1756971141;
+ h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=aTE4qhWLj97cE91FZu0gKB2lFf3oxunWOUcVgs6SaiY=; 
+ b=CQzsD7s5mdKui9tWAxYTf59KjgQCG5QxG2pn9Ckh63Yd98snZqpAptfhid9wB0u2s5C65F9dFa21Dhq9yPAsaHWw+8tr9VRM7ESoPLOhx1Jirx6VWSpzaXNl4dEDpLxrBfRyqUWzTpEudyabVcLUgzn87UfRImIOpsgNVRk46vs=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=icenowy.me;
  spf=pass  smtp.mailfrom=uwu@icenowy.me;
  dmarc=pass header.from=<uwu@icenowy.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1756969689; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1756971141; 
  s=zmail2; d=icenowy.me; i=uwu@icenowy.me;
- h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
- bh=U92wAadGlZGVk5xT5ZZbqnMlSjqsBe3r1oVXLxvdA00=;
- b=NH7GAz864YOPnmwGKqID7Dk4LrahqybEbzr6AYVqgt5aGhbdtm3D4O7YKv+9dcBk
- 9UZlYPWCSr1qoprBDkgKvAT8Qy3LM5RZuz20rE4ocO+ZsXnzUaijXuHDsHVt6PJCZUO
- CWE0FOfPHG6WOkkeb5oJVVo+Xf7A9I7tKcWfVBNAUyIogOVBlfDk1LiEJ/Gm342qmQb
- VhR7FO73FSg/oSeGU1i+v0qd041ti3DbW9ybpYY6Gvw7+yaWuLduZ/NDLkmJ1XBOnjc
- s+5PV7T3S2nki1p08A4AfQkzFbhsJJUVoGjpjmjY4iuhbb+RadaRvaKI1z7Dk0qCqn5
- AfkiSt4NLA==
-Received: by mx.zohomail.com with SMTPS id 17569696873581023.1645151047042;
- Thu, 4 Sep 2025 00:08:07 -0700 (PDT)
-Message-ID: <d660ad830b5c1fcafd398049897ab1acd68c5dca.camel@icenowy.me>
-Subject: Re: drm/etnaviv: detecting disabled Vivante GPU?
+ h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=aTE4qhWLj97cE91FZu0gKB2lFf3oxunWOUcVgs6SaiY=;
+ b=fJmEpBPVk/LMbZ5euOWMiJw4miTmtW7Msgj9kucoLU6iL98BN14/ytbyQZ/ZvNbL
+ LjS1jBL+WRG0CEKWrk43+v8W2dssyyHb6zeDjdSbotNJft1JcVZEp8IfZYk0Bpf9dsf
+ CUbmT7MX4vKA+iUTtH8fcsc5n0y5CceQjn5MlTeFIpJy2mySjx+c3UXhOAGTZWpgypa
+ srIc2bzCiqvi7BAC9vkfaAS2j85E0P1cn2IYboFcgjkzcXavYuIYlfAR6AMEll0Z5x5
+ cLcsWgrO0L7jbhILOL8a0HGVB0sxOKlSN7Tkxnizc2IMskk2B8kuOAzMuzYNZdKBT8Q
+ 9Lw+h2YHwA==
+Received: by mx.zohomail.com with SMTPS id 1756971139231102.77951280999105;
+ Thu, 4 Sep 2025 00:32:19 -0700 (PDT)
 From: Icenowy Zheng <uwu@icenowy.me>
-To: Andre Przywara <andre.przywara@arm.com>, Lucas Stach
- <l.stach@pengutronix.de>, Russell King <linux+etnaviv@armlinux.org.uk>
-Cc: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, Chen-Yu Tsai <wens@csie.org>, linux-sunxi
- <linux-sunxi@lists.linux.dev>
-Date: Thu, 04 Sep 2025 15:08:02 +0800
-In-Reply-To: <20250904002924.2bc63b73@minigeek.lan>
-References: <20250904002924.2bc63b73@minigeek.lan>
-Organization: Anthon Open-Source Community
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4 
+To: Drew Fustini <fustini@kernel.org>, Guo Ren <guoren@kernel.org>,
+ Fu Wei <wefu@redhat.com>, Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: Han Gao <rabenda.cn@gmail.com>, linux-riscv@lists.infradead.org,
+ etnaviv@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Icenowy Zheng <uwu@icenowy.me>
+Subject: [PATCH v2 0/7] drm/etnaviv: add support for GC620 on T-Head TH1520
+Date: Thu,  4 Sep 2025 15:31:44 +0800
+Message-ID: <20250904073151.686227-1-uwu@icenowy.me>
+X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-ZohoMailClient: External
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,68 +70,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-=E5=9C=A8 2025-09-04=E6=98=9F=E6=9C=9F=E5=9B=9B=E7=9A=84 00:29 +0100=EF=BC=
-=8CAndre Przywara=E5=86=99=E9=81=93=EF=BC=9A
-> Hi,
->=20
-> the Allwinner A523/A527/T527 family of SoCs feature a Vivante
-> "VIP9000"(?) NPU, though it seems to be disabled on many SKUs.
-> See https://linux-sunxi.org/A523#Family_of_sun55iw3=C2=A0for a table, the
-> row labelled "NPU" indicates which model has the IP. We suspect it's
-> all the same die, with the NPU selectively fused off on some
-> packages.
->=20
-> Board vendors seem to use multiple SKUs of the SoC on the same board,
+This patchset tries to add support for the GC620 2D accelerator, which
+is a quirky thing -- it has quirks on both MMU and DEC.
 
-In the case of Amlogic things, they seem to provide different DT's, see
-arch/arm64/boot/dts/amlogic/meson-g12b-a311d-bananapi-m2s.dts and
-arch/arm64/boot/dts/amlogic/meson-g12b-s922x-bananapi-m2s.dts ; the
-A311D is NPU-equipped SKU. (Although I don't know why they included
-different DTSI's and then still enable &npu node in a311d variant of
-board DT)
+The DEC quirk is bound to the model number and revision number
+currently, and only involves writing to some DEC registers at specific
+situation.
 
-> so it's hard to say which particular board has the NPU or not. We
-> figured that on unsupported SoCs all the NPU registers read as 0,
-> though, so were wondering if that could be considered as a bail-out
-> check for the driver?
-> At the moment I get this, on a SoC with a disabled NPU:
-> [=C2=A0=C2=A0=C2=A0 1.677612] etnaviv etnaviv: bound 7122000.npu (ops gpu=
-_ops)
-> [=C2=A0=C2=A0=C2=A0 1.683849] etnaviv-gpu 7122000.npu: model: GC0, revisi=
-on: 0
-> [=C2=A0=C2=A0=C2=A0 1.690020] etnaviv-gpu 7122000.npu: Unknown GPU model
-> [=C2=A0=C2=A0=C2=A0 1.696145] [drm] Initialized etnaviv 1.4.0 for etnaviv=
- on minor 0
-> [=C2=A0=C2=A0=C2=A0 1.953053] etnaviv-gpu 7122000.npu: GPU not yet idle, =
-mask:
-> 0x00000000
->=20
-> Chen-Yu got this on his board featuring the NPU:
-> =C2=A0=C2=A0=C2=A0 etnaviv-gpu 7122000.npu: model: GC9000, revision: 9003
->=20
-> If I get the code correctly, then etnaviv_gpu_init() correctly
-> detects
-> the "unsupported" GPU model, and returns -ENXIO, but load_gpu() in
-> etnaviv_drv.c then somewhat ignores this, since it keeps looking for
-> more
-> GPUs, and fails to notice that *none* showed up:
-> /sys/kernel/debug/dri/etnaviv/gpu is empty in my case.
->=20
-> Quick questions:
-> - Is reading 0 from VIVS_HI_CHIP_IDENTITY (or any other of the ID
-> =C2=A0 registers) an invalid ID, so we can use that to detect those
-> disabled
-> =C2=A0 NPUs? If not, can any other register used to check this? The whole
-> =C2=A0 block seems to be RAZ/WI when the NPU is disabled.
->=20
-> - Would it be acceptable to change the logic to error out of the
-> =C2=A0 driver's init or probe routine when no GPU/NPU has been found, at
-> =C2=A0 best with a proper error message? As it stands at the moment, the
-> =C2=A0 driver is loaded, but of course nothing is usable, so it keeps
-> =C2=A0 confusing users.
->=20
-> Happy to provide a patch, but just wanted to test the waters.
->=20
-> Cheers,
-> Andre
+The MMU quirk is more weird -- it contains a broken implementation of
+PTA, which blocks directly writing MTLB address to switch MMU context,
+but loading page table IDs different to the initial one does not work
+either. A shared context practice, like what's done for IOMMUv1, has to
+be used instead.
+
+The DT patch isn't ready because the VP (video processing) subsystem on
+TH1520 does not have proper clock and reset driver yet, and the DT patch
+included in this patchset uses fake clocks and ignore resets.
+
+Tested by both the etnaviv_2d_test program in libdrm tests and
+xf86-video-thead 2D-accelerated DDX.
+
+Icenowy Zheng (7):
+  drm/etnaviv: add HWDB entry for GC620 r5552 c20b
+  drm/etnaviv: add handle for GPUs with only SECURITY_AHB flag
+  drm/etnaviv: setup DEC400EX on GC620 r5552
+  drm/etnaviv: protect whole iommuv2 ctx alloc func under global mutex
+  drm/etnaviv: prepare for shared_context support for iommuv2
+  drm/etnaviv: add shared context support for iommuv2
+  [NOT FOR UPSTREAM] riscv: dts: thead: enable GC620 G2D on TH1520
+
+ arch/riscv/boot/dts/thead/th1520.dtsi      | 19 +++++++++++++
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c      | 19 ++++++++++---
+ drivers/gpu/drm/etnaviv/etnaviv_hwdb.c     | 31 ++++++++++++++++++++++
+ drivers/gpu/drm/etnaviv/etnaviv_iommu.c    |  8 +++---
+ drivers/gpu/drm/etnaviv/etnaviv_iommu_v2.c | 26 +++++++++++++-----
+ drivers/gpu/drm/etnaviv/etnaviv_mmu.c      |  1 +
+ drivers/gpu/drm/etnaviv/etnaviv_mmu.h      | 24 +++++++----------
+ 7 files changed, 99 insertions(+), 29 deletions(-)
+
+-- 
+2.51.0
 
