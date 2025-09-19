@@ -2,39 +2,65 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63B62B51458
-	for <lists+etnaviv@lfdr.de>; Wed, 10 Sep 2025 12:48:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6ABFCB8F4A1
+	for <lists+etnaviv@lfdr.de>; Mon, 22 Sep 2025 09:28:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E3A2F10E8CA;
-	Wed, 10 Sep 2025 10:48:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF33D10E3D4;
+	Mon, 22 Sep 2025 07:27:59 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="ApD3TEpD";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="LG1sxtYd";
+	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id D423B10E8C4;
- Wed, 10 Sep 2025 10:48:24 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 41F8B16F8;
- Wed, 10 Sep 2025 03:48:15 -0700 (PDT)
-Received: from donnerap (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 67B503F66E;
- Wed, 10 Sep 2025 03:48:22 -0700 (PDT)
-Date: Wed, 10 Sep 2025 11:48:19 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Lucas Stach <l.stach@pengutronix.de>
-Cc: Russell King <linux+etnaviv@armlinux.org.uk>,
- <etnaviv@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, Chen-Yu Tsai <wens@csie.org>, linux-sunxi
- <linux-sunxi@lists.linux.dev>
-Subject: Re: drm/etnaviv: detecting disabled Vivante GPU?
-Message-ID: <20250910114819.00dfe07a@donnerap>
-In-Reply-To: <8192c4d04f1640f140a8f2cb43e694a7476bb0ca.camel@pengutronix.de>
-References: <20250904002924.2bc63b73@minigeek.lan>
- <8192c4d04f1640f140a8f2cb43e694a7476bb0ca.camel@pengutronix.de>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+X-Greylist: delayed 392 seconds by postgrey-1.36 at gabe;
+ Fri, 19 Sep 2025 18:37:30 UTC
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7D50710E060
+ for <etnaviv@lists.freedesktop.org>; Fri, 19 Sep 2025 18:37:30 +0000 (UTC)
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4cT1KY35pTz9tKY;
+ Fri, 19 Sep 2025 20:30:57 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1758306657;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=qyz89ykv+3PQfLNoFeepyaFSjz8XuaU06hwLEDmgOC8=;
+ b=ApD3TEpDL3JtkZcMbRBV7w6ue1iq2BZ7IewKF1d+SX3q1Sq84uYEwj1oxRXZblyfRyFO1J
+ /UBEf9IsOUKoX+5ESMmbWnKT4B3uJmebK4ydfct95+TYrqBgw26zEUOWYU6HRE7SYmRNrX
+ 24CSVde1T0ivKrpmHQTtZPvBWxXeOulNQABPhDhswcjW5s8MHaQt07GfMI5d+fHodb46QN
+ 7qmXuZZuHchSz41al43cU0ZxXS8yXGQs7Yz695SdYcGWYuernxD0fn3VZEraul9jdoPpb2
+ ezfY3wos5JRJlR6UUH9nAZqNnS+D3lZOsRB5zv1I3JnkL0Spe0kog/7J2F4B+g==
+From: Marek Vasut <marek.vasut@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1758306655;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=qyz89ykv+3PQfLNoFeepyaFSjz8XuaU06hwLEDmgOC8=;
+ b=LG1sxtYd/eFsNtegp3v3PU6HGLTkqj1rGHtEqfwftNjZd7Xpk7RIg2aLkeCsHyQVhJBO8g
+ j8MwzOCheFkZwsv8f6SPA1eWRg3i+m/dj729frIFR2SSERRy6ir/dFSPfegxKHnTIxb4nt
+ k1QWLr5MX94AdezOw10jSKdv92AjMiwfNxhFrClxy7Qz3wSuT0V/Lsnuuu95R+mT71v9Fv
+ +TphVj7L1UTZbxuKgqI2AzQPSLUA/O7SGkGn0n4R9UclA7sKa3i5+WOaehjTV6cMjXqjJ2
+ 9ERbFiywQ5yb6a3wXWJDr8xCcaZ0q79py+qJTKhCGHaHjZ1f/+YDfjeE9coiNQ==
+To: dri-devel@lists.freedesktop.org
+Cc: Marek Vasut <marek.vasut@mailbox.org>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ David Airlie <airlied@gmail.com>, Lucas Stach <l.stach@pengutronix.de>,
+ Simona Vetter <simona@ffwll.ch>, etnaviv@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/etnaviv: add HWDB entry for GC8000 Nano Ultra VIP r6205
+Date: Fri, 19 Sep 2025 20:30:15 +0200
+Message-ID: <20250919183042.273687-1-marek.vasut@mailbox.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: miwz5zh6kzm75e6998mahtbp47czc7fo
+X-MBO-RS-ID: 51cfb359eaed5b08efb
+X-Mailman-Approved-At: Mon, 22 Sep 2025 07:27:58 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,86 +75,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-On Wed, 10 Sep 2025 09:28:19 +0200
-Lucas Stach <l.stach@pengutronix.de> wrote:
+This is the GPU/NPU combined device found on the ST STM32MP25 SoC.
+Feature bits taken from the downstream kernel driver 6.4.21.
 
-> Hi Andre,
-> 
-> Am Donnerstag, dem 04.09.2025 um 00:29 +0100 schrieb Andre Przywara:
-> > Hi,
-> > 
-> > the Allwinner A523/A527/T527 family of SoCs feature a Vivante
-> > "VIP9000"(?) NPU, though it seems to be disabled on many SKUs.
-> > See https://linux-sunxi.org/A523#Family_of_sun55iw3 for a table, the
-> > row labelled "NPU" indicates which model has the IP. We suspect it's
-> > all the same die, with the NPU selectively fused off on some packages.
-> > 
-> > Board vendors seem to use multiple SKUs of the SoC on the same board,
-> > so it's hard to say which particular board has the NPU or not. We
-> > figured that on unsupported SoCs all the NPU registers read as 0,
-> > though, so were wondering if that could be considered as a bail-out
-> > check for the driver?
-> > At the moment I get this, on a SoC with a disabled NPU:
-> > [    1.677612] etnaviv etnaviv: bound 7122000.npu (ops gpu_ops)
-> > [    1.683849] etnaviv-gpu 7122000.npu: model: GC0, revision: 0
-> > [    1.690020] etnaviv-gpu 7122000.npu: Unknown GPU model
-> > [    1.696145] [drm] Initialized etnaviv 1.4.0 for etnaviv on minor 0
-> > [    1.953053] etnaviv-gpu 7122000.npu: GPU not yet idle, mask: 0x00000000
-> > 
-> > Chen-Yu got this on his board featuring the NPU:
-> >     etnaviv-gpu 7122000.npu: model: GC9000, revision: 9003
-> > 
-> > If I get the code correctly, then etnaviv_gpu_init() correctly detects
-> > the "unsupported" GPU model, and returns -ENXIO, but load_gpu() in
-> > etnaviv_drv.c then somewhat ignores this, since it keeps looking for more
-> > GPUs, and fails to notice that *none* showed up:
-> > /sys/kernel/debug/dri/etnaviv/gpu is empty in my case.
-> > 
-> > Quick questions:
-> > - Is reading 0 from VIVS_HI_CHIP_IDENTITY (or any other of the ID
-> >   registers) an invalid ID, so we can use that to detect those disabled
-> >   NPUs? If not, can any other register used to check this? The whole
-> >   block seems to be RAZ/WI when the NPU is disabled.
-> >   
-> Yes, 0 is not a valid core ID.
+Signed-off-by: Marek Vasut <marek.vasut@mailbox.org>
+---
+Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Lucas Stach <l.stach@pengutronix.de>
+Cc: Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org
+Cc: etnaviv@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org
+---
+ drivers/gpu/drm/etnaviv/etnaviv_hwdb.c | 32 ++++++++++++++++++++++++++
+ 1 file changed, 32 insertions(+)
 
-Ah, thanks, that helps to identify the situation (see below).
-
-> > - Would it be acceptable to change the logic to error out of the
-> >   driver's init or probe routine when no GPU/NPU has been found, at
-> >   best with a proper error message? As it stands at the moment, the
-> >   driver is loaded, but of course nothing is usable, so it keeps
-> >   confusing users.  
-> 
-> Yes, I think it would be fine to not expose the DRM device at all if no
-> usable GPU core has been found.
-> 
-> However, I think it would still be good if your bootloader would fix up
-> the DT to avoid probing the driver at all if possible. It may work on
-> your system but access to a disabled GPU MMIO is not RAZ/WI everywhere.
-
-Yes, I agree, Allwinner is "nice" by using RAZ/WI if possible, but indeed
-most other platforms SERROR out when touching an address without a device.
-
-> On i.MX8M* we have a similar situation with disabled peripherals. There
-> the bootloader can detect which peripherals are active by looking at
-> the SoC fuses and fixes up the DT status property accordingly. Not sure
-> if you may have something similar on the Allwinner.
-
-We have code for DT patching in U-Boot, and use that already for some
-Allwinner boards. I don't know if we can identify the actual fuse used. We
-could use the SoC package identifier (first word of the SID eFUSE device,
-cf. the second row in here [1]), but that would require maintenance, as new
-IDs will show up, and we don't know every single one even now.
-Another method would be to just ungate the clock and de-assert the reset,
-then read the NPU ID register (0x18?) to see if it's zero or not. Probably
-the most robust, but involves a bit more code, as we probably would need
-some pseudo-device to fetch those reset/clock details from the DT.
-
-I guess the current situation works as well, for now, but I will look at a
-U-Boot patch, just wanted to check if we can avoid that.
-
-Cheers,
-Andre
-
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c b/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
+index 8665f2658d51b..32d710baf17fe 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
+@@ -196,6 +196,38 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
+ 		.minor_features10 = 0x90044250,
+ 		.minor_features11 = 0x00000024,
+ 	},
++	{
++		.model = 0x8000,
++		.revision = 0x6205,
++		.product_id = 0x80003,
++		.customer_id = 0x15,
++		.eco_id = 0,
++		.stream_count = 16,
++		.register_max = 64,
++		.thread_count = 512,
++		.shader_core_count = 2,
++		.nn_core_count = 2,
++		.vertex_cache_size = 16,
++		.vertex_output_buffer_size = 1024,
++		.pixel_pipes = 1,
++		.instruction_count = 512,
++		.num_constants = 320,
++		.buffer_size = 0,
++		.varyings_count = 16,
++		.features = 0xe0287c8d,
++		.minor_features0 = 0xc1799eff,
++		.minor_features1 = 0xfefbfad9,
++		.minor_features2 = 0xeb9d4fbf,
++		.minor_features3 = 0xedfffced,
++		.minor_features4 = 0xdb0dafc7,
++		.minor_features5 = 0x7b5ac333,
++		.minor_features6 = 0xfcce6000,
++		.minor_features7 = 0x03fbfa6f,
++		.minor_features8 = 0x00ef0ef0,
++		.minor_features9 = 0x0eca703c,
++		.minor_features10 = 0x898048f0,
++		.minor_features11 = 0x00000034,
++	},
+ 	{
+ 		.model = 0x8000,
+ 		.revision = 0x7120,
+-- 
+2.51.0
 
