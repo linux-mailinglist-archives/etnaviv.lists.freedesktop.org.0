@@ -2,56 +2,53 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18731BD554E
-	for <lists+etnaviv@lfdr.de>; Mon, 13 Oct 2025 19:03:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BD5EBE8EA4
+	for <lists+etnaviv@lfdr.de>; Fri, 17 Oct 2025 15:37:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B8CB210E13C;
-	Mon, 13 Oct 2025 17:03:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 961B310EC17;
+	Fri, 17 Oct 2025 13:37:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="sTj4y+5t";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="nmyonwET";
 	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C8A4C10E13C
- for <etnaviv@lists.freedesktop.org>; Mon, 13 Oct 2025 17:03:21 +0000 (UTC)
-Received: from lelvem-sh02.itg.ti.com ([10.180.78.226])
- by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTP id 59DH3GTs945992;
- Mon, 13 Oct 2025 12:03:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1760374996;
- bh=G26ViXGebYBEcQtmVdegVQEZKa9u6E1Ggm0wlUJmvHg=;
- h=From:To:CC:Subject:Date;
- b=sTj4y+5tsO44H+ZZnmQg+veGJq1UdtcOjT0c92WIHvOQCqJw4SLHeoF/VzJs/jt9+
- r4+hNmGty/qCneTbxkA7E4rYsusbtefzoEOWrY0n7FBr9hGL6Mbe3Uu1tTX2gtkd51
- nNyda6PBCF7PMEz+RHvSWXrwvzJ6rUb4RO/Lg46k=
-Received: from DLEE103.ent.ti.com (dlee103.ent.ti.com [157.170.170.33])
- by lelvem-sh02.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 59DH3GHD3950414
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
- Mon, 13 Oct 2025 12:03:16 -0500
-Received: from DLEE208.ent.ti.com (157.170.170.97) by DLEE103.ent.ti.com
- (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Mon, 13
- Oct 2025 12:03:15 -0500
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE208.ent.ti.com
- (157.170.170.97) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Mon, 13 Oct 2025 12:03:16 -0500
-Received: from rs-desk.dhcp.ti.com (rs-desk.dhcp.ti.com [128.247.81.144])
- by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 59DH3FmM2407895;
- Mon, 13 Oct 2025 12:03:15 -0500
-From: <rs@ti.com>
-To: <l.stach@pengutronix.de>, <christian.gmeiner@gmail.com>,
- <linux+etnaviv@armlinux.org.uk>
-CC: <etnaviv@lists.freedesktop.org>, <detheridge@ti.com>, <u-kumar1@ti.com>
-Subject: [PATCH v2] drm/etnaviv: force flush on power register ops
-Date: Mon, 13 Oct 2025 12:01:23 -0500
-Message-ID: <20251013170122.1145387-2-rs@ti.com>
-X-Mailer: git-send-email 2.51.0
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF31710EC10;
+ Fri, 17 Oct 2025 13:37:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
+ Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=uwlVuWThkdYvypssptWMAzzg/qOK9M7cDe2FOmccdHw=; b=nmyonwETyRuJUozN9CKTX0eE3Z
+ Elsd8LVDujRJl6SOpUCd9VU76ZWkcoRR82im0dR2ko8mvHKZPePiwDja0m5RqDR0hik4TjI6m7G+r
+ VM0LDgreq21KBlaGxEiOAx9zaLYmyeh6okF4FwBALgW07sdsS79EZEgeOKtT1guIHX472n02ilaDa
+ nKhelQ8KYMM5SNY/FMvH0sUmVsnaeaTgbJxPR/Vbpxfi17ct5BV5wwTS1jDdS9C6TNro27sgR5DAd
+ Gcx5z732UWf3uvVm+jKtRCidXmnMhRhDYMDrYM5xBZs932yzOHe6R2PwQTW1oQRdBvA7j1TPL2VDC
+ YLpuTQZA==;
+Received: from [90.242.12.242] (helo=localhost)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1v9kdf-00B3wa-7N; Fri, 17 Oct 2025 15:36:59 +0200
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+To: amd-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ etnaviv@lists.freedesktop.org, Christian Gmeiner <cgmeiner@igalia.com>
+Subject: [PATCH v2 17/27] drm/etnaviv: Remove drm_sched_init_args->num_rqs
+ usage
+Date: Fri, 17 Oct 2025 14:36:34 +0100
+Message-ID: <20251017133644.44747-18-tvrtko.ursulin@igalia.com>
+X-Mailer: git-send-email 2.48.0
+In-Reply-To: <20251017133644.44747-1-tvrtko.ursulin@igalia.com>
+References: <20251017133644.44747-1-tvrtko.ursulin@igalia.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,91 +63,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-From: Randolph Sapp <rs@ti.com>
+Remove member no longer used by the scheduler core.
 
-Add gpu_write_power_sync to verify that power register modifications
-have reached the endpoint device in sequence specific sections that do
-not validate device state.
-
-These sequence specific areas have been detected experimentally with an
-am57xx-evm through numerous boot and module load+unload cycles.
-
-Signed-off-by: Randolph Sapp <rs@ti.com>
+Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Cc: Lucas Stach <l.stach@pengutronix.de>
+Cc: Russell King <linux+etnaviv@armlinux.org.uk>
+Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
+Cc: etnaviv@lists.freedesktop.org
+Reviewed-by: Christian Gmeiner <cgmeiner@igalia.com>
 ---
+ drivers/gpu/drm/etnaviv/etnaviv_sched.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-v2:
-	- Add an explicit gpu_write_power_sync function to handle the readback
-	- Add a few more required readbacks as determined experimentally with
-	  5511 reboot cycles on am57xx-evm
-
- drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 10 +++++-----
- drivers/gpu/drm/etnaviv/etnaviv_gpu.h |  6 ++++++
- 2 files changed, 11 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-index cf0d9049bcf1..dbbd5a8100e6 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-@@ -543,13 +543,13 @@ static int etnaviv_hw_reset(struct etnaviv_gpu *gpu)
- 		u32 pulse_eater = 0x01590880;
- 
- 		/* disable clock gating */
--		gpu_write_power(gpu, VIVS_PM_POWER_CONTROLS, 0x0);
-+		gpu_write_power_sync(gpu, VIVS_PM_POWER_CONTROLS, 0x0);
- 
- 		/* disable pulse eater */
- 		pulse_eater |= BIT(17);
- 		gpu_write_power(gpu, VIVS_PM_PULSE_EATER, pulse_eater);
- 		pulse_eater |= BIT(0);
--		gpu_write_power(gpu, VIVS_PM_PULSE_EATER, pulse_eater);
-+		gpu_write_power_sync(gpu, VIVS_PM_PULSE_EATER, pulse_eater);
- 
- 		/* enable clock */
- 		control = VIVS_HI_CLOCK_CONTROL_FSCALE_VAL(fscale);
-@@ -643,7 +643,7 @@ static void etnaviv_gpu_enable_mlcg(struct etnaviv_gpu *gpu)
- 	    gpu->identity.revision == 0x4302)
- 		ppc |= VIVS_PM_POWER_CONTROLS_DISABLE_STALL_MODULE_CLOCK_GATING;
- 
--	gpu_write_power(gpu, VIVS_PM_POWER_CONTROLS, ppc);
-+	gpu_write_power_sync(gpu, VIVS_PM_POWER_CONTROLS, ppc);
- 
- 	pmc = gpu_read_power(gpu, VIVS_PM_MODULE_CONTROLS);
- 
-@@ -687,7 +687,7 @@ static void etnaviv_gpu_enable_mlcg(struct etnaviv_gpu *gpu)
- 	pmc |= VIVS_PM_MODULE_CONTROLS_DISABLE_MODULE_CLOCK_GATING_RA_HZ;
- 	pmc |= VIVS_PM_MODULE_CONTROLS_DISABLE_MODULE_CLOCK_GATING_RA_EZ;
- 
--	gpu_write_power(gpu, VIVS_PM_MODULE_CONTROLS, pmc);
-+	gpu_write_power_sync(gpu, VIVS_PM_MODULE_CONTROLS, pmc);
- }
- 
- void etnaviv_gpu_start_fe(struct etnaviv_gpu *gpu, u32 address, u16 prefetch)
-@@ -753,7 +753,7 @@ static void etnaviv_gpu_setup_pulse_eater(struct etnaviv_gpu *gpu)
- 		pulse_eater |= BIT(18);
- 	}
- 
--	gpu_write_power(gpu, VIVS_PM_PULSE_EATER, pulse_eater);
-+	gpu_write_power_sync(gpu, VIVS_PM_PULSE_EATER, pulse_eater);
- }
- 
- static void etnaviv_gpu_hw_init(struct etnaviv_gpu *gpu)
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
-index 5cb46c84e03a..e89d591d7404 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
-@@ -204,6 +204,12 @@ static inline u32 gpu_read_power(struct etnaviv_gpu *gpu, u32 reg)
- 	return readl(gpu->mmio + gpu_fix_power_address(gpu, reg));
- }
- 
-+static inline void gpu_write_power_sync(struct etnaviv_gpu *gpu, u32 reg, u32 data)
-+{
-+	gpu_write_power(gpu, reg, data);
-+	gpu_read_power(gpu, reg);
-+}
-+
- int etnaviv_gpu_get_param(struct etnaviv_gpu *gpu, u32 param, u64 *value);
- 
- int etnaviv_gpu_init(struct etnaviv_gpu *gpu);
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sched.c b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+index df4232d7e135..63f672536516 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+@@ -142,7 +142,6 @@ int etnaviv_sched_init(struct etnaviv_gpu *gpu)
+ {
+ 	const struct drm_sched_init_args args = {
+ 		.ops = &etnaviv_sched_ops,
+-		.num_rqs = DRM_SCHED_PRIORITY_COUNT,
+ 		.credit_limit = etnaviv_hw_jobs_limit,
+ 		.hang_limit = etnaviv_job_hang_limit,
+ 		.timeout = msecs_to_jiffies(500),
 -- 
-2.51.0
+2.48.0
 
