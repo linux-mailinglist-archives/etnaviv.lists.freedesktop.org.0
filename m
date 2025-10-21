@@ -2,53 +2,40 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BD5EBE8EA4
-	for <lists+etnaviv@lfdr.de>; Fri, 17 Oct 2025 15:37:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26590BF5898
+	for <lists+etnaviv@lfdr.de>; Tue, 21 Oct 2025 11:37:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 961B310EC17;
-	Fri, 17 Oct 2025 13:37:03 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="nmyonwET";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id ADC3A10E2DD;
+	Tue, 21 Oct 2025 09:37:25 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF31710EC10;
- Fri, 17 Oct 2025 13:37:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
- Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=uwlVuWThkdYvypssptWMAzzg/qOK9M7cDe2FOmccdHw=; b=nmyonwETyRuJUozN9CKTX0eE3Z
- Elsd8LVDujRJl6SOpUCd9VU76ZWkcoRR82im0dR2ko8mvHKZPePiwDja0m5RqDR0hik4TjI6m7G+r
- VM0LDgreq21KBlaGxEiOAx9zaLYmyeh6okF4FwBALgW07sdsS79EZEgeOKtT1guIHX472n02ilaDa
- nKhelQ8KYMM5SNY/FMvH0sUmVsnaeaTgbJxPR/Vbpxfi17ct5BV5wwTS1jDdS9C6TNro27sgR5DAd
- Gcx5z732UWf3uvVm+jKtRCidXmnMhRhDYMDrYM5xBZs932yzOHe6R2PwQTW1oQRdBvA7j1TPL2VDC
- YLpuTQZA==;
-Received: from [90.242.12.242] (helo=localhost)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1v9kdf-00B3wa-7N; Fri, 17 Oct 2025 15:36:59 +0200
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-To: amd-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- etnaviv@lists.freedesktop.org, Christian Gmeiner <cgmeiner@igalia.com>
-Subject: [PATCH v2 17/27] drm/etnaviv: Remove drm_sched_init_args->num_rqs
- usage
-Date: Fri, 17 Oct 2025 14:36:34 +0100
-Message-ID: <20251017133644.44747-18-tvrtko.ursulin@igalia.com>
-X-Mailer: git-send-email 2.48.0
-In-Reply-To: <20251017133644.44747-1-tvrtko.ursulin@igalia.com>
-References: <20251017133644.44747-1-tvrtko.ursulin@igalia.com>
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F22C610E2DE
+ for <etnaviv@lists.freedesktop.org>; Tue, 21 Oct 2025 09:37:24 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.whiteo.stw.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1vB8nz-0004fZ-G5; Tue, 21 Oct 2025 11:37:23 +0200
+Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
+ by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.96)
+ (envelope-from <l.stach@pengutronix.de>) id 1vB8nz-004hQW-0z;
+ Tue, 21 Oct 2025 11:37:23 +0200
+From: Lucas Stach <l.stach@pengutronix.de>
+To: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Christian Gmeiner <christian.gmeiner@gmail.com>
+Subject: [PATCH v3] drm/etnaviv: fix flush sequence logic
+Date: Tue, 21 Oct 2025 11:37:23 +0200
+Message-ID: <20251021093723.3887980-1-l.stach@pengutronix.de>
+X-Mailer: git-send-email 2.47.3
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,30 +50,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Remove member no longer used by the scheduler core.
+From: Tomeu Vizoso <tomeu@tomeuvizoso.net>
 
-Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Cc: Lucas Stach <l.stach@pengutronix.de>
-Cc: Russell King <linux+etnaviv@armlinux.org.uk>
-Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
-Cc: etnaviv@lists.freedesktop.org
-Reviewed-by: Christian Gmeiner <cgmeiner@igalia.com>
+The current logic uses the flush sequence from the current address
+space. This is harmless when deducing the flush requirements for the
+current submit, as either the incoming address space is the same one
+as the currently active one or we switch context, in which case the
+flush is unconditional.
+
+However, this sequence is also stored as the current flush sequence
+of the GPU. If we switch context the stored flush sequence will no
+longer belong to the currently active address space. This incoherency
+can then cause missed flushes, resulting in translation errors.
+
+Fixes: 27b67278e007 ("drm/etnaviv: rework MMU handling")
+Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
 ---
- drivers/gpu/drm/etnaviv/etnaviv_sched.c | 1 -
- 1 file changed, 1 deletion(-)
+v3: Reworded commit message
+---
+ drivers/gpu/drm/etnaviv/etnaviv_buffer.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sched.c b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-index df4232d7e135..63f672536516 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-@@ -142,7 +142,6 @@ int etnaviv_sched_init(struct etnaviv_gpu *gpu)
- {
- 	const struct drm_sched_init_args args = {
- 		.ops = &etnaviv_sched_ops,
--		.num_rqs = DRM_SCHED_PRIORITY_COUNT,
- 		.credit_limit = etnaviv_hw_jobs_limit,
- 		.hang_limit = etnaviv_job_hang_limit,
- 		.timeout = msecs_to_jiffies(500),
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_buffer.c b/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
+index b13a17276d07..88385dc3b30d 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
+@@ -347,7 +347,7 @@ void etnaviv_buffer_queue(struct etnaviv_gpu *gpu, u32 exec_state,
+ 	u32 link_target, link_dwords;
+ 	bool switch_context = gpu->exec_state != exec_state;
+ 	bool switch_mmu_context = gpu->mmu_context != mmu_context;
+-	unsigned int new_flush_seq = READ_ONCE(gpu->mmu_context->flush_seq);
++	unsigned int new_flush_seq = READ_ONCE(mmu_context->flush_seq);
+ 	bool need_flush = switch_mmu_context || gpu->flush_seq != new_flush_seq;
+ 	bool has_blt = !!(gpu->identity.minor_features5 &
+ 			  chipMinorFeatures5_BLT_ENGINE);
 -- 
-2.48.0
+2.47.3
 
