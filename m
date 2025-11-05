@@ -2,58 +2,76 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE8C6C3316F
-	for <lists+etnaviv@lfdr.de>; Tue, 04 Nov 2025 22:39:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EF9EC35E50
+	for <lists+etnaviv@lfdr.de>; Wed, 05 Nov 2025 14:44:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE59110E674;
-	Tue,  4 Nov 2025 21:39:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 200B110E750;
+	Wed,  5 Nov 2025 13:44:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="QT2Brp8Q";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Gptkpj3p";
 	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-X-Greylist: delayed 326 seconds by postgrey-1.36 at gabe;
- Tue, 04 Nov 2025 21:39:39 UTC
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 61E9C10E674
- for <etnaviv@lists.freedesktop.org>; Tue,  4 Nov 2025 21:39:39 +0000 (UTC)
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4d1MCk0hwdz9v6t;
- Tue,  4 Nov 2025 22:34:10 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1762292050;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=b+dDwJ+0qI41d3Nk94wkdQOdtSTxFTbLoEYJNyRM9I0=;
- b=QT2Brp8Q4z/2gGipDpcjXBAthS1OVn4Df9xhyWHNQm4oZP0QohMcTVAuZBaTrh0t0R+pAe
- rBUWOSJP6ZJ+g2PkpIWoSuh4AeYMZ6YVcEkuSdlUQ48y4e5xXF8yS5OWGASlLSt+/bx9FV
- 7i6C7On0YWeSViNFa5iMJzKilnWLLMNDp62kuKSuUJk8HwlRtGZdfh7lXjRzHNYCBUMPrk
- XqLXOGK1J4cwMYbazUxDiQ4aw/NkuRVtWzU67PrkmWu+ZzDyL0OTMI4Z8DoSCKRy3IP7of
- g1271tbxUxrTwgTo4E3mW4kWqB8SZE4NAydV9YNdSDUMZ5AkjJpLp4nuyCu7Kw==
-Message-ID: <4ac9dd98-adc8-4be9-9f5c-4e653f656453@mailbox.org>
-Date: Tue, 4 Nov 2025 22:34:07 +0100
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com
+ [209.85.216.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D155110E74F
+ for <etnaviv@lists.freedesktop.org>; Wed,  5 Nov 2025 13:44:41 +0000 (UTC)
+Received: by mail-pj1-f45.google.com with SMTP id
+ 98e67ed59e1d1-340a5c58bf1so3809815a91.2
+ for <etnaviv@lists.freedesktop.org>; Wed, 05 Nov 2025 05:44:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1762350281; x=1762955081; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=qozxgj9+n8IudzDS4TqAFoNwmAmvO9fyBs0Aa70Hb2o=;
+ b=Gptkpj3p8kriGwMrrASaEVpJDmbZPvT33sfLI4Y4zcrXeTPE/qzYI/9i01b+p9y0pP
+ ZrWo6XRkHej2Na4VlzOtLWVem5M/E6cYAIkmVdUoowNZfI6Q6T+B6KDiyOEw+KjIUspE
+ 8Yq0QS+tB2rNtbKvNLtVVyZtbOBh4oPiiXGRBaBoB69cnWZmaCSQ2oIk4xbDcqaOt/ME
+ gAL7YrLn7tJQpqetA4JL1kkQYf3eD6W3xTEldfCWzN0GlhvMfG5ztPSqpufzw4TWdU9l
+ DMMXT24BL17fuz4ofMvG5cZT2F4qv9hKqJ2UFl6Vp1szsqL5boHNfHOA/g2NFqXiZAWB
+ Oq6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1762350281; x=1762955081;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=qozxgj9+n8IudzDS4TqAFoNwmAmvO9fyBs0Aa70Hb2o=;
+ b=uk4Lq2690ClsTGZwgzpMJwMbp4Jc9/LJ0LEV43ym1/d5sOq4auFBDvffWm39tq9wEt
+ 9M+oJHgI+Q6ZwFGJ8q87Mwmuy5LJvBBiWMBISq2w26FIPiolSa6IbxvqHs3nl9VzVs2Q
+ axx9zrVqZN5Yzoj8JIx/ZRnHI+5WJ7a/O6tgdkzuv/dMIOyinfd2YZ6Im+JjJ/Jw+Wt0
+ 4HaYar+YAcVt3nPu0CN6Pe0BSrVJEny0ptO0jDj6Aq4XgvduP8W/lfSaP67rjZPp0JPD
+ swEe9zdEBfkNSScB1Ek4iYm3XMi+ftVchnQcu3KiiKDB5C7RFQt893PqgvjL/oWjpecf
+ 59Vw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUcbhaxpPhMCOGejax/KhLdp0hCWcrp0BejdqEu7X+/hxqVcC8a6S73QbuIpwWXPrfdyexQg8l9@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YysCeXHvLX4j0GCZ/dkWumZBh400HmfdSUDrlRukoJAhGOyR0QJ
+ i0G+eub2YjhlJ6t6LwkVa1L+eFGw9mf2K8tO5Hpdmk8B5NJDXA8Lwkjlo7l1IAuG85fbwJox6Ja
+ 7dwolG2Gz3QpciNILC/Yl1HVTlPEGSjU/Hg==
+X-Gm-Gg: ASbGncuHL65h+x1Es5Kmt34SPaPVDZoKyh5b6fh9a6z3APv9h7Dtpuq1sSbUYlE/ZGx
+ Q3U7/XCv4T86tCMbkcN/Sb+PpkKJh/qquL33lSdT+SIC1Kuum7cQaSl0izOznidy30Nl3Lk6bv0
+ FTjZhWFaxyYwNAK/SSgtVFkl4OvPYOvpHtwQLvJ4sBuLysDRcgV/Hg8NAIZyfnGW/x8dyjLgReZ
+ iafQvYTSDgFSmBPwZFY1ezbOA8L2saZ+MLLwIFIOfAwkPyvdiSx0CFP+lvCNQ==
+X-Google-Smtp-Source: AGHT+IGOJWY9um79qVuxu4njBLsN3GbMeipdERxJ3YAlKCuabjVwh3d1X0BvNDhx4+pngzesRjCSQ9dXqon7QtnjBCc=
+X-Received: by 2002:a17:902:ef09:b0:295:5d0b:e119 with SMTP id
+ d9443c01a7336-2962adf02f0mr47786145ad.26.1762350281231; Wed, 05 Nov 2025
+ 05:44:41 -0800 (PST)
 MIME-Version: 1.0
-Subject: Re: [PATCH] drm/etnaviv: add HWDB entry for GC8000 Nano Ultra VIP
- r6205
-To: Christian Gmeiner <christian.gmeiner@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>,
- Lucas Stach <l.stach@pengutronix.de>, Simona Vetter <simona@ffwll.ch>,
- etnaviv@lists.freedesktop.org, linux-kernel@vger.kernel.org
 References: <20250919183042.273687-1-marek.vasut@mailbox.org>
  <CAH9NwWcK_z_4CcDBRYS2nf3AxYV9-XwirvTd+O9uJtHMhyA3Og@mail.gmail.com>
  <CAH9NwWdkjpV5YHmOpuCE=f7RVm1kXzqAOgN6=Sx1s-wxO_SGGA@mail.gmail.com>
-Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <CAH9NwWdkjpV5YHmOpuCE=f7RVm1kXzqAOgN6=Sx1s-wxO_SGGA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-MBO-RS-META: hgewqfoan3j377woijwwhgfm6xd9jmht
-X-MBO-RS-ID: 6c9625f36239ef4b00f
+ <4ac9dd98-adc8-4be9-9f5c-4e653f656453@mailbox.org>
+In-Reply-To: <4ac9dd98-adc8-4be9-9f5c-4e653f656453@mailbox.org>
+From: Christian Gmeiner <christian.gmeiner@gmail.com>
+Date: Wed, 5 Nov 2025 14:44:29 +0100
+X-Gm-Features: AWmQ_bkTuB0eZgSzf5gvoRARCsMfrXaYv_vl3dBWTq6IB-6XyDxKZI40c5vqEcA
+Message-ID: <CAH9NwWd+1MSBGdn6G0zRQgmC7cHCmG3BSxeDUQV-waMG75E2KQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/etnaviv: add HWDB entry for GC8000 Nano Ultra VIP
+ r6205
+To: Marek Vasut <marek.vasut@mailbox.org>
+Cc: dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>, 
+ Lucas Stach <l.stach@pengutronix.de>, Simona Vetter <simona@ffwll.ch>,
+ etnaviv@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,75 +86,86 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-On 11/4/25 4:50 PM, Christian Gmeiner wrote:
->>> This is the GPU/NPU combined device found on the ST STM32MP25 SoC.
->>> Feature bits taken from the downstream kernel driver 6.4.21.
->>>
->>> Signed-off-by: Marek Vasut <marek.vasut@mailbox.org>
->>
->> Acked-by: Christian Gmeiner <cgmeiner@igalia.com>
->>
->>> ---
->>> Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
->>> Cc: David Airlie <airlied@gmail.com>
->>> Cc: Lucas Stach <l.stach@pengutronix.de>
->>> Cc: Simona Vetter <simona@ffwll.ch>
->>> Cc: dri-devel@lists.freedesktop.org
->>> Cc: etnaviv@lists.freedesktop.org
->>> Cc: linux-kernel@vger.kernel.org
->>> ---
->>>   drivers/gpu/drm/etnaviv/etnaviv_hwdb.c | 32 ++++++++++++++++++++++++++
->>>   1 file changed, 32 insertions(+)
->>>
->>> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c b/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
->>> index 8665f2658d51b..32d710baf17fe 100644
->>> --- a/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
->>> +++ b/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
->>> @@ -196,6 +196,38 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
->>>                  .minor_features10 = 0x90044250,
->>>                  .minor_features11 = 0x00000024,
->>>          },
->>> +       {
->>> +               .model = 0x8000,
->>> +               .revision = 0x6205,
->>> +               .product_id = 0x80003,
->>> +               .customer_id = 0x15,
->>> +               .eco_id = 0,
->>> +               .stream_count = 16,
->>> +               .register_max = 64,
->>> +               .thread_count = 512,
->>> +               .shader_core_count = 2,
->>> +               .nn_core_count = 2,
->>> +               .vertex_cache_size = 16,
->>> +               .vertex_output_buffer_size = 1024,
->>> +               .pixel_pipes = 1,
->>> +               .instruction_count = 512,
->>> +               .num_constants = 320,
->>> +               .buffer_size = 0,
->>> +               .varyings_count = 16,
->>> +               .features = 0xe0287c8d,
->>> +               .minor_features0 = 0xc1799eff,
->>> +               .minor_features1 = 0xfefbfad9,
->>> +               .minor_features2 = 0xeb9d4fbf,
->>> +               .minor_features3 = 0xedfffced,
->>> +               .minor_features4 = 0xdb0dafc7,
->>> +               .minor_features5 = 0x7b5ac333,
->>> +               .minor_features6 = 0xfcce6000,
->>> +               .minor_features7 = 0x03fbfa6f,
->>> +               .minor_features8 = 0x00ef0ef0,
->>> +               .minor_features9 = 0x0eca703c,
->>> +               .minor_features10 = 0x898048f0,
->>> +               .minor_features11 = 0x00000034,
->>> +       },
->>>          {
->>>                  .model = 0x8000,
->>>                  .revision = 0x7120,
->>> --
->>> 2.51.0
->>>
->>
-> 
-> Applied to drm-misc-next.
-Thank you.
+> On 11/4/25 4:50 PM, Christian Gmeiner wrote:
+> >>> This is the GPU/NPU combined device found on the ST STM32MP25 SoC.
+> >>> Feature bits taken from the downstream kernel driver 6.4.21.
+> >>>
+> >>> Signed-off-by: Marek Vasut <marek.vasut@mailbox.org>
+> >>
+> >> Acked-by: Christian Gmeiner <cgmeiner@igalia.com>
+> >>
+> >>> ---
+> >>> Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
+> >>> Cc: David Airlie <airlied@gmail.com>
+> >>> Cc: Lucas Stach <l.stach@pengutronix.de>
+> >>> Cc: Simona Vetter <simona@ffwll.ch>
+> >>> Cc: dri-devel@lists.freedesktop.org
+> >>> Cc: etnaviv@lists.freedesktop.org
+> >>> Cc: linux-kernel@vger.kernel.org
+> >>> ---
+> >>>   drivers/gpu/drm/etnaviv/etnaviv_hwdb.c | 32 ++++++++++++++++++++++++++
+> >>>   1 file changed, 32 insertions(+)
+> >>>
+> >>> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c b/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
+> >>> index 8665f2658d51b..32d710baf17fe 100644
+> >>> --- a/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
+> >>> +++ b/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
+> >>> @@ -196,6 +196,38 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
+> >>>                  .minor_features10 = 0x90044250,
+> >>>                  .minor_features11 = 0x00000024,
+> >>>          },
+> >>> +       {
+> >>> +               .model = 0x8000,
+> >>> +               .revision = 0x6205,
+> >>> +               .product_id = 0x80003,
+> >>> +               .customer_id = 0x15,
+> >>> +               .eco_id = 0,
+> >>> +               .stream_count = 16,
+> >>> +               .register_max = 64,
+> >>> +               .thread_count = 512,
+> >>> +               .shader_core_count = 2,
+> >>> +               .nn_core_count = 2,
+> >>> +               .vertex_cache_size = 16,
+> >>> +               .vertex_output_buffer_size = 1024,
+> >>> +               .pixel_pipes = 1,
+> >>> +               .instruction_count = 512,
+> >>> +               .num_constants = 320,
+> >>> +               .buffer_size = 0,
+> >>> +               .varyings_count = 16,
+> >>> +               .features = 0xe0287c8d,
+> >>> +               .minor_features0 = 0xc1799eff,
+> >>> +               .minor_features1 = 0xfefbfad9,
+> >>> +               .minor_features2 = 0xeb9d4fbf,
+> >>> +               .minor_features3 = 0xedfffced,
+> >>> +               .minor_features4 = 0xdb0dafc7,
+> >>> +               .minor_features5 = 0x7b5ac333,
+> >>> +               .minor_features6 = 0xfcce6000,
+> >>> +               .minor_features7 = 0x03fbfa6f,
+> >>> +               .minor_features8 = 0x00ef0ef0,
+> >>> +               .minor_features9 = 0x0eca703c,
+> >>> +               .minor_features10 = 0x898048f0,
+> >>> +               .minor_features11 = 0x00000034,
+> >>> +       },
+> >>>          {
+> >>>                  .model = 0x8000,
+> >>>                  .revision = 0x7120,
+> >>> --
+> >>> 2.51.0
+> >>>
+> >>
+> >
+> > Applied to drm-misc-next.
+> Thank you.
+>
+> I _think_ I will try to respin the flop reset patchset next.
 
-I _think_ I will try to respin the flop reset patchset next.
+Gert told me on irc that he has reworked the series already and just
+needs to do some testing. Maybe wait another 1-2 weeks
+and/or sync with him directly.
+
+-- 
+greets
+--
+Christian Gmeiner, MSc
+
+https://christian-gmeiner.info/privacypolicy
