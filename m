@@ -2,53 +2,77 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6512CC474C8
-	for <lists+etnaviv@lfdr.de>; Mon, 10 Nov 2025 15:44:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A761C47B18
+	for <lists+etnaviv@lfdr.de>; Mon, 10 Nov 2025 16:53:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 33E0710E403;
-	Mon, 10 Nov 2025 14:43:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2FD7989864;
+	Mon, 10 Nov 2025 15:53:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="PjxFJlwK";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="gZF3di3x";
 	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2275410E402;
- Mon, 10 Nov 2025 14:43:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1762785835;
- bh=WGSF1+2qqoDh4Y4z7LPzg1vrBUYL/ctGtWrdC8hI3eE=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=PjxFJlwKmyvDepr4EXByCeYc3IPTxrnilt8BCsYYk1F7DENnCxbxfORcpP9dXUIlq
- e++Z0YDFF6j2cZvGDGIaL2SkrJcMcIwXEcQfaummgVMHhhsV3JTKcSnQ4RJrmsNzPf
- oZn473XI6E9FIvpSZDVM/zfMjqcFA7LlbDZaLEdWezEKD3EfqP7as1zK4ApCkS2qVa
- iZ5xVMw7eov6THIDpeTvebUTqckj85IpAFevJyJIgtAmQbjKAFi6GbKPRz1O3I8nxF
- JIsDbX6X07IzzdPWQja4yzZ1AbXZeYVrf3fAtyg94sUziNcHNaFWKM9o4qfx99GSBO
- IOlDnkBcCM8Rg==
-Received: from localhost.localdomain (unknown [92.206.121.173])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: gerddie)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 6637617E1313;
- Mon, 10 Nov 2025 15:43:55 +0100 (CET)
-From: gert.wollny@collabora.com
-To: Christian Gmeiner <christian.gmeiner@gmail.com>
-Cc: Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Gert Wollny <gert.wollny@collabora.com>
-Subject: [PATCH v4 5/5] drm/etnaviv: Add module parameter to force PPU flop
- reset
-Date: Mon, 10 Nov 2025 15:37:51 +0100
-Message-ID: <20251110144625.18653-6-gert.wollny@collabora.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20251110144625.18653-1-gert.wollny@collabora.com>
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com
+ [209.85.216.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 15DBF89864
+ for <etnaviv@lists.freedesktop.org>; Mon, 10 Nov 2025 15:53:52 +0000 (UTC)
+Received: by mail-pj1-f53.google.com with SMTP id
+ 98e67ed59e1d1-3418ac74bffso2243927a91.1
+ for <etnaviv@lists.freedesktop.org>; Mon, 10 Nov 2025 07:53:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1762790031; x=1763394831; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=SjOzrVVqoN3/fu4/RlfN/tt8R12NRcTY3oo2BszH4iI=;
+ b=gZF3di3xQP3oSunKyp3MNu+KVR53/d+IN6CFmzfP0Bp7YjxeBPpAj/j52JHNJLjWw4
+ qaYJhFd6Vl5rfB3D1igBU8zG+I39p/Q/BjVNMYYt+o1hJNxS6uBu6mqdQ83vqC9DsZBo
+ JEkLotmE9Jly6iSMeg/avRoOXH8z6mVVlbciHBWLvdtbbNv+7ogo1ASMB/9fgb4s8kba
+ 2XZdq9rf6f72xvnMavogwyIrnnkLiXIzQhh8riHd3S4gWJW87QsGpkPGs6nQ3z33CHvK
+ DdAncf+tIr6QjNxuwUm1NjPkFH0cU8f6PEEAhZS6FabwIaGt2Wv4W8dgOTxhq9+21o7s
+ qyLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1762790031; x=1763394831;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=SjOzrVVqoN3/fu4/RlfN/tt8R12NRcTY3oo2BszH4iI=;
+ b=N6kMdlozDJofumZeS496+yKQio/9u7ZwsTyZkYnaQZ2wVzRe/hUMkUdqBKF6cHyA/h
+ 2qC76efisoFshNtdtcRwEUvspLhbusYJZ00/MwAwuC/SVDZhzx3VdkjMFBi0Xc7HHYny
+ pIwzvsmndZFTEtpy21t4BOSGAEvDs2xwzQw8rNy393jeTswsrEr00jwjFifbdz8WcRO4
+ c5y1Br/rS+T1UQfMAlc9FJypAPrPhS4+x/Imk1/7fU8GI+8hP4cSn/yYpt1hut8BPeek
+ nFw8kjkBJ1UjE/rVkzWNO5z9s8CKW/N1uvnQkDYs7oEdjc6eauXK+QV6oqOoMGU7sCzG
+ oMwg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWHgfrqa1HKWG+mLWecsQ9X8w5EUghiQH14YnD7EULJJAc46KEDf3bZ8fJAhcxwEOZqwBphBlF9@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx5vvKSEGCmFpFSR1ddSU7MVGGXqglvifdbASaGyXx63P8beZF9
+ 3du/X2B6OSu4w6HSejlIf5d2cEa6U5m6ksztUVwQ4YtVKBhk7TVeuS6To6TslV3nxylqn+6Ew2T
+ 1AazmNYnaxomCYPIRm2jJb1ux7x7WyGUIkGA/
+X-Gm-Gg: ASbGncuNqCpvHWB2UMkoTlgLME6c6UvE3i71f7FnsZv4ChIqHi/zuDS9ZwCSlBxsVLz
+ js/HRkIDEp2ZGYU/lsOODIdfqInGvoxsODCblEtoHrXSGA7K48NNBm7XWTg+w8rgRvr9QQkox6q
+ IUng7b7rrRKEMXa4nQ+wcjnW+j0PHycrmo8XCB8zquo9g4T7MfWW4oPCFJq5T9ayNE0zlVvlwSK
+ I0Wag2tv+3d7VyQtgmDS22kKVUVxb1qzd7bsMNU7UsfGQ33GqXhMotspoPzUeszT3tjog==
+X-Google-Smtp-Source: AGHT+IHwofBfxv3uf6UTJA+nG/6elxBUHAGiuiZgIJf8LSdifcxj/UCi0qF/Jl1IG2tMfvgt6HThdUni33rI90wW01k=
+X-Received: by 2002:a17:90a:e18b:b0:340:bb5c:7dd7 with SMTP id
+ 98e67ed59e1d1-3436cb7ad33mr9591676a91.5.1762790031464; Mon, 10 Nov 2025
+ 07:53:51 -0800 (PST)
+MIME-Version: 1.0
 References: <20250630202703.13844-1-gert.wollny@collabora.com>
  <20251110144625.18653-1-gert.wollny@collabora.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ <20251110144625.18653-3-gert.wollny@collabora.com>
+In-Reply-To: <20251110144625.18653-3-gert.wollny@collabora.com>
+From: Christian Gmeiner <christian.gmeiner@gmail.com>
+Date: Mon, 10 Nov 2025 16:53:39 +0100
+X-Gm-Features: AWmQ_bnENdxpeUHNoYb1iPcyeu_sjQjTbH3dxEXcrczuKmzcLLDFO1caKW3SHpY
+Message-ID: <CAH9NwWfuBF=fZMxU2QnGVWkeXqk-y8NiATjhixY-JS6xxmc-oQ@mail.gmail.com>
+Subject: Re: [PATCH v4 2/5] drm/etnaviv: move some functions to a header to be
+ able to use them externally
+To: gert.wollny@collabora.com
+Cc: Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ etnaviv@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,53 +87,226 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-From: Gert Wollny <gert.wollny@collabora.com>
+Hi, thanks for the patch.
 
-v2: Check for feature PIPE_3D when forcing PPU flop reset (Lucas)
+>
+> From: Gert Wollny <gert.wollny@collabora.com>
+>
+> v2: Add license info to header
+>
+> Signed-off-by: Gert Wollny <gert.wollny@collabora.com>
+> ---
+>  drivers/gpu/drm/etnaviv/etnaviv_buffer.c | 71 +------------------
+>  drivers/gpu/drm/etnaviv/etnaviv_buffer.h | 86 ++++++++++++++++++++++++
+>  2 files changed, 87 insertions(+), 70 deletions(-)
+>  create mode 100644 drivers/gpu/drm/etnaviv/etnaviv_buffer.h
+>
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_buffer.c b/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
+> index d4f1307d574f..5be9978e34d9 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
+> @@ -10,6 +10,7 @@
+>  #include "etnaviv_gpu.h"
+>  #include "etnaviv_gem.h"
+>  #include "etnaviv_mmu.h"
+> +#include "etnaviv_buffer.h"
+>
+>  #include "common.xml.h"
+>  #include "state.xml.h"
+> @@ -18,76 +19,6 @@
+>  #include "state_3d.xml.h"
+>  #include "cmdstream.xml.h"
+>
+> -/*
+> - * Command Buffer helper:
+> - */
+> -
+> -
+> -static inline void OUT(struct etnaviv_cmdbuf *buffer, u32 data)
+> -{
+> -       u32 *vaddr = (u32 *)buffer->vaddr;
+> -
+> -       BUG_ON(buffer->user_size >= buffer->size);
+> -
+> -       vaddr[buffer->user_size / 4] = data;
+> -       buffer->user_size += 4;
+> -}
+> -
+> -static inline void CMD_LOAD_STATE(struct etnaviv_cmdbuf *buffer,
+> -       u32 reg, u32 value)
+> -{
+> -       u32 index = reg >> VIV_FE_LOAD_STATE_HEADER_OFFSET__SHR;
+> -
+> -       buffer->user_size = ALIGN(buffer->user_size, 8);
+> -
+> -       /* write a register via cmd stream */
+> -       OUT(buffer, VIV_FE_LOAD_STATE_HEADER_OP_LOAD_STATE |
+> -                   VIV_FE_LOAD_STATE_HEADER_COUNT(1) |
+> -                   VIV_FE_LOAD_STATE_HEADER_OFFSET(index));
+> -       OUT(buffer, value);
+> -}
+> -
+> -static inline void CMD_END(struct etnaviv_cmdbuf *buffer)
+> -{
+> -       buffer->user_size = ALIGN(buffer->user_size, 8);
+> -
+> -       OUT(buffer, VIV_FE_END_HEADER_OP_END);
+> -}
+> -
+> -static inline void CMD_WAIT(struct etnaviv_cmdbuf *buffer,
+> -                           unsigned int waitcycles)
+> -{
+> -       buffer->user_size = ALIGN(buffer->user_size, 8);
+> -
+> -       OUT(buffer, VIV_FE_WAIT_HEADER_OP_WAIT | waitcycles);
+> -}
+> -
+> -static inline void CMD_LINK(struct etnaviv_cmdbuf *buffer,
+> -       u16 prefetch, u32 address)
+> -{
+> -       buffer->user_size = ALIGN(buffer->user_size, 8);
+> -
+> -       OUT(buffer, VIV_FE_LINK_HEADER_OP_LINK |
+> -                   VIV_FE_LINK_HEADER_PREFETCH(prefetch));
+> -       OUT(buffer, address);
+> -}
+> -
+> -static inline void CMD_STALL(struct etnaviv_cmdbuf *buffer,
+> -       u32 from, u32 to)
+> -{
+> -       buffer->user_size = ALIGN(buffer->user_size, 8);
+> -
+> -       OUT(buffer, VIV_FE_STALL_HEADER_OP_STALL);
+> -       OUT(buffer, VIV_FE_STALL_TOKEN_FROM(from) | VIV_FE_STALL_TOKEN_TO(to));
+> -}
+> -
+> -static inline void CMD_SEM(struct etnaviv_cmdbuf *buffer, u32 from, u32 to)
+> -{
+> -       CMD_LOAD_STATE(buffer, VIVS_GL_SEMAPHORE_TOKEN,
+> -                      VIVS_GL_SEMAPHORE_TOKEN_FROM(from) |
+> -                      VIVS_GL_SEMAPHORE_TOKEN_TO(to));
+> -}
+> -
+>  static void etnaviv_cmd_select_pipe(struct etnaviv_gpu *gpu,
+>         struct etnaviv_cmdbuf *buffer, u8 pipe)
+>  {
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_buffer.h b/drivers/gpu/drm/etnaviv/etnaviv_buffer.h
+> new file mode 100644
+> index 000000000000..ae1ba1db6c8a
+> --- /dev/null
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_buffer.h
+> @@ -0,0 +1,86 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright (C) 2014-2025 Etnaviv Project
+> + */
+> +
+> +#ifndef etnaviv_buffer_h
+> +#define etnaviv_buffer_h
 
-v3: - drop use of ppu_flop_reset enum (Christian Gmeiner)
-    - don't initialize module parameter to zero (checkpatch)
-    - avoid multi-line string in warning message (checkpatch)
+#ifndef __ETNAVIV_BUFFER_H__
+#define __ETNAVIV_BUFFER_H__
 
-Signed-off-by: Gert Wollny <gert.wollny@collabora.com>
----
- drivers/gpu/drm/etnaviv/etnaviv_flop_reset.c | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+> +
+> +#include "etnaviv_cmdbuf.h"
+> +#include "etnaviv_gpu.h"
+I don't think we need this include."
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_flop_reset.c b/drivers/gpu/drm/etnaviv/etnaviv_flop_reset.c
-index 7c0112b3b3ad..75fe8cce1177 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_flop_reset.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_flop_reset.c
-@@ -13,6 +13,9 @@
- 
- #include "etnaviv_flop_reset.h"
- 
-+static int etnaviv_force_flop_reset;
-+module_param_named(force_flop_reset, etnaviv_force_flop_reset, int, 0);
-+
- #define PPU_IMAGE_STRIDE 64
- #define PPU_IMAGE_XSIZE 64
- #define PPU_IMAGE_YSIZE 6
-@@ -148,6 +151,19 @@ bool etnaviv_flop_reset_ppu_require(const struct etnaviv_chip_identity *chip_id)
- 			return true;
- 	}
- 
-+	if (etnaviv_force_flop_reset) {
-+		if (!(chip_id->features & chipFeatures_PIPE_3D)) {
-+			pr_warn("Etnaviv: model: 0x%04x, revision: 0x%04x does not support PIPE_3D\n",
-+				chip_id->model, chip_id->revision);
-+			pr_warn("Request to force PPU flop reset ignored.\n");
-+			return false;
-+		}
-+
-+		pr_info("Force PPU flop reset for model: 0x%04x, revision: 0x%04x\n",
-+			chip_id->model, chip_id->revision);
-+		return true;
-+	}
-+
- 	return false;
- }
- 
+> +#include "etnaviv_gem.h"
+I don't think we need this include."
+
+> +#include "etnaviv_mmu.h"
+I don't think we need this include."
+
+> +
+> +#include "common.xml.h"
+> +#include "linux/printk.h"
+I don't think we need this include."
+
+> +#include "state.xml.h"
+> +#include "state_blt.xml.h"
+I don't think we need this include."
+
+> +#include "state_hi.xml.h"
+I don't think we need this include."
+
+> +#include "state_3d.xml.h"
+I don't think we need this include."
+
+> +#include "cmdstream.xml.h"
+> +
+> +static inline void OUT(struct etnaviv_cmdbuf *buffer, u32 data)
+> +{
+> +       u32 *vaddr = (u32 *)buffer->vaddr;
+> +
+> +       BUG_ON(buffer->user_size >= buffer->size);
+> +
+> +       vaddr[buffer->user_size / 4] = data;
+> +       buffer->user_size += 4;
+> +}
+> +
+> +static inline void CMD_LOAD_STATE(struct etnaviv_cmdbuf *buffer, u32 reg,
+> +                                 u32 value)
+> +{
+> +       u32 index = reg >> VIV_FE_LOAD_STATE_HEADER_OFFSET__SHR;
+> +
+> +       buffer->user_size = ALIGN(buffer->user_size, 8);
+> +
+> +       /* write a register via cmd stream */
+> +       OUT(buffer, VIV_FE_LOAD_STATE_HEADER_OP_LOAD_STATE |
+> +                           VIV_FE_LOAD_STATE_HEADER_COUNT(1) |
+> +                           VIV_FE_LOAD_STATE_HEADER_OFFSET(index));
+> +       OUT(buffer, value);
+> +}
+> +
+> +static inline void CMD_END(struct etnaviv_cmdbuf *buffer)
+> +{
+> +       buffer->user_size = ALIGN(buffer->user_size, 8);
+> +
+> +       OUT(buffer, VIV_FE_END_HEADER_OP_END);
+> +}
+> +
+> +static inline void CMD_WAIT(struct etnaviv_cmdbuf *buffer,
+> +                           unsigned int waitcycles)
+> +{
+> +       buffer->user_size = ALIGN(buffer->user_size, 8);
+> +
+> +       OUT(buffer, VIV_FE_WAIT_HEADER_OP_WAIT | waitcycles);
+> +}
+> +
+> +static inline void CMD_LINK(struct etnaviv_cmdbuf *buffer, u16 prefetch,
+> +                           u32 address)
+> +{
+> +       buffer->user_size = ALIGN(buffer->user_size, 8);
+> +
+> +       OUT(buffer,
+> +           VIV_FE_LINK_HEADER_OP_LINK | VIV_FE_LINK_HEADER_PREFETCH(prefetch));
+> +       OUT(buffer, address);
+> +}
+> +
+> +static inline void CMD_STALL(struct etnaviv_cmdbuf *buffer, u32 from, u32 to)
+> +{
+> +       buffer->user_size = ALIGN(buffer->user_size, 8);
+> +
+> +       OUT(buffer, VIV_FE_STALL_HEADER_OP_STALL);
+> +       OUT(buffer, VIV_FE_STALL_TOKEN_FROM(from) | VIV_FE_STALL_TOKEN_TO(to));
+> +}
+> +
+> +static inline void CMD_SEM(struct etnaviv_cmdbuf *buffer, u32 from, u32 to)
+> +{
+> +       CMD_LOAD_STATE(buffer, VIVS_GL_SEMAPHORE_TOKEN,
+> +                      VIVS_GL_SEMAPHORE_TOKEN_FROM(from) |
+> +                              VIVS_GL_SEMAPHORE_TOKEN_TO(to));
+> +}
+> +
+> +#endif
+> --
+> 2.51.0
+>
+
 -- 
-2.51.0
+greets
+--
+Christian Gmeiner, MSc
 
+https://christian-gmeiner.info/privacypolicy
