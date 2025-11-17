@@ -2,102 +2,77 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 202BEC5F5CE
-	for <lists+etnaviv@lfdr.de>; Fri, 14 Nov 2025 22:28:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B90EC62E2E
+	for <lists+etnaviv@lfdr.de>; Mon, 17 Nov 2025 09:27:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ADFC210EB26;
-	Fri, 14 Nov 2025 21:28:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2092010E2F2;
+	Mon, 17 Nov 2025 08:27:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="vFCyGJ9I";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="QwB2YUWj";
 	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 23F1E10EA4F
- for <etnaviv@lists.freedesktop.org>; Fri, 14 Nov 2025 12:13:26 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id D52E144573
- for <etnaviv@lists.freedesktop.org>; Fri, 14 Nov 2025 12:13:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C3C4C2BCB3
- for <etnaviv@lists.freedesktop.org>; Fri, 14 Nov 2025 12:13:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1763122405;
- bh=5I0F7Lk270HlfQS3v6Sw31jwqLfCir/VQOrCBc5zdi4=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=vFCyGJ9IK/JNHwvQFMCw/BHNieBWTmjv3dMBHLRUH1QVfPIBEzFEMhp5fNPszRCwG
- IbOoJOmHcisOHy9lMOxQYQblP+DEh4AMnkzfZwncdrkbiyCN70ch4rBq0E1amHMSVI
- NwDzxls2anQR7oz9FHl1gCC2WMkkz5URK0GYhUs+4grlDF5lADeLEb20ht3BCP6vY0
- BbZxQkmX2t0fOJcwHav8XJpFXUW57J007LRZA6wSO7C52lX+Zj9bCXKbp5vIqwCjUX
- c++cAw3Cn5mdagh04K1BxhoAbdHiKEpEnupju0k+iLBLJZhOlkBF4/w9gQ2vF7fdGX
- lFSOt4sDo9xQg==
-Received: by mail-oa1-f51.google.com with SMTP id
- 586e51a60fabf-3e3dac349easo998875fac.2
- for <etnaviv@lists.freedesktop.org>; Fri, 14 Nov 2025 04:13:25 -0800 (PST)
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com
+ [209.85.216.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2BC4410E19D
+ for <etnaviv@lists.freedesktop.org>; Mon, 17 Nov 2025 08:27:21 +0000 (UTC)
+Received: by mail-pj1-f44.google.com with SMTP id
+ 98e67ed59e1d1-343dfb673a8so3814371a91.0
+ for <etnaviv@lists.freedesktop.org>; Mon, 17 Nov 2025 00:27:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1763368041; x=1763972841; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=NqMbp3spyXSyI+jmYwX/g0BR2jSvoVtMc4BEmXvtchY=;
+ b=QwB2YUWjSrZ1I7jzdkL0FYFMbf2XKI48CmOMLI1N5LQMue+73zaQu7yeYNmU6ZMmUL
+ nMkVLGPPA5fuQCeS1fw7SLPn8O87QPpX1C8SIj8BCB7/3KEwD7Pv0awaRmE3xqBYBiS+
+ D5yJN+1iRZ+cAyWrTsUzT/oeJ2r0KPvmiDudB6i/7j9CKqrDSN78Mpyd3ivJgYVVM06y
+ rQ6U23695V0kezPU/uMR2h1N92eTxaWcZZYfo+Hn5pAgkAJY1KUaXTwfxNacn4ksGfGR
+ daw/RTdL4VFIp8baJnzWC1IC203eREKQepBtZg0N0Qe+cLRFcejdaQ8PdDfY08unmAYt
+ m3MQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1763368041; x=1763972841;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=NqMbp3spyXSyI+jmYwX/g0BR2jSvoVtMc4BEmXvtchY=;
+ b=Y7cJm545F8kxcQL24p7Wfh+BGO5UZY6M4ic0/lZsfLTCLO7XcNsBg0tjE7E+SWsxk3
+ Qs8OfEPQ2Afr9jTYZuc955zE2KNnQr4jiv8pyig740ugdHEPQSYpM+Qa+T1eTKTA5DGc
+ 8Q8MnNvCPskJEBJkM+p9XwLvHwdis+YYxxQrLW3ffgs+a2ih/SkxsIzlSUluh/RSXiTg
+ Q49+rNbmqSZhW6JhgBT60jocmEWfIK3WXDkovvLO/uENgsuywtRudfGC6gb+kojTpxnY
+ 4AxR9KlOvYglRm0tYlBstfv/Gp+/ApmhcG1BgILJ+EkdiRGdYlOFJWx7J0qWNrCXDGWJ
+ eUbw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUMk7SwRrKlq03XwcX9mfnMyv75tfUmGVxT2lKN7SMObXmM+Y0iEjxwQ1obXK9gfnMGzV22Jz8A@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyBFVlKMCkI0XgHdouzuNsv8ewHES51oOsZ1DEei7kxUCfLiyFP
- wWp5Tp/CTyT1Vqj7BhE5ybQXVO4vGeFVo8k9BMyXJ7e53vXkAmaggMbHa+IWgrhcVYFi6kCp6/9
- +YSXdsDH7H7B+DWagvrkyCvz9U5lGw5Y=
-X-Google-Smtp-Source: AGHT+IGrNkWHSVx3CmYADKr0S6TGq/XxOF6zay1uOoUOn8a60tpM1BgphUydUyCNyc9Vh0GmlV+21RabCzXA2tdcTXs=
-X-Received: by 2002:a05:6870:30f:b0:375:db59:20e4 with SMTP id
- 586e51a60fabf-3e868ef8743mr1267901fac.13.1763122404195; Fri, 14 Nov 2025
- 04:13:24 -0800 (PST)
+ AJvYcCXVEF+D6VSlHThku1cEgZbVpS6zbB5AF2aXA9IT8mJ5GtEc+vAQ8iirH5mgdFA/4bDDNO6edl4t@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyzd4Jo1CvV04wY+YuC6Wpy13IhcUkogJ40Qe94lut/ClfTBaBX
+ 1HIxR1ZdcHLi3s3bsKvYjxhb7hL2WgY6qEl4NT7wc261nqepQPu/u4g8lozuZAKFht5QnPSIe+G
+ /Au8rX14/XZCyp5DfVaOeVIKavnr6Rtc=
+X-Gm-Gg: ASbGncvaG1rTKMfz2SkdOKQq9u2/ZBDHVCjeqWYPefEPj8Bd4jnf0z3BHaIo5txtww5
+ wsa1kqfO3um3JScIz/mwgl3kLA62D2E5jvfYmDj8paDrFN4UU/DkBq37RrS3UtTajzsCSYWOrx4
+ faN6NcIKD3Z2SkfkMPW/hdBa/v6UT3F758gZ+FK/Y+V3FtM4ftvDxhESkjsCVLHLqEApI0KNeHT
+ a9caWtv9uovaoulbLgpAn8fEKMlCuHdNA+azCjCkQqzu5n9p+GZiHS1TQY=
+X-Google-Smtp-Source: AGHT+IGkMzDEoqI+rt/qEDTD5D9OKmtIrTYe7/+Lovr1JTaZZ98IJ17G6IuDXmpuZQ5NwMT3Xw1q+4mJ9OZDJ2OQMhQ=
+X-Received: by 2002:a17:90b:4b49:b0:32e:9f1e:4ee4 with SMTP id
+ 98e67ed59e1d1-343fa636eb2mr14964476a91.17.1763368040651; Mon, 17 Nov 2025
+ 00:27:20 -0800 (PST)
 MIME-Version: 1.0
-References: <20251114-thermal-device-v1-0-d8b442aae38b@gmx.de>
-In-Reply-To: <20251114-thermal-device-v1-0-d8b442aae38b@gmx.de>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Fri, 14 Nov 2025 13:13:12 +0100
-X-Gmail-Original-Message-ID: <CAJZ5v0gZ7+i+irhaq2jQpTt++HuVRjqz8==Ov9VmQ9Q1J1TM0w@mail.gmail.com>
-X-Gm-Features: AWmQ_bm6idj_L4n1xVkRGWkVqmFdJz-PXS5UU4gyN5tQNhsjMISGTiEJyqtTR8w
-Message-ID: <CAJZ5v0gZ7+i+irhaq2jQpTt++HuVRjqz8==Ov9VmQ9Q1J1TM0w@mail.gmail.com>
-Subject: Re: [PATCH RFC 0/8] thermal: core: Allow setting the parent device of
- thermal zone/cooling devices
-To: Armin Wolf <W_Armin@gmx.de>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
- Daniel Lezcano <daniel.lezcano@linaro.org>, 
- Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>, 
- Lucas Stach <l.stach@pengutronix.de>,
+References: <20250630202703.13844-1-gert.wollny@collabora.com>
+ <20251110144625.18653-1-gert.wollny@collabora.com>
+ <20251110144625.18653-4-gert.wollny@collabora.com>
+In-Reply-To: <20251110144625.18653-4-gert.wollny@collabora.com>
+From: Christian Gmeiner <christian.gmeiner@gmail.com>
+Date: Mon, 17 Nov 2025 09:27:08 +0100
+X-Gm-Features: AWmQ_bn0nno6cG5xru1AolIX5ZHV2GGQts5Yy54PHH5Linq0pWMcgulnMZdcLgw
+Message-ID: <CAH9NwWev7PjkkSW8N=0aM+3LVOLXajnhs12SPCe6w2ULRA830w@mail.gmail.com>
+Subject: Re: [PATCH v4 3/5] drm/etnaviv: Add a new function to emit a series
+ of states to cmd stream
+To: gert.wollny@collabora.com
+Cc: Lucas Stach <l.stach@pengutronix.de>,
  Russell King <linux+etnaviv@armlinux.org.uk>, 
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Amit Daniel Kachhap <amit.kachhap@gmail.com>, 
- Viresh Kumar <viresh.kumar@linaro.org>,
- Thierry Reding <thierry.reding@gmail.com>, 
- Jonathan Hunter <jonathanh@nvidia.com>, Len Brown <lenb@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, 
- Ido Schimmel <idosch@nvidia.com>, Petr Machata <petrm@nvidia.com>, 
- Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Jeff Johnson <jjohnson@kernel.org>,
- Miri Korenblit <miriam.rachel.korenblit@intel.com>, 
- Felix Fietkau <nbd@nbd.name>, Lorenzo Bianconi <lorenzo@kernel.org>,
- Ryder Lee <ryder.lee@mediatek.com>, 
- Shayne Chen <shayne.chen@mediatek.com>, Sean Wang <sean.wang@mediatek.com>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Peter Kaestle <peter@piie.net>, Hans de Goede <hansg@kernel.org>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
- Potnuri Bharat Teja <bharat@chelsio.com>, Sebastian Reichel <sre@kernel.org>, 
- Miquel Raynal <miquel.raynal@bootlin.com>, 
- Support Opensource <support.opensource@diasemi.com>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>,
- =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, 
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>, 
- linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
- etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- linux-tegra@vger.kernel.org, linux-acpi@vger.kernel.org, 
- linux-doc@vger.kernel.org, netdev@vger.kernel.org, 
- linux-wireless@vger.kernel.org, ath10k@lists.infradead.org, 
- ath11k@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
- linux-mediatek@lists.infradead.org, platform-driver-x86@vger.kernel.org, 
- linux-pci@vger.kernel.org, imx@lists.linux.dev, 
- linux-renesas-soc@vger.kernel.org
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ etnaviv@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Mailman-Approved-At: Fri, 14 Nov 2025 21:28:15 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -112,62 +87,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-On Fri, Nov 14, 2025 at 4:24=E2=80=AFAM Armin Wolf <W_Armin@gmx.de> wrote:
+> From: Gert Wollny <gert.wollny@collabora.com>
 >
-> Drivers registering thermal zone/cooling devices are currently unable
-> to tell the thermal core what parent device the new thermal zone/
-> cooling device should have, potentially causing issues with suspend
-> ordering
-
-Do you have any examples of this?
-
-> and making it impossible for user space appications to
-> associate a given thermal zone device with its parent device.
+> v2: fix formatting and remove superfluous masking (Lucas)
 >
-> This patch series aims to fix this issue by extending the functions
-> used to register thermal zone/cooling devices to also accept a parent
-> device pointer. The first six patches convert all functions used for
-> registering cooling devices, while the functions used for registering
-> thermal zone devices are converted by the remaining two patches.
->
-> I tested this series on various devices containing (among others):
-> - ACPI thermal zones
-> - ACPI processor devices
-> - PCIe cooling devices
-> - Intel Wifi card
-> - Intel powerclamp
-> - Intel TCC cooling
->
-> I also compile-tested the remaining affected drivers, however i would
-> still be happy if the relevant maintainers (especially those of the
-> mellanox ethernet switch driver) could take a quick glance at the
-> code and verify that i am using the correct device as the parent
-> device.
->
-> This work is also necessary for extending the ACPI thermal zone driver
-> to support the _TZD ACPI object in the future.
+> Signed-off-by: Gert Wollny <gert.wollny@collabora.com>
 
-Can you please elaborate a bit here?
+Reviewed-by: Christian Gmeiner <cgmeiner@igalia.com>
 
-_TZD is a list of devices that belong to the given thermal zone, so
-how is it connected to the thermal zone parent?
-
-> Signed-off-by: Armin Wolf <W_Armin@gmx.de>
 > ---
-> Armin Wolf (8):
->       thermal: core: Allow setting the parent device of cooling devices
->       thermal: core: Set parent device in thermal_of_cooling_device_regis=
-ter()
->       ACPI: processor: Stop creating "device" sysfs link
->       ACPI: fan: Stop creating "device" sysfs link
->       ACPI: video: Stop creating "device" sysfs link
->       thermal: core: Set parent device in thermal_cooling_device_register=
-()
->       ACPI: thermal: Stop creating "device" sysfs link
->       thermal: core: Allow setting the parent device of thermal zone devi=
-ces
+>  drivers/gpu/drm/etnaviv/etnaviv_buffer.h | 13 +++++++++++++
+>  1 file changed, 13 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_buffer.h b/drivers/gpu/drm/etnaviv/etnaviv_buffer.h
+> index ae1ba1db6c8a..9388a686edcf 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_buffer.h
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_buffer.h
+> @@ -43,6 +43,19 @@ static inline void CMD_LOAD_STATE(struct etnaviv_cmdbuf *buffer, u32 reg,
+>         OUT(buffer, value);
+>  }
+>
+> +static inline void CMD_LOAD_STATES_START(struct etnaviv_cmdbuf *buffer, u32 reg,
+> +                                        u32 nvalues)
+> +{
+> +       u32 index = reg >> VIV_FE_LOAD_STATE_HEADER_OFFSET__SHR;
+> +
+> +       buffer->user_size = ALIGN(buffer->user_size, 8);
+> +
+> +       /* write a register via cmd stream */
+> +       OUT(buffer, VIV_FE_LOAD_STATE_HEADER_OP_LOAD_STATE |
+> +                           VIV_FE_LOAD_STATE_HEADER_OFFSET(index) |
+> +                           VIV_FE_LOAD_STATE_HEADER_COUNT(nvalues));
+> +}
+> +
+>  static inline void CMD_END(struct etnaviv_cmdbuf *buffer)
+>  {
+>         buffer->user_size = ALIGN(buffer->user_size, 8);
+> --
+> 2.51.0
+>
 
-I can only see the first three patches in the series ATM as per
 
-https://lore.kernel.org/linux-pm/20251114-thermal-device-v1-0-d8b442aae38b@=
-gmx.de/T/#r605b23f2e27e751d8406e7949dad6f5b5b112067
+-- 
+greets
+--
+Christian Gmeiner, MSc
+
+https://christian-gmeiner.info/privacypolicy
