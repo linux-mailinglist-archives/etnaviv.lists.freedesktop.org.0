@@ -2,78 +2,52 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CB01C6FA75
-	for <lists+etnaviv@lfdr.de>; Wed, 19 Nov 2025 16:30:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3102C702A4
+	for <lists+etnaviv@lfdr.de>; Wed, 19 Nov 2025 17:43:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 64EC789CF6;
-	Wed, 19 Nov 2025 15:30:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 53A9C10E66A;
+	Wed, 19 Nov 2025 16:43:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="VRw+jbVH";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="jsCS+yAW";
 	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com
- [209.85.214.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 76CC310E660
- for <etnaviv@lists.freedesktop.org>; Wed, 19 Nov 2025 15:30:26 +0000 (UTC)
-Received: by mail-pl1-f176.google.com with SMTP id
- d9443c01a7336-2955623e6faso64635155ad.1
- for <etnaviv@lists.freedesktop.org>; Wed, 19 Nov 2025 07:30:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1763566226; x=1764171026; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=VwsNl47ILOU+OZH830fwN0lvlzy/et7h1LLra9Ac0sU=;
- b=VRw+jbVHaIqzHhUVuhJZhrCAj08NIm/y5QIM1KQhlCRuTULlzxNNhhLsKfw+we/AU0
- xLhzoqN0JvJ12USV1YXaY+m7ijb1PnFEaDPZB0iS8xaAbjIfuxGG+GXkML8z0Z67+DRK
- 6CPJQGeojKEIJBc1V4eZXWxPrJKTbquXSpQgf6buYT8MtfZt1OC8Mum5XzBGPRVSDZ+P
- aznG43x39sglZdXf/0p9lbz3lbKBpz1XjQeNbwenawtZVdBBIaSZMNqDHUMguRGw2zma
- r1EtMaq3z3MYrRbd8yY0OkuJ1ysizABE8iN1qfhNnEtgv7jcJRDbN6DnDXMWPiq9odhE
- RewQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1763566226; x=1764171026;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=VwsNl47ILOU+OZH830fwN0lvlzy/et7h1LLra9Ac0sU=;
- b=Hg1KFce9voZ2ZyTFfo4QVEHQqCD5NKtGn6DuwUTL/lHsSruiol073uq22Xb9dXbKTf
- 53Tprz9pPIIfSqwsrKshD70WC9YSbmii3B2KvKZOWjS1YjcK7VwFLODuu7oL0VVtNd2a
- MuQDY2zmQgA2rxy9djwtyj+ez3+d1uy2AJTh+0jAdI1LG8LSqEDpFW++ARuPtFNODXat
- Z4y1xWCULl7XlsG2Eeog/3NuXkMuHbi5epKve7vCWk64Q6D7g1FB4JnzuV/2o8Kv/nZj
- 6f3s+KhmNMb36YTZLs27/0ZN6ZzZbPYbrzbEJm2p32YoEBCdDX/8tNVixaAvPX1udxbs
- qPYw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCURAvekpir+Dt0sJkQMEankK5e2Lr2VyquqmRPoAOBsMdXIKMd88k7kF/gr4DIabzFsE+KXC4Zy@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz2YacJnRFXENtFnDNcTelld9398TUdNREe7FP0THOYmcQIHQdU
- MNmhcZCpNCIO4T/ysn34iEs0fbX6YIgNX56tmgeNJ5KsFQNn4kj37I2WWIvxKFe/STtY6Agdq9r
- 7bpFCfyhcM/v4K8A3O1H7Ro4IBnXT4QShYu0Y
-X-Gm-Gg: ASbGncsvdYlRnpPzvrue3UEsBminuq4sPZl2XK9qSY6tIHnz+9Qv450eEi+qUDd5gXw
- MnjblIUo4NfKyYlA+lT4/QO+/RYdrWA/pwHarH3cNLIkLH8KkkZtTcGDBohUPYfaiX0zyVln/LP
- yNUcf3G5Ct62Rynb/MCvO9s6aG52BBkM8BMSW7tdk0ucxfwEVAAUSQSQtx0kXezQdlZRat6z3+i
- RNJ+yS2BSgzxIgyZaEeCgo2c6aTYTQ72IGa8151bhuA8EXgIdDKwuWiCCe0mgACDAJcK7EtO/qK
- 6DEB
-X-Google-Smtp-Source: AGHT+IEGBRhchbqAvdLDH3ne/Qo3A0DHrByjI/4zA4eCeE2JIWTr0xJV37Lg9jXOo1wRFmEingCybgduVaW9fPJhicQ=
-X-Received: by 2002:a17:903:19cf:b0:295:24d7:3792 with SMTP id
- d9443c01a7336-2986a6b81aamr252672075ad.1.1763566225731; Wed, 19 Nov 2025
- 07:30:25 -0800 (PST)
-MIME-Version: 1.0
-References: <20250630202703.13844-1-gert.wollny@collabora.com>
- <20251110144625.18653-1-gert.wollny@collabora.com>
- <20251110144625.18653-6-gert.wollny@collabora.com>
-In-Reply-To: <20251110144625.18653-6-gert.wollny@collabora.com>
-From: Christian Gmeiner <christian.gmeiner@gmail.com>
-Date: Wed, 19 Nov 2025 16:30:14 +0100
-X-Gm-Features: AWmQ_bk6AeMO6mucUUgE8K4I2a7IvBY4rZdGIxr2UKlngvQcKpypjE7fTv8xOtk
-Message-ID: <CAH9NwWeyBvHPOBkdgxmOx+w0amhC3XU+0cgZB6BnqfE8pYZ4Vw@mail.gmail.com>
-Subject: Re: [PATCH v4 5/5] drm/etnaviv: Add module parameter to force PPU
- flop reset
-To: gert.wollny@collabora.com
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD52D10E036;
+ Wed, 19 Nov 2025 16:43:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1763570625;
+ bh=i0zurEnSwsPcjxf6RAxHlGjp6670nPJPxV5R4vji840=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=jsCS+yAWjRAXIaj62KXyowPtCG/qJKRZ/mQ1dtyFVlxbIPYAnt+KxVmnfa43Rcdoj
+ HWfxrMDqhbmViLAYZnqfZZ+dP7mWgdd1GlTbhQ1NszcrnyUM1CRkdOorvrFUWoTcPO
+ C7ieos+9ppayawOwRVya0T00y4MVT/8Jkar2Z6oeG3oVL9Kgk9hMsnhUk3P2F7dN+s
+ 820gN/ftXFhsJDDGgXXav5S6W97wGOrnhIOsfDxre4gO13qaiz179vAPU62y86VJZi
+ kB9YQ9ZTMBKQ823RX0Sp8XyYFpVf0rdLZ7iCWgpOtRpgTj+PAZDN+H2XGpwaLJj3aC
+ zkgq43X14nfNQ==
+Received: from localhost.localdomain (unknown [92.206.121.12])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: gerddie)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id F2DFA17E07EE;
+ Wed, 19 Nov 2025 17:43:44 +0100 (CET)
+From: gert.wollny@collabora.com
+To: Christian Gmeiner <christian.gmeiner@gmail.com>
 Cc: Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>, 
+ Russell King <linux+etnaviv@armlinux.org.uk>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- etnaviv@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+ Marek Vasut <marek.vasut+renesas@mailbox.org>,
+ etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH v5 0/5] drm/etnaviv: Add support for running a PPU flop reset
+Date: Wed, 19 Nov 2025 17:45:46 +0100
+Message-ID: <20251119164624.9297-1-gert.wollny@collabora.com>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20251110144625.18653-1-gert.wollny@collabora.com>
+References: <20251110144625.18653-1-gert.wollny@collabora.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,21 +62,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-> From: Gert Wollny <gert.wollny@collabora.com>
->
-> v2: Check for feature PIPE_3D when forcing PPU flop reset (Lucas)
->
-> v3: - drop use of ppu_flop_reset enum (Christian Gmeiner)
->     - don't initialize module parameter to zero (checkpatch)
->     - avoid multi-line string in warning message (checkpatch)
->
-> Signed-off-by: Gert Wollny <gert.wollny@collabora.com>
+Dear all, 
 
-Reviewed-by: Christian Gmeiner <cgmeiner@igalia.com>
+this is the fifth version of the series to add PPU flop reset.
 
--- 
-greets
---
-Christian Gmeiner, MSc
+Changes w.r.t. the previous version are:
 
-https://christian-gmeiner.info/privacypolicy
+  * Apply all changes suggested by Christian Gmeiner:
+   - fix a memory leak that would occure when PPU data 
+     initialization fails
+   - remove unneeded includes
+   - move includes to the files where they are actuall needed
+   - fix include style for "linux" headers
+   - fix typo in error message 
+
+  * add Reviewed-by tags to the according commits 
+
+Many thanks for any comments,
+Gert
+
