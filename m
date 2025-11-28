@@ -2,147 +2,77 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD6C9C90605
-	for <lists+etnaviv@lfdr.de>; Fri, 28 Nov 2025 00:53:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 589B0C9151C
+	for <lists+etnaviv@lfdr.de>; Fri, 28 Nov 2025 09:54:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E60B10E8F2;
-	Thu, 27 Nov 2025 23:53:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A7FD10E894;
+	Fri, 28 Nov 2025 08:54:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=w_armin@gmx.de header.b="b4FpeI0G";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="X4F1CwI/";
 	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E57710E894;
- Thu, 27 Nov 2025 23:53:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
- s=s31663417; t=1764287573; x=1764892373; i=w_armin@gmx.de;
- bh=XH4L8vJd3Pgpkz5I5/5j7PvlshtX9zs5NurfTRvHPhc=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
- References:From:In-Reply-To:Content-Type:
- Content-Transfer-Encoding:cc:content-transfer-encoding:
- content-type:date:from:message-id:mime-version:reply-to:subject:
- to;
- b=b4FpeI0GdvrvQyS6l8P2lezwX5ckkF2u6ginTiTt37wA7LMBOLrv99J5QRQLj1Uy
- k1kVy5Oj/I91rUSmge7JLM0p7+0n7z0nRY2slB89KPqIRcz+63YNBV35lZhUHtDLB
- B0nbHZV4srXiazlOU6gZFpZ1WpHHAuSZ4RXeQAxk8h7uY+8/nAMeMUCIGQTPClhJO
- wMYI5wzlQv37qSl4LjiG9hg+6LS1+0vOOp/LxW2pTEoJ9jrOncwKijg9H613lgbvv
- FsjHxgfNDzoUFgPlljajXeDpxQnNclRPEhc1GV2uswTdLk+EEhQVGFwyDBEoXm6j5
- Fhl5h/Gw7BO8d+uanQ==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.0.69] ([93.202.247.91]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1N7QxL-1wA7ku0qHF-0156NT; Fri, 28
- Nov 2025 00:52:53 +0100
-Message-ID: <a2ef1a42-6c06-4186-83ef-e13414fb818a@gmx.de>
-Date: Fri, 28 Nov 2025 00:52:47 +0100
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com
+ [209.85.216.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C78610E894
+ for <etnaviv@lists.freedesktop.org>; Fri, 28 Nov 2025 08:54:11 +0000 (UTC)
+Received: by mail-pj1-f47.google.com with SMTP id
+ 98e67ed59e1d1-34361025290so1266832a91.1
+ for <etnaviv@lists.freedesktop.org>; Fri, 28 Nov 2025 00:54:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1764320051; x=1764924851; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=6D/KAR/bSWKR2s9ly+PQD/BhIMWcCPCILbduyTDkASA=;
+ b=X4F1CwI/Vhq7p4v6caIC/VTrKM6NZ7QyIu7y02trNB4a/Qd3UQ7VwlbhQfsVwFPEzW
+ HW5ymoaou7D3s7v5ODP/kMV3l9nrGzzpge5BHL2ncsG6ByUJv21VPOwASd68WjOKydr2
+ 1E92eVlTJnZ5BPh0NZbhTNkLBzBZJXDynWcuMsnQ7VJc++81j3UsBot5bv+45Od6nXEQ
+ Q6hovVCzEchMUCtiDQ7gcs0V59plTssiRxonF77cBJ/JL3guORcYvBgFMC4vIj9TzUe+
+ z9KWYike9jOkOjpLSVhWj21b4arYbFolvBQXBbmqH5QwsA50/gK4UruJwetRZUbR6Aqc
+ +uSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1764320051; x=1764924851;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=6D/KAR/bSWKR2s9ly+PQD/BhIMWcCPCILbduyTDkASA=;
+ b=r9KouO8grWM2tWhzExER0phA6Q13FNOrKhc77xJocahOM5BIirc2bG5SQ9vJP1B01w
+ Bh6V/8CWk6Wj+qIlVyrVj5M4OW6Klpzwo5tkZXbewMFBUnohhvJzk7l5JWvT3voz4Sjo
+ HWNPH4o7OJjymjKbygOmrB9mnRBe/JyLlp3ZszignFMh+uM9RfZY/H/bdaeOuh4cfPg1
+ ypcnuFZBVkE89bJuIxBBnfVFQhk2AmkSkJmJUf3vBwFnpwSr1JHKqmTldwZ99cII2DDe
+ eyl7U3N2U+1Y9Z7/WDkC+g4s+dRh7bHQP7Nr03VaPE/n/W6rdhVZjZ9yn4NiWjbgyKD9
+ JqqA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVpMz3KrIu/M0Dj2dcG9ykPmp247sWtQXt+yhvdgDyFtWw3XM4XfX1uu6ieJZA+CWUn2F0Ny8H5@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxBra4hnoJuPbjwxW3wIbzD0FZ9brUUbOh1b33XkIJti2EY7fvr
+ HFnbgQQEl5pmVb5YxEM5R/bJWjROZpoGHo6KSMm/hq71mIiTByfFIXJ2xxx9SxLt5mxswDeohjL
+ hMl8sY5qIX+oVsYYSfxAsVEnbx2g0et4=
+X-Gm-Gg: ASbGncsBZfxZ9qDZ0rF5rH4i5q0F3Zit3OzwNuEybqMRNsBEcH3LTq76/F5UBn3RY3/
+ vtdTS0H7geG1RiZ7fibwdXULPJHuRvN8S3UN/HWXCVEbaV/KbXgYEvfmtzoFHecbzp0fep3yhM8
+ oqGFx5coBWRiYyZTs3KXspMh3eEdBZk/GJFMu9v2g4uWyJ9w7nVyofqXCKw79zWQ7DI5CzU+DZn
+ 6cHe8h+E/hBScyOrUy2vzhWPmTp4Qs5+a+CuZUoZu7g6OshPC7p7k1+OrcQCp7SeBpN3DOZGy5a
+ xKvc
+X-Google-Smtp-Source: AGHT+IFMBrhB7b7bNrMdCy66Ril2+ZUHgljkEvz9IAGMlG+ckvlvVnHFQRcsS6czYCm7p0xiNhOENy18Q3o9EI1gawQ=
+X-Received: by 2002:a17:90b:164c:b0:340:ad5e:cd with SMTP id
+ 98e67ed59e1d1-3475ebe68f2mr14590056a91.5.1764320050890; Fri, 28 Nov 2025
+ 00:54:10 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC RESEND 0/8] thermal: core: Allow setting the parent
- device of thermal zone/cooling devices
-To: "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: Daniel Lezcano <daniel.lezcano@linaro.org>,
- Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
- Len Brown <lenb@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Ido Schimmel <idosch@nvidia.com>, Petr Machata <petrm@nvidia.com>,
- linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
- etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-tegra@vger.kernel.org, linux-acpi@vger.kernel.org,
- linux-doc@vger.kernel.org, netdev@vger.kernel.org,
- linux-wireless@vger.kernel.org, ath10k@lists.infradead.org,
- ath11k@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, platform-driver-x86@vger.kernel.org,
- linux-pci@vger.kernel.org, imx@lists.linux.dev,
- linux-renesas-soc@vger.kernel.org
-References: <20251120-thermal-device-v1-0-bbdad594d57a@gmx.de>
- <CAJZ5v0jOPrBcozzJMsB1eE12MuZRWDAV-+=jfrhJbi=S0p5J9Q@mail.gmail.com>
- <5f3ef610-4024-4ca0-a934-2649f5d25f40@gmx.de>
- <CAJZ5v0hdqY-=O5Ai6c5qjMr_pRFc+SDyV1QruM=ZeHH9Z=guSg@mail.gmail.com>
- <cf86344b-d9f1-4d3c-9fe9-deeb4ade9304@gmx.de>
- <CAJZ5v0iH8jkqJaSNtqaTHxt_305DeiEq0AqQCo4Eho5hMKkU4Q@mail.gmail.com>
-Content-Language: en-US
-From: Armin Wolf <W_Armin@gmx.de>
-In-Reply-To: <CAJZ5v0iH8jkqJaSNtqaTHxt_305DeiEq0AqQCo4Eho5hMKkU4Q@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:D6Q5pBOhq7j59tqn32AlaC7zNQxXY6IiWSrkHAM6P3gKJlbj6J6
- uTxSkHZHP7Jrt8LS6M31wBcEB910kNJD6DwnAUq6LpINXEEK63L9fmub3s1O8nU0ES+qChr
- O97vvWnAxbDtjA1N9QuygQJuv/Ks2U1ByUKDErVnqBHvBEKF+SSKyPhz2w1uTWQeFAg5N+n
- SOOeHBClzmSGO95ACdnBg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:MOyX3V+VNO8=;uFxfjrT42UHTZLKfvOt2xMNe9rm
- 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
- 8RvIZEcv5bZF5XQUwLjDfTq6sEgl3
+References: <20251110144625.18653-1-gert.wollny@collabora.com>
+ <20251119164624.9297-1-gert.wollny@collabora.com>
+ <20251119164624.9297-5-gert.wollny@collabora.com>
+In-Reply-To: <20251119164624.9297-5-gert.wollny@collabora.com>
+From: Christian Gmeiner <christian.gmeiner@gmail.com>
+Date: Fri, 28 Nov 2025 09:53:59 +0100
+X-Gm-Features: AWmQ_bn0YhTgsHLbZX4q7TcndBhQDDJiR57-Ds6iIIFEVBDm-2_U2jb6PI18dLU
+Message-ID: <CAH9NwWfxkUaKrypOZxJvFwp9j0ZMRrcWCc-hjRe=QYo=qqWT8A@mail.gmail.com>
+Subject: Re: [PATCH v5 4/5] drm/etnaviv: Add PPU flop reset
+To: gert.wollny@collabora.com
+Cc: Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Marek Vasut <marek.vasut+renesas@mailbox.org>, etnaviv@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -157,196 +87,432 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Am 27.11.25 um 23:14 schrieb Rafael J. Wysocki:
+Am Mi., 19. Nov. 2025 um 17:43 Uhr schrieb <gert.wollny@collabora.com>:
+>
+> From: Gert Wollny <gert.wollny@collabora.com>
+>
+> The PPU flop reset is required on some hardware to clear the
+> temporary registers. This code follows the implementation
+> of the PPU flop reset as found in the public galcore kernel
+> module. Compared to that code some superfluous parts were
+> removed and only the code path for SoC chip_model = 0x8000
+> and revision = 0x6205 is implemented and tested.
+>
+> v2: - Move flop reset data to etnaviv_drm_private and initialize it
+>       from etnaviv_gpu_bind (Lucas)
+>     - Prepare code for more chip IDs and other flop reset types
+>     - Do some cleanups and rename some functions
+>
+> v3: - Move initialization of flop reset data to etnaviv_gpu_init (Lucas)
+>     - Free PPU data suballocation (Lucas)
+>
+> v4: As suggested by
+>     - replace "asm-generic/int-ll64.h" with "linux/types.h"
+>     - drop flop reset type enum since we only support one type here
+>     - move function return parameters on same line with function name
+>     - replace open coded for loop with memset32
+>     - add cnost to local static values
+>     - add a return value to etnaviv_flop_reset_ppu_init; handle and
+>       pass errors on to the caller
+>     - handle etnaviv_flop_reset_ppu_init return value
+>     - use dev_err for flop reset error message
+>     - fix include guard to be consistent with the other driver code
+>     - fix license header and formatting
+>
+> v5: As suggested by Christian Gmeiner:
+>     - add required header that is no longer pulled in by etnaviv_buffer.h
+>     - fix include style of linux headers
+>     - free flop_reset_data_ppu when command buffer initialization fails
+>     - fix typo in error message
+>
+> Signed-off-by: Gert Wollny <gert.wollny@collabora.com>
 
-> On Thu, Nov 27, 2025 at 9:29=E2=80=AFPM Armin Wolf <W_Armin@gmx.de> wrot=
-e:
->> Am 27.11.25 um 19:22 schrieb Rafael J. Wysocki:
->>
->>> On Sat, Nov 22, 2025 at 3:18=E2=80=AFPM Armin Wolf <W_Armin@gmx.de> wr=
-ote:
->>>> Am 21.11.25 um 21:35 schrieb Rafael J. Wysocki:
->>>>
->>>>> On Thu, Nov 20, 2025 at 4:41=E2=80=AFAM Armin Wolf <W_Armin@gmx.de> =
-wrote:
->>> [...]
->>>
->>>>>> ---
->>>>>> Armin Wolf (8):
->>>>>>          thermal: core: Allow setting the parent device of cooling =
-devices
->>>>>>          thermal: core: Set parent device in thermal_of_cooling_dev=
-ice_register()
->>>>>>          ACPI: processor: Stop creating "device" sysfs link
->>>>> That link is not to the cooling devices' parent, but to the ACPI
->>>>> device object (a struct acpi_device) that corresponds to the parent.
->>>>> The parent of the cooling device should be the processor device, not
->>>>> its ACPI companion, so I'm not sure why there would be a conflict.
->>>>    From the perspective of the Linux device core, a parent device doe=
-s not have to be
->>>> a "physical" device. In the case of the ACPI processor driver, the AC=
-PI device is used,
->>>> so the cooling device registered by said driver belongs to the ACPI d=
-evice.
->>> Well, that's a problem.  A struct acpi_device should not be a parent
->>> of anything other than a struct acpi_device.
->> Understandable, in this case we should indeed use the the CPU device, e=
-specially since the fwnode
->> associated with it already points to the correct ACPI processor object =
-(at least on my machine).
->>
->>>> I agree that using the Linux processor device would make more sense, =
-but this will require
->>>> changes inside the ACPI processor driver.
->>> So be it.
->> OK.
->>
->>>> As for the "device" symlink: The conflict would be a naming conflict,=
- as both "device" symlinks
->>>> (the one created by the ACPI processor driver and the one created by =
-the device core) will
->>>> be created in the same directory (which is the directory of the cooli=
-ng device).
->>> I see.
->>>
->>> But why is the new symlink needed in the first place?  If the device
->>> has a parent, it will appear under that parent in /sys/devices/, won't
->>> it?
->>>
->>> Currently, all of the thermal class devices appear under
->>> /sys/devices/virtual/thermal/ because they have no parents and they
->>> all get a class parent kobject under /sys/devices/virtual/, as that's
->>> what get_device_parent() does.
->>>
->>> If they have real parents, they will appear under those parents, so
->>> why will the parents need to be pointed to additionally?
->> The "device" smylink is a comfort feature provided by the device core i=
-tself to allow user space
->> application to traverse the device tree from bottom to top, like a doub=
-le-linked list. We cannot
->> disable the creation of this symlink, nor should we.
-> I think you mean device_add_class_symlinks(), but that's just for
-> class devices.  Of course, thermal devices are class devices, so
-> they'll get those links if they get parents.  Fair enough.
->
->>> BTW, this means that the layout of /sys/devices/ will change when
->>> thermal devices get real parents.  I'm not sure if this is a problem,
->>> but certainly something to note.
->> I know, most applications likely use /sys/class/thermal/, so they are n=
-ot impacted by this. I will
->> note this in the cover letter of the next revision.
->>
->>>>>>          ACPI: fan: Stop creating "device" sysfs link
->>>>>>          ACPI: video: Stop creating "device" sysfs link
->>>>> Analogously in the above two cases AFAICS.
->>>>>
->>>>> The parent of a cooling device should be a "physical" device object,
->>>>> like a platform device or a PCI device or similar, not a struct
->>>>> acpi_device (which in fact is not a device even).
->>>>    From the perspective of the Linux device core, a ACPI device is a =
-perfectly valid device.
->>> The driver core is irrelevant here.
->>>
->>> As I said before, a struct acpi_device object should not be a parent
->>> of anything other than a struct acpi_device object.  Those things are
->>> not devices and they cannot be used for representing PM dependencies,
->>> for example.
->>>
->>>> I agree that using a platform device or PCI device is better, but thi=
-s already happens
->>>> inside the ACPI fan driver (platform device).
->>> So it should not happen there.
->> I meant that the ACPI fan driver already uses the platform device as th=
-e parent device of the
->> cooling device, so the ACPI device is only used for interacting with th=
-e ACPI control methods
->> (and registering sysfs attributes i think).
-> OK
->
->>>> Only the ACPI video driver created a "device" sysfs link that points =
-to the ACPI device
->>>> instead of the PCI device. I just noticed that i accidentally changed=
- this by using the
->>>> PCI device as the parent device for the cooling device.
->>>>
->>>> If you want then we can keep this change.
->>> The PCI device should be its parent.
->> Alright, i will note this in the patch description.
->>
->>>>>>          thermal: core: Set parent device in thermal_cooling_device=
-_register()
->>>>>>          ACPI: thermal: Stop creating "device" sysfs link
->>>>> And this link is to the struct acpi_device representing the thermal =
-zone itself.
->>>> Correct, the ACPI thermal zone driver is a ACPI driver, meaning that =
-he binds to
->>>> ACPI devices. Because of this all (thermal zone) devices created by a=
-n instance of
->>>> said driver are descendants of the ACPI device said instance is bound=
- to.
->>>>
->>>> We can of course convert the ACPI thermal zone driver into a platform=
- driver, but
->>>> this would be a separate patch series.
->>> If you want parents, this needs to be done first, but I'm still not
->>> sure what the parent of a thermal zone would represent.
->>>
->>> In the ACPI case it is kind of easy - it would be the (platform)
->>> device corresponding to a given ThermalZone object in the ACPI
->>> namespace - but it only has a practical meaning if that device has a
->>> specific parent.  For example, if the corresponding ThermalZone object
->>> is present in the \_SB scope, the presence of the thermal zone parent
->>> won't provide any additional information.
->> To the device core it will, as the platform device will need to be susp=
-ended
->> after the thermal zone device has been suspended, among other things.
-> Let's set suspend aside for now, I think I've explained my viewpoint
-> on this enough elsewhere.
->
-Agreed.
+Reviewed-by: Christian Gmeiner <cgmeiner@igalia.com>
 
->>> Unfortunately, the language in the specification isn't particularly
->>> helpful here: "Thermal zone objects should appear in the namespace
->>> under the portion of the system that comprises the thermal zone. For
->>> example, a thermal zone that is isolated to a docking station should
->>> be defined within the scope of the docking station device."  To me
->>> "the portion of the system" is not too meaningful unless it is just
->>> one device without children.  That's why _TZD has been added AFAICS.
->> I think you are confusing the parent device of the ThermalZone ACPI dev=
-ice
->> with the parent device of the struct thermal_zone_device.
-> No, I'm not.
+> ---
+>  drivers/gpu/drm/etnaviv/Makefile             |   1 +
+>  drivers/gpu/drm/etnaviv/etnaviv_buffer.c     |   6 +
+>  drivers/gpu/drm/etnaviv/etnaviv_buffer.h     |   7 +
+>  drivers/gpu/drm/etnaviv/etnaviv_drv.c        |   3 +
+>  drivers/gpu/drm/etnaviv/etnaviv_drv.h        |   3 +
+>  drivers/gpu/drm/etnaviv/etnaviv_flop_reset.c | 208 +++++++++++++++++++
+>  drivers/gpu/drm/etnaviv/etnaviv_flop_reset.h |  21 ++
+>  drivers/gpu/drm/etnaviv/etnaviv_gpu.c        |  11 +
+>  8 files changed, 260 insertions(+)
+>  create mode 100644 drivers/gpu/drm/etnaviv/etnaviv_flop_reset.c
+>  create mode 100644 drivers/gpu/drm/etnaviv/etnaviv_flop_reset.h
 >
->> I begin to wonder if mentioning the ACPI ThermalZone device together wi=
-th the
->> struct thermal_zone_device was a bad idea on my side xd.
-> Maybe.
+> diff --git a/drivers/gpu/drm/etnaviv/Makefile b/drivers/gpu/drm/etnaviv/Makefile
+> index 46e5ffad6..903101e87 100644
+> --- a/drivers/gpu/drm/etnaviv/Makefile
+> +++ b/drivers/gpu/drm/etnaviv/Makefile
+> @@ -14,6 +14,7 @@ etnaviv-y := \
+>         etnaviv_iommu.o \
+>         etnaviv_mmu.o \
+>         etnaviv_perfmon.o \
+> +       etnaviv_flop_reset.o \
+>         etnaviv_sched.o
 >
->>>>>>          thermal: core: Allow setting the parent device of thermal =
-zone devices
->>>>> I'm not sure if this is a good idea, at least until it is clear what
->>>>> the role of a thermal zone parent device should be.
->>>> Take a look at my explanation with the Intel Wifi driver.
->>> I did and I think that you want the parent to be a device somehow
->>> associated with the thermal zone, but how exactly?  What should that
->>> be in the Wifi driver case, the PCI device or something else?
->>>
->>> And what if the thermal zone affects multiple devices?  Which of them
->>> (if any) would be its parent?  And would it be consistent with the
->>> ACPI case described above?
->>>
->>> All of that needs consideration IMV.
->> I agree, but there is a difference between "this struct thermal_zone_de=
-vice depends on
->> device X to be operational" and "this thermal zone affects device X, de=
-vice Y and device Z".
-> Yes, there is.
+>  obj-$(CONFIG_DRM_ETNAVIV)      += etnaviv.o
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_buffer.c b/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
+> index 829f8497d..463a6f556 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
+> @@ -18,6 +18,8 @@
+>  #include "state_3d.xml.h"
+>  #include "cmdstream.xml.h"
 >
->> This patch series exclusively deals with telling the driver core that "=
-this struct thermal_zone_device
->> depends on device X to be operational".
-> Maybe let's take care of cooling devices first and get back to this late=
-r?
+> +#include "etnaviv_flop_reset.h"
+> +
+>  static void etnaviv_cmd_select_pipe(struct etnaviv_gpu *gpu,
+>         struct etnaviv_cmdbuf *buffer, u8 pipe)
+>  {
+> @@ -100,6 +102,10 @@ u16 etnaviv_buffer_init(struct etnaviv_gpu *gpu)
+>         /* initialize buffer */
+>         buffer->user_size = 0;
 >
-Agreed.
+> +       /* Queue in PPU flop reset */
+> +       if (etnaviv_flop_reset_ppu_require(&gpu->identity))
+> +               etnaviv_flop_reset_ppu_run(gpu);
+> +
+>         CMD_WAIT(buffer, gpu->fe_waitcycles);
+>         CMD_LINK(buffer, 2,
+>                  etnaviv_cmdbuf_get_va(buffer, &gpu->mmu_context->cmdbuf_mapping)
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_buffer.h b/drivers/gpu/drm/etnaviv/etnaviv_buffer.h
+> index c5a0d1fb9..9388a686e 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_buffer.h
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_buffer.h
+> @@ -7,9 +7,16 @@
+>  #define etnaviv_buffer_h
+>
+>  #include "etnaviv_cmdbuf.h"
+> +#include "etnaviv_gpu.h"
+> +#include "etnaviv_gem.h"
+> +#include "etnaviv_mmu.h"
+>
+>  #include "common.xml.h"
+> +#include "linux/printk.h"
 
+#include <linux/printk.h> and move it to the top.
+
+>  #include "state.xml.h"
+> +#include "state_blt.xml.h"
+> +#include "state_hi.xml.h"
+> +#include "state_3d.xml.h"
+>  #include "cmdstream.xml.h"
+>
+>  static inline void OUT(struct etnaviv_cmdbuf *buffer, u32 data)
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> index f9bc837e2..21a42a1f4 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> @@ -569,6 +569,9 @@ static void etnaviv_unbind(struct device *dev)
+>
+>         component_unbind_all(dev, drm);
+>
+> +       etnaviv_cmdbuf_free(priv->flop_reset_data_ppu);
+> +       kfree(priv->flop_reset_data_ppu);
+> +
+>         etnaviv_cmdbuf_suballoc_destroy(priv->cmdbuf_suballoc);
+>
+>         xa_destroy(&priv->active_contexts);
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.h b/drivers/gpu/drm/etnaviv/etnaviv_drv.h
+> index b3eb1662e..20dad16fd 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.h
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.h
+> @@ -48,6 +48,9 @@ struct etnaviv_drm_private {
+>         /* list of GEM objects: */
+>         struct mutex gem_lock;
+>         struct list_head gem_list;
+> +
+> +       /* ppu flop reset data */
+> +       struct etnaviv_cmdbuf *flop_reset_data_ppu;
+>  };
+>
+>  int etnaviv_ioctl_gem_submit(struct drm_device *dev, void *data,
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_flop_reset.c b/drivers/gpu/drm/etnaviv/etnaviv_flop_reset.c
+> new file mode 100644
+> index 000000000..6ed2471f3
+> --- /dev/null
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_flop_reset.c
+> @@ -0,0 +1,208 @@
+> +/* SPDX-License-Identifier: GPL-2.0
+> + *
+> + * Copyright (C) 2025 Etnaviv Project
+> + */
+> +
+> +#include <linux/errno.h>
+> +#include <linux/dev_printk.h>
+> +#include <linux/string.h>
+> +#include <linux/types.h>
+> +
+> +#include "etnaviv_buffer.h"
+> +#include "etnaviv_cmdbuf.h"
+> +#include "etnaviv_gpu.h"
+> +#include "state_3d.xml.h"
+> +
+> +#include "etnaviv_flop_reset.h"
+> +
+> +#define PPU_IMAGE_STRIDE 64
+> +#define PPU_IMAGE_XSIZE 64
+> +#define PPU_IMAGE_YSIZE 6
+> +
+> +#define PPU_FLOP_RESET_INSTR_DWORD_COUNT 16
+> +
+> +static void etnaviv_emit_flop_reset_state_ppu(struct etnaviv_cmdbuf *cmdbuf,
+> +                                             u32 buffer_base, u32 input_offset,
+> +                                             u32 output_offset,
+> +                                             u32 shader_offset,
+> +                                             u32 shader_size,
+> +                                             u32 shader_register_count)
+> +{
+> +       CMD_LOAD_STATE(cmdbuf, VIVS_GL_API_MODE, VIVS_GL_API_MODE_OPENCL);
+> +       CMD_SEM(cmdbuf, SYNC_RECIPIENT_FE, SYNC_RECIPIENT_PE);
+> +       CMD_STALL(cmdbuf, SYNC_RECIPIENT_FE, SYNC_RECIPIENT_PE);
+> +
+> +       CMD_LOAD_STATES_START(cmdbuf, VIVS_SH_HALTI5_UNIFORMS(0), 4);
+> +
+> +       OUT(cmdbuf, buffer_base + input_offset);
+> +       OUT(cmdbuf, PPU_IMAGE_STRIDE);
+> +       OUT(cmdbuf, PPU_IMAGE_XSIZE | (PPU_IMAGE_YSIZE << 16));
+> +       OUT(cmdbuf, 0x444051f0);
+> +       OUT(cmdbuf, 0xffffffff);
+> +
+> +       CMD_LOAD_STATES_START(cmdbuf, VIVS_SH_HALTI5_UNIFORMS(4), 4);
+> +       OUT(cmdbuf, buffer_base + output_offset);
+> +       OUT(cmdbuf, PPU_IMAGE_STRIDE);
+> +       OUT(cmdbuf, PPU_IMAGE_XSIZE | (PPU_IMAGE_YSIZE << 16));
+> +       OUT(cmdbuf, 0x444051f0);
+> +       OUT(cmdbuf, 0xffffffff);
+> +
+> +       CMD_LOAD_STATE(cmdbuf, VIVS_CL_CONFIG,
+> +                      VIVS_CL_CONFIG_DIMENSIONS(2) |
+> +                              VIVS_CL_CONFIG_VALUE_ORDER(3));
+> +       CMD_LOAD_STATE(cmdbuf, VIVS_VS_ICACHE_INVALIDATE, 0x1f);
+> +       CMD_LOAD_STATE(cmdbuf, VIVS_PS_VARYING_NUM_COMPONENTS(0), 0);
+> +       CMD_LOAD_STATE(cmdbuf, VIVS_PS_TEMP_REGISTER_CONTROL,
+> +                      shader_register_count);
+> +       CMD_LOAD_STATE(cmdbuf, VIVS_PS_SAMPLER_BASE, 0x0);
+> +       CMD_LOAD_STATE(cmdbuf, VIVS_PS_UNIFORM_BASE, 0x0);
+> +       CMD_LOAD_STATE(cmdbuf, VIVS_PS_NEWRANGE_LOW, 0x0);
+> +       CMD_LOAD_STATE(cmdbuf, VIVS_PS_NEWRANGE_HIGH, shader_size / 16);
+> +       CMD_LOAD_STATE(cmdbuf, VIVS_PS_INST_ADDR, buffer_base + shader_offset);
+> +       CMD_LOAD_STATE(cmdbuf, VIVS_SH_CONFIG, VIVS_SH_CONFIG_RTNE_ROUNDING);
+> +       CMD_LOAD_STATE(cmdbuf, VIVS_VS_ICACHE_CONTROL,
+> +                      VIVS_VS_ICACHE_CONTROL_ENABLE);
+> +       CMD_LOAD_STATE(cmdbuf, VIVS_PS_ICACHE_COUNT, shader_size / 16 - 1);
+> +       CMD_LOAD_STATE(cmdbuf, VIVS_PS_INPUT_COUNT, 0x1f01);
+> +       CMD_LOAD_STATE(cmdbuf, VIVS_VS_HALTI5_UNK008A0, 0x0);
+> +       CMD_LOAD_STATE(cmdbuf, VIVS_PA_VS_OUTPUT_COUNT, 0x0);
+> +       CMD_LOAD_STATE(cmdbuf, VIVS_GL_VARYING_TOTAL_COMPONENTS, 0x0);
+> +       CMD_LOAD_STATE(cmdbuf, VIVS_PS_CONTROL_EXT, 0x0);
+> +       CMD_LOAD_STATE(cmdbuf, VIVS_VS_OUTPUT_COUNT, 0x1);
+> +       CMD_LOAD_STATE(cmdbuf, VIVS_GL_HALTI5_SH_SPECIALS, 0x0);
+> +       CMD_LOAD_STATE(cmdbuf, VIVS_PS_ICACHE_PREFETCH, 0x0);
+> +       CMD_LOAD_STATE(cmdbuf, VIVS_CL_UNK00924, 0x0);
+> +       CMD_LOAD_STATE(cmdbuf, VIVS_CL_THREAD_ALLOCATION, 0x1);
+> +
+> +       CMD_LOAD_STATE(cmdbuf, VIVS_CL_GLOBAL_WORK_OFFSET_X, 0x0);
+> +       CMD_LOAD_STATE(cmdbuf, VIVS_CL_GLOBAL_WORK_OFFSET_Y, 0x0);
+> +       CMD_LOAD_STATE(cmdbuf, VIVS_CL_GLOBAL_WORK_OFFSET_Z, 0x0);
+> +
+> +       CMD_LOAD_STATES_START(cmdbuf, VIVS_CL_WORKGROUP_COUNT_X, 9);
+> +       OUT(cmdbuf, 0xf);
+> +       OUT(cmdbuf, 0x5);
+> +       OUT(cmdbuf, 0xffffffff);
+> +       OUT(cmdbuf, 0x0);
+> +       OUT(cmdbuf, 0x0);
+> +       OUT(cmdbuf, 0x3ff);
+> +       OUT(cmdbuf, 0x0);
+> +       OUT(cmdbuf, 0x4);
+> +       OUT(cmdbuf, 0x1);
+> +       OUT(cmdbuf, 0x0);
+> +
+> +       CMD_LOAD_STATE(cmdbuf, VIVS_CL_KICKER, 0xbadabeeb);
+> +       CMD_LOAD_STATE(cmdbuf, VIVS_GL_FLUSH_CACHE,
+> +                      VIVS_GL_FLUSH_CACHE_SHADER_L1 |
+> +                              VIVS_GL_FLUSH_CACHE_UNK10 |
+> +                              VIVS_GL_FLUSH_CACHE_UNK11);
+> +}
+> +
+> +static void etnaviv_flop_reset_ppu_fill_input(u32 *buffer, u32 size)
+> +{
+> +       memset32(buffer, 0x01010101, size / 4);
+> +}
+> +
+> +static void etnaviv_flop_reset_ppu_set_shader(u8 *dest)
+> +{
+> +       static const u32 inst[PPU_FLOP_RESET_INSTR_DWORD_COUNT] = {
+> +               /* img_load.u8 r1, c0, r0.xy */
+> +               0x78011779,
+> +               0x39000804,
+> +               0x00A90050,
+> +               0x00000000,
+> +               /* img_load.u8 r2, c0, r0.xy */
+> +               0x78021779,
+> +               0x39000804,
+> +               0x00A90050,
+> +               0x00000000,
+> +               /* dp2x8 r1, r1, r2, c3_512 */
+> +               0xB8017145,
+> +               0x390018FC,
+> +               0x01C90140,
+> +               0x40390028,
+> +               /* img_store.u8 r1, c2, r0.xy, r1 */
+> +               0x380007BA,
+> +               0x39001804,
+> +               0x00A90050,
+> +               0x00390018,
+> +       };
+> +       memcpy(dest, inst, sizeof(inst));
+> +}
+> +
+> +static const struct etnaviv_flop_reset_entry {
+> +       u16 chip_model;
+> +       u16 revision;
+> +       u32 flags;
+> +} etnaviv_flop_reset_db[] = {
+> +       {
+> +               .chip_model = 0x8000,
+> +               .revision = 0x6205,
+> +       },
+> +};
+> +
+> +bool etnaviv_flop_reset_ppu_require(const struct etnaviv_chip_identity *chip_id)
+> +{
+> +       const struct etnaviv_flop_reset_entry *e = etnaviv_flop_reset_db;
+> +
+> +       for (int i = 0; i < ARRAY_SIZE(etnaviv_flop_reset_db); ++i, ++e) {
+> +               if (chip_id->model == e->chip_model &&
+> +                   chip_id->revision == e->revision)
+> +                       return true;
+> +       }
+> +
+> +       return false;
+> +}
+> +
+> +static const u32 image_data_size = PPU_IMAGE_STRIDE * PPU_IMAGE_YSIZE;
+> +static const u32 output_offset = ALIGN(image_data_size, 64);
+> +static const u32 shader_offset = ALIGN(output_offset + image_data_size, 64);
+> +static const u32 shader_size = PPU_FLOP_RESET_INSTR_DWORD_COUNT * sizeof(u32);
+> +static const u32 shader_register_count = 3;
+> +static const u32 buffer_size = shader_offset + shader_size;
+> +
+> +int etnaviv_flop_reset_ppu_init(struct etnaviv_drm_private *priv)
+> +{
+> +       /* Get some space from the rung buffer to put the payload
+> +        * (input and output image, and shader), we keep this buffer
+> +        * for the whole life time the driver is bound
+> +        */
+> +       priv->flop_reset_data_ppu =
+> +               kzalloc(sizeof(*priv->flop_reset_data_ppu), GFP_KERNEL);
+> +
+> +       if (!priv->flop_reset_data_ppu)
+> +               return -ENOMEM;
+> +
+> +       int ret = etnaviv_cmdbuf_init(priv->cmdbuf_suballoc,
+> +                                     priv->flop_reset_data_ppu, buffer_size);
+> +       if (ret) {
+> +               kfree(priv->flop_reset_data_ppu);
+> +               return ret;
+> +       }
+> +
+> +       void *buffer_base = priv->flop_reset_data_ppu->vaddr;
+> +       u32 *input_data = (u32 *)buffer_base;
+> +       u8 *shader_data = (u8 *)buffer_base + shader_offset;
+> +
+> +       etnaviv_flop_reset_ppu_fill_input(input_data, image_data_size);
+> +       etnaviv_flop_reset_ppu_set_shader(shader_data);
+> +
+> +       return 0;
+> +}
+> +
+> +void etnaviv_flop_reset_ppu_run(struct etnaviv_gpu *gpu)
+> +{
+> +       struct etnaviv_drm_private *priv = gpu->drm->dev_private;
+> +
+> +       if (!priv->flop_reset_data_ppu) {
+> +               dev_err(gpu->dev,
+> +                       "Oops: Flop reset data was not initialized, skipping\n");
+> +               return;
+> +       }
+> +
+> +       u32 buffer_base = etnaviv_cmdbuf_get_va(
+> +               priv->flop_reset_data_ppu, &gpu->mmu_context->cmdbuf_mapping);
+> +
+> +       etnaviv_emit_flop_reset_state_ppu(&gpu->buffer, buffer_base, 0,
+> +                                         output_offset, shader_offset,
+> +                                         shader_size, shader_register_count);
+> +}
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_flop_reset.h b/drivers/gpu/drm/etnaviv/etnaviv_flop_reset.h
+> new file mode 100644
+> index 000000000..e6dee1db7
+> --- /dev/null
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_flop_reset.h
+> @@ -0,0 +1,21 @@
+> +/* SPDX-License-Identifier: GPL-2.0
+> + *
+> + * Copyright (C) 2025 Etnaviv Project
+> + */
+> +
+> +#ifndef _ETNAVIV_FLOP_RESET_H_
+> +#define _ETNAVIV_FLOP_RESET_H_
+> +
+> +#include <linux/types.h>
+> +
+> +struct etnaviv_chip_identity;
+> +struct etnaviv_drm_private;
+> +struct etnaviv_gpu;
+> +
+> +bool etnaviv_flop_reset_ppu_require(const struct etnaviv_chip_identity *chip_id);
+> +
+> +int etnaviv_flop_reset_ppu_init(struct etnaviv_drm_private *priv);
+> +
+> +void etnaviv_flop_reset_ppu_run(struct etnaviv_gpu *gpu);
+> +
+> +#endif
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> index 33586e3f2..b5257e0a7 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> @@ -18,6 +18,7 @@
+>
+>  #include "etnaviv_cmdbuf.h"
+>  #include "etnaviv_dump.h"
+> +#include "etnaviv_flop_reset.h"
+>  #include "etnaviv_gpu.h"
+>  #include "etnaviv_gem.h"
+>  #include "etnaviv_mmu.h"
+> @@ -789,6 +790,16 @@ int etnaviv_gpu_init(struct etnaviv_gpu *gpu)
+>                 goto fail;
+>         }
+>
+> +       if (etnaviv_flop_reset_ppu_require(&gpu->identity) &&
+> +           !priv->flop_reset_data_ppu) {
+> +               ret = etnaviv_flop_reset_ppu_init(priv);
+> +               if (ret) {
+> +                       dev_err(gpu->dev,
+> +                               "Unable to initialize PPU flop reset data\n");
+> +                       goto fail;
+> +               }
+> +       }
+> +
+>         if (gpu->identity.nn_core_count > 0)
+>                 dev_warn(gpu->dev, "etnaviv has been instantiated on a NPU, "
+>                                     "for which the UAPI is still experimental\n");
+> --
+> 2.51.0
+>
+
+In order to save you from doing another round, I will fix the last
+nit, if that is okay
+for you.
+
+Reviewed-by: Christian Gmeiner <cgmeiner@igalia.com>
+
+-- 
+greets
+--
+Christian Gmeiner, MSc
+
+https://christian-gmeiner.info/privacypolicy
