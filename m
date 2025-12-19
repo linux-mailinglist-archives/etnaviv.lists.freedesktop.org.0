@@ -2,19 +2,19 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8D8FCBE84F
-	for <lists+etnaviv@lfdr.de>; Mon, 15 Dec 2025 16:08:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AEB5CD0236
+	for <lists+etnaviv@lfdr.de>; Fri, 19 Dec 2025 14:54:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 479D610E59B;
-	Mon, 15 Dec 2025 15:08:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BAD6E10EFD5;
+	Fri, 19 Dec 2025 13:54:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="YRGRRY6j";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="NRI1gjeG";
 	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 448A010E541;
- Mon, 15 Dec 2025 15:08:40 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD7A910EFBE;
+ Fri, 19 Dec 2025 13:54:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
@@ -22,31 +22,31 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=9T9/Kk5Y/QjQDrxPdnrULQ9gnOTM370VbKdD6we73/w=; b=YRGRRY6jALjWfeIxQw1mye3eu4
- ttpcrdSVv7Q+FVQUkyIDGCKRLd4Wp3qzhgxlo65t35X7JJmEh3O2it+LSzXTeXRAeDl1srt5bNb5N
- HFj0LgWKlmRas4bhLcpEY+TVdvm4rOWw+JRv8IWbsNghTTBruHsEmcyiPgYn8M+mTQp7SynYNo6VD
- JjBq75iLbCv1AwHlx8aTBnRGCMTaeHSDr9NhSAXYSxoTwvvOI98Dg5nhYhO64vNL0wGeI5q43DTyb
- 26BO9E4D0lyi+eYLFpF9bjzfFjlKfwli2YdjfwpNr4Zd393zp9Uq5njX8Hvi5KSwP1zaHj2i1xL1l
- eXZgEWQw==;
+ bh=9T9/Kk5Y/QjQDrxPdnrULQ9gnOTM370VbKdD6we73/w=; b=NRI1gjeGNNGTz0S6BeGjjigpV7
+ qMkBFh7KpxmNL5MpRUnpWLQJJoVQ0Z4bBqFHaxJM6YpMCJ/VduKaAeOrUmCSzuLDkLCODvIKvSXtA
+ B3O2lk8mb7oHxjcTL2yNUp0x8TNR5ylp4bGCvB/vmWgZEnEi1zZydkXgrfkDMfUn+u28ommFVIr/H
+ FWhL//xT4ElIv+Rlw+H1MKMuUMUhCB+GfDvoDLU73SOzYJtPSzM+BPoP7Hi7J8EkLJ89Owo8CPQEY
+ ER/xQKoCWdKMdMMC6AooARVzahwyx6uMHOU3x5zXK9Mk93PqHjN9O5svFEp5p/3apWzfcaR9sbz3q
+ 6jmd0sPw==;
 Received: from [90.240.106.137] (helo=localhost)
  by fanzine2.igalia.com with utf8esmtpsa 
  (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1vVABh-00CzBD-5h; Mon, 15 Dec 2025 16:08:37 +0100
+ id 1vWavx-00Eeiw-QA; Fri, 19 Dec 2025 14:54:17 +0100
 From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-To: dri-devel@lists.freedesktop.org
-Cc: amd-gfx@lists.freedesktop.or, intel-xe@lists.freedesktop.org,
- kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+To: amd-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
  Lucas Stach <l.stach@pengutronix.de>,
  Russell King <linux+etnaviv@armlinux.org.uk>,
  Christian Gmeiner <christian.gmeiner@gmail.com>,
  etnaviv@lists.freedesktop.org, Christian Gmeiner <cgmeiner@igalia.com>
-Subject: [PATCH v4 18/28] drm/etnaviv: Remove drm_sched_init_args->num_rqs
+Subject: [PATCH v5 18/28] drm/etnaviv: Remove drm_sched_init_args->num_rqs
  usage
-Date: Mon, 15 Dec 2025 15:07:57 +0000
-Message-ID: <20251215150807.58819-19-tvrtko.ursulin@igalia.com>
+Date: Fri, 19 Dec 2025 13:53:40 +0000
+Message-ID: <20251219135351.25880-19-tvrtko.ursulin@igalia.com>
 X-Mailer: git-send-email 2.51.1
-In-Reply-To: <20251215150807.58819-1-tvrtko.ursulin@igalia.com>
-References: <20251215150807.58819-1-tvrtko.ursulin@igalia.com>
+In-Reply-To: <20251219135351.25880-1-tvrtko.ursulin@igalia.com>
+References: <20251219135351.25880-1-tvrtko.ursulin@igalia.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: etnaviv@lists.freedesktop.org
