@@ -2,53 +2,77 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 X-Original-To: lists+etnaviv@lfdr.de
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AEB5CD0236
-	for <lists+etnaviv@lfdr.de>; Fri, 19 Dec 2025 14:54:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65DE7CF9274
+	for <lists+etnaviv@lfdr.de>; Tue, 06 Jan 2026 16:48:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BAD6E10EFD5;
-	Fri, 19 Dec 2025 13:54:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0EABE10E512;
+	Tue,  6 Jan 2026 15:48:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="NRI1gjeG";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Np9ZRZdd";
 	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD7A910EFBE;
- Fri, 19 Dec 2025 13:54:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
- Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=9T9/Kk5Y/QjQDrxPdnrULQ9gnOTM370VbKdD6we73/w=; b=NRI1gjeGNNGTz0S6BeGjjigpV7
- qMkBFh7KpxmNL5MpRUnpWLQJJoVQ0Z4bBqFHaxJM6YpMCJ/VduKaAeOrUmCSzuLDkLCODvIKvSXtA
- B3O2lk8mb7oHxjcTL2yNUp0x8TNR5ylp4bGCvB/vmWgZEnEi1zZydkXgrfkDMfUn+u28ommFVIr/H
- FWhL//xT4ElIv+Rlw+H1MKMuUMUhCB+GfDvoDLU73SOzYJtPSzM+BPoP7Hi7J8EkLJ89Owo8CPQEY
- ER/xQKoCWdKMdMMC6AooARVzahwyx6uMHOU3x5zXK9Mk93PqHjN9O5svFEp5p/3apWzfcaR9sbz3q
- 6jmd0sPw==;
-Received: from [90.240.106.137] (helo=localhost)
- by fanzine2.igalia.com with utf8esmtpsa 
- (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1vWavx-00Eeiw-QA; Fri, 19 Dec 2025 14:54:17 +0100
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-To: amd-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- etnaviv@lists.freedesktop.org, Christian Gmeiner <cgmeiner@igalia.com>
-Subject: [PATCH v5 18/28] drm/etnaviv: Remove drm_sched_init_args->num_rqs
- usage
-Date: Fri, 19 Dec 2025 13:53:40 +0000
-Message-ID: <20251219135351.25880-19-tvrtko.ursulin@igalia.com>
-X-Mailer: git-send-email 2.51.1
-In-Reply-To: <20251219135351.25880-1-tvrtko.ursulin@igalia.com>
-References: <20251219135351.25880-1-tvrtko.ursulin@igalia.com>
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com
+ [209.85.216.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E6D1F10E512
+ for <etnaviv@lists.freedesktop.org>; Tue,  6 Jan 2026 15:48:28 +0000 (UTC)
+Received: by mail-pj1-f43.google.com with SMTP id
+ 98e67ed59e1d1-34c3259da34so1074654a91.2
+ for <etnaviv@lists.freedesktop.org>; Tue, 06 Jan 2026 07:48:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1767714508; x=1768319308; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=ZDeWwtGZZ/R+RJWyYvHftoXDDl+9pCPFMRNPnjt8G1g=;
+ b=Np9ZRZddjWyMrQQ2/T8243/3HEE2wxTSTlR26c9PxQZycctgQRJ6sF8FzDFxMnyyM6
+ LeAdAQJ4wS4rHlFlBcIqkTZNya5wLDpetf+jFYXL4vUv+JK082kCtnP0g/RSovzFYRFX
+ VbnMDPqtcwJRXw8EO8gbeLIZYGZtze18zvcWrMzf5mEzA1WWG75ywg+golCEK+Ts+2wG
+ uWh3L5ONcgn98pwMABZPu17nbuwYed1F5+ar59WoKOPvHTlsli1PPmMCkts2c5NPATOq
+ mTickHwjTHTbHYICF5M1XF2+UiW3SXWVuRT29CnyZxIPULLZqdSVJMJ0jeshJm0LfP9F
+ eoRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1767714508; x=1768319308;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ZDeWwtGZZ/R+RJWyYvHftoXDDl+9pCPFMRNPnjt8G1g=;
+ b=qB7NCmRnwzBhLJqd4BTU+WYt3E11zIotmpL9DRHVOEN9x2ODFMEQeDvOgDoIeyv8Lu
+ gd7C24W44bj7n9/qOpCNqx6FIMnyVQUdwcWM/+qfHWKpEodMNC303xhd99XT7bt798xD
+ 7wnVuzI/LB3mdSe2v4QRHQtygCwr5BwSEwZeOu+O3R2kby9TuSTpsM7uPVjB8mt21ZDk
+ GmTF5D2si8sDstudcvK6IypsBV+wFT9fvJR/SBLBRmRg0mQ0LL5x64Bf6HVbr/h/0zKf
+ cxC9zt6KtZhc6npjfkbjQQ0kEDZDg72Yh2Xi5YFK1IU8iOhVLiT4zPdL1n1LJs76QwhD
+ /VZw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXBdw41+q6zOlR79iH8BaFy8VzU00dpoFQjU3F2nD168rzVQdAY00fDC/hCc8BOAspP0gxoSxFQ@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxovDq3cui1JeKghJzGfkGYPGP6K0PRg2X2ObIpH3fFKun2tNH3
+ 63GyRWH3uZpqXwVsxvKGklEvHV7ilrpo4lm4GDqqy2GRmXfbvgUH61AecL/18KLv22E/9DezdER
+ DnkLrvWDfb7vgfYUJMshVMbc155cSWP8=
+X-Gm-Gg: AY/fxX4cK8ZcJEHHJ3tRTMJSepxOlsNIz5ECEZGiNZnXhEfnoUANMwLs/d2uEH/3DXJ
+ a703AjyuhmGeJ58Ox64vI+1P1hR7R/R0GK9iGKmBnADNlqbW6MX8++UqxawNaFL2iGCtSKkqz9r
+ XQ9nET30n4U/zwpIkiK2eJQn1FpoerTxtNdPBlm0J4wbKOgG7DiaE6YBHsKtJc/kxjzL7hmz+3G
+ uxtx2yECjuVNT4C5b9w6ilZkrQPf0RHjmDlxzGmphvWjDuQRK5693nOXzTMtxVNT+tPXeAT
+X-Google-Smtp-Source: AGHT+IHiaPPGyj/cnpDj8m4HDXquR3Pl7oUuHN0aY5yL41pxEhlepn4C73GOB3o+YxsZXbMciPqziYoixcHsf8WCV5s=
+X-Received: by 2002:a17:90b:3e87:b0:34c:ed28:a279 with SMTP id
+ 98e67ed59e1d1-34f5f291108mr2735224a91.11.1767714508280; Tue, 06 Jan 2026
+ 07:48:28 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20251110144625.18653-1-gert.wollny@collabora.com>
+ <20251119164624.9297-1-gert.wollny@collabora.com>
+ <b307fa5c-ccce-4f4b-bc38-a69c6b9d6095@mailbox.org>
+In-Reply-To: <b307fa5c-ccce-4f4b-bc38-a69c6b9d6095@mailbox.org>
+From: Christian Gmeiner <christian.gmeiner@gmail.com>
+Date: Tue, 6 Jan 2026 16:48:16 +0100
+X-Gm-Features: AQt7F2pXEHeKvFj3Y75tqV0CU6vcwn_KI1rYKFkw609zpE7T3WzeoCdHLYofjGY
+Message-ID: <CAH9NwWfZ7VU=2A5oVbN_Qakd3aHmK0kdPyC9PpOZhVCY5DCdJA@mail.gmail.com>
+Subject: Re: [PATCH v5 0/5] drm/etnaviv: Add support for running a PPU flop
+ reset
+To: Marek Vasut <marek.vasut@mailbox.org>
+Cc: gert.wollny@collabora.com, Lucas Stach <l.stach@pengutronix.de>, 
+ Russell King <linux+etnaviv@armlinux.org.uk>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Marek Vasut <marek.vasut+renesas@mailbox.org>,
+ etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, kernel <kernel@dh-electronics.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,30 +87,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 
-Remove member no longer used by the scheduler core.
+>
+> On 11/19/25 5:45 PM, gert.wollny@collabora.com wrote:
+>
+> Hello Gert,
+>
+> > this is the fifth version of the series to add PPU flop reset.
+> >
+> > Changes w.r.t. the previous version are:
+> >
+> >    * Apply all changes suggested by Christian Gmeiner:
+> >     - fix a memory leak that would occure when PPU data
+> >       initialization fails
+> >     - remove unneeded includes
+> >     - move includes to the files where they are actuall needed
+> >     - fix include style for "linux" headers
+> >     - fix typo in error message
+> >
+> >    * add Reviewed-by tags to the according commits
+> For the whole series:
+>
+> Tested-by: Marek Vasut <marek.vasut@mailbox.org> # STM32MP255C DHCOS DHSBC
+>
+> Thank you !
 
-Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Cc: Lucas Stach <l.stach@pengutronix.de>
-Cc: Russell King <linux+etnaviv@armlinux.org.uk>
-Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
-Cc: etnaviv@lists.freedesktop.org
-Reviewed-by: Christian Gmeiner <cgmeiner@igalia.com>
----
- drivers/gpu/drm/etnaviv/etnaviv_sched.c | 1 -
- 1 file changed, 1 deletion(-)
+Applied to drm-misc-next.
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sched.c b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-index df4232d7e135..63f672536516 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-@@ -142,7 +142,6 @@ int etnaviv_sched_init(struct etnaviv_gpu *gpu)
- {
- 	const struct drm_sched_init_args args = {
- 		.ops = &etnaviv_sched_ops,
--		.num_rqs = DRM_SCHED_PRIORITY_COUNT,
- 		.credit_limit = etnaviv_hw_jobs_limit,
- 		.hang_limit = etnaviv_job_hang_limit,
- 		.timeout = msecs_to_jiffies(500),
 -- 
-2.51.1
+greets
+--
+Christian Gmeiner, MSc
 
+https://christian-gmeiner.info/privacypolicy
