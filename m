@@ -2,95 +2,63 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cEflF87wkmlA0QEAu9opvQ
+	id MF/fEwNaqGlxtgAAu9opvQ
 	(envelope-from <etnaviv-bounces@lists.freedesktop.org>)
-	for <lists+etnaviv@lfdr.de>; Mon, 16 Feb 2026 11:26:22 +0100
+	for <lists+etnaviv@lfdr.de>; Wed, 04 Mar 2026 17:12:51 +0100
 X-Original-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A965A14254C
-	for <lists+etnaviv@lfdr.de>; Mon, 16 Feb 2026 11:26:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3472203E8F
+	for <lists+etnaviv@lfdr.de>; Wed, 04 Mar 2026 17:12:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1AA8E10E219;
-	Mon, 16 Feb 2026 10:26:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 54D8410EA4E;
+	Wed,  4 Mar 2026 16:12:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="HaIGUI97";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=mark.filion@collabora.com header.b="B1gXa7u/";
 	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com
- [209.85.218.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9DBE810E219
- for <etnaviv@lists.freedesktop.org>; Mon, 16 Feb 2026 10:26:18 +0000 (UTC)
-Received: by mail-ej1-f53.google.com with SMTP id
- a640c23a62f3a-b8f86167d39so375862766b.0
- for <etnaviv@lists.freedesktop.org>; Mon, 16 Feb 2026 02:26:18 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1771237577; cv=none;
- d=google.com; s=arc-20240605;
- b=LorDaxp7/JpfgwXmI8B80CwcphwsCDzfBX5K0j8qEzy4hpeIJwHChoG+02hhsUUJwe
- Lbd7r/saOT3j1lT6yx147G4x/nWx53d9vWuDunxclfYRTqPotyrnkmrTlZVAXYPIyH12
- 6R9hA5CxGujj2RZlc2qKq9N+7KBQ9GU1pNa6ho4xsWQCZo48TjXBWij7IgWcryoYJqiU
- peartz9Z1p7MCSv9tBFIGWe1qUtFhfIXfBIEfIBmzr9txWovh6wmRveOXsxfNw33x/Mb
- mmkcZs8dNpur9Ildmg+0CHhVnatDj7szxF2FWONTCMi/jIB12X3yQWrp05JnuGnRp+8u
- +1RA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
- s=arc-20240605; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:dkim-signature;
- bh=rVMUsmNMj2xMu66P1Q+qKrbz81wga8YpOKoVXQL095g=;
- fh=ZNzQhxbPgtZblrWIxA2VVnMHAJmhYAHxb2YfoNajEWc=;
- b=PbYUQlaG7W0F8TMZIKJEO/edr5i9NBBR8/SdIUtgoKKZjwyFVqNht9o4ugaI3BI78e
- sP0Pps7+3PaCKi4GZuyQ+/16UntYu347u3xzPR+tAmj50M+vU4Jwdp8I07njX27Uw6+u
- puWVvPnsL5BGyE38BHu0qmrjtEZj3kIay9K7HeuVmLsEyOJnEmyTE7OHIP4fulbvBqUo
- 7/1mW5FLvkI5wSsXUKAoOgzJQEnf1zGoRoZbNv1bg8rdpyfU26fPnpNGuqWMc8K7Dq7Q
- 7/RrevDZSNY+QyES8yGTsp062ZfOhDoNPaFtvut937amIzieZhEQ5w+mmg/yf8ENkyOV
- D1zg==; darn=lists.freedesktop.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1771237577; x=1771842377; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=rVMUsmNMj2xMu66P1Q+qKrbz81wga8YpOKoVXQL095g=;
- b=HaIGUI972pGJvveJM1E8fSi4kuGBWCgWbPv6DxjXWL+ogJlu2AWuPT+C+4JIgURs1g
- yT20p1gBkYnhsIUHm3/Rme7dqyfxfKwlVzZ2daZGWr5UJqToxz3HmGoghdhC63GQS4kZ
- VU+V6oMSyUetW+Ftk33UpGIVoOi972SYrxC6yMdVTO5b7h3FTX9zuTK4f28UYEZQEBWV
- AIEUEZWE3+qn5AvnrSjWk+rq3yu8ls09iCwAEfI5U05Y7N+I+K/ZKfDJoQuZAnKPGsnb
- MnbNmzn5xCzm/alzzMjrD8wKCxokmY79YKanYgKeNgMdG5AJ1bHE/LBfv5qKC+BqZz7B
- AsJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1771237577; x=1771842377;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=rVMUsmNMj2xMu66P1Q+qKrbz81wga8YpOKoVXQL095g=;
- b=tW/0Wy05qsIhg0wqiyusIOc3FxTqzPAP6mhfe9byWN186kvBeIryEFpEE1EXxN9ou0
- FU7J5QcavA8HSAQLfA0PEmmH6VpC9EhmuRGKzTSSxnL3BOzzkQBO6xzcUMQjew/0o0C3
- ZjDVlwZh40biXLkcWSoODFZ/KvnvCsHE6TbBDpoRq2lewINltuDWMvjIHH2vcTsUI+KF
- Ln6gyY5OhwZvk5saPJ1lN1ctLfPQuNXcErHCvh9jcjKmZEqxtppbCqEU3mi65n7mV8p4
- 2Jjqm4NrFrwGGDculaqfIOpbK7WzKIlAD7qUK9D61oCyeic6T3PKcyXN/ZWiVAhY1Dry
- a1MQ==
-X-Gm-Message-State: AOJu0YyVgkki1sPmVRoqNqzUcyazX0fUUsVYRZbp3TF5jR+zpRua092u
- gzyw8UUCW0sJoLuQhXp155vQTnzejLpE0YBxderBjrJ80ZDP6v4w61mKRPA6qj3Ice4Nzb4wst4
- Liq3OMKlfHwQlUqfN3LRCaimhxLgU9v3hwLO/
-X-Gm-Gg: AZuq6aLNJAd0OAsB7E/TXqU6L3hdzxvDU6qF1METn5WUGJWMto6byMp5fcBVjVcDOWN
- JhunajpGMZhJWO/D4v2yK2SVOlQ4hZYxDyoyxRFbCuJUw6wVEEgHtck+X0w/nhEtrjaLBeJh0uC
- aoYSfLgL0OU60A/GPA58i4RDBlqyaAty6e9QIBmbQhvzu0MIQiJ/vEGEcgxXbgXCJWNroXAc7Ew
- hueZg5h22buxfma4LzClErUQdO1iGCXJk/oTlpBJ22pjv0PPOQ5lKoYRgZfUWy4tR5G+Ml9RyW6
- m9k4bQ==
-X-Received: by 2002:a17:907:86a9:b0:b87:d722:f824 with SMTP id
- a640c23a62f3a-b8fb477963cmr494457666b.63.1771237576805; Mon, 16 Feb 2026
- 02:26:16 -0800 (PST)
+Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com
+ [136.143.188.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C164210EA4E;
+ Wed,  4 Mar 2026 16:12:48 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1772640762; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=kRUk4O3CAkzGxMf6lwluro+2/Zz82AxFHdSBn1AVH9XeEFz+DgVJiTQ55KyJWsrIYa2OHiRKthYJEV3YdQcOaM8KUF6gCG5IXgVk6EJiFrPv0xDaFLsO7Q0AHgVcNE7ZwSfC1qE3+i9L23m89rRu1bxwXgxULFEfPuyJfIoHTY8=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1772640762;
+ h=Content-Type:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To:Cc;
+ bh=/UZ1fASd581DGwoDXE4nNr7cvDBmu2IMPO2n0Z57d0s=; 
+ b=SGcUttgqGNnv57CByEPkn2GSqhC8MLfPmEtHn+a8SixdvwPNhPkSlqN6dpLdT+WrKxOTDSbtalIR1wl4vvoMLr7X8q4idoRkqLhpodm27Z+HokzaZxV8Kdf7l6UjnP/Zb2GlhW9hmEsHVR8iy1ypnrJ0q3cr2I2dN5/fnCM9yiw=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=mark.filion@collabora.com;
+ dmarc=pass header.from=<mark.filion@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1772640762; 
+ s=zohomail; d=collabora.com; i=mark.filion@collabora.com;
+ h=Message-ID:Subject:Subject:From:From:To:To:Date:Date:In-Reply-To:References:Content-Type:MIME-Version:Message-Id:Reply-To:Cc;
+ bh=/UZ1fASd581DGwoDXE4nNr7cvDBmu2IMPO2n0Z57d0s=;
+ b=B1gXa7u/vRyCFytF/C2IblGhO61hhskl0NxSWvE4ckYXxcyO3lXkjGW5PLb21kLJ
+ 7zUNCZSLQDYxOMUSaI2QzOSxgdXaaJw52Ifa/nPOtmCPc/Le9XQPO2rK4E3+jyRFrmn
+ iItL/LjFC98h7dSQv+5LA3setfy05ivchT3QNeoY=
+Received: by mx.zohomail.com with SMTPS id 1772640759959464.1568830656362;
+ Wed, 4 Mar 2026 08:12:39 -0800 (PST)
+Message-ID: <77e280436ec5b54973a11303dd0446e9f3ab2ba1.camel@collabora.com>
+Subject: Reminder: Deadline to renew X.Org memberships for 2026 is March 16.
+From: Mark Filion <mark.filion@collabora.com>
+To: events@lists.x.org, xorg-devel@lists.x.org, 
+ wayland-devel@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ mesa-dev@lists.freedesktop.org, amd-gfx@lists.freedesktop.org, 
+ etnaviv@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
+ libre-soc-dev@lists.libre-soc.org, elections@x.org, members@x.org, 
+ xorg@lists.freedesktop.org
+Date: Wed, 04 Mar 2026 11:12:37 -0500
+In-Reply-To: <0070f3dd-a521-40ee-b6e7-8b1f82e48b66@amd.com>
+References: <0070f3dd-a521-40ee-b6e7-8b1f82e48b66@amd.com>
+Content-Type: multipart/alternative; boundary="=-Ou9PVGv0Q/xGWensQ9B3"
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43app2) 
 MIME-Version: 1.0
-References: <03653d4c-2e80-44c8-9562-84fad2ef4271@debevv.com>
- <20b6c6b9-f105-4de1-b330-2c3ce5c08ca8@debevv.com>
-In-Reply-To: <20b6c6b9-f105-4de1-b330-2c3ce5c08ca8@debevv.com>
-From: Christian Gmeiner <christian.gmeiner@gmail.com>
-Date: Mon, 16 Feb 2026 11:26:01 +0100
-X-Gm-Features: AaiRm52ED08jG02Mx0Ecy5CoxH6uhQqMjeGBYxxg7T4s1ADMaj5okNhl5A46ZFk
-Message-ID: <CAH9NwWeK0iT99O=J3avMRPFg-FeqxPmF-pS5a7+cCUkSpX0vRg@mail.gmail.com>
-Subject: Re: LVDS display rotation
-To: Valerio De Benedetto <posta@debevv.com>
-Cc: etnaviv@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
+X-ZohoMailClient: External
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,65 +72,132 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
+X-Rspamd-Queue-Id: A3472203E8F
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.31 / 15.00];
-	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	ARC_ALLOW(-1.00)[zohomail.com:s=zohoarc:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	MIME_GOOD(-0.10)[text/plain];
+	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=zohomail];
+	MIME_GOOD(-0.10)[multipart/alternative,text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:posta@debevv.com,s:lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[christiangmeiner@gmail.com,etnaviv-bounces@lists.freedesktop.org];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_TWO(0.00)[2];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORWARDED(0.00)[etnaviv@lists.freedesktop.org];
-	TAGGED_FROM(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	PREVIOUSLY_DELIVERED(0.00)[etnaviv@lists.freedesktop.org];
-	DBL_PROHIBIT(0.00)[0.0.0.60:email];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[christiangmeiner@gmail.com,etnaviv-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	TAGGED_RCPT(0.00)[etnaviv];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,x.org:url,x.org:email];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,christian-gmeiner.info:url]
-X-Rspamd-Queue-Id: A965A14254C
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	TAGGED_RCPT(0.00)[etnaviv];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[mark.filion@collabora.com,etnaviv-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TO_DN_NONE(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[collabora.com:+]
 X-Rspamd-Action: no action
 
-Hi
+--=-Ou9PVGv0Q/xGWensQ9B3
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
->
-> our application needs a 10" LVDS display, connected to our i.MX6 board,
-> to be in "portrait" mode, so rotated by 90 degrees in either direction.
-> I tried booting the kernel with the 'video=1920x1200@60,rotate=90'
-> argument, but looks like it is being ignored.
-> Delving into the drivers/gpu/drm part of the kernel I noticed some
-> drivers actually handling properties like DRM_MODE_ROTATE_90, but looks
-> like etnaviv is not one of them.
->
-> Am I correct in assuming that this driver does not handle the rotate=90
-> parameter? If yes, can you briefly advise me on how to proceed to
-> implement it?
->
+Hi everyone,
 
-etnaviv is just a render-only GPU and you need to check if your used kms driver
-supports DRM_MODE_ROTATE_90.
+Just a friendly reminder that the deadline to renew X.Org memberships
+for 2026 is March 16.
 
--- 
-greets
---
-Christian Gmeiner, MSc
+Membership renewal ensures you maintain your voting rights in the
+upcoming foundation elections, but also helps strengthen the foundation
+by giving it more credibility.
 
-https://christian-gmeiner.info/privacypolicy
+https://members.x.org/
+
+Thank you for your continued support of the X.Org Foundation.
+
+Best,
+
+Mark
+
+On Wed, 2026-02-04 at 16:22 -0500, Harry Wentland wrote:
+> Hi all,
+>=20
+> it's a new year and with that a new X.Org Board of Directors
+> election. Please take the time to log in to members.x.org
+> and renew your membership for the new period or sign up for
+> the first time.
+>=20
+> These board members' periods will end this year:
+> - Mark Filion
+> - Erik Faye-Lund
+> - Simon Ser
+> - Neal Gompa
+>=20
+> The election dates will be as follows:
+> =C2=A0=C2=A0=C2=A0 Nomination period Start: Mon February 9th
+> =C2=A0=C2=A0=C2=A0 Nomination period End: Mon March 9th
+> =C2=A0=C2=A0=C2=A0 Publication of Candidates & start of Candidate QA: Mon=
+ March 16th
+> =C2=A0=C2=A0=C2=A0 Deadline of X.Org membership application or renewal: M=
+on March
+> 16th
+> =C2=A0=C2=A0=C2=A0 Election Planned Start: Mon March 23rd
+> =C2=A0=C2=A0=C2=A0 Election Planned End: Mon April 13th
+>=20
+> If you have questions or encounter issues don't hesitate
+> to reach out the Elections Committee at elections@x.org.
+>=20
+> Best Regards,
+> Harry
+
+--=-Ou9PVGv0Q/xGWensQ9B3
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+<html><head><style>pre,code,address {
+  margin: 0px;
+}
+h1,h2,h3,h4,h5,h6 {
+  margin-top: 0.2em;
+  margin-bottom: 0.2em;
+}
+ol,ul {
+  margin-top: 0em;
+  margin-bottom: 0em;
+}
+blockquote {
+  margin-top: 0em;
+  margin-bottom: 0em;
+}
+</style></head><body><div>Hi everyone,</div><div><br></div><div><div>Just a=
+ friendly reminder that the deadline to renew X.Org memberships for 2026 is=
+ March 16.</div><div><br></div><div>Membership renewal ensures you maintain=
+ your voting rights in the upcoming foundation elections, but also helps st=
+rengthen the foundation by giving it more credibility.<br><br><a href=3D"ht=
+tps://members.x.org/">https://members.x.org/</a></div><div><br></div><div>T=
+hank you for your continued support of the X.Org Foundation.</div><div><br>=
+</div><div>Best,</div><div></div><br>Mark<br><br>On Wed, 2026-02-04 at 16:2=
+2 -0500, Harry Wentland wrote:</div><blockquote type=3D"cite" style=3D"marg=
+in:0 0 0 .8ex; border-left:2px #729fcf solid;padding-left:1ex"><div>Hi all,=
+<br></div><div><br></div><div>it's a new year and with that a new X.Org Boa=
+rd of Directors<br></div><div>election. Please take the time to log in to m=
+embers.x.org<br></div><div>and renew your membership for the new period or =
+sign up for<br></div><div>the first time.<br></div><div><br></div><div>Thes=
+e board members' periods will end this year:<br></div><div>- Mark Filion<br=
+></div><div>- Erik Faye-Lund<br></div><div>- Simon Ser<br></div><div>- Neal=
+ Gompa<br></div><div><br></div><div>The election dates will be as follows:<=
+br></div><div>&nbsp;&nbsp;&nbsp; Nomination period Start: Mon February 9th<=
+br></div><div>&nbsp;&nbsp;&nbsp; Nomination period End: Mon March 9th<br></=
+div><div>&nbsp;&nbsp;&nbsp; Publication of Candidates &amp; start of Candid=
+ate QA: Mon March 16th<br></div><div>&nbsp;&nbsp;&nbsp; Deadline of X.Org m=
+embership application or renewal: Mon March 16th<br></div><div>&nbsp;&nbsp;=
+&nbsp; Election Planned Start: Mon March 23rd<br></div><div>&nbsp;&nbsp;&nb=
+sp; Election Planned End: Mon April 13th<br></div><div><br></div><div>If yo=
+u have questions or encounter issues don't hesitate<br></div><div>to reach =
+out the Elections Committee at <a href=3D"mailto:elections@x.org">elections=
+@x.org</a>.<br></div><div><br></div><div>Best Regards,<br></div><div>Harry<=
+br></div></blockquote><div><br></div><div><span></span></div></body></html>
+
+--=-Ou9PVGv0Q/xGWensQ9B3--
