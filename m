@@ -2,63 +2,60 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MF/fEwNaqGlxtgAAu9opvQ
+	id EGKSKEsCq2nDZQEAu9opvQ
 	(envelope-from <etnaviv-bounces@lists.freedesktop.org>)
-	for <lists+etnaviv@lfdr.de>; Wed, 04 Mar 2026 17:12:51 +0100
+	for <lists+etnaviv@lfdr.de>; Fri, 06 Mar 2026 17:35:23 +0100
 X-Original-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3472203E8F
-	for <lists+etnaviv@lfdr.de>; Wed, 04 Mar 2026 17:12:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DDA92251B9
+	for <lists+etnaviv@lfdr.de>; Fri, 06 Mar 2026 17:35:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 54D8410EA4E;
-	Wed,  4 Mar 2026 16:12:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0219710E32C;
+	Fri,  6 Mar 2026 16:35:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=mark.filion@collabora.com header.b="B1gXa7u/";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="sBc+jPWq";
 	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com
- [136.143.188.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C164210EA4E;
- Wed,  4 Mar 2026 16:12:48 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1772640762; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=kRUk4O3CAkzGxMf6lwluro+2/Zz82AxFHdSBn1AVH9XeEFz+DgVJiTQ55KyJWsrIYa2OHiRKthYJEV3YdQcOaM8KUF6gCG5IXgVk6EJiFrPv0xDaFLsO7Q0AHgVcNE7ZwSfC1qE3+i9L23m89rRu1bxwXgxULFEfPuyJfIoHTY8=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1772640762;
- h=Content-Type:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To:Cc;
- bh=/UZ1fASd581DGwoDXE4nNr7cvDBmu2IMPO2n0Z57d0s=; 
- b=SGcUttgqGNnv57CByEPkn2GSqhC8MLfPmEtHn+a8SixdvwPNhPkSlqN6dpLdT+WrKxOTDSbtalIR1wl4vvoMLr7X8q4idoRkqLhpodm27Z+HokzaZxV8Kdf7l6UjnP/Zb2GlhW9hmEsHVR8iy1ypnrJ0q3cr2I2dN5/fnCM9yiw=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=mark.filion@collabora.com;
- dmarc=pass header.from=<mark.filion@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1772640762; 
- s=zohomail; d=collabora.com; i=mark.filion@collabora.com;
- h=Message-ID:Subject:Subject:From:From:To:To:Date:Date:In-Reply-To:References:Content-Type:MIME-Version:Message-Id:Reply-To:Cc;
- bh=/UZ1fASd581DGwoDXE4nNr7cvDBmu2IMPO2n0Z57d0s=;
- b=B1gXa7u/vRyCFytF/C2IblGhO61hhskl0NxSWvE4ckYXxcyO3lXkjGW5PLb21kLJ
- 7zUNCZSLQDYxOMUSaI2QzOSxgdXaaJw52Ifa/nPOtmCPc/Le9XQPO2rK4E3+jyRFrmn
- iItL/LjFC98h7dSQv+5LA3setfy05ivchT3QNeoY=
-Received: by mx.zohomail.com with SMTPS id 1772640759959464.1568830656362;
- Wed, 4 Mar 2026 08:12:39 -0800 (PST)
-Message-ID: <77e280436ec5b54973a11303dd0446e9f3ab2ba1.camel@collabora.com>
-Subject: Reminder: Deadline to renew X.Org memberships for 2026 is March 16.
-From: Mark Filion <mark.filion@collabora.com>
-To: events@lists.x.org, xorg-devel@lists.x.org, 
- wayland-devel@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- mesa-dev@lists.freedesktop.org, amd-gfx@lists.freedesktop.org, 
- etnaviv@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
- libre-soc-dev@lists.libre-soc.org, elections@x.org, members@x.org, 
- xorg@lists.freedesktop.org
-Date: Wed, 04 Mar 2026 11:12:37 -0500
-In-Reply-To: <0070f3dd-a521-40ee-b6e7-8b1f82e48b66@amd.com>
-References: <0070f3dd-a521-40ee-b6e7-8b1f82e48b66@amd.com>
-Content-Type: multipart/alternative; boundary="=-Ou9PVGv0Q/xGWensQ9B3"
-User-Agent: Evolution 3.58.3 (3.58.3-1.fc43app2) 
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2798210EDAF;
+ Fri,  6 Mar 2026 16:35:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
+ Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=9L+qgbI6WvSblBO6w5zz8ByJQH6omQJDNqnBwOAmU/c=; b=sBc+jPWqR6t/KH+2a78fCt+TaD
+ Eeh6FRv0juTzQ9/8Ii72u8hI8eJcjf+eIYDX9IFYQG2yjCI7SaYNYRki0DrPV2JNLvtz0H6oNY03o
+ gKIkZ4D8mX78uczC1Cg/b+OkTqGvsXtjzqwMsyWBbj1r8i/7uFfqI8FXD3p4L3+roZUBNJxFa9wHL
+ ZwIW0pOX1B7HUImLudYXIZ4lUBc5ZmmXVA/rQSOMZmDoCFx5p6tSzduzlEjOLPZ1TGIIMHu0B1dM3
+ KPtM8DUfa/aypSwjOGCWjcF2cl83dHHJ2MKr6y29Z3Gu0QTE6U00qPEfN5NKYMxYZ/uMJo+tNM5U5
+ auz0CFIQ==;
+Received: from [90.240.106.137] (helo=localhost)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1vyY8n-00APVU-0Y; Fri, 06 Mar 2026 17:35:05 +0100
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+To: amd-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com, intel-xe@lists.freedesktop.org,
+ Danilo Krummrich <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>,
+ Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ etnaviv@lists.freedesktop.org, Christian Gmeiner <cgmeiner@igalia.com>
+Subject: [PATCH v7 19/29] drm/etnaviv: Remove drm_sched_init_args->num_rqs
+ usage
+Date: Fri,  6 Mar 2026 16:34:35 +0000
+Message-ID: <20260306163445.97243-20-tvrtko.ursulin@igalia.com>
+X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20260306163445.97243-1-tvrtko.ursulin@igalia.com>
+References: <20260306163445.97243-1-tvrtko.ursulin@igalia.com>
 MIME-Version: 1.0
-X-ZohoMailClient: External
+Content-Transfer-Encoding: 8bit
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,132 +69,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: A3472203E8F
+X-Rspamd-Queue-Id: 2DDA92251B9
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.31 / 15.00];
-	ARC_ALLOW(-1.00)[zohomail.com:s=zohoarc:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+X-Spamd-Result: default: False [1.99 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_REJECT(1.00)[igalia.com:s=20170329];
+	R_MISSING_CHARSET(0.50)[];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[collabora.com:s=zohomail];
-	MIME_GOOD(-0.10)[multipart/alternative,text/plain];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	DMARC_POLICY_SOFTFAIL(0.10)[igalia.com : SPF not aligned (relaxed),none];
 	HAS_LIST_UNSUB(-0.01)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,x.org:url,x.org:email];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	TAGGED_RCPT(0.00)[etnaviv];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mark.filion@collabora.com,etnaviv-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TO_DN_NONE(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[collabora.com:+]
+	FREEMAIL_CC(0.00)[igalia.com,lists.freedesktop.org,kernel.org,pengutronix.de,armlinux.org.uk,gmail.com];
+	RCVD_COUNT_THREE(0.00)[3];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[tvrtko.ursulin@igalia.com,etnaviv-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[igalia.com:-];
+	NEURAL_HAM(-0.00)[-0.100];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[etnaviv];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[pengutronix.de:email,lists.freedesktop.org:email,igalia.com:mid,igalia.com:email,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
 X-Rspamd-Action: no action
 
---=-Ou9PVGv0Q/xGWensQ9B3
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Remove member no longer used by the scheduler core.
 
-Hi everyone,
+Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Cc: Lucas Stach <l.stach@pengutronix.de>
+Cc: Russell King <linux+etnaviv@armlinux.org.uk>
+Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
+Cc: etnaviv@lists.freedesktop.org
+Reviewed-by: Christian Gmeiner <cgmeiner@igalia.com>
+---
+ drivers/gpu/drm/etnaviv/etnaviv_sched.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-Just a friendly reminder that the deadline to renew X.Org memberships
-for 2026 is March 16.
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sched.c b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+index df4232d7e135..63f672536516 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+@@ -142,7 +142,6 @@ int etnaviv_sched_init(struct etnaviv_gpu *gpu)
+ {
+ 	const struct drm_sched_init_args args = {
+ 		.ops = &etnaviv_sched_ops,
+-		.num_rqs = DRM_SCHED_PRIORITY_COUNT,
+ 		.credit_limit = etnaviv_hw_jobs_limit,
+ 		.hang_limit = etnaviv_job_hang_limit,
+ 		.timeout = msecs_to_jiffies(500),
+-- 
+2.52.0
 
-Membership renewal ensures you maintain your voting rights in the
-upcoming foundation elections, but also helps strengthen the foundation
-by giving it more credibility.
-
-https://members.x.org/
-
-Thank you for your continued support of the X.Org Foundation.
-
-Best,
-
-Mark
-
-On Wed, 2026-02-04 at 16:22 -0500, Harry Wentland wrote:
-> Hi all,
->=20
-> it's a new year and with that a new X.Org Board of Directors
-> election. Please take the time to log in to members.x.org
-> and renew your membership for the new period or sign up for
-> the first time.
->=20
-> These board members' periods will end this year:
-> - Mark Filion
-> - Erik Faye-Lund
-> - Simon Ser
-> - Neal Gompa
->=20
-> The election dates will be as follows:
-> =C2=A0=C2=A0=C2=A0 Nomination period Start: Mon February 9th
-> =C2=A0=C2=A0=C2=A0 Nomination period End: Mon March 9th
-> =C2=A0=C2=A0=C2=A0 Publication of Candidates & start of Candidate QA: Mon=
- March 16th
-> =C2=A0=C2=A0=C2=A0 Deadline of X.Org membership application or renewal: M=
-on March
-> 16th
-> =C2=A0=C2=A0=C2=A0 Election Planned Start: Mon March 23rd
-> =C2=A0=C2=A0=C2=A0 Election Planned End: Mon April 13th
->=20
-> If you have questions or encounter issues don't hesitate
-> to reach out the Elections Committee at elections@x.org.
->=20
-> Best Regards,
-> Harry
-
---=-Ou9PVGv0Q/xGWensQ9B3
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-
-<html><head><style>pre,code,address {
-  margin: 0px;
-}
-h1,h2,h3,h4,h5,h6 {
-  margin-top: 0.2em;
-  margin-bottom: 0.2em;
-}
-ol,ul {
-  margin-top: 0em;
-  margin-bottom: 0em;
-}
-blockquote {
-  margin-top: 0em;
-  margin-bottom: 0em;
-}
-</style></head><body><div>Hi everyone,</div><div><br></div><div><div>Just a=
- friendly reminder that the deadline to renew X.Org memberships for 2026 is=
- March 16.</div><div><br></div><div>Membership renewal ensures you maintain=
- your voting rights in the upcoming foundation elections, but also helps st=
-rengthen the foundation by giving it more credibility.<br><br><a href=3D"ht=
-tps://members.x.org/">https://members.x.org/</a></div><div><br></div><div>T=
-hank you for your continued support of the X.Org Foundation.</div><div><br>=
-</div><div>Best,</div><div></div><br>Mark<br><br>On Wed, 2026-02-04 at 16:2=
-2 -0500, Harry Wentland wrote:</div><blockquote type=3D"cite" style=3D"marg=
-in:0 0 0 .8ex; border-left:2px #729fcf solid;padding-left:1ex"><div>Hi all,=
-<br></div><div><br></div><div>it's a new year and with that a new X.Org Boa=
-rd of Directors<br></div><div>election. Please take the time to log in to m=
-embers.x.org<br></div><div>and renew your membership for the new period or =
-sign up for<br></div><div>the first time.<br></div><div><br></div><div>Thes=
-e board members' periods will end this year:<br></div><div>- Mark Filion<br=
-></div><div>- Erik Faye-Lund<br></div><div>- Simon Ser<br></div><div>- Neal=
- Gompa<br></div><div><br></div><div>The election dates will be as follows:<=
-br></div><div>&nbsp;&nbsp;&nbsp; Nomination period Start: Mon February 9th<=
-br></div><div>&nbsp;&nbsp;&nbsp; Nomination period End: Mon March 9th<br></=
-div><div>&nbsp;&nbsp;&nbsp; Publication of Candidates &amp; start of Candid=
-ate QA: Mon March 16th<br></div><div>&nbsp;&nbsp;&nbsp; Deadline of X.Org m=
-embership application or renewal: Mon March 16th<br></div><div>&nbsp;&nbsp;=
-&nbsp; Election Planned Start: Mon March 23rd<br></div><div>&nbsp;&nbsp;&nb=
-sp; Election Planned End: Mon April 13th<br></div><div><br></div><div>If yo=
-u have questions or encounter issues don't hesitate<br></div><div>to reach =
-out the Elections Committee at <a href=3D"mailto:elections@x.org">elections=
-@x.org</a>.<br></div><div><br></div><div>Best Regards,<br></div><div>Harry<=
-br></div></blockquote><div><br></div><div><span></span></div></body></html>
-
---=-Ou9PVGv0Q/xGWensQ9B3--
