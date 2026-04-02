@@ -2,85 +2,60 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kDwHO2hGwWnpRwQAu9opvQ
+	id cOK1M+HEzmlEqAYAu9opvQ
 	(envelope-from <etnaviv-bounces@lists.freedesktop.org>)
-	for <lists+etnaviv@lfdr.de>; Mon, 23 Mar 2026 14:55:52 +0100
+	for <lists+etnaviv@lfdr.de>; Thu, 02 Apr 2026 21:34:57 +0200
 X-Original-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A8872F36E1
-	for <lists+etnaviv@lfdr.de>; Mon, 23 Mar 2026 14:55:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5A0C38DB7A
+	for <lists+etnaviv@lfdr.de>; Thu, 02 Apr 2026 21:34:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F32BC10E3EF;
-	Mon, 23 Mar 2026 13:55:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 43C7710F325;
+	Thu,  2 Apr 2026 19:34:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="br3sPpKd";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="r/M51ggu";
 	dkim-atps=neutral
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com
- [209.85.214.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3FAF110E7DC
- for <etnaviv@lists.freedesktop.org>; Fri, 20 Mar 2026 01:08:16 +0000 (UTC)
-Received: by mail-pl1-f173.google.com with SMTP id
- d9443c01a7336-2b0586d5bb8so9489185ad.3
- for <etnaviv@lists.freedesktop.org>; Thu, 19 Mar 2026 18:08:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1773968896; x=1774573696; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=g+MtQY3GBP0FcqvY6s09ctlLbOJ05XY1yODrc7nIS/E=;
- b=br3sPpKddW0xS3b3/8JyaqoqEIxfK7/1aaxPQQQ6QIe8ufbLHYh/LoFY03GicjCehO
- JchW6CALrQWqG4IlJUpRFxkzUegDBpbaL/0ZGUBZWBp19CBsKfzoAKmgkBu2gVuhWD/7
- ZwFiClK0KmNqXGwB++9YLKV9Ggj+H8u9XOwOeOm25M30kzCvKWCydhQlb+xSHHKv0Guq
- PHrF/r+jDUI3zSGBnpbqprgyqo/W9eqDjGZnK8a6m339BXT9uSpqZWJipqUF/+dG0u5E
- f7/yWuDs0zweBQTAkLE+zz8AXMBj8Q4yj8of5Y3gJaE7icMUTIgCNtyQkrFeS+cUecor
- tVaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20251104; t=1773968896; x=1774573696;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=g+MtQY3GBP0FcqvY6s09ctlLbOJ05XY1yODrc7nIS/E=;
- b=pK3mOQtLySrEwkYplI5kGm+A3P18sVwv6rWS0ZjYo3mcSzONVfpBa7TFAWKC7htTMN
- oBo6bjFReRJ9AfeZsr61K8dPgb11oGAcAnOi4ZTCkMunBfBHGz0nhhc6g1u8KJG1Tbi/
- +SzdnWpypDVf841aN0vwJgCu/QMcLxVeU+gt/pOXBzPwStMcljrSPgyB+7TOhPbA07UX
- zvEvKw3T8u568s+TbQtkHNnDqxrLFu6AyF9fJmj1/vdBswm5kXn51sx8tiM12K4+veLO
- OIgoo8i/H/ARof+m9s4LIWWGeAAiCnU3uDCrg0SxLZi69cdG+vBSR/wvaI3aSiLqi33t
- ycfA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXFxOmc9A7JilEyMzKWdW3cI5wl7HuPoIYkHDvYDLTm+dWYD0CzCnS/bhqUORormg7I1FM/sB3S@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxaO2ptq4pFVnJel+d8xM1+By4F75AQiS06RzJOvSSF0MfSD3LP
- kl9fxJkHrMo4eJqjqIAJrerbv8ZrA400dF5T9q7wDA87ZF6aKnWhZ5Ho
-X-Gm-Gg: ATEYQzzQLYSthhmoBf/n8joj38WxMFs+WVQygUxjMW6tLfXBTCLTb7J/Z1unIC7wywZ
- e8koiR0wc7/lUPKrrXVWBKs97E+/U6eFvoI4YkLW2HFBfBBZr5wJxNCH70Z/kI9WQA3DJil/cK5
- dvqrIdJUDbfBnZC+1Uhoru9JPBVumcMrDsaBPawR54phgLaykXWAx3EC+rib00hkByQ2xRjcgzJ
- taygE34yBdB3tVmC5/4kk4xdUjtaDaMLu0KuzRCovfCcdd9jTFAyh5e4+rrkYPGcGCkbP6ak5Ec
- a4LQgkM0Adq/YMOFzX6XQ2s6a1Veq5kaxNKYaggJPh7dDIklRnhQ8uIyGruFYQtFcPKeWE8Knor
- U0Gufzd8oiR8kdTkrzv1L0Pfcx0wPG5wkqVT7GkneogW6Mw9xLmjWIYNZS61jhI2V+CMf5UGe+K
- mmYcSAhzmqDkmMpI67pDjUB+Hkvn95Pp4elMhj2Ur1gK86Gw9UPzIz4sc=
-X-Received: by 2002:a17:902:ecc7:b0:2ae:5163:c2aa with SMTP id
- d9443c01a7336-2b0826feed5mr10568955ad.20.1773968895647; 
- Thu, 19 Mar 2026 18:08:15 -0700 (PDT)
-Received: from ryzen ([2601:644:8000:5b5d::8bd])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-2b083516b96sm5132935ad.7.2026.03.19.18.08.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Mar 2026 18:08:15 -0700 (PDT)
-From: Rosen Penev <rosenp@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Cc: Lucas Stach <l.stach@pengutronix.de>,
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CBD8C10F324;
+ Thu,  2 Apr 2026 19:34:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+ Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=QA03b4iHy3Tt3lyqf7Fg9Ef2IU9dNO2WnNF9Cny/+3Y=; b=r/M51ggulFiHCLOzi+csoSoXO0
+ DTpYFEJVgbqMtM9AKTSoYDpar0ZWB20EjbmaGOROUOdlqp6b5pVq6wj1lqPA2gPCwDRbfWkAdIeQc
+ QzviHD7l1tYXA+/elSeE39gtJK2yphcChppN+kObF27IQsICmuZgsFyNqtVBbvPA8ibqTZBEB/pOG
+ MI1UXBYpKyxwk8hAdgGbFkGClWvJhKnrBNZ3DwZicUqryhla4d2odKw5yauYLqOX7WdAtNKRWBmeT
+ gTJw5HR2bvFL78sONVrOonAjcgZEis0Xfb8iB4bXj+gYdfgUjVIWxP+6mCtjY3jVF7v51lNgvaH8J
+ ouEZ5zfA==;
+Received: from [189.7.87.169] (helo=prince)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1w8NoH-00AbX8-HV; Thu, 02 Apr 2026 21:34:34 +0200
+From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
+To: Lucas Stach <l.stach@pengutronix.de>,
  Russell King <linux+etnaviv@armlinux.org.uk>,
  Christian Gmeiner <christian.gmeiner@gmail.com>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- etnaviv@lists.freedesktop.org (moderated list:DRM DRIVERS FOR VIVANTE GPU IP), 
- linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH] drm/etnaviv: use kzalloc_flex
-Date: Thu, 19 Mar 2026 18:07:57 -0700
-Message-ID: <20260320010757.32158-1-rosenp@gmail.com>
+ Philipp Stanner <phasta@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Danilo Krummrich <dakr@kernel.org>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
+ kernel-dev@igalia.com, =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
+Subject: [PATCH] drm/etnaviv: Fix armed job not being pushed to the DRM
+ scheduler
+Date: Thu,  2 Apr 2026 16:32:35 -0300
+Message-ID: <20260402193424.2023318-1-mcanal@igalia.com>
 X-Mailer: git-send-email 2.53.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Mon, 23 Mar 2026 13:55:49 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,94 +69,94 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
  <mailto:etnaviv-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
-X-Spamd-Result: default: False [2.69 / 15.00];
+X-Spamd-Result: default: False [2.99 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	DATE_IN_PAST(1.00)[84];
 	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	R_DKIM_REJECT(1.00)[igalia.com:s=20170329];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.10)[text/plain];
+	DMARC_POLICY_SOFTFAIL(0.10)[igalia.com : SPF not aligned (relaxed),none];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:dri-devel@lists.freedesktop.org,m:l.stach@pengutronix.de,m:linux+etnaviv@armlinux.org.uk,m:christian.gmeiner@gmail.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-kernel@vger.kernel.org,m:linux@armlinux.org.uk,m:christiangmeiner@gmail.com,s:lists@lfdr.de];
-	PREVIOUSLY_DELIVERED(0.00)[etnaviv@lists.freedesktop.org];
-	RCVD_COUNT_THREE(0.00)[4];
-	ARC_NA(0.00)[];
-	FORGED_SENDER(0.00)[rosenp@gmail.com,etnaviv-bounces@lists.freedesktop.org];
-	FORWARDED(0.00)[etnaviv@lists.freedesktop.org];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCVD_TLS_LAST(0.00)[];
-	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[pengutronix.de,armlinux.org.uk,gmail.com,ffwll.ch,lists.freedesktop.org,vger.kernel.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	TAGGED_RCPT(0.00)[etnaviv];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	FROM_NEQ_ENVFROM(0.00)[rosenp@gmail.com,etnaviv-bounces@lists.freedesktop.org];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	RCVD_TLS_LAST(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	FREEMAIL_TO(0.00)[pengutronix.de,armlinux.org.uk,gmail.com,ffwll.ch,kernel.org,intel.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 3A8872F36E1
+	DKIM_TRACE(0.00)[igalia.com:-];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[mcanal@igalia.com,etnaviv-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	NEURAL_HAM(-0.00)[-0.946];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[etnaviv];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	TO_DN_SOME(0.00)[]
+X-Rspamd-Queue-Id: A5A0C38DB7A
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-A local helper was developed previously for struct_size.
+When xa_alloc_cyclic() failed in etnaviv_sched_push_job(), the error
+path skipped drm_sched_entity_push_job(). This is a violation of the DRM
+scheduler contract, as once a job has been armed with drm_sched_job_arm(),
+it must be pushed with drm_sched_entity_push_job(). From the DRM
+scheduler documentation,
 
-kzalloc_flex can be used now.
+"""
+drm_sched_job_arm() is a point of no return since it initializes the
+fences and their sequence number etc. Once that function has been called,
+you *must* submit it with drm_sched_entity_push_job() and cannot simply
+abort it by calling drm_sched_job_cleanup().
+"""
 
-Signed-off-by: Rosen Penev <rosenp@gmail.com>
+Fix this by splitting the fence ID allocation into two phases: first,
+alloc an xarray slot before arming the job (which can fail), then fill in
+the actual fence with xa_store() after arming. This way, allocation
+failures are handled before the job is armed, and once armed, the job is
+always pushed to the scheduler.
+
+This also fixes a double call to drm_sched_job_cleanup(), as both
+etnaviv_sched_push_job() and its caller would call it on failure.
+
+Fixes: 764be12345c3 ("drm/etnaviv: convert user fence tracking to XArray")
+Signed-off-by: Maíra Canal <mcanal@igalia.com>
 ---
- drivers/gpu/drm/etnaviv/etnaviv_drv.h        | 12 ------------
- drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c |  3 +--
- 2 files changed, 1 insertion(+), 14 deletions(-)
+ drivers/gpu/drm/etnaviv/etnaviv_sched.c | 16 +++++++++-------
+ 1 file changed, 9 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.h b/drivers/gpu/drm/etnaviv/etnaviv_drv.h
-index 20dad16fd554..55a9e745604d 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_drv.h
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.h
-@@ -93,18 +93,6 @@ void etnaviv_gem_describe_objects(struct etnaviv_drm_private *priv,
- #define DBG(fmt, ...) DRM_DEBUG(fmt"\n", ##__VA_ARGS__)
- #define VERB(fmt, ...) if (0) DRM_DEBUG(fmt"\n", ##__VA_ARGS__)
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sched.c b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+index df4232d7e135..3cc50d697c89 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+@@ -116,16 +116,18 @@ int etnaviv_sched_push_job(struct etnaviv_gem_submit *submit)
+ 	 */
+ 	mutex_lock(&gpu->sched_lock);
  
--/*
-- * Return the storage size of a structure with a variable length array.
-- * The array is nelem elements of elem_size, where the base structure
-- * is defined by base.  If the size overflows size_t, return zero.
-- */
--static inline size_t size_vstruct(size_t nelem, size_t elem_size, size_t base)
--{
--	if (elem_size && nelem > (SIZE_MAX - base) / elem_size)
--		return 0;
--	return base + nelem * elem_size;
--}
--
- /*
-  * Etnaviv timeouts are specified wrt CLOCK_MONOTONIC, not jiffies.
-  * We need to calculate the timeout in terms of number of jiffies
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-index fbf693addd74..1a77a09b3377 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-@@ -32,9 +32,8 @@ static struct etnaviv_gem_submit *submit_create(struct drm_device *dev,
- 		struct etnaviv_gpu *gpu, size_t nr_bos, size_t nr_pmrs)
- {
- 	struct etnaviv_gem_submit *submit;
--	size_t sz = size_vstruct(nr_bos, sizeof(submit->bos[0]), sizeof(*submit));
++	ret = xa_alloc_cyclic(&gpu->user_fences, &submit->out_fence_id,
++			      NULL, xa_limit_32b, &gpu->next_user_fence,
++			      GFP_KERNEL);
++	if (ret < 0)
++		goto out_unlock;
++
+ 	drm_sched_job_arm(&submit->sched_job);
  
--	submit = kzalloc(sz, GFP_KERNEL);
-+	submit = kzalloc_flex(*submit, bos, nr_bos);
- 	if (!submit)
- 		return NULL;
+ 	submit->out_fence = dma_fence_get(&submit->sched_job.s_fence->finished);
+-	ret = xa_alloc_cyclic(&gpu->user_fences, &submit->out_fence_id,
+-			      submit->out_fence, xa_limit_32b,
+-			      &gpu->next_user_fence, GFP_KERNEL);
+-	if (ret < 0) {
+-		drm_sched_job_cleanup(&submit->sched_job);
+-		goto out_unlock;
+-	}
++
++	xa_store(&gpu->user_fences, submit->out_fence_id,
++		 submit->out_fence, GFP_KERNEL);
  
+ 	/* the scheduler holds on to the job now */
+ 	kref_get(&submit->refcount);
 -- 
 2.53.0
 
