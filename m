@@ -2,40 +2,40 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id e3fpNTKhQ2pidwoAu9opvQ
+	id B/KFGi+hQ2ondwoAu9opvQ
 	(envelope-from <etnaviv-bounces@lists.freedesktop.org>)
-	for <lists+etnaviv@lfdr.de>; Tue, 30 Jun 2026 12:57:54 +0200
+	for <lists+etnaviv@lfdr.de>; Tue, 30 Jun 2026 12:57:51 +0200
 X-Original-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 842386E33CC
-	for <lists+etnaviv@lfdr.de>; Tue, 30 Jun 2026 12:57:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F32526E3352
+	for <lists+etnaviv@lfdr.de>; Tue, 30 Jun 2026 12:57:50 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=ImB78Xm5;
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=LC8VtPYz;
 	spf=pass (mail.lfdr.de: domain of etnaviv-bounces@lists.freedesktop.org designates 131.252.210.177 as permitted sender) smtp.mailfrom=etnaviv-bounces@lists.freedesktop.org;
 	dmarc=pass (policy=quarantine) header.from=kernel.org
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E989610EC6B;
-	Tue, 30 Jun 2026 10:57:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0AD5610EC43;
+	Tue, 30 Jun 2026 10:57:49 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2EF710E874;
- Mon, 29 Jun 2026 12:24:55 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 168DF10E883;
+ Mon, 29 Jun 2026 12:24:59 +0000 (UTC)
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
- by sea.source.kernel.org (Postfix) with ESMTP id 7DB9143E8E;
- Mon, 29 Jun 2026 12:24:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 819851F000E9;
- Mon, 29 Jun 2026 12:24:54 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 8B6886001D;
+ Mon, 29 Jun 2026 12:24:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74A521F000E9;
+ Mon, 29 Jun 2026 12:24:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
- s=k20260515; t=1782735895;
- bh=q/zmrg1aZZtj5Tmn6K9F810cSj24cLspebCxVYr6+vM=;
+ s=k20260515; t=1782735898;
+ bh=n6T1iWSEXJtO4Ol/BA3gpFHV+/0gKCk1DbIlaaeu8VM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References;
- b=ImB78Xm5cq6RrDbmQ3J6tzrC3HLEzs7wzd0LC9qXAFx7cd4y0IcRNHPEQjaCD2kCv
- t7/cUJE9y3I1sPoHMYrCyG34SjvURuw2nRDZurNb2jCyVmORwYVTl6EDHnREKFXwhb
- Mbf3AenyI1/h0SqiWNCY23Z13tJZjuXnBQ9SfIzuKiUPMbB3m3+TLCnoGKijqfR3NC
- 1tp2JiV+gIsscH67BC9LhRi/4QlmripqWzergkvG/ngTTNDMnQd/mgZN6SNyqqbauP
- IGwwhnbxNqzXNkjYdSC9Q47btcLisY0PN7QS+5n8ONjQMKE+Ptl6DATcGPdaGI14cl
- pHvsw1KC9+rOQ==
+ b=LC8VtPYzfBDn0IT72dDOkbWV0WRSLf9IMTrBsPoKyWemI+ySsQR91N3T+gF5VUjPk
+ vJ/A02mPxatWNByRseH/44QDY6V7GxURExlUMgpWc6Ak0sIqOgqIB89+Dhtiz3DdaG
+ 0qDDEK3Kw5b+lPx1blaG9h4PjSQv6pYATJEXJn1gVoSDSzHVV2QcCkISf49YvzLmOs
+ bWKRZVJOCgN/LnWSTThp3BqEnLf6yht4HhcexHl5j948YFGHeGgOFuaos8+m9BA1RV
+ HjcHH1HvULwL911lM1Mca9m5XW5H0chyhZ42L4YjclZADCKQaoLUCEzOrF3dzZjn7A
+ Ytzbnh24BtJ6Q==
 From: Lorenzo Stoakes <ljs@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>
 Cc: Russell King <linux@armlinux.org.uk>, Dinh Nguyen <dinguyen@kernel.org>,
@@ -86,9 +86,9 @@ Cc: Russell King <linux@armlinux.org.uk>, Dinh Nguyen <dinguyen@kernel.org>,
  damon@lists.linux.dev, Pedro Falcato <pfalcato@suse.de>,
  Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>,
  Jann Horn <jannh@google.com>
-Subject: [PATCH 20/30] mm/vma: introduce vma_assert_can_modify()
-Date: Mon, 29 Jun 2026 13:23:31 +0100
-Message-ID: <23c7602c58cacc23ef22618a27af9a2d54addf58.1782735110.git.ljs@kernel.org>
+Subject: [PATCH 21/30] mm/vma: add and use vma_[add/sub]_pgoff()
+Date: Mon, 29 Jun 2026 13:23:32 +0100
+Message-ID: <794044881e454fd8ac13e59d5ff5fc86fca08b03.1782735110.git.ljs@kernel.org>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <cover.1782735110.git.ljs@kernel.org>
 References: <cover.1782735110.git.ljs@kernel.org>
@@ -136,57 +136,145 @@ X-Spamd-Result: default: False [1.69 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[etnaviv];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.freedesktop.org:from_smtp,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,lists.freedesktop.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 842386E33CC
+X-Rspamd-Queue-Id: F32526E3352
 
-vma_assert_write_locked() and vma_assert_attached() are useful for their
-own purposes, however VMA code absolutely does allow the modification of
-non-write locked VMAs if they are at that point detached (i.e. unreachable
-from anywhere).
+Add helpers for adding or subtracting to a VMA's page offset, exposed
+internally for VMA users within mm in mm/vma.h.
 
-It's therefore useful to be able to assert that a VMA is either
-detached (modification doesn't matter) or write locked (you're explicitly
-locked for modification).
+This is to lay the foundations for tracking anonymous page offset for
+MAP_PRIVATE file-backed mappings, where adding and subtracting from this
+value must be reflected in both the file and anonymous offsets.
 
-Therefore introduce vma_assert_can_modify() for this purpose.
+These are used on VMA split and downward stack expansion.
 
-While we're here, make vma_is_attached() available generally - if
-!CONFIG_PER_VMA_LOCKS, then there's no sense in which a VMA is
-detached (vma_mark_detached() is a noop), so have this default to true in
-this case.
+No functional change intended.
 
 Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
 ---
- include/linux/mmap_lock.h | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ mm/nommu.c                      |  6 ++++--
+ mm/vma.c                        |  6 +++---
+ mm/vma.h                        | 12 ++++++++++++
+ tools/testing/vma/include/dup.h | 13 ++++++++++++-
+ 4 files changed, 31 insertions(+), 6 deletions(-)
 
-diff --git a/include/linux/mmap_lock.h b/include/linux/mmap_lock.h
-index 04b8f61ece5d..d513286d8160 100644
---- a/include/linux/mmap_lock.h
-+++ b/include/linux/mmap_lock.h
-@@ -506,6 +506,8 @@ static inline __must_check
- int vma_start_write_killable(struct vm_area_struct *vma) { return 0; }
- static inline void vma_assert_write_locked(struct vm_area_struct *vma)
- 		{ mmap_assert_write_locked(vma->vm_mm); }
+diff --git a/mm/nommu.c b/mm/nommu.c
+index 7333d855e974..c7fafcd87c14 100644
+--- a/mm/nommu.c
++++ b/mm/nommu.c
+@@ -41,6 +41,7 @@
+ #include <asm/tlbflush.h>
+ #include <asm/mmu_context.h>
+ #include "internal.h"
++#include "vma.h"
+ 
+ unsigned long highest_memmap_pfn;
+ int heap_stack_gap = 0;
+@@ -1338,7 +1339,8 @@ static int split_vma(struct vma_iterator *vmi, struct vm_area_struct *vma,
+ 		region->vm_top = region->vm_end = new->vm_end = addr;
+ 	} else {
+ 		region->vm_start = new->vm_start = addr;
+-		region->vm_pgoff = new->vm_pgoff += npages;
++		vma_add_pgoff(new, npages);
++		region->vm_pgoff = vma_start_pgoff(new);
+ 	}
+ 
+ 	vma_iter_config(vmi, new->vm_start, new->vm_end);
+@@ -1355,7 +1357,7 @@ static int split_vma(struct vma_iterator *vmi, struct vm_area_struct *vma,
+ 	delete_nommu_region(vma->vm_region);
+ 	if (new_below) {
+ 		vma->vm_region->vm_start = vma->vm_start = addr;
+-		vma->vm_pgoff += npages;
++		vma_add_pgoff(vma, npages);
+ 		vma->vm_region->vm_pgoff = vma_start_pgoff(vma);
+ 	} else {
+ 		vma->vm_region->vm_end = vma->vm_end = addr;
+diff --git a/mm/vma.c b/mm/vma.c
+index 185d07397ca6..cb7222e20c93 100644
+--- a/mm/vma.c
++++ b/mm/vma.c
+@@ -517,7 +517,7 @@ __split_vma(struct vma_iterator *vmi, struct vm_area_struct *vma,
+ 		new->vm_end = addr;
+ 	} else {
+ 		new->vm_start = addr;
+-		new->vm_pgoff += linear_page_delta(vma, addr);
++		vma_add_pgoff(new, linear_page_delta(vma, addr));
+ 	}
+ 
+ 	err = -ENOMEM;
+@@ -556,7 +556,7 @@ __split_vma(struct vma_iterator *vmi, struct vm_area_struct *vma,
+ 
+ 	if (new_below) {
+ 		vma->vm_start = addr;
+-		vma->vm_pgoff += (addr - new->vm_start) >> PAGE_SHIFT;
++		vma_add_pgoff(vma, (addr - new->vm_start) >> PAGE_SHIFT);
+ 	} else {
+ 		vma->vm_end = addr;
+ 	}
+@@ -3305,7 +3305,7 @@ int expand_downwards(struct vm_area_struct *vma, unsigned long address)
+ 				vm_stat_account(mm, vma->vm_flags, grow);
+ 				anon_vma_interval_tree_pre_update_vma(vma);
+ 				vma->vm_start = address;
+-				vma->vm_pgoff -= grow;
++				vma_sub_pgoff(vma, grow);
+ 				/* Overwrite old entry in mtree. */
+ 				vma_iter_store_overwrite(&vmi, vma);
+ 				anon_vma_interval_tree_post_update_vma(vma);
+diff --git a/mm/vma.h b/mm/vma.h
+index 2342516ce00e..47fe35e5307e 100644
+--- a/mm/vma.h
++++ b/mm/vma.h
+@@ -247,6 +247,18 @@ static inline pgoff_t vmg_end_pgoff(const struct vma_merge_struct *vmg)
+ 	return vmg_start_pgoff(vmg) + vmg_pages(vmg);
+ }
+ 
++static inline void vma_add_pgoff(struct vm_area_struct *vma, pgoff_t delta)
++{
++	vma_assert_can_modify(vma);
++	vma->vm_pgoff += delta;
++}
++
++static inline void vma_sub_pgoff(struct vm_area_struct *vma, pgoff_t delta)
++{
++	vma_assert_can_modify(vma);
++	vma->vm_pgoff -= delta;
++}
++
+ #define VMG_STATE(name, mm_, vmi_, start_, end_, vma_flags_, pgoff_)	\
+ 	struct vma_merge_struct name = {				\
+ 		.mm = mm_,						\
+diff --git a/tools/testing/vma/include/dup.h b/tools/testing/vma/include/dup.h
+index 7ed165c8d9bc..41fea90a344d 100644
+--- a/tools/testing/vma/include/dup.h
++++ b/tools/testing/vma/include/dup.h
+@@ -1163,6 +1163,11 @@ static inline struct vm_area_struct *vma_next(struct vma_iterator *vmi)
+ 	return mas_find(&vmi->mas, ULONG_MAX);
+ }
+ 
 +static inline bool vma_is_attached(struct vm_area_struct *vma)
-+		{ return true; }
- static inline void vma_assert_attached(struct vm_area_struct *vma) {}
- static inline void vma_assert_detached(struct vm_area_struct *vma) {}
- static inline void vma_mark_attached(struct vm_area_struct *vma) {}
-@@ -530,6 +532,12 @@ static inline void vma_assert_stabilised(struct vm_area_struct *vma)
- 
- #endif /* CONFIG_PER_VMA_LOCK */
- 
++{
++	return refcount_read(&vma->vm_refcnt);
++}
++
+ /*
+  * WARNING: to avoid racing with vma_mark_attached()/vma_mark_detached(), these
+  * assertions should be made either under mmap_write_lock or when the object
+@@ -1170,7 +1175,13 @@ static inline struct vm_area_struct *vma_next(struct vma_iterator *vmi)
+  */
+ static inline void vma_assert_attached(struct vm_area_struct *vma)
+ {
+-	WARN_ON_ONCE(!refcount_read(&vma->vm_refcnt));
++	WARN_ON_ONCE(!vma_is_attached(vma));
++}
++
 +static inline void vma_assert_can_modify(struct vm_area_struct *vma)
 +{
 +	if (vma_is_attached(vma))
 +		vma_assert_write_locked(vma);
-+}
-+
- static inline void mmap_write_lock(struct mm_struct *mm)
- {
- 	__mmap_lock_trace_start_locking(mm, true);
+ }
+ 
+ static inline void vma_assert_detached(struct vm_area_struct *vma)
 -- 
 2.54.0
 
