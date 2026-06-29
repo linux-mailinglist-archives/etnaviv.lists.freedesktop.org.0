@@ -2,40 +2,40 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id xFGXLC2hQ2oLdwoAu9opvQ
+	id OmO/DTGhQ2pKdwoAu9opvQ:T2
 	(envelope-from <etnaviv-bounces@lists.freedesktop.org>)
-	for <lists+etnaviv@lfdr.de>; Tue, 30 Jun 2026 12:57:49 +0200
+	for <lists+etnaviv@lfdr.de>; Tue, 30 Jun 2026 12:57:53 +0200
 X-Original-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2ACAA6E3339
-	for <lists+etnaviv@lfdr.de>; Tue, 30 Jun 2026 12:57:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD87F6E337E
+	for <lists+etnaviv@lfdr.de>; Tue, 30 Jun 2026 12:57:52 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=VXIgWtDv;
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=BMLJ0QC8;
 	spf=pass (mail.lfdr.de: domain of etnaviv-bounces@lists.freedesktop.org designates 131.252.210.177 as permitted sender) smtp.mailfrom=etnaviv-bounces@lists.freedesktop.org;
 	dmarc=pass (policy=quarantine) header.from=kernel.org
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0382510EC38;
-	Tue, 30 Jun 2026 10:57:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D28410EC5B;
+	Tue, 30 Jun 2026 10:57:50 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 09B5610E098;
- Mon, 29 Jun 2026 12:23:56 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E3BF10E859;
+ Mon, 29 Jun 2026 12:24:00 +0000 (UTC)
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
- by sea.source.kernel.org (Postfix) with ESMTP id C2C174172B;
- Mon, 29 Jun 2026 12:23:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5D2D1F000E9;
- Mon, 29 Jun 2026 12:23:54 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id E590F600AB;
+ Mon, 29 Jun 2026 12:23:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C62E51F000E9;
+ Mon, 29 Jun 2026 12:23:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
- s=k20260515; t=1782735835;
- bh=KhbirzDiqdXz8L9jjlZYmqe2i6OHEV90p3aTdG2piLY=;
- h=From:To:Cc:Subject:Date;
- b=VXIgWtDvSyFcIJVJpcYBkbjDgAVyydc/iME59+R6XRw8bXvm1BkNScIESWGDKzwG8
- AhB5OWOUACxuGpUzXK9CREXTc7QbzenbF+f/m6fiWZ0ZOCz579Z+6psilDULlUv4KS
- t1hK4vxpshyeCdzB6jjoAR0ouWSDv6aa2AfmFzAVxeVUQ8libN4amrv2h5IP6iXnkJ
- vw5hlBz64z8tNrLEbQWPi3qxat89f66kKwijiuXDogs+GZh0c9W1lQTLDBkLRzgknf
- wM2jN6figSLSgDjYHDAuCpQ6/CJax3wvd/hhdrpFl4QAONOJEwet916X7QRVjLhdGy
- V41g50mCmMcMA==
+ s=k20260515; t=1782735838;
+ bh=swky/ttPkfzr7S5T51FCZc+wQHBhhjRzTF+CZs6EI2Y=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References;
+ b=BMLJ0QC8vq16id6FWSytyc9WeUIS7JfINQPDzJsgK3lTD2+Pt+YhpaXljUZ46/gWl
+ u4vnladD2OhaGNHvVhsUEKYZgcwpq91WRLMCG9fzRajYPiItxFBM4oxxDAJvoSlXcj
+ AXmP9TLZPDtR6taGzYr9o4/3DefiaTZu0k6kzde+oQchdYnetq1kQBDelY3Tg5Vayt
+ 2csO1d2BBpXPMc/dR3xcayC1JQyR8Vp8v4DkrMhux2kOpk30jpyyDfeJ8H3+10kYT3
+ 2Wn/cXoyrBgAPy8yfNf7rNJ5A9kAichrnL8ho92XTSW+VMlDBaGxdB9AvyibXTm/72
+ eINA9KxllLbWA==
 From: Lorenzo Stoakes <ljs@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>
 Cc: Russell King <linux@armlinux.org.uk>, Dinh Nguyen <dinguyen@kernel.org>,
@@ -86,10 +86,12 @@ Cc: Russell King <linux@armlinux.org.uk>, Dinh Nguyen <dinguyen@kernel.org>,
  damon@lists.linux.dev, Pedro Falcato <pfalcato@suse.de>,
  Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>,
  Jann Horn <jannh@google.com>
-Subject: [PATCH 00/30] mm: make VMA page offset handling more consistent
-Date: Mon, 29 Jun 2026 13:23:11 +0100
-Message-ID: <cover.1782735110.git.ljs@kernel.org>
+Subject: [PATCH 01/30] mm: move vma_start_pgoff() into mm.h and clean up
+Date: Mon, 29 Jun 2026 13:23:12 +0100
+Message-ID: <b28b698df4c009e85c4728446ca5863d8e633164.1782735110.git.ljs@kernel.org>
 X-Mailer: git-send-email 2.54.0
+In-Reply-To: <cover.1782735110.git.ljs@kernel.org>
+References: <cover.1782735110.git.ljs@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Tue, 30 Jun 2026 10:57:47 +0000
@@ -136,157 +138,64 @@ X-Spamd-Result: default: False [1.69 / 15.00];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,lists.freedesktop.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 2ACAA6E3339
+X-Rspamd-Queue-Id: AD87F6E337E
 
-This series performs a series of cleanups and improvements around how the
-vma->vm_pgoff field is used.
+vma_last_pgoff() already lives there, so it's a bit odd to keep
+vma_start_pgoff() in mm/interval_tree.c. Move them together.
 
-Folios belonging to file-backed mappings are simply indexed by the page
-offset within the file they map.
+These each return unsigned long, which pgoff_t is typedef'd to. Make this
+consistent and have these functions return pgoff_t instead.
 
-However, anonymous folios belonging to pure anonymous mappings are indexed
-by their "virtual" page offset, which is equal to addr >> PAGE_SHIFT at the
-time at which the VMA was first faulted in.
+Additionally, express vma_last_pgoff() in terms of vma_start_pgoff(), since
+we wrap the vma->vm_pgoff access, we may as well use it here.
 
-The page offset of a VMA is stored in vma->vm_pgoff and indicates the page
-offset of the start of the VMA range, whether it be file-backed or
-anonymous.
+Also while we're here, const-ify the VMA and cleanup a bit.
 
-The work here both cleans up how we reference this field, as well as laying
-the foundations for a future series which addresses the inconsistency of
-CoW'd folios in MAP_PRIVATE-file backed mappings, which are indexed as if
-they were file-backed but behave as if they were anonymous.
+No functional change intended.
 
-This future series will make it such that all anonymous folios are indexed
-by virtual page offset whether belonging to VMAs who satisfy
-vma_is_anonymous() or MAP_PRIVATE-mapped file-backed mappings.
+Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
+---
+ include/linux/mm.h | 9 +++++++--
+ mm/interval_tree.c | 5 -----
+ 2 files changed, 7 insertions(+), 7 deletions(-)
 
-This series:
-
-* Exposes vma_start_pgoff() and updates the kernel to use it consistently.
-* Adds and uses the useful vma_end_pgoff() helper.
-* Parameterises the file-backed mapping helpers vma_interval_tree_*()
-  by adress_space rather than rb_root_cached.
-* Renames the misleadingly-named vma_interval_tree_*() helpers to
-  mapping_interval_tree_*() to be consistent with
-  anon_vma_interval_tree_*().
-* Parameterises anon_vma_interval_tree_*() by anon_vma.
-* Moves mm/interval_tree.c to the rmap section.
-* Adds vmg_*() helpers for page offset.
-* Clarifies the confusing vmg_adjust_set_range() function.
-* Introduces linear_page_delta() to provide relative pgoff within a VMA.
-* Replaces open-coded versions of linear_page_delta() and
-  linear_page_index() with invocations of these functions.
-* Introduces and uses vma_assert_can_modify() to account for whether a VMA
-  can be modified (detached or write locked).
-* Adds and uses vma_[add,sub]_pgoff() to adjust VMA page offset.
-* Moves __install_special_mapping() to vma.c.
-* Makes vma_set_range() static and internal to vma.c.
-* Introduces and makes use of vma_set_pgoff().
-* Fixes incorrect vma.h header inclusion.
-* Defaults VMA userland tests to 64-bit vma flags size.
-* Updates VMA userland tests to give better output on failure.
-* Various smaller cleanups.
-
-Lorenzo Stoakes (30):
-  mm: move vma_start_pgoff() into mm.h and clean up
-  mm: add kdoc comments for vma_start/last_pgoff()
-  tools/testing/vma: use vma_start_pgoff() in merge tests
-  mm: introduce and use vma_end_pgoff()
-  mm/rmap: update mm/interval_tree.c comments
-  mm/rmap: parameterise vma_interval_tree_*() by address_space
-  mm/rmap: elide unnecessary static inline's in interval_tree.c
-  mm/rmap: rename vma_interval_tree_*() to mapping_interval_tree_*()
-  mm/rmap: parameterise anon_vma_interval_tree_*() by anon_vma
-  MAINTAINERS: Move mm/interval_tree.c to rmap section
-  mm/vma: introduce and use vmg_pages(), vmg_[start, end]_pgoff()
-  mm/vma: clean up anon_vma_compatible()
-  mm/vma: refactor vmg_adjust_set_range() for clarity
-  mm/vma: minor cleanup of expand_[upwards, downwards]()
-  mm: introduce and use linear_page_delta()
-  mm/vma: use vma_start_pgoff(), linear_page_index() in mm code
-  mm: prefer vma_[start,end]_pgoff() to vma->vm_pgoff in kernel/
-  mm/vma: remove duplicative vma_pgoff_offset() helper
-  mm: use linear_page_[index, delta]() consistently
-  mm/vma: introduce vma_assert_can_modify()
-  mm/vma: add and use vma_[add/sub]_pgoff()
-  mm/vma: move __install_special_mapping() to vma.c
-  mm/vma: make vma_set_range() static, drop insert_vm_struct() decl
-  mm/vma: update vma_shrink() to not pass unnecessary pgoff parameter
-  mm/vma: update vmg_adjust_set_range() to offset pgoff instead
-  mm/vma: introduce and use vma_set_pgoff()
-  mm/vma: correct incorrect vma.h inclusion
-  mm/vma: use guard clauses in can_vma_merge_[before, after]()
-  tools/testing/vma: default VMA flag bits to 64-bit
-  tools/testing/vma: output compared expression on ASSERT_[EQ, NE]()
-
- MAINTAINERS                           |   2 +-
- arch/arm/mm/fault-armv.c              |   4 +-
- arch/arm/mm/flush.c                   |   2 +-
- arch/nios2/mm/cacheflush.c            |   2 +-
- arch/parisc/kernel/cache.c            |   2 +-
- arch/x86/kernel/cpu/sgx/virt.c        |   3 +-
- drivers/comedi/comedi_fops.c          |   3 +-
- drivers/gpu/drm/etnaviv/etnaviv_gem.c |   3 +-
- drivers/gpu/drm/gma500/gem.c          |   2 +-
- drivers/gpu/drm/msm/msm_gem.c         |   3 +-
- drivers/gpu/drm/omapdrm/omap_gem.c    |   5 +-
- drivers/gpu/drm/tegra/gem.c           |   3 +-
- drivers/gpu/drm/ttm/ttm_bo_vm.c       |   7 +-
- drivers/vfio/pci/nvgrace-gpu/main.c   |   3 +-
- drivers/vfio/pci/vfio_pci_core.c      |   3 +-
- fs/dax.c                              |   2 +-
- fs/hugetlbfs/inode.c                  |  15 +-
- include/linux/huge_mm.h               |   1 +
- include/linux/hugetlb.h               |   3 +-
- include/linux/mm.h                    | 118 +++++++++----
- include/linux/mmap_lock.h             |   8 +
- include/linux/pagemap.h               |  39 ++++-
- kernel/dma/coherent.c                 |   7 +-
- kernel/dma/direct.c                   |   6 +-
- kernel/dma/mapping.c                  |   8 +-
- kernel/dma/ops_helpers.c              |   4 +-
- kernel/events/core.c                  |  20 ++-
- kernel/events/uprobes.c               |  13 +-
- kernel/kcov.c                         |   2 +-
- kernel/trace/ring_buffer.c            |   3 +-
- mm/damon/vaddr.c                      |   5 +-
- mm/debug.c                            |   2 +-
- mm/filemap.c                          |   7 +-
- mm/huge_memory.c                      |   2 +-
- mm/hugetlb.c                          |  15 +-
- mm/internal.h                         |  33 ++--
- mm/interval_tree.c                    | 113 +++++++-----
- mm/khugepaged.c                       |   7 +-
- mm/ksm.c                              |   7 +-
- mm/madvise.c                          |   6 +-
- mm/mapping_dirty_helpers.c            |   2 +-
- mm/memory-failure.c                   |  10 +-
- mm/memory.c                           |  33 ++--
- mm/mempolicy.c                        |  13 +-
- mm/mmap.c                             |  41 +----
- mm/mmu_notifier.c                     |   2 +-
- mm/mremap.c                           |  12 +-
- mm/msync.c                            |   4 +-
- mm/nommu.c                            |  22 +--
- mm/pagewalk.c                         |   6 +-
- mm/rmap.c                             |  14 +-
- mm/shmem.c                            |   9 +-
- mm/userfaultfd.c                      |   4 +-
- mm/util.c                             |   4 +-
- mm/vma.c                              | 239 ++++++++++++++++++--------
- mm/vma.h                              |  59 ++++++-
- mm/vma_exec.c                         |  12 +-
- mm/vma_init.c                         |   6 +-
- mm/vma_internal.h                     |   4 +-
- tools/testing/vma/Makefile            |   2 +-
- tools/testing/vma/include/dup.h       |  41 ++++-
- tools/testing/vma/include/stubs.h     |  12 +-
- tools/testing/vma/shared.c            |   9 -
- tools/testing/vma/shared.h            |  36 ++--
- tools/testing/vma/tests/merge.c       |  40 ++---
- virt/kvm/guest_memfd.c                |   2 +-
- 66 files changed, 699 insertions(+), 432 deletions(-)
-
---
+diff --git a/include/linux/mm.h b/include/linux/mm.h
+index 485df9c2dbdd..059144435729 100644
+--- a/include/linux/mm.h
++++ b/include/linux/mm.h
+@@ -4278,9 +4278,14 @@ static inline unsigned long vma_pages(const struct vm_area_struct *vma)
+ 	return (vma->vm_end - vma->vm_start) >> PAGE_SHIFT;
+ }
+ 
+-static inline unsigned long vma_last_pgoff(struct vm_area_struct *vma)
++static inline pgoff_t vma_start_pgoff(const struct vm_area_struct *vma)
+ {
+-	return vma->vm_pgoff + vma_pages(vma) - 1;
++	return vma->vm_pgoff;
++}
++
++static inline pgoff_t vma_last_pgoff(const struct vm_area_struct *vma)
++{
++	return vma_start_pgoff(vma) + vma_pages(vma) - 1;
+ }
+ 
+ static inline unsigned long vma_desc_size(const struct vm_area_desc *desc)
+diff --git a/mm/interval_tree.c b/mm/interval_tree.c
+index 32bcfbfcf15f..344d1f5946c7 100644
+--- a/mm/interval_tree.c
++++ b/mm/interval_tree.c
+@@ -10,11 +10,6 @@
+ #include <linux/rmap.h>
+ #include <linux/interval_tree_generic.h>
+ 
+-static inline unsigned long vma_start_pgoff(struct vm_area_struct *v)
+-{
+-	return v->vm_pgoff;
+-}
+-
+ INTERVAL_TREE_DEFINE(struct vm_area_struct, shared.rb,
+ 		     unsigned long, shared.rb_subtree_last,
+ 		     vma_start_pgoff, vma_last_pgoff, /* empty */, vma_interval_tree)
+-- 
 2.54.0
+
