@@ -2,40 +2,40 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id R/DqAzmhQ2pvdwoAu9opvQ
+	id IitXKjShQ2ptdwoAu9opvQ
 	(envelope-from <etnaviv-bounces@lists.freedesktop.org>)
-	for <lists+etnaviv@lfdr.de>; Tue, 30 Jun 2026 12:58:01 +0200
+	for <lists+etnaviv@lfdr.de>; Tue, 30 Jun 2026 12:57:56 +0200
 X-Original-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7975A6E3404
-	for <lists+etnaviv@lfdr.de>; Tue, 30 Jun 2026 12:58:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 530096E33F3
+	for <lists+etnaviv@lfdr.de>; Tue, 30 Jun 2026 12:57:56 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=NIIvri7+;
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=jdGf9jH9;
 	spf=pass (mail.lfdr.de: domain of etnaviv-bounces@lists.freedesktop.org designates 131.252.210.177 as permitted sender) smtp.mailfrom=etnaviv-bounces@lists.freedesktop.org;
 	dmarc=pass (policy=quarantine) header.from=kernel.org
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 49EC510EC33;
-	Tue, 30 Jun 2026 10:57:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0CB5710EC81;
+	Tue, 30 Jun 2026 10:57:52 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C391310E870;
- Mon, 29 Jun 2026 12:24:49 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9235110E870;
+ Mon, 29 Jun 2026 12:24:52 +0000 (UTC)
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
- by sea.source.kernel.org (Postfix) with ESMTP id 9D65241905;
- Mon, 29 Jun 2026 12:24:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B13381F000E9;
- Mon, 29 Jun 2026 12:24:48 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 76CF743E4E;
+ Mon, 29 Jun 2026 12:24:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A3A41F00A3D;
+ Mon, 29 Jun 2026 12:24:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
- s=k20260515; t=1782735889;
- bh=pNf2vZLs0Ll45B4pKyb976+6a6p0KPUKwIl6t6WJtJE=;
+ s=k20260515; t=1782735892;
+ bh=+tfecYI3iCL9+dzv6JtnQtpRoRey92E96q+WqEoW8Sw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References;
- b=NIIvri7+xMYzLim1PkfG/ho1mN+c9wfJYOoMG5RAAbL4KacfAhSRvbPZdT+r5T04k
- WAZFffkPoN9trQ/+yCnF2yVOcZikQi67qHMu8Gkfbdgz9aWvYK0MORbqEDNaMw+x56
- K8lOXoq6WRvCNKB7YFZpD6ffvCVeS36Nh4pQ82MX0sqTXfUyNE7/zj8ANh7D70Jpu4
- +Mi5eloSuherPvTbQK0z0Z0UtoSMHj1IP+0q/uR2bJt+3EThjagVfw0k0q3Mm9d8M/
- 6ev1pefTPiYeFjOMFmb+/b0HMnsv1ZDkoYky7cdihOqNla7gdHc5hH2+xVLh2cAdxM
- K1VekTqZ/PREw==
+ b=jdGf9jH9adsBJRms93JJP2hO4xGy6V0e5hV2nXk2WS0hZ2yJvg9go1tFLhsAXUrnd
+ D1dST5LU5l7l/ozI1VERvCoxX9njVJSdFvvIaWCvBDsDWfzkGyRiq325cmVLrry1Zy
+ ws0snYdC7Z709CZvZySt0/MydVXYxo6HK0m+11iIQmh+aUD5W6SCmgucHBfO/XgDSB
+ dWPU0haqhNHmmmg7aldX6EIdMkp7hJzh0g+78x/8Knt2+ALN7yHG00bcvR6zhVKvcQ
+ rMq/f+Xh9kkJlTpeda7U2Jpw4Ur9pBeReuM1xj9AfSoMAEC/ukDTYL0C2FbWs+cPhH
+ PIRri4XkVH9Eg==
 From: Lorenzo Stoakes <ljs@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>
 Cc: Russell King <linux@armlinux.org.uk>, Dinh Nguyen <dinguyen@kernel.org>,
@@ -86,9 +86,9 @@ Cc: Russell King <linux@armlinux.org.uk>, Dinh Nguyen <dinguyen@kernel.org>,
  damon@lists.linux.dev, Pedro Falcato <pfalcato@suse.de>,
  Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>,
  Jann Horn <jannh@google.com>
-Subject: [PATCH 18/30] mm/vma: remove duplicative vma_pgoff_offset() helper
-Date: Mon, 29 Jun 2026 13:23:29 +0100
-Message-ID: <10671c2fc5d0dd4e3bf497181923e63e46053df1.1782735110.git.ljs@kernel.org>
+Subject: [PATCH 19/30] mm: use linear_page_[index, delta]() consistently
+Date: Mon, 29 Jun 2026 13:23:30 +0100
+Message-ID: <bf56e2e98b512962a2fb88900d535a0e9e6769d8.1782735110.git.ljs@kernel.org>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <cover.1782735110.git.ljs@kernel.org>
 References: <cover.1782735110.git.ljs@kernel.org>
@@ -136,74 +136,302 @@ X-Spamd-Result: default: False [1.69 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[etnaviv];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.freedesktop.org:from_smtp,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,lists.freedesktop.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 7975A6E3404
+X-Rspamd-Queue-Id: 530096E33F3
 
-This is doing what linear_page_index() does, so eliminate it and replace it
-with linear_page_index().
+There are a number of places where we open code what linear_page_index()
+and linear_page_delta() calculate.
 
-Update the VMA userland tests to reflect this change.
+Replace this code with the appropriate functions for consistency.
 
 No functional change intended.
 
 Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
 ---
- mm/vma.h                        |  9 +--------
- tools/testing/vma/include/dup.h | 16 ++++++++++++++++
- 2 files changed, 17 insertions(+), 8 deletions(-)
+ arch/arm/mm/fault-armv.c              | 2 +-
+ arch/x86/kernel/cpu/sgx/virt.c        | 3 ++-
+ drivers/comedi/comedi_fops.c          | 3 ++-
+ drivers/gpu/drm/etnaviv/etnaviv_gem.c | 3 ++-
+ drivers/gpu/drm/gma500/gem.c          | 2 +-
+ drivers/gpu/drm/msm/msm_gem.c         | 3 ++-
+ drivers/gpu/drm/omapdrm/omap_gem.c    | 5 +++--
+ drivers/gpu/drm/tegra/gem.c           | 3 ++-
+ drivers/gpu/drm/ttm/ttm_bo_vm.c       | 7 ++++---
+ drivers/vfio/pci/nvgrace-gpu/main.c   | 3 ++-
+ drivers/vfio/pci/vfio_pci_core.c      | 3 ++-
+ mm/nommu.c                            | 2 +-
+ mm/vma.c                              | 2 +-
+ virt/kvm/guest_memfd.c                | 2 +-
+ 14 files changed, 26 insertions(+), 17 deletions(-)
 
-diff --git a/mm/vma.h b/mm/vma.h
-index 527716c8739d..2342516ce00e 100644
---- a/mm/vma.h
-+++ b/mm/vma.h
-@@ -247,13 +247,6 @@ static inline pgoff_t vmg_end_pgoff(const struct vma_merge_struct *vmg)
- 	return vmg_start_pgoff(vmg) + vmg_pages(vmg);
+diff --git a/arch/arm/mm/fault-armv.c b/arch/arm/mm/fault-armv.c
+index bd1ad4181a53..306cfd7b0765 100644
+--- a/arch/arm/mm/fault-armv.c
++++ b/arch/arm/mm/fault-armv.c
+@@ -132,7 +132,7 @@ make_coherent(struct address_space *mapping, struct vm_area_struct *vma,
+ 	pgoff_t pgoff;
+ 	int aliases = 0;
+ 
+-	pgoff = vma->vm_pgoff + ((addr - vma->vm_start) >> PAGE_SHIFT);
++	pgoff = linear_page_index(vma, addr);
+ 
+ 	/*
+ 	 * If we have any shared mappings that are in the same mm
+diff --git a/arch/x86/kernel/cpu/sgx/virt.c b/arch/x86/kernel/cpu/sgx/virt.c
+index db6806c40483..6a1933ddc6fc 100644
+--- a/arch/x86/kernel/cpu/sgx/virt.c
++++ b/arch/x86/kernel/cpu/sgx/virt.c
+@@ -9,6 +9,7 @@
+ #include <linux/miscdevice.h>
+ #include <linux/mm.h>
+ #include <linux/mman.h>
++#include <linux/pagemap.h>
+ #include <linux/sched/mm.h>
+ #include <linux/sched/signal.h>
+ #include <linux/slab.h>
+@@ -41,7 +42,7 @@ static int __sgx_vepc_fault(struct sgx_vepc *vepc,
+ 	WARN_ON(!mutex_is_locked(&vepc->lock));
+ 
+ 	/* Calculate index of EPC page in virtual EPC's page_array */
+-	index = vma->vm_pgoff + PFN_DOWN(addr - vma->vm_start);
++	index = linear_page_index(vma, addr);
+ 
+ 	epc_page = xa_load(&vepc->page_array, index);
+ 	if (epc_page)
+diff --git a/drivers/comedi/comedi_fops.c b/drivers/comedi/comedi_fops.c
+index c09bbe04be6c..536c25d8dcee 100644
+--- a/drivers/comedi/comedi_fops.c
++++ b/drivers/comedi/comedi_fops.c
+@@ -25,6 +25,7 @@
+ #include <linux/fs.h>
+ #include <linux/comedi/comedidev.h>
+ #include <linux/cdev.h>
++#include <linux/pagemap.h>
+ 
+ #include <linux/io.h>
+ #include <linux/uaccess.h>
+@@ -2462,7 +2463,7 @@ static int comedi_vm_access(struct vm_area_struct *vma, unsigned long addr,
+ {
+ 	struct comedi_buf_map *bm = vma->vm_private_data;
+ 	unsigned long offset =
+-	    addr - vma->vm_start + (vma->vm_pgoff << PAGE_SHIFT);
++	    addr - vma->vm_start + (vma_start_pgoff(vma) << PAGE_SHIFT);
+ 
+ 	if (len < 0)
+ 		return -EINVAL;
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+index b0436a1e103f..2e4d6d117ee2 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+@@ -6,6 +6,7 @@
+ #include <drm/drm_prime.h>
+ #include <drm/drm_print.h>
+ #include <linux/dma-mapping.h>
++#include <linux/pagemap.h>
+ #include <linux/shmem_fs.h>
+ #include <linux/spinlock.h>
+ #include <linux/vmalloc.h>
+@@ -188,7 +189,7 @@ static vm_fault_t etnaviv_gem_fault(struct vm_fault *vmf)
+ 	}
+ 
+ 	/* We don't use vmf->pgoff since that has the fake offset: */
+-	pgoff = (vmf->address - vma->vm_start) >> PAGE_SHIFT;
++	pgoff = linear_page_delta(vma, vmf->address);
+ 
+ 	pfn = page_to_pfn(pages[pgoff]);
+ 
+diff --git a/drivers/gpu/drm/gma500/gem.c b/drivers/gpu/drm/gma500/gem.c
+index 88f1e86c8903..2708e8c68f4c 100644
+--- a/drivers/gpu/drm/gma500/gem.c
++++ b/drivers/gpu/drm/gma500/gem.c
+@@ -288,7 +288,7 @@ static vm_fault_t psb_gem_fault(struct vm_fault *vmf)
+ 
+ 	/* Page relative to the VMA start - we must calculate this ourselves
+ 	   because vmf->pgoff is the fake GEM offset */
+-	page_offset = (vmf->address - vma->vm_start) >> PAGE_SHIFT;
++	page_offset = linear_page_delta(vma, vmf->address);
+ 
+ 	/* CPU view of the page, don't go via the GART for CPU writes */
+ 	if (pobj->stolen)
+diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
+index efd3d3c9a449..cbf723a5d86f 100644
+--- a/drivers/gpu/drm/msm/msm_gem.c
++++ b/drivers/gpu/drm/msm/msm_gem.c
+@@ -9,6 +9,7 @@
+ #include <linux/spinlock.h>
+ #include <linux/shmem_fs.h>
+ #include <linux/dma-buf.h>
++#include <linux/pagemap.h>
+ 
+ #include <drm/drm_dumb_buffers.h>
+ #include <drm/drm_prime.h>
+@@ -360,7 +361,7 @@ static vm_fault_t msm_gem_fault(struct vm_fault *vmf)
+ 	}
+ 
+ 	/* We don't use vmf->pgoff since that has the fake offset: */
+-	pgoff = (vmf->address - vma->vm_start) >> PAGE_SHIFT;
++	pgoff = linear_page_delta(vma, vmf->address);
+ 
+ 	pfn = page_to_pfn(pages[pgoff]);
+ 
+diff --git a/drivers/gpu/drm/omapdrm/omap_gem.c b/drivers/gpu/drm/omapdrm/omap_gem.c
+index 8e013e4f2c6b..00404fb6c29a 100644
+--- a/drivers/gpu/drm/omapdrm/omap_gem.c
++++ b/drivers/gpu/drm/omapdrm/omap_gem.c
+@@ -5,6 +5,7 @@
+  */
+ 
+ #include <linux/dma-mapping.h>
++#include <linux/pagemap.h>
+ #include <linux/seq_file.h>
+ #include <linux/shmem_fs.h>
+ #include <linux/spinlock.h>
+@@ -359,7 +360,7 @@ static vm_fault_t omap_gem_fault_1d(struct drm_gem_object *obj,
+ 	pgoff_t pgoff;
+ 
+ 	/* We don't use vmf->pgoff since that has the fake offset: */
+-	pgoff = (vmf->address - vma->vm_start) >> PAGE_SHIFT;
++	pgoff = linear_page_delta(vma, vmf->address);
+ 
+ 	if (omap_obj->pages) {
+ 		omap_gem_cpu_sync_page(obj, pgoff);
+@@ -407,7 +408,7 @@ static vm_fault_t omap_gem_fault_2d(struct drm_gem_object *obj,
+ 	const int m = DIV_ROUND_UP(omap_obj->width << fmt, PAGE_SIZE);
+ 
+ 	/* We don't use vmf->pgoff since that has the fake offset: */
+-	pgoff = (vmf->address - vma->vm_start) >> PAGE_SHIFT;
++	pgoff = linear_page_delta(vma, vmf->address);
+ 
+ 	/*
+ 	 * Actual address we start mapping at is rounded down to previous slot
+diff --git a/drivers/gpu/drm/tegra/gem.c b/drivers/gpu/drm/tegra/gem.c
+index 436394e04812..1d8d27a5ea89 100644
+--- a/drivers/gpu/drm/tegra/gem.c
++++ b/drivers/gpu/drm/tegra/gem.c
+@@ -13,6 +13,7 @@
+ #include <linux/dma-buf.h>
+ #include <linux/iommu.h>
+ #include <linux/module.h>
++#include <linux/pagemap.h>
+ #include <linux/vmalloc.h>
+ 
+ #include <drm/drm_drv.h>
+@@ -564,7 +565,7 @@ static vm_fault_t tegra_bo_fault(struct vm_fault *vmf)
+ 	if (!bo->pages)
+ 		return VM_FAULT_SIGBUS;
+ 
+-	offset = (vmf->address - vma->vm_start) >> PAGE_SHIFT;
++	offset = linear_page_delta(vma, vmf->address);
+ 	page = bo->pages[offset];
+ 
+ 	return vmf_insert_page(vma, vmf->address, page);
+diff --git a/drivers/gpu/drm/ttm/ttm_bo_vm.c b/drivers/gpu/drm/ttm/ttm_bo_vm.c
+index a80510489c45..88babf435ac2 100644
+--- a/drivers/gpu/drm/ttm/ttm_bo_vm.c
++++ b/drivers/gpu/drm/ttm/ttm_bo_vm.c
+@@ -32,6 +32,7 @@
+ #define pr_fmt(fmt) "[TTM] " fmt
+ 
+ #include <linux/export.h>
++#include <linux/pagemap.h>
+ 
+ #include <drm/ttm/ttm_bo.h>
+ #include <drm/ttm/ttm_placement.h>
+@@ -208,9 +209,9 @@ vm_fault_t ttm_bo_vm_fault_reserved(struct vm_fault *vmf,
+ 	if (unlikely(err != 0))
+ 		return VM_FAULT_SIGBUS;
+ 
+-	page_offset = ((address - vma->vm_start) >> PAGE_SHIFT) +
+-		vma->vm_pgoff - drm_vma_node_start(&bo->base.vma_node);
+-	page_last = vma_pages(vma) + vma->vm_pgoff -
++	page_offset = linear_page_index(vma, address) -
++		drm_vma_node_start(&bo->base.vma_node);
++	page_last = vma_end_pgoff(vma) -
+ 		drm_vma_node_start(&bo->base.vma_node);
+ 
+ 	if (unlikely(page_offset >= PFN_UP(bo->base.size)))
+diff --git a/drivers/vfio/pci/nvgrace-gpu/main.c b/drivers/vfio/pci/nvgrace-gpu/main.c
+index d07dcacb76bd..963fd8ded20d 100644
+--- a/drivers/vfio/pci/nvgrace-gpu/main.c
++++ b/drivers/vfio/pci/nvgrace-gpu/main.c
+@@ -11,6 +11,7 @@
+ #include <linux/jiffies.h>
+ #include <linux/sched.h>
+ #include <linux/pci-p2pdma.h>
++#include <linux/pagemap.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/memory-failure.h>
+ 
+@@ -385,7 +386,7 @@ static unsigned long addr_to_pgoff(struct vm_area_struct *vma,
+ 	u64 pgoff = vma->vm_pgoff &
+ 		((1U << (VFIO_PCI_OFFSET_SHIFT - PAGE_SHIFT)) - 1);
+ 
+-	return ((addr - vma->vm_start) >> PAGE_SHIFT) + pgoff;
++	return linear_page_delta(vma, addr) + pgoff;
  }
  
--/* Assumes addr >= vma->vm_start. */
--static inline pgoff_t vma_pgoff_offset(struct vm_area_struct *vma,
--				       unsigned long addr)
--{
--	return vma->vm_pgoff + PHYS_PFN(addr - vma->vm_start);
--}
--
- #define VMG_STATE(name, mm_, vmi_, start_, end_, vma_flags_, pgoff_)	\
- 	struct vma_merge_struct name = {				\
- 		.mm = mm_,						\
-@@ -275,7 +268,7 @@ static inline pgoff_t vma_pgoff_offset(struct vm_area_struct *vma,
- 		.start = start_,				\
- 		.end = end_,					\
- 		.vm_flags = vma_->vm_flags,			\
--		.pgoff = vma_pgoff_offset(vma_, start_),	\
-+		.pgoff = linear_page_index(vma_, start_),	\
- 		.file = vma_->vm_file,				\
- 		.anon_vma = vma_->anon_vma,			\
- 		.policy = vma_policy(vma_),			\
-diff --git a/tools/testing/vma/include/dup.h b/tools/testing/vma/include/dup.h
-index 535747d7fee4..7ed165c8d9bc 100644
---- a/tools/testing/vma/include/dup.h
-+++ b/tools/testing/vma/include/dup.h
-@@ -1548,3 +1548,19 @@ static inline pgprot_t vma_get_page_prot(vma_flags_t vma_flags)
+ static vm_fault_t nvgrace_gpu_vfio_pci_huge_fault(struct vm_fault *vmf,
+diff --git a/drivers/vfio/pci/vfio_pci_core.c b/drivers/vfio/pci/vfio_pci_core.c
+index a28f1e99362c..55d4937d495a 100644
+--- a/drivers/vfio/pci/vfio_pci_core.c
++++ b/drivers/vfio/pci/vfio_pci_core.c
+@@ -19,6 +19,7 @@
+ #include <linux/module.h>
+ #include <linux/mutex.h>
+ #include <linux/notifier.h>
++#include <linux/pagemap.h>
+ #include <linux/pci.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/slab.h>
+@@ -1727,7 +1728,7 @@ static vm_fault_t vfio_pci_mmap_huge_fault(struct vm_fault *vmf,
+ 	struct vm_area_struct *vma = vmf->vma;
+ 	struct vfio_pci_core_device *vdev = vma->vm_private_data;
+ 	unsigned long addr = vmf->address & ~((PAGE_SIZE << order) - 1);
+-	unsigned long pgoff = (addr - vma->vm_start) >> PAGE_SHIFT;
++	unsigned long pgoff = linear_page_delta(vma, addr);
+ 	unsigned long pfn = vma_to_pfn(vma) + pgoff;
+ 	vm_fault_t ret = VM_FAULT_FALLBACK;
  
- 	return vm_get_page_prot(vm_flags);
- }
-+
-+static inline pgoff_t linear_page_delta(const struct vm_area_struct *vma,
-+					const unsigned long address)
-+{
-+	return (address - vma->vm_start) >> PAGE_SHIFT;
-+}
-+
-+static inline pgoff_t linear_page_index(const struct vm_area_struct *vma,
-+					const unsigned long address)
-+{
-+	pgoff_t pgoff;
-+
-+	pgoff = linear_page_delta(vma, address);
-+	pgoff += vma_start_pgoff(vma);
-+	return pgoff;
-+}
+diff --git a/mm/nommu.c b/mm/nommu.c
+index 60560b2c457e..7333d855e974 100644
+--- a/mm/nommu.c
++++ b/mm/nommu.c
+@@ -1332,7 +1332,7 @@ static int split_vma(struct vma_iterator *vmi, struct vm_area_struct *vma,
+ 	*region = *vma->vm_region;
+ 	new->vm_region = region;
+ 
+-	npages = (addr - vma->vm_start) >> PAGE_SHIFT;
++	npages = linear_page_delta(vma, addr);
+ 
+ 	if (new_below) {
+ 		region->vm_top = region->vm_end = new->vm_end = addr;
+diff --git a/mm/vma.c b/mm/vma.c
+index ee3a8ca13d07..185d07397ca6 100644
+--- a/mm/vma.c
++++ b/mm/vma.c
+@@ -517,7 +517,7 @@ __split_vma(struct vma_iterator *vmi, struct vm_area_struct *vma,
+ 		new->vm_end = addr;
+ 	} else {
+ 		new->vm_start = addr;
+-		new->vm_pgoff += ((addr - vma->vm_start) >> PAGE_SHIFT);
++		new->vm_pgoff += linear_page_delta(vma, addr);
+ 	}
+ 
+ 	err = -ENOMEM;
+diff --git a/virt/kvm/guest_memfd.c b/virt/kvm/guest_memfd.c
+index db57c5766ab6..f0e5da490866 100644
+--- a/virt/kvm/guest_memfd.c
++++ b/virt/kvm/guest_memfd.c
+@@ -440,7 +440,7 @@ static int kvm_gmem_set_policy(struct vm_area_struct *vma, struct mempolicy *mpo
+ static struct mempolicy *kvm_gmem_get_policy(struct vm_area_struct *vma,
+ 					     unsigned long addr, pgoff_t *ilx)
+ {
+-	pgoff_t pgoff = vma->vm_pgoff + ((addr - vma->vm_start) >> PAGE_SHIFT);
++	pgoff_t pgoff = linear_page_index(vma, addr);
+ 	struct inode *inode = file_inode(vma->vm_file);
+ 
+ 	*ilx = inode->i_ino;
 -- 
 2.54.0
 
