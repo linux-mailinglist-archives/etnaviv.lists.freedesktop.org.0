@@ -2,40 +2,40 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id SnfNLi2hQ2oNdwoAu9opvQ
+	id os2yKy2hQ2oJdwoAu9opvQ
 	(envelope-from <etnaviv-bounces@lists.freedesktop.org>)
 	for <lists+etnaviv@lfdr.de>; Tue, 30 Jun 2026 12:57:49 +0200
 X-Original-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50F4C6E333B
+	by mail.lfdr.de (Postfix) with ESMTPS id 131676E3338
 	for <lists+etnaviv@lfdr.de>; Tue, 30 Jun 2026 12:57:49 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=gbRlBt02;
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=RgZY26GF;
 	spf=pass (mail.lfdr.de: domain of etnaviv-bounces@lists.freedesktop.org designates 131.252.210.177 as permitted sender) smtp.mailfrom=etnaviv-bounces@lists.freedesktop.org;
 	dmarc=pass (policy=quarantine) header.from=kernel.org
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1642910EC39;
-	Tue, 30 Jun 2026 10:57:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D00E210EC35;
+	Tue, 30 Jun 2026 10:57:47 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6897710E06A;
- Mon, 29 Jun 2026 12:24:32 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A054110E871;
+ Mon, 29 Jun 2026 12:24:34 +0000 (UTC)
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
- by tor.source.kernel.org (Postfix) with ESMTP id C3636600AA;
- Mon, 29 Jun 2026 12:24:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B55091F00A3A;
- Mon, 29 Jun 2026 12:24:30 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 7AAB041A2F;
+ Mon, 29 Jun 2026 12:24:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90B261F000E9;
+ Mon, 29 Jun 2026 12:24:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
- s=k20260515; t=1782735871;
- bh=lDqHHLYLI8SULeQcrQbbmm1Xqv4SbCojm3yMjIkoYS4=;
+ s=k20260515; t=1782735874;
+ bh=g8hFMC27gURJNhB6p0eY8jCsWeWrDR4QrXmiBvTta7E=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References;
- b=gbRlBt02eZV32vXAx1N9ysOeq0S6bwI9Ce2BPgKuRfpVZlRZdgJ+Rc9bshTzbaA/Y
- W14Sww3HyjEdedsUcYMcpQ9oUG/ausaLK7qwWO/ObfDuCVFHpJi681zlmHI1oY44qw
- JuYWfnS14KRRMRCqN6X7rVTIgwoB+b+Q7CFljrLUmX4CHXFe+lXtsfDfiR+NpSZg/6
- VFAgvA186XL/RNO5OBNYDw+9qoiTSPd1SJA4VjVv6xPifTqqwKvmIhr/L00cadwwD/
- Av7DzDW/ixy/Z1oRx3ExXlGkJB1de3WNQx1EoGzP7SZH1bGKaVpj5CUFZ1WpGLIrVF
- Z+35Yut2os7Xw==
+ b=RgZY26GFPwRTB1pZ7k8Hjrkht1yhlMQPpzLMXpSHyJE/iJGDN7j65pJ81hC/gtgLX
+ TIXGR9Pmq2Hxctix/kWtNogsZ/VpxS9rEtLqkjyg+2gCc64vbLA1kjiihuPpSGgVqn
+ 5JE/+voej08NE9+VTMp/13Hp/4FeI8UWueVZot/5DzUfLHtSYw42SyKNlH2Be9bcXj
+ S5L9pNn+ueyRVBev/leVYE6cKXlQlFTi7KLCH/hDrN51Ijk2orVDyg60yHbU+yCkn0
+ GD8zPsNv+frXWvkaGHFxjbjgZFYsSeY3aqb2c33rePaO6yVCRySC9q7kmsMnG53f98
+ 8frGbDucBM2cA==
 From: Lorenzo Stoakes <ljs@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>
 Cc: Russell King <linux@armlinux.org.uk>, Dinh Nguyen <dinguyen@kernel.org>,
@@ -86,9 +86,9 @@ Cc: Russell King <linux@armlinux.org.uk>, Dinh Nguyen <dinguyen@kernel.org>,
  damon@lists.linux.dev, Pedro Falcato <pfalcato@suse.de>,
  Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>,
  Jann Horn <jannh@google.com>
-Subject: [PATCH 12/30] mm/vma: clean up anon_vma_compatible()
-Date: Mon, 29 Jun 2026 13:23:23 +0100
-Message-ID: <5a7a07bd2a774989849b0fea84f758059ed914df.1782735110.git.ljs@kernel.org>
+Subject: [PATCH 13/30] mm/vma: refactor vmg_adjust_set_range() for clarity
+Date: Mon, 29 Jun 2026 13:23:24 +0100
+Message-ID: <ada7972f49ea7f1ff1df6d11e4651f270444f8fd.1782735110.git.ljs@kernel.org>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <cover.1782735110.git.ljs@kernel.org>
 References: <cover.1782735110.git.ljs@kernel.org>
@@ -136,55 +136,87 @@ X-Spamd-Result: default: False [1.69 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[etnaviv];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,lists.freedesktop.org:from_smtp]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.freedesktop.org:from_smtp,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 50F4C6E333B
+X-Rspamd-Queue-Id: 131676E3338
 
-Break up the existing very large conditional, add comments and use
-vma_[start/end]_pgoff() to make clearer what we're doing here.
+Add comments with ASCII diagrams to describe what we're doing, avoid
+dubious use of PHYS_PFN(), and use vma_start_pgoff().
+
+The most complicated scenario represented here is vmg->__adjust_next_start
+- when this is set, vmg->[start, end] actually indicate the range to be
+retained, so take special care to describe this accurately.
 
 No functional change intended.
 
 Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
 ---
- mm/vma.c | 21 ++++++++++++++++-----
- 1 file changed, 16 insertions(+), 5 deletions(-)
+ mm/vma.c | 51 +++++++++++++++++++++++++++++++++++++++++++++++----
+ 1 file changed, 47 insertions(+), 4 deletions(-)
 
 diff --git a/mm/vma.c b/mm/vma.c
-index b60375c6c5c3..6296acecf3b7 100644
+index 6296acecf3b7..1e99fe8aa6ef 100644
 --- a/mm/vma.c
 +++ b/mm/vma.c
-@@ -1967,14 +1967,25 @@ static int anon_vma_compatible(struct vm_area_struct *a, struct vm_area_struct *
- {
- 	vma_flags_t diff = vma_flags_diff_pair(&a->flags, &b->flags);
+@@ -704,11 +704,54 @@ static void vmg_adjust_set_range(struct vma_merge_struct *vmg)
+ 	pgoff_t pgoff;
  
-+	/* Ignore flags that mprotect() can change. */
- 	vma_flags_clear_mask(&diff, VMA_ACCESS_FLAGS);
-+	/* Ignore flags that do not impact merging. */
- 	vma_flags_clear_mask(&diff, VMA_IGNORE_MERGE_FLAGS);
- 
--	return a->vm_end == b->vm_start &&
--		mpol_equal(vma_policy(a), vma_policy(b)) &&
--		a->vm_file == b->vm_file &&
--		vma_flags_empty(&diff) &&
--		b->vm_pgoff == a->vm_pgoff + ((b->vm_start - a->vm_start) >> PAGE_SHIFT);
-+	/* Must be adjacent. */
-+	if (a->vm_end != b->vm_start)
-+		return false;
-+	/* Must have matching policy. */
-+	if (!mpol_equal(vma_policy(a), vma_policy(b)))
-+		return false;
-+	/* Must both be anon or map the same file (MAP_PRIVATE case). */
-+	if (a->vm_file != b->vm_file)
-+		return false;
-+	/* Flags must be equivalent modulo mprotect(). */
-+	if (!vma_flags_empty(&diff))
-+		return false;
-+	/* Page offset must align. */
-+	return vma_end_pgoff(a) == vma_start_pgoff(b);
- }
- 
- /*
+ 	if (vmg->__adjust_middle_start) {
+-		adjust = vmg->middle;
+-		pgoff = adjust->vm_pgoff + PHYS_PFN(vmg->end - adjust->vm_start);
++		/*
++		 * vmg->start    vmg->end
++		 * |             |
++		 * v    merge    v
++		 * <------------->
++		 *         delta
++		 *        <------>
++		 * |------|----------------|
++		 * | prev |    middle      |
++		 * |------|----------------|
++		 *        ^
++		 *        |
++		 *        middle->vm_start
++		 */
++		struct vm_area_struct *middle = vmg->middle;
++		const unsigned long delta = vmg->end - middle->vm_start;
++
++		pgoff = vma_start_pgoff(middle) + (delta >> PAGE_SHIFT);
++		adjust = middle;
+ 	} else if (vmg->__adjust_next_start) {
+-		adjust = vmg->next;
+-		pgoff = adjust->vm_pgoff - PHYS_PFN(adjust->vm_start - vmg->end);
++		/*
++		 *                Originally:
++		 *
++		 *            vmg->start   vmg->end
++		 *            |            |
++		 *            v    merge   v
++		 *            <------------>
++		 *            .            .
++		 * merge_existing_range() updates to:
++		 *            .            .
++		 * vmg->start vmg->end     .
++		 * |          |            .
++		 * v  retain  v            .
++		 * <---------->            .
++		 *             delta       .
++		 *            <----->      .
++		 * |----------------|------|
++		 * |    middle      | next |
++		 * |----------------|------|
++		 *                  ^
++		 *                  |
++		 *                  next->vm_start
++		 */
++		struct vm_area_struct *next = vmg->next;
++		const unsigned long delta = next->vm_start - vmg->end;
++
++		pgoff = vma_start_pgoff(next) - (delta >> PAGE_SHIFT);
++		adjust = next;
+ 	} else {
+ 		return;
+ 	}
 -- 
 2.54.0
 
