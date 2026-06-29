@@ -2,40 +2,40 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id umN9HTKhQ2pfdwoAu9opvQ
+	id 4Z2AOjOhQ2pndwoAu9opvQ
 	(envelope-from <etnaviv-bounces@lists.freedesktop.org>)
-	for <lists+etnaviv@lfdr.de>; Tue, 30 Jun 2026 12:57:54 +0200
+	for <lists+etnaviv@lfdr.de>; Tue, 30 Jun 2026 12:57:55 +0200
 X-Original-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 123936E33B9
-	for <lists+etnaviv@lfdr.de>; Tue, 30 Jun 2026 12:57:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 979136E33E4
+	for <lists+etnaviv@lfdr.de>; Tue, 30 Jun 2026 12:57:55 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=LzaVIJgs;
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=N9kcot1+;
 	spf=pass (mail.lfdr.de: domain of etnaviv-bounces@lists.freedesktop.org designates 131.252.210.177 as permitted sender) smtp.mailfrom=etnaviv-bounces@lists.freedesktop.org;
 	dmarc=pass (policy=quarantine) header.from=kernel.org
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 936D110EC67;
-	Tue, 30 Jun 2026 10:57:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F36210EC77;
+	Tue, 30 Jun 2026 10:57:51 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9DE1210E880;
- Mon, 29 Jun 2026 12:25:19 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 07EF410E889;
+ Mon, 29 Jun 2026 12:25:22 +0000 (UTC)
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
- by tor.source.kernel.org (Postfix) with ESMTP id 15287600AA;
- Mon, 29 Jun 2026 12:25:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1854A1F000E9;
- Mon, 29 Jun 2026 12:25:18 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id D436743BE2;
+ Mon, 29 Jun 2026 12:25:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E66421F00A3A;
+ Mon, 29 Jun 2026 12:25:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
- s=k20260515; t=1782735918;
- bh=Jss+F81DP/cs0B/Pcj9h2s0BrMlGB7h7WXj2K0PFk1s=;
+ s=k20260515; t=1782735921;
+ bh=rHOb9ve3jYcE/W9RyXVRFM5l4Jk2KuXJSM2ur2HmA8o=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References;
- b=LzaVIJgsys62G+Y5l1WPaL5KQg6Z9HDAWxSbs7bAkvDQSJaO1VHm9gvWufC4VLmRZ
- jM7dpVcbVkF0SaP5Ojhs2zhRfm/Pm/c57mYs4zRHf+LvG8Gz2lV5Zd7jFguf/A+Aer
- MvdUsRxGB7wdbuOShGZQOpB/BZ+xQu0z6RpiPRZlQcVRrODtCGFjFyGztrKJcLuJVT
- F/kWSDsg+64kaSG4Gtj04lo6i96YLOeVRijxNkFR2Vl4HpUl1qyQJZrEJ1ZttLFyuJ
- VZzxp13dMEaBPNzJjC3VctdXBDUgzvzJmDPej1MoZQWyEpxYqX6bktXABOszXoE8oJ
- Ilp56I6Xu/UJQ==
+ b=N9kcot1+WY2jypsv4U6kyLKClwmxgtXnpUiiDsh9uB4wjsv/6mJ3uO8Mm+KlvRTpt
+ x95DOn031RIiOjhD9YBKvRsJ3SWRscOOHqXP5//ffbZRcn2+ZeOGSqWcDJL8lpSdT6
+ 9xiMjnB7g5DmFlroBbERwFk8HFxqwumjaOz9YYOFNe+t1tNkvjM4Dw8POSV8W15821
+ j0S2qUg2MPsEO6oUCpFNLuavOjl181R825Q1U0o2hykdFp0yv8/ZlyQqKxPThBHA+b
+ ZaWet0RIDIpDhYPXxPyW/nHY7c+UePobu/bAvV+uoPejolMs3FGhsJpEMMh+z+0i3V
+ QBTJtGRqk2zcw==
 From: Lorenzo Stoakes <ljs@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>
 Cc: Russell King <linux@armlinux.org.uk>, Dinh Nguyen <dinguyen@kernel.org>,
@@ -86,10 +86,9 @@ Cc: Russell King <linux@armlinux.org.uk>, Dinh Nguyen <dinguyen@kernel.org>,
  damon@lists.linux.dev, Pedro Falcato <pfalcato@suse.de>,
  Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>,
  Jann Horn <jannh@google.com>
-Subject: [PATCH 28/30] mm/vma: use guard clauses in can_vma_merge_[before,
- after]()
-Date: Mon, 29 Jun 2026 13:23:39 +0100
-Message-ID: <213918ef85ed427d29d0635db6b07b15280d3bb0.1782735110.git.ljs@kernel.org>
+Subject: [PATCH 29/30] tools/testing/vma: default VMA flag bits to 64-bit
+Date: Mon, 29 Jun 2026 13:23:40 +0100
+Message-ID: <27cd07f6dd862d92410cf9db03f7c11e5f66854d.1782735110.git.ljs@kernel.org>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <cover.1782735110.git.ljs@kernel.org>
 References: <cover.1782735110.git.ljs@kernel.org>
@@ -137,69 +136,34 @@ X-Spamd-Result: default: False [1.69 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[etnaviv];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,lists.freedesktop.org:from_smtp]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.freedesktop.org:from_smtp,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 123936E33B9
+X-Rspamd-Queue-Id: 979136E33E4
 
-Rather than combining a bunch of conditionals in a single expression,
-simplify by inverting the mergeability requirements into guard clauses.
+With all of the sanitisers turned on, setting the VMA flag bits depth to
+128 by default results in overly long build times.
 
-that is - instead of checking what must be true for the conditions to be
-met, instead check the inverse of the requirements and return false if any
-are true, defaulting to true.
-
-No functional change intended.
+Reduce this to 64 - we can always manipulate these later for testing of
+larger bitmaps as needed.
 
 Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
 ---
- mm/vma.c | 27 ++++++++++++++-------------
- 1 file changed, 14 insertions(+), 13 deletions(-)
+ tools/testing/vma/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/mm/vma.c b/mm/vma.c
-index 5c3062e0e706..7201199fc668 100644
---- a/mm/vma.c
-+++ b/mm/vma.c
-@@ -215,13 +215,13 @@ static void init_multi_vma_prep(struct vma_prepare *vp,
-  */
- static bool can_vma_merge_before(struct vma_merge_struct *vmg)
- {
--	if (is_mergeable_vma(vmg, /* merge_next = */ true) &&
--	    is_mergeable_anon_vma(vmg, /* merge_next = */ true)) {
--		if (vmg_end_pgoff(vmg) == vma_start_pgoff(vmg->next))
--			return true;
--	}
--
--	return false;
-+	if (!is_mergeable_vma(vmg, /* merge_next = */ true))
-+		return false;
-+	if (!is_mergeable_anon_vma(vmg, /* merge_next = */ true))
-+		return false;
-+	if (vmg_end_pgoff(vmg) != vma_start_pgoff(vmg->next))
-+		return false;
-+	return true;
- }
+diff --git a/tools/testing/vma/Makefile b/tools/testing/vma/Makefile
+index e72b45dedda5..ef6cc558afe1 100644
+--- a/tools/testing/vma/Makefile
++++ b/tools/testing/vma/Makefile
+@@ -10,7 +10,7 @@ OFILES = $(SHARED_OFILES) main.o shared.o maple-shim.o
+ TARGETS = vma
  
- /*
-@@ -235,12 +235,13 @@ static bool can_vma_merge_before(struct vma_merge_struct *vmg)
-  */
- static bool can_vma_merge_after(struct vma_merge_struct *vmg)
- {
--	if (is_mergeable_vma(vmg, /* merge_next = */ false) &&
--	    is_mergeable_anon_vma(vmg, /* merge_next = */ false)) {
--		if (vma_end_pgoff(vmg->prev) == vmg_start_pgoff(vmg))
--			return true;
--	}
--	return false;
-+	if (!is_mergeable_vma(vmg, /* merge_next = */ false))
-+		return false;
-+	if (!is_mergeable_anon_vma(vmg, /* merge_next = */ false))
-+		return false;
-+	if (vma_end_pgoff(vmg->prev) != vmg_start_pgoff(vmg))
-+		return false;
-+	return true;
- }
+ # These can be varied to test different sizes.
+-CFLAGS += -DNUM_VMA_FLAG_BITS=128 -DNUM_MM_FLAG_BITS=128
++CFLAGS += -DNUM_VMA_FLAG_BITS=64 -DNUM_MM_FLAG_BITS=64
  
- static void __vma_link_file(struct vm_area_struct *vma,
+ main.o: main.c shared.c shared.h vma_internal.h tests/merge.c tests/mmap.c tests/vma.c ../../../mm/vma.c ../../../mm/vma_init.c ../../../mm/vma_exec.c ../../../mm/vma.h include/custom.h include/dup.h include/stubs.h
+ 
 -- 
 2.54.0
 
