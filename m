@@ -2,40 +2,40 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id oj1RGTKhQ2pedwoAu9opvQ
+	id yO+wDi+hQ2ofdwoAu9opvQ
 	(envelope-from <etnaviv-bounces@lists.freedesktop.org>)
-	for <lists+etnaviv@lfdr.de>; Tue, 30 Jun 2026 12:57:54 +0200
+	for <lists+etnaviv@lfdr.de>; Tue, 30 Jun 2026 12:57:51 +0200
 X-Original-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AB006E33B8
-	for <lists+etnaviv@lfdr.de>; Tue, 30 Jun 2026 12:57:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6CD76E334D
+	for <lists+etnaviv@lfdr.de>; Tue, 30 Jun 2026 12:57:50 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=a8Gqq6Ha;
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b="U/U1oudd";
 	spf=pass (mail.lfdr.de: domain of etnaviv-bounces@lists.freedesktop.org designates 131.252.210.177 as permitted sender) smtp.mailfrom=etnaviv-bounces@lists.freedesktop.org;
 	dmarc=pass (policy=quarantine) header.from=kernel.org
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8DDB010EC66;
-	Tue, 30 Jun 2026 10:57:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F0EE310EC3E;
+	Tue, 30 Jun 2026 10:57:48 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE74310E869;
- Mon, 29 Jun 2026 12:24:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C9F4D10E866;
+ Mon, 29 Jun 2026 12:24:10 +0000 (UTC)
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
- by sea.source.kernel.org (Postfix) with ESMTP id A334940441;
- Mon, 29 Jun 2026 12:24:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA58E1F00A3D;
- Mon, 29 Jun 2026 12:24:06 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id AFAB243A39;
+ Mon, 29 Jun 2026 12:24:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4C2B1F00A3D;
+ Mon, 29 Jun 2026 12:24:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
- s=k20260515; t=1782735847;
- bh=FRH3nWttrO+IvYqL5rFGzJUV29IkkM89vk8rnpYCL2g=;
+ s=k20260515; t=1782735850;
+ bh=zVjmXpiPRDEuxz5eG83icMPmdk9wIBZlf3SL8DGVmHo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References;
- b=a8Gqq6HazVpY453qntgYQRg2KTWt8lZ/vexm6YznKPmhVEQVTTAOij1mmS4l/ZwSI
- tDroo5WMFbOkWde8qHAsbsbaC7BUMYnCytmnbbeZFKhKgmi+P6btImLxdQzbC0kMnf
- G0sUKWdf8EEgiXRDkPyQ02oipSfAG4yJ5h8dNwgHrKuvhCydec0pyvNNO72DESpGdQ
- HYc4wXd9paiOXhmo5YiZsNonoT+FRF1LSyZ++LYVPX+wXOC/ssLLGmWweo9y+WI/6/
- 2MV1JSLmt74+aX80ll2fPEpThUkOYwJTEuePiaTIjqNp6YluviVf6MaXBwCziNhmTF
- +Vp0OVSfIq+lw==
+ b=U/U1oudd2OHsamjeEZuCvVMXdEMpD/oNczijfmJk++UuSM0tp0M4bDoBkBnaZgEGX
+ Rzmf5lgUCLOwf33ifMK/K2bot41pBldLuGDyqh4AHtCcQbq63vAXxJLsQhScbx1wjy
+ pAmJsMiKpOZTiLamQJyBK0RuwzcIABdz8kvfm7lfq8NBus/l7rZHyqG7zzwotne8Nc
+ GTXNJ+fbsxLNNKwRHR60RMPCFuyleSFo52WnA+wKgJklYu/E8UISfAtIT/7g6bzNml
+ Dn0Xje1cMb8CoXoDrIYucp5qfkxy+YeGy+zN6IEHKnft2iA8dzEBICTockHkc/ttHS
+ zMtueoMKRjIEA==
 From: Lorenzo Stoakes <ljs@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>
 Cc: Russell King <linux@armlinux.org.uk>, Dinh Nguyen <dinguyen@kernel.org>,
@@ -86,9 +86,9 @@ Cc: Russell King <linux@armlinux.org.uk>, Dinh Nguyen <dinguyen@kernel.org>,
  damon@lists.linux.dev, Pedro Falcato <pfalcato@suse.de>,
  Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>,
  Jann Horn <jannh@google.com>
-Subject: [PATCH 04/30] mm: introduce and use vma_end_pgoff()
-Date: Mon, 29 Jun 2026 13:23:15 +0100
-Message-ID: <e379a1cb6a897126ad96e3a263fdb91d6c11f6cb.1782735110.git.ljs@kernel.org>
+Subject: [PATCH 05/30] mm/rmap: update mm/interval_tree.c comments
+Date: Mon, 29 Jun 2026 13:23:16 +0100
+Message-ID: <80d482a927b2e9862487b812e0ab48ebc1289a70.1782735110.git.ljs@kernel.org>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <cover.1782735110.git.ljs@kernel.org>
 References: <cover.1782735110.git.ljs@kernel.org>
@@ -138,61 +138,61 @@ X-Spamd-Result: default: False [1.69 / 15.00];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.freedesktop.org:from_smtp,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 0AB006E33B8
+X-Rspamd-Queue-Id: C6CD76E334D
 
-We already have vma_last_pgoff() which retrieves the last page offset
-within a VMA.
+Update the file comment to clarify that both file-backed and anonymous
+interval trees are provided, referencing the relevant data types for
+clarity.
 
-However, code often wishes to span a page offset range, which requires the
-exclusive end of this range.
+Also add comments to indicate which parts of the file apply to each.
 
-So provide this in vma_end_pgoff() and update vma_last_pgoff() to use this
-function.
-
-No functional change intended.
+While we're here, convert the VM_BUG_ON_VMA() to VM_WARN_ON_ONCE_VMA().
 
 Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
 ---
- include/linux/mm.h | 19 ++++++++++++++++++-
- 1 file changed, 18 insertions(+), 1 deletion(-)
+ mm/interval_tree.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/include/linux/mm.h b/include/linux/mm.h
-index 2f00c75e66bd..e7ee315d5ba2 100644
---- a/include/linux/mm.h
-+++ b/include/linux/mm.h
-@@ -4298,6 +4298,23 @@ static inline pgoff_t vma_start_pgoff(const struct vm_area_struct *vma)
- 	return vma->vm_pgoff;
- }
- 
-+/**
-+ * vma_end_pgoff() - Get the page offset of the exclusive end of @vma
-+ * @vma: The VMA whose end page offset is required.
-+ *
-+ * This returns the exclusive end page offset of @vma, which is useful for
-+ * expressing page offset ranges.
-+ *
-+ * See the description of vma_start_pgoff() for a description of VMA page
-+ * offsets.
-+ *
-+ * Returns: The exclusive end page offset of @vma.
-+ */
-+static inline pgoff_t vma_end_pgoff(const struct vm_area_struct *vma)
-+{
-+	return vma_start_pgoff(vma) + vma_pages(vma);
-+}
-+
- /**
-  * vma_last_pgoff() - Get the page offset of the last page in @vma
-  * @vma: The VMA whose last page offset is required.
-@@ -4311,7 +4328,7 @@ static inline pgoff_t vma_start_pgoff(const struct vm_area_struct *vma)
+diff --git a/mm/interval_tree.c b/mm/interval_tree.c
+index 344d1f5946c7..2d50bc6228c4 100644
+--- a/mm/interval_tree.c
++++ b/mm/interval_tree.c
+@@ -1,6 +1,7 @@
+ // SPDX-License-Identifier: GPL-2.0-only
+ /*
+- * mm/interval_tree.c - interval tree for mapping->i_mmap
++ * mm/interval_tree.c - interval tree for address_space->i_mmap and
++ * anon_vma->rb_root
+  *
+  * Copyright (C) 2012, Michel Lespinasse <walken@google.com>
   */
- static inline pgoff_t vma_last_pgoff(const struct vm_area_struct *vma)
- {
--	return vma_start_pgoff(vma) + vma_pages(vma) - 1;
-+	return vma_end_pgoff(vma) - 1;
+@@ -10,6 +11,8 @@
+ #include <linux/rmap.h>
+ #include <linux/interval_tree_generic.h>
+ 
++/* File-backed interval tree (address_space->i_mmap) */
++
+ INTERVAL_TREE_DEFINE(struct vm_area_struct, shared.rb,
+ 		     unsigned long, shared.rb_subtree_last,
+ 		     vma_start_pgoff, vma_last_pgoff, /* empty */, vma_interval_tree)
+@@ -23,7 +26,7 @@ void vma_interval_tree_insert_after(struct vm_area_struct *node,
+ 	struct vm_area_struct *parent;
+ 	unsigned long last = vma_last_pgoff(node);
+ 
+-	VM_BUG_ON_VMA(vma_start_pgoff(node) != vma_start_pgoff(prev), node);
++	VM_WARN_ON_ONCE_VMA(vma_start_pgoff(node) != vma_start_pgoff(prev), node);
+ 
+ 	if (!prev->shared.rb.rb_right) {
+ 		parent = prev;
+@@ -48,6 +51,8 @@ void vma_interval_tree_insert_after(struct vm_area_struct *node,
+ 			    &vma_interval_tree_augment);
  }
  
- static inline unsigned long vma_desc_size(const struct vm_area_desc *desc)
++/* Anonymous interval tree (anon_vma->rb_root) */
++
+ static inline unsigned long avc_start_pgoff(struct anon_vma_chain *avc)
+ {
+ 	return vma_start_pgoff(avc->vma);
 -- 
 2.54.0
 
