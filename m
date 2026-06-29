@@ -2,74 +2,74 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id mZIDHy+hQ2oodwoAu9opvQ
+	id c1DfGzShQ2prdwoAu9opvQ
 	(envelope-from <etnaviv-bounces@lists.freedesktop.org>)
-	for <lists+etnaviv@lfdr.de>; Tue, 30 Jun 2026 12:57:51 +0200
+	for <lists+etnaviv@lfdr.de>; Tue, 30 Jun 2026 12:57:56 +0200
 X-Original-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 053886E3353
-	for <lists+etnaviv@lfdr.de>; Tue, 30 Jun 2026 12:57:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B2B96E33F1
+	for <lists+etnaviv@lfdr.de>; Tue, 30 Jun 2026 12:57:56 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gourry.net header.s=google header.b="bTY/egli";
+	dkim=pass header.d=gourry.net header.s=google header.b=RGgM2oZ5;
 	spf=pass (mail.lfdr.de: domain of etnaviv-bounces@lists.freedesktop.org designates 131.252.210.177 as permitted sender) smtp.mailfrom=etnaviv-bounces@lists.freedesktop.org;
 	dmarc=none
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 14F9410EC47;
-	Tue, 30 Jun 2026 10:57:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A4D1F10EC7A;
+	Tue, 30 Jun 2026 10:57:51 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com
- [209.85.222.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E683110E666
- for <etnaviv@lists.freedesktop.org>; Mon, 29 Jun 2026 15:27:33 +0000 (UTC)
-Received: by mail-qk1-f182.google.com with SMTP id
- af79cd13be357-92c7a0a7059so197273085a.0
- for <etnaviv@lists.freedesktop.org>; Mon, 29 Jun 2026 08:27:33 -0700 (PDT)
+Received: from mail-oo1-f47.google.com (mail-oo1-f47.google.com
+ [209.85.161.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C47B010E96A
+ for <etnaviv@lists.freedesktop.org>; Mon, 29 Jun 2026 15:31:18 +0000 (UTC)
+Received: by mail-oo1-f47.google.com with SMTP id
+ 006d021491bc7-69de16f5f79so1731169eaf.0
+ for <etnaviv@lists.freedesktop.org>; Mon, 29 Jun 2026 08:31:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gourry.net; s=google; t=1782746853; x=1783351653; darn=lists.freedesktop.org;
+ d=gourry.net; s=google; t=1782747077; x=1783351877; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=YVSnUoP7z1l2IjNO7QqWpl688BIslf+DGUxd2Ln6LGs=;
- b=bTY/eglikrstZo4mgRbAcY8W0ky5IARGEPEOcPFJy3gJsj48ZXDCv1SH2uvhO5JhQJ
- 5tRoJSQ+s/54efDjFXCqDhkeSLdFbwYoyC9qLMQ3YYeUxI5R0Cc8Spr8rK1ynZYBBT3+
- t9JQwT7XxHpXggHaijoFV1ai27qZz6p6OcQAHhdGZ2hlmjvcLIXr2tEDjJew6NEdozQ6
- MbyvOwFSQnDwGqnsSRHL6OeY9fNPnMuH+iQufmQcEmUgccZa+zj2YGfThEzCDtXyF3C6
- Wgiu74dRgLOSMpXTg1MXWm/mPzPY3JhaWQ7RHnCMnFpm191mWM7UDFknh+JngWyO4wgu
- 5ACQ==
+ bh=TtnRVAeDbe2jCD/DHkmGFKsvQqrt7nLFRBhYCay7qN4=;
+ b=RGgM2oZ53Cwth63dLhiox+LwmvKnu1e23gdCZIZk26aIaFA5bYBzzHLz9WhWOvBwrq
+ CGpxL6IjXazz5uVz+WpUn1iCE5bAOSsQqpJU37i0ogIi+H1PFjiTomR3JmJimsVmkzb+
+ RAreh7GulhdxgKNQzwaAHy8O+UXiSI9oWHbYYRrNa/c3R4t3KQM/e7eHFkUF4wZH/cx7
+ wFT6sxcK1A0y/tsh9nH0BJmNQ6Do4oZVkkKQf3LVcF31lNE2z+6sclgDKYjVxSx4XEQp
+ zgzqecN2c8Gzpe2iTFNynCdt8UBw+f8+b/DpoAQ87Bsr7ncpVBL/AQ44NIJPkdM2Bsws
+ M6lA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20251104; t=1782746853; x=1783351653;
+ d=1e100.net; s=20251104; t=1782747077; x=1783351877;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=YVSnUoP7z1l2IjNO7QqWpl688BIslf+DGUxd2Ln6LGs=;
- b=PvG+a1tmtpW+uKcHK4QcA6qvOcOEKHodGbDGVjgMcNZmz+rkE4n4w90MRD7B557YCz
- g7E0Ms1obdtqJcSZsQJMfSN+VTTtc3uwr1S4uMU8NTzRak+9FKhef+KLCtsTpHO/Ld42
- 1Mva6lKZ8FvirricYo2lj85YC+Nbo+U/j49G++sxR7ongWPkRcj5gGbN3hESTLmPHo42
- 3ce7BQZQqiPN1iWascguBTljG+6kElUbkDaQaefDihDa6AtOnG937OjB+mGw1/l2bshC
- 2oq0GZ6ajERS23GxMSHXy85L8tOM9ucIDuQmxxfmPMKLHuR2uwnPffg+Q2yPV4OuEGY1
- 4wHA==
+ bh=TtnRVAeDbe2jCD/DHkmGFKsvQqrt7nLFRBhYCay7qN4=;
+ b=CAKIOU01/7fe7rkBsM3/P2H0yIdBWcK6OkvaNP6CSCK2rx/dONGeTAXPionUN6/+i3
+ G2E13FIYCyT8BYbTi/tLvIEZGvMBuCMOLZhValIDyHVSSC+vPQEBj61/jLjU9w1DzStw
+ qlTeghwyjue2FqlEpCq8wL5zr0Kj5NeTtz3Xkg7yGT5NyaponxJZ+//kxkrccsbJcsRJ
+ vWqgWhDTs1z+7zjaNvJ4ir6OVAhSR+eSHNhmdAvpZyh5urze1uArpfU+7tnmmtnGTn6t
+ qwhBSNLKEbCGXK87P4DW/FW1pWubmgUinjZXHyL7wejMNjKLW8l0if/CpfdRZhMxUIEF
+ 7EDQ==
 X-Forwarded-Encrypted: i=1;
- AFNElJ/S2Y9qlnnZMEpI5/uxk8gHKmsZth2tTePVbF/t7QgtmuE2ANFExX22V3LJtgocJmrGBZY5ME5j@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyTtW/IXkI8h8FTn8kbODDFdPGOV9jb3ABpdXjfdZfstquTosy/
- +66TFeWCHEpUJDD45Z0Cj5R7X7LF5xZnMDpQxkRl28NGfvAu1sMKyNIgCTVBYjWqIYc=
-X-Gm-Gg: AfdE7cnh1Uoj6HuCWUXfMl583x6GnotZAfxbcuDRq0LXUJLD5deqVn7Dl7clFp2zLa+
- mAaAK1y45IyEfxSqcK0eGP8E1YBqWZ0QDy0A39WrE+X2MiStkO6c1z1+j7D5OCYCZT3vlALZjU+
- 45HKHt1zxn1vaaQpxxaT6gl86S7aHicl/i4P8coVZddac7LZmtjwcQcYzhKHTyQJAhBLWYkB62k
- eSHmYcPCqa44/klnd2bPo69eD5ARBYAtiXvKOUdyz/B8Hoo7//8IMNGYPbb+BWBu9bGPy8LsnZx
- VFrRoFkhLW0owcC0ghyU8zeF0ycDHJP/gY4rEmwOWJ59a6jVc7dzYB5YHGKi0Dze+Olp1mix05s
- IunTvll3orl6bCNCq9agtzPXx9SzQEW3b1Tx9JskjHY11HCd1Ugf28+Ef0Y1RAnXNUf2TVyJoMg
- w6YGeFOT9x604RQAOh0U03iM0Ivjcw9jzs32CMWL3LrPgrXLg/ipTaWspUYvp/763z8Z7m/BZot
- ILStjk=
-X-Received: by 2002:a05:620a:7002:b0:921:9df8:d38f with SMTP id
- af79cd13be357-92e62785c63mr1415985a.43.1782746852526; 
- Mon, 29 Jun 2026 08:27:32 -0700 (PDT)
+ AFNElJ/7XiN9H9J33nuwRvTcsjNLqhB1XIjvrZd8Xg+m5+HfaHJ3+LTff3N48lnqxkiFaIKK8pk6z08B@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzvputlO/i81X5WvFsTQbc+wcN9y+SCBH5XuyQdsRLOwa/19DsR
+ n5VnkdQzlFKG8eYCiIxW8iLHBuUKIBXMqRVB2fhcRrQGE2k7ejfeNLnKQeH9l5Vfvxw=
+X-Gm-Gg: AfdE7ckKgbvBREj4dqfi/PBvZdSsrE+vRqmbeBGP7pxXwiY16Rqwf9darukM58XQ77Z
+ pr7/42if0KliZ/WhA+KltECRW4hybFHbdhReLQNOQDtp9WQ7n86we+oMuDQbMNn4qklcbHtziHU
+ oB/VhtIKWw+WdiC4KVJvsl4vNAxdcpgY6C/5skSGlvf0ODPyjLoRmv/yEBrvrj05MxXiEvd1FQ3
+ Sjy03VZSfaKbgeCIhiQ9zrMHW5BFgdJXtZnFmL4N8jUnBPYm+xU612Lx2xQ6gztNFFLhoWIrdI2
+ 22Rb9+dSwJuhkEzbdBGMyK4ondNUsH96XtUJstEjXuz6yyyn/zWHv9uSk5fHqGb81pkfMAO8DUX
+ XjO+oFBiIHDUnE1kkLJyPk8wkgrnB1yyh6mq0M0VnxUNf8gt84JrTcCNmdn5LQJW1cWIhDqLegd
+ sON7ttucZyV5LSyLzsPUyUGFeRPIRrsHF7bj/zFl/p5zKOXzVTH36cD3gQdb6lMTVCoK0TQRlqz
+ ne0wv0=
+X-Received: by 2002:a4a:e914:0:b0:6a1:524b:1f5 with SMTP id
+ 006d021491bc7-6a1891b6f09mr98038eaf.42.1782747077395; 
+ Mon, 29 Jun 2026 08:31:17 -0700 (PDT)
 Received: from gourry-fedora-PF4VCD3F
  (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
  by smtp.gmail.com with ESMTPSA id
- af79cd13be357-92e621943b3sm7429785a.19.2026.06.29.08.27.30
+ af79cd13be357-92e6213b95esm9184285a.5.2026.06.29.08.31.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 29 Jun 2026 08:27:32 -0700 (PDT)
-Date: Mon, 29 Jun 2026 11:27:26 -0400
+ Mon, 29 Jun 2026 08:31:16 -0700 (PDT)
+Date: Mon, 29 Jun 2026 11:31:11 -0400
 From: Gregory Price <gourry@gourry.net>
 To: Lorenzo Stoakes <ljs@kernel.org>
 Cc: Andrew Morton <akpm@linux-foundation.org>,
@@ -124,14 +124,14 @@ Cc: Andrew Morton <akpm@linux-foundation.org>,
  damon@lists.linux.dev, Pedro Falcato <pfalcato@suse.de>,
  Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>,
  Jann Horn <jannh@google.com>
-Subject: Re: [PATCH 01/30] mm: move vma_start_pgoff() into mm.h and clean up
-Message-ID: <akKO3vnNmWIJAZ7z@gourry-fedora-PF4VCD3F>
+Subject: Re: [PATCH 02/30] mm: add kdoc comments for vma_start/last_pgoff()
+Message-ID: <akKPvwYs-4TwYwKO@gourry-fedora-PF4VCD3F>
 References: <cover.1782735110.git.ljs@kernel.org>
- <b28b698df4c009e85c4728446ca5863d8e633164.1782735110.git.ljs@kernel.org>
+ <8c618dfd7de419e3b797b8bd1cd921d4c5b8878b.1782735110.git.ljs@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <b28b698df4c009e85c4728446ca5863d8e633164.1782735110.git.ljs@kernel.org>
+In-Reply-To: <8c618dfd7de419e3b797b8bd1cd921d4c5b8878b.1782735110.git.ljs@kernel.org>
 X-Mailman-Approved-At: Tue, 30 Jun 2026 10:57:47 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -181,21 +181,16 @@ X-Spamd-Result: default: False [1.19 / 15.00];
 	TAGGED_RCPT(0.00)[etnaviv];
 	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,lists.freedesktop.org:from_smtp]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.freedesktop.org:from_smtp,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 053886E3353
+X-Rspamd-Queue-Id: 1B2B96E33F1
 
-On Mon, Jun 29, 2026 at 01:23:12PM +0100, Lorenzo Stoakes wrote:
-> vma_last_pgoff() already lives there, so it's a bit odd to keep
-> vma_start_pgoff() in mm/interval_tree.c. Move them together.
+On Mon, Jun 29, 2026 at 01:23:13PM +0100, Lorenzo Stoakes wrote:
+> Describe what vma_start_pgoff() and vma_last_pgoff() actually provide in
+> detail.
 > 
-> These each return unsigned long, which pgoff_t is typedef'd to. Make this
-> consistent and have these functions return pgoff_t instead.
-> 
-> Additionally, express vma_last_pgoff() in terms of vma_start_pgoff(), since
-> we wrap the vma->vm_pgoff access, we may as well use it here.
-> 
-> Also while we're here, const-ify the VMA and cleanup a bit.
+> This is in order that we can differentiate this between functions that will
+> be added in a subsequent patch which provide a different page offset.
 > 
 > No functional change intended.
 > 
