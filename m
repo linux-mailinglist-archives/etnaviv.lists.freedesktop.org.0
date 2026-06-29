@@ -2,40 +2,40 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 4Z2AOjOhQ2pndwoAu9opvQ
+	id OmO/DTGhQ2pKdwoAu9opvQ
 	(envelope-from <etnaviv-bounces@lists.freedesktop.org>)
-	for <lists+etnaviv@lfdr.de>; Tue, 30 Jun 2026 12:57:55 +0200
+	for <lists+etnaviv@lfdr.de>; Tue, 30 Jun 2026 12:57:53 +0200
 X-Original-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 979136E33E4
-	for <lists+etnaviv@lfdr.de>; Tue, 30 Jun 2026 12:57:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59D296E3373
+	for <lists+etnaviv@lfdr.de>; Tue, 30 Jun 2026 12:57:52 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=N9kcot1+;
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=c2fdxPuJ;
 	spf=pass (mail.lfdr.de: domain of etnaviv-bounces@lists.freedesktop.org designates 131.252.210.177 as permitted sender) smtp.mailfrom=etnaviv-bounces@lists.freedesktop.org;
 	dmarc=pass (policy=quarantine) header.from=kernel.org
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F36210EC77;
-	Tue, 30 Jun 2026 10:57:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6557910EC51;
+	Tue, 30 Jun 2026 10:57:49 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 07EF410E889;
- Mon, 29 Jun 2026 12:25:22 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B1BC10E874;
+ Mon, 29 Jun 2026 12:25:25 +0000 (UTC)
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
- by sea.source.kernel.org (Postfix) with ESMTP id D436743BE2;
- Mon, 29 Jun 2026 12:25:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E66421F00A3A;
- Mon, 29 Jun 2026 12:25:20 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id BF9AC601BE;
+ Mon, 29 Jun 2026 12:25:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1F691F00AC4;
+ Mon, 29 Jun 2026 12:25:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
- s=k20260515; t=1782735921;
- bh=rHOb9ve3jYcE/W9RyXVRFM5l4Jk2KuXJSM2ur2HmA8o=;
+ s=k20260515; t=1782735924;
+ bh=U1jtLkA6UuZsfpQiwXDViZ4TbQirP1iCEgORsJjMVIE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References;
- b=N9kcot1+WY2jypsv4U6kyLKClwmxgtXnpUiiDsh9uB4wjsv/6mJ3uO8Mm+KlvRTpt
- x95DOn031RIiOjhD9YBKvRsJ3SWRscOOHqXP5//ffbZRcn2+ZeOGSqWcDJL8lpSdT6
- 9xiMjnB7g5DmFlroBbERwFk8HFxqwumjaOz9YYOFNe+t1tNkvjM4Dw8POSV8W15821
- j0S2qUg2MPsEO6oUCpFNLuavOjl181R825Q1U0o2hykdFp0yv8/ZlyQqKxPThBHA+b
- ZaWet0RIDIpDhYPXxPyW/nHY7c+UePobu/bAvV+uoPejolMs3FGhsJpEMMh+z+0i3V
- QBTJtGRqk2zcw==
+ b=c2fdxPuJZracea4THiWagUGG3qtjKlYQLO8kI5qBAOAmNyUqU+Cz2tE0LZcZK/+x6
+ 6Xk6iEoGktAUHyeB9cblz74jdddGkwaBjm0aSRvDSQySW3n0Fr3QzWtICG5O83ECq+
+ CpGzQfZJaEmCid2LM+2XsU2ThNJ23kEbysH1NlUtWxqEIESKzs4x6d5f0OSVrFyJfm
+ j3TScuQr22512dqslB4Ah+zgS28CuS/F239kYvXoA+o5vDrfUPnKKgS1tQAkh4mNti
+ ITFv6t9aZ5OoDpmTegOvjzsXL8lUZRPNTyuRby3AAe3GvKu9tkUXabe/jqKUOVL1Ww
+ sDInYPPHhFcHQ==
 From: Lorenzo Stoakes <ljs@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>
 Cc: Russell King <linux@armlinux.org.uk>, Dinh Nguyen <dinguyen@kernel.org>,
@@ -86,9 +86,10 @@ Cc: Russell King <linux@armlinux.org.uk>, Dinh Nguyen <dinguyen@kernel.org>,
  damon@lists.linux.dev, Pedro Falcato <pfalcato@suse.de>,
  Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>,
  Jann Horn <jannh@google.com>
-Subject: [PATCH 29/30] tools/testing/vma: default VMA flag bits to 64-bit
-Date: Mon, 29 Jun 2026 13:23:40 +0100
-Message-ID: <27cd07f6dd862d92410cf9db03f7c11e5f66854d.1782735110.git.ljs@kernel.org>
+Subject: [PATCH 30/30] tools/testing/vma: output compared expression on
+ ASSERT_[EQ, NE]()
+Date: Mon, 29 Jun 2026 13:23:41 +0100
+Message-ID: <432444fa4c12ae1c4047550e2b205d3e9bab458f.1782735110.git.ljs@kernel.org>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <cover.1782735110.git.ljs@kernel.org>
 References: <cover.1782735110.git.ljs@kernel.org>
@@ -136,34 +137,71 @@ X-Spamd-Result: default: False [1.69 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[etnaviv];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.freedesktop.org:from_smtp,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,lists.freedesktop.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 979136E33E4
+X-Rspamd-Queue-Id: 59D296E3373
 
-With all of the sanitisers turned on, setting the VMA flag bits depth to
-128 by default results in overly long build times.
+Update the macros to output the compared values at hex for easier debugging
+when test asserts fail.
 
-Reduce this to 64 - we can always manipulate these later for testing of
-larger bitmaps as needed.
+Also remove unused IS_SET() macro.
 
 Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
 ---
- tools/testing/vma/Makefile | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tools/testing/vma/shared.h | 31 +++++++++++++++++++------------
+ 1 file changed, 19 insertions(+), 12 deletions(-)
 
-diff --git a/tools/testing/vma/Makefile b/tools/testing/vma/Makefile
-index e72b45dedda5..ef6cc558afe1 100644
---- a/tools/testing/vma/Makefile
-+++ b/tools/testing/vma/Makefile
-@@ -10,7 +10,7 @@ OFILES = $(SHARED_OFILES) main.o shared.o maple-shim.o
- TARGETS = vma
- 
- # These can be varied to test different sizes.
--CFLAGS += -DNUM_VMA_FLAG_BITS=128 -DNUM_MM_FLAG_BITS=128
-+CFLAGS += -DNUM_VMA_FLAG_BITS=64 -DNUM_MM_FLAG_BITS=64
- 
- main.o: main.c shared.c shared.h vma_internal.h tests/merge.c tests/mmap.c tests/vma.c ../../../mm/vma.c ../../../mm/vma_init.c ../../../mm/vma_exec.c ../../../mm/vma.h include/custom.h include/dup.h include/stubs.h
- 
--- 
+diff --git a/tools/testing/vma/shared.h b/tools/testing/vma/shared.h
+index ca4f1238f1c7..216be4cda369 100644
+--- a/tools/testing/vma/shared.h
++++ b/tools/testing/vma/shared.h
+@@ -21,19 +21,28 @@
+ 		}							\
+ 	} while (0)
+
+-#define ASSERT_TRUE(_expr)						\
+-	do {								\
+-		if (!(_expr)) {						\
+-			fprintf(stderr,					\
+-				"Assert FAILED at %s:%d:%s(): %s is FALSE.\n", \
+-				__FILE__, __LINE__, __FUNCTION__, #_expr); \
+-			return false;					\
+-		}							\
++#define __ASSERT_TRUE(_expr, _fmt, ...)					   \
++	do {								   \
++		if (!(_expr)) {						   \
++			fprintf(stderr,					   \
++				"Assert FAILED at %s:%d:%s(): %s is FALSE" \
++				_fmt ".\n",				   \
++				__FILE__, __LINE__, __FUNCTION__, #_expr   \
++				__VA_OPT__(,) __VA_ARGS__);		   \
++			return false;					   \
++		}							   \
+ 	} while (0)
+
++#define __TO_SCALAR(x)	((unsigned long long)(uintptr_t)(x))
++
++#define ASSERT_TRUE(_expr) __ASSERT_TRUE(_expr, "")
+ #define ASSERT_FALSE(_expr) ASSERT_TRUE(!(_expr))
+-#define ASSERT_EQ(_val1, _val2) ASSERT_TRUE((_val1) == (_val2))
+-#define ASSERT_NE(_val1, _val2) ASSERT_TRUE((_val1) != (_val2))
++#define ASSERT_EQ(_val1, _val2)						\
++	__ASSERT_TRUE((_val1) == (_val2), " (0x%llx != 0x%llx)",	\
++		      __TO_SCALAR(_val1), __TO_SCALAR(_val2))
++#define ASSERT_NE(_val1, _val2) \
++	__ASSERT_TRUE((_val1) != (_val2), " (0x%llx == 0x%llx)", \
++		       __TO_SCALAR(_val1), __TO_SCALAR(_val2))
+
+ #define ASSERT_FLAGS_SAME_MASK(_flags, _flags_other) \
+ 	ASSERT_TRUE(vma_flags_same_mask((_flags), (_flags_other)))
+@@ -53,8 +62,6 @@
+ #define ASSERT_FLAGS_NONEMPTY(_flags) \
+ 	ASSERT_FALSE(vma_flags_empty(_flags))
+
+-#define IS_SET(_val, _flags) ((_val & _flags) == _flags)
+-
+ extern bool fail_prealloc;
+
+ /* Override vma_iter_prealloc() so we can choose to fail it. */
+--
 2.54.0
-
