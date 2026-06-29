@@ -2,41 +2,41 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id fteSMTGhQ2pbdwoAu9opvQ
+	id y7m0FjShQ2pqdwoAu9opvQ
 	(envelope-from <etnaviv-bounces@lists.freedesktop.org>)
-	for <lists+etnaviv@lfdr.de>; Tue, 30 Jun 2026 12:57:53 +0200
+	for <lists+etnaviv@lfdr.de>; Tue, 30 Jun 2026 12:57:56 +0200
 X-Original-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65BFE6E33A5
-	for <lists+etnaviv@lfdr.de>; Tue, 30 Jun 2026 12:57:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDC5B6E33E8
+	for <lists+etnaviv@lfdr.de>; Tue, 30 Jun 2026 12:57:55 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=PfDXIPAD;
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b="hJmAai/5";
 	spf=pass (mail.lfdr.de: domain of etnaviv-bounces@lists.freedesktop.org designates 131.252.210.177 as permitted sender) smtp.mailfrom=etnaviv-bounces@lists.freedesktop.org;
 	dmarc=pass (policy=quarantine) header.from=kernel.org
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4953E10EC61;
-	Tue, 30 Jun 2026 10:57:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A709D10EC7B;
+	Tue, 30 Jun 2026 10:57:51 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D6D8110E2C8;
- Mon, 29 Jun 2026 16:35:38 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C7E710E0E5;
+ Mon, 29 Jun 2026 16:41:40 +0000 (UTC)
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
- by sea.source.kernel.org (Postfix) with ESMTP id 8B28A434BC;
- Mon, 29 Jun 2026 16:35:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC5B21F000E9;
- Mon, 29 Jun 2026 16:35:22 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 4608F601CA;
+ Mon, 29 Jun 2026 16:41:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 027B21F000E9;
+ Mon, 29 Jun 2026 16:41:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
- s=k20260515; t=1782750938;
- bh=tqvibWEtQh2T48OiewXhNx0S0zqLKa3gex5DVvzFGOM=;
+ s=k20260515; t=1782751299;
+ bh=ch5CI1toUlORlovajdCC+YMRoe+PpJQnl8a5VV79Qi0=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To;
- b=PfDXIPADcSrUOwdTRGhDf130tTlUjzfb55asHDeokcwn4q2fFY7uD5zpTbQijKU2j
- A3h6LyrgBRhD8vjv/PCOQbIS0x10wNp15U53uZUeJSa+ZUUtNYjmvMkaFTX0FdsPtY
- 5VFsbeAwARiOlYL96AR5bc/UJx13BAZgTchhOZXOoq884yT683+Ba+UY0kenSbPQ5G
- /9Y3STPVYFUZGbaD/nfway1UOiEmxiypL1sfzIHXjp28wqpXFD1BkVYOwnVTwzjxBO
- T6iDd2rL+GJ7Oq4z7lXn+Gf9jPYSMojIl9QVfBm4ugrQ3F58b1YoFt3gxDwWn1rh48
- BJyQRg2g8eDBw==
-Date: Mon, 29 Jun 2026 17:35:16 +0100
+ b=hJmAai/5vkibkmO6VFkWSq/Ll1y5jE3j/DzaeyyPFKyq6xwAWxIjO79R0qGEP4vSC
+ dscAlrX5ctbgTMNUAbj21/JNqvHk3lRwZZOF6r/Ta4FjjCdP3/PBnSN/C4tlpR5j9j
+ HSF7Dlc0aoj7gsDTbePMQtjCP/xBpH87s7MdWxQs9Zuf/RhQ5LBVu/X3uV1WM1uMla
+ uNw5QZ+z1TPY33Q7kIG03f2R4Eax2CqGoQK5L9fO6gf9Y0pff5oJ8krKULZnitJWl+
+ HfINykNpBBlOytN9AKxyPcJqJfMwdZgfi0f/ZXCpWHSG44+9HDMHmBql5baxz3zYvY
+ zey7OMeB60fnA==
+Date: Mon, 29 Jun 2026 17:41:16 +0100
 From: Lorenzo Stoakes <ljs@kernel.org>
 To: Gregory Price <gourry@gourry.net>
 Cc: Andrew Morton <akpm@linux-foundation.org>, 
@@ -86,16 +86,15 @@ Cc: Andrew Morton <akpm@linux-foundation.org>,
  damon@lists.linux.dev, 
  Pedro Falcato <pfalcato@suse.de>, Rik van Riel <riel@surriel.com>,
  Harry Yoo <harry@kernel.org>, Jann Horn <jannh@google.com>
-Subject: Re: [PATCH 03/30] tools/testing/vma: use vma_start_pgoff() in merge
- tests
-Message-ID: <akKeKSnWlc416OIP@lucifer>
+Subject: Re: [PATCH 05/30] mm/rmap: update mm/interval_tree.c comments
+Message-ID: <akKfAl-wdIAbexNR@lucifer>
 References: <cover.1782735110.git.ljs@kernel.org>
- <b501eca378b9d9734e83838102aadc9276590fba.1782735110.git.ljs@kernel.org>
- <akKR3bFV7393yOUs@gourry-fedora-PF4VCD3F>
+ <80d482a927b2e9862487b812e0ab48ebc1289a70.1782735110.git.ljs@kernel.org>
+ <akKWvnU2Ua-8ceSb@gourry-fedora-PF4VCD3F>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <akKR3bFV7393yOUs@gourry-fedora-PF4VCD3F>
+In-Reply-To: <akKWvnU2Ua-8ceSb@gourry-fedora-PF4VCD3F>
 X-Mailman-Approved-At: Tue, 30 Jun 2026 10:57:47 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -140,39 +139,42 @@ X-Spamd-Result: default: False [0.69 / 15.00];
 	MISSING_XM_UA(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.freedesktop.org:from_smtp,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 65BFE6E33A5
+X-Rspamd-Queue-Id: EDC5B6E33E8
 
-On Mon, Jun 29, 2026 at 11:40:13AM -0400, Gregory Price wrote:
-> On Mon, Jun 29, 2026 at 01:23:14PM +0100, Lorenzo Stoakes wrote:
-> > Now we have the vma_start_pgoff() helper, update the merge tests to make
-> > use of it for consistency.
+On Mon, Jun 29, 2026 at 12:01:02PM -0400, Gregory Price wrote:
+> On Mon, Jun 29, 2026 at 01:23:16PM +0100, Lorenzo Stoakes wrote:
+> > Update the file comment to clarify that both file-backed and anonymous
+> > interval trees are provided, referencing the relevant data types for
+> > clarity.
 > >
-> > No functional change intended.
+>
+> Isn't this self-evident by nature of the function definitions?
+> (one takes a vm_area_struct, the other takes an anon_vma_chain)
+
+Well you see you're already hitting up on issues there, they both take an
+rb_root_cached and the vma_*() ones do not instantly scream 'file-backed' do
+they? As VMAs are obviously used for buth anon and file-backed...
+
+But later patches fix this stuff :)
+
+And I feel it's hard visually to see where one set of definitions end and
+another begins, which was really the motive for this, as trivial as it is!
+
+>
+> > -	VM_BUG_ON_VMA(vma_start_pgoff(node) != vma_start_pgoff(prev), node);
+> > +	VM_WARN_ON_ONCE_VMA(vma_start_pgoff(node) != vma_start_pgoff(prev), node);
 > >
-> > Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
 >
-> Question: Should we have primitive tests for vma_*_pgoff() since
-> the behavior changes depending on file/anon?
->
-> Nice to have the cleanup and clarity. Maybe worth asserting no
-> one ever breaks this.
+> For my own edification - I know not to add new BUG(), should I be
+> converting BUG->WARN/something when i find them in areas i happen to be
+> working in?
 
-Well funny you should mention that :) I do add some asserts as I go.
+Yeah pretty much in all cases.
 
-In my RFC series which this series is the predicate for, I add more as then
-we track virtal page off separately (see [0]).
-
-Amusingly (or not) /dev/zero breaks assumptions a bit (anonymous VMA with
-vma->vm_file that tracks by file index, just glroious). But I plan to fix
-that later!
+It's very rare that you'd want the kernel to definitely oops, and I can't think
+of any circumstance where you'd only what that if CONFIG_DEBUG_VM was set :))
 
 >
-> for this patch though
->
-> Reviewed-by: Gregory Price <gourry@gourry.net>
-
-Thanks!
+> ~Gregory
 
 Cheers, Lorenzo
-
-[0]:https://lore.kernel.org/linux-mm/cover.1782745153.git.ljs@kernel.org/
