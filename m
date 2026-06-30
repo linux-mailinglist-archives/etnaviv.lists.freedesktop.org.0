@@ -2,77 +2,76 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id s7cRB+oYRmqjJwsAu9opvQ
+	id XBB2EO0YRmqrJwsAu9opvQ
 	(envelope-from <etnaviv-bounces@lists.freedesktop.org>)
-	for <lists+etnaviv@lfdr.de>; Thu, 02 Jul 2026 09:53:14 +0200
+	for <lists+etnaviv@lfdr.de>; Thu, 02 Jul 2026 09:53:17 +0200
 X-Original-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 900766F46FA
-	for <lists+etnaviv@lfdr.de>; Thu, 02 Jul 2026 09:53:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E085D6F4716
+	for <lists+etnaviv@lfdr.de>; Thu, 02 Jul 2026 09:53:16 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=YqSSo22m;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=OjboBIWY;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ZgFV4lBo;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=rKa8cQVC;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=oln6Gp+a;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=K6CUKJRx;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=oln6Gp+a;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=K6CUKJRx;
 	spf=pass (mail.lfdr.de: domain of etnaviv-bounces@lists.freedesktop.org designates 131.252.210.177 as permitted sender) smtp.mailfrom=etnaviv-bounces@lists.freedesktop.org;
 	dmarc=pass (policy=none) header.from=suse.de
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6686410F1EC;
-	Thu,  2 Jul 2026 07:53:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B352B10F1F8;
+	Thu,  2 Jul 2026 07:53:15 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BFB4F10ECC7
- for <etnaviv@lists.freedesktop.org>; Tue, 30 Jun 2026 16:28:28 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E49710ECC8
+ for <etnaviv@lists.freedesktop.org>; Tue, 30 Jun 2026 16:32:11 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id CF42375862;
- Tue, 30 Jun 2026 16:28:26 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 1EAD071583;
+ Tue, 30 Jun 2026 16:32:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1782836907; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1782837130; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=fpGfQAlLw3qzT5ysYw+w7SeZRvoxB0S7yzln6WQZvac=;
- b=YqSSo22mhojVHr5KaetPiVoKsOWpADcKQk4SCGwzHCD8c91TO93c7qH1Hu/3Iu+C8qEW18
- VBut15wgg3j+TREb3l4ryyZLhMjfVgvJJPfYNovcFJzQIcEEvgSYiOYPF64P5plftbzoOc
- i75gg2QntCUc2dXLmYWRfa0fZtiUR58=
+ bh=bj46aHd3P0qP06KPPng/jA7xnMpRZKdrlFaZk5YHEUI=;
+ b=oln6Gp+aZqEobfrbzku3yTI5LCsxkNY8CGU+44JjCaJ6YrK5aoDytJfuOdF42/DkFL0oqf
+ +YJ6aGJ7A+InPvaWE3SaEAscugLUHr6UwmbeHzjX9sqqGmUgtOf35OjYiotEkSd9rXGyvd
+ /AYl53jRW5BNSqyLj1+svAGG5barEag=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1782836907;
+ s=susede2_ed25519; t=1782837130;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=fpGfQAlLw3qzT5ysYw+w7SeZRvoxB0S7yzln6WQZvac=;
- b=OjboBIWYV6zQ1rxvwd5uWsW03NJA0+xMVpxxKl5/JCx9KhJuvl0yKBodabIAdWEdEvS9xh
- 9uWMIehk6x4zh3CA==
+ bh=bj46aHd3P0qP06KPPng/jA7xnMpRZKdrlFaZk5YHEUI=;
+ b=K6CUKJRxqfsSaluzpcBH1ATyfDref91sgi1JY9lMK3i3ebN+kNzleEv1r+ctX8m1sl67BO
+ LnuXVEjWKJAX9HCg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1782836906; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1782837130; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=fpGfQAlLw3qzT5ysYw+w7SeZRvoxB0S7yzln6WQZvac=;
- b=ZgFV4lBoUGsQDPFviUEZwCb5BwvFn9qMsh2J0ogEmmwQS+pxrmwiLkr9M9DoShzjh0Zfh/
- DBPpsMG60OIr589X+rITcBxdJnLkKJL4828uid3F84GFeGCB30hiPbc+yKJ/8PKcvVzNYs
- 6J/Rz50dxf3wqRpA64eLH4S0f8go2Ww=
+ bh=bj46aHd3P0qP06KPPng/jA7xnMpRZKdrlFaZk5YHEUI=;
+ b=oln6Gp+aZqEobfrbzku3yTI5LCsxkNY8CGU+44JjCaJ6YrK5aoDytJfuOdF42/DkFL0oqf
+ +YJ6aGJ7A+InPvaWE3SaEAscugLUHr6UwmbeHzjX9sqqGmUgtOf35OjYiotEkSd9rXGyvd
+ /AYl53jRW5BNSqyLj1+svAGG5barEag=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1782836906;
+ s=susede2_ed25519; t=1782837130;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=fpGfQAlLw3qzT5ysYw+w7SeZRvoxB0S7yzln6WQZvac=;
- b=rKa8cQVC+8ZRtQgsEQclbwO5qC7aomSV+ez16gryVhI/I40x6yq3EpaTh17haLc1Dd6kXE
- dOK0Gmj5eCbIhcCw==
+ bh=bj46aHd3P0qP06KPPng/jA7xnMpRZKdrlFaZk5YHEUI=;
+ b=K6CUKJRxqfsSaluzpcBH1ATyfDref91sgi1JY9lMK3i3ebN+kNzleEv1r+ctX8m1sl67BO
+ LnuXVEjWKJAX9HCg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EE806779A8;
- Tue, 30 Jun 2026 16:28:21 +0000 (UTC)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 91BCC779A8;
+ Tue, 30 Jun 2026 16:32:05 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id RLl5NqXuQ2qudgAAD6G6ig
- (envelope-from <pfalcato@suse.de>); Tue, 30 Jun 2026 16:28:21 +0000
-Date: Tue, 30 Jun 2026 17:28:20 +0100
+ by imap1.dmz-prg2.suse.org with ESMTPSA id 91GlH4XvQ2qregAAD6G6ig
+ (envelope-from <pfalcato@suse.de>); Tue, 30 Jun 2026 16:32:05 +0000
+Date: Tue, 30 Jun 2026 17:32:03 +0100
 From: Pedro Falcato <pfalcato@suse.de>
 To: Lorenzo Stoakes <ljs@kernel.org>
 Cc: Andrew Morton <akpm@linux-foundation.org>, 
@@ -122,18 +121,18 @@ Cc: Andrew Morton <akpm@linux-foundation.org>,
  damon@lists.linux.dev, 
  Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>,
  Jann Horn <jannh@google.com>
-Subject: Re: [PATCH 08/30] mm/rmap: rename vma_interval_tree_*() to
- mapping_interval_tree_*()
-Message-ID: <akPtjuele4I7iqTQ@pedro-suse.lan>
+Subject: Re: [PATCH 09/30] mm/rmap: parameterise anon_vma_interval_tree_*()
+ by anon_vma
+Message-ID: <akPvI4r1rnxxSbzW@pedro-suse.lan>
 References: <cover.1782735110.git.ljs@kernel.org>
- <f95462457025370efd047b9dfb039e76bbddf58b.1782735110.git.ljs@kernel.org>
+ <1c1df7b905ef340cbf2effef769a4e770a8e0eb1.1782735110.git.ljs@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <f95462457025370efd047b9dfb039e76bbddf58b.1782735110.git.ljs@kernel.org>
+In-Reply-To: <1c1df7b905ef340cbf2effef769a4e770a8e0eb1.1782735110.git.ljs@kernel.org>
 X-Spam-Flag: NO
+X-Spam-Score: -2.80
 X-Spam-Level: 
-X-Spam-Score: -3.01
 X-Mailman-Approved-At: Thu, 02 Jul 2026 07:53:09 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -183,36 +182,33 @@ X-Spamd-Result: default: False [1.19 / 15.00];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.freedesktop.org:from_smtp,pedro-suse.lan:mid,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,suse.de:dkim,suse.de:from_mime]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.freedesktop.org:from_smtp,pedro-suse.lan:mid,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,suse.de:dkim,suse.de:email,suse.de:from_mime]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 900766F46FA
+X-Rspamd-Queue-Id: E085D6F4716
 
-On Mon, Jun 29, 2026 at 01:23:19PM +0100, Lorenzo Stoakes wrote:
-> The family of vma_interval_tree_() functions manipulate the
-> address_space (which, of course, is generally referred to as 'mapping')
-> reverse mapping, but are named the 'VMA' interval tree.
+On Mon, Jun 29, 2026 at 01:23:20PM +0100, Lorenzo Stoakes wrote:
+> Similar to what we did with mapping_interval_tree*(), let's declare
+> anon_vma_interval_tree*() in terms of anon_vma rather than rb_root_cached.
 > 
-> VMAs may be mapped by an anon_vma, an address_space, or both. Therefore
-> calling the mapping interval tree a 'VMA' interval tree is rather
-> confusing.
+> In each case the rb tree referenced is &anon_vma->rb_root, so just pass
+> anon_vma and the functions can figure this out themselves.
 > 
-> This is also inconsistent with the anon_vma_interval_tree_*() functions
-> which explicitly reference the rmap object to which they pertain.
+> Additionally, rename 'node' to 'avc', 'index' to 'pgoff_start', and 'last'
+> to 'pgoff_last' to make clear what is being passed.
 > 
-> Rename the vma_interval_tree_*() functions to mapping_interval_tree_*() to
-> correct this.
+> Finally express page offsets in terms of pgoff_t to be consistent.
 > 
 > No functional change intended.
 > 
 > Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
 
-I'll have to nitpick this and say that I prefer [1] file_rmap_tree_, or
-mapping_rmap_tree. Or possibly even better - mapping_ (so
-mapping_for_each_vma, mapping_insert_vma, etc).
+Yay!
 
-A bit of bikeshedding never hurts ;)
+Reviewed-by: Pedro Falcato <pfalcato@suse.de>
 
-[1] locally I was naming things file_rmap, but I never actually got to
-churn these names away
+I have a vaguely similar comment as for the file part (names could be
+simpler, doesn't really matter whether it's an interval tree or possibly
+even a tree), but I care less strongly about anon rmap :)
+
 -- 
 Pedro
