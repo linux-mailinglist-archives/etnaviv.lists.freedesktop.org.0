@@ -2,77 +2,77 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 9k/1COgYRmqZJwsAu9opvQ
+	id s7cRB+oYRmqjJwsAu9opvQ
 	(envelope-from <etnaviv-bounces@lists.freedesktop.org>)
-	for <lists+etnaviv@lfdr.de>; Thu, 02 Jul 2026 09:53:12 +0200
+	for <lists+etnaviv@lfdr.de>; Thu, 02 Jul 2026 09:53:14 +0200
 X-Original-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82C266F46E6
-	for <lists+etnaviv@lfdr.de>; Thu, 02 Jul 2026 09:53:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 900766F46FA
+	for <lists+etnaviv@lfdr.de>; Thu, 02 Jul 2026 09:53:13 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=xanAlxAE;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=UBfuerEf;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=oHFP4ENY;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=0lpiglbc;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=YqSSo22m;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=OjboBIWY;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ZgFV4lBo;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=rKa8cQVC;
 	spf=pass (mail.lfdr.de: domain of etnaviv-bounces@lists.freedesktop.org designates 131.252.210.177 as permitted sender) smtp.mailfrom=etnaviv-bounces@lists.freedesktop.org;
 	dmarc=pass (policy=none) header.from=suse.de
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 52C0610F1D7;
-	Thu,  2 Jul 2026 07:53:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6686410F1EC;
+	Thu,  2 Jul 2026 07:53:12 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8AC9A10E21C
- for <etnaviv@lists.freedesktop.org>; Tue, 30 Jun 2026 16:22:42 +0000 (UTC)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BFB4F10ECC7
+ for <etnaviv@lists.freedesktop.org>; Tue, 30 Jun 2026 16:28:28 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
  [IPv6:2a07:de40:b281:104:10:150:64:97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id CB92C7369F;
- Tue, 30 Jun 2026 16:22:40 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id CF42375862;
+ Tue, 30 Jun 2026 16:28:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1782836561; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1782836907; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=3P5pjkD1/OgRERI6ED7nD9LZ5+AzRSareSV95urOYd8=;
- b=xanAlxAE0PhfSU+Gu+saEOo8LI+pL5rVWt0WeycHwueC8nEl+a6rF325rrXaj7BvWCuvW7
- oXZh9tElAgFdqir6pGeDn4GavPtrRL2IzPro/eMuBZ/Ehv3reOi/Q/U134jdV0x/Mfh4pu
- UqotFk+XaMohzfZ0HckE7IKFH8Mw63Q=
+ bh=fpGfQAlLw3qzT5ysYw+w7SeZRvoxB0S7yzln6WQZvac=;
+ b=YqSSo22mhojVHr5KaetPiVoKsOWpADcKQk4SCGwzHCD8c91TO93c7qH1Hu/3Iu+C8qEW18
+ VBut15wgg3j+TREb3l4ryyZLhMjfVgvJJPfYNovcFJzQIcEEvgSYiOYPF64P5plftbzoOc
+ i75gg2QntCUc2dXLmYWRfa0fZtiUR58=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1782836561;
+ s=susede2_ed25519; t=1782836907;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=3P5pjkD1/OgRERI6ED7nD9LZ5+AzRSareSV95urOYd8=;
- b=UBfuerEfwAZrYlBwdz4DQ6Tpt8wOyPmXe2+W8i+4kVtk2x+G9sn8OdN+U1A2eDIork/Z2B
- hr0mqJXq+7vMDPCg==
+ bh=fpGfQAlLw3qzT5ysYw+w7SeZRvoxB0S7yzln6WQZvac=;
+ b=OjboBIWYV6zQ1rxvwd5uWsW03NJA0+xMVpxxKl5/JCx9KhJuvl0yKBodabIAdWEdEvS9xh
+ 9uWMIehk6x4zh3CA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1782836560; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1782836906; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=3P5pjkD1/OgRERI6ED7nD9LZ5+AzRSareSV95urOYd8=;
- b=oHFP4ENYNv7g9kLl6zkw6zv73BimWy1yhufP/7bGIu05NSQrEeT55M4BMy0EHq1qx3AlhZ
- MaHL2S6tHFhC1z69cbiQQOTozoWcUwQjQcy8/X1/qTXhXT0zUzQOLgN5pQ9OnwCHUX0HsK
- B5O+uVKIhghBy7u11eTWdVIdWYBPxoA=
+ bh=fpGfQAlLw3qzT5ysYw+w7SeZRvoxB0S7yzln6WQZvac=;
+ b=ZgFV4lBoUGsQDPFviUEZwCb5BwvFn9qMsh2J0ogEmmwQS+pxrmwiLkr9M9DoShzjh0Zfh/
+ DBPpsMG60OIr589X+rITcBxdJnLkKJL4828uid3F84GFeGCB30hiPbc+yKJ/8PKcvVzNYs
+ 6J/Rz50dxf3wqRpA64eLH4S0f8go2Ww=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1782836560;
+ s=susede2_ed25519; t=1782836906;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=3P5pjkD1/OgRERI6ED7nD9LZ5+AzRSareSV95urOYd8=;
- b=0lpiglbc+8uxUKdL0rSvsTa4T5PxU5MQ6R/5AOHsIORSWnpYHi6oRKpABxz1ssGvdgrcil
- RSDYwUAR1H5Lp4Ag==
+ bh=fpGfQAlLw3qzT5ysYw+w7SeZRvoxB0S7yzln6WQZvac=;
+ b=rKa8cQVC+8ZRtQgsEQclbwO5qC7aomSV+ez16gryVhI/I40x6yq3EpaTh17haLc1Dd6kXE
+ dOK0Gmj5eCbIhcCw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1EED9779A8;
- Tue, 30 Jun 2026 16:22:36 +0000 (UTC)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EE806779A8;
+ Tue, 30 Jun 2026 16:28:21 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id W4P+A0ztQ2oJcQAAD6G6ig
- (envelope-from <pfalcato@suse.de>); Tue, 30 Jun 2026 16:22:36 +0000
-Date: Tue, 30 Jun 2026 17:22:34 +0100
+ by imap1.dmz-prg2.suse.org with ESMTPSA id RLl5NqXuQ2qudgAAD6G6ig
+ (envelope-from <pfalcato@suse.de>); Tue, 30 Jun 2026 16:28:21 +0000
+Date: Tue, 30 Jun 2026 17:28:20 +0100
 From: Pedro Falcato <pfalcato@suse.de>
 To: Lorenzo Stoakes <ljs@kernel.org>
 Cc: Andrew Morton <akpm@linux-foundation.org>, 
@@ -122,18 +122,18 @@ Cc: Andrew Morton <akpm@linux-foundation.org>,
  damon@lists.linux.dev, 
  Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>,
  Jann Horn <jannh@google.com>
-Subject: Re: [PATCH 07/30] mm/rmap: elide unnecessary static inline's in
- interval_tree.c
-Message-ID: <akPs-NFWs5WE3GIq@pedro-suse.lan>
+Subject: Re: [PATCH 08/30] mm/rmap: rename vma_interval_tree_*() to
+ mapping_interval_tree_*()
+Message-ID: <akPtjuele4I7iqTQ@pedro-suse.lan>
 References: <cover.1782735110.git.ljs@kernel.org>
- <ed5fd5358382217a92f0a6afddcfaa030c933055.1782735110.git.ljs@kernel.org>
+ <f95462457025370efd047b9dfb039e76bbddf58b.1782735110.git.ljs@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ed5fd5358382217a92f0a6afddcfaa030c933055.1782735110.git.ljs@kernel.org>
+In-Reply-To: <f95462457025370efd047b9dfb039e76bbddf58b.1782735110.git.ljs@kernel.org>
 X-Spam-Flag: NO
-X-Spam-Score: -3.01
 X-Spam-Level: 
+X-Spam-Score: -3.01
 X-Mailman-Approved-At: Thu, 02 Jul 2026 07:53:09 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -166,8 +166,8 @@ X-Spamd-Result: default: False [1.19 / 15.00];
 	FORWARDED(0.00)[etnaviv@lists.freedesktop.org];
 	FORGED_RECIPIENTS(0.00)[m:ljs@kernel.org,m:akpm@linux-foundation.org,m:linux@armlinux.org.uk,m:dinguyen@kernel.org,m:schuster.simon@siemens-energy.com,m:James.Bottomley@hansenpartnership.com,m:deller@gmx.de,m:jarkko@kernel.org,m:tglx@kernel.org,m:mingo@redhat.com,m:bp@alien8.de,m:dave.hansen@linux.intel.com,m:x86@kernel.org,m:abbotti@mev.co.uk,m:hsweeten@visionengravers.com,m:l.stach@pengutronix.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:patrik.r.jakobsson@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:robin.clark@oss.qualcomm.com,m:lumag@kernel.org,m:tomi.valkeinen@ideasonboard.com,m:thierry.reding@kernel.org,m:mperttunen@nvidia.com,m:jonathanh@nvidia.com,m:christian.koenig@amd.com,m:ray.huang@amd.com,m:ankita@nvidia.com,m:alex@shazbot.org,m:viro@zeniv.linux.org.uk,m:brauner@kernel.org,m:djbw@kernel.org,m:muchun.song@linux.dev,m:osalvador@suse.de,m:david@kernel.org,m:surenb@google.com,m:liam@infradead.org,m:willy@infradead.org,m:m.szyprow
  ski@samsung.com,m:peterz@infradead.org,m:acme@kernel.org,m:namhyung@kernel.org,m:mhiramat@kernel.org,m:oleg@redhat.com,m:rostedt@goodmis.org,m:sj@kernel.org,m:linmiaohe@huawei.com,m:hughd@google.com,m:rppt@kernel.org,m:kees@kernel.org,m:pbonzini@redhat.com,m:linux-kernel@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-parisc@vger.kernel.org,m:linux-sgx@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linux-arm-msm@vger.kernel.org,m:freedreno@lists.freedesktop.org,m:linux-tegra@vger.kernel.org,m:kvm@vger.kernel.org,m:linux-fsdevel@vger.kernel.org,m:nvdimm@lists.linux.dev,m:linux-mm@kvack.org,m:iommu@lists.linux.dev,m:linux-perf-users@vger.kernel.org,m:linux-trace-kernel@vger.kernel.org,m:kasan-dev@googlegroups.com,m:damon@lists.linux.dev,m:riel@surriel.com,m:harry@kernel.org,m:jannh@google.com,m:patrikrjakobsson@gmail.com,s:lists@lfdr.de];
-	ARC_NA(0.00)[];
 	FORGED_SENDER(0.00)[pfalcato@suse.de,etnaviv-bounces@lists.freedesktop.org];
+	ARC_NA(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -183,28 +183,36 @@ X-Spamd-Result: default: False [1.19 / 15.00];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.freedesktop.org:from_smtp,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,suse.de:dkim,suse.de:email,suse.de:from_mime,pedro-suse.lan:mid]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.freedesktop.org:from_smtp,pedro-suse.lan:mid,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,suse.de:dkim,suse.de:from_mime]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 82C266F46E6
+X-Rspamd-Queue-Id: 900766F46FA
 
-On Mon, Jun 29, 2026 at 01:23:18PM +0100, Lorenzo Stoakes wrote:
-> It's not necessary to declare these functions static inline as they are
-> contained within a single compilation unit.
-
-FWIW I don't think it's technically strictly equivalent (I have a vague
-memory of inline lightly suggesting inlining a function to GCC, because of
-compat reasons). Anyway, doesn't really matter, practically any static
-function gets inlined with -O2 anyway.
-
+On Mon, Jun 29, 2026 at 01:23:19PM +0100, Lorenzo Stoakes wrote:
+> The family of vma_interval_tree_() functions manipulate the
+> address_space (which, of course, is generally referred to as 'mapping')
+> reverse mapping, but are named the 'VMA' interval tree.
 > 
-> This makes the anonymous interval tree code consistent with the newly
-> updated file-backed interval tree code.
+> VMAs may be mapped by an anon_vma, an address_space, or both. Therefore
+> calling the mapping interval tree a 'VMA' interval tree is rather
+> confusing.
+> 
+> This is also inconsistent with the anon_vma_interval_tree_*() functions
+> which explicitly reference the rmap object to which they pertain.
+> 
+> Rename the vma_interval_tree_*() functions to mapping_interval_tree_*() to
+> correct this.
 > 
 > No functional change intended.
 > 
 > Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
 
-Reviewed-by: Pedro Falcato <pfalcato@suse.de> 
+I'll have to nitpick this and say that I prefer [1] file_rmap_tree_, or
+mapping_rmap_tree. Or possibly even better - mapping_ (so
+mapping_for_each_vma, mapping_insert_vma, etc).
 
+A bit of bikeshedding never hurts ;)
+
+[1] locally I was naming things file_rmap, but I never actually got to
+churn these names away
 -- 
 Pedro
