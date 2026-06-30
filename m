@@ -2,76 +2,77 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id yd+IFOoYRmqlJwsAu9opvQ
+	id XQJiMukYRmqhJwsAu9opvQ
 	(envelope-from <etnaviv-bounces@lists.freedesktop.org>)
-	for <lists+etnaviv@lfdr.de>; Thu, 02 Jul 2026 09:53:14 +0200
+	for <lists+etnaviv@lfdr.de>; Thu, 02 Jul 2026 09:53:13 +0200
 X-Original-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EADE96F4702
+	by mail.lfdr.de (Postfix) with ESMTPS id 795E46F46F9
 	for <lists+etnaviv@lfdr.de>; Thu, 02 Jul 2026 09:53:13 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=DDehMC0y;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=5nuM8j4g;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=DDehMC0y;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=5nuM8j4g;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="Csm/0TAQ";
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=SuTooq+C;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="Csm/0TAQ";
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=SuTooq+C;
 	spf=pass (mail.lfdr.de: domain of etnaviv-bounces@lists.freedesktop.org designates 131.252.210.177 as permitted sender) smtp.mailfrom=etnaviv-bounces@lists.freedesktop.org;
 	dmarc=pass (policy=none) header.from=suse.de
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B898B10F1EE;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5742A10F1E9;
 	Thu,  2 Jul 2026 07:53:12 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C07E10ECD4
- for <etnaviv@lists.freedesktop.org>; Tue, 30 Jun 2026 16:35:09 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1CF7310ECD4
+ for <etnaviv@lists.freedesktop.org>; Tue, 30 Jun 2026 16:36:26 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 0B531736C5;
- Tue, 30 Jun 2026 16:35:08 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 9459571654;
+ Tue, 30 Jun 2026 16:36:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1782837308; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1782837384; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=vL7z05Z2Yz25EK5Nk+C2zAQnWxd+0KF9x6pG+as9VEc=;
- b=DDehMC0yFbKo8KmShmLbqXXCwtYXcRKOPXxAJVSlKEBs4Td0N3G5Z5W6bY3uZLpH84ERD/
- S0mfc82DUBmZdopdshc3KCA6FwWcHVTjvLeQWe229oIuQ5akdpEcCReOMMSbWbBFHYHdmr
- 4AsfIhtWjE0Wvm+/AQXwJAnAz3AnjLQ=
+ bh=zwtvYcpEu3U9PLHqG7OTydVnRKJe82b04p0UFeAYHjA=;
+ b=Csm/0TAQDKcAqPahjvJm4t6wIygBvouh4o3HLWaKsgyk698bUArVP/FODSuGjNHcARgLTj
+ CJc2gPmeHEfliGZdWDOcmZZZ0vZ9z95eXBkXNuiEMJpmpW8Tp01B9gZwKHKhDLyJoN2tn+
+ chGgPP4YUFkHsmNHRAZUF9xPb+SnjMo=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1782837308;
+ s=susede2_ed25519; t=1782837384;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=vL7z05Z2Yz25EK5Nk+C2zAQnWxd+0KF9x6pG+as9VEc=;
- b=5nuM8j4g9z+4mG1ka4DMjT/WLRKrQIvs/FsA1pcl9NznsCo9eOelHyxK4lbKxBfZnVsyzD
- aqMQFd4+Di63MjBQ==
+ bh=zwtvYcpEu3U9PLHqG7OTydVnRKJe82b04p0UFeAYHjA=;
+ b=SuTooq+CQho1YfxuTrEUMCh69pnVtR5UtZwMeH7IAZfA6dmdObdMjx1/u2fLm2dXcH2Fos
+ 1ruN1lCKBfY39zDg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1782837308; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1782837384; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=vL7z05Z2Yz25EK5Nk+C2zAQnWxd+0KF9x6pG+as9VEc=;
- b=DDehMC0yFbKo8KmShmLbqXXCwtYXcRKOPXxAJVSlKEBs4Td0N3G5Z5W6bY3uZLpH84ERD/
- S0mfc82DUBmZdopdshc3KCA6FwWcHVTjvLeQWe229oIuQ5akdpEcCReOMMSbWbBFHYHdmr
- 4AsfIhtWjE0Wvm+/AQXwJAnAz3AnjLQ=
+ bh=zwtvYcpEu3U9PLHqG7OTydVnRKJe82b04p0UFeAYHjA=;
+ b=Csm/0TAQDKcAqPahjvJm4t6wIygBvouh4o3HLWaKsgyk698bUArVP/FODSuGjNHcARgLTj
+ CJc2gPmeHEfliGZdWDOcmZZZ0vZ9z95eXBkXNuiEMJpmpW8Tp01B9gZwKHKhDLyJoN2tn+
+ chGgPP4YUFkHsmNHRAZUF9xPb+SnjMo=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1782837308;
+ s=susede2_ed25519; t=1782837384;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=vL7z05Z2Yz25EK5Nk+C2zAQnWxd+0KF9x6pG+as9VEc=;
- b=5nuM8j4g9z+4mG1ka4DMjT/WLRKrQIvs/FsA1pcl9NznsCo9eOelHyxK4lbKxBfZnVsyzD
- aqMQFd4+Di63MjBQ==
+ bh=zwtvYcpEu3U9PLHqG7OTydVnRKJe82b04p0UFeAYHjA=;
+ b=SuTooq+CQho1YfxuTrEUMCh69pnVtR5UtZwMeH7IAZfA6dmdObdMjx1/u2fLm2dXcH2Fos
+ 1ruN1lCKBfY39zDg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2D297779A8;
- Tue, 30 Jun 2026 16:35:03 +0000 (UTC)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E748F779A8;
+ Tue, 30 Jun 2026 16:36:19 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id dXYkBzfwQ2rFfQAAD6G6ig
- (envelope-from <pfalcato@suse.de>); Tue, 30 Jun 2026 16:35:03 +0000
-Date: Tue, 30 Jun 2026 17:35:01 +0100
+ by imap1.dmz-prg2.suse.org with ESMTPSA id GZUpNYPwQ2qifgAAD6G6ig
+ (envelope-from <pfalcato@suse.de>); Tue, 30 Jun 2026 16:36:19 +0000
+Date: Tue, 30 Jun 2026 17:36:18 +0100
 From: Pedro Falcato <pfalcato@suse.de>
 To: Lorenzo Stoakes <ljs@kernel.org>
 Cc: Andrew Morton <akpm@linux-foundation.org>, 
@@ -121,17 +122,16 @@ Cc: Andrew Morton <akpm@linux-foundation.org>,
  damon@lists.linux.dev, 
  Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>,
  Jann Horn <jannh@google.com>
-Subject: Re: [PATCH 11/30] mm/vma: introduce and use vmg_pages(), vmg_[start, 
- end]_pgoff()
-Message-ID: <akPwGnOXgrx77hxj@pedro-suse.lan>
+Subject: Re: [PATCH 12/30] mm/vma: clean up anon_vma_compatible()
+Message-ID: <akPwbHbGiF1FxL6m@pedro-suse.lan>
 References: <cover.1782735110.git.ljs@kernel.org>
- <f7b4f8a611ab4d36eb3cf2e394610a3744a93895.1782735110.git.ljs@kernel.org>
+ <5a7a07bd2a774989849b0fea84f758059ed914df.1782735110.git.ljs@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <f7b4f8a611ab4d36eb3cf2e394610a3744a93895.1782735110.git.ljs@kernel.org>
+In-Reply-To: <5a7a07bd2a774989849b0fea84f758059ed914df.1782735110.git.ljs@kernel.org>
 X-Spam-Flag: NO
-X-Spam-Score: -2.80
+X-Spam-Score: -3.01
 X-Spam-Level: 
 X-Mailman-Approved-At: Thu, 02 Jul 2026 07:53:09 +0000
 X-BeenThere: etnaviv@lists.freedesktop.org
@@ -184,20 +184,55 @@ X-Spamd-Result: default: False [1.19 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.freedesktop.org:from_smtp,pedro-suse.lan:mid,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,suse.de:dkim,suse.de:email,suse.de:from_mime]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: EADE96F4702
+X-Rspamd-Queue-Id: 795E46F46F9
 
-On Mon, Jun 29, 2026 at 01:23:22PM +0100, Lorenzo Stoakes wrote:
-> In the VMA logic we often need to determine the number of pages in the
-> specified merge range, as well as the start and end page offsets of that
-> range.
-> 
-> Introduce and use helpers for these purposes.
+On Mon, Jun 29, 2026 at 01:23:23PM +0100, Lorenzo Stoakes wrote:
+> Break up the existing very large conditional, add comments and use
+> vma_[start/end]_pgoff() to make clearer what we're doing here.
 > 
 > No functional change intended.
 > 
 > Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
+> ---
+>  mm/vma.c | 21 ++++++++++++++++-----
+>  1 file changed, 16 insertions(+), 5 deletions(-)
+> 
+> diff --git a/mm/vma.c b/mm/vma.c
+> index b60375c6c5c3..6296acecf3b7 100644
+> --- a/mm/vma.c
+> +++ b/mm/vma.c
+> @@ -1967,14 +1967,25 @@ static int anon_vma_compatible(struct vm_area_struct *a, struct vm_area_struct *
+>  {
+>  	vma_flags_t diff = vma_flags_diff_pair(&a->flags, &b->flags);
+>  
+> +	/* Ignore flags that mprotect() can change. */
+>  	vma_flags_clear_mask(&diff, VMA_ACCESS_FLAGS);
+> +	/* Ignore flags that do not impact merging. */
+>  	vma_flags_clear_mask(&diff, VMA_IGNORE_MERGE_FLAGS);
+>  
+> -	return a->vm_end == b->vm_start &&
+> -		mpol_equal(vma_policy(a), vma_policy(b)) &&
+> -		a->vm_file == b->vm_file &&
+> -		vma_flags_empty(&diff) &&
+> -		b->vm_pgoff == a->vm_pgoff + ((b->vm_start - a->vm_start) >> PAGE_SHIFT);
+> +	/* Must be adjacent. */
+> +	if (a->vm_end != b->vm_start)
+> +		return false;
+> +	/* Must have matching policy. */
+> +	if (!mpol_equal(vma_policy(a), vma_policy(b)))
+> +		return false;
+> +	/* Must both be anon or map the same file (MAP_PRIVATE case). */
+> +	if (a->vm_file != b->vm_file)
+> +		return false;
+> +	/* Flags must be equivalent modulo mprotect(). */
+> +	if (!vma_flags_empty(&diff))
+> +		return false;
+> +	/* Page offset must align. */
+> +	return vma_end_pgoff(a) == vma_start_pgoff(b);
 
-Reviewed-by: Pedro Falcato <pfalcato@suse.de> 
+Very nice.
+
+Reviewed-by: Pedro Falcato <pfalcato@suse.de>
 
 -- 
 Pedro
