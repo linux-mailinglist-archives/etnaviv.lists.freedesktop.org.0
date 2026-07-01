@@ -2,41 +2,41 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id bElMKYrpRGr42woAu9opvQ
+	id XIkOEuzpRGox3AoAu9opvQ
 	(envelope-from <etnaviv-bounces@lists.freedesktop.org>)
-	for <lists+etnaviv@lfdr.de>; Wed, 01 Jul 2026 12:18:50 +0200
+	for <lists+etnaviv@lfdr.de>; Wed, 01 Jul 2026 12:20:28 +0200
 X-Original-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51F536EC057
-	for <lists+etnaviv@lfdr.de>; Wed, 01 Jul 2026 12:18:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9684A6EC0F8
+	for <lists+etnaviv@lfdr.de>; Wed, 01 Jul 2026 12:20:27 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=AXQrg9P0;
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=cuGMmNGU;
 	spf=pass (mail.lfdr.de: domain of etnaviv-bounces@lists.freedesktop.org designates 131.252.210.177 as permitted sender) smtp.mailfrom=etnaviv-bounces@lists.freedesktop.org;
 	dmarc=pass (policy=quarantine) header.from=kernel.org
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 53F2810EEA7;
-	Wed,  1 Jul 2026 10:18:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7782810EE84;
+	Wed,  1 Jul 2026 10:20:26 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A49010EE9B;
- Wed,  1 Jul 2026 10:18:46 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8217210E36A;
+ Wed,  1 Jul 2026 10:20:24 +0000 (UTC)
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
- by sea.source.kernel.org (Postfix) with ESMTP id ED32C44063;
- Wed,  1 Jul 2026 10:18:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 783341F000E9;
- Wed,  1 Jul 2026 10:18:30 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 69CE6601DE;
+ Wed,  1 Jul 2026 10:20:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB7771F000E9;
+ Wed,  1 Jul 2026 10:20:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
- s=k20260515; t=1782901125;
- bh=JM9/CaIlMkjQdFefjm0dVPPjkG/0+O7+5RX4p75h0x0=;
+ s=k20260515; t=1782901223;
+ bh=D5+bWR29OngXVj5rwG1+zYSN1WwMk4/7ECM6WfNh2uI=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To;
- b=AXQrg9P0AZleFkeFS51+PjUo+B8xcdDVE6tYWDlNGuGdgBpLyKHJD6elc2v/kcqUE
- 8Pcm+GcqRx1k66nL9Uz+zEQ1FGgN7fgq6+QHDdXkD+Pdz0aJff6p2k0V+rzm+2Z3nu
- iSsIViklzABlCCMKzkBXtJrZyVFo2V4IsTINTz9RKasIkvyuDEwuSlPRQaN1JPh1Ph
- 4s6fRT7pOmRvUznm5PfN3Qg8RbN5uvU10x5Z/rpOw3czvOGlanwtN8QcTVROHG707e
- UmVvX7bqHJU1MBVNsmN1D97wgCCjA1bFiUR7kEt/Ogvvig/eVyWKvzrNW1JuZ23oNU
- HGzRMycOX4fdw==
-Date: Wed, 1 Jul 2026 11:18:24 +0100
+ b=cuGMmNGU7E65Dg68eYFJaoaIWAAXeqkJUg8FZQJgjFh+i1j9q01MpEqRw5mq7z2rO
+ rkXRZR9NGSQ9sII7fZOwfSIwzleA8JRMW111/zeCE0qmHsxiY/HLQ0Dm8xGge55Nbo
+ /rPxBfTmGORtHvvZPyK97uPKTZnGWvFXgU7p2RkSdlG4PEyzwi19N3lXnrYxEkZX5b
+ zl9UvB9/CJ8gR1giihtd/aBTGzdpN/Ulj4oApN/i9Aqbvc2Mp6sFjuGNqa0yzOHDgG
+ nR1WDpWllVqYqSGN3pkdhjkgYYrs6JaUJqiQNQpkXzrrwNWf/Am7VMbc8hwnba0Luf
+ /Q1TqhzeWdoGA==
+Date: Wed, 1 Jul 2026 11:20:01 +0100
 From: Lorenzo Stoakes <ljs@kernel.org>
 To: Pedro Falcato <pfalcato@suse.de>
 Cc: Andrew Morton <akpm@linux-foundation.org>, 
@@ -86,16 +86,15 @@ Cc: Andrew Morton <akpm@linux-foundation.org>,
  damon@lists.linux.dev, 
  Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>,
  Jann Horn <jannh@google.com>
-Subject: Re: [PATCH 09/30] mm/rmap: parameterise anon_vma_interval_tree_*()
- by anon_vma
-Message-ID: <akTpXVhj3unHRH8o@lucifer>
+Subject: Re: [PATCH 12/30] mm/vma: clean up anon_vma_compatible()
+Message-ID: <akTpyNqkh6W1SmhI@lucifer>
 References: <cover.1782735110.git.ljs@kernel.org>
- <1c1df7b905ef340cbf2effef769a4e770a8e0eb1.1782735110.git.ljs@kernel.org>
- <akPvI4r1rnxxSbzW@pedro-suse.lan>
+ <5a7a07bd2a774989849b0fea84f758059ed914df.1782735110.git.ljs@kernel.org>
+ <akPwbHbGiF1FxL6m@pedro-suse.lan>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <akPvI4r1rnxxSbzW@pedro-suse.lan>
+In-Reply-To: <akPwbHbGiF1FxL6m@pedro-suse.lan>
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -139,37 +138,58 @@ X-Spamd-Result: default: False [0.69 / 15.00];
 	MISSING_XM_UA(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[lucifer:mid,suse.de:email,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,lists.freedesktop.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 51F536EC057
+X-Rspamd-Queue-Id: 9684A6EC0F8
 
-On Tue, Jun 30, 2026 at 05:32:03PM +0100, Pedro Falcato wrote:
-> On Mon, Jun 29, 2026 at 01:23:20PM +0100, Lorenzo Stoakes wrote:
-> > Similar to what we did with mapping_interval_tree*(), let's declare
-> > anon_vma_interval_tree*() in terms of anon_vma rather than rb_root_cached.
-> >
-> > In each case the rb tree referenced is &anon_vma->rb_root, so just pass
-> > anon_vma and the functions can figure this out themselves.
-> >
-> > Additionally, rename 'node' to 'avc', 'index' to 'pgoff_start', and 'last'
-> > to 'pgoff_last' to make clear what is being passed.
-> >
-> > Finally express page offsets in terms of pgoff_t to be consistent.
+On Tue, Jun 30, 2026 at 05:36:18PM +0100, Pedro Falcato wrote:
+> On Mon, Jun 29, 2026 at 01:23:23PM +0100, Lorenzo Stoakes wrote:
+> > Break up the existing very large conditional, add comments and use
+> > vma_[start/end]_pgoff() to make clearer what we're doing here.
 > >
 > > No functional change intended.
 > >
 > > Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
+> > ---
+> >  mm/vma.c | 21 ++++++++++++++++-----
+> >  1 file changed, 16 insertions(+), 5 deletions(-)
+> >
+> > diff --git a/mm/vma.c b/mm/vma.c
+> > index b60375c6c5c3..6296acecf3b7 100644
+> > --- a/mm/vma.c
+> > +++ b/mm/vma.c
+> > @@ -1967,14 +1967,25 @@ static int anon_vma_compatible(struct vm_area_struct *a, struct vm_area_struct *
+> >  {
+> >  	vma_flags_t diff = vma_flags_diff_pair(&a->flags, &b->flags);
+> >
+> > +	/* Ignore flags that mprotect() can change. */
+> >  	vma_flags_clear_mask(&diff, VMA_ACCESS_FLAGS);
+> > +	/* Ignore flags that do not impact merging. */
+> >  	vma_flags_clear_mask(&diff, VMA_IGNORE_MERGE_FLAGS);
+> >
+> > -	return a->vm_end == b->vm_start &&
+> > -		mpol_equal(vma_policy(a), vma_policy(b)) &&
+> > -		a->vm_file == b->vm_file &&
+> > -		vma_flags_empty(&diff) &&
+> > -		b->vm_pgoff == a->vm_pgoff + ((b->vm_start - a->vm_start) >> PAGE_SHIFT);
+> > +	/* Must be adjacent. */
+> > +	if (a->vm_end != b->vm_start)
+> > +		return false;
+> > +	/* Must have matching policy. */
+> > +	if (!mpol_equal(vma_policy(a), vma_policy(b)))
+> > +		return false;
+> > +	/* Must both be anon or map the same file (MAP_PRIVATE case). */
+> > +	if (a->vm_file != b->vm_file)
+> > +		return false;
+> > +	/* Flags must be equivalent modulo mprotect(). */
+> > +	if (!vma_flags_empty(&diff))
+> > +		return false;
+> > +	/* Page offset must align. */
+> > +	return vma_end_pgoff(a) == vma_start_pgoff(b);
 >
-> Yay!
+> Very nice.
 >
 > Reviewed-by: Pedro Falcato <pfalcato@suse.de>
 
 Thanks :)
-
->
-> I have a vaguely similar comment as for the file part (names could be
-> simpler, doesn't really matter whether it's an interval tree or possibly
-> even a tree), but I care less strongly about anon rmap :)
-
-And yeah ack, let me agonise over that a bit :P
 
 >
 > --
