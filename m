@@ -2,41 +2,41 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 4TugJY3oRGrB2woAu9opvQ
+	id bElMKYrpRGr42woAu9opvQ
 	(envelope-from <etnaviv-bounces@lists.freedesktop.org>)
-	for <lists+etnaviv@lfdr.de>; Wed, 01 Jul 2026 12:14:37 +0200
+	for <lists+etnaviv@lfdr.de>; Wed, 01 Jul 2026 12:18:50 +0200
 X-Original-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 233C66EBFAF
-	for <lists+etnaviv@lfdr.de>; Wed, 01 Jul 2026 12:14:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51F536EC057
+	for <lists+etnaviv@lfdr.de>; Wed, 01 Jul 2026 12:18:50 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=SsMSUbAA;
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=AXQrg9P0;
 	spf=pass (mail.lfdr.de: domain of etnaviv-bounces@lists.freedesktop.org designates 131.252.210.177 as permitted sender) smtp.mailfrom=etnaviv-bounces@lists.freedesktop.org;
 	dmarc=pass (policy=quarantine) header.from=kernel.org
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F228D10EE9B;
-	Wed,  1 Jul 2026 10:14:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 53F2810EEA7;
+	Wed,  1 Jul 2026 10:18:48 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABB0910EE9B;
- Wed,  1 Jul 2026 10:14:34 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A49010EE9B;
+ Wed,  1 Jul 2026 10:18:46 +0000 (UTC)
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
- by tor.source.kernel.org (Postfix) with ESMTP id CD4C66001D;
- Wed,  1 Jul 2026 10:14:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9816A1F000E9;
- Wed,  1 Jul 2026 10:14:17 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id ED32C44063;
+ Wed,  1 Jul 2026 10:18:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 783341F000E9;
+ Wed,  1 Jul 2026 10:18:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
- s=k20260515; t=1782900873;
- bh=MxQbnGsZoYEeUUWCNxHFMLWCbhf6XkMB4J/kyZCw7aQ=;
+ s=k20260515; t=1782901125;
+ bh=JM9/CaIlMkjQdFefjm0dVPPjkG/0+O7+5RX4p75h0x0=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To;
- b=SsMSUbAAV6xvXQAFUx89uz5IFhN7+Zl1QTMWjM1sfBzD12H9w9GlLytFDAvlfqEtu
- zxM1nx/Rw+0etgyNI/MUT6BoXukwf38U1evQ9uAuYcVhPAZon9ACkm+QDkxCLUZGOV
- jfEfE5rqcIppLW/a+fFzg/lxdqwkSprEQ5wQzNhAM4QTPk/LKJXoFlzAwqp6zt4Pdo
- MZsZG+fVKjkTgAWqt2sNhKdd0V9vHe1rSxqL7N2gbyIy7k6rBJg99uje117D1fIMTs
- Ofv+7N0ZI9pM30elRxaNZLThhLB/mgA/4FFYjnJTIBx8Ssa/NQrq/aaGT1eQD2mIsM
- MrCyKM8zicfjg==
-Date: Wed, 1 Jul 2026 11:14:11 +0100
+ b=AXQrg9P0AZleFkeFS51+PjUo+B8xcdDVE6tYWDlNGuGdgBpLyKHJD6elc2v/kcqUE
+ 8Pcm+GcqRx1k66nL9Uz+zEQ1FGgN7fgq6+QHDdXkD+Pdz0aJff6p2k0V+rzm+2Z3nu
+ iSsIViklzABlCCMKzkBXtJrZyVFo2V4IsTINTz9RKasIkvyuDEwuSlPRQaN1JPh1Ph
+ 4s6fRT7pOmRvUznm5PfN3Qg8RbN5uvU10x5Z/rpOw3czvOGlanwtN8QcTVROHG707e
+ UmVvX7bqHJU1MBVNsmN1D97wgCCjA1bFiUR7kEt/Ogvvig/eVyWKvzrNW1JuZ23oNU
+ HGzRMycOX4fdw==
+Date: Wed, 1 Jul 2026 11:18:24 +0100
 From: Lorenzo Stoakes <ljs@kernel.org>
 To: Pedro Falcato <pfalcato@suse.de>
 Cc: Andrew Morton <akpm@linux-foundation.org>, 
@@ -86,16 +86,16 @@ Cc: Andrew Morton <akpm@linux-foundation.org>,
  damon@lists.linux.dev, 
  Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>,
  Jann Horn <jannh@google.com>
-Subject: Re: [PATCH 08/30] mm/rmap: rename vma_interval_tree_*() to
- mapping_interval_tree_*()
-Message-ID: <akTketJmWBOSThSf@lucifer>
+Subject: Re: [PATCH 09/30] mm/rmap: parameterise anon_vma_interval_tree_*()
+ by anon_vma
+Message-ID: <akTpXVhj3unHRH8o@lucifer>
 References: <cover.1782735110.git.ljs@kernel.org>
- <f95462457025370efd047b9dfb039e76bbddf58b.1782735110.git.ljs@kernel.org>
- <akPtjuele4I7iqTQ@pedro-suse.lan>
+ <1c1df7b905ef340cbf2effef769a4e770a8e0eb1.1782735110.git.ljs@kernel.org>
+ <akPvI4r1rnxxSbzW@pedro-suse.lan>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <akPtjuele4I7iqTQ@pedro-suse.lan>
+In-Reply-To: <akPvI4r1rnxxSbzW@pedro-suse.lan>
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -137,70 +137,41 @@ X-Spamd-Result: default: False [0.69 / 15.00];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,lists.freedesktop.org:from_smtp,lucifer:mid]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[lucifer:mid,suse.de:email,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,lists.freedesktop.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 233C66EBFAF
+X-Rspamd-Queue-Id: 51F536EC057
 
-On Tue, Jun 30, 2026 at 05:28:20PM +0100, Pedro Falcato wrote:
-> On Mon, Jun 29, 2026 at 01:23:19PM +0100, Lorenzo Stoakes wrote:
-> > The family of vma_interval_tree_() functions manipulate the
-> > address_space (which, of course, is generally referred to as 'mapping')
-> > reverse mapping, but are named the 'VMA' interval tree.
+On Tue, Jun 30, 2026 at 05:32:03PM +0100, Pedro Falcato wrote:
+> On Mon, Jun 29, 2026 at 01:23:20PM +0100, Lorenzo Stoakes wrote:
+> > Similar to what we did with mapping_interval_tree*(), let's declare
+> > anon_vma_interval_tree*() in terms of anon_vma rather than rb_root_cached.
 > >
-> > VMAs may be mapped by an anon_vma, an address_space, or both. Therefore
-> > calling the mapping interval tree a 'VMA' interval tree is rather
-> > confusing.
+> > In each case the rb tree referenced is &anon_vma->rb_root, so just pass
+> > anon_vma and the functions can figure this out themselves.
 > >
-> > This is also inconsistent with the anon_vma_interval_tree_*() functions
-> > which explicitly reference the rmap object to which they pertain.
+> > Additionally, rename 'node' to 'avc', 'index' to 'pgoff_start', and 'last'
+> > to 'pgoff_last' to make clear what is being passed.
 > >
-> > Rename the vma_interval_tree_*() functions to mapping_interval_tree_*() to
-> > correct this.
+> > Finally express page offsets in terms of pgoff_t to be consistent.
 > >
 > > No functional change intended.
 > >
 > > Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
 >
-> I'll have to nitpick this and say that I prefer [1] file_rmap_tree_, or
-> mapping_rmap_tree. Or possibly even better - mapping_ (so
-> mapping_for_each_vma, mapping_insert_vma, etc).
+> Yay!
+>
+> Reviewed-by: Pedro Falcato <pfalcato@suse.de>
 
-Haha of course.
-
-I don't like mapping_ because that is such an overloaded term and it's confusing
-really.
-
-I'm iffy on mapping_rmap_tree as it feels like that implies 'this is the whole
-of how the rmap lookup works', and it also makes it less obvious what _kind_ of
-tree it is, though I suppose you could look up the types, but the crap macro
-generation makes that more of a pain.
-
-Also, for file 'rmap' you are potentially not actually doing an rmap at all in
-the classical sense of folio -> rmap object -> related VMAs, but rather are
-going from file/inode -> <page cache abstraction> -> related VMAs...
-
-But then again a quick spot check suggests it's usually from a folio... I guess
-only the rmap really needs to find the VMAs.
-
-Also if I renamed it to mapping_rmap_tree I'd have to respin and churn all the
-anon_vma code but I guess that's not impossible... :)
-
-I guess I'm a bit stubborn about doing much with the anon_vma stuff until I get
-rid of it.
-
-But I couldn't live with the stupidity of calling it vma_interval_tree_*()
-anymore here...
-
-OK I'm a bit torn, mapping_rmap_tree*() and anon_rmap_tree*() are the workable
-contenders from your suggestions.
-
-Let me think about that on respin... :)
+Thanks :)
 
 >
-> A bit of bikeshedding never hurts ;)
+> I have a vaguely similar comment as for the file part (names could be
+> simpler, doesn't really matter whether it's an interval tree or possibly
+> even a tree), but I care less strongly about anon rmap :)
+
+And yeah ack, let me agonise over that a bit :P
+
 >
-> [1] locally I was naming things file_rmap, but I never actually got to
-> churn these names away
 > --
 > Pedro
 
