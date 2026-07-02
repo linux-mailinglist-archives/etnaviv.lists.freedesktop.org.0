@@ -2,38 +2,38 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id XM+jBs9YRmowRQsAu9opvQ
+	id RELaLyFcRmqdRgsAu9opvQ
 	(envelope-from <etnaviv-bounces@lists.freedesktop.org>)
-	for <lists+etnaviv@lfdr.de>; Thu, 02 Jul 2026 14:25:51 +0200
+	for <lists+etnaviv@lfdr.de>; Thu, 02 Jul 2026 14:40:01 +0200
 X-Original-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BFAD6F78A4
-	for <lists+etnaviv@lfdr.de>; Thu, 02 Jul 2026 14:25:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AC8F6F7BBB
+	for <lists+etnaviv@lfdr.de>; Thu, 02 Jul 2026 14:40:01 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=linux.dev header.s=key1 header.b=b+ldrvkt;
+	dkim=pass header.d=linux.dev header.s=key1 header.b=F10EZD2M;
 	spf=pass (mail.lfdr.de: domain of etnaviv-bounces@lists.freedesktop.org designates 131.252.210.177 as permitted sender) smtp.mailfrom=etnaviv-bounces@lists.freedesktop.org;
 	dmarc=pass (policy=none) header.from=linux.dev
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A2AD10F338;
-	Thu,  2 Jul 2026 12:25:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED2D910F34B;
+	Thu,  2 Jul 2026 12:39:59 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from out-178.mta0.migadu.com (out-178.mta0.migadu.com
- [91.218.175.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C46AA10F332
- for <etnaviv@lists.freedesktop.org>; Thu,  2 Jul 2026 12:25:47 +0000 (UTC)
+Received: from out-180.mta1.migadu.com (out-180.mta1.migadu.com
+ [95.215.58.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 40FB310F34F
+ for <etnaviv@lists.freedesktop.org>; Thu,  2 Jul 2026 12:39:58 +0000 (UTC)
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1782995144;
+ t=1782995985;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7Ko6g/fNv98hSurpFrjSC8unNT/smMh3pnGqTobbcqg=;
- b=b+ldrvkt8ZmJ+OrI3yxcQgFLnRxGCWHjhsFZZL3rVzLaxyNILjolYA01aJGr58GPqotONa
- C0qfjyiCv0Ek1cqalMJ+/t7YCyD5CeARmY/TMOXt2of2lM3qjKi0LZINpNnLjdz9QLcCqu
- OOzdaIK15Lm4UMi7JwMdKk4MKXYIZlw=
+ bh=MSqvG6QTDeOE5qt8LI9tLb3iySB/2eramUM4HlZdPG8=;
+ b=F10EZD2MKuMsgIZGg+Kv4CpsFBAqfutqUSZV+CnlSj4mTRO6SM+hx7IFnwTXi02n4W5ksq
+ B3eV7EruPZaVg8GiZqN77RrtZjvlyRAPzkka+Z5kYwT5shcZ0occtt6vxWz8dsjkDZRJwI
+ jZvjN/4FCRiAB3/YW0BqvRoNYnrlgRU=
 From: Lance Yang <lance.yang@linux.dev>
 To: ljs@kernel.org
 Cc: akpm@linux-foundation.org, tsbogend@alpha.franken.de, maddy@linux.ibm.com,
@@ -67,12 +67,11 @@ Cc: akpm@linux-foundation.org, tsbogend@alpha.franken.de, maddy@linux.ibm.com,
  linux-fbdev@vger.kernel.org, linux-aio@kvack.org,
  linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
  linux-sound@vger.kernel.org
-Subject: Re: [PATCH 07/13] mm/vma: rename vma_get_page_prot to
- vma_flags_to_page_prot
-Date: Thu,  2 Jul 2026 20:25:15 +0800
-Message-Id: <20260702122515.74271-1-lance.yang@linux.dev>
-In-Reply-To: <fc8ac30d03d29d236e76542b36432bba315aca60.1782760670.git.ljs@kernel.org>
-References: <fc8ac30d03d29d236e76542b36432bba315aca60.1782760670.git.ljs@kernel.org>
+Subject: Re: [PATCH 08/13] mm: introduce vma_get_page_prot() and use it
+Date: Thu,  2 Jul 2026 20:38:45 +0800
+Message-Id: <20260702123845.95316-1-lance.yang@linux.dev>
+In-Reply-To: <3bb8bdc4788230c33102166d56cbc5abfad9d4cb.1782760670.git.ljs@kernel.org>
+References: <3bb8bdc4788230c33102166d56cbc5abfad9d4cb.1782760670.git.ljs@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -125,21 +124,46 @@ X-Spamd-Result: default: False [-0.31 / 15.00];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 6BFAD6F78A4
+X-Rspamd-Queue-Id: 2AC8F6F7BBB
 
 
-On Mon, Jun 29, 2026 at 08:25:30PM +0100, Lorenzo Stoakes wrote:
->Having vma_get_page_prot() refer to VMA flags and vma_set_page_prot() refer
->to a VMA is confusing.
+On Mon, Jun 29, 2026 at 08:25:31PM +0100, Lorenzo Stoakes wrote:
+>There's a large number of vm_get_page_prot(vma->vm_flags) invocations. Make
+>life easier by introducing vma_get_page_prot() parameterised by the VMA.
 >
->Rename vma_get_page_prot() to vma_flags_to_page_prot() to resolve this
->confusion.
+>This also makes converting vm_get_page_prot() to vma_flags_t easier.
+>
+>Also update the userland VMA tests to reflect the change.
 >
 >No functional change intended.
 >
 >Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
 >---
+> drivers/gpu/drm/drm_gem.c                   |  2 +-
+> drivers/gpu/drm/drm_gem_dma_helper.c        |  2 +-
+> drivers/gpu/drm/drm_gem_shmem_helper.c      |  2 +-
+> drivers/gpu/drm/etnaviv/etnaviv_gem.c       |  2 +-
+> drivers/gpu/drm/exynos/exynos_drm_gem.c     |  6 +++---
+> drivers/gpu/drm/i915/gem/i915_gem_mman.c    | 12 ++++++------
+> drivers/gpu/drm/msm/msm_gem.c               |  2 +-
+> drivers/gpu/drm/nouveau/nouveau_gem.c       |  2 +-
+> drivers/gpu/drm/omapdrm/omap_fbdev.c        |  2 +-
+> drivers/gpu/drm/omapdrm/omap_gem.c          |  6 +++---
+> drivers/gpu/drm/rockchip/rockchip_drm_gem.c |  2 +-
+> drivers/gpu/drm/tegra/gem.c                 |  2 +-
+> drivers/gpu/drm/virtio/virtgpu_vram.c       |  2 +-
+> drivers/gpu/drm/vmwgfx/vmwgfx_page_dirty.c  |  2 +-
+> drivers/gpu/drm/xe/xe_device.c              |  2 +-
+> drivers/gpu/drm/xe/xe_mmio_gem.c            |  2 +-
+> drivers/gpu/drm/xen/xen_drm_front_gem.c     |  2 +-
+> drivers/video/fbdev/core/fb_io_fops.c       |  2 +-
 
-straight rename, no stale callers that I can spot ;) Feel free to add:
+One missed?
 
-Reviewed-by: Lance Yang <lance.yang@linux.dev>
+drivers/gpu/drm/panthor/panthor_gem.c still has:
+
+	vma->vm_page_prot = vm_get_page_prot(vma->vm_flags);
+
+Can use vma_get_page_prot(vma) too.
+
+[...]
