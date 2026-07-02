@@ -2,76 +2,77 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id Gw2COB1FRmrONQsAu9opvQ
+	id 9x/9G1RFRmrmNQsAu9opvQ
 	(envelope-from <etnaviv-bounces@lists.freedesktop.org>)
-	for <lists+etnaviv@lfdr.de>; Thu, 02 Jul 2026 13:01:49 +0200
+	for <lists+etnaviv@lfdr.de>; Thu, 02 Jul 2026 13:02:44 +0200
 X-Original-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DDF86F6577
-	for <lists+etnaviv@lfdr.de>; Thu, 02 Jul 2026 13:01:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF8636F65B0
+	for <lists+etnaviv@lfdr.de>; Thu, 02 Jul 2026 13:02:43 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=bWgYyAyB;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=hGZBwpKZ;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=OTPrapAy;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=0f1aNc6g;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ZFAr4l2+;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=msKl1dIi;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ZFAr4l2+;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=msKl1dIi;
 	spf=pass (mail.lfdr.de: domain of etnaviv-bounces@lists.freedesktop.org designates 131.252.210.177 as permitted sender) smtp.mailfrom=etnaviv-bounces@lists.freedesktop.org;
 	dmarc=pass (policy=none) header.from=suse.de
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DDEBA10E4C8;
-	Thu,  2 Jul 2026 11:01:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F6EB10F2CD;
+	Thu,  2 Jul 2026 11:02:42 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 901EF10E4C8
- for <etnaviv@lists.freedesktop.org>; Thu,  2 Jul 2026 11:01:46 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E2E210F2CD
+ for <etnaviv@lists.freedesktop.org>; Thu,  2 Jul 2026 11:02:41 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id AB88574162;
- Thu,  2 Jul 2026 11:01:43 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 7F50E75A04;
+ Thu,  2 Jul 2026 11:02:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1782990104; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1782990159; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=r0KKINu40ioY96fC+062Zyi7DbmVNL21sTF0xjIcwIQ=;
- b=bWgYyAyBfrTMD8mfTLZ/OqkkY5PgicfJPGJQR4b5A6iU6ifYliqzryxQkEZZmEooJRyAsE
- KxSfAzN2oPq9gevvtFP7D3LJmfsrhIhmjmQ/TJ0z5mx70BKRvVbvoejeyG/xTXT/ObP58x
- 55chfdqNVwmxqpq98WnC1ZA9/da5xEE=
+ bh=aTESfSg/UDSKvCRKPYkjGkeDM+9N47RJ1ZSYfcEDptc=;
+ b=ZFAr4l2+lrq1YO8WesM6M58ypD2d1Cyp2s3pst8Rp0JZxHuiDVOlOnC92+mVQ9xTYMSFWS
+ 1Ib82i762wqOGopbJZZlN7tmyxjkqZjvIu+qmX9Atuchw9HhuS7W06f9QtxqDVwmWJ1ICd
+ uu64skCdlWkr87lNnC2ETcXvRCO8ZMM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1782990104;
+ s=susede2_ed25519; t=1782990159;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=r0KKINu40ioY96fC+062Zyi7DbmVNL21sTF0xjIcwIQ=;
- b=hGZBwpKZU98HsyUfD/DlfWj5YkD30zgVTtlVrCBZu8vT8OTRH3iQLzvvpOCl5EZWXno5Uk
- FbVbb/v7nEB8yXBA==
+ bh=aTESfSg/UDSKvCRKPYkjGkeDM+9N47RJ1ZSYfcEDptc=;
+ b=msKl1dIiRRwvTRJnIBFlZAMLsZZDvuNzGM1yJ0QV+Onsisiyi0tgiyUaerrEkj2tWwsuxt
+ DimetfMNnHbkSQDQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1782990103; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1782990159; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=r0KKINu40ioY96fC+062Zyi7DbmVNL21sTF0xjIcwIQ=;
- b=OTPrapAye7GSg8hHDs6a7y0ee22+fDlA3xYf9o7WbGiBCH5L+qaBmf6GwNK3fBNkDVC5HS
- OiJqQOFaTOxyB4K1mJKyegdU4+Vf7jGKAHFn1vHSLUYIU36OvKOozmO3HgueTqAaRfl4HB
- wmkw8+rIs0jLQVP6u6efqz0jbLo31Jg=
+ bh=aTESfSg/UDSKvCRKPYkjGkeDM+9N47RJ1ZSYfcEDptc=;
+ b=ZFAr4l2+lrq1YO8WesM6M58ypD2d1Cyp2s3pst8Rp0JZxHuiDVOlOnC92+mVQ9xTYMSFWS
+ 1Ib82i762wqOGopbJZZlN7tmyxjkqZjvIu+qmX9Atuchw9HhuS7W06f9QtxqDVwmWJ1ICd
+ uu64skCdlWkr87lNnC2ETcXvRCO8ZMM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1782990103;
+ s=susede2_ed25519; t=1782990159;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=r0KKINu40ioY96fC+062Zyi7DbmVNL21sTF0xjIcwIQ=;
- b=0f1aNc6ghV70Dc0VX4Q6vLW6+K3Qwr4322g8NQJecZu+D9vlqki5RtN5ZfwauFkF9VZPsu
- 8xlmr8+5TSXfvZDA==
+ bh=aTESfSg/UDSKvCRKPYkjGkeDM+9N47RJ1ZSYfcEDptc=;
+ b=msKl1dIiRRwvTRJnIBFlZAMLsZZDvuNzGM1yJ0QV+Onsisiyi0tgiyUaerrEkj2tWwsuxt
+ DimetfMNnHbkSQDQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4E583779AA;
- Thu,  2 Jul 2026 11:01:39 +0000 (UTC)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 18BD8779AA;
+ Thu,  2 Jul 2026 11:02:35 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id kliADxNFRmpNWgAAD6G6ig
- (envelope-from <pfalcato@suse.de>); Thu, 02 Jul 2026 11:01:39 +0000
-Date: Thu, 2 Jul 2026 12:01:37 +0100
+ by imap1.dmz-prg2.suse.org with ESMTPSA id IWHTAktFRmoYWwAAD6G6ig
+ (envelope-from <pfalcato@suse.de>); Thu, 02 Jul 2026 11:02:35 +0000
+Date: Thu, 2 Jul 2026 12:02:33 +0100
 From: Pedro Falcato <pfalcato@suse.de>
 To: Lorenzo Stoakes <ljs@kernel.org>
 Cc: Andrew Morton <akpm@linux-foundation.org>, 
@@ -121,18 +122,17 @@ Cc: Andrew Morton <akpm@linux-foundation.org>,
  damon@lists.linux.dev, 
  Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>,
  Jann Horn <jannh@google.com>
-Subject: Re: [PATCH 17/30] mm: prefer vma_[start,end]_pgoff() to
- vma->vm_pgoff in kernel/
-Message-ID: <akZCg73F-oGzDp1a@pedro-suse.lan>
+Subject: Re: [PATCH 18/30] mm/vma: remove duplicative vma_pgoff_offset() helper
+Message-ID: <akZFOWAX69AWTI14@pedro-suse.lan>
 References: <cover.1782735110.git.ljs@kernel.org>
- <ea87349d63205bf4c26ea79854f179a9bf8cfb0b.1782735110.git.ljs@kernel.org>
+ <10671c2fc5d0dd4e3bf497181923e63e46053df1.1782735110.git.ljs@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ea87349d63205bf4c26ea79854f179a9bf8cfb0b.1782735110.git.ljs@kernel.org>
+In-Reply-To: <10671c2fc5d0dd4e3bf497181923e63e46053df1.1782735110.git.ljs@kernel.org>
 X-Spam-Flag: NO
-X-Spam-Score: -2.80
 X-Spam-Level: 
+X-Spam-Score: -3.01
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -180,308 +180,81 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	ALIAS_RESOLVED(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[etnaviv];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email,suse.de:from_mime,pedro-suse.lan:mid,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email,suse.de:from_mime,lists.freedesktop.org:from_smtp,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,pedro-suse.lan:mid]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 0DDF86F6577
+X-Rspamd-Queue-Id: BF8636F65B0
 
-On Mon, Jun 29, 2026 at 01:23:28PM +0100, Lorenzo Stoakes wrote:
-> Be consistent in using vma_start_pgoff() and vma_end_pgoff(), which clearly
-> indicates which part of the VMA the page offset refers to and aids
-> greppability.
+On Mon, Jun 29, 2026 at 01:23:29PM +0100, Lorenzo Stoakes wrote:
+> This is doing what linear_page_index() does, so eliminate it and replace it
+> with linear_page_index().
 > 
-> This is part of a broader series laying the ground to provide a virtual
-> page offset for MAP_PRIVATE-file backed anon folios.
+> Update the VMA userland tests to reflect this change.
 > 
 > No functional change intended.
 > 
 > Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
+
+Reviewed-by: Pedro Falcato <pfalcato@suse.de>
+
 > ---
->  kernel/dma/coherent.c      |  7 ++++---
->  kernel/dma/direct.c        |  6 ++++--
->  kernel/dma/mapping.c       |  8 +++++---
->  kernel/dma/ops_helpers.c   |  4 ++--
->  kernel/events/core.c       | 20 +++++++++++---------
->  kernel/events/uprobes.c    | 11 +++++++----
->  kernel/kcov.c              |  2 +-
->  kernel/trace/ring_buffer.c |  3 ++-
->  8 files changed, 36 insertions(+), 25 deletions(-)
+>  mm/vma.h                        |  9 +--------
+>  tools/testing/vma/include/dup.h | 16 ++++++++++++++++
+>  2 files changed, 17 insertions(+), 8 deletions(-)
 > 
-> diff --git a/kernel/dma/coherent.c b/kernel/dma/coherent.c
-> index bcdc0f76d2e8..2d3195eb7e83 100644
-> --- a/kernel/dma/coherent.c
-> +++ b/kernel/dma/coherent.c
-> @@ -236,14 +236,15 @@ static int __dma_mmap_from_coherent(struct dma_coherent_mem *mem,
->  {
->  	if (mem && vaddr >= mem->virt_base && vaddr + size <=
->  		   (mem->virt_base + ((dma_addr_t)mem->size << PAGE_SHIFT))) {
-> -		unsigned long off = vma->vm_pgoff;
-> +		const pgoff_t pgoff_start = vma_start_pgoff(vma);
-> +		const pgoff_t pgoff_end = vma_end_pgoff(vma);
->  		int start = (vaddr - mem->virt_base) >> PAGE_SHIFT;
->  		unsigned long user_count = vma_pages(vma);
->  		int count = PAGE_ALIGN(size) >> PAGE_SHIFT;
->  
->  		*ret = -ENXIO;
-> -		if (off < count && user_count <= count - off) {
-> -			unsigned long pfn = mem->pfn_base + start + off;
-> +		if (pgoff_start < count && pgoff_end <= count) {
-> +			unsigned long pfn = mem->pfn_base + start + pgoff_start;
->  			*ret = remap_pfn_range(vma, vma->vm_start, pfn,
->  					       user_count << PAGE_SHIFT,
->  					       vma->vm_page_prot);
-> diff --git a/kernel/dma/direct.c b/kernel/dma/direct.c
-> index 4391b797d4db..436310d6e4a2 100644
-> --- a/kernel/dma/direct.c
-> +++ b/kernel/dma/direct.c
-> @@ -534,6 +534,8 @@ int dma_direct_mmap(struct device *dev, struct vm_area_struct *vma,
->  	unsigned long user_count = vma_pages(vma);
->  	unsigned long count = PAGE_ALIGN(size) >> PAGE_SHIFT;
->  	unsigned long pfn = PHYS_PFN(dma_to_phys(dev, dma_addr));
-> +	const pgoff_t pgoff_start = vma_start_pgoff(vma);
-> +	const pgoff_t pgoff_end = vma_end_pgoff(vma);
->  	int ret = -ENXIO;
->  
->  	vma->vm_page_prot = dma_pgprot(dev, vma->vm_page_prot, attrs);
-> @@ -545,9 +547,9 @@ int dma_direct_mmap(struct device *dev, struct vm_area_struct *vma,
->  	if (dma_mmap_from_global_coherent(vma, cpu_addr, size, &ret))
->  		return ret;
->  
-> -	if (vma->vm_pgoff >= count || user_count > count - vma->vm_pgoff)
-> +	if (pgoff_start >= count || pgoff_end > count)
->  		return -ENXIO;
-> -	return remap_pfn_range(vma, vma->vm_start, pfn + vma->vm_pgoff,
-> +	return remap_pfn_range(vma, vma->vm_start, pfn + pgoff_start,
->  			user_count << PAGE_SHIFT, vma->vm_page_prot);
+> diff --git a/mm/vma.h b/mm/vma.h
+> index 527716c8739d..2342516ce00e 100644
+> --- a/mm/vma.h
+> +++ b/mm/vma.h
+> @@ -247,13 +247,6 @@ static inline pgoff_t vmg_end_pgoff(const struct vma_merge_struct *vmg)
+>  	return vmg_start_pgoff(vmg) + vmg_pages(vmg);
 >  }
 >  
-> diff --git a/kernel/dma/mapping.c b/kernel/dma/mapping.c
-> index 4fe04669e5e6..c986639044e9 100644
-> --- a/kernel/dma/mapping.c
-> +++ b/kernel/dma/mapping.c
-> @@ -761,12 +761,14 @@ EXPORT_SYMBOL_GPL(dma_free_pages);
->  int dma_mmap_pages(struct device *dev, struct vm_area_struct *vma,
->  		size_t size, struct page *page)
->  {
-> -	unsigned long count = PAGE_ALIGN(size) >> PAGE_SHIFT;
-> +	const pgoff_t pgoff_start = vma_start_pgoff(vma);
-> +	const pgoff_t pgoff_end = vma_end_pgoff(vma);
-> +	const unsigned long count = PAGE_ALIGN(size) >> PAGE_SHIFT;
+> -/* Assumes addr >= vma->vm_start. */
+> -static inline pgoff_t vma_pgoff_offset(struct vm_area_struct *vma,
+> -				       unsigned long addr)
+> -{
+> -	return vma->vm_pgoff + PHYS_PFN(addr - vma->vm_start);
+> -}
+> -
+>  #define VMG_STATE(name, mm_, vmi_, start_, end_, vma_flags_, pgoff_)	\
+>  	struct vma_merge_struct name = {				\
+>  		.mm = mm_,						\
+> @@ -275,7 +268,7 @@ static inline pgoff_t vma_pgoff_offset(struct vm_area_struct *vma,
+>  		.start = start_,				\
+>  		.end = end_,					\
+>  		.vm_flags = vma_->vm_flags,			\
+> -		.pgoff = vma_pgoff_offset(vma_, start_),	\
+> +		.pgoff = linear_page_index(vma_, start_),	\
+>  		.file = vma_->vm_file,				\
+>  		.anon_vma = vma_->anon_vma,			\
+>  		.policy = vma_policy(vma_),			\
+> diff --git a/tools/testing/vma/include/dup.h b/tools/testing/vma/include/dup.h
+> index 535747d7fee4..7ed165c8d9bc 100644
+> --- a/tools/testing/vma/include/dup.h
+> +++ b/tools/testing/vma/include/dup.h
+> @@ -1548,3 +1548,19 @@ static inline pgprot_t vma_get_page_prot(vma_flags_t vma_flags)
 >  
-> -	if (vma->vm_pgoff >= count || vma_pages(vma) > count - vma->vm_pgoff)
-> +	if (pgoff_start >= count || pgoff_end > count)
->  		return -ENXIO;
->  	return remap_pfn_range(vma, vma->vm_start,
-> -			       page_to_pfn(page) + vma->vm_pgoff,
-> +			       page_to_pfn(page) + pgoff_start,
->  			       vma_pages(vma) << PAGE_SHIFT, vma->vm_page_prot);
+>  	return vm_get_page_prot(vm_flags);
 >  }
->  EXPORT_SYMBOL_GPL(dma_mmap_pages);
-> diff --git a/kernel/dma/ops_helpers.c b/kernel/dma/ops_helpers.c
-> index 20caf9cabf69..6b5f9208d31c 100644
-> --- a/kernel/dma/ops_helpers.c
-> +++ b/kernel/dma/ops_helpers.c
-> @@ -39,7 +39,7 @@ int dma_common_mmap(struct device *dev, struct vm_area_struct *vma,
->  #ifdef CONFIG_MMU
->  	unsigned long user_count = vma_pages(vma);
->  	unsigned long count = PAGE_ALIGN(size) >> PAGE_SHIFT;
-> -	unsigned long off = vma->vm_pgoff;
-> +	unsigned long off = vma_start_pgoff(vma);
->  	struct page *page = dma_common_vaddr_to_page(cpu_addr);
->  	int ret = -ENXIO;
->  
-> @@ -52,7 +52,7 @@ int dma_common_mmap(struct device *dev, struct vm_area_struct *vma,
->  		return -ENXIO;
->  
->  	return remap_pfn_range(vma, vma->vm_start,
-> -			page_to_pfn(page) + vma->vm_pgoff,
-> +			page_to_pfn(page) + vma_start_pgoff(vma),
->  			user_count << PAGE_SHIFT, vma->vm_page_prot);
->  #else
->  	return -ENXIO;
-> diff --git a/kernel/events/core.c b/kernel/events/core.c
-> index 954c36e28101..d6d2d557ccb8 100644
-> --- a/kernel/events/core.c
-> +++ b/kernel/events/core.c
-> @@ -6998,7 +6998,7 @@ static void perf_mmap_open(struct vm_area_struct *vma)
->  	refcount_inc(&event->mmap_count);
->  	refcount_inc(&event->rb->mmap_count);
->  
-> -	if (vma->vm_pgoff)
-> +	if (vma_start_pgoff(vma))
->  		refcount_inc(&event->rb->aux_mmap_count);
->  
->  	if (mapped)
-> @@ -7032,7 +7032,7 @@ static void perf_mmap_close(struct vm_area_struct *vma)
->  	 * The AUX buffer is strictly a sub-buffer, serialize using aux_mutex
->  	 * to avoid complications.
->  	 */
-> -	if (rb_has_aux(rb) && vma->vm_pgoff == rb->aux_pgoff &&
-> +	if (rb_has_aux(rb) && vma_start_pgoff(vma) == rb->aux_pgoff &&
->  	    refcount_dec_and_mutex_lock(&rb->aux_mmap_count, &rb->aux_mutex)) {
->  		/*
->  		 * Stop all AUX events that are writing to this buffer,
-> @@ -7190,7 +7190,8 @@ static int map_range(struct perf_buffer *rb, struct vm_area_struct *vma)
->  	 */
->  	for (pagenum = 0; pagenum < nr_pages; pagenum++) {
->  		unsigned long va = vma->vm_start + PAGE_SIZE * pagenum;
-> -		struct page *page = perf_mmap_to_page(rb, vma->vm_pgoff + pagenum);
-> +		struct page *page = perf_mmap_to_page(rb,
-> +				vma_start_pgoff(vma) + pagenum);
->  
->  		if (page == NULL) {
->  			err = -EINVAL;
-> @@ -7348,6 +7349,7 @@ static int perf_mmap_aux(struct vm_area_struct *vma, struct perf_event *event,
->  	u64 aux_offset, aux_size;
->  	struct perf_buffer *rb;
->  	int ret, rb_flags = 0;
-> +	const pgoff_t pgoff_start = vma_start_pgoff(vma);
-
-Variable decs here seem to be in reverse christmas tree order, so perhaps
-move this to the top.
-
->  
->  	rb = event->rb;
->  	if (!rb)
-> @@ -7366,11 +7368,11 @@ static int perf_mmap_aux(struct vm_area_struct *vma, struct perf_event *event,
->  	if (aux_offset < perf_data_size(rb) + PAGE_SIZE)
->  		return -EINVAL;
->  
-> -	if (aux_offset != vma->vm_pgoff << PAGE_SHIFT)
-> +	if (aux_offset != pgoff_start << PAGE_SHIFT)
->  		return -EINVAL;
->  
->  	/* already mapped with a different offset */
-> -	if (rb_has_aux(rb) && rb->aux_pgoff != vma->vm_pgoff)
-> +	if (rb_has_aux(rb) && rb->aux_pgoff != pgoff_start)
->  		return -EINVAL;
->  
->  	if (aux_size != nr_pages * PAGE_SIZE)
-> @@ -7400,7 +7402,7 @@ static int perf_mmap_aux(struct vm_area_struct *vma, struct perf_event *event,
->  		if (vma->vm_flags & VM_WRITE)
->  			rb_flags |= RING_BUFFER_WRITABLE;
->  
-> -		ret = rb_alloc_aux(rb, event, vma->vm_pgoff, nr_pages,
-> +		ret = rb_alloc_aux(rb, event, pgoff_start, nr_pages,
->  				   event->attr.aux_watermark, rb_flags);
->  		if (ret) {
->  			refcount_dec(&rb->mmap_count);
-> @@ -7457,7 +7459,7 @@ static int perf_mmap(struct file *file, struct vm_area_struct *vma)
->  		if (event->state <= PERF_EVENT_STATE_REVOKED)
->  			return -ENODEV;
->  
-> -		if (vma->vm_pgoff == 0)
-> +		if (!vma_start_pgoff(vma))
->  			ret = perf_mmap_rb(vma, event, nr_pages);
->  		else
->  			ret = perf_mmap_aux(vma, event, nr_pages);
-> @@ -9884,7 +9886,7 @@ static bool perf_addr_filter_vma_adjust(struct perf_addr_filter *filter,
->  					struct perf_addr_filter_range *fr)
->  {
->  	unsigned long vma_size = vma->vm_end - vma->vm_start;
-> -	unsigned long off = vma->vm_pgoff << PAGE_SHIFT;
-> +	unsigned long off = vma_start_pgoff(vma) << PAGE_SHIFT;
->  	struct file *file = vma->vm_file;
->  
->  	if (!perf_addr_filter_match(filter, file, off, vma_size))
-> @@ -9974,7 +9976,7 @@ void perf_event_mmap(struct vm_area_struct *vma)
->  			/* .tid */
->  			.start  = vma->vm_start,
->  			.len    = vma->vm_end - vma->vm_start,
-> -			.pgoff  = (u64)vma->vm_pgoff << PAGE_SHIFT,
-> +			.pgoff  = (u64)vma_start_pgoff(vma) << PAGE_SHIFT,
->  		},
->  		/* .maj (attr_mmap2 only) */
->  		/* .min (attr_mmap2 only) */
-> diff --git a/kernel/events/uprobes.c b/kernel/events/uprobes.c
-> index f23cebacbc6d..244651380ca1 100644
-> --- a/kernel/events/uprobes.c
-> +++ b/kernel/events/uprobes.c
-> @@ -144,12 +144,14 @@ static bool valid_vma(struct vm_area_struct *vma, bool is_register)
->  
->  static unsigned long offset_to_vaddr(struct vm_area_struct *vma, loff_t offset)
->  {
-> -	return vma->vm_start + offset - ((loff_t)vma->vm_pgoff << PAGE_SHIFT);
-> +	return vma->vm_start + offset -
-> +		((loff_t)vma_start_pgoff(vma) << PAGE_SHIFT);
->  }
->  
->  static loff_t vaddr_to_offset(struct vm_area_struct *vma, unsigned long vaddr)
->  {
-> -	return ((loff_t)vma->vm_pgoff << PAGE_SHIFT) + (vaddr - vma->vm_start);
-> +	return ((loff_t)vma_start_pgoff(vma) << PAGE_SHIFT) +
-> +		(vaddr - vma->vm_start);
->  }
-
-Something we've seen in this series is that perhaps something like
-
-static inline loff_t vma_start_off(vma)
-{
-	return ((loff_t) vma_start_pgoff(vma)) << PAGE_SHIFT;
-}
-
-could be worth it.
-
->  
->  /**
-> @@ -1482,7 +1484,7 @@ static int unapply_uprobe(struct uprobe *uprobe, struct mm_struct *mm)
->  		    file_inode(vma->vm_file) != uprobe->inode)
->  			continue;
->  
-> -		offset = (loff_t)vma->vm_pgoff << PAGE_SHIFT;
-> +		offset = (loff_t)vma_start_pgoff(vma) << PAGE_SHIFT;
->  		if (uprobe->offset <  offset ||
->  		    uprobe->offset >= offset + vma->vm_end - vma->vm_start)
->  			continue;
-> @@ -2453,7 +2455,8 @@ static struct uprobe *find_active_uprobe_speculative(unsigned long bp_vaddr)
->  	if (!vm_file)
->  		return NULL;
->  
-> -	offset = (loff_t)(vma->vm_pgoff << PAGE_SHIFT) + (bp_vaddr - vma->vm_start);
-> +	offset = (loff_t)(vma_start_pgoff(vma) << PAGE_SHIFT) +
-> +		(bp_vaddr - vma->vm_start);
-
-This is more extremely contrived logic that could be better expressed as
-
-loff_t vma_linear_off(vma, bp_vaddr);
-
->  	uprobe = find_uprobe_rcu(vm_file->f_inode, offset);
->  	if (!uprobe)
->  		return NULL;
-> diff --git a/kernel/kcov.c b/kernel/kcov.c
-> index 1df373fb562b..b19b473c366a 100644
-> --- a/kernel/kcov.c
-> +++ b/kernel/kcov.c
-> @@ -512,7 +512,7 @@ static int kcov_mmap(struct file *filep, struct vm_area_struct *vma)
->  
->  	spin_lock_irqsave(&kcov->lock, flags);
->  	size = kcov->size * sizeof(unsigned long);
-> -	if (kcov->area == NULL || vma->vm_pgoff != 0 ||
-> +	if (kcov->area == NULL || vma_start_pgoff(vma) ||
-
-as a nit, perhaps                 vma_start_pgoff(vma) > 0
-would be a little more idiomatic.
-
->  	    vma->vm_end - vma->vm_start != size) {
->  		res = -EINVAL;
->  		goto exit;
-> diff --git a/kernel/trace/ring_buffer.c b/kernel/trace/ring_buffer.c
-> index 56a328e94395..dfa493d54ef9 100644
-> --- a/kernel/trace/ring_buffer.c
-> +++ b/kernel/trace/ring_buffer.c
-> @@ -7613,7 +7613,8 @@ static int __rb_inc_dec_mapped(struct ring_buffer_per_cpu *cpu_buffer,
->  static int __rb_map_vma(struct ring_buffer_per_cpu *cpu_buffer,
->  			struct vm_area_struct *vma)
->  {
-> -	unsigned long nr_subbufs, nr_pages, nr_vma_pages, pgoff = vma->vm_pgoff;
-> +	unsigned long nr_subbufs, nr_pages, nr_vma_pages;
-> +	pgoff_t pgoff = vma_start_pgoff(vma);
->  	unsigned int subbuf_pages, subbuf_order;
->  	struct page **pages __free(kfree) = NULL;
->  	int p = 0, s = 0;
-
-Anyway, in general:
-
-Acked-by: Pedro Falcato <pfalcato@suse.de>
+> +
+> +static inline pgoff_t linear_page_delta(const struct vm_area_struct *vma,
+> +					const unsigned long address)
+> +{
+> +	return (address - vma->vm_start) >> PAGE_SHIFT;
+> +}
+> +
+> +static inline pgoff_t linear_page_index(const struct vm_area_struct *vma,
+> +					const unsigned long address)
+> +{
+> +	pgoff_t pgoff;
+> +
+> +	pgoff = linear_page_delta(vma, address);
+> +	pgoff += vma_start_pgoff(vma);
+> +	return pgoff;
+> +}
+> -- 
+> 2.54.0
+> 
 
 -- 
 Pedro
