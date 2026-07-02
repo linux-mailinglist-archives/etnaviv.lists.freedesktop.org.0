@@ -2,77 +2,77 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id nSOwMJtIRmr4NgsAu9opvQ
+	id Nu4eDHZJRmo6NwsAu9opvQ
 	(envelope-from <etnaviv-bounces@lists.freedesktop.org>)
-	for <lists+etnaviv@lfdr.de>; Thu, 02 Jul 2026 13:16:43 +0200
+	for <lists+etnaviv@lfdr.de>; Thu, 02 Jul 2026 13:20:22 +0200
 X-Original-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F1D56F68B4
-	for <lists+etnaviv@lfdr.de>; Thu, 02 Jul 2026 13:16:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C81716F6973
+	for <lists+etnaviv@lfdr.de>; Thu, 02 Jul 2026 13:20:21 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=MaQ0JND5;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=3pvLQ4ye;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=MaQ0JND5;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=3pvLQ4ye;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=PgCpqqxi;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=oeEsfdun;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=PgCpqqxi;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=oeEsfdun;
 	spf=pass (mail.lfdr.de: domain of etnaviv-bounces@lists.freedesktop.org designates 131.252.210.177 as permitted sender) smtp.mailfrom=etnaviv-bounces@lists.freedesktop.org;
 	dmarc=pass (policy=none) header.from=suse.de
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B01410F2E7;
-	Thu,  2 Jul 2026 11:16:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B02F10F2EA;
+	Thu,  2 Jul 2026 11:20:20 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D09E110F2E4
- for <etnaviv@lists.freedesktop.org>; Thu,  2 Jul 2026 11:16:39 +0000 (UTC)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 75EDD10F2CA
+ for <etnaviv@lists.freedesktop.org>; Thu,  2 Jul 2026 11:20:18 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
  [IPv6:2a07:de40:b281:104:10:150:64:97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 7A215758C1;
- Thu,  2 Jul 2026 11:16:38 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 4BB0E74173;
+ Thu,  2 Jul 2026 11:20:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1782990998; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1782991216; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=eRBGEURpGsQZvwqVZtDQ4XJM7h1z4ZC8YrrvTCFqxmw=;
- b=MaQ0JND5KWm4wpsJciLfkQvP3ai3tn4nmxHssSfFpsKDgKPYMo0CCpWKvNCaMeBjXitcJ3
- ryZQphknx3FCsPabrXjnCA7E61K/L28Q+1mGAIXijYZw0KuJju507sLH6zDd+1GghLs0zF
- 8X9joVhTiON2oevqtL6uIb5F4wnvrBo=
+ bh=j9HqakDIjcCcTQyUF2MV7bxyTIX1upg8T2CXHTGbmPY=;
+ b=PgCpqqxie7t8+CkwpPP13NW6wQohMzurOqQ3M60mxkSvPUID4ZQOKndTpBXqeUuVhdKIfx
+ t+2FJW3O/MNyOgFxUfD/N1cfpHLCK8FHDiqwUFTQFndqACbeCmnNWvqmGlEefRvEf4d7hB
+ IQhWnkSLQ2dpEmnyOFJPaliYHOfjrfE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1782990998;
+ s=susede2_ed25519; t=1782991216;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=eRBGEURpGsQZvwqVZtDQ4XJM7h1z4ZC8YrrvTCFqxmw=;
- b=3pvLQ4yedxRGWLa9EIEPJidt5sWRqQteN0D5+X9wN34CbwAqs9zn4kp7F2+pWog96DCFuh
- 7UShynnYN7M9UJCQ==
+ bh=j9HqakDIjcCcTQyUF2MV7bxyTIX1upg8T2CXHTGbmPY=;
+ b=oeEsfdunpBw1BldK/9+YFlfUYsk4g2GKuSeX7pnNOrhZYXAOuDPvAQY6PG7s0cv9YpWemp
+ mWdG22AvAmx0j3Cw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1782990998; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1782991216; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=eRBGEURpGsQZvwqVZtDQ4XJM7h1z4ZC8YrrvTCFqxmw=;
- b=MaQ0JND5KWm4wpsJciLfkQvP3ai3tn4nmxHssSfFpsKDgKPYMo0CCpWKvNCaMeBjXitcJ3
- ryZQphknx3FCsPabrXjnCA7E61K/L28Q+1mGAIXijYZw0KuJju507sLH6zDd+1GghLs0zF
- 8X9joVhTiON2oevqtL6uIb5F4wnvrBo=
+ bh=j9HqakDIjcCcTQyUF2MV7bxyTIX1upg8T2CXHTGbmPY=;
+ b=PgCpqqxie7t8+CkwpPP13NW6wQohMzurOqQ3M60mxkSvPUID4ZQOKndTpBXqeUuVhdKIfx
+ t+2FJW3O/MNyOgFxUfD/N1cfpHLCK8FHDiqwUFTQFndqACbeCmnNWvqmGlEefRvEf4d7hB
+ IQhWnkSLQ2dpEmnyOFJPaliYHOfjrfE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1782990998;
+ s=susede2_ed25519; t=1782991216;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=eRBGEURpGsQZvwqVZtDQ4XJM7h1z4ZC8YrrvTCFqxmw=;
- b=3pvLQ4yedxRGWLa9EIEPJidt5sWRqQteN0D5+X9wN34CbwAqs9zn4kp7F2+pWog96DCFuh
- 7UShynnYN7M9UJCQ==
+ bh=j9HqakDIjcCcTQyUF2MV7bxyTIX1upg8T2CXHTGbmPY=;
+ b=oeEsfdunpBw1BldK/9+YFlfUYsk4g2GKuSeX7pnNOrhZYXAOuDPvAQY6PG7s0cv9YpWemp
+ mWdG22AvAmx0j3Cw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 13EB5779AA;
- Thu,  2 Jul 2026 11:16:34 +0000 (UTC)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C6F00779AA;
+ Thu,  2 Jul 2026 11:20:11 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id fWCIAZJIRmp4aQAAD6G6ig
- (envelope-from <pfalcato@suse.de>); Thu, 02 Jul 2026 11:16:34 +0000
-Date: Thu, 2 Jul 2026 12:16:32 +0100
+ by imap1.dmz-prg2.suse.org with ESMTPSA id RDeaLGtJRmoSbQAAD6G6ig
+ (envelope-from <pfalcato@suse.de>); Thu, 02 Jul 2026 11:20:11 +0000
+Date: Thu, 2 Jul 2026 12:20:10 +0100
 From: Pedro Falcato <pfalcato@suse.de>
 To: Lorenzo Stoakes <ljs@kernel.org>
 Cc: Andrew Morton <akpm@linux-foundation.org>, 
@@ -122,17 +122,17 @@ Cc: Andrew Morton <akpm@linux-foundation.org>,
  damon@lists.linux.dev, 
  Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>,
  Jann Horn <jannh@google.com>
-Subject: Re: [PATCH 20/30] mm/vma: introduce vma_assert_can_modify()
-Message-ID: <akZHWwVgJfqCwA2W@pedro-suse.lan>
+Subject: Re: [PATCH 21/30] mm/vma: add and use vma_[add/sub]_pgoff()
+Message-ID: <akZI0n1U32Ptd0ye@pedro-suse.lan>
 References: <cover.1782735110.git.ljs@kernel.org>
- <23c7602c58cacc23ef22618a27af9a2d54addf58.1782735110.git.ljs@kernel.org>
+ <794044881e454fd8ac13e59d5ff5fc86fca08b03.1782735110.git.ljs@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <23c7602c58cacc23ef22618a27af9a2d54addf58.1782735110.git.ljs@kernel.org>
+In-Reply-To: <794044881e454fd8ac13e59d5ff5fc86fca08b03.1782735110.git.ljs@kernel.org>
 X-Spam-Flag: NO
-X-Spam-Level: 
 X-Spam-Score: -3.01
+X-Spam-Level: 
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -180,71 +180,151 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	ALIAS_RESOLVED(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[etnaviv];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:from_mime,pedro-suse.lan:mid,lists.freedesktop.org:from_smtp,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email,suse.de:from_mime,lists.freedesktop.org:from_smtp,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,pedro-suse.lan:mid]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 6F1D56F68B4
+X-Rspamd-Queue-Id: C81716F6973
 
-On Mon, Jun 29, 2026 at 01:23:31PM +0100, Lorenzo Stoakes wrote:
-> vma_assert_write_locked() and vma_assert_attached() are useful for their
-> own purposes, however VMA code absolutely does allow the modification of
-> non-write locked VMAs if they are at that point detached (i.e. unreachable
-> from anywhere).
+On Mon, Jun 29, 2026 at 01:23:32PM +0100, Lorenzo Stoakes wrote:
+> Add helpers for adding or subtracting to a VMA's page offset, exposed
+> internally for VMA users within mm in mm/vma.h.
 > 
-> It's therefore useful to be able to assert that a VMA is either
-> detached (modification doesn't matter) or write locked (you're explicitly
-> locked for modification).
-
-Hmm, I was wondering why detached does not imply write_locked, and then
-realized that new VMAs aren't write-locked. Could we do it by default?
-Like a simple:
-
-	vma->vm_lock_seq = __vma_raw_mm_seqnum(vma);
-
-might do the trick. I don't see why it wouldn't work? Is there some other
-case I am not considering?
-
+> This is to lay the foundations for tracking anonymous page offset for
+> MAP_PRIVATE file-backed mappings, where adding and subtracting from this
+> value must be reflected in both the file and anonymous offsets.
 > 
-> Therefore introduce vma_assert_can_modify() for this purpose.
+> These are used on VMA split and downward stack expansion.
 > 
-> While we're here, make vma_is_attached() available generally - if
-> !CONFIG_PER_VMA_LOCKS, then there's no sense in which a VMA is
-> detached (vma_mark_detached() is a noop), so have this default to true in
-> this case.
+> No functional change intended.
 > 
 > Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
 > ---
->  include/linux/mmap_lock.h | 8 ++++++++
->  1 file changed, 8 insertions(+)
+>  mm/nommu.c                      |  6 ++++--
+>  mm/vma.c                        |  6 +++---
+>  mm/vma.h                        | 12 ++++++++++++
+>  tools/testing/vma/include/dup.h | 13 ++++++++++++-
+>  4 files changed, 31 insertions(+), 6 deletions(-)
 > 
-> diff --git a/include/linux/mmap_lock.h b/include/linux/mmap_lock.h
-> index 04b8f61ece5d..d513286d8160 100644
-> --- a/include/linux/mmap_lock.h
-> +++ b/include/linux/mmap_lock.h
-> @@ -506,6 +506,8 @@ static inline __must_check
->  int vma_start_write_killable(struct vm_area_struct *vma) { return 0; }
->  static inline void vma_assert_write_locked(struct vm_area_struct *vma)
->  		{ mmap_assert_write_locked(vma->vm_mm); }
+> diff --git a/mm/nommu.c b/mm/nommu.c
+> index 7333d855e974..c7fafcd87c14 100644
+> --- a/mm/nommu.c
+> +++ b/mm/nommu.c
+> @@ -41,6 +41,7 @@
+>  #include <asm/tlbflush.h>
+>  #include <asm/mmu_context.h>
+>  #include "internal.h"
+> +#include "vma.h"
+>  
+>  unsigned long highest_memmap_pfn;
+>  int heap_stack_gap = 0;
+> @@ -1338,7 +1339,8 @@ static int split_vma(struct vma_iterator *vmi, struct vm_area_struct *vma,
+>  		region->vm_top = region->vm_end = new->vm_end = addr;
+>  	} else {
+>  		region->vm_start = new->vm_start = addr;
+> -		region->vm_pgoff = new->vm_pgoff += npages;
+> +		vma_add_pgoff(new, npages);
+> +		region->vm_pgoff = vma_start_pgoff(new);
+>  	}
+>  
+>  	vma_iter_config(vmi, new->vm_start, new->vm_end);
+> @@ -1355,7 +1357,7 @@ static int split_vma(struct vma_iterator *vmi, struct vm_area_struct *vma,
+>  	delete_nommu_region(vma->vm_region);
+>  	if (new_below) {
+>  		vma->vm_region->vm_start = vma->vm_start = addr;
+> -		vma->vm_pgoff += npages;
+> +		vma_add_pgoff(vma, npages);
+>  		vma->vm_region->vm_pgoff = vma_start_pgoff(vma);
+>  	} else {
+>  		vma->vm_region->vm_end = vma->vm_end = addr;
+> diff --git a/mm/vma.c b/mm/vma.c
+> index 185d07397ca6..cb7222e20c93 100644
+> --- a/mm/vma.c
+> +++ b/mm/vma.c
+> @@ -517,7 +517,7 @@ __split_vma(struct vma_iterator *vmi, struct vm_area_struct *vma,
+>  		new->vm_end = addr;
+>  	} else {
+>  		new->vm_start = addr;
+> -		new->vm_pgoff += linear_page_delta(vma, addr);
+> +		vma_add_pgoff(new, linear_page_delta(vma, addr));
+>  	}
+>  
+>  	err = -ENOMEM;
+> @@ -556,7 +556,7 @@ __split_vma(struct vma_iterator *vmi, struct vm_area_struct *vma,
+>  
+>  	if (new_below) {
+>  		vma->vm_start = addr;
+> -		vma->vm_pgoff += (addr - new->vm_start) >> PAGE_SHIFT;
+> +		vma_add_pgoff(vma, (addr - new->vm_start) >> PAGE_SHIFT);
+>  	} else {
+>  		vma->vm_end = addr;
+>  	}
+> @@ -3305,7 +3305,7 @@ int expand_downwards(struct vm_area_struct *vma, unsigned long address)
+>  				vm_stat_account(mm, vma->vm_flags, grow);
+>  				anon_vma_interval_tree_pre_update_vma(vma);
+>  				vma->vm_start = address;
+> -				vma->vm_pgoff -= grow;
+> +				vma_sub_pgoff(vma, grow);
+>  				/* Overwrite old entry in mtree. */
+>  				vma_iter_store_overwrite(&vmi, vma);
+>  				anon_vma_interval_tree_post_update_vma(vma);
+> diff --git a/mm/vma.h b/mm/vma.h
+> index 2342516ce00e..47fe35e5307e 100644
+> --- a/mm/vma.h
+> +++ b/mm/vma.h
+> @@ -247,6 +247,18 @@ static inline pgoff_t vmg_end_pgoff(const struct vma_merge_struct *vmg)
+>  	return vmg_start_pgoff(vmg) + vmg_pages(vmg);
+>  }
+>  
+> +static inline void vma_add_pgoff(struct vm_area_struct *vma, pgoff_t delta)
+> +{
+> +	vma_assert_can_modify(vma);
+> +	vma->vm_pgoff += delta;
+> +}
+> +
+> +static inline void vma_sub_pgoff(struct vm_area_struct *vma, pgoff_t delta)
+> +{
+> +	vma_assert_can_modify(vma);
+> +	vma->vm_pgoff -= delta;
+> +}
+> +
+>  #define VMG_STATE(name, mm_, vmi_, start_, end_, vma_flags_, pgoff_)	\
+>  	struct vma_merge_struct name = {				\
+>  		.mm = mm_,						\
+> diff --git a/tools/testing/vma/include/dup.h b/tools/testing/vma/include/dup.h
+> index 7ed165c8d9bc..41fea90a344d 100644
+> --- a/tools/testing/vma/include/dup.h
+> +++ b/tools/testing/vma/include/dup.h
+> @@ -1163,6 +1163,11 @@ static inline struct vm_area_struct *vma_next(struct vma_iterator *vmi)
+>  	return mas_find(&vmi->mas, ULONG_MAX);
+>  }
+>  
 > +static inline bool vma_is_attached(struct vm_area_struct *vma)
-> +		{ return true; }
->  static inline void vma_assert_attached(struct vm_area_struct *vma) {}
->  static inline void vma_assert_detached(struct vm_area_struct *vma) {}
->  static inline void vma_mark_attached(struct vm_area_struct *vma) {}
-> @@ -530,6 +532,12 @@ static inline void vma_assert_stabilised(struct vm_area_struct *vma)
->  
->  #endif /* CONFIG_PER_VMA_LOCK */
->  
+> +{
+> +	return refcount_read(&vma->vm_refcnt);
+> +}
+> +
+>  /*
+>   * WARNING: to avoid racing with vma_mark_attached()/vma_mark_detached(), these
+>   * assertions should be made either under mmap_write_lock or when the object
+> @@ -1170,7 +1175,13 @@ static inline struct vm_area_struct *vma_next(struct vma_iterator *vmi)
+>   */
+>  static inline void vma_assert_attached(struct vm_area_struct *vma)
+>  {
+> -	WARN_ON_ONCE(!refcount_read(&vma->vm_refcnt));
+> +	WARN_ON_ONCE(!vma_is_attached(vma));
+> +}
+> +
 > +static inline void vma_assert_can_modify(struct vm_area_struct *vma)
 > +{
 > +	if (vma_is_attached(vma))
 > +		vma_assert_write_locked(vma);
-> +}
-> +
->  static inline void mmap_write_lock(struct mm_struct *mm)
->  {
->  	__mmap_lock_trace_start_locking(mm, true);
-> -- 
-> 2.54.0
-> 
+>  }
+
+These hunks in dup.h look lost. Should perhaps be on the previous patch
+(adding the helpers).
+
+Anyway, Obviously Correct(tm).
+
+Reviewed-by: Pedro Falcato <pfalcato@suse.de>
 
 -- 
 Pedro
