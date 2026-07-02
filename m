@@ -2,40 +2,40 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 6Xj9D+oYRmqkJwsAu9opvQ
+	id I814E+kYRmqfJwsAu9opvQ
 	(envelope-from <etnaviv-bounces@lists.freedesktop.org>)
-	for <lists+etnaviv@lfdr.de>; Thu, 02 Jul 2026 09:53:14 +0200
+	for <lists+etnaviv@lfdr.de>; Thu, 02 Jul 2026 09:53:13 +0200
 X-Original-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C247A6F46FD
-	for <lists+etnaviv@lfdr.de>; Thu, 02 Jul 2026 09:53:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FBF76F46F3
+	for <lists+etnaviv@lfdr.de>; Thu, 02 Jul 2026 09:53:12 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=linux.dev header.s=key1 header.b=GKsigi9j;
+	dkim=pass header.d=linux.dev header.s=key1 header.b=UUw36nfQ;
 	spf=pass (mail.lfdr.de: domain of etnaviv-bounces@lists.freedesktop.org designates 131.252.210.177 as permitted sender) smtp.mailfrom=etnaviv-bounces@lists.freedesktop.org;
 	dmarc=pass (policy=none) header.from=linux.dev
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D0D710F1ED;
-	Thu,  2 Jul 2026 07:53:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED99810F1E2;
+	Thu,  2 Jul 2026 07:53:10 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-X-Greylist: delayed 380 seconds by postgrey-1.36 at gabe;
- Wed, 01 Jul 2026 16:16:13 UTC
-Received: from out-186.mta0.migadu.com (out-186.mta0.migadu.com
- [91.218.175.186])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 625F110E3E5
- for <etnaviv@lists.freedesktop.org>; Wed,  1 Jul 2026 16:16:13 +0000 (UTC)
+X-Greylist: delayed 441 seconds by postgrey-1.36 at gabe;
+ Thu, 02 Jul 2026 07:35:36 UTC
+Received: from out-173.mta1.migadu.com (out-173.mta1.migadu.com
+ [95.215.58.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 693C210F1B1
+ for <etnaviv@lists.freedesktop.org>; Thu,  2 Jul 2026 07:35:36 +0000 (UTC)
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1782922180;
+ t=1782977290;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=32k3xy2qoDs5v558QiIXDOBJrw4XcLaI228zHYcvJQI=;
- b=GKsigi9jw5iEZkRAOu0U35OCwwNX+WFYQBJnw1VnjqCFwAV1xkeG5HVPPXjVerUIFCpvkl
- 1sYFG/+4cZNO5RnH+3ZGNEajZyzEn2vDXqeNcTTch6ZM0ZT3P4Eo/8D1DaouN8eSB+B2FA
- bvbtO9Gx6J4K8rZ0y4m06I1Z9Hu4ibM=
+ bh=cdXAMvaGTLXZ4tRHqX+15mFjqPO5NJv7/lbzInUeZeM=;
+ b=UUw36nfQUDO4ek5W5MoGxv/bQdNbTQycY1qQKAEoJymjql+ZXc8a2FUo9eNrafl6xDrEni
+ 1302Z8Y+Ma+0qxdUDhBISoxry5nus7uGAN8fTkB0ZcU/zUf+14Ol9iIljWhjg5Yh/mt933
+ 8BhSh84bNWygA1To4TaXOltx56F5hgs=
 From: Lance Yang <lance.yang@linux.dev>
 To: ljs@kernel.org
 Cc: akpm@linux-foundation.org, tsbogend@alpha.franken.de, maddy@linux.ibm.com,
@@ -69,12 +69,12 @@ Cc: akpm@linux-foundation.org, tsbogend@alpha.franken.de, maddy@linux.ibm.com,
  linux-fbdev@vger.kernel.org, linux-aio@kvack.org,
  linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
  linux-sound@vger.kernel.org
-Subject: Re: [PATCH 12/13] mm/mprotect: convert mprotect code to use
- vma_flags_t
-Date: Thu,  2 Jul 2026 00:09:17 +0800
-Message-Id: <20260701160917.91435-1-lance.yang@linux.dev>
-In-Reply-To: <7ef626d8a12dc742cfc09d080be5dc09850e873a.1782760670.git.ljs@kernel.org>
-References: <7ef626d8a12dc742cfc09d080be5dc09850e873a.1782760670.git.ljs@kernel.org>
+Subject: Re: [PATCH 01/13] mm: introduce vma_flags_can_grow() and
+ vma_can_grow()
+Date: Thu,  2 Jul 2026 15:27:50 +0800
+Message-Id: <20260702072750.45641-1-lance.yang@linux.dev>
+In-Reply-To: <f2e8c32515d328db62279cc8bab8398ea278d74f.1782760670.git.ljs@kernel.org>
+References: <f2e8c32515d328db62279cc8bab8398ea278d74f.1782760670.git.ljs@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -127,128 +127,27 @@ X-Spamd-Result: default: False [-0.31 / 15.00];
 	ALIAS_RESOLVED(0.00)[];
 	TAGGED_RCPT(0.00)[etnaviv];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.freedesktop.org:from_smtp,linux.dev:dkim,linux.dev:mid,linux.dev:from_mime,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.freedesktop.org:from_smtp,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,linux.dev:dkim,linux.dev:email,linux.dev:mid,linux.dev:from_mime]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: C247A6F46FD
+X-Rspamd-Queue-Id: 8FBF76F46F3
 
 
-On Mon, Jun 29, 2026 at 08:25:35PM +0100, Lorenzo Stoakes wrote:
->Replace use of the legacy vm_flags_t flags with vma_flags_t values
->throughout the mprotect logic.
+On Mon, Jun 29, 2026 at 08:25:24PM +0100, Lorenzo Stoakes wrote:
+>These test whether the VMA has stack sematics, i.e. is able to grow upwards
+>or downwards depending on the architecture.
 >
->Note that we retain the legacy vm_flags_t bit shifting code in
->do_mprotect_key(), deferring a vma_flags_t approach to this for the time
->being.
+>In order to account for arches which do not support upward-growing stacks,
+>introduce VMA_GROWSUP whose definition depends on the architecture
+>supporting it, and use vma_flags_test_single_mask() in vma_flags_can_grow()
+>to account for this.
 >
->Additionally update comments to reflect the changes to be consistent.
+>Update the VMA userland tests to reflect the changes
 >
 >No functional change intended.
 >
 >Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
 >---
-> mm/mprotect.c | 16 ++++++++--------
-> 1 file changed, 8 insertions(+), 8 deletions(-)
->
->diff --git a/mm/mprotect.c b/mm/mprotect.c
->index 9cbf932b028c..c9504b2a2525 100644
->--- a/mm/mprotect.c
->+++ b/mm/mprotect.c
->@@ -40,7 +40,7 @@
-> 
-> static bool maybe_change_pte_writable(struct vm_area_struct *vma, pte_t pte)
-> {
->-	if (WARN_ON_ONCE(!(vma->vm_flags & VM_WRITE)))
->+	if (WARN_ON_ONCE(!vma_test(vma, VMA_WRITE_BIT)))
-> 		return false;
-> 
-> 	/* Don't touch entries that are not even readable. */
->@@ -97,7 +97,7 @@ static bool can_change_shared_pte_writable(struct vm_area_struct *vma,
-> bool can_change_pte_writable(struct vm_area_struct *vma, unsigned long addr,
-> 			     pte_t pte)
-> {
->-	if (!(vma->vm_flags & VM_SHARED))
->+	if (!vma_test(vma, VMA_SHARED_BIT))
-> 		return can_change_private_pte_writable(vma, addr, pte);
-> 
-> 	return can_change_shared_pte_writable(vma, pte);
->@@ -194,7 +194,7 @@ static __always_inline void set_write_prot_commit_flush_ptes(struct vm_area_stru
-> {
-> 	bool set_write;
-> 
->-	if (vma->vm_flags & VM_SHARED) {
->+	if (vma_test(vma, VMA_SHARED_BIT)) {
-> 		set_write = can_change_shared_pte_writable(vma, ptent);
-> 		prot_commit_flush_ptes(vma, addr, ptep, oldpte, ptent, nr_ptes,
-> 				       /* idx = */ 0, set_write, tlb);
->@@ -811,8 +811,8 @@ mprotect_fixup(struct vma_iterator *vmi, struct mmu_gather *tlb,
-> 		vm_unacct_memory(nrpages);
-> 
-> 	/*
->-	 * Private VM_LOCKED VMA becoming writable: trigger COW to avoid major
->-	 * fault on access.
->+	 * Private VMA_LOCKED_BIT VMA becoming writable: trigger COW to avoid
->+	 * major fault on access.
-> 	 */
-> 	if (vma_flags_test(&new_vma_flags, VMA_WRITE_BIT) &&
-> 	    vma_flags_test(&old_vma_flags, VMA_LOCKED_BIT) &&
->@@ -886,7 +886,7 @@ static int do_mprotect_pkey(unsigned long start, size_t len,
-> 			goto out;
-> 		start = vma->vm_start;
-> 		error = -EINVAL;
->-		if (!(vma->vm_flags & VM_GROWSDOWN))
->+		if (!vma_test(vma, VMA_GROWSDOWN_BIT))
-> 			goto out;
-> 	} else {
-> 		if (vma->vm_start > start)
->@@ -894,7 +894,7 @@ static int do_mprotect_pkey(unsigned long start, size_t len,
-> 		if (unlikely(grows & PROT_GROWSUP)) {
-> 			end = vma->vm_end;
-> 			error = -EINVAL;
->-			if (!(vma->vm_flags & VM_GROWSUP))
->+			if (!vma_test(vma, VMA_GROWSUP_BIT))
 
-IIUC, should this be
+Nice cleanup! Feel free to add:
 
-if (!vma_test_single_mask(vma, VMA_GROWSUP))
-
-instead?
-
-#elif defined(CONFIG_PARISC)
-#define VM_GROWSUP	INIT_VM_FLAG(GROWSUP)
-...
-#ifndef VM_GROWSUP
-#define VM_GROWSUP	VM_NONE
-...
-
-VM_GROWSUP is only defined as GROWSUP on parisc and becomes VM_NONE
-elsewhere. But VMA_GROWSUP_BIT is the raw ARCH_1 bit, which is also used
-for other arch-specific VMA flags:
-
-	DECLARE_VMA_BIT_ALIAS(SAO, ARCH_1),		/* Strong Access Ordering (powerpc) */
-	DECLARE_VMA_BIT_ALIAS(GROWSUP, ARCH_1),		/* parisc */
-	DECLARE_VMA_BIT_ALIAS(SPARC_ADI, ARCH_1),	/* sparc64 */
-	DECLARE_VMA_BIT_ALIAS(ARM64_BTI, ARCH_1),	/* arm64 */
-	DECLARE_VMA_BIT_ALIAS(ARCH_CLEAR, ARCH_1),	/* sparc64, arm64 */
-	DECLARE_VMA_BIT_ALIAS(MAPPED_COPY, ARCH_1),	/* !CONFIG_MMU */
-
-Other vma_test() changes look fine to me: just fixed INIT_VM_FLAG()
-masks matching their VMA_*_BIT :)
-
-Cheers, Lance
-
-> 				goto out;
-> 		}
-> 	}
->@@ -918,7 +918,7 @@ static int do_mprotect_pkey(unsigned long start, size_t len,
-> 		}
-> 
-> 		/* Does the application expect PROT_READ to imply PROT_EXEC */
->-		if (rier && (vma->vm_flags & VM_MAYEXEC))
->+		if (rier && vma_test(vma, VMA_MAYEXEC_BIT))
-> 			prot |= PROT_EXEC;
-> 
-> 		/*
->-- 
->2.54.0
->
->
+Reviewed-by: Lance Yang <lance.yang@linux.dev>
