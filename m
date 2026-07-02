@@ -2,77 +2,77 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id YCcvHbdKRmqjNwsAu9opvQ
+	id mA1UBSFLRmrJNwsAu9opvQ
 	(envelope-from <etnaviv-bounces@lists.freedesktop.org>)
-	for <lists+etnaviv@lfdr.de>; Thu, 02 Jul 2026 13:25:43 +0200
+	for <lists+etnaviv@lfdr.de>; Thu, 02 Jul 2026 13:27:29 +0200
 X-Original-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44C296F6A77
-	for <lists+etnaviv@lfdr.de>; Thu, 02 Jul 2026 13:25:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69E7B6F6AD0
+	for <lists+etnaviv@lfdr.de>; Thu, 02 Jul 2026 13:27:28 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=lzrOQYF3;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Roq9Nz6Z;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=lzrOQYF3;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Roq9Nz6Z;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=tj5Dk7Ro;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=uK3kfRK0;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=tj5Dk7Ro;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=uK3kfRK0;
 	spf=pass (mail.lfdr.de: domain of etnaviv-bounces@lists.freedesktop.org designates 131.252.210.177 as permitted sender) smtp.mailfrom=etnaviv-bounces@lists.freedesktop.org;
 	dmarc=pass (policy=none) header.from=suse.de
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 146B310E4B0;
-	Thu,  2 Jul 2026 11:25:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3EF8510F2EF;
+	Thu,  2 Jul 2026 11:27:27 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6895D10E4B0
- for <etnaviv@lists.freedesktop.org>; Thu,  2 Jul 2026 11:25:39 +0000 (UTC)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 23D0C10F2F2
+ for <etnaviv@lists.freedesktop.org>; Thu,  2 Jul 2026 11:27:26 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
  [IPv6:2a07:de40:b281:104:10:150:64:97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 01DC574176;
- Thu,  2 Jul 2026 11:25:38 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 8B3DD75B23;
+ Thu,  2 Jul 2026 11:27:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1782991538; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1782991644; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=etB/tNpEjmWnCjCz7JyXJDmZvFiocG2RS0UFhl2QPjI=;
- b=lzrOQYF3zdtW0y/0pBSaTtuXlgAai69c3jq223Ufoat2oWuT58YhF1ANh3rB356nung5qw
- s+a4yuvY1qwH81R8ooWnjq3AdjzcvU2X8jQw+57B2iutenI8yhJNfhcS8hgfcMNdXdzhyI
- NqmiahPoZsIvJwtrHA5scdnq9BYiaFc=
+ bh=KAQAEf/v/SEpGgzAQIiF8hC6EzOMWIZE37jZNk2Z8Eg=;
+ b=tj5Dk7RoUt1ijWeVifPADjhK0GiEOOWzEuvGpdj75nOdoSwX98HoUqB4wr8Ho2JsHW5SHW
+ HPrKrc4+41VhBpaAocKDM+AHPyORt/Db6Paxc6So7PiXer9MlI8A5OJk+tZ2fmeLW9Dak0
+ 8TOIBgYbvgjV4te2fpqk8t8wZU65dUU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1782991538;
+ s=susede2_ed25519; t=1782991644;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=etB/tNpEjmWnCjCz7JyXJDmZvFiocG2RS0UFhl2QPjI=;
- b=Roq9Nz6Zddv/nIu4wCgkj+OdOm1hUvTk5O4kZQkMkrFtHOG9dZzG8/MFg//TBooEP56bH8
- kkYG21WQZ+VO8yDg==
+ bh=KAQAEf/v/SEpGgzAQIiF8hC6EzOMWIZE37jZNk2Z8Eg=;
+ b=uK3kfRK0Eixye7LZkjD/qQXZ+V091ezkBFUwzfacFBGBsXjHpCJc7Ncnh2K0CzOpFUkeq9
+ +ezTMmjxs6X6gNBg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1782991538; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1782991644; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=etB/tNpEjmWnCjCz7JyXJDmZvFiocG2RS0UFhl2QPjI=;
- b=lzrOQYF3zdtW0y/0pBSaTtuXlgAai69c3jq223Ufoat2oWuT58YhF1ANh3rB356nung5qw
- s+a4yuvY1qwH81R8ooWnjq3AdjzcvU2X8jQw+57B2iutenI8yhJNfhcS8hgfcMNdXdzhyI
- NqmiahPoZsIvJwtrHA5scdnq9BYiaFc=
+ bh=KAQAEf/v/SEpGgzAQIiF8hC6EzOMWIZE37jZNk2Z8Eg=;
+ b=tj5Dk7RoUt1ijWeVifPADjhK0GiEOOWzEuvGpdj75nOdoSwX98HoUqB4wr8Ho2JsHW5SHW
+ HPrKrc4+41VhBpaAocKDM+AHPyORt/Db6Paxc6So7PiXer9MlI8A5OJk+tZ2fmeLW9Dak0
+ 8TOIBgYbvgjV4te2fpqk8t8wZU65dUU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1782991538;
+ s=susede2_ed25519; t=1782991644;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=etB/tNpEjmWnCjCz7JyXJDmZvFiocG2RS0UFhl2QPjI=;
- b=Roq9Nz6Zddv/nIu4wCgkj+OdOm1hUvTk5O4kZQkMkrFtHOG9dZzG8/MFg//TBooEP56bH8
- kkYG21WQZ+VO8yDg==
+ bh=KAQAEf/v/SEpGgzAQIiF8hC6EzOMWIZE37jZNk2Z8Eg=;
+ b=uK3kfRK0Eixye7LZkjD/qQXZ+V091ezkBFUwzfacFBGBsXjHpCJc7Ncnh2K0CzOpFUkeq9
+ +ezTMmjxs6X6gNBg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8DEED779AA;
- Thu,  2 Jul 2026 11:25:33 +0000 (UTC)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 342F7779AA;
+ Thu,  2 Jul 2026 11:27:20 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id 2PRaH61KRmpTcgAAD6G6ig
- (envelope-from <pfalcato@suse.de>); Thu, 02 Jul 2026 11:25:33 +0000
-Date: Thu, 2 Jul 2026 12:25:31 +0100
+ by imap1.dmz-prg2.suse.org with ESMTPSA id N/hJCRhLRmoGdAAAD6G6ig
+ (envelope-from <pfalcato@suse.de>); Thu, 02 Jul 2026 11:27:20 +0000
+Date: Thu, 2 Jul 2026 12:27:18 +0100
 From: Pedro Falcato <pfalcato@suse.de>
 To: Lorenzo Stoakes <ljs@kernel.org>
 Cc: Andrew Morton <akpm@linux-foundation.org>, 
@@ -122,15 +122,15 @@ Cc: Andrew Morton <akpm@linux-foundation.org>,
  damon@lists.linux.dev, 
  Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>,
  Jann Horn <jannh@google.com>
-Subject: Re: [PATCH 23/30] mm/vma: make vma_set_range() static, drop
- insert_vm_struct() decl
-Message-ID: <akZKlcEDFzR0V2fV@pedro-suse.lan>
+Subject: Re: [PATCH 24/30] mm/vma: update vma_shrink() to not pass
+ unnecessary pgoff parameter
+Message-ID: <akZLBmwDfGyzKThV@pedro-suse.lan>
 References: <cover.1782735110.git.ljs@kernel.org>
- <62efd70f9f39570724c9552cc7f2aeb5c322b2ff.1782735110.git.ljs@kernel.org>
+ <6dd744d57d778f94d2fef8fd623d7c4ed8010d93.1782735110.git.ljs@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <62efd70f9f39570724c9552cc7f2aeb5c322b2ff.1782735110.git.ljs@kernel.org>
+In-Reply-To: <6dd744d57d778f94d2fef8fd623d7c4ed8010d93.1782735110.git.ljs@kernel.org>
 X-Spam-Flag: NO
 X-Spam-Level: 
 X-Spam-Score: -3.01
@@ -181,20 +181,18 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	ALIAS_RESOLVED(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[etnaviv];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.freedesktop.org:from_smtp,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,pedro-suse.lan:mid,suse.de:dkim,suse.de:email,suse.de:from_mime]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.freedesktop.org:from_smtp,pedro-suse.lan:mid,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,suse.de:dkim,suse.de:email,suse.de:from_mime]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 44C296F6A77
+X-Rspamd-Queue-Id: 69E7B6F6AD0
 
-On Mon, Jun 29, 2026 at 01:23:34PM +0100, Lorenzo Stoakes wrote:
-> With __install_special_mapping() moved to vma.c, vma_set_range() can be
-> made into a static function there and is now completely isolated from the
-> rest of mm.
+On Mon, Jun 29, 2026 at 01:23:35PM +0100, Lorenzo Stoakes wrote:
+> vma_shrink() does not need to adjust vma->vm_pgoff, we were passing this
+> parameter solely to satisfy vma_set_range()'s requirement for pgoff being
+> specified.
 > 
-> While we're here, we can also remove the insert_vm_struct() declaration
-> from mm.h - the function is implemented in vma.c and already declared in
-> vma.h, and has no users outside of mm.
-> 
-> Also update the VMA userland tests to reflect this change.
+> Since vma_set_range() is now isolated to vma.c, we can simply introduce
+> __vma_set_range() which sets only vma->vm_[start, end], and invoke this
+> instead, removing pgoff from vma_shrink() altogether.
 > 
 > No functional change intended.
 > 
