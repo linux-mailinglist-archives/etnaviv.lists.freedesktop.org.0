@@ -2,41 +2,41 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id CZk4AVFCRmosNAsAu9opvQ
+	id 7sbEL6lCRmpGNAsAu9opvQ
 	(envelope-from <etnaviv-bounces@lists.freedesktop.org>)
-	for <lists+etnaviv@lfdr.de>; Thu, 02 Jul 2026 12:49:53 +0200
+	for <lists+etnaviv@lfdr.de>; Thu, 02 Jul 2026 12:51:21 +0200
 X-Original-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AD386F6308
-	for <lists+etnaviv@lfdr.de>; Thu, 02 Jul 2026 12:49:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2002D6F6369
+	for <lists+etnaviv@lfdr.de>; Thu, 02 Jul 2026 12:51:21 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=ehRl1qrh;
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=UqfDPRoQ;
 	spf=pass (mail.lfdr.de: domain of etnaviv-bounces@lists.freedesktop.org designates 131.252.210.177 as permitted sender) smtp.mailfrom=etnaviv-bounces@lists.freedesktop.org;
 	dmarc=pass (policy=quarantine) header.from=kernel.org
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3645910F2CA;
-	Thu,  2 Jul 2026 10:49:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F012310E498;
+	Thu,  2 Jul 2026 10:51:19 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 16CFC10F2BD;
- Thu,  2 Jul 2026 10:49:50 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9521910E498;
+ Thu,  2 Jul 2026 10:51:19 +0000 (UTC)
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
- by tor.source.kernel.org (Postfix) with ESMTP id 4971960103;
- Thu,  2 Jul 2026 10:49:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0CBA1F000E9;
- Thu,  2 Jul 2026 10:49:33 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 05B8760103;
+ Thu,  2 Jul 2026 10:51:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A432F1F000E9;
+ Thu,  2 Jul 2026 10:51:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
- s=k20260515; t=1782989389;
- bh=PVxJrEfQsXPQX1baTkLT/w1gQ14jFIcsHbRcLw3FERA=;
+ s=k20260515; t=1782989478;
+ bh=prNepFwbbNENFK8ZoSoOyJUpCn4wZi4Ts2NMaeAqiMU=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To;
- b=ehRl1qrhylAe9ofHdw1uy6YCIvZpbl7YPRZ4CkgQorWifVv4m3a8Frk+KpW1OWNqB
- W5Mt0U4LzndlakymF8EBw78EGZWrzE3KlOp0pFy8YavkCJqwRLWZUPQFgQys3vfaPH
- bTMUz4RRFiIvMwxiQIu7Fk8dPwiz2pFu2EBdR33NrlR5z10UNCrkNmqGD7YAUa8uEr
- AlsmjkuHEjFCLGB6zV/S/C2QItxIy8OqiHtbryGaNt6Uy8xajwWaiky+0DlN0gAJVQ
- 2jyUc5P1J1BsxSlw2ZnaryGL4v5EjiZqEd84yVjUJ4WyP5g+g4irqvRMSbuDxjuayZ
- B6/qpVMFwJ4tg==
-Date: Thu, 2 Jul 2026 11:49:27 +0100
+ b=UqfDPRoQYK8ANeU4JUCLjKk9A8iE+hSWZ5wo1NqICXJ2dLmh73t4GqMO1fh0HAn1K
+ pwTV7GYSa5WUr2DuNxzAidH757fbi4hkBVfhORzKkMPouaGSMTC3eC7P64pygPx1gg
+ twzR4BS+XJmtcXGhnBk6IOBVH5lML7tYmNSrdqjQkghoHAUdY2a9K3BbGlsRvEzP8z
+ qiRubXQIvMiYJo9cyIPjaUHLYRsw4Q780Fqe6cunRrITc9+NUlbI4WXrJrMsbc/go/
+ 0sJrEx4V4K3K4d+AIMG568tIZ3hxQUlIFCj6BKr8thGyIdR+Mq7VpaUHu2vgSQvE3H
+ pIcYBXUjIpU7A==
+Date: Thu, 2 Jul 2026 11:50:56 +0100
 From: Lorenzo Stoakes <ljs@kernel.org>
 To: Pedro Falcato <pfalcato@suse.de>
 Cc: Andrew Morton <akpm@linux-foundation.org>, 
@@ -86,16 +86,15 @@ Cc: Andrew Morton <akpm@linux-foundation.org>,
  damon@lists.linux.dev, 
  Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>,
  Jann Horn <jannh@google.com>
-Subject: Re: [PATCH 16/30] mm/vma: use vma_start_pgoff(), linear_page_index()
- in mm code
-Message-ID: <akZCKKOiXBaHrbya@lucifer>
+Subject: Re: [PATCH 13/30] mm/vma: refactor vmg_adjust_set_range() for clarity
+Message-ID: <akZCV83FL8hW2O-Y@lucifer>
 References: <cover.1782735110.git.ljs@kernel.org>
- <33d79008948391d30bab38db5ae31072ce12f0a1.1782735110.git.ljs@kernel.org>
- <akZAwT-QWhA1wdA9@pedro-suse.lan>
+ <ada7972f49ea7f1ff1df6d11e4651f270444f8fd.1782735110.git.ljs@kernel.org>
+ <akY-Z1fsp9rHSc70@pedro-suse.lan>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <akZAwT-QWhA1wdA9@pedro-suse.lan>
+In-Reply-To: <akY-Z1fsp9rHSc70@pedro-suse.lan>
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -137,98 +136,105 @@ X-Spamd-Result: default: False [0.69 / 15.00];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[lucifer:mid,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,suse.de:email,lists.freedesktop.org:from_smtp]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,lucifer:mid,lists.freedesktop.org:from_smtp,suse.de:email]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 5AD386F6308
+X-Rspamd-Queue-Id: 2002D6F6369
 
-On Thu, Jul 02, 2026 at 11:47:10AM +0100, Pedro Falcato wrote:
-> small nit: perhaps the subject should simply have mm: as it hits mm in general
->
-> On Mon, Jun 29, 2026 at 01:23:27PM +0100, Lorenzo Stoakes wrote:
-> > There are many instances in which linear_page_index() (as well as
-> > linear_page_delta()) is open-coded, which is confusing and inconsistent.
+On Thu, Jul 02, 2026 at 11:37:11AM +0100, Pedro Falcato wrote:
+> On Mon, Jun 29, 2026 at 01:23:24PM +0100, Lorenzo Stoakes wrote:
+> > Add comments with ASCII diagrams to describe what we're doing, avoid
+> > dubious use of PHYS_PFN(), and use vma_start_pgoff().
 > >
-> > Additionally, vma->vm_pgoff doesn't necessarily make it clear that this is
-> > the page offset of the start of the VMA range.
-> >
-> > Doing so also aids greppability.
-> >
-> > So use vma_start_pgoff() in favour of directly accessing vma->vm_pgoff, and
-> > linear_page_index() where we can.
-> >
-> > This also lays the ground for future changes which will add an anonymous
-> > page offset in order to be able to index MAP_PRIVATE-file backed anon
-> > folios in terms of their virtual page offset.
+> > The most complicated scenario represented here is vmg->__adjust_next_start
+> > - when this is set, vmg->[start, end] actually indicate the range to be
+> > retained, so take special care to describe this accurately.
 > >
 > > No functional change intended.
 > >
 > > Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
 > > ---
-> >  include/linux/huge_mm.h    |  1 +
-> >  include/linux/hugetlb.h    |  3 +--
-> >  include/linux/pagemap.h    |  2 +-
-> >  mm/damon/vaddr.c           |  5 +++--
-> >  mm/debug.c                 |  2 +-
-> >  mm/filemap.c               |  7 ++++---
-> >  mm/huge_memory.c           |  2 +-
-> >  mm/hugetlb.c               | 11 ++++-------
-> >  mm/internal.h              | 24 ++++++++++++++----------
-> >  mm/khugepaged.c            |  3 ++-
-> >  mm/madvise.c               |  6 +++---
-> >  mm/mapping_dirty_helpers.c |  2 +-
-> >  mm/memory.c                | 25 +++++++++++++------------
-> >  mm/mempolicy.c             | 13 +++++++------
-> >  mm/mremap.c                | 12 ++++--------
-> >  mm/msync.c                 |  4 ++--
-> >  mm/nommu.c                 |  7 ++++---
-> >  mm/pagewalk.c              |  2 +-
-> >  mm/shmem.c                 |  9 +++++----
-> >  mm/userfaultfd.c           |  4 ++--
-> >  mm/util.c                  |  4 ++--
-> >  mm/vma.c                   | 15 +++++++--------
-> >  mm/vma_exec.c              |  4 ++--
-> >  mm/vma_init.c              |  2 +-
-> >  24 files changed, 86 insertions(+), 83 deletions(-)
+> >  mm/vma.c | 51 +++++++++++++++++++++++++++++++++++++++++++++++----
+> >  1 file changed, 47 insertions(+), 4 deletions(-)
 > >
-> > diff --git a/include/linux/huge_mm.h b/include/linux/huge_mm.h
-> > index ad20f7f8c179..653b81d08fe7 100644
-> > --- a/include/linux/huge_mm.h
-> > +++ b/include/linux/huge_mm.h
-> > @@ -230,6 +230,7 @@ static inline bool thp_vma_suitable_order(struct vm_area_struct *vma,
+> > diff --git a/mm/vma.c b/mm/vma.c
+> > index 6296acecf3b7..1e99fe8aa6ef 100644
+> > --- a/mm/vma.c
+> > +++ b/mm/vma.c
+> > @@ -704,11 +704,54 @@ static void vmg_adjust_set_range(struct vma_merge_struct *vmg)
+> >  	pgoff_t pgoff;
 > >
-> >  	/* Don't have to check pgoff for anonymous vma */
-> >  	if (!vma_is_anonymous(vma)) {
-> > +		/* vma_start_pgoff() in mm.h so not available. */
+> >  	if (vmg->__adjust_middle_start) {
+> > -		adjust = vmg->middle;
+> > -		pgoff = adjust->vm_pgoff + PHYS_PFN(vmg->end - adjust->vm_start);
+> > +		/*
+> > +		 * vmg->start    vmg->end
+> > +		 * |             |
+> > +		 * v    merge    v
+> > +		 * <------------->
+> > +		 *         delta
+> > +		 *        <------>
+> > +		 * |------|----------------|
+> > +		 * | prev |    middle      |
+> > +		 * |------|----------------|
+> > +		 *        ^
+> > +		 *        |
+> > +		 *        middle->vm_start
+> > +		 */
+> > +		struct vm_area_struct *middle = vmg->middle;
 >
-> Yay for gigaheaders...
+> FWIW this can be simplified to
+> 		adjust = middle;
+> 		const unsigned long delta = vmg->end - adjust->vm_start;
+>
+> But I guess you're looking for explicitness here?
 
-Yup C headers are a constant pain :)
+Yeah I'm intentionally trying to make that explicit as this code is very
+confusing, so people don't have to think 'oh what was adjust again?'.
 
 >
-> >  		if (!IS_ALIGNED((vma->vm_start >> PAGE_SHIFT) - vma->vm_pgoff,
-> >  				hpage_size >> PAGE_SHIFT))
-> >  			return false;
-> > diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
-> > index 2abaf99321e9..8390f50604d6 100644
-> > --- a/include/linux/hugetlb.h
-> > +++ b/include/linux/hugetlb.h
-> > @@ -792,8 +792,7 @@ static inline pgoff_t hugetlb_linear_page_index(struct vm_area_struct *vma,
-> >  {
-> >  	struct hstate *h = hstate_vma(vma);
-> >
-> > -	return ((address - vma->vm_start) >> huge_page_shift(h)) +
-> > -		(vma->vm_pgoff >> huge_page_order(h));
-> > +	return linear_page_index(vma, address) >> huge_page_order(h);
-> >  }
-> >
->
-> Anyway, nothing jumped out at me.
+> > +		const unsigned long delta = vmg->end - middle->vm_start;
+> > +
+> > +		pgoff = vma_start_pgoff(middle) + (delta >> PAGE_SHIFT);
+> > +		adjust = middle;
+> >  	} else if (vmg->__adjust_next_start) {
+> > -		adjust = vmg->next;
+> > -		pgoff = adjust->vm_pgoff - PHYS_PFN(adjust->vm_start - vmg->end);
+> > +		/*
+> > +		 *                Originally:
+> > +		 *
+> > +		 *            vmg->start   vmg->end
+> > +		 *            |            |
+> > +		 *            v    merge   v
+> > +		 *            <------------>
+> > +		 *            .            .
+> > +		 * merge_existing_range() updates to:
+> > +		 *            .            .
+> > +		 * vmg->start vmg->end     .
+> > +		 * |          |            .
+> > +		 * v  retain  v            .
+> > +		 * <---------->            .
+> > +		 *             delta       .
+> > +		 *            <----->      .
+> > +		 * |----------------|------|
+> > +		 * |    middle      | next |
+> > +		 * |----------------|------|
+> > +		 *                  ^
+> > +		 *                  |
+> > +		 *                  next->vm_start
+> > +		 */
+> > +		struct vm_area_struct *next = vmg->next;
+> > +		const unsigned long delta = next->vm_start - vmg->end;
+> > +
+> > +		pgoff = vma_start_pgoff(next) - (delta >> PAGE_SHIFT);
+> > +		adjust = next;
+> >  	} else {
+> >  		return;
+> >  	}
 >
 > Reviewed-by: Pedro Falcato <pfalcato@suse.de>
 
 Thanks!
 
->
 >
 > --
 > Pedro
