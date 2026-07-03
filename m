@@ -2,78 +2,79 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id Cm2VLXsuTmoYEwIAu9opvQ
+	id ZbhAN3ouTmoVEwIAu9opvQ
 	(envelope-from <etnaviv-bounces@lists.freedesktop.org>)
-	for <lists+etnaviv@lfdr.de>; Wed, 08 Jul 2026 13:03:23 +0200
+	for <lists+etnaviv@lfdr.de>; Wed, 08 Jul 2026 13:03:22 +0200
 X-Original-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63BBC724A08
-	for <lists+etnaviv@lfdr.de>; Wed, 08 Jul 2026 13:03:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C1D47249FE
+	for <lists+etnaviv@lfdr.de>; Wed, 08 Jul 2026 13:03:22 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=suse.com header.s=google header.b=g20+XIaf;
+	dkim=pass header.d=suse.com header.s=google header.b=EAhRpkWl;
 	dmarc=pass (policy=quarantine) header.from=suse.com;
 	spf=pass (mail.lfdr.de: domain of etnaviv-bounces@lists.freedesktop.org designates 131.252.210.177 as permitted sender) smtp.mailfrom=etnaviv-bounces@lists.freedesktop.org
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4CC1410F0C9;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3FE7310F0C4;
 	Wed,  8 Jul 2026 11:03:20 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
- [209.85.128.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CBE9310F848
- for <etnaviv@lists.freedesktop.org>; Fri,  3 Jul 2026 14:19:32 +0000 (UTC)
-Received: by mail-wm1-f42.google.com with SMTP id
- 5b1f17b1804b1-493a6258788so305345e9.3
- for <etnaviv@lists.freedesktop.org>; Fri, 03 Jul 2026 07:19:32 -0700 (PDT)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
+ [209.85.128.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D68E310F82D
+ for <etnaviv@lists.freedesktop.org>; Fri,  3 Jul 2026 14:34:18 +0000 (UTC)
+Received: by mail-wm1-f48.google.com with SMTP id
+ 5b1f17b1804b1-49253e951cdso148845e9.1
+ for <etnaviv@lists.freedesktop.org>; Fri, 03 Jul 2026 07:34:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=suse.com; s=google; t=1783088371; x=1783693171; darn=lists.freedesktop.org; 
+ d=suse.com; s=google; t=1783089257; x=1783694057; darn=lists.freedesktop.org; 
  h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
  :references:cc:to:content-language:subject:user-agent:mime-version
  :date:message-id:from:to:cc:subject:date:message-id:reply-to
- :content-type; bh=7AtJfCkfnFMyzgye8dfK/HYrK6u/oQ9FNgRgisJiufQ=;
- b=g20+XIaf9UxdpeZzKgEDs66O/3g3k2o6iBpOuKInA7luuoefu636eHENyF/PZh4bdN
- OgLsjZXPWAK3bSw9WdJbvKqzEjgrHQI5ckaN3Q3s8Kcb/SZ6leFCFQI5QvtXI26INmnB
- sNriHocTDBXJBvH+bAf7oBz7g06s1XAOQp0y5jpamHBV/pwdUR26+bW2X8cEHgu588Cv
- 2ZVo1aCEt2fs07VOX0rXCAsijhIKRvBsbM7SwFZZyUlvny3R0XLi38S8J0p39jBQsIz3
- goQnS35/xIrCsCWKX+k8+fTIDcbYmW3Y4hm2kttfTtop8suj9sxjAAkv4yaIn9aJzo2t
- KU1A==
+ :content-type; bh=ljMNR3U34F8WApvO4H/nMU/5WQkOXf/5EBBbyLdengA=;
+ b=EAhRpkWlUr33ujX1TGZR21WEiJIMQDJk6Z5V/3g5WtRSwezu71RbNY4g3Kr2+8zrjy
+ Dk13rUU3qBoY2Fj7Te3EbKZSjSPvc9Hto7Va8KjTSEXbDWw/bMJ9mGlC83zG60IazXM1
+ 8c6SQG2IjSVrYSeGVuwQtfBlFyBLTnFa5Y9wDdj+A2uP1yFI0ZEzMYA+mpnEGGRiZAyo
+ 2PzhyBMOLa4tosbgeKPXuvmMz5X4DN2Z6lPGGZGrK8iQix1unXzY2eYJyFmCdaQiTtj/
+ X+nXJW+IJ7LbjAlPwXAM1FfT11PRxnDDId445Gm+wcj8M46biXmETynT5l/n46BbR4L/
+ p6Yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20251104; t=1783088371; x=1783693171;
+ d=1e100.net; s=20251104; t=1783089257; x=1783694057;
  h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
  :references:cc:to:content-language:subject:user-agent:mime-version
  :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to:content-type;
- bh=7AtJfCkfnFMyzgye8dfK/HYrK6u/oQ9FNgRgisJiufQ=;
- b=IJfTc5YAmonNw3VLZVUFBij/OLmcV+/Q5ei14LEsV4rlgBVqNPZhbbs4Z+e5qXIbir
- D75RBsd/Lv4/PUmT6kcLpqpWGZLxslYCyLADMXsfp4WbLhxvXJ/03dW8aUGW76pLg8yZ
- OBVArnDpmQjcxDvWIkI9TTnFJq+DlwT8EGj3/RfJnhPZt7mAL4UKeTi/Pzln97LYPxo5
- jzWq9pXCk2hAQLZavuf5JENfO4ubOMgi4BRSEkniHaz+QgB1G9ThYDUgI4o1H0r6hsuD
- 21cBTXAZRPAfvA/jteb/27jvWVNfGypvpZThgVJT/DAWCJvaSP9OY+9FpbbQ/VIpqL9D
- 6YoA==
+ bh=ljMNR3U34F8WApvO4H/nMU/5WQkOXf/5EBBbyLdengA=;
+ b=NP21XnDZ0a9XcZXgH2CoVL9NHN5Fl2dr6HCfNj5/UFUmOEyvtji4PE8k6LeyT6lzlE
+ 3Jj3j/W3rG8qFz8tu/X+XFn70ZAvxcN+v8Rq0VkZzwrLmxCTf8KJerCMb7EeVs5opALr
+ +YNJjCagOwO1lITgP8EzKsAnOjjsGItga3Ht8snQyciohouFVrltUfO6Y7fXqCfxYv6Y
+ +OyTpeacIUYt7joOtNRki2Kr18MQ/T+3cfTRF2eVe7g55K4h1eQ+4XsxgobVt2qM2CXC
+ MaIfyEwuv3QtHPp1qW4D5DHgXZp/js0VQFO8cdRknLW5qWFg67yXc/hpbGGmre19N9QS
+ /2hw==
 X-Forwarded-Encrypted: i=1;
- AFNElJ9THqpb1EAssPoQ+iOV9tlk4u3yPGCMz1HFc/qusPLOLWyKhWvh83X60o5qR3IL9zdqA+m/pEXN@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxnJncUakcu5tz7zlL98acjxGCCqlM7P4kNZ5teRiEr8FZzF6Fe
- WWZWxMxjYKPIJmWVTLeql1pDx2LP7E2vgvygubgBdstvQORBcMgjd4AxxxRW3M7F2xE=
-X-Gm-Gg: AfdE7clTx+w5Dmz92HoUP7/mcMmw6KU2e52b/C0PtBaoo6dDL089SOFSexdt0Za5cLa
- lwm/aMEPx6rG9MB98ZZZFDgx8OnwdEYQjOM6nKVWkiLmTSVXXqn62Pku01jwh4gDYnEfnp5v0+/
- j++D5wZGly5+3EC5H+Zcg+BHM5wuz2rJrvqoZcd6HWvgiat9P99G0uwu56PgEFduuHlMMSsyFIk
- cS7g68HTVrUAApo3o8orXZDWhID5+dSNbtO5b0ND8WlqkT2JBT8/2TpLeqP0BENz9YMP5v0B9ix
- nzqPmI9ThkDSeifLglQL+6veA/vZzJVtkucO3PkBadlm1Er+ZdQLtaAj3dixp2x3G0ZpITbi1tA
- tBaLjKn13sD8pBfXJ/bf+gsCmo5Vk9zRvpz6gA78D4HkJn7PI9dzHEQDfmfI6udzr++E7FbZk3p
- TvDe3oNRg=
-X-Received: by 2002:a05:600c:3596:b0:493:bda2:8d92 with SMTP id
- 5b1f17b1804b1-493d0f3dfa7mr471185e9.5.1783088371071; 
- Fri, 03 Jul 2026 07:19:31 -0700 (PDT)
+ AFNElJ8k/jI90/AYoJwlFP+YDrm3Z/6EYjlzQR2iuYu9/Nsmuc5+IUk+oZ/dOB+DgVgR4mpuIi+6t0GV@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzsXrzyrgFcReaxiJ+6aLbE9ae8fv7uTy8s6p+XXgw5C819Drny
+ ml9qv5kjVehKecbT33f7iHRQMjEkXNTwBXiHxGIdOC7bKNlIyibMD/KyyN2kX+jKl0o=
+X-Gm-Gg: AfdE7ckQcccunirXR1p0H2Sp+vpLVxzf5Gu5nQduf1aqP3BAd6H+mb3FuCnv72WmTpL
+ kFRAliFHBDmjEo039Iy2RKK4HcScV1xVGNYe5IjKW5f7MooNMBonkotNExuqjl9he82UKM7t9U4
+ mfyeyIDo0QIqkMpRcN0hOe6Be44yLYJH3QiZeurghm9byewvUTyJVmhI8oqlfFn2RsMeWS4y96r
+ bCAHeKD4UN/CT1IwirfhqwIdBOMiAeBPgrZDx0QNPRW9NYs1MgWXyZy8cdT/ubfQQTVzAhKpYUo
+ R9wjCXe4qYozXP+4izsfSq43iOsEX96u1vqaGFPVZK6SbYWm0NijuqIYI/r/E8Kq0egjo4d7d+W
+ HY6LBi7LjjaFrtiu1Ml9GP3bMjYIKn8esJlcK7rhVjLpKNmWFBEiKa98ScCFx9dsXa+1m5h3rmS
+ UDj4DLVZU=
+X-Received: by 2002:a05:600c:8217:b0:493:bab5:86ee with SMTP id
+ 5b1f17b1804b1-493d0f343fdmr674415e9.4.1783089257091; 
+ Fri, 03 Jul 2026 07:34:17 -0700 (PDT)
 Received: from ?IPV6:2001:1a48:8:903::e14? ([2001:1a48:8:903::e14])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-493bef23feasm171149305e9.2.2026.07.03.07.19.28
+ 5b1f17b1804b1-493c636e9e9sm131864315e9.2.2026.07.03.07.34.14
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 03 Jul 2026 07:19:30 -0700 (PDT)
-Message-ID: <458898c9-cfe6-4be5-ba83-f7961ed84329@suse.com>
-Date: Fri, 3 Jul 2026 16:19:28 +0200
+ Fri, 03 Jul 2026 07:34:16 -0700 (PDT)
+Message-ID: <3c945aa4-5429-4bf4-9c0b-c4745cf6024b@suse.com>
+Date: Fri, 3 Jul 2026 16:34:14 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 02/30] mm: add kdoc comments for vma_start/last_pgoff()
+Subject: Re: [PATCH 03/30] tools/testing/vma: use vma_start_pgoff() in merge
+ tests
 Content-Language: en-US
 To: Lorenzo Stoakes <ljs@kernel.org>, Andrew Morton <akpm@linux-foundation.org>
 Cc: Russell King <linux@armlinux.org.uk>, Dinh Nguyen <dinguyen@kernel.org>,
@@ -110,9 +111,10 @@ Cc: Russell King <linux@armlinux.org.uk>, Dinh Nguyen <dinguyen@kernel.org>,
  SeongJae Park <sj@kernel.org>, Miaohe Lin <linmiaohe@huawei.com>,
  Hugh Dickins <hughd@google.com>, Mike Rapoport <rppt@kernel.org>,
  Kees Cook <kees@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>,
- linux-kernel@vger.kernel.org, linux-parisc@vger.kernel.org,
- linux-sgx@vger.kernel.org, etnaviv@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-parisc@vger.kernel.org, linux-sgx@vger.kernel.org,
+ etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
  linux-tegra@vger.kernel.org, kvm@vger.kernel.org,
  linux-fsdevel@vger.kernel.org, nvdimm@lists.linux.dev, linux-mm@kvack.org,
  iommu@lists.linux.dev, linux-perf-users@vger.kernel.org,
@@ -121,7 +123,7 @@ Cc: Russell King <linux@armlinux.org.uk>, Dinh Nguyen <dinguyen@kernel.org>,
  Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>,
  Jann Horn <jannh@google.com>
 References: <cover.1782735110.git.ljs@kernel.org>
- <8c618dfd7de419e3b797b8bd1cd921d4c5b8878b.1782735110.git.ljs@kernel.org>
+ <b501eca378b9d9734e83838102aadc9276590fba.1782735110.git.ljs@kernel.org>
 From: Vlastimil Babka <vbabka@suse.com>
 Autocrypt: addr=vbabka@suse.com; keydata=
  xsFNBFZdmxYBEADsw/SiUSjB0dM+vSh95UkgcHjzEVBlby/Fg+g42O7LAEkCYXi/vvq31JTB
@@ -162,7 +164,7 @@ Autocrypt: addr=vbabka@suse.com; keydata=
  vPA/SK8sKoM01IRxSihev/S/5WLazXB1PGemOCbvzC1IjWJJraxiDJ5IygokapUa2RP7+WBR
  22skQ3SSl6G107QgWKSyTOGWEaRmV53vxQLVjXuCmzSSasTL60zq5yGrT4/DYQVSNEUiUbG4
  pYekxJujNeEDkUlky0Y=
-In-Reply-To: <8c618dfd7de419e3b797b8bd1cd921d4c5b8878b.1782735110.git.ljs@kernel.org>
+In-Reply-To: <b501eca378b9d9734e83838102aadc9276590fba.1782735110.git.ljs@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Mailman-Approved-At: Wed, 08 Jul 2026 11:03:19 +0000
@@ -192,7 +194,7 @@ X-Spamd-Result: default: False [1.19 / 15.00];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS(0.00)[m:ljs@kernel.org,m:akpm@linux-foundation.org,m:linux@armlinux.org.uk,m:dinguyen@kernel.org,m:schuster.simon@siemens-energy.com,m:James.Bottomley@HansenPartnership.com,m:deller@gmx.de,m:jarkko@kernel.org,m:tglx@kernel.org,m:mingo@redhat.com,m:bp@alien8.de,m:dave.hansen@linux.intel.com,m:x86@kernel.org,m:abbotti@mev.co.uk,m:hsweeten@visionengravers.com,m:l.stach@pengutronix.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:patrik.r.jakobsson@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:robin.clark@oss.qualcomm.com,m:lumag@kernel.org,m:tomi.valkeinen@ideasonboard.com,m:thierry.reding@kernel.org,m:mperttunen@nvidia.com,m:jonathanh@nvidia.com,m:christian.koenig@amd.com,m:ray.huang@amd.com,m:ankita@nvidia.com,m:alex@shazbot.org,m:viro@zeniv.linux.org.uk,m:brauner@kernel.org,m:djbw@kernel.org,m:muchun.song@linux.dev,m:osalvador@suse.de,m:david@kernel.org,m:surenb@google.com,m:liam@infradead.org,m:willy@infradead.org,m:m.szyprow
- ski@samsung.com,m:peterz@infradead.org,m:acme@kernel.org,m:namhyung@kernel.org,m:mhiramat@kernel.org,m:oleg@redhat.com,m:rostedt@goodmis.org,m:sj@kernel.org,m:linmiaohe@huawei.com,m:hughd@google.com,m:rppt@kernel.org,m:kees@kernel.org,m:pbonzini@redhat.com,m:linux-kernel@vger.kernel.org,m:linux-parisc@vger.kernel.org,m:linux-sgx@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:freedreno@lists.freedesktop.org,m:linux-tegra@vger.kernel.org,m:kvm@vger.kernel.org,m:linux-fsdevel@vger.kernel.org,m:nvdimm@lists.linux.dev,m:linux-mm@kvack.org,m:iommu@lists.linux.dev,m:linux-perf-users@vger.kernel.org,m:linux-trace-kernel@vger.kernel.org,m:kasan-dev@googlegroups.com,m:damon@lists.linux.dev,m:pfalcato@suse.de,m:riel@surriel.com,m:harry@kernel.org,m:jannh@google.com,m:patrikrjakobsson@gmail.com,s:lists@lfdr.de];
+ ski@samsung.com,m:peterz@infradead.org,m:acme@kernel.org,m:namhyung@kernel.org,m:mhiramat@kernel.org,m:oleg@redhat.com,m:rostedt@goodmis.org,m:sj@kernel.org,m:linmiaohe@huawei.com,m:hughd@google.com,m:rppt@kernel.org,m:kees@kernel.org,m:pbonzini@redhat.com,m:linux-kernel@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-parisc@vger.kernel.org,m:linux-sgx@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linux-arm-msm@vger.kernel.org,m:freedreno@lists.freedesktop.org,m:linux-tegra@vger.kernel.org,m:kvm@vger.kernel.org,m:linux-fsdevel@vger.kernel.org,m:nvdimm@lists.linux.dev,m:linux-mm@kvack.org,m:iommu@lists.linux.dev,m:linux-perf-users@vger.kernel.org,m:linux-trace-kernel@vger.kernel.org,m:kasan-dev@googlegroups.com,m:damon@lists.linux.dev,m:pfalcato@suse.de,m:riel@surriel.com,m:harry@kernel.org,m:jannh@google.com,m:patrikrjakobsson@gmail.com,s:lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER(0.00)[vbabka@suse.com,etnaviv-bounces@lists.freedesktop.org];
 	TO_DN_SOME(0.00)[];
@@ -200,11 +202,11 @@ X-Spamd-Result: default: False [1.19 / 15.00];
 	MIME_TRACE(0.00)[0:+];
 	ARC_NA(0.00)[];
 	FORWARDED(0.00)[etnaviv@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[armlinux.org.uk,kernel.org,siemens-energy.com,HansenPartnership.com,gmx.de,redhat.com,alien8.de,linux.intel.com,mev.co.uk,visionengravers.com,pengutronix.de,gmail.com,ffwll.ch,suse.de,oss.qualcomm.com,ideasonboard.com,nvidia.com,amd.com,shazbot.org,zeniv.linux.org.uk,linux.dev,google.com,infradead.org,samsung.com,goodmis.org,huawei.com,vger.kernel.org,lists.freedesktop.org,lists.linux.dev,kvack.org,googlegroups.com,surriel.com];
+	FREEMAIL_CC(0.00)[armlinux.org.uk,kernel.org,siemens-energy.com,HansenPartnership.com,gmx.de,redhat.com,alien8.de,linux.intel.com,mev.co.uk,visionengravers.com,pengutronix.de,gmail.com,ffwll.ch,suse.de,oss.qualcomm.com,ideasonboard.com,nvidia.com,amd.com,shazbot.org,zeniv.linux.org.uk,linux.dev,google.com,infradead.org,samsung.com,goodmis.org,huawei.com,vger.kernel.org,lists.infradead.org,lists.freedesktop.org,lists.linux.dev,kvack.org,googlegroups.com,surriel.com];
 	DKIM_TRACE(0.00)[suse.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[etnaviv@lists.freedesktop.org];
-	RCPT_COUNT_GT_50(0.00)[74];
+	RCPT_COUNT_GT_50(0.00)[76];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[vbabka@suse.com,etnaviv-bounces@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -216,65 +218,15 @@ X-Spamd-Result: default: False [1.19 / 15.00];
 	TAGGED_RCPT(0.00)[etnaviv];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.freedesktop.org:from_smtp,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,suse.com:from_mime,suse.com:dkim,suse.com:mid]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 63BBC724A08
+X-Rspamd-Queue-Id: 6C1D47249FE
 
 On 6/29/26 14:23, Lorenzo Stoakes wrote:
-> Describe what vma_start_pgoff() and vma_last_pgoff() actually provide in
-> detail.
-> 
-> This is in order that we can differentiate this between functions that will
-> be added in a subsequent patch which provide a different page offset.
+> Now we have the vma_start_pgoff() helper, update the merge tests to make
+> use of it for consistency.
 > 
 > No functional change intended.
 > 
 > Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
 
 Reviewed-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
-
-> ---
->  include/linux/mm.h | 26 ++++++++++++++++++++++++++
->  1 file changed, 26 insertions(+)
-> 
-> diff --git a/include/linux/mm.h b/include/linux/mm.h
-> index 059144435729..2f00c75e66bd 100644
-> --- a/include/linux/mm.h
-> +++ b/include/linux/mm.h
-> @@ -4278,11 +4278,37 @@ static inline unsigned long vma_pages(const struct vm_area_struct *vma)
->  	return (vma->vm_end - vma->vm_start) >> PAGE_SHIFT;
->  }
->  
-> +/**
-> + * vma_start_pgoff() - Get the page offset of the start of @vma
-> + * @vma: The VMA whose page offset is required.
-> + *
-> + * If the VMA is file-backed, this is the page offset into the file.
-> + *
-> + * If the VMA is anonymous, this is the virtual page offset of the start of the
-> + * VMA - if unfaulted, then vma->vm_start >> PAGE_SHIFT, if faulted then the
-> + * virtual page offset at the time of first fault.
-> + *
-> + * Note that if @vma is a MAP_PRIVATE file-backed mapping, then this returns the
-> + * file offset.
-> + *
-> + * Returns: The page offset of the start of @vma.
-> + */
->  static inline pgoff_t vma_start_pgoff(const struct vm_area_struct *vma)
->  {
->  	return vma->vm_pgoff;
->  }
->  
-> +/**
-> + * vma_last_pgoff() - Get the page offset of the last page in @vma
-> + * @vma: The VMA whose last page offset is required.
-> + *
-> + * This returns the last page offset contained within @vma.
-> + *
-> + * See the description of vma_start_pgoff() for a description of VMA page
-> + * offsets.
-> + *
-> + * Returns: The last page offset of @vma.
-> + */
->  static inline pgoff_t vma_last_pgoff(const struct vm_area_struct *vma)
->  {
->  	return vma_start_pgoff(vma) + vma_pages(vma) - 1;
 
