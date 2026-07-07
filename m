@@ -2,74 +2,76 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 0lfwEqEoTWrmvwEAu9opvQ
+	id uBN7Ac8oTWrvvwEAu9opvQ
 	(envelope-from <etnaviv-bounces@lists.freedesktop.org>)
-	for <lists+etnaviv@lfdr.de>; Tue, 07 Jul 2026 18:26:09 +0200
+	for <lists+etnaviv@lfdr.de>; Tue, 07 Jul 2026 18:26:55 +0200
 X-Original-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E476271DD85
-	for <lists+etnaviv@lfdr.de>; Tue, 07 Jul 2026 18:26:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FDB971DD97
+	for <lists+etnaviv@lfdr.de>; Tue, 07 Jul 2026 18:26:54 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gourry.net header.s=google header.b=uCaFp7Sc;
+	dkim=pass header.d=gourry.net header.s=google header.b=QIUvYrJa;
 	dmarc=none;
 	spf=pass (mail.lfdr.de: domain of etnaviv-bounces@lists.freedesktop.org designates 131.252.210.177 as permitted sender) smtp.mailfrom=etnaviv-bounces@lists.freedesktop.org
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C4FD610E514;
-	Tue,  7 Jul 2026 16:26:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2539F10E514;
+	Tue,  7 Jul 2026 16:26:53 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com
- [209.85.219.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 77BD689D4D
- for <etnaviv@lists.freedesktop.org>; Tue,  7 Jul 2026 16:26:06 +0000 (UTC)
-Received: by mail-qv1-f53.google.com with SMTP id
- 6a1803df08f44-8e9c9d63815so18124686d6.2
- for <etnaviv@lists.freedesktop.org>; Tue, 07 Jul 2026 09:26:06 -0700 (PDT)
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com
+ [209.85.222.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 54CA310E514
+ for <etnaviv@lists.freedesktop.org>; Tue,  7 Jul 2026 16:26:52 +0000 (UTC)
+Received: by mail-qk1-f169.google.com with SMTP id
+ af79cd13be357-922ff615c14so330938185a.3
+ for <etnaviv@lists.freedesktop.org>; Tue, 07 Jul 2026 09:26:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gourry.net; s=google; t=1783441565; x=1784046365; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=Abd7yWEQE6Vuyzvr8uj66ic6dsI9yDvEtRp+r0f0v0Y=;
- b=uCaFp7Scv/XUqWn0KzBR1Df/xOIQiiPxB7dgWB/4oqRyxAFl6AMbvUGCkIDYi7/2ml
- 8iq415d+N7LYgPhip+f28yc+bmG6YJHHzOMYnT/RBRrBoQi2BRSX6tk/7gkGmdNshe1H
- cSfHACQmq/bJPu/M5ZsImUurFSvaCimkb4suU8iUpJeCxtKTgAkadnvaJHPRIlMnFi73
- xUK3eyJ8nkkxmaLTLI9dc/58f+t3xw87xzNu8aLxrDYWd2xRPhNCrLWoQJ2pENkvAwJa
- +UJ+daMrAgZpMDirQzdyEIk7eRP4tg1n6jg0IlfI3ROKXKl/qFXekg4zd3AaeHrELJkb
- rOsg==
+ d=gourry.net; s=google; t=1783441611; x=1784046411; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:content-type:mime-version
+ :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+ :date:message-id:reply-to:content-type;
+ bh=3pPJvCom7n6xLJkZnxYC/ipfbqNHo6N+N3CeZviAw0k=;
+ b=QIUvYrJarsNiU3Cmvw2mVD9tHe38LnlGElusWKVl/FxjTh8al/zzevMV2UVXHWlVBQ
+ uGrIgftKKD7m8EEMLC83AeDXUwtFqkSc+iszk1BDIWpQdw7ITdrkuz7Nbz3kLXaGaZ5V
+ YL2js4N3DzAMelLhmaD2eveb+be0Vukmh/VTtdXmMuvvsbZehSJ0krM/O12uJIltBi2p
+ Xq73rIIpRb/V9mcFvIxmQ3d1111eI6Fu4fPGaxLemFMevmJc1JZvIFI6DWK14avu+nUR
+ ZB0zfzXi+S8c/fSlLzbxAkzcejRunOZqx/FUOZ66KAzTeZC2Z1Y0fo6CE0YcupBwvwwp
+ iFmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20251104; t=1783441565; x=1784046365;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Abd7yWEQE6Vuyzvr8uj66ic6dsI9yDvEtRp+r0f0v0Y=;
- b=Zk+eWYBkk24PmV98JWx/mrXR4kOy0APVQ67kox1roXd3MmSurghMyLBRKfy+1x+L8P
- /sYF/T5NqCp+I8rx9Dw/bP0ZITSQFc2Ca1M5xFeXf81vD+snuG7Qv1NkpPpWrYzGOYg7
- aYGDXqy9GYNOEq5/E5up43fQjET1/mokPbc0tspcqk24TXlSuKcpTtEWxz96IxAykniO
- TuecGw+fOt+5w559DUWgrYNJvMZt+zcjWT1/dGDpMyrFCaEmfDf8t/3tHDzW77w4uRZF
- cXPPteTi3eaXfvV6wjKQPgAZ0L5tc0T3vfUyPbvMdZ4mk9l1ncBuQXq5hoY43scF9ekh
- r6JQ==
+ d=1e100.net; s=20251104; t=1783441611; x=1784046411;
+ h=in-reply-to:content-disposition:content-type:mime-version
+ :references:message-id:subject:cc:to:from:date:x-gm-gg
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+ :content-type;
+ bh=3pPJvCom7n6xLJkZnxYC/ipfbqNHo6N+N3CeZviAw0k=;
+ b=Ls+yZKB7arjaBxSa3r252HQWWERy7sdraauBthYcHfHzFAVmaSgYOVp893+qUI7PPj
+ Z6kp7nKO8OqWt8kaf+t5kyy3PhHFxoJk52FKtLC9ITkKZHmQeUEsDl+8y9/MYBGIQiV+
+ /5lyxxQnqSI6idHR9YZUjXABoGfv9ykPJJGtFKdT36UcKVZSuouz5cqoOODvzzl5Eqe1
+ dqPdb7frsB0b5+Hf6ABmhkdjzRq+ALv3EcB2xh6Oj63qUr+NvAncTwj5ScpDqiZFuJGL
+ HZKp9og93jktzJcNt5CEDidYg8ArTCRT18sxpiIEBxentBc9LCM1E9B0O/daiE8JVgRN
+ xCGw==
 X-Forwarded-Encrypted: i=1;
- AHgh+RrSVEs0zPbARRLKQ4jj1LO4psPIlR8k+pmmQ9wJLHXtvJ02YddFCugsraYu/usAo6+h6vJ4hNX5@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwURpmUlE7x9VLzu4znbRVLiezzwTKo4RD0oWoEVABS34k1uB1w
- UjXSVJ/3UWQ5qQXJd2TonneWJWvGnZfUIYYB5/44JfY0cOQpisn9y3aTl/bRzAWAYac=
-X-Gm-Gg: AfdE7cl38gxzfcQs3z0Ap+h6uu9nRQmAZXUSswkw+W9bH8CBBSzc9Z3dqW8wtOKAuu2
- vOzaEay4AdkBOkL49cTmeDm5bWrOZ/FPHP0EQIIBsebRzJCwRoyf2bbfKZXOdFEx1p13RlYkuR+
- OsLG+zvk7rUErwCzLRtVQVDhW82OkVxwXVyZXOV2CpyYE7hhBBEhhcxpEuOdXfe++GB9dbAw934
- wu8uayIZm6+1LvPAMa/p2gmc+SEYGwmm0GZtYqrPuqlDpVz6cGA43Kr3Cd/GMxutb9hzDXRy9b5
- AOMMkOCL3GV98WUhS/T5yhrfQ4UihEaRn6Ubzm8xz0Q2FZyTukIGOKxszOf+tDysnxkDaO8y++7
- 91t46Vft2WYxg4mqh7IPu5AbfhETQPfu7aVoRsjRLDPkX8lToZLHs6BGOqrptKt0iXVpHVpHYov
- hJmm0iXgJ76Zj0gjGUI+PEhrb7aUw7bAG7sYija5aTFPDyJ8f7eSmIc5k5cUYnLVX3cd2lIxOMM
- 2zjYo8=
-X-Received: by 2002:a05:6214:6011:b0:8fd:6de3:bbaa with SMTP id
- 6a1803df08f44-8fd6de3be6emr28372996d6.64.1783441563961; 
- Tue, 07 Jul 2026 09:26:03 -0700 (PDT)
+ AHgh+Rqw8ZPYwaXU+9oZZNZswUiO9O3dPlgrAhzlUGUEFLXMKkyrs8M0L501YBk3MD0pTpIVc0V6H/OE@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz8+GJmXXzUYQfbgFDxX8UxfUhGEwRrTmQLz4H3vHQND7kyADGJ
+ iF+5RrxsEa5Z1ikdGGHqy1thBm1dKWLrlicaxRZnd2OxNXj9teuPFMBAP6O8k3cLSFA=
+X-Gm-Gg: AfdE7clM40uqyJrUsOzYJovA07CVysiujnCl/gABeAO2GWbyuHVr20dasRnJ9GjJy0Y
+ HL6kaMS1NINnVnC3x/A4K1QCagDeugHPhamGB42R29pqr2Y2/oag4AAOZcZmpcBQQfuHel79ZEJ
+ 9wA6RJzI35UeRktfGCcVlu+ISwK848AdLJkgzvjA8vzEssTOxhU1Gl5PF3fYATSdd4Bdk4ARCr1
+ zX9RGesH3nNMc6T9y3u9oqkz2jDPKimSTZb+CNxJ1DpwMJK0ia9CLgcOw49yfJBfC2wUbyRNxtU
+ 4HNjFHbSPa919qEUpPxRHtk8ghjyWGuMsKKKfE97WGwoYQAs5OX51SnA5WmC9IkaWyyOsgN+/jf
+ Nhir9OLJ90s3Xpn81Q0H9HBxAcRm+NeYgBrx0Vy1KgCA4nETBhMqQlBZ5WiKe+hx++/ZXdCEXA2
+ qSwsaXEJmI1poviYXul1wP5Ro79vuGQ7fghVrRinPH1odkNG16CEo8VHwZM9ta10P/B4qByYcMe
+ XLjFUI=
+X-Received: by 2002:a05:620a:a807:b0:92e:c118:18b9 with SMTP id
+ af79cd13be357-92ec1181fa1mr324497185a.88.1783441610850; 
+ Tue, 07 Jul 2026 09:26:50 -0700 (PDT)
 Received: from gourry-fedora-PF4VCD3F
  (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
  by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-8f46f306123sm181382626d6.20.2026.07.07.09.26.02
+ af79cd13be357-92e90ba41fesm1231337385a.17.2026.07.07.09.26.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jul 2026 09:26:03 -0700 (PDT)
-Date: Tue, 7 Jul 2026 12:25:58 -0400
+ Tue, 07 Jul 2026 09:26:49 -0700 (PDT)
+Date: Tue, 7 Jul 2026 12:26:43 -0400
 From: Gregory Price <gourry@gourry.net>
 To: Lorenzo Stoakes <ljs@kernel.org>
 Cc: Andrew Morton <akpm@linux-foundation.org>,
@@ -124,15 +126,14 @@ Cc: Andrew Morton <akpm@linux-foundation.org>,
  damon@lists.linux.dev, Pedro Falcato <pfalcato@suse.de>,
  Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>,
  Jann Horn <jannh@google.com>
-Subject: Re: [PATCH 11/30] mm/vma: introduce and use vmg_pages(), vmg_[start, 
- end]_pgoff()
-Message-ID: <ak0olp9zA6ERCXtO@gourry-fedora-PF4VCD3F>
+Subject: Re: [PATCH 12/30] mm/vma: clean up anon_vma_compatible()
+Message-ID: <ak0owyNkHX6mw4pe@gourry-fedora-PF4VCD3F>
 References: <cover.1782735110.git.ljs@kernel.org>
- <f7b4f8a611ab4d36eb3cf2e394610a3744a93895.1782735110.git.ljs@kernel.org>
+ <5a7a07bd2a774989849b0fea84f758059ed914df.1782735110.git.ljs@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <f7b4f8a611ab4d36eb3cf2e394610a3744a93895.1782735110.git.ljs@kernel.org>
+In-Reply-To: <5a7a07bd2a774989849b0fea84f758059ed914df.1782735110.git.ljs@kernel.org>
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -183,14 +184,11 @@ X-Spamd-Result: default: False [1.19 / 15.00];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gourry.net:from_mime,gourry.net:email,gourry.net:dkim,gourry-fedora-PF4VCD3F:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,lists.freedesktop.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: E476271DD85
+X-Rspamd-Queue-Id: 4FDB971DD97
 
-On Mon, Jun 29, 2026 at 01:23:22PM +0100, Lorenzo Stoakes wrote:
-> In the VMA logic we often need to determine the number of pages in the
-> specified merge range, as well as the start and end page offsets of that
-> range.
-> 
-> Introduce and use helpers for these purposes.
+On Mon, Jun 29, 2026 at 01:23:23PM +0100, Lorenzo Stoakes wrote:
+> Break up the existing very large conditional, add comments and use
+> vma_[start/end]_pgoff() to make clearer what we're doing here.
 > 
 > No functional change intended.
 > 
