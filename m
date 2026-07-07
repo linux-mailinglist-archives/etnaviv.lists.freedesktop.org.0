@@ -2,56 +2,59 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id DJnvBE1gTGr1jgEAu9opvQ
+	id 4qu/BYFkTGqijwEAu9opvQ
 	(envelope-from <etnaviv-bounces@lists.freedesktop.org>)
-	for <lists+etnaviv@lfdr.de>; Tue, 07 Jul 2026 04:11:25 +0200
+	for <lists+etnaviv@lfdr.de>; Tue, 07 Jul 2026 04:29:21 +0200
 X-Original-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DE15716BC8
-	for <lists+etnaviv@lfdr.de>; Tue, 07 Jul 2026 04:11:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68DEF716D1C
+	for <lists+etnaviv@lfdr.de>; Tue, 07 Jul 2026 04:29:20 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=Nvidia.com header.s=selector2 header.b=Rqgyb5dt;
+	dkim=pass header.d=Nvidia.com header.s=selector2 header.b=sdtzh+uf;
 	dmarc=pass (policy=reject) header.from=nvidia.com;
 	spf=pass (mail.lfdr.de: domain of etnaviv-bounces@lists.freedesktop.org designates 131.252.210.177 as permitted sender) smtp.mailfrom=etnaviv-bounces@lists.freedesktop.org;
 	arc=pass ("microsoft.com:s=arcselector10001:i=1")
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 64D6410EB13;
-	Tue,  7 Jul 2026 02:11:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 949A410EB29;
+	Tue,  7 Jul 2026 02:29:17 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from DM5PR21CU001.outbound.protection.outlook.com
- (mail-centralusazon11011011.outbound.protection.outlook.com [52.101.62.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6FD5510E3F9;
- Tue,  7 Jul 2026 02:11:22 +0000 (UTC)
+Received: from DM1PR04CU001.outbound.protection.outlook.com
+ (mail-centralusazon11010069.outbound.protection.outlook.com [52.101.61.69])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C820310EB1B;
+ Tue,  7 Jul 2026 02:29:15 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=wto1kG7x0lEigIZjZ69KzWs14cA7cKiTp/PLlUYQ1SbEn6vaSZvcPqgLnvs8uwlKZqvcSYGJhRpvFX5UHgIHDnncQCsBSQjYfQjJVguZaHEdE87aDk3nE2nrAKQqqQmFO4KsePviBaZmU6V9PPCdkT40T8XYYrNkLiC98LTc7zphww9NBz4YrLfAYTa7HhQQzL8fBCq8QlxsI9VxcTUvEc/OcTzZEBxSAy0VPiXnG8LzWHLkoXoMMmax6mc88IMZTiEzYoACoz/7vrJL1B0RBw811K1HfmjUGgn5MKC874AbjePd3kq5OoOMXCK6Er0CbfeE2RY8JSZsAPkEWp1dFQ==
+ b=xmlAi4x/h0BdLppJ8Mj5hXhgDSENpDkIxMWA67G4JXMMcHtvb8Xg4LSHbPen0uX4xfXOXzv1aaXbSlKNAgx1ZshFhvADg4PcYNtiQhrLHqK0ubu0200KKjhkYgQ5S4Cp0vpzBLP/deDyXnBLQ/6RKfr8sgLPx499uCiKs5oc82a/aULgIU0m/rzDIthuVfwkFPrwZR2gH+hv1crsmlGEXOq/4oI3J+FqZWjBNczm3vPkiWC043qBZChlorNJwIQbNHUHTLCGI9GrEwU9/E3sLhtrsyt9iDvJei1DYYIPJXYc/Evc1ZYEvptu7k3jhmbWWu/ry5gHuKzfkKFDavsGFA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=OZWTKtclRrOfAi6ihxJKjALnLRbRSlyjEScPsGFqTuY=;
- b=rOp17A2cjBZEQEXbDH2sBM6PvUTJtENgAj5XN8/fkoSg6bAFrbdy5Y6OHlZiiwBMYh9GdhXLB+FPEevN0ewpRoWB7XBrtocviJ8FKT5r9QUewzAcHYkasjQpkysBZ5slVb9OMqsGbnYMOtDzj2WjxvpMekP/iX+Ci3Ru0k44y9xq3UUJWANTOB7V/4JZT+OmaSI1vlNApSXNSKaIaw3RDSSQSIILaOYmHbjVl9EnuXNmZaKgMZ1sBdIC5g1mp08ZB+Vr53zB44yzjNwAvwxmmmOTXZv0lp2ATm0cl6pWBfLEbCnLBswhE+tzTPxA3Hu2vkhoAvYfEFQTsMn1hHdC5w==
+ bh=NP/BuSbRJgWDe0nuHRuoz2AG2Ll3dQalQ3DDTSWWWfQ=;
+ b=w+3NC4HXIpHJSPiqgCNAzkoSGpa20qsmOTVWxNwRqP76T7+rizeRKzQfosn12IpN8TtU7+i6IMgOXb240aBZVuGAVGAMRxA2+8CUsmdqByKI8HHE9izk1eKKXATspDTBB6ZYiw67gnlBCldkM0/L8l8DF7+XdLjDn/13UEsJ4EeBroB+vJRS4lZaGTSCgiY9dtFL7DVvyn2XfkUlsncEnjWKx6CF2nzRNlovKxGi/bnFsLqeQBITNRDv4FG07DfDliExe3nG005lWrCwOK9w5cIC2kwNz9XVRcieqaIxADl0DspqrJ3gP1JoFY3Z+sSTEbyW02dOvaA4O0X0XHkjJg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OZWTKtclRrOfAi6ihxJKjALnLRbRSlyjEScPsGFqTuY=;
- b=Rqgyb5dtBICsv78jQL9CwbjetB2CWZIlnhEcFGW1C9li+Ru/Uy+5fcKr6zrgltXGzrsIT9vMr8bMZssBqUgNwQGhb6qwRGbNRJQQtGQJURWS00Y7bBaPCYRCivowXwIJ0y+POE3CPVtBs6JzNlSzoT+z9aUcEJnL3CaluTQeU3AkbAVrJMv1FqmGq1mHhXPUsHPuzFAEflLIqRz9Z/gSfROp3V6fJm7o7ld/RFlNgV1oj7u610vnR1FRoZkoZryJ2/ABNDr0exj258xjZxGp4OD4zM2TVCaeOwUzd/c+FqTBPTHawE3xLuapQa2olUY7dc6YqlmJLzBQA0MO6p5hbg==
+ bh=NP/BuSbRJgWDe0nuHRuoz2AG2Ll3dQalQ3DDTSWWWfQ=;
+ b=sdtzh+ufO2Gzl23/ze1OAe5OBI9fnBQVDz69Mw8RSoYuIZENYyOY6CVnCm5fBpL0xgnwtMgpmAVzFKX6rnq8Hkmy7ELJigHI7cGJ7xDgJ/8FFkM6G9AXhWIk7qWibugQ9UPQOdJTIOxODn8f7ahc+J8oGy3IppZQWkTwZPhmXVDxsdVartH2ZiwQ8K9fCJNhTL+PXlceeo8rQ7NjwGKE/SaC7s0bY1V99NVolmrssbuzIFGVMb4OC4r+ILCJMThz/lHkt7JuUMhzdMbPZ+ll8W7dsUKCYmR6sb2Zuc/KTc5PU+PsB/RTzkLx0Qfs713oESnblCBkCJxei72wp9/ylA==
 Received: from IA0PR12MB8374.namprd12.prod.outlook.com (2603:10b6:208:40e::7)
- by CY5PR12MB6177.namprd12.prod.outlook.com (2603:10b6:930:26::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.8; Tue, 7 Jul 2026
- 02:11:13 +0000
+ by CY5PR12MB6275.namprd12.prod.outlook.com (2603:10b6:930:20::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.10; Tue, 7 Jul
+ 2026 02:29:03 +0000
 Received: from IA0PR12MB8374.namprd12.prod.outlook.com
  ([fe80::d85f:4c87:ae84:3f16]) by IA0PR12MB8374.namprd12.prod.outlook.com
  ([fe80::d85f:4c87:ae84:3f16%5]) with mapi id 15.21.0181.009; Tue, 7 Jul 2026
- 02:11:13 +0000
+ 02:29:03 +0000
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Mon, 06 Jul 2026 22:10:32 -0400
-Message-Id: <DJRZ2QCEIVA6.1AZF5S891NKS4@nvidia.com>
-Subject: Re: [PATCH 02/13] mm/vma: update do_mmap() to use vma_flags_t
+Date: Mon, 06 Jul 2026 22:28:24 -0400
+Message-Id: <DJRZGEZU5ESV.3IP5LEAUQJCBK@nvidia.com>
+To: "Lorenzo Stoakes" <ljs@kernel.org>, "Andrew Morton"
+ <akpm@linux-foundation.org>
+From: "Zi Yan" <ziy@nvidia.com>
+Subject: Re: [PATCH 03/13] mm: convert __get_unmapped_area() to use vma_flags_t
 Cc: "Thomas Bogendoerfer" <tsbogend@alpha.franken.de>, "Madhavan Srinivasan"
  <maddy@linux.ibm.com>, "Michael Ellerman" <mpe@ellerman.id.au>, "Maarten
  Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime Ripard"
@@ -100,79 +103,76 @@ Cc: "Thomas Bogendoerfer" <tsbogend@alpha.franken.de>, "Madhavan Srinivasan"
  <linux-fbdev@vger.kernel.org>, <linux-aio@kvack.org>,
  <linux-fsdevel@vger.kernel.org>, <linux-mm@kvack.org>,
  <linux-sound@vger.kernel.org>
-To: "Lorenzo Stoakes" <ljs@kernel.org>, "Andrew Morton"
- <akpm@linux-foundation.org>
-From: "Zi Yan" <ziy@nvidia.com>
 X-Mailer: aerc 0.21.0
 References: <cover.1782760670.git.ljs@kernel.org>
- <e0ac58ad2b88ff7e2f0024e3286b2e786f79ca32.1782760670.git.ljs@kernel.org>
-In-Reply-To: <e0ac58ad2b88ff7e2f0024e3286b2e786f79ca32.1782760670.git.ljs@kernel.org>
-X-ClientProxiedBy: CH2PR15CA0023.namprd15.prod.outlook.com
- (2603:10b6:610:51::33) To IA0PR12MB8374.namprd12.prod.outlook.com
+ <b1ad7c4443f5cba622e4c48c5a9ef15427001a93.1782760670.git.ljs@kernel.org>
+In-Reply-To: <b1ad7c4443f5cba622e4c48c5a9ef15427001a93.1782760670.git.ljs@kernel.org>
+X-ClientProxiedBy: IA4P220CA0010.NAMP220.PROD.OUTLOOK.COM
+ (2603:10b6:208:558::15) To IA0PR12MB8374.namprd12.prod.outlook.com
  (2603:10b6:208:40e::7)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA0PR12MB8374:EE_|CY5PR12MB6177:EE_
-X-MS-Office365-Filtering-Correlation-Id: a46e7ba9-5394-4512-992e-08dedbcd0520
+X-MS-TrafficTypeDiagnostic: IA0PR12MB8374:EE_|CY5PR12MB6275:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2f901e21-3c2b-473b-6289-08dedbcf828e
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|366016|1800799024|23010399003|7416014|18002099003|22082099003|56012099006|4143699003|11063799006|6133799003;
-X-Microsoft-Antispam-Message-Info: 2eWtQE73CZSQ5v6QF5lztmsrSjPVumC5SvOZh5US96jgFfWckz/iaPIzlQl0IN4B9SRX7EbdnQoB2ClMvwl3QnklzfP+cGwQ0U2ns95Je2jZD/TuCMCwu5dHfriEqwM+rRiG4co9f5lLSn4hRTkZntECv2ITNa8uwsi1FGDLfLh1NgZDL34zp92+yucm7lzpv7R4c98FmxtXF4I19kqh/5gkPp0amOxupLrfWChopAaqL0WnwPeDgFuz7rp4vVYJaLVCAG/zzlIxASIecZH/ps72iemw8N49bkbCOZOtH7el24e84fYs++uhUvTUqxevuoamYcqyFaoptWPsZ9eHTMpXIXHfHbrbsTynVAdpH/zn72gFl0wtqm4h6bcRq8wDitcVQXoFoO/5ZnyrpwsLFlcQ2dNt30h0ZR6I3FuD1F7wubUbX0C2AmDmHwe8Y50zhllp/1es1GAb770bORFA+5rggFnE+F5ijvSsNz4S1fZ67ntonEVJ8R6IWT7YOBEVAzmpG0n8HWcncN/W4BU9qZgFzJSpmeUmWLfLt18PuVgrLucwmPQqb1nAf0lS76MIGhy3CYNWcJXXK9sSCzWA8+LZmqPmuiC5l8YNyjOf0m48gbj79Ur5Fsmi+Onn4al4JTWG3RoHqS4h+19gFkHjf0A6Bmz0T+OTx8atHnXM2eo=
+ ARA:13230040|1800799024|366016|23010399003|376014|7416014|4143699003|11063799006|56012099006|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info: mg5fB033NKmoDrnf/y8yyjwvnIuBaVrwxC3bbsW5zIfx6Oq/54M/qqv/idKcreMEeHtpxtaqG1tqizZvKkICDQh7XIsDiq6cCvHJpVZbTyF691UacLptENcmjZRMdk4cPqMMfZG8J/lR3RRaXow+tcrPjcjUHCVGffTqdVRZqLyqelGmSLPiY+paQNzrW2rcfAZAuWOyHugry5+kL/SHrYDamHC1HL7KGKXRqp/X2MMhvG1EqPqJfoRV+GF9T3T7ZWaO61jA/h9pGuX7ICplO/XAT81LG53Be6+GdsXamGYgnZV6NegxlRAZHn3cqu+o4xtEfDhEe0fM2u78qCS+4OSPF+wSQbT4HlqkHVoLDLO6LPuseEIKgcY24eLT4koojUEP1Jwe9B7qBw26F/b7lCkGgIaf3zkbalIW8Khk2naeEIPjtbMh3sRjL1bkgfwSfObRlfE6LVLWhmxQ33nRRFQraNLENG0SsVn81oibIvlkrL1NLof73saHNOSFqLbRWLK61ydQY/cCIpEQr7strsdDU4kt6ruQB1hmbqq2ubfGCX6oHkyurKoMv2LRF4QPfqwdxD1tJk82LQq+yCKKpsFV6ZSa2Dv4L7Z0fuDKT3Q4N55umUaT8997Jsf0wBl4eSHHhEJPp00rWdod+QHXakHvHduTmYoa50IPqmJLqMM=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:IA0PR12MB8374.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(366016)(1800799024)(23010399003)(7416014)(18002099003)(22082099003)(56012099006)(4143699003)(11063799006)(6133799003);
+ SFS:(13230040)(1800799024)(366016)(23010399003)(376014)(7416014)(4143699003)(11063799006)(56012099006)(22082099003)(18002099003);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Q2tKU2lvSDV6bmNzb2V2alBFSURBSVhXcW54RHhWWklmYlFCYTVOZzdHaHpX?=
- =?utf-8?B?K1NWbjNDN1dQRW82Y0ZYUVlTc1huSTA3RnNQMmk4TTJmT1REVzdmcnBqTHo0?=
- =?utf-8?B?MTJzZk10LzdsMlNuMm9oWk5FOFBpWm10dGgxS0dMekZZbnlPUDhwWFFrUzdk?=
- =?utf-8?B?azhPMktCbDhjNDRHWHRxSk1KM003RXFPWlBNbmk5OGljL0dKTjJ3cXp0cmZZ?=
- =?utf-8?B?WlAzd3l5c2cyMXVOdTRmN0l0UUVUbzdrakxXMTV4QUtrSU5ZemdUSUM4blJ2?=
- =?utf-8?B?Z3BVTnVYSTZ5TnpBOEpqQlA3LzB6Rm55Q2FDUWFmbnNSSitpekR3MFFIazhX?=
- =?utf-8?B?NlBSa0hYaUpRWHdrYXg1Sjd2MjcyZlZ6dy9hN0wrejA5dzk5V2hjYXFIMlFz?=
- =?utf-8?B?bUt1SWYwb2VZY2o2eS9qQ3ZUSXpCWHR6SHBoYkhaOEpYNFp6R2VRdE5URGJs?=
- =?utf-8?B?dkFtR0dybjdnS0FUWjNpSWVCWmVyQ1RFVGFTRVZlYnd3MDVlZGZ0ZU9sMVNm?=
- =?utf-8?B?cGJkUmxIQmdGSDZCaTBNUkZoN0JlS3Iwc015TjhBYTlDL1dud3lEdFJsRzZC?=
- =?utf-8?B?bjRKSkwrWUtlNWdQZmRYbTBxNTlYVmdHQ3hkUWNZSGpqN2duMUVrdFRSSkNM?=
- =?utf-8?B?M2l2RVpUUlRqUzNYVzU2T1VFaGFJdmVaV1Q3OWpBVDRhSmxpbEVaa1ZrbWNw?=
- =?utf-8?B?MlhNUDJsQUh4b3BndHNFZGFmYkRUOFYvbFM3NkJJa2JrRUxCZWNjSkgvZkVr?=
- =?utf-8?B?OUp0Sit6ODlDMmEvZ1UrTm94T0VEaHEvYmRuZGtrREptTXpYbHVZZTNaTUNL?=
- =?utf-8?B?SS9IY21UWEJ5eW43SnpEamVCeGNybGZKQXcvZHBlSDJiUTZFdlZEaUtUdS9C?=
- =?utf-8?B?ak54OVRxWlBuWWNFOVpEVnlaN01iZGZ5bmtPOFRwbWtaRTFZc28rUkFQMUhp?=
- =?utf-8?B?dSthYjgweWZjaWxBSytYQUZFM1AzSnl3bDNPY2hxQXovVGVzV28vRzJ6ODhM?=
- =?utf-8?B?NmJ0a3dNeXA4UE9uRkVQZjU5Z0JqaURMa0l4OGJHS09oY3dpUm5DRkRJSkcv?=
- =?utf-8?B?SWpxME9OMUJHVnBkYXZaWVZNOE5oTnNXVlBNSlg3aUltN0FIdFNLeFNaYTd2?=
- =?utf-8?B?WjlWNGVXQnRuVkRaK3FuTXU5bVc1c2xNMFdncjk4MEdPN0RDSEhZMEErSXVn?=
- =?utf-8?B?ZktUTnZzYXJQUUZ4SWVseHpaLzhHc3UyRisxTnIrdXI5WHFtOGhwZ0QvQTA1?=
- =?utf-8?B?SEcvNk5xUjMzVzhBWWVsYjB1RHVPbUZ6R0xackxRNktncWIwY0xqcTE3aWRv?=
- =?utf-8?B?RkdmR3IwZjF6UFd4VFQ1YWJoWUYyT2FNUU4zZ0tmZWtENlVSOTFRNTZIc3N3?=
- =?utf-8?B?S0J2TzdvRS9OSWtLeVRKbG5JQ2dqV2tRVGFSYUhXYWc4c1NCVlVjbW9rRlhv?=
- =?utf-8?B?OG5FREJEZjJHc1ZyK0MzckdoQThnSERaYm0rdGlqRTYvUFo5OVAveFduWkxm?=
- =?utf-8?B?Y3RoNVl6ZVRHRjBEWG8zdEpXMDB0UmtOa1prUWpKenFMVkk1Y2N0ZXc3c0ls?=
- =?utf-8?B?VnIzdWhZWG01ZXJCQjFhdUlEMlE0WGxIWVVNREJpcUhLNHhLS2d6clltdXJX?=
- =?utf-8?B?S3RqMEpyTXFQeUJ5UUU2WEJKQnVqc0pycjdXZVRzOUk4d0pjWEt3L2NaUEpw?=
- =?utf-8?B?VGRBVjBzZU5OS1RMMG9NckdoekxOc041Y1pJWUo4Mmw2NXRNV0o2SnZXdHNX?=
- =?utf-8?B?MFNnM0pLbU1tZWZiWUFxS1AwTHNpVE9jQ0tDY0Nqd0xSWVYzQzMyQmpWNVIv?=
- =?utf-8?B?cFhsYmdZdHBIamVNcUJOVkYvc2JrUHZGZUg2QlR2K2VjMmhObjFUMHkzUkw1?=
- =?utf-8?B?cUdNYW83N1phOHpDRkhjd204a2V3bFk3cFRud2FVekdKcWFBelBSSi9lYnFR?=
- =?utf-8?B?OHNBcjVnaUljdzRlYW95a2p0dEp5ajh0d2tLVFExVWtJUDFTZkFGSWxSRWRE?=
- =?utf-8?B?dXlLWVFWYU1IWi9ucEx4bUVMZVJNdFpwbERmOXROWjZWSXVMQnQyNDV4TWZQ?=
- =?utf-8?B?ckQ0ZWY3eGlscFZSSm9lREpZTzJJNExuSnJmNHdNUmhYZGVMbS8rU3FROER0?=
- =?utf-8?B?Rkd3VHhqQW1uWGFtcmZMSjR1M2hyNHl5N0tuWEFyd1Z5NUhZaWpibHhZOXo5?=
- =?utf-8?B?SVArbHRFcnVBVFByVmEzWUZzZW9qaVE3RTIrTTVUTG9rUExlbE5jcE1GS01O?=
- =?utf-8?B?bXdvNnZSWEFlbVVET013VHVyWUFiY1NDUGRRdUtQWVR0OHpPM0ZRK2xIb20x?=
- =?utf-8?Q?JDrw2oFXXOPm0reTxK?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TnU3aUd1YzhFNGFXcGw5dC8wU0xKczlKVXczNUE4a1RHY3haUGIvT2REUXBi?=
+ =?utf-8?B?RDNrWnBsKys4ZUhPQlJKVmdhZUU2WkdjOXRqbW5QMmZHUXlxZGVBMlVQVDJr?=
+ =?utf-8?B?NzNsN0hpbXY0ZW0yRVlTV1J6aWs3T1ZWcU4xSWxyQWdLeFlwcWdaSUF5VVF2?=
+ =?utf-8?B?OEFQWDlrbENWUzQ4aEdSNUpwd1lyK2ljV3NtY3N3VG83d0RlSTRqUEZlQmdy?=
+ =?utf-8?B?MGhsd0llWjdCNm5wNHlUL1RMSDZVZWdTVWVITmV2c3FwNXFQMHAycFJWRlk3?=
+ =?utf-8?B?UnlvOXZjYndhMGlXNCtWTHRSTjZudXhyWjBuK0xzeXUyQTJwYjBsWC8rb0w5?=
+ =?utf-8?B?RWVDQ3d2U01PQUlHUHU1em9MS0JsMTFKQjFhc0dLVXRHaFUvdG1jdjRmUkFq?=
+ =?utf-8?B?bHc4b1JNRHRTZDFBMU5BTzMyUVlNYWlYNzZuZUFOVTVFRDBJNEZsTzVqOWJm?=
+ =?utf-8?B?Y1lPYnpGODI4WnFodTBlYVRmbU5TWUw3alg5ZXcvRmw4YlRwK3VOWEp6RmM4?=
+ =?utf-8?B?bzUxL01KSlVPalJZMW5RcWlkS1Z5Mml2NHdoN0xLTEN2RTVCL2xYSjhpZlQ1?=
+ =?utf-8?B?OEdZak44NnJwWHV4TGl1NzVzVzJIT0czdzV0V21LeTVmVVQ3TmVmRXRUZktX?=
+ =?utf-8?B?azJyVEovZXJqZTRDS2ZHb3hiTkpCd2FpczViOUtlZENUK2xwL29Kc21jUHlI?=
+ =?utf-8?B?M0E1OFV6dWVtWjBzUEp1a3JSZmdieWNWY2lDSGIyNTJIcWEya1N3NGhQWllv?=
+ =?utf-8?B?UFRQRXE3eVYyYVBhZ0srenR5eExlYk81V1NReUw2Y0VidDBmNVR6eTJBZklt?=
+ =?utf-8?B?T3E2c0FmWTFOaGl3Q1QwOGVaWDVaN0E1OFpoTEtxdExwdjFTdXVOVmlmMXk3?=
+ =?utf-8?B?ZFJKdnRZVlVaOUZUM0ZyVE9KQ0J5WTRrVzM5RXBtU291aU5GZnlQVHRMczl0?=
+ =?utf-8?B?VzNCU2h1R05aRHRDMmZ1ZnJEOFdqMkJJbzhXbkJ5c2tuUWlpazdYdlRKb1FH?=
+ =?utf-8?B?cU5pTnQ5UHp2b2NuUW9KUjY2MHo0dzl4c0ZoeXR2SzBWV1MwSklFOVpZSXR2?=
+ =?utf-8?B?aEpzSFNGVDNlaWM4Y21taTBrcldQb2YzZklFTDlKMFJMd2hITGxsMnk2L0dm?=
+ =?utf-8?B?Ymt0N2F6cHpwYmpWcnJPRndZa2lmR2hpYmxyR3IvL0Q1eUFZSExidEVEcjRI?=
+ =?utf-8?B?WG00cmVJN2g2TXFWaERoWSt6aUVmM25VZm5TeGlEdG9kYlhOR2RUOUI2b3pj?=
+ =?utf-8?B?bURpRHVkT0xuY1lyQVEvQm1vc1llSTNTUk1ITjFmZHlscXhHZUN2b1dYSlJX?=
+ =?utf-8?B?ekE5TjIrOXFZemZ6RFhLd3BSNXMxYXhlcWcxeExQZUttdkNLN0JVdENxcGlw?=
+ =?utf-8?B?dlNXMFg4UXB5c1YxK0dxNVpBdXZkK0xJRWp4K2lLUUpZNG5HRkY2QkU5T0F4?=
+ =?utf-8?B?cVlTdEY2cTkxTHVkWWJzYVovbFBNc3I4bjVsMEExeUN1MlUwUmVSSXY2Rld0?=
+ =?utf-8?B?Z3VOeitYNVJZMDNtZGRCcEFqNGdyeG41dVloZStZcTBWRVp2ZVVtbzhIZ3Rs?=
+ =?utf-8?B?YnhMSlcwb3BwaE5aa3o3TXc0TEowQmd1dE1TRmc0ZDVOejlKRzRacUt2cFlP?=
+ =?utf-8?B?NXZhUmFpczdjNE04Sm1KY2xIMkJQeGNWVnBIVkwrK1RpZ2JFU1ZMeVFFL2pa?=
+ =?utf-8?B?OEwwNFBhYmxmWkpBY0dzcDhRcHpxWHBLYU8vNjJhYVFrWktpN3B4OGp5RG9j?=
+ =?utf-8?B?SVF5RS81V09WNjJka2pkQnVjSzJNcmZxOEZRR2lEbHdZUVJQV2NvRStlUGlp?=
+ =?utf-8?B?NFR0ejFFeTkrSWpVVFFlMTlZTTBOaWU1by94RjlTQW9KYUg3ZTF3Qzc3K1l2?=
+ =?utf-8?B?R2ZJcER2cGQ5bEp6RW1UZWpySzdpdXlqeEJEbmI4MkpJallWOFg1NVg2Q0M2?=
+ =?utf-8?B?WjIveXdDSDJReEhMc2xkNWVlSnl1VEpGUE5DT0dMSVpsaTFkYy9Jd3VOMUV3?=
+ =?utf-8?B?WmgyZFBQQ3lmUm5qWjRDdmthUFZWM00yU3Vpd0xTejRvVllyYlNvWUNoUDUx?=
+ =?utf-8?B?czA4ZEFubFhjL29QVzhtd0dzT3NiamVPRFJhMGlvWFgvNWRKeGY2cWF4NXlO?=
+ =?utf-8?B?dEZtOVVsd3BpMVE5LzlQc0lDM08xQ1VHdTNkOU8wY3cybUNpcUZYbUl5cHNw?=
+ =?utf-8?B?a2ZVUmtia3Ryak1VRmVNQVJwL3pRYTh3RGVIckhaK0VRN0MxU1pYdGlWWU11?=
+ =?utf-8?B?L0Y3R2ZWMEhsaWt3bmNtdElPdHE0UnM4bGtJTkpYMU84bkdlL2cwcG1CR2VS?=
+ =?utf-8?Q?iO+t7PPHPo+MYYH/97?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a46e7ba9-5394-4512-992e-08dedbcd0520
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2f901e21-3c2b-473b-6289-08dedbcf828e
 X-MS-Exchange-CrossTenant-AuthSource: IA0PR12MB8374.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jul 2026 02:11:13.5375 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jul 2026 02:29:02.9604 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: PkW8PLSCAM9OoBbuQEoPHlbtWH7slCizpMnfj3r3at8+bkAV7ft0tvr+nIf15jXf
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6177
+X-MS-Exchange-CrossTenant-UserPrincipalName: OrcozU9kg7QUVHKR5NUa3NywiQufeN8cogHHwrBlpSTgLxy09vcd6ru3IyBR1eHU
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6275
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -212,124 +212,81 @@ X-Spamd-Result: default: False [-9.31 / 15.00];
 	TAGGED_RCPT(0.00)[etnaviv];
 	MID_RHS_MATCH_FROM(0.00)[];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.freedesktop.org:from_smtp,nvidia.com:from_mime,nvidia.com:email,nvidia.com:mid,Nvidia.com:dkim]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,lists.freedesktop.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 8DE15716BC8
+X-Rspamd-Queue-Id: 68DEF716D1C
 
 On Mon Jun 29, 2026 at 3:25 PM EDT, Lorenzo Stoakes wrote:
-> The core do_mmap() function accepts a vm_flags_t parameter which it then
-> manipulates before passing to mmap_region() to do the heavy lifting of th=
-e
-> memory mapping.
+> Update __get_unmapped_area() to be parameterised by vma_flags_t rather th=
+an
+> vm_flags_t as part of the effort to move VMA flags from a system word to =
+a
+> bitmap.
 >
-> Update do_mmap() to instead accept a vma_flags_t parameter, and adjust al=
-l
-> the logic within do_mmap() to manipulate this instead.
->
-> This is as part of the ongoing effort to convert VMA flags from a system
-> word size to a bitmap type which allows us to unrestrict the number of VM=
-A
-> flags, as well as gain control over how VMA flag manipulation occurs.
->
-> We do not cascade these changes to all functions which accept vm_flags_t,
-> but rather use vma_flags_to_legacy() where necessary, specifically
-> deferring converting calc_vm_prot_bits(), calc_vm_flag_bits() and
-> __get_unmapped_area() to vma_flags_t.
->
-> Also utilise the new vma_flags_can_grow() predicate which correctly handl=
-es
-> the case of architectures without upward growing stacks.
->
-> As part of this change, introduce VMA_SHADOW_STACK so we can correctly
-> handle the case of the shadow stack not being defined.
+> We cascade the changes up to arch_get_unmapped_area_topdown() and
+> arch_get_unmapped_area(), where, for now, we use vma_flags_to_legacy() in
+> order to propagate the VMA flags.
 >
 > No functional change intended.
 >
 > Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
 > ---
->  arch/mips/kernel/vdso.c |  4 +--
->  fs/aio.c                |  2 +-
->  include/linux/memfd.h   |  6 ++--
->  include/linux/mm.h      |  6 ++--
->  ipc/shm.c               |  3 +-
->  mm/memfd.c              | 15 ++++-----
->  mm/mmap.c               | 67 ++++++++++++++++++++++++-----------------
->  mm/nommu.c              |  3 +-
->  mm/util.c               | 10 +++---
->  mm/vma.c                |  7 ++---
->  mm/vma.h                |  2 +-
->  11 files changed, 69 insertions(+), 56 deletions(-)
+>  fs/hugetlbfs/inode.c     |  3 ++-
+>  include/linux/huge_mm.h  | 10 +++++-----
+>  include/linux/mm.h       |  6 ++++--
+>  include/linux/sched/mm.h | 12 ++++++------
+>  mm/huge_memory.c         | 21 ++++++++++++---------
+>  mm/mmap.c                | 27 ++++++++++++++-------------
+>  6 files changed, 43 insertions(+), 36 deletions(-)
 >
+<snip>
+
+> diff --git a/include/linux/sched/mm.h b/include/linux/sched/mm.h
+> index 95d0040df584..b301ec90740a 100644
+> --- a/include/linux/sched/mm.h
+> +++ b/include/linux/sched/mm.h
+> @@ -193,12 +193,12 @@ unsigned long mm_get_unmapped_area(struct file *fil=
+p, unsigned long addr,
+>  				   unsigned long len, unsigned long pgoff,
+>  				   unsigned long flags);
+> =20
+> -unsigned long mm_get_unmapped_area_vmflags(struct file *filp,
+> -					   unsigned long addr,
+> -					   unsigned long len,
+> -					   unsigned long pgoff,
+> -					   unsigned long flags,
+> -					   vm_flags_t vm_flags);
+> +unsigned long mm_get_unmapped_area_vmaflags(struct file *filp,
+> +					    unsigned long addr,
+> +					    unsigned long len,
+> +					    unsigned long pgoff,
+> +					    unsigned long flags,
+> +					    vma_flags_t vma_flags);
+
+Want to use two-tab indentation while at it?
 
 <snip>
 
-> =20
-> -static int check_write_seal(vm_flags_t *vm_flags_ptr)
-> +static int check_write_seal(vma_flags_t *vma_flags_ptr)
->  {
-> -	vm_flags_t vm_flags =3D *vm_flags_ptr;
-> -	vm_flags_t mask =3D vm_flags & (VM_SHARED | VM_WRITE);
-> -
->  	/* If a private mapping then writability is irrelevant. */
-> -	if (!(mask & VM_SHARED))
-> +	if (!vma_flags_test(vma_flags_ptr, VMA_SHARED_BIT))
->  		return 0;
-> =20
->  	/*
->  	 * New PROT_WRITE and MAP_SHARED mmaps are not allowed when
->  	 * write seals are active.
->  	 */
-> -	if (mask & VM_WRITE)
-> +	if (vma_flags_test(vma_flags_ptr, VMA_WRITE_BIT))
->  		return -EPERM;
-> =20
->  	/*
->  	 * This is a read-only mapping, disallow mprotect() from making a
->  	 * write-sealed mapping writable in future.
->  	 */
-> -	*vm_flags_ptr &=3D ~VM_MAYWRITE;
-> +	vma_flags_clear(vma_flags_ptr, VMA_MAYWRITE_BIT);
-> =20
->  	return 0;
+> @@ -812,19 +811,20 @@ arch_get_unmapped_area_topdown(struct file *filp, u=
+nsigned long addr,
 >  }
-
-This function alone changed its original behavior, since vm_flags is a
-snapshot of *vm_flags_ptr, but after the change this snapshot is gone.
-But its only caller memfd_check_seals_mmap() gets vm_flags_ptr from the
-input parameter of do_mmap(), so the overall behavior does not change.
-
-<snip>
-
-> +		case MAP_DROPPABLE: {
-> +			vma_flags_t droppable =3D VMA_DROPPABLE;
-> +
-> +			if (vma_flags_empty(&droppable))
->  				return -EOPNOTSUPP;
-> +			vma_flags_set_mask(&vma_flags, droppable);
-> +
->  			/*
->  			 * A locked or stack area makes no sense to be droppable.
->  			 *
-> @@ -515,23 +527,24 @@ unsigned long do_mmap(struct file *file, unsigned l=
-ong addr,
->  			 */
->  			if (flags & (MAP_LOCKED | MAP_HUGETLB))
->  			        return -EINVAL;
-> -			if (vm_flags & (VM_GROWSDOWN | VM_GROWSUP))
-> +			if (vma_flags_can_grow(&vma_flags))
->  			        return -EINVAL;
+>  #endif
 > =20
-> -			vm_flags |=3D VM_DROPPABLE;
-> -
+> -unsigned long mm_get_unmapped_area_vmflags(struct file *filp, unsigned l=
+ong addr,
+> -					   unsigned long len, unsigned long pgoff,
+> -					   unsigned long flags, vm_flags_t vm_flags)
+> +unsigned long mm_get_unmapped_area_vmaflags(struct file *filp, unsigned =
+long addr,
+> +					    unsigned long len, unsigned long pgoff,
+> +					    unsigned long flags, vma_flags_t vma_flags)
 
-Lance pointed out the reordering of setting VMA_DROPPABLE and checking
-of can_grow, but these flags are not overlapped and there is no parallel
-writer to vma_flags. So it is still no functional change, just not
-mechanical changes. :)
+Ditto.
 
-Otherwise, LGTM.
+LGTM.
 
 Reviewed-by: Zi Yan <ziy@nvidia.com>
+
 
 --=20
 Best Regards,
