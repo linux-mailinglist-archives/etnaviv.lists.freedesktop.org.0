@@ -2,41 +2,41 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id Q0Z5GY/TTGqXqQEAu9opvQ
+	id t5UQNaXVTGpFqgEAu9opvQ
 	(envelope-from <etnaviv-bounces@lists.freedesktop.org>)
-	for <lists+etnaviv@lfdr.de>; Tue, 07 Jul 2026 12:23:11 +0200
+	for <lists+etnaviv@lfdr.de>; Tue, 07 Jul 2026 12:32:05 +0200
 X-Original-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D37871A4B0
-	for <lists+etnaviv@lfdr.de>; Tue, 07 Jul 2026 12:23:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AA1171A6A6
+	for <lists+etnaviv@lfdr.de>; Tue, 07 Jul 2026 12:32:05 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=MwBekEDD;
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=CJQD7ZPp;
 	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	spf=pass (mail.lfdr.de: domain of etnaviv-bounces@lists.freedesktop.org designates 131.252.210.177 as permitted sender) smtp.mailfrom=etnaviv-bounces@lists.freedesktop.org
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 211A010EC41;
-	Tue,  7 Jul 2026 10:23:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1CE2610EC65;
+	Tue,  7 Jul 2026 10:32:04 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B8F4F10E48B;
- Tue,  7 Jul 2026 10:23:05 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A19210EC55;
+ Tue,  7 Jul 2026 10:32:02 +0000 (UTC)
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
- by sea.source.kernel.org (Postfix) with ESMTP id 67D1F40F17;
- Tue,  7 Jul 2026 10:23:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3940D1F000E9;
- Tue,  7 Jul 2026 10:22:50 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 48D5C618A6;
+ Tue,  7 Jul 2026 10:32:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E76161F000E9;
+ Tue,  7 Jul 2026 10:31:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
- s=k20260515; t=1783419785;
- bh=uO9n1BXbcFKpE0ytmifaDUpJQYF7fOJjd6hhXMsbhnw=;
+ s=k20260515; t=1783420321;
+ bh=soT56A/TsitxOPYJdfdItvncnq3Epp2rkiDUFibzwAc=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To;
- b=MwBekEDDrqDWUBl7OB2GiRJo9KVaANF531LqDSCiYXdCwUfPfgV15P9ZY/fY6CVA6
- F8ic/FjF/V4shqvt1ft98lkWSY+mj6ovzE4pr5gR635QrF0JPDro+njddQUcumSdQh
- kZ2VtL+NJM1IHpwBv5iKE1Mc7Oizq03fbEHOGyZREuLCbOunsQHWCjKQPfsYIeYhTn
- nkzNe0/N0Uo+DMFOtkRTMhjaVVt0gFL67IW/5ZfXccVzW25bfqi117JnWf+/k8p1+/
- tBKgrRhHBxTqzBMhkUG4DH3unKVaBJ/A7PbihSPTdfDg8mw0xEEWq1UREm34Vk39Dl
- CNZCNxZb4WFjQ==
-Date: Tue, 7 Jul 2026 11:22:41 +0100
+ b=CJQD7ZPpnY0LATwFP4HY6e99mGG6GCfwtV8prggnPIqZJoBT7sw1qkGBcMUymGabb
+ thMKdB37j3Mngsn9NR0xZM3ngVTkWAKFGJ1phdZyrmdRqTmT//SItbTSX5gLMuvCGh
+ h03dHdDBVKfa160LAt0yaBWio5lu77qjq0yudAYfiJObv5RjqQLRDbmptoyC6hGNHW
+ E8y81BbE7fqCE9Ns7/a0r4BVgl44yGmApnpjPyV6g+rojpwE7+I26L2qbh+RXETO8y
+ +yjDFpLtM0uRECmpnCPEvJUaccNc37yoAjGG17lTCIWiiaHTnl5i2XvNsouOomVvyo
+ X9ITIQzR+3YOQ==
+Date: Tue, 7 Jul 2026 11:31:37 +0100
 From: Lorenzo Stoakes <ljs@kernel.org>
 To: Pedro Falcato <pfalcato@suse.de>
 Cc: Andrew Morton <akpm@linux-foundation.org>, 
@@ -86,15 +86,15 @@ Cc: Andrew Morton <akpm@linux-foundation.org>,
  damon@lists.linux.dev, 
  Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>,
  Jann Horn <jannh@google.com>
-Subject: Re: [PATCH 21/30] mm/vma: add and use vma_[add/sub]_pgoff()
-Message-ID: <akzTTCgF1_d7DDZZ@lucifer>
+Subject: Re: [PATCH 22/30] mm/vma: move __install_special_mapping() to vma.c
+Message-ID: <akzTj7Xv8kiUU2-w@lucifer>
 References: <cover.1782735110.git.ljs@kernel.org>
- <794044881e454fd8ac13e59d5ff5fc86fca08b03.1782735110.git.ljs@kernel.org>
- <akZI0n1U32Ptd0ye@pedro-suse.lan>
+ <b3254231831037ca3e9757e3e05c90072e04a6aa.1782735110.git.ljs@kernel.org>
+ <akZJjNic8u0pDxgD@pedro-suse.lan>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <akZI0n1U32Ptd0ye@pedro-suse.lan>
+In-Reply-To: <akZJjNic8u0pDxgD@pedro-suse.lan>
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -136,157 +136,149 @@ X-Spamd-Result: default: False [0.69 / 15.00];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,lists.freedesktop.org:from_smtp,lucifer:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,lists.freedesktop.org:from_smtp,lucifer:mid]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 0D37871A4B0
+X-Rspamd-Queue-Id: 7AA1171A6A6
 
-On Thu, Jul 02, 2026 at 12:20:10PM +0100, Pedro Falcato wrote:
-> On Mon, Jun 29, 2026 at 01:23:32PM +0100, Lorenzo Stoakes wrote:
-> > Add helpers for adding or subtracting to a VMA's page offset, exposed
-> > internally for VMA users within mm in mm/vma.h.
+On Thu, Jul 02, 2026 at 12:22:56PM +0100, Pedro Falcato wrote:
+> On Mon, Jun 29, 2026 at 01:23:33PM +0100, Lorenzo Stoakes wrote:
+> > This function is operating on VMAs and rightly belongs in vma.c, where it
+> > can be subject to VMA userland testing and allows us to isolate it from the
+> > rest of mm.
 > >
-> > This is to lay the foundations for tracking anonymous page offset for
-> > MAP_PRIVATE file-backed mappings, where adding and subtracting from this
-> > value must be reflected in both the file and anonymous offsets.
+> > The _install_special_mapping() function will remain in mmap.c as a wrapper,
+> > since this is used by architecture-specific code.
 > >
-> > These are used on VMA split and downward stack expansion.
+> > Doing so allows us to isolate more functions in vma.c for the same reasons.
+> >
+> > This forms part of work to allow for tracking MAP_PRIVATE file-backed
+> > mappings by their anonymous virtual page offset, as doing so allows us to
+> > isolate and keep code that interacts with this together.
 > >
 > > No functional change intended.
 > >
 > > Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
 > > ---
-> >  mm/nommu.c                      |  6 ++++--
-> >  mm/vma.c                        |  6 +++---
-> >  mm/vma.h                        | 12 ++++++++++++
-> >  tools/testing/vma/include/dup.h | 13 ++++++++++++-
-> >  4 files changed, 31 insertions(+), 6 deletions(-)
+> >  mm/mmap.c | 38 --------------------------------------
+> >  mm/vma.c  | 38 ++++++++++++++++++++++++++++++++++++++
+> >  mm/vma.h  |  5 +++++
+> >  3 files changed, 43 insertions(+), 38 deletions(-)
 > >
-> > diff --git a/mm/nommu.c b/mm/nommu.c
-> > index 7333d855e974..c7fafcd87c14 100644
-> > --- a/mm/nommu.c
-> > +++ b/mm/nommu.c
-> > @@ -41,6 +41,7 @@
-> >  #include <asm/tlbflush.h>
-> >  #include <asm/mmu_context.h>
-> >  #include "internal.h"
-> > +#include "vma.h"
+> > diff --git a/mm/mmap.c b/mm/mmap.c
+> > index 2d09a57e3620..46174e706bbe 100644
+> > --- a/mm/mmap.c
+> > +++ b/mm/mmap.c
+> > @@ -1447,44 +1447,6 @@ static vm_fault_t special_mapping_fault(struct vm_fault *vmf)
+> >  	return VM_FAULT_SIGBUS;
+> >  }
 > >
-> >  unsigned long highest_memmap_pfn;
-> >  int heap_stack_gap = 0;
-> > @@ -1338,7 +1339,8 @@ static int split_vma(struct vma_iterator *vmi, struct vm_area_struct *vma,
-> >  		region->vm_top = region->vm_end = new->vm_end = addr;
-> >  	} else {
-> >  		region->vm_start = new->vm_start = addr;
-> > -		region->vm_pgoff = new->vm_pgoff += npages;
-> > +		vma_add_pgoff(new, npages);
-> > +		region->vm_pgoff = vma_start_pgoff(new);
-> >  	}
-> >
-> >  	vma_iter_config(vmi, new->vm_start, new->vm_end);
-> > @@ -1355,7 +1357,7 @@ static int split_vma(struct vma_iterator *vmi, struct vm_area_struct *vma,
-> >  	delete_nommu_region(vma->vm_region);
-> >  	if (new_below) {
-> >  		vma->vm_region->vm_start = vma->vm_start = addr;
-> > -		vma->vm_pgoff += npages;
-> > +		vma_add_pgoff(vma, npages);
-> >  		vma->vm_region->vm_pgoff = vma_start_pgoff(vma);
-> >  	} else {
-> >  		vma->vm_region->vm_end = vma->vm_end = addr;
+> > -static struct vm_area_struct *__install_special_mapping(
+> > -	struct mm_struct *mm,
+> > -	unsigned long addr, unsigned long len,
+> > -	vm_flags_t vm_flags, void *priv,
+> > -	const struct vm_operations_struct *ops)
+> > -{
+> > -	int ret;
+> > -	struct vm_area_struct *vma;
+> > -
+> > -	vma = vm_area_alloc(mm);
+> > -	if (unlikely(vma == NULL))
+> > -		return ERR_PTR(-ENOMEM);
+> > -
+> > -	vma_set_range(vma, addr, addr + len, 0);
+> > -	vm_flags |= mm->def_flags | VM_DONTEXPAND;
+> > -	if (pgtable_supports_soft_dirty())
+> > -		vm_flags |= VM_SOFTDIRTY;
+> > -	vm_flags_init(vma, vm_flags & ~VM_LOCKED_MASK);
+> > -	vma->vm_page_prot = vm_get_page_prot(vma->vm_flags);
+> > -
+> > -	vma->vm_ops = ops;
+> > -	vma->vm_private_data = priv;
+> > -
+> > -	ret = insert_vm_struct(mm, vma);
+> > -	if (ret)
+> > -		goto out;
+> > -
+> > -	vm_stat_account(mm, vma->vm_flags, len >> PAGE_SHIFT);
+> > -
+> > -	perf_event_mmap(vma);
+> > -
+> > -	return vma;
+> > -
+> > -out:
+> > -	vm_area_free(vma);
+> > -	return ERR_PTR(ret);
+> > -}
+> > -
+> >  bool vma_is_special_mapping(const struct vm_area_struct *vma,
+> >  	const struct vm_special_mapping *sm)
+> >  {
 > > diff --git a/mm/vma.c b/mm/vma.c
-> > index 185d07397ca6..cb7222e20c93 100644
+> > index cb7222e20c93..f4de706a2728 100644
 > > --- a/mm/vma.c
 > > +++ b/mm/vma.c
-> > @@ -517,7 +517,7 @@ __split_vma(struct vma_iterator *vmi, struct vm_area_struct *vma,
-> >  		new->vm_end = addr;
-> >  	} else {
-> >  		new->vm_start = addr;
-> > -		new->vm_pgoff += linear_page_delta(vma, addr);
-> > +		vma_add_pgoff(new, linear_page_delta(vma, addr));
-> >  	}
-> >
-> >  	err = -ENOMEM;
-> > @@ -556,7 +556,7 @@ __split_vma(struct vma_iterator *vmi, struct vm_area_struct *vma,
-> >
-> >  	if (new_below) {
-> >  		vma->vm_start = addr;
-> > -		vma->vm_pgoff += (addr - new->vm_start) >> PAGE_SHIFT;
-> > +		vma_add_pgoff(vma, (addr - new->vm_start) >> PAGE_SHIFT);
-> >  	} else {
-> >  		vma->vm_end = addr;
-> >  	}
-> > @@ -3305,7 +3305,7 @@ int expand_downwards(struct vm_area_struct *vma, unsigned long address)
-> >  				vm_stat_account(mm, vma->vm_flags, grow);
-> >  				anon_vma_interval_tree_pre_update_vma(vma);
-> >  				vma->vm_start = address;
-> > -				vma->vm_pgoff -= grow;
-> > +				vma_sub_pgoff(vma, grow);
-> >  				/* Overwrite old entry in mtree. */
-> >  				vma_iter_store_overwrite(&vmi, vma);
-> >  				anon_vma_interval_tree_post_update_vma(vma);
+> > @@ -3399,3 +3399,41 @@ __weak unsigned long vma_mmu_pagesize(struct vm_area_struct *vma)
+> >  {
+> >  	return vma_kernel_pagesize(vma);
+> >  }
+> > +
+> > +struct vm_area_struct *__install_special_mapping(
+> > +	struct mm_struct *mm,
+> > +	unsigned long addr, unsigned long len,
+> > +	vm_flags_t vm_flags, void *priv,
+> > +	const struct vm_operations_struct *ops)
+> > +{
+> > +	int ret;
+> > +	struct vm_area_struct *vma;
+> > +
+> > +	vma = vm_area_alloc(mm);
+> > +	if (unlikely(vma == NULL))
+> > +		return ERR_PTR(-ENOMEM);
+> > +
+> > +	vma_set_range(vma, addr, addr + len, 0);
+> > +	vm_flags |= mm->def_flags | VM_DONTEXPAND;
+> > +	if (pgtable_supports_soft_dirty())
+> > +		vm_flags |= VM_SOFTDIRTY;
+> > +	vm_flags_init(vma, vm_flags & ~VM_LOCKED_MASK);
+> > +	vma->vm_page_prot = vm_get_page_prot(vma->vm_flags);
+> > +
+> > +	vma->vm_ops = ops;
+> > +	vma->vm_private_data = priv;
+> > +
+> > +	ret = insert_vm_struct(mm, vma);
+> > +	if (ret)
+> > +		goto out;
+> > +
+> > +	vm_stat_account(mm, vma->vm_flags, len >> PAGE_SHIFT);
+> > +
+> > +	perf_event_mmap(vma);
+> > +
+> > +	return vma;
+> > +
+> > +out:
+> > +	vm_area_free(vma);
+> > +	return ERR_PTR(ret);
+> > +}
 > > diff --git a/mm/vma.h b/mm/vma.h
-> > index 2342516ce00e..47fe35e5307e 100644
+> > index 47fe35e5307e..14f026bf3be4 100644
 > > --- a/mm/vma.h
 > > +++ b/mm/vma.h
-> > @@ -247,6 +247,18 @@ static inline pgoff_t vmg_end_pgoff(const struct vma_merge_struct *vmg)
-> >  	return vmg_start_pgoff(vmg) + vmg_pages(vmg);
+> > @@ -775,4 +775,9 @@ static inline bool map_deny_write_exec(const vma_flags_t *old,
 > >  }
+> >  #endif
 > >
-> > +static inline void vma_add_pgoff(struct vm_area_struct *vma, pgoff_t delta)
-> > +{
-> > +	vma_assert_can_modify(vma);
-> > +	vma->vm_pgoff += delta;
-> > +}
+> > +struct vm_area_struct *__install_special_mapping(struct mm_struct *mm,
+> > +		unsigned long addr, unsigned long len,
+> > +		vm_flags_t vm_flags, void *priv,
+> > +		const struct vm_operations_struct *ops);
 > > +
-> > +static inline void vma_sub_pgoff(struct vm_area_struct *vma, pgoff_t delta)
-> > +{
-> > +	vma_assert_can_modify(vma);
-> > +	vma->vm_pgoff -= delta;
-> > +}
-> > +
-> >  #define VMG_STATE(name, mm_, vmi_, start_, end_, vma_flags_, pgoff_)	\
-> >  	struct vma_merge_struct name = {				\
-> >  		.mm = mm_,						\
-> > diff --git a/tools/testing/vma/include/dup.h b/tools/testing/vma/include/dup.h
-> > index 7ed165c8d9bc..41fea90a344d 100644
-> > --- a/tools/testing/vma/include/dup.h
-> > +++ b/tools/testing/vma/include/dup.h
-> > @@ -1163,6 +1163,11 @@ static inline struct vm_area_struct *vma_next(struct vma_iterator *vmi)
-> >  	return mas_find(&vmi->mas, ULONG_MAX);
-> >  }
-> >
-> > +static inline bool vma_is_attached(struct vm_area_struct *vma)
-> > +{
-> > +	return refcount_read(&vma->vm_refcnt);
-> > +}
-> > +
-> >  /*
-> >   * WARNING: to avoid racing with vma_mark_attached()/vma_mark_detached(), these
-> >   * assertions should be made either under mmap_write_lock or when the object
-> > @@ -1170,7 +1175,13 @@ static inline struct vm_area_struct *vma_next(struct vma_iterator *vmi)
-> >   */
-> >  static inline void vma_assert_attached(struct vm_area_struct *vma)
-> >  {
-> > -	WARN_ON_ONCE(!refcount_read(&vma->vm_refcnt));
-> > +	WARN_ON_ONCE(!vma_is_attached(vma));
-> > +}
-> > +
-> > +static inline void vma_assert_can_modify(struct vm_area_struct *vma)
-> > +{
-> > +	if (vma_is_attached(vma))
-> > +		vma_assert_write_locked(vma);
-> >  }
+> >  #endif	/* __MM_VMA_H */
 >
-> These hunks in dup.h look lost. Should perhaps be on the previous patch
-> (adding the helpers).
+> I'm really annoyed that _install_special_mapping has a leading underscore.
+> That's it.
 
-Yeah, it's because the VMA code starts actually using them in a way that
-otherwise breaks the tests at this point, but you're right, functionally it'd be
-nicer to add them at the point they're introduced.
+Yeah it's horrible :)
 
-Will fix that up on respin!
-
->
-> Anyway, Obviously Correct(tm).
 >
 > Reviewed-by: Pedro Falcato <pfalcato@suse.de>
 
