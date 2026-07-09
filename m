@@ -2,139 +2,106 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id TJ4LDeTET2p5oAIAu9opvQ
+	id CnO/Om75T2p7rQIAu9opvQ
 	(envelope-from <etnaviv-bounces@lists.freedesktop.org>)
-	for <lists+etnaviv@lfdr.de>; Thu, 09 Jul 2026 17:57:24 +0200
+	for <lists+etnaviv@lfdr.de>; Thu, 09 Jul 2026 21:41:34 +0200
 X-Original-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2F4473331D
-	for <lists+etnaviv@lfdr.de>; Thu, 09 Jul 2026 17:57:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37F917351A8
+	for <lists+etnaviv@lfdr.de>; Thu, 09 Jul 2026 21:41:34 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gourry.net header.s=google header.b=YJ8RbjUf;
-	dmarc=none;
-	spf=pass (mail.lfdr.de: domain of etnaviv-bounces@lists.freedesktop.org designates 131.252.210.177 as permitted sender) smtp.mailfrom=etnaviv-bounces@lists.freedesktop.org
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=ATfLuWkD;
+	dmarc=pass (policy=none) header.from=gmail.com;
+	spf=pass (mail.lfdr.de: domain of etnaviv-bounces@lists.freedesktop.org designates 131.252.210.177 as permitted sender) smtp.mailfrom=etnaviv-bounces@lists.freedesktop.org;
+	arc=pass ("google.com:s=arc-20260327:i=1")
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C56B710F629;
-	Thu,  9 Jul 2026 15:57:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B23BA10F691;
+	Thu,  9 Jul 2026 19:41:32 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com
- [209.85.219.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A830E10F639
- for <etnaviv@lists.freedesktop.org>; Thu,  9 Jul 2026 15:57:16 +0000 (UTC)
-Received: by mail-qv1-f51.google.com with SMTP id
- 6a1803df08f44-8ee88fce572so568066d6.1
- for <etnaviv@lists.freedesktop.org>; Thu, 09 Jul 2026 08:57:16 -0700 (PDT)
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com
+ [209.85.216.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D89110E3EC
+ for <etnaviv@lists.freedesktop.org>; Thu,  9 Jul 2026 19:41:31 +0000 (UTC)
+Received: by mail-pj1-f45.google.com with SMTP id
+ 98e67ed59e1d1-38511175ad3so257655a91.2
+ for <etnaviv@lists.freedesktop.org>; Thu, 09 Jul 2026 12:41:31 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783626091; cv=none;
+ d=google.com; s=arc-20260327;
+ b=bhGZuLQE8AnA4zoOtQt42NuZqawUUiNSMItxDBpwn/CMAp1WIoYVS68Q1XhBVxaz2l
+ bT0adEBtqYr9lteQPUBSjh5XkQ8Us7e6Aj9J6+9PS86p4zQ7J8nayJXua+5ybXRVhd5k
+ m4v2h2huphlpYld6p7zg9msRXHFs1kKYklUZWSk13S8YttACAkIUk53YjSc/hbEDaRNA
+ dGR8MCLCGkun9VxEOMnwnGWcAqpV3nQPegNVAN7hvoyymm3rgeM7lcytynIjimIQB7ew
+ kz1FHg86Hiq4VZzfdShE6q3IUazSKh+/eVSoxJnZ061ylUdwiywAYDqt39FLFlw8NSov
+ SonQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
+ s=arc-20260327; 
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:dkim-signature;
+ bh=zHfbWvceYtNCdDOquHNIwQRMo++yUsptvvWFceb+UlQ=;
+ fh=RljxSqptbgwQzlbanXdsm+pV9ootq2W+FZLeqzGc8KM=;
+ b=eCaig0lSTu6NCumtDQcDd/kYUtjOwyUzugRwPBYpoPsxapj+RRe8qq0XzCo2kb+lcd
+ PLDDZ/BK9QKAuLK8RWxcq7jqORNde3onN81Cuoo20uMr4B0nr5aJ7pyYF1mnTDmM842w
+ +Zqh5OJDphVlyLjMOQDRIXNbnJ0Fud32O4WSbcPFW7nkhzugI12GV8kdt2b4EgkiIkcn
+ q6pM8rJs4mO+pleXAXnMekmxhnHM4tSWPx4afpM5fjZHk2T6ceKkiDgjFUXEEBCkYe9p
+ seHDsd/14xd0uYkVfL9tvXK/MlMrL+kbhGhm7sG3QiDUZ0mUGfMuj85aVqbswyebUhI/
+ MZTw==; darn=lists.freedesktop.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gourry.net; s=google; t=1783612636; x=1784217436; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:content-type:mime-version
- :references:message-id:subject:cc:to:from:date:from:to:cc:subject
- :date:message-id:reply-to:content-type;
- bh=T5BtG8ZZnILhla7gs7f63UlRSUpFIkMkPS04TXxov0k=;
- b=YJ8RbjUf33iK03014P1wVBtqkFGmcibxr1HouXtEUXyOFoFvYFkgeNa87ADxo/u7wB
- G1MU2KtVSjdYJYdVE4FJLBI0au58TUct6d0K/UIgIv0+To1qdKOzN4IL7fvU3YVJo6Q9
- iGrsNMYTlRvhhy0hTGAzakqljIKuo1hY3z0qww0ayOPKA8d6ZC7ZdiZ3OG1OSOGd5Rjw
- wRXW+zAFO+fZEyF4az+IvEt3Eetzb5TEOJd8wB0/AZHva1WFJFk6iF0h7W6Xijha8e1o
- WuV56SnjdMU/ZeFNEjo7yLYLrp1pmsd7+Vzrj9Zvf0uFWTo1lVtbE5GDx5sKzbtPgR6W
- SaUg==
+ d=gmail.com; s=20251104; t=1783626091; x=1784230891; darn=lists.freedesktop.org;
+ h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+ :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+ :content-type; bh=zHfbWvceYtNCdDOquHNIwQRMo++yUsptvvWFceb+UlQ=;
+ b=ATfLuWkDjZ8BB//UAVVK3hLXTyBt+TsVOoT5UQUAkq1QxcFzmdRH9k4t7rbzXXjCHb
+ BprEOH2lnTtyERxW0p9bXwbO9BlFcSvWf8Hi/Z7QNuRVRU9KyL0EUlXHKsI7P+Hxdqag
+ +ergJcYK2N+aJOB1p8wZMRVt6Gwy4KUob24RqXx5i8wPEW4QHmiA8Yhbqo0q67bVGTAm
+ +bLGYIzd7B1L6cpLV/HWESvH3/z9zuewCBiV+XJinBdxxY+daaDZna1OO1Nlq3FeAOTb
+ s5+8pyptXHxCCjGg8sHGM3nKxmaGJ15Os+zEheWeyh92Ikp/1wxIb9HLlfV6ldC7CoPo
+ ieQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20251104; t=1783612636; x=1784217436;
- h=in-reply-to:content-disposition:content-type:mime-version
- :references:message-id:subject:cc:to:from:date:x-gm-gg
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
- :content-type;
- bh=T5BtG8ZZnILhla7gs7f63UlRSUpFIkMkPS04TXxov0k=;
- b=nN0mnKd9xSpf5YEx2vqL070a5a133vmXWeImJw5hQo747d7Cg+StAAor21b5pAgJVA
- 3Ohut6cnAsmJmhi01jf34XP95JlgusWeIpJZdr1vQ0XNv4n0ed/SArO5TQJjLptvH9P9
- OuFvdq7Tun9AKCYh5asBI7QznzXmJBYn1LU8oFs2wrUt0rze1U/injhp71CwlpEuhO8P
- dLhOdgc/OGdGJh8rBGrWGLkpASuf+FgNRhz/nHUe3T/LhTI9sm0CmwjVEcq4LpuLXPFR
- nHJhyOd9rB94SS0W8yWFcKldxzc0z1tHnVnJN3LoJEo1AVm97lsBpAZYRBvTh9wB+cV4
- MwuA==
+ d=1e100.net; s=20251104; t=1783626091; x=1784230891;
+ h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+ :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to:content-type;
+ bh=zHfbWvceYtNCdDOquHNIwQRMo++yUsptvvWFceb+UlQ=;
+ b=KeXyQXuYSAda+KZ4AGXmID0cv7Dpfb5cn8pTV1IQAlgxf87yBf9wNlIfH21EpqlSMI
+ 5JWB9XejZVat2rnfVVTuHP+qvAFMnQICvjvix0eKOaTJwOSknKIID3UUY9qFdwwtqLFi
+ UAmep7tecTJHRAsXMvSSStqrMXMHHAkK9YKX14ZXXNTDTjwowT/7Daxx1SxXx5a0uOO9
+ aSY7PCv+jLuDMHWj+HO0Js3iNGlh+MXBGDc/CxtlDNMvzOzkwwNasYcp3UedZDW3tpU3
+ 2ViUY9nvswRHJZj9YIOVfPiEVhc7vjUpVrZnPutWlB+P1BRT6eEyI5+n2ZDZKjiwLl3J
+ Vkvg==
 X-Forwarded-Encrypted: i=1;
- AHgh+Rr3c2RVRDta+4kdy4l8eR9EdSCSSpaiLDLoqE1+rAJEq8aiRTxba1UvqgmtJsRQYnK22sz/c7aF@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YylhK6KLmr8Jbnzg2LAUdKb2ZvgQJAdjX2fcPT5RlgspNqSbgl+
- pxfjCqIRZ3F/u/JRHq2GGkpMuOgJEuujoGdP0I3FV4Dbh7o+koPHci4EUD6NIH8gxdw=
-X-Gm-Gg: AfdE7cksNprYUTDXMopOQKAGMOqFsG+FM8r2mUmPGVScRKtD9vg1LVYR/7rusxjXdTh
- T6Rxiy+d4xdeESBUn1gFpRELATH9QDEfyC3JacHRVdhwBjAucinsmMtPn5yOsWw88wPYvX/gGL/
- 4xrXGx4WAPUcXdYLjLdUzieY9k0Hs5sJohdA4NN9Dy5wbJwSzojPiRy3cY6Q6wtgTioMfsan0Dh
- fZOmn/qhDcCrcAZYkCieloSLpOPH5jrgePC8pg7yh629O4W/10n7xMKgntqfd+gbjZ25Fz11AqJ
- pPhejNNmx79gZEXl/n8fQEbvn3NoC+bAROK7fyx/KiswA6ZNS94ebBB/vLbJ/PSM+srnr1hwz+5
- l9m4bx87Y3FWpjkVaE2Gq33RYzfLAsZTyzk5Uf/d+94m/evv3SvDyNpz0+u8Ura8u0VB20ZtsGO
- fQCzEkw7mWxcTUxl3hN/WRzX1knJJXx0+nbxjN6NawARgKUSgDNRbe+pHbbdh7ENHes9WjUS40x
- Lh76xk=
-X-Received: by 2002:a05:6214:2aa6:b0:8f3:e0ce:6119 with SMTP id
- 6a1803df08f44-8fec0ead52amr91789316d6.21.1783612635560; 
- Thu, 09 Jul 2026 08:57:15 -0700 (PDT)
-Received: from gourry-fedora-PF4VCD3F
- (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
- by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-8ffd86d43e2sm20317526d6.43.2026.07.09.08.57.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Jul 2026 08:57:15 -0700 (PDT)
-Date: Thu, 9 Jul 2026 11:57:09 -0400
-From: Gregory Price <gourry@gourry.net>
-To: Lorenzo Stoakes <ljs@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- Russell King <linux@armlinux.org.uk>, Dinh Nguyen <dinguyen@kernel.org>,
- Simon Schuster <schuster.simon@siemens-energy.com>,
- "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
- Helge Deller <deller@gmx.de>, Jarkko Sakkinen <jarkko@kernel.org>,
- Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>,
- Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
- Ian Abbott <abbotti@mev.co.uk>,
- H Hartley Sweeten <hsweeten@visionengravers.com>,
- Lucas Stach <l.stach@pengutronix.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Thierry Reding <thierry.reding@kernel.org>,
- Mikko Perttunen <mperttunen@nvidia.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Christian Koenig <christian.koenig@amd.com>,
- Huang Rui <ray.huang@amd.com>, Ankit Agrawal <ankita@nvidia.com>,
- Alex Williamson <alex@shazbot.org>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>,
- Dan Williams <djbw@kernel.org>, Muchun Song <muchun.song@linux.dev>,
- Oscar Salvador <osalvador@suse.de>, David Hildenbrand <david@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>,
- "Liam R . Howlett" <liam@infradead.org>,
- Matthew Wilcox <willy@infradead.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Peter Zijlstra <peterz@infradead.org>,
- Arnaldo Carvalho de Melo <acme@kernel.org>,
- Namhyung Kim <namhyung@kernel.org>, Masami Hiramatsu <mhiramat@kernel.org>,
- Oleg Nesterov <oleg@redhat.com>,
- Steven Rostedt <rostedt@goodmis.org>, SeongJae Park <sj@kernel.org>,
- Miaohe Lin <linmiaohe@huawei.com>, Hugh Dickins <hughd@google.com>,
- Mike Rapoport <rppt@kernel.org>, Kees Cook <kees@kernel.org>,
- Paolo Bonzini <pbonzini@redhat.com>, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-parisc@vger.kernel.org,
- linux-sgx@vger.kernel.org, etnaviv@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, linux-tegra@vger.kernel.org,
- kvm@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- nvdimm@lists.linux.dev, linux-mm@kvack.org, iommu@lists.linux.dev,
- linux-perf-users@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
- damon@lists.linux.dev, Pedro Falcato <pfalcato@suse.de>,
- Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>,
- Jann Horn <jannh@google.com>
-Subject: Re: [PATCH 19/30] mm: use linear_page_[index, delta]() consistently
-Message-ID: <ak_E1Y-D2Twykusr@gourry-fedora-PF4VCD3F>
-References: <cover.1782735110.git.ljs@kernel.org>
- <bf56e2e98b512962a2fb88900d535a0e9e6769d8.1782735110.git.ljs@kernel.org>
- <ak_EivwcDDdn1Xvp@gourry-fedora-PF4VCD3F>
+ AHgh+RoEnsITspCf2DIDZ0SpIs0ysO9nQlsXMNIvOW+gJTwbTRnwct0dquCkr6GXbFGnXtNRxVX1Wxkw@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yykt4rdZoXbx04iFoWn/aH1tii/SKfywRbeF9x+in+/6YcYuzbI
+ vOjrkBPi5m+a4BxZvEvKaHdTkmwi1pGVJO+yP0IH4lWTVVQdXm8RIwiNWBsA8OFIo/bt76TRJvK
+ ZuA8Gn6fw8/s2qtS6rvE9R5cXTx+ssS0=
+X-Gm-Gg: AfdE7clWcR+SggC+3zt7jvaIr3HJDdfw9Agx2ZEP5BjaBFxEUZouQZ3qY8CQAJVsUlY
+ aml+MvNe1S6neWajxQI+JWIvmi2X04J0W3LGMOuMwviqCPJz95mIOSd+BItnUT46hsJme8mzpH3
+ 64zoEfG3flRbQAYxlNdO2B2Pq4/EnrBoesIlw+DWB3qlNe8iP0LRoT2SfUCjl2lcVQ/PHVujUA2
+ wT7KlLd2urzwqzOKfveKBnrs4BN1xFxQwYB32WzDMVzMJh5ROEzJhEIAaf4afL+vNrh8sRNlda5
+ g10uzzWQGIfIUfWChFGSzWzgkH8=
+X-Received: by 2002:a17:90b:1cc6:b0:381:a766:efcb with SMTP id
+ 98e67ed59e1d1-3893f694da8mr9270487a91.4.1783626090656; Thu, 09 Jul 2026
+ 12:41:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ak_EivwcDDdn1Xvp@gourry-fedora-PF4VCD3F>
+References: <20260709-etnaviv-reset-notification-v1-0-64c617496958@igalia.com>
+ <20260709-etnaviv-reset-notification-v1-2-64c617496958@igalia.com>
+ <bb5b8c8ff15f8d8b9ad9a61e4887c14b9f77f3d6.camel@pengutronix.de>
+In-Reply-To: <bb5b8c8ff15f8d8b9ad9a61e4887c14b9f77f3d6.camel@pengutronix.de>
+From: Christian Gmeiner <christian.gmeiner@gmail.com>
+Date: Thu, 9 Jul 2026 21:41:18 +0200
+X-Gm-Features: AVVi8CeFeKNUemL2fppBxdxfNYVr5yohb1CGwVI71F0h_5DHOML4Od8oL69mxy0
+Message-ID: <CAH9NwWe9gDjg-6_e1KHdUQ8_Pi2sjhfDizZGzWavQAnnuymQ2g@mail.gmail.com>
+Subject: Re: [PATCH 2/2] drm/etnaviv: Add GPU reset counters
+To: Lucas Stach <l.stach@pengutronix.de>
+Cc: Russell King <linux+etnaviv@armlinux.org.uk>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ etnaviv@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ kernel-dev@igalia.com, Christian Gmeiner <cgmeiner@igalia.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -149,55 +116,107 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [1.19 / 15.00];
+X-Spamd-Result: default: False [-0.81 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[gourry.net:s=google];
+	ARC_ALLOW(-1.00)[google.com:s=arc-20260327:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	MAILLIST(-0.20)[mailman];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:l.stach@pengutronix.de,m:linux+etnaviv@armlinux.org.uk,m:airlied@gmail.com,m:simona@ffwll.ch,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:dri-devel@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,m:kernel-dev@igalia.com,m:cgmeiner@igalia.com,m:linux@armlinux.org.uk,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:ljs@kernel.org,m:akpm@linux-foundation.org,m:linux@armlinux.org.uk,m:dinguyen@kernel.org,m:schuster.simon@siemens-energy.com,m:James.Bottomley@hansenpartnership.com,m:deller@gmx.de,m:jarkko@kernel.org,m:tglx@kernel.org,m:mingo@redhat.com,m:bp@alien8.de,m:dave.hansen@linux.intel.com,m:x86@kernel.org,m:abbotti@mev.co.uk,m:hsweeten@visionengravers.com,m:l.stach@pengutronix.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:patrik.r.jakobsson@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:robin.clark@oss.qualcomm.com,m:lumag@kernel.org,m:tomi.valkeinen@ideasonboard.com,m:thierry.reding@kernel.org,m:mperttunen@nvidia.com,m:jonathanh@nvidia.com,m:christian.koenig@amd.com,m:ray.huang@amd.com,m:ankita@nvidia.com,m:alex@shazbot.org,m:viro@zeniv.linux.org.uk,m:brauner@kernel.org,m:djbw@kernel.org,m:muchun.song@linux.dev,m:osalvador@suse.de,m:david@kernel.org,m:surenb@google.com,m:liam@infradead.org,m:willy@infradead.org,m:m.szyprow
- ski@samsung.com,m:peterz@infradead.org,m:acme@kernel.org,m:namhyung@kernel.org,m:mhiramat@kernel.org,m:oleg@redhat.com,m:rostedt@goodmis.org,m:sj@kernel.org,m:linmiaohe@huawei.com,m:hughd@google.com,m:rppt@kernel.org,m:kees@kernel.org,m:pbonzini@redhat.com,m:linux-kernel@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-parisc@vger.kernel.org,m:linux-sgx@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linux-arm-msm@vger.kernel.org,m:freedreno@lists.freedesktop.org,m:linux-tegra@vger.kernel.org,m:kvm@vger.kernel.org,m:linux-fsdevel@vger.kernel.org,m:nvdimm@lists.linux.dev,m:linux-mm@kvack.org,m:iommu@lists.linux.dev,m:linux-perf-users@vger.kernel.org,m:linux-trace-kernel@vger.kernel.org,m:kasan-dev@googlegroups.com,m:damon@lists.linux.dev,m:pfalcato@suse.de,m:riel@surriel.com,m:harry@kernel.org,m:jannh@google.com,m:patrikrjakobsson@gmail.com,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
-	DMARC_NA(0.00)[gourry.net];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_SENDER(0.00)[christiangmeiner@gmail.com,etnaviv-bounces@lists.freedesktop.org];
 	FORWARDED(0.00)[etnaviv@lists.freedesktop.org];
-	FORGED_SENDER(0.00)[gourry@gourry.net,etnaviv-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gourry.net:+];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[76];
-	ALIAS_RESOLVED(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	TO_DN_SOME(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[etnaviv@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[gourry@gourry.net,etnaviv-bounces@lists.freedesktop.org];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FREEMAIL_CC(0.00)[linux-foundation.org,armlinux.org.uk,kernel.org,siemens-energy.com,hansenpartnership.com,gmx.de,redhat.com,alien8.de,linux.intel.com,mev.co.uk,visionengravers.com,pengutronix.de,gmail.com,ffwll.ch,suse.de,oss.qualcomm.com,ideasonboard.com,nvidia.com,amd.com,shazbot.org,zeniv.linux.org.uk,linux.dev,google.com,infradead.org,samsung.com,goodmis.org,huawei.com,vger.kernel.org,lists.infradead.org,lists.freedesktop.org,lists.linux.dev,kvack.org,googlegroups.com,surriel.com];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[christiangmeiner@gmail.com,etnaviv-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[armlinux.org.uk,gmail.com,ffwll.ch,linux.intel.com,kernel.org,suse.de,lists.freedesktop.org,vger.kernel.org,igalia.com];
+	ALIAS_RESOLVED(0.00)[];
 	TAGGED_RCPT(0.00)[etnaviv];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gourry-fedora-PF4VCD3F:mid,lists.freedesktop.org:from_smtp,gourry.net:from_mime,gourry.net:dkim]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,lists.freedesktop.org:from_smtp,mail.gmail.com:mid]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: F2F4473331D
+X-Rspamd-Queue-Id: 37F917351A8
 
-On Thu, Jul 09, 2026 at 11:55:54AM -0400, Gregory Price wrote:
-> > @@ -2462,7 +2463,7 @@ static int comedi_vm_access(struct vm_area_struct *vma, unsigned long addr,
-> >  {
-> >  	struct comedi_buf_map *bm = vma->vm_private_data;
-> >  	unsigned long offset =
-> > -	    addr - vma->vm_start + (vma->vm_pgoff << PAGE_SHIFT);
-> > +	    addr - vma->vm_start + (vma_start_pgoff(vma) << PAGE_SHIFT);
-> >  
-> 
-> Obviously correct, but was this intended for a different patch?
-> 
-> ~Gregory
+Hi Lucas,
 
-bleh already caught, sorry for the noise :]
+> > The OpenGL and Vulkan robustness extensions let an application detect a
+> > GPU reset and check if its own context caused it, so the application can
+> > drop the broken context and build a new one. The kernel knows both
+> > facts, but etnaviv has no way to report them to userspace.
+> >
+> > Add two counters and expose them through GET_PARAM: a per-GPU counter
+> > that counts every reset of that GPU, and a per-context counter that only
+> > counts the resets this context was guilty of. Userspace compares the
+> > counters with saved values: if the context counter moved the context was
+> > guilty, if only the GPU counter moved the context was an innocent
+> > victim.
+>
+> I don't really agree with the design of exposing this through
+> GET_PARAM.
+>
+>
+> First it assumes that each etnaviv_file_private can only have a single
+> context, something that is true today but which I would very much like
+> to change to rid of false dependencies when the application uses
+> multiple GL contexts through the same screen. I have a rework to do
+> this in the pipe, which I didn't get around to finish, yet. While I
+> don't want to block any of your work on this rework, I also wouldn't
+> like to see UAPI land which bakes in the single context per file
+> private assumption.
+>
+
+Makes sense. I only picked it because msm and v3d expose their fault
+counters that way.
+
+For v2 I have replaced the two params with a dedicated ioctl:
+
+struct drm_etnaviv_reset_query {
+    __u32 pipe;            /* in */
+    __u32 flags;            /* in, must be 0 */
+    __u64 global_reset_counter;    /* out */
+    __u64 context_reset_counter;    /* out */
+};
+
+flags must be zero for now and is rejected with EINVAL otherwise, so
+your multi context rework can later add a flag plus a context field to
+query a specific context.
+
+>
+> Second, with this design each userspace query incurs two roundtrips
+> into the kernel, as userspace needs to know both counter values to tell
+> innocent vs guilty resets apart.
+>
+> My vote would be on adding a new ioctl to query both reset counters at
+> the same time, with a flags argument baked in, so it can be extended
+> once I manage to finish the multi context rework.
+>
+
+One thing to note: the global counter is per GPU core, so a context
+that uses more than one pipe still needs one query per pipe. I think
+that is fine for the robustness use case, but tell me if you would
+rather have a variant that returns all pipes at once.
+
+Will send v2 shortly.
+
+-- 
+greets
+--
+Christian Gmeiner, MSc
+
+https://christian-gmeiner.info/privacypolicy
