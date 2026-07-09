@@ -2,101 +2,101 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 3lx3MR5VT2p8egIAu9opvQ
+	id Jsv0Mx9VT2p9egIAu9opvQ
 	(envelope-from <etnaviv-bounces@lists.freedesktop.org>)
-	for <lists+etnaviv@lfdr.de>; Thu, 09 Jul 2026 10:00:30 +0200
+	for <lists+etnaviv@lfdr.de>; Thu, 09 Jul 2026 10:00:31 +0200
 X-Original-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A394872E021
-	for <lists+etnaviv@lfdr.de>; Thu, 09 Jul 2026 10:00:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A7EC72E024
+	for <lists+etnaviv@lfdr.de>; Thu, 09 Jul 2026 10:00:31 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=google.com header.s=20251104 header.b=JHUGKh6l;
+	dkim=pass header.d=google.com header.s=20251104 header.b="T/I8ORcb";
 	dmarc=pass (policy=reject) header.from=google.com;
 	spf=pass (mail.lfdr.de: domain of etnaviv-bounces@lists.freedesktop.org designates 131.252.210.177 as permitted sender) smtp.mailfrom=etnaviv-bounces@lists.freedesktop.org;
 	arc=pass ("google.com:s=arc-20260327:i=1")
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A19410F453;
-	Thu,  9 Jul 2026 08:00:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5143C10F457;
+	Thu,  9 Jul 2026 08:00:30 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com
- [209.85.215.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CED8010ED8E
- for <etnaviv@lists.freedesktop.org>; Thu,  9 Jul 2026 00:06:05 +0000 (UTC)
-Received: by mail-pg1-f172.google.com with SMTP id
- 41be03b00d2f7-c9ef3e1337fso892419a12.2
- for <etnaviv@lists.freedesktop.org>; Wed, 08 Jul 2026 17:06:05 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783555565; cv=none;
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com
+ [209.85.214.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 25E7A10EA8E
+ for <etnaviv@lists.freedesktop.org>; Thu,  9 Jul 2026 00:06:12 +0000 (UTC)
+Received: by mail-pl1-f174.google.com with SMTP id
+ d9443c01a7336-2cc7e86e7aeso13214915ad.2
+ for <etnaviv@lists.freedesktop.org>; Wed, 08 Jul 2026 17:06:12 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783555572; cv=none;
  d=google.com; s=arc-20260327;
- b=dwY9nxjQb8NSd1qEYc4vV5BaN4Zejdp+WoixBQQus5oK7XjfoeVUVCFE9YTiX4TJa+
- HPS3ZStPOjj0WSe8NNM8VPFQHB2420s7qX4NTH3rlj5MyYvpt9AREljHx62op3OEA2xr
- Ci59kHyUfAHXK1JLNHTPwMitnQDVEm25BMgDdYOoPVDtSFM7vRW4AkW1kHToKcET4sGK
- hKd51Xy7L5AKZLWAKMjZz6iqAqvHqztAcVtIvmNl6o1+P3kcWV6dhHrDDKDwgDrmWJbk
- OhKO8dMa+D7IoKQqV45fXLFtDLera2Y77XHEZfHUU96oB+a5IGSvuYaDHJ3InhjDgz7g
- ycAQ==
+ b=px8F2dXv2rDUCfCVo5DKhkcFxO23+yAAP65zQOzyBqmxQIoVBiVYtE1CE1tWgEgV7E
+ hObkqrFIVbaFZ1rg+3Zo+AZ1LqPLKwPBZlWekGqsjaV2XJxAHIcQKu5wb+UEY671KgLh
+ xAsv6KENOAm7eduXYNbqB7/gaYqM0yLvYmfjKKh704FrxsLypJpY19aptS+x79xKRxAa
+ MCY6em1hzWvHvmY+Ojm9xtWcO8GQwplkWc3so72weDB96qrDtuV6bb2mbS+1Gk9LA9Uh
+ DrdE4J8J2dDwya+Iyyn0DRK/bF0FfdKsWF13QZxML+IWqQKtMP00oIXwaTk65vudgVeY
+ qpew==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
  s=arc-20260327; 
  h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
  :from:dkim-signature;
- bh=yJaHiIAKdt59/nUs88AHXAG1seHCynr9U+jmRjUBOEg=;
- fh=h/+1p/xz6wQVgvxT0x/yrCuff8LjIjHZoVQbb4lQCYg=;
- b=gRcSk0g66twXHHFkZCtDJdj191OO/NRY7WnIgT3/ui4R1ma+yBTWCZ0nadT9jeQYlE
- /5RWCyabKUw8GCrNMs6qbflekCxSpQMvSUFJ+398oKOtMjGWAJwLb0R8ZBmXoA+IycMu
- lTh+CfPiBrzvixgEbririEMaL+42GrPP0d0WSmNnvHcBSjiJ+BT3agdyZGPQX24hxUUC
- SSIFQk7aKKKESVdXwsyG4BuPQyh3qwsYq9Y/eQ+LRs2JG7KgKQ9hx7++MdldWodH4ujh
- bmVY5pj+25NUgSN4YAMdDgTvMTP1KD10FtCewCnxOUsGsL/nacrwWZvmleD2+592cYVo
- b8dQ==; darn=lists.freedesktop.org
+ bh=LGyVs/ziq+v8OBPSx6ZOv0f1yGdel9dIe8uNrAG5/8g=;
+ fh=FkFBNf65b5AoeQygmqPr4HJgkcCOrr2lAlFFGw7dZ48=;
+ b=IvxrhMB4vBmGl9tEcGnbmK8+wn39/ZdJTcG8K+KemMKUAr+YRf9WW/Y2LIAlSbzUDH
+ o0Ut4ZOgsOgZ3uQuFE7RD+f+rW+Pj88b2cQbaKS4IzaNC0rg9yTykARZUShjaxGQpyQF
+ EDvrmQjbm6hBqj5nmZSAMKhjJ5SOdSraJG82nm7JA/mlm0Snd7GwgRUS6XelUUSCUWFg
+ GXWBY+kYEs9q/jFk7hc39yWXmWS9AKmf3HaxW1UksTGiV6JHfz9Og6pHAKfLm1qnaAeN
+ 3gT4a4BijT/9wXpI8/drvKYLUK80YMMmLS390YL4/pFilRv40dgpkpsXuhOhwz2Dhj/n
+ JMTQ==; darn=lists.freedesktop.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20251104; t=1783555565; x=1784160365;
+ d=google.com; s=20251104; t=1783555571; x=1784160371;
  darn=lists.freedesktop.org; 
  h=content-type:cc:to:subject:message-id:date:mime-version:references
  :in-reply-to:from:from:to:cc:subject:date:message-id:reply-to
- :content-type; bh=yJaHiIAKdt59/nUs88AHXAG1seHCynr9U+jmRjUBOEg=;
- b=JHUGKh6l1tyjvH2YK+JF+BdWqG9cgOzmKiq/j97195/fr1XSgxqBSJuC8brtq4EsrJ
- RbQCHMf+aOU1TKF+XTHMcVSh7vR3jj8T9tPBLUmvXLOsQbc5yyJrJ4RC1mX7x5L0gXVG
- CbFHHA8OkrKl3KnybYggM6sjMX0LL40H/5aA/46388+IXzsQ8OPWddvLZifvKKLV5VLb
- iZ0IPbNrYQNieS9oCZ0PvqQSTqO9YTyNeGSV1kbBPGDYqzVJLqzI7cq72anNYFEhYBQv
- tan03gN2Z59Ejf7EBPtpdi+5q3r5uVutD+CpQ6rjwHOSLAT4U+zULT3ThWD3pqxuTilq
- gY4g==
+ :content-type; bh=LGyVs/ziq+v8OBPSx6ZOv0f1yGdel9dIe8uNrAG5/8g=;
+ b=T/I8ORcbE3GR0wAMdsNMWO6Lp17OiIFe9cYuhivTAozLKRa0naQXuUQ9FX3OhyhMzk
+ yMTleNdcPN3eyQWbb5njrQZ2nqtbkJC9gTEgb91diVz/gyj0MhrOLhAUiJYozsOn+egD
+ Qz1cZ348ICC1YtL75DVxy1R02x9fTO9+yhO+FrnSaE+wgGZM5AJyYw1PD+ZEGhVwcSVE
+ u1E5QH/RPaPcQDVsxiepEBsm/bPtlgJsIIUaMKycmUFFgilVFc6bCuLG4XQfkMdrwnst
+ beMnnNyH/D0YL/UsjE79OpO30oWNKu9ApwonUNBeaFvzSIhPl6SYiIJ16xjoQP5jEmI6
+ 4+9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20251104; t=1783555565; x=1784160365;
+ d=1e100.net; s=20251104; t=1783555572; x=1784160372;
  h=content-type:cc:to:subject:message-id:date:mime-version:references
  :in-reply-to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to:content-type;
- bh=yJaHiIAKdt59/nUs88AHXAG1seHCynr9U+jmRjUBOEg=;
- b=K8jfBOsj8jjNa5Uw4ETDEQYiF1/uFhdBQ63oVdF22z9OUEEN6U/faeGlvdpDmkWcAl
- d21/E179X4ZCrnZ7XUMnF1opcXU45ZA0Ly8cW9WPkWKQEIu7+vKt7mCfQziPCTs0vkmC
- yllixSXe4OxeafXFuTzw59PEi3et47fSf6sqjnvq72rZPnbV4G+Alp5bB4U64WKNiPNh
- rJCaQPQjRldNf0v6S5P3xMhwk4+/MFemmNcSyaP32i4Z1/Kg5FcNcgLM/X1vcIknVVYa
- ckwXYRN9d5ozbrcmpShbeu+Dlys+lMMAY/tmdzsh/sU9P0JdquqUGcExKWf9dXk0PV0Z
- jQlA==
+ bh=LGyVs/ziq+v8OBPSx6ZOv0f1yGdel9dIe8uNrAG5/8g=;
+ b=gY5U9Ip2C9vsF7D4Kwrfs/+MzjMOU6q0kHl2qIZwEAYyOhcUnUH+ufWTD9RSczq8ze
+ sCmrxVYsjD2lWWES1pi+b/nZQxmTfLsKgD4r5Q0KdVT52gfCHFP0b5md2YEkMH8uUD0j
+ PnAff58Z85YKlPIzQ5lFtVaRyHqIqDkh/5t4051H/Cg7w0+8KV+gyoKnnB6bqd3MtnBv
+ XCuKbwB2U3xkDcKff6uiFDfxhxyEjuy6/5Zx4m9XL3vO882u0uhgLD2Sth+6kETl/z6Z
+ 9xYEmlKzfjMYwfqMQ5QUSp6T5RJM0M2pW0vTh2A04tSF2a9ejcQsTiWJbUiLTIV4v3Ir
+ gzVQ==
 X-Forwarded-Encrypted: i=1;
- AHgh+Rpcuv77G83CqgU/0yfT53FX8vFfbknhC8EiVEzVvF+/0255Or4m7BwUd6s1gpJQMlHYcvW0LQKc@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyLXCjQVmg3fyY8AyibiFGNlVtWhco3sPnFvnUhp15797bhflji
- AJ7pAgmbDp+5z8qQexBFe2GH+gfyJRVVJNWdc1y4Ipieza8ngqPARR8kT3lpR2ZdVhCgpY7SgKL
- 7tbUNAAd3FykqFPG3Gu7s29Z2BXEFmMMqo4eFlGP/
-X-Gm-Gg: AfdE7cnhfXQ/GNmCB4fe45vwTUfzJjl6jr4e0ldQyqJTOWISj4+SaRSN8yar+Zqio6k
- ctYA1BuJbLfkmMLHoLI1EEz5XhtauyWhaGJqvfUzxIAymRZ0+DDl4Gs7A4s/3qgYWaMLBjtjXd7
- 69TB271xau1GQvhhUW/AeHmZfruY0oatNIGPsNBLtXJjDV7J8QKRHJuYDZLvHIRZsPl/W1D9gOk
- 0kiTMlXYh3eRXG4GJI/H26R0zz4a6RI5JA4P+5IzObWxaVlzsw8dw98c0URv+CAU4obQniTnYko
- vcZcCFR9U9OfAV0W0zVLYvWK368vspC/3N9QMl56thixsx4M6vXIPZ0L4pV2sT8oNS6aVQ==
-X-Received: by 2002:a05:6a21:7482:b0:3b4:669c:ee32 with SMTP id
- adf61e73a8af0-3c0bcbc1353mr5760887637.37.1783555564841; Wed, 08 Jul 2026
- 17:06:04 -0700 (PDT)
+ AHgh+Ro8NleyZzn75XpGWi5sX5b4bnnPAm+pN8zUBEa7OQoUwy7k++HXNN2SW5Gzj4Q4pWxNf8s7DXrn@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy9SiWw2V9qCI2AqQC2ck8wSgB6wwFCT+Q+AwtmQopHd81c2MXG
+ NONRIEDOVIl1WNLSdHSIwbiDJzu+W1+JnoeiqNoyAhLYExbCvJsBZxuW1Rp6STGfFz7Y2rsC/fZ
+ uFX+EF8h/qa1G7C4xIvkqmdCTRy/5/FHCcEJMUoO0
+X-Gm-Gg: AfdE7cmfwki2E1bUi+fWBQzHFpGZ+IqKVhF7v24ZvdSXyMMVZ4jTOi02mGL4n8U5Hzt
+ RlLl1rixerM9FNgCEZwZII1bDEMa9jR4uJxyyAObXkYHNspmvLC57XEJrWinF5SGuCjFgKH1pfg
+ u3jI/oEdN0tormAErHzKQVCdB6i1HyZVsSmGQN3QirODg2XqgAJqsPkaACyw9+wEu1K2TkRckKh
+ Pjq1YdmRUNwHncYYuhbKtUpDlQ5DhEvU6sPgARFVr0Mb/gcJLtKTUEM2r234W1P44W0mWYyCNsd
+ 5Toer4Oh6CIdO9L2AqIKxAHLXqYZPEyqrd6L0cYgyCA/5KcHUsz+9LjcB3A=
+X-Received: by 2002:a05:6a21:1f88:b0:3c0:9c19:b27b with SMTP id
+ adf61e73a8af0-3c0bcce9940mr4979424637.73.1783555571036; Wed, 08 Jul 2026
+ 17:06:11 -0700 (PDT)
 Received: from 176938342045 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 8 Jul 2026 17:06:04 -0700
+ HTTPREST; Wed, 8 Jul 2026 17:06:10 -0700
 Received: from 176938342045 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 8 Jul 2026 17:06:03 -0700
+ HTTPREST; Wed, 8 Jul 2026 17:06:09 -0700
 From: Ackerley Tng <ackerleytng@google.com>
-In-Reply-To: <eedf589778aaab33e6df2ad6556dcde536e13460.1782735110.git.ljs@kernel.org>
+In-Reply-To: <bf56e2e98b512962a2fb88900d535a0e9e6769d8.1782735110.git.ljs@kernel.org>
 References: <cover.1782735110.git.ljs@kernel.org>
- <eedf589778aaab33e6df2ad6556dcde536e13460.1782735110.git.ljs@kernel.org>
+ <bf56e2e98b512962a2fb88900d535a0e9e6769d8.1782735110.git.ljs@kernel.org>
 MIME-Version: 1.0
-Date: Wed, 8 Jul 2026 17:06:03 -0700
-X-Gm-Features: AVVi8Ceg-PSWltTScKU18ZF0mdbBsNHDv0s-VKhIaqzjwQ-q80D6zfZMKk_VWII
-Message-ID: <CAEvNRgE-JJAzC0jp+bY8+e1+gYSH+MjT6JqX_DfCcpaxOM-Dtw@mail.gmail.com>
-Subject: Re: [PATCH 15/30] mm: introduce and use linear_page_delta()
+Date: Wed, 8 Jul 2026 17:06:09 -0700
+X-Gm-Features: AVVi8CdcseowPqFId5ObGoqB8gTqCLO4QEXGH1ZjH1-pjTCLGI84NpwTLe_LrAc
+Message-ID: <CAEvNRgEV9VkWHULS4g5hVHu3T6=YZ89HJmkv6rS0+hK=5UFu6Q@mail.gmail.com>
+Subject: Re: [PATCH 19/30] mm: use linear_page_[index, delta]() consistently
 To: Lorenzo Stoakes <ljs@kernel.org>, Andrew Morton <akpm@linux-foundation.org>
 Cc: Russell King <linux@armlinux.org.uk>, Dinh Nguyen <dinguyen@kernel.org>, 
  Simon Schuster <schuster.simon@siemens-energy.com>, 
@@ -195,24 +195,28 @@ X-Spamd-Result: default: False [-0.81 / 15.00];
 	TAGGED_RCPT(0.00)[etnaviv];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,lists.freedesktop.org:from_smtp,mail.gmail.com:mid]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: A394872E021
+X-Rspamd-Queue-Id: 7A7EC72E024
 
 Lorenzo Stoakes <ljs@kernel.org> writes:
 
-> It's often useful to obtain the number of pages a given address lies at
-> within a VMA.
+> diff --git a/virt/kvm/guest_memfd.c b/virt/kvm/guest_memfd.c
+> index db57c5766ab6..f0e5da490866 100644
+> --- a/virt/kvm/guest_memfd.c
+> +++ b/virt/kvm/guest_memfd.c
+> @@ -440,7 +440,7 @@ static int kvm_gmem_set_policy(struct vm_area_struct *vma, struct mempolicy *mpo
+>  static struct mempolicy *kvm_gmem_get_policy(struct vm_area_struct *vma,
+>  					     unsigned long addr, pgoff_t *ilx)
+>  {
+> -	pgoff_t pgoff = vma->vm_pgoff + ((addr - vma->vm_start) >> PAGE_SHIFT);
+> +	pgoff_t pgoff = linear_page_index(vma, addr);
+>  	struct inode *inode = file_inode(vma->vm_file);
 >
-> Add linear_page_delta() to determine this and update linear_page_index() to
-> make use of it.
->
-> Add comments to describe both linear_page_delta() and linear_page_index().
->
-> No functional change intended.
->
-> Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
+>  	*ilx = inode->i_ino;
+> --
+> 2.54.0
+
+For the guest_memfd change:
 
 Reviewed-by: Ackerley Tng <ackerleytng@google.com>
 
->
-> [...snip...]
->
+Thank you!
