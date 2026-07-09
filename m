@@ -2,76 +2,75 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id CtR1Ddy7T2rmnQIAu9opvQ
+	id cD/EBFi8T2oMngIAu9opvQ
 	(envelope-from <etnaviv-bounces@lists.freedesktop.org>)
-	for <lists+etnaviv@lfdr.de>; Thu, 09 Jul 2026 17:18:52 +0200
+	for <lists+etnaviv@lfdr.de>; Thu, 09 Jul 2026 17:20:56 +0200
 X-Original-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BBB3732BE7
-	for <lists+etnaviv@lfdr.de>; Thu, 09 Jul 2026 17:18:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 730D6732C52
+	for <lists+etnaviv@lfdr.de>; Thu, 09 Jul 2026 17:20:55 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gourry.net header.s=google header.b=tYgIILkG;
+	dkim=pass header.d=gourry.net header.s=google header.b=TFPRoZUK;
 	dmarc=none;
 	spf=pass (mail.lfdr.de: domain of etnaviv-bounces@lists.freedesktop.org designates 131.252.210.177 as permitted sender) smtp.mailfrom=etnaviv-bounces@lists.freedesktop.org
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC8D710E074;
-	Thu,  9 Jul 2026 15:18:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4AAE010E256;
+	Thu,  9 Jul 2026 15:20:54 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com
- [209.85.160.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9EBC710E074
- for <etnaviv@lists.freedesktop.org>; Thu,  9 Jul 2026 15:18:48 +0000 (UTC)
-Received: by mail-qt1-f182.google.com with SMTP id
- d75a77b69052e-51c01089e8aso12004401cf.2
- for <etnaviv@lists.freedesktop.org>; Thu, 09 Jul 2026 08:18:48 -0700 (PDT)
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com
+ [209.85.222.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC74210E074
+ for <etnaviv@lists.freedesktop.org>; Thu,  9 Jul 2026 15:20:52 +0000 (UTC)
+Received: by mail-qk1-f179.google.com with SMTP id
+ af79cd13be357-92ed19f4d60so67131485a.0
+ for <etnaviv@lists.freedesktop.org>; Thu, 09 Jul 2026 08:20:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gourry.net; s=google; t=1783610327; x=1784215127; darn=lists.freedesktop.org;
+ d=gourry.net; s=google; t=1783610452; x=1784215252; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:content-type:mime-version
  :references:message-id:subject:cc:to:from:date:from:to:cc:subject
  :date:message-id:reply-to:content-type;
- bh=D66HPeIJnm5ZDnK+VorUOpyiniaZPeUCt2fPIKMnyb4=;
- b=tYgIILkG5Rs3JedAvV3i9QlHmq5WVg2tL0ZPCK1WD/Ya5RXqzXMm+I2XH07PU2zrbI
- Q0i5n8W5+7Sfjk6p3hQOrAtHTpfNyXclXmZeASPYJC6Nu15jOF8reRs/4UFt9BVYN9eH
- 2CnhMok/HG1NeP4i0rSid70kIpeBfi8ty8LGwfDglvhOOcdhukU0gFeEljxZ7j6NrmNl
- pZszTrQIGIBDvmYdfdxbim47RjXNSJoA51rCHq/mwfvJtqwbuZjrDlxmaH1Fo0CF3b/e
- EyPN3YIhwn5WmR/5eQxME1yf2XbHnpC8I9WyYKn1Cm9W2g5tzrOQbEff0tjLqFvI1Nvb
- FlNA==
+ bh=3aG5hxu0JYH7EcM/cq6JX5Yef1RoVI9XARU/q8dKmL4=;
+ b=TFPRoZUKYAM0HzMJu/naXJymaCurUpVY6Ib1aLpqC9dp8mQGHrFfhW+T1qjksfnrCH
+ gfOk+ssIeJbjldGrZ8Q5fAuhoT8WWbZSb0ppNi+h/05WQ5hVWTy3/2hJQDmhoLKcgpG4
+ Vrmk0CrwYd0kdIzG8Lit9XHv8LTI/w9alMq4JVIKeM+lWJaT6MIZ++LIBesx6e4qJB1B
+ dx/Ihh+eGS2/Lsla6dJ1Re2VlOneoBLPo2Ir5S2jjpeAd79c7mwTCRDpQgS5o1O5Zhp4
+ YHC4/EHoBRDAMcKbzU55/Is3fdxyLnUngjecHKFO1v2icVd8jWGa1w+J3w0THNHL52Ei
+ S21A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20251104; t=1783610327; x=1784215127;
+ d=1e100.net; s=20251104; t=1783610452; x=1784215252;
  h=in-reply-to:content-disposition:content-type:mime-version
  :references:message-id:subject:cc:to:from:date:x-gm-gg
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
  :content-type;
- bh=D66HPeIJnm5ZDnK+VorUOpyiniaZPeUCt2fPIKMnyb4=;
- b=sx9DzUATy/m30gNXadjPNc4woc23y+JDn1OYV/b/dzOeQi5cevc8NGQ6dm/C3YN86G
- EkgOHqgq0OWoLJ5VNenI8Gxh0gR9kBGRlyUTQxY6ay+iqxNbu4+D5umN6Wlnq6quKgzd
- zyS1SNybQdunYKq32G1OSuzSvToW847wJWfCGafsDsvyxm5+cPcgJI7k96eL2GgcBEks
- pc6wugbp+AK7wU/yfKbkGvutpDPpCoad70UHxiNRyfF30abCN1UfVFOaTW/CRSbxoEk2
- oGa8hPUUOcAFA6+76MAlGBJpce73sc0vdl7nGdU5qGa4JU48FdZhixsNuJRgFIHQyOBR
- 0P1Q==
+ bh=3aG5hxu0JYH7EcM/cq6JX5Yef1RoVI9XARU/q8dKmL4=;
+ b=VEh8TitexGSQnH32PIVF4uxcFafMmO/149WPA/lgLpXy2alKvaXQkcY2/q/3MhCjF1
+ WQ4CeIlcUgS9SOeyqp8VyAkVJRljWTlBgFzQEvZzH33D2oiICqbs71GEegBbtxS01B3B
+ Wa5I6v6egoJgrmQc9YomdQbpR6lC3opDoyzWDJJ2m2RCt51AhcHLlC5LsbhvXb9vvNXQ
+ 0bBNKprSPWSEzcgaQeLSL6NR4wmqgq4TCDKE/uxKoMzNfIJ7dwWMazs3SzE9UnezWcLc
+ 6QN/dfyDeWxqazlYxSbBgfj3TdNa8CIc3jdfQeUHTPgTpTsLnip7Xcza6NfK0HRB3Ad7
+ yWJg==
 X-Forwarded-Encrypted: i=1;
- AHgh+RpVXlwDXOPhWNj8f6L+obUJxvc7FSSWiNyzUv0pgBFWbvniGraItzoXK9Ce7/lBTyjy7sZ2VFrP@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzhzgbdJV0rdRGfMBtjWepqGVs4uxZUwfQVT88er6Zp1IuUH+7F
- eoVvXQ/npNpJltiVBep8GRmxvNDNEW3fIX4+sVzbNhSs3vR6WW/zdRJrlyw5pHOk7fw=
-X-Gm-Gg: AfdE7cmcVoMOaLZaYvquGSj5Rly57kZhsYHgne5VPp0cMgZ5u5Q1SfVcrB0zDxC6H/y
- lkTiVysaDlL7edZlTtSFjDMQ5HMOoc5+kEnG34+h26dR0qYmtak0gPr2NP6cJ7oKYx5/Rm6C1dY
- Fni6qXy9gjeQLqIOxmawCpvJLbAalZUBUZEt2JDxSBJOE/Qb/2oMW6phonFbJMLd7fM/7tpuO6j
- pz1HmbNs/ilWGwxPnGJkupDekZcJgYPAyGnfZ5uCy9MH4UsDN1c+er99fhuK+jPKM6PRw8/Fb39
- UAC2vXaLe/YjqYXAOteGyhzPPifSEr2p80f7Preb+jpnCu7u6SjPKCAQ3L6YA9uA/aYTUlzKW0i
- DEpJr5vidZJHmkCPnkgLL1PUFp8dDdYeMZkmEYJSMOvfCPmduAW3D/hsnbAS70WgddpEJh9wnAn
- 6tEQYINzKynBxAx8unmBqYxPCprCdzEQ4fsLey2ISMGghua71V4mE3jLV3lRZZyoBbRjxvUw9o8
- Xfs+EI=
-X-Received: by 2002:ac8:5cd4:0:b0:51c:1c2c:a8c9 with SMTP id
- d75a77b69052e-51c8b3e2e32mr79753441cf.43.1783610327278; 
- Thu, 09 Jul 2026 08:18:47 -0700 (PDT)
+ AHgh+RoBIV3JvWBL2mWIi8yQczm8pEBEXP3P3IvCF2Vkbf6Y5UA340m2WRI2ldpHh6fdHYTfs/huFmJM@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwJqaEs5ampkYErptkEI0oPNPz0l8PCcrj/OrtDuWjCdUKHqJrP
+ +dw4rNVSb/LDdsOl4zhCZjJK/z65USUmPgiRn/IaPTiDS6eUt98P4Pxq6S5n9HjNddQ=
+X-Gm-Gg: AfdE7ckrWVZsdM0A76J/724Uk+jUlu5HEa9O/EKZUu4kaE+3/FwFePLMUt5rpd8o1Fd
+ s+bqJhtN8P1bMns0UQLJ5vMrLnPgoY4OdJnqYNDPTpFqZWvXWmjDLVPtg5N0ajOWzFpanAyMZn6
+ k0zqbn4eiazHXwVitNbH88a6uuHOI63tiTv5tWtl1g4/IMIRq2r92kQ1O+4dXJ6qsOoe7DY6eHc
+ SmbQRvzxC3f0FOpmVbu00xddiO3D7SH3sh3wxt+dFNrM0tChlnbDZrd/EJ8Darzc0WzWu6mSu5n
+ e1pjroXl9to9rmMBBQydsm3EHDUkzaam8WGFSpL7oUmmJPlYJ4OVADjx3tS3k+Sf1edFjr8dsap
+ S4NSDUIYrazGYPIL8N1IDGbEeoxKY/YvsYgOxpstMt75t40k9O0l/VCqUt/wdrtAW4TsvG4ca2d
+ ObjfDiWviecg739o1hW2BVnYscvYUA3vB3IfjDe7BLaMv7tT1tLfMg1WNA7XRGQ0YgTdg0
+X-Received: by 2002:a05:620a:179e:b0:92a:f74f:904 with SMTP id
+ af79cd13be357-92edab23ef2mr337298385a.1.1783610451142; 
+ Thu, 09 Jul 2026 08:20:51 -0700 (PDT)
 Received: from gourry-fedora-PF4VCD3F
  (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
  by smtp.gmail.com with ESMTPSA id
- d75a77b69052e-51c41db4fb5sm158006781cf.25.2026.07.09.08.18.44
+ af79cd13be357-92e90ca90a5sm1652288685a.32.2026.07.09.08.20.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Jul 2026 08:18:45 -0700 (PDT)
-Date: Thu, 9 Jul 2026 11:18:40 -0400
+ Thu, 09 Jul 2026 08:20:49 -0700 (PDT)
+Date: Thu, 9 Jul 2026 11:20:44 -0400
 From: Gregory Price <gourry@gourry.net>
 To: Lorenzo Stoakes <ljs@kernel.org>
 Cc: Andrew Morton <akpm@linux-foundation.org>,
@@ -126,14 +125,15 @@ Cc: Andrew Morton <akpm@linux-foundation.org>,
  damon@lists.linux.dev, Pedro Falcato <pfalcato@suse.de>,
  Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>,
  Jann Horn <jannh@google.com>
-Subject: Re: [PATCH 13/30] mm/vma: refactor vmg_adjust_set_range() for clarity
-Message-ID: <ak-70CHGujkI5jJI@gourry-fedora-PF4VCD3F>
+Subject: Re: [PATCH 14/30] mm/vma: minor cleanup of expand_[upwards,
+ downwards]()
+Message-ID: <ak-8TKDC1GBOeMOM@gourry-fedora-PF4VCD3F>
 References: <cover.1782735110.git.ljs@kernel.org>
- <ada7972f49ea7f1ff1df6d11e4651f270444f8fd.1782735110.git.ljs@kernel.org>
+ <b24f70b72f0a9e2a37b904e5b59d80b88bd42e4a.1782735110.git.ljs@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ada7972f49ea7f1ff1df6d11e4651f270444f8fd.1782735110.git.ljs@kernel.org>
+In-Reply-To: <b24f70b72f0a9e2a37b904e5b59d80b88bd42e4a.1782735110.git.ljs@kernel.org>
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -184,15 +184,17 @@ X-Spamd-Result: default: False [1.19 / 15.00];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gourry.net:from_mime,gourry.net:email,gourry.net:dkim,gourry-fedora-PF4VCD3F:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,lists.freedesktop.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 8BBB3732BE7
+X-Rspamd-Queue-Id: 730D6732C52
 
-On Mon, Jun 29, 2026 at 01:23:24PM +0100, Lorenzo Stoakes wrote:
-> Add comments with ASCII diagrams to describe what we're doing, avoid
-> dubious use of PHYS_PFN(), and use vma_start_pgoff().
+On Mon, Jun 29, 2026 at 01:23:25PM +0100, Lorenzo Stoakes wrote:
+> Adjust the stack expansion functions expand_upwards() and
+> expand_downwards() such that they are expressed in terms of named constant
+> values, and make use of vma_start_pgoff().
 > 
-> The most complicated scenario represented here is vmg->__adjust_next_start
-> - when this is set, vmg->[start, end] actually indicate the range to be
-> retained, so take special care to describe this accurately.
+> This clearly documents that we are referencing the page offset of the start
+> of the VMA.
+> 
+> Additionally this cleans up the overflow check in expand_upwards().
 > 
 > No functional change intended.
 > 
@@ -200,48 +202,3 @@ On Mon, Jun 29, 2026 at 01:23:24PM +0100, Lorenzo Stoakes wrote:
 
 Reviewed-by: Gregory Price <gourry@gourry.net>
 
-> +		/*
-> +		 * vmg->start    vmg->end
-> +		 * |             |
-> +		 * v    merge    v
-> +		 * <------------->
-> +		 *         delta
-> +		 *        <------>
-> +		 * |------|----------------|
-> +		 * | prev |    middle      |
-> +		 * |------|----------------|
-> +		 *        ^
-> +		 *        |
-> +		 *        middle->vm_start
-> +		 */
-
-Even with these diagrams, it's a bit difficult to understand what the
-actual intent/result of this chunk is (but that may be a limitation of
-me not spending enough time reading the surrounding code, not a comment
-of your work here).
-
-~Gregory
-
-> +		/*
-> +		 *                Originally:
-> +		 *
-> +		 *            vmg->start   vmg->end
-> +		 *            |            |
-> +		 *            v    merge   v
-> +		 *            <------------>
-> +		 *            .            .
-> +		 * merge_existing_range() updates to:
-> +		 *            .            .
-> +		 * vmg->start vmg->end     .
-> +		 * |          |            .
-> +		 * v  retain  v            .
-> +		 * <---------->            .
-> +		 *             delta       .
-> +		 *            <----->      .
-> +		 * |----------------|------|
-> +		 * |    middle      | next |
-> +		 * |----------------|------|
-> +		 *                  ^
-> +		 *                  |
-> +		 *                  next->vm_start
-> +		 */
