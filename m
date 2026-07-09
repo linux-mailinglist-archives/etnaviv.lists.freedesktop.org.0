@@ -2,75 +2,75 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id cD/EBFi8T2oMngIAu9opvQ
+	id 4yQLEdK8T2ovngIAu9opvQ
 	(envelope-from <etnaviv-bounces@lists.freedesktop.org>)
-	for <lists+etnaviv@lfdr.de>; Thu, 09 Jul 2026 17:20:56 +0200
+	for <lists+etnaviv@lfdr.de>; Thu, 09 Jul 2026 17:22:58 +0200
 X-Original-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 730D6732C52
-	for <lists+etnaviv@lfdr.de>; Thu, 09 Jul 2026 17:20:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99BA4732CC8
+	for <lists+etnaviv@lfdr.de>; Thu, 09 Jul 2026 17:22:57 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gourry.net header.s=google header.b=TFPRoZUK;
+	dkim=pass header.d=gourry.net header.s=google header.b=lRfU7tCB;
 	dmarc=none;
 	spf=pass (mail.lfdr.de: domain of etnaviv-bounces@lists.freedesktop.org designates 131.252.210.177 as permitted sender) smtp.mailfrom=etnaviv-bounces@lists.freedesktop.org
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4AAE010E256;
-	Thu,  9 Jul 2026 15:20:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7742F10E256;
+	Thu,  9 Jul 2026 15:22:56 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com
- [209.85.222.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC74210E074
- for <etnaviv@lists.freedesktop.org>; Thu,  9 Jul 2026 15:20:52 +0000 (UTC)
-Received: by mail-qk1-f179.google.com with SMTP id
- af79cd13be357-92ed19f4d60so67131485a.0
- for <etnaviv@lists.freedesktop.org>; Thu, 09 Jul 2026 08:20:52 -0700 (PDT)
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com
+ [209.85.219.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 709FB10F62B
+ for <etnaviv@lists.freedesktop.org>; Thu,  9 Jul 2026 15:22:55 +0000 (UTC)
+Received: by mail-qv1-f44.google.com with SMTP id
+ 6a1803df08f44-8eefd4a8057so447576d6.0
+ for <etnaviv@lists.freedesktop.org>; Thu, 09 Jul 2026 08:22:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gourry.net; s=google; t=1783610452; x=1784215252; darn=lists.freedesktop.org;
+ d=gourry.net; s=google; t=1783610574; x=1784215374; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:content-type:mime-version
  :references:message-id:subject:cc:to:from:date:from:to:cc:subject
  :date:message-id:reply-to:content-type;
- bh=3aG5hxu0JYH7EcM/cq6JX5Yef1RoVI9XARU/q8dKmL4=;
- b=TFPRoZUKYAM0HzMJu/naXJymaCurUpVY6Ib1aLpqC9dp8mQGHrFfhW+T1qjksfnrCH
- gfOk+ssIeJbjldGrZ8Q5fAuhoT8WWbZSb0ppNi+h/05WQ5hVWTy3/2hJQDmhoLKcgpG4
- Vrmk0CrwYd0kdIzG8Lit9XHv8LTI/w9alMq4JVIKeM+lWJaT6MIZ++LIBesx6e4qJB1B
- dx/Ihh+eGS2/Lsla6dJ1Re2VlOneoBLPo2Ir5S2jjpeAd79c7mwTCRDpQgS5o1O5Zhp4
- YHC4/EHoBRDAMcKbzU55/Is3fdxyLnUngjecHKFO1v2icVd8jWGa1w+J3w0THNHL52Ei
- S21A==
+ bh=8MCYdDNt+ln4FYDiI3hqZQpolLcmikZ66uE9gEYE70E=;
+ b=lRfU7tCBkJCOuFeXKha7F7i9b49yVEhmH+/kh9WMniA067KhEaRyUKYsb1xbgiyvUe
+ Gk7H1gE3Ix8kpq6pibUHuC9rIfo8pmMpdglq+PI6FJfaLeAdndC2vzvrmEmtV7catR4p
+ hlKuF2fvYPM2v+alBlwSJidEThH/Jl10Nk9ZnMrfMoU7us30egO+47ck39TGqQ1T/Xe8
+ ncevMfEgpVQ1ONM7CQ1KVSZeOj2Cznyv30QEuCko9YEWT25s5ZXbYMCsq8mS4FuWCwlO
+ CuI2GGtlayuhb+yKCV6zRlhNKVCwCk5YzM4eNlEdP3iXmIiNfuk5ix5x+nUFYc29IluQ
+ PPNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20251104; t=1783610452; x=1784215252;
+ d=1e100.net; s=20251104; t=1783610574; x=1784215374;
  h=in-reply-to:content-disposition:content-type:mime-version
  :references:message-id:subject:cc:to:from:date:x-gm-gg
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
  :content-type;
- bh=3aG5hxu0JYH7EcM/cq6JX5Yef1RoVI9XARU/q8dKmL4=;
- b=VEh8TitexGSQnH32PIVF4uxcFafMmO/149WPA/lgLpXy2alKvaXQkcY2/q/3MhCjF1
- WQ4CeIlcUgS9SOeyqp8VyAkVJRljWTlBgFzQEvZzH33D2oiICqbs71GEegBbtxS01B3B
- Wa5I6v6egoJgrmQc9YomdQbpR6lC3opDoyzWDJJ2m2RCt51AhcHLlC5LsbhvXb9vvNXQ
- 0bBNKprSPWSEzcgaQeLSL6NR4wmqgq4TCDKE/uxKoMzNfIJ7dwWMazs3SzE9UnezWcLc
- 6QN/dfyDeWxqazlYxSbBgfj3TdNa8CIc3jdfQeUHTPgTpTsLnip7Xcza6NfK0HRB3Ad7
- yWJg==
+ bh=8MCYdDNt+ln4FYDiI3hqZQpolLcmikZ66uE9gEYE70E=;
+ b=srbOPPeFZBbjo3txkPTgdAwZqYpyN6lBbL36VcNjPY9F2EMTSKgaSLPqy2Oud9RLAD
+ aJETogfFw7jzKLgpjMuoaV9kUSYXJ/BMy68ajSj1gd+CiXBcvTSffxhpkBJOhuvw8/TT
+ wmIFRvKLjFsoJJgHm9spABQxCPpa5qamiU3yR1eC0//55761fKmIsOJ3lOxxR3h77xMI
+ ZASm0cTC1tgDG68zyKgUBCE0Q0zmIbRmITgUQq/nZPuujeBSRJE+e9Zc9wVm14TVjn4v
+ skUQum6lqrtBIlxH9mHP4byYc6klBaTjxb0ULoCcuWOMkh/JVLeruIDjPFn59W6Pshs5
+ BGrw==
 X-Forwarded-Encrypted: i=1;
- AHgh+RoBIV3JvWBL2mWIi8yQczm8pEBEXP3P3IvCF2Vkbf6Y5UA340m2WRI2ldpHh6fdHYTfs/huFmJM@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwJqaEs5ampkYErptkEI0oPNPz0l8PCcrj/OrtDuWjCdUKHqJrP
- +dw4rNVSb/LDdsOl4zhCZjJK/z65USUmPgiRn/IaPTiDS6eUt98P4Pxq6S5n9HjNddQ=
-X-Gm-Gg: AfdE7ckrWVZsdM0A76J/724Uk+jUlu5HEa9O/EKZUu4kaE+3/FwFePLMUt5rpd8o1Fd
- s+bqJhtN8P1bMns0UQLJ5vMrLnPgoY4OdJnqYNDPTpFqZWvXWmjDLVPtg5N0ajOWzFpanAyMZn6
- k0zqbn4eiazHXwVitNbH88a6uuHOI63tiTv5tWtl1g4/IMIRq2r92kQ1O+4dXJ6qsOoe7DY6eHc
- SmbQRvzxC3f0FOpmVbu00xddiO3D7SH3sh3wxt+dFNrM0tChlnbDZrd/EJ8Darzc0WzWu6mSu5n
- e1pjroXl9to9rmMBBQydsm3EHDUkzaam8WGFSpL7oUmmJPlYJ4OVADjx3tS3k+Sf1edFjr8dsap
- S4NSDUIYrazGYPIL8N1IDGbEeoxKY/YvsYgOxpstMt75t40k9O0l/VCqUt/wdrtAW4TsvG4ca2d
- ObjfDiWviecg739o1hW2BVnYscvYUA3vB3IfjDe7BLaMv7tT1tLfMg1WNA7XRGQ0YgTdg0
-X-Received: by 2002:a05:620a:179e:b0:92a:f74f:904 with SMTP id
- af79cd13be357-92edab23ef2mr337298385a.1.1783610451142; 
- Thu, 09 Jul 2026 08:20:51 -0700 (PDT)
+ AHgh+RrhMYDWAGo5TOqy46j00qI1d0LHH4rbdXp7LV4JW1L+/HMYQi/+AX1a/tcvRp16xCdolzmmlFb7@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw4UCvRvFW5Sk3ZYwvVw7idG9nfvpxQFUIBnAPoUAN8+nW7MxWd
+ xi3mnQcAkFaKaxsljBI7UvLMhP93whQN0IkEgvEGVG/MV+BDTQNiyZYPsGTkyWBiv1M=
+X-Gm-Gg: AfdE7cmmaXCNmMhknr51E4XI22veDn3cbgLay0y5uvfgTZ3erMbqLBkSiXiQq403/On
+ WTY9YgRbvIFYMc6O9BKnLknq23iuGGk2O9TdnLIcJZGtywsQk9AqR+dAcEZIHe4tIUYye24Pr1j
+ VmVVIbDJNenso93qBU+cG+ag+SWagnBW3qNmtsO7doc5mP3uNVbRk6kQsohLCTg3DeReIkJgqgW
+ UBHZWx1rxRitXUDk16JKItIqa3kxBU8KU/kN121dSGnR56M8riSBkscf1s85utZYHXK7bj5++Kz
+ LUsIXtWeogtBZq+NfK+Swqzo2npZNmYP2LMQUtiDZcKENvWh/6LuWy9AGEFFc9Zv+lafyANbIvc
+ 7EIx06YddpTJK2MgOVuUX9ms2rthVIJnYUb56DV7/qPLYcA/X5LKJtWL53ZAVAIo5AkwnYWFoBo
+ Zjt0ggWOK3oUyXqwpMHXTaxEJmm8/Umz6BuXesLWTDTX+tVFhBt8vnRKREr8KNadu27Hof
+X-Received: by 2002:a05:620a:28cf:b0:92e:68be:1c5 with SMTP id
+ af79cd13be357-92ecf6165e4mr847751685a.21.1783610574232; 
+ Thu, 09 Jul 2026 08:22:54 -0700 (PDT)
 Received: from gourry-fedora-PF4VCD3F
  (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
  by smtp.gmail.com with ESMTPSA id
- af79cd13be357-92e90ca90a5sm1652288685a.32.2026.07.09.08.20.48
+ af79cd13be357-92e90b7fc3asm1638936985a.9.2026.07.09.08.22.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Jul 2026 08:20:49 -0700 (PDT)
-Date: Thu, 9 Jul 2026 11:20:44 -0400
+ Thu, 09 Jul 2026 08:22:52 -0700 (PDT)
+Date: Thu, 9 Jul 2026 11:22:47 -0400
 From: Gregory Price <gourry@gourry.net>
 To: Lorenzo Stoakes <ljs@kernel.org>
 Cc: Andrew Morton <akpm@linux-foundation.org>,
@@ -125,15 +125,14 @@ Cc: Andrew Morton <akpm@linux-foundation.org>,
  damon@lists.linux.dev, Pedro Falcato <pfalcato@suse.de>,
  Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>,
  Jann Horn <jannh@google.com>
-Subject: Re: [PATCH 14/30] mm/vma: minor cleanup of expand_[upwards,
- downwards]()
-Message-ID: <ak-8TKDC1GBOeMOM@gourry-fedora-PF4VCD3F>
+Subject: Re: [PATCH 15/30] mm: introduce and use linear_page_delta()
+Message-ID: <ak-8x3TWsuhGzKlJ@gourry-fedora-PF4VCD3F>
 References: <cover.1782735110.git.ljs@kernel.org>
- <b24f70b72f0a9e2a37b904e5b59d80b88bd42e4a.1782735110.git.ljs@kernel.org>
+ <eedf589778aaab33e6df2ad6556dcde536e13460.1782735110.git.ljs@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <b24f70b72f0a9e2a37b904e5b59d80b88bd42e4a.1782735110.git.ljs@kernel.org>
+In-Reply-To: <eedf589778aaab33e6df2ad6556dcde536e13460.1782735110.git.ljs@kernel.org>
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -182,19 +181,18 @@ X-Spamd-Result: default: False [1.19 / 15.00];
 	TAGGED_RCPT(0.00)[etnaviv];
 	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gourry.net:from_mime,gourry.net:email,gourry.net:dkim,gourry-fedora-PF4VCD3F:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,lists.freedesktop.org:from_smtp]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gourry.net:from_mime,gourry.net:email,gourry.net:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,gourry-fedora-PF4VCD3F:mid,lists.freedesktop.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 730D6732C52
+X-Rspamd-Queue-Id: 99BA4732CC8
 
-On Mon, Jun 29, 2026 at 01:23:25PM +0100, Lorenzo Stoakes wrote:
-> Adjust the stack expansion functions expand_upwards() and
-> expand_downwards() such that they are expressed in terms of named constant
-> values, and make use of vma_start_pgoff().
+On Mon, Jun 29, 2026 at 01:23:26PM +0100, Lorenzo Stoakes wrote:
+> It's often useful to obtain the number of pages a given address lies at
+> within a VMA.
 > 
-> This clearly documents that we are referencing the page offset of the start
-> of the VMA.
+> Add linear_page_delta() to determine this and update linear_page_index() to
+> make use of it.
 > 
-> Additionally this cleans up the overflow check in expand_upwards().
+> Add comments to describe both linear_page_delta() and linear_page_index().
 > 
 > No functional change intended.
 > 
