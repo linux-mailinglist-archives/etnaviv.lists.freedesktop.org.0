@@ -2,47 +2,47 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id eJuoDIwHVGqnhAMAu9opvQ
+	id H8wLO4MHVGqYhAMAu9opvQ
 	(envelope-from <etnaviv-bounces@lists.freedesktop.org>)
-	for <lists+etnaviv@lfdr.de>; Sun, 12 Jul 2026 23:30:52 +0200
+	for <lists+etnaviv@lfdr.de>; Sun, 12 Jul 2026 23:30:43 +0200
 X-Original-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CED9F746030
-	for <lists+etnaviv@lfdr.de>; Sun, 12 Jul 2026 23:30:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6451F745FDF
+	for <lists+etnaviv@lfdr.de>; Sun, 12 Jul 2026 23:30:43 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=crprP81d;
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b="k9x6bBu/";
 	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	spf=pass (mail.lfdr.de: domain of etnaviv-bounces@lists.freedesktop.org designates 131.252.210.177 as permitted sender) smtp.mailfrom=etnaviv-bounces@lists.freedesktop.org
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB84F10E785;
-	Sun, 12 Jul 2026 21:30:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4410110E6F5;
+	Sun, 12 Jul 2026 21:30:40 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 54DA110E22D;
- Fri, 10 Jul 2026 20:17:56 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7568E10F963;
+ Fri, 10 Jul 2026 20:18:19 +0000 (UTC)
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
- by sea.source.kernel.org (Postfix) with ESMTP id AD08243897;
+ by tor.source.kernel.org (Postfix) with ESMTP id EA93760052;
+ Fri, 10 Jul 2026 20:18:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09CF71F000E9;
  Fri, 10 Jul 2026 20:17:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E80C21F00A3A;
- Fri, 10 Jul 2026 20:17:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
- s=k20260515; t=1783714675;
- bh=HxpK9XX46eW0L+tqH28ZLcMFfpOyeN/E3/HTbuiL4M0=;
+ s=k20260515; t=1783714698;
+ bh=v6HrE7a8m/FBNduG5UmQu6NM/Zihxq3N+Us3HpMrWf0=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc;
- b=crprP81d+96c/TTwiZmsO+H7tWi1mNaoxDlqQRcSYZuQqqkg1QzqPt0iFZfttiZK+
- t4WwILxuWLOXMO+/GKkcB6ADW67x/mjMGunr/40MELjJXsiE47AXvXvcbrM+Vx4Cul
- j8JCYVYPrR9sY+nQK75daNWNTYL4FEQtE5ns/5S1h27Vc+3t08PouRetPzb7JDKC5i
- daYQ5g0xkNxJDzAB2NgoXYWVT+B/NiJ59t8xKUhG7MwKImCSkPEbqyDKoutKTBdwY/
- +NbNWFuSgmoYmeulGhIqH+uasLK9U97/UzQP8yowhigWXgAJhc53ZbipSOIbjNJikQ
- uAEHj6Dpl8Brg==
+ b=k9x6bBu/aDqJclWvIhrAFa2Km3ddMPBAtjIwTK7nSswlBruWli5QcWTat4njQBiqs
+ UVhnCczvDERlE2oktg41MRtRbDgpqFYyTvHyJEOwdN52fR0U9K7S4eEI+ivMMZHU/E
+ s94TNQ/hFEIbzNFUeBRcARELcVpmMKv/c9ix0LYmMpx+ruxTa9urMXg6uzpqox4EYO
+ awUT6IL8oiBtUsMRD+pvShNA/uBh90ZipA/LcmkSRwid0fnX76nmL6Z2mZUnWjHITr
+ 8DDWg5TjJX1NwwQDiG4pGwsGAdk15hgBvBm5kFxh6llBtXDzCykxf9jf0N/TeK7v2a
+ BiSwLHeUIJfNA==
 From: Lorenzo Stoakes <ljs@kernel.org>
-Date: Fri, 10 Jul 2026 21:16:42 +0100
-Subject: [PATCH v2 01/33] mm: move vma_start_pgoff() into mm.h and clean up
+Date: Fri, 10 Jul 2026 21:16:43 +0100
+Subject: [PATCH v2 02/33] mm: add kdoc comments for vma_start/last_pgoff()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260710-b4-pre-scalable-cow-v2-1-2a5aa403d977@kernel.org>
+Message-Id: <20260710-b4-pre-scalable-cow-v2-2-2a5aa403d977@kernel.org>
 References: <20260710-b4-pre-scalable-cow-v2-0-2a5aa403d977@kernel.org>
 In-Reply-To: <20260710-b4-pre-scalable-cow-v2-0-2a5aa403d977@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>, 
@@ -123,12 +123,12 @@ Cc: Lorenzo Stoakes <ljs@kernel.org>, linux-mm@kvack.org,
  freedreno@lists.freedesktop.org, linux-tegra@vger.kernel.org, 
  kvm@vger.kernel.org, Russell King <linux+etnaviv@armlinux.org.uk>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2900; i=ljs@kernel.org;
- h=from:subject:message-id; bh=TWkwoMMp5D7fMtC0wshgLRRXywv8s28zC1aXHfR5Epo=;
- b=owGbwMvMwCV2fu7ZrsZH9SKMp9WSGLICg62mKuRVT1v09eEFm5LHf4uv9XS48Nw4/CP+8KTV8
- jk2Jm+md5SyMIhxMciKKbI8/yK+P0gkbF7nBX83mDmsTCBDGLg4BWAiz88w/OFb6tCz94OiVED+
- k957fJLbm8tad3CHBZT0eOnuPfJ0x3xGht2H2C/WLgrb3V/0YZ7I7r2Tp79WjOxU1Yy53zet9Mf
- 8DCYA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2376; i=ljs@kernel.org;
+ h=from:subject:message-id; bh=Znpqu3j3n6WWkTacPqLkxSLWmIlM9cO5JY2coWFa+KE=;
+ b=owGbwMvMwCV2fu7ZrsZH9SKMp9WSGLICg63ONn+VZLkzqWnvRdMkgYMTTO3mt5h3KcYekJN7x
+ fl+5a25HaUsDGJcDLJiiizPv4jvDxIJm9d5wd8NZg4rE8gQBi5OAZhIrxPDP8P9uUlGDz4+PJOx
+ 4lprrMA30daSzh3bt045v8PEdtedDxoM/1Me7yloK9X/Z3C//Zau7XbuQmYP/4Xp92ZFPjFWLy3
+ bwQgA
 X-Developer-Key: i=ljs@kernel.org; a=openpgp;
  fpr=E7F417BF5214569E89D04F46CF9DCD8A81E27F14
 X-Mailman-Approved-At: Sun, 12 Jul 2026 21:30:36 +0000
@@ -174,87 +174,72 @@ X-Spamd-Result: default: False [1.19 / 15.00];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	FORGED_SENDER_MAILLIST(0.00)[]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: CED9F746030
+X-Rspamd-Queue-Id: 6451F745FDF
 
-vma_last_pgoff() already lives there, so it's a bit odd to keep
-vma_start_pgoff() in mm/interval_tree.c. Move them together.
+Describe what vma_start_pgoff() and vma_last_pgoff() actually provide in
+detail.
 
-These each return unsigned long, which pgoff_t is typedef'd to. Make this
-consistent and have these functions return pgoff_t instead.
+This is in order that we can differentiate this between functions that will
+be added in a subsequent patch which provide a different page offset.
 
-Additionally, express vma_last_pgoff() in terms of vma_start_pgoff(), since
-we wrap the vma->vm_pgoff access, we may as well use it here.
-
-Also while we're here, const-ify the VMA and cleanup a bit.
-
-Also update the VMA userland tests to reflect the change.
+We go to lengths to describe the edge cases that can be run into here.
 
 No functional change intended.
 
-Reviewed-by: Gregory Price <gourry@gourry.net>
-Acked-by: David Hildenbrand (Arm) <david@kernel.org>
 Reviewed-by: Pedro Falcato <pfalcato@suse.de>
+Reviewed-by: Gregory Price <gourry@gourry.net>
 Reviewed-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
 Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
 ---
- include/linux/mm.h              | 9 +++++++--
- mm/interval_tree.c              | 5 -----
- tools/testing/vma/include/dup.h | 5 +++++
- 3 files changed, 12 insertions(+), 7 deletions(-)
+ include/linux/mm.h | 30 ++++++++++++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
 
 diff --git a/include/linux/mm.h b/include/linux/mm.h
-index 25e669632d2c..09b06d8fea74 100644
+index 09b06d8fea74..abac72785277 100644
 --- a/include/linux/mm.h
 +++ b/include/linux/mm.h
-@@ -4307,9 +4307,14 @@ static inline unsigned long vma_pages(const struct vm_area_struct *vma)
+@@ -4307,11 +4307,41 @@ static inline unsigned long vma_pages(const struct vm_area_struct *vma)
  	return (vma->vm_end - vma->vm_start) >> PAGE_SHIFT;
  }
  
--static inline unsigned long vma_last_pgoff(struct vm_area_struct *vma)
-+static inline pgoff_t vma_start_pgoff(const struct vm_area_struct *vma)
++/**
++ * vma_start_pgoff() - Get the page offset of the start of @vma
++ * @vma: The VMA whose page offset is required.
++ *
++ * If the VMA is file-backed, this is the page offset into the file.
++ *
++ * If @vma is anonymous, this is the virtual page offset of the start of the
++ * VMA - if unfaulted, then vma->vm_start >> PAGE_SHIFT, if faulted then the
++ * virtual page offset at the time of first fault.
++ *
++ * If @vma is a MAP_PRIVATE file-backed mapping, then this returns the
++ * page offset within the file.
++ *
++ * Edge cases: nommu does not abide by these, MAP_PRIVATE-/dev/zero satisfies
++ * vma_is_anonymous() but has file-backed page offset, and MAP_PRIVATE-pfnmap
++ * regions have their page offset set to the first PFN in the range.
++ *
++ * Returns: The page offset of the start of @vma.
++ */
+ static inline pgoff_t vma_start_pgoff(const struct vm_area_struct *vma)
  {
--	return vma->vm_pgoff + vma_pages(vma) - 1;
-+	return vma->vm_pgoff;
-+}
-+
-+static inline pgoff_t vma_last_pgoff(const struct vm_area_struct *vma)
-+{
-+	return vma_start_pgoff(vma) + vma_pages(vma) - 1;
+ 	return vma->vm_pgoff;
  }
  
- static inline unsigned long vma_desc_size(const struct vm_area_desc *desc)
-diff --git a/mm/interval_tree.c b/mm/interval_tree.c
-index 32bcfbfcf15f..344d1f5946c7 100644
---- a/mm/interval_tree.c
-+++ b/mm/interval_tree.c
-@@ -10,11 +10,6 @@
- #include <linux/rmap.h>
- #include <linux/interval_tree_generic.h>
- 
--static inline unsigned long vma_start_pgoff(struct vm_area_struct *v)
--{
--	return v->vm_pgoff;
--}
--
- INTERVAL_TREE_DEFINE(struct vm_area_struct, shared.rb,
- 		     unsigned long, shared.rb_subtree_last,
- 		     vma_start_pgoff, vma_last_pgoff, /* empty */, vma_interval_tree)
-diff --git a/tools/testing/vma/include/dup.h b/tools/testing/vma/include/dup.h
-index bf26b3f48d3a..668650067c7c 100644
---- a/tools/testing/vma/include/dup.h
-+++ b/tools/testing/vma/include/dup.h
-@@ -1301,6 +1301,11 @@ static inline unsigned long vma_pages(const struct vm_area_struct *vma)
- 	return (vma->vm_end - vma->vm_start) >> PAGE_SHIFT;
- }
- 
-+static inline pgoff_t vma_start_pgoff(const struct vm_area_struct *vma)
-+{
-+	return vma->vm_pgoff;
-+}
-+
- static inline int vfs_mmap_prepare(struct file *file, struct vm_area_desc *desc)
++/**
++ * vma_last_pgoff() - Get the page offset of the last page in @vma
++ * @vma: The VMA whose last page offset is required.
++ *
++ * This returns the last page offset contained within @vma.
++ *
++ * See the description of vma_start_pgoff() for a description of VMA page
++ * offsets.
++ *
++ * Returns: The last page offset of @vma.
++ */
+ static inline pgoff_t vma_last_pgoff(const struct vm_area_struct *vma)
  {
- 	return file->f_op->mmap_prepare(desc);
+ 	return vma_start_pgoff(vma) + vma_pages(vma) - 1;
 
 -- 
 2.55.0
