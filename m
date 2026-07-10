@@ -2,48 +2,48 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id mzlgAoAHVGpHhAMAu9opvQ
+	id DLysG4MHVGp/hAMAu9opvQ
 	(envelope-from <etnaviv-bounces@lists.freedesktop.org>)
-	for <lists+etnaviv@lfdr.de>; Sun, 12 Jul 2026 23:30:40 +0200
+	for <lists+etnaviv@lfdr.de>; Sun, 12 Jul 2026 23:30:43 +0200
 X-Original-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52234745FA6
-	for <lists+etnaviv@lfdr.de>; Sun, 12 Jul 2026 23:30:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C360745FCF
+	for <lists+etnaviv@lfdr.de>; Sun, 12 Jul 2026 23:30:42 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=RPSZGvZw;
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=Rn0Rgzrg;
 	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	spf=pass (mail.lfdr.de: domain of etnaviv-bounces@lists.freedesktop.org designates 131.252.210.177 as permitted sender) smtp.mailfrom=etnaviv-bounces@lists.freedesktop.org
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0059210E344;
-	Sun, 12 Jul 2026 21:30:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4076D10E50E;
+	Sun, 12 Jul 2026 21:30:39 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A05710E21D;
- Fri, 10 Jul 2026 20:29:31 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 41CF410E21D;
+ Fri, 10 Jul 2026 20:29:54 +0000 (UTC)
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
- by tor.source.kernel.org (Postfix) with ESMTP id 9CD4260051;
+ by tor.source.kernel.org (Postfix) with ESMTP id B71F3601D9;
+ Fri, 10 Jul 2026 20:29:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C37601F00A3A;
  Fri, 10 Jul 2026 20:29:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A991E1F000E9;
- Fri, 10 Jul 2026 20:29:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
- s=k20260515; t=1783715370;
- bh=aHI3HtWrClTz694ElWYDKnmNafJcRIPtS6NobkrqaKw=;
+ s=k20260515; t=1783715393;
+ bh=h9TL51kQxKXHzSfeISmn1qw+QGG9KCcdgBvdsczJlCQ=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc;
- b=RPSZGvZwyFoF6ClRKN9BpyNR8hpTZDK48TFpXqSipi37enIb5dUT+EctMObMcHEeV
- Poej32H984Cm5vZ1zE7duVLeHD7YFi8mfbo6mFJ4FJOXEPXEGfFbv3VcFF00WQ1jLn
- ci5P3XH7w6VvBnhFwpIJkr1BIv5hune/exyRWAf4inZWPzWlVWUvSq6OdsuSNl2puz
- vb5dtyH1nVV9TGprKRirNigppE+kAcMcj9yNM+9vchbstpVeQeFueRmccReV6x/9MS
- /rOKm4zBsOKdlYcPeiG1SaWJiU5ywO100RbwZxu+N6fqHKIukkw5XKszp/AF+Cr13o
- 8grz4e0FS40fg==
+ b=Rn0Rgzrg1X9P5gZsTrshFOS+gMVue/gsuP7CnzM73czznQcn4F9ItkfgBxrFDuH66
+ 94EeIgI5hcr2XIsN3JzPfM7oBQE/vD8l9enMDbVOU8lNTUaYV6fcAL/6vBz7qX6VIq
+ NV817DVIfXpi6wJ/hRvPJWaIpuFGj1/DltiI/mD1dBclCFblMGKiu2Oj5CzNoyCves
+ RnQ7aytJQVF43RBtHHafqZbjIwVNRBtQ8O3PLFYcWa7naE5fgN6Q0oqeQLqBuFn/+5
+ cBxamOvFBWiDSagHuu6Y8tOkVPWaz0YBClxQVn17b8Kz9ZPR1RYz7NH+4ZEm0mLklt
+ x3Y3guK3Ete2A==
 From: Lorenzo Stoakes <ljs@kernel.org>
-Date: Fri, 10 Jul 2026 21:17:12 +0100
-Subject: [PATCH v2 31/33] mm/vma: use guard clauses in
- can_vma_merge_[before, after]()
+Date: Fri, 10 Jul 2026 21:17:13 +0100
+Subject: [PATCH v2 32/33] tools/testing/vma: default VMA, mm flag bits to
+ 64-bit
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260710-b4-pre-scalable-cow-v2-31-2a5aa403d977@kernel.org>
+Message-Id: <20260710-b4-pre-scalable-cow-v2-32-2a5aa403d977@kernel.org>
 References: <20260710-b4-pre-scalable-cow-v2-0-2a5aa403d977@kernel.org>
 In-Reply-To: <20260710-b4-pre-scalable-cow-v2-0-2a5aa403d977@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>, 
@@ -124,12 +124,12 @@ Cc: Lorenzo Stoakes <ljs@kernel.org>, linux-mm@kvack.org,
  freedreno@lists.freedesktop.org, linux-tegra@vger.kernel.org, 
  kvm@vger.kernel.org, Russell King <linux+etnaviv@armlinux.org.uk>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2052; i=ljs@kernel.org;
- h=from:subject:message-id; bh=FCbfUVh/U5U1bRHGVKwt5UwXPlTKD0aFqMH/5ltaMTc=;
- b=owGbwMvMwCV2fu7ZrsZH9SKMp9WSGLICg23zeIx4g070KS4J7SnPZellbdxntl3j/lv3O2c9w
- v49kCntKGVhEONikBVTZHn+RXx/kEjYvM4L/m4wc1iZQIYwcHEKwERufGT4Z6zbfDP29beUVLPf
- /n92Zv2YtttYd9U3pvkvz+nZFXIKCTMyrBHkfC6/9G9fO9ff/UuWhPwoNS5edYn3QQfz2ZTDa99
- vYwQA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1053; i=ljs@kernel.org;
+ h=from:subject:message-id; bh=BSllJJ+2rRUlWzlXkjh5aitKXn0vM/W5l9yfCPbZwkk=;
+ b=owGbwMvMwCV2fu7ZrsZH9SKMp9WSGLICg23tbadanfaQzj1y4rvlNcVF9qIRv947JUd902jK7
+ TLzq0/oKGVhEONikBVTZHn+RXx/kEjYvM4L/m4wc1iZQIYwcHEKwERaNBj+qb36GFjppLrx8Iv8
+ qbKmX233/fKVUtoRUPVgwvsv2l762Qz/dFWP/9kU0fePtSxGdTuTmXbp2f3yftdqG2/ekOSalyL
+ PCAA=
 X-Developer-Key: i=ljs@kernel.org; a=openpgp;
  fpr=E7F417BF5214569E89D04F46CF9DCD8A81E27F14
 X-Mailman-Approved-At: Sun, 12 Jul 2026 21:30:36 +0000
@@ -175,69 +175,32 @@ X-Spamd-Result: default: False [1.19 / 15.00];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	FORGED_SENDER_MAILLIST(0.00)[]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 52234745FA6
+X-Rspamd-Queue-Id: 9C360745FCF
 
-Rather than combining a bunch of conditionals in a single expression,
-simplify by inverting the mergeability requirements into guard clauses.
+With all of the sanitisers turned on, setting the VMA and mm flag bits
+depth to 128 by default results in overly long build times.
 
-that is - instead of checking what must be true for the conditions to be
-met, instead check the inverse of the requirements and return false if any
-are true, defaulting to true.
+Reduce this to 64 - we can always manipulate these later for testing of
+larger bitmaps as needed.
 
-No functional change intended.
-
-Reviewed-by: Pedro Falcato <pfalcato@suse.de>
-Reviewed-by: Gregory Price <gourry@gourry.net>
 Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
 ---
- mm/vma.c | 27 ++++++++++++++-------------
- 1 file changed, 14 insertions(+), 13 deletions(-)
+ tools/testing/vma/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/mm/vma.c b/mm/vma.c
-index 737f0d692e6b..9d556d33b24b 100644
---- a/mm/vma.c
-+++ b/mm/vma.c
-@@ -215,13 +215,13 @@ static void init_multi_vma_prep(struct vma_prepare *vp,
-  */
- static bool can_vma_merge_before(struct vma_merge_struct *vmg)
- {
--	if (is_mergeable_vma(vmg, /* merge_next = */ true) &&
--	    is_mergeable_anon_vma(vmg, /* merge_next = */ true)) {
--		if (vmg_end_pgoff(vmg) == vma_start_pgoff(vmg->next))
--			return true;
--	}
--
--	return false;
-+	if (!is_mergeable_vma(vmg, /* merge_next = */ true))
-+		return false;
-+	if (!is_mergeable_anon_vma(vmg, /* merge_next = */ true))
-+		return false;
-+	if (vmg_end_pgoff(vmg) != vma_start_pgoff(vmg->next))
-+		return false;
-+	return true;
- }
+diff --git a/tools/testing/vma/Makefile b/tools/testing/vma/Makefile
+index e72b45dedda5..ef6cc558afe1 100644
+--- a/tools/testing/vma/Makefile
++++ b/tools/testing/vma/Makefile
+@@ -10,7 +10,7 @@ OFILES = $(SHARED_OFILES) main.o shared.o maple-shim.o
+ TARGETS = vma
  
- /*
-@@ -235,12 +235,13 @@ static bool can_vma_merge_before(struct vma_merge_struct *vmg)
-  */
- static bool can_vma_merge_after(struct vma_merge_struct *vmg)
- {
--	if (is_mergeable_vma(vmg, /* merge_next = */ false) &&
--	    is_mergeable_anon_vma(vmg, /* merge_next = */ false)) {
--		if (vma_end_pgoff(vmg->prev) == vmg_start_pgoff(vmg))
--			return true;
--	}
--	return false;
-+	if (!is_mergeable_vma(vmg, /* merge_next = */ false))
-+		return false;
-+	if (!is_mergeable_anon_vma(vmg, /* merge_next = */ false))
-+		return false;
-+	if (vma_end_pgoff(vmg->prev) != vmg_start_pgoff(vmg))
-+		return false;
-+	return true;
- }
+ # These can be varied to test different sizes.
+-CFLAGS += -DNUM_VMA_FLAG_BITS=128 -DNUM_MM_FLAG_BITS=128
++CFLAGS += -DNUM_VMA_FLAG_BITS=64 -DNUM_MM_FLAG_BITS=64
  
- static void __vma_link_file(struct vm_area_struct *vma,
+ main.o: main.c shared.c shared.h vma_internal.h tests/merge.c tests/mmap.c tests/vma.c ../../../mm/vma.c ../../../mm/vma_init.c ../../../mm/vma_exec.c ../../../mm/vma.h include/custom.h include/dup.h include/stubs.h
+ 
 
 -- 
 2.55.0
