@@ -2,55 +2,99 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id QAoRNpDpUGpc8QIAu9opvQ
+	id nY05OA32UGpg9AIAu9opvQ
 	(envelope-from <etnaviv-bounces@lists.freedesktop.org>)
-	for <lists+etnaviv@lfdr.de>; Fri, 10 Jul 2026 14:46:08 +0200
+	for <lists+etnaviv@lfdr.de>; Fri, 10 Jul 2026 15:39:25 +0200
 X-Original-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5990973AE34
-	for <lists+etnaviv@lfdr.de>; Fri, 10 Jul 2026 14:46:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76AFC73B532
+	for <lists+etnaviv@lfdr.de>; Fri, 10 Jul 2026 15:39:25 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=none;
-	dmarc=none;
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=fydQPaDx;
+	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	spf=pass (mail.lfdr.de: domain of etnaviv-bounces@lists.freedesktop.org designates 131.252.210.177 as permitted sender) smtp.mailfrom=etnaviv-bounces@lists.freedesktop.org
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3758710F897;
-	Fri, 10 Jul 2026 12:46:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 23F4110F8F6;
+	Fri, 10 Jul 2026 13:39:24 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C73CE10F88F
- for <etnaviv@lists.freedesktop.org>; Fri, 10 Jul 2026 12:46:05 +0000 (UTC)
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
- helo=[IPv6:::1])
- by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1wiAcA-0002rv-If; Fri, 10 Jul 2026 14:45:58 +0200
-Message-ID: <dd7772f2554fc5c949c59c686b313d8bebe763ec.camel@pengutronix.de>
-Subject: Re: [PATCH v3 2/2] drm/etnaviv: Add GPU reset counters
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Christian Gmeiner <christian.gmeiner@gmail.com>, Russell King	
- <linux+etnaviv@armlinux.org.uk>, David Airlie <airlied@gmail.com>, Simona
- Vetter <simona@ffwll.ch>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard	 <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
-Cc: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, kernel-dev@igalia.com, Christian Gmeiner
- <cgmeiner@igalia.com>
-Date: Fri, 10 Jul 2026 14:45:58 +0200
-In-Reply-To: <20260710-etnaviv-reset-notification-v3-2-7a145c8a1d01@igalia.com>
-References: <20260710-etnaviv-reset-notification-v3-0-7a145c8a1d01@igalia.com>
- <20260710-etnaviv-reset-notification-v3-2-7a145c8a1d01@igalia.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.1 (3.60.1-1.fc44) 
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E045B10F8F0;
+ Fri, 10 Jul 2026 13:39:22 +0000 (UTC)
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+ by sea.source.kernel.org (Postfix) with ESMTP id 8B73443C2D;
+ Fri, 10 Jul 2026 13:39:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82F051F000E9;
+ Fri, 10 Jul 2026 13:39:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+ s=k20260515; t=1783690762;
+ bh=hWe5y0XfVr4QQQGo0kaEF8UGbBWB4HZz8UbrXKM7Z28=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To;
+ b=fydQPaDxS/hHGLVdvf977qUXBNSF6t19lqQW/RqVTS+Xk5pgKo0deA+cWIFhyYRvv
+ IeSezmg4COMZrohE1QJ6gnvclo/bOnA8j2IrdEmxinGMPa0Cv9pB6NQzVtyWt96x//
+ 6dNWU5GX7waS+2jwE8BVZ3WNZw/wsfy0C0SSKxIKb3QlnIRCNzHVm3c5Ps0q8mrTgW
+ zsWArKYrCmnfDcrebwcipzmYNQ0mhqZJQQZSGHykLDKtejNlCDmPcno/dc/3rjzGeu
+ kuxVdLjqHCE3kyZgIMxt9Re36Qo0mzOOVMmO0ZdfPfAx62l26oANlEaaJo1XHJjjzR
+ MdqLjT6QyxJDg==
+Date: Fri, 10 Jul 2026 14:38:58 +0100
+From: Lorenzo Stoakes <ljs@kernel.org>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+ Russell King <linux@armlinux.org.uk>, Dinh Nguyen <dinguyen@kernel.org>, 
+ Simon Schuster <schuster.simon@siemens-energy.com>, 
+ "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Helge Deller <deller@gmx.de>, 
+ Jarkko Sakkinen <jarkko@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+ Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+ Ian Abbott <abbotti@mev.co.uk>, 
+ H Hartley Sweeten <hsweeten@visionengravers.com>,
+ Lucas Stach <l.stach@pengutronix.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov <lumag@kernel.org>, 
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Thierry Reding <thierry.reding@kernel.org>, 
+ Mikko Perttunen <mperttunen@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>,
+ Christian Koenig <christian.koenig@amd.com>, Huang Rui <ray.huang@amd.com>,
+ Ankit Agrawal <ankita@nvidia.com>, 
+ Alex Williamson <alex@shazbot.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner <brauner@kernel.org>, Dan Williams <djbw@kernel.org>, 
+ Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
+ Suren Baghdasaryan <surenb@google.com>, "Liam R . Howlett" <liam@infradead.org>,
+ Matthew Wilcox <willy@infradead.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, 
+ Peter Zijlstra <peterz@infradead.org>,
+ Arnaldo Carvalho de Melo <acme@kernel.org>, 
+ Namhyung Kim <namhyung@kernel.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
+ Oleg Nesterov <oleg@redhat.com>, Steven Rostedt <rostedt@goodmis.org>, 
+ SeongJae Park <sj@kernel.org>, Miaohe Lin <linmiaohe@huawei.com>, 
+ Hugh Dickins <hughd@google.com>, Mike Rapoport <rppt@kernel.org>,
+ Kees Cook <kees@kernel.org>, 
+ Paolo Bonzini <pbonzini@redhat.com>, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-parisc@vger.kernel.org,
+ linux-sgx@vger.kernel.org, 
+ etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, 
+ freedreno@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+ kvm@vger.kernel.org, 
+ linux-fsdevel@vger.kernel.org, nvdimm@lists.linux.dev, linux-mm@kvack.org, 
+ iommu@lists.linux.dev, linux-perf-users@vger.kernel.org, 
+ linux-trace-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
+ damon@lists.linux.dev, 
+ Pedro Falcato <pfalcato@suse.de>, Rik van Riel <riel@surriel.com>,
+ Harry Yoo <harry@kernel.org>, Jann Horn <jannh@google.com>
+Subject: Re: [PATCH 02/30] mm: add kdoc comments for vma_start/last_pgoff()
+Message-ID: <alD1h7kHZdX_0I-0@lucifer>
+References: <cover.1782735110.git.ljs@kernel.org>
+ <8c618dfd7de419e3b797b8bd1cd921d4c5b8878b.1782735110.git.ljs@kernel.org>
+ <03762de9-c695-4cdd-8c25-4fc31335ea15@kernel.org>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <03762de9-c695-4cdd-8c25-4fc31335ea15@kernel.org>
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,231 +109,86 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [0.89 / 15.00];
+X-Spamd-Result: default: False [0.69 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:christian.gmeiner@gmail.com,m:linux+etnaviv@armlinux.org.uk,m:airlied@gmail.com,m:simona@ffwll.ch,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:dri-devel@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,m:kernel-dev@igalia.com,m:cgmeiner@igalia.com,m:christiangmeiner@gmail.com,m:linux@armlinux.org.uk,s:lists@lfdr.de];
-	DMARC_NA(0.00)[pengutronix.de];
-	RCVD_COUNT_THREE(0.00)[3];
-	FREEMAIL_TO(0.00)[gmail.com,armlinux.org.uk,ffwll.ch,linux.intel.com,kernel.org,suse.de];
-	FORGED_SENDER(0.00)[l.stach@pengutronix.de,etnaviv-bounces@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[12];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FORWARDED(0.00)[etnaviv@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[etnaviv@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[l.stach@pengutronix.de,etnaviv-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[linux-foundation.org,armlinux.org.uk,kernel.org,siemens-energy.com,hansenpartnership.com,gmx.de,redhat.com,alien8.de,linux.intel.com,mev.co.uk,visionengravers.com,pengutronix.de,gmail.com,ffwll.ch,suse.de,oss.qualcomm.com,ideasonboard.com,nvidia.com,amd.com,shazbot.org,zeniv.linux.org.uk,linux.dev,google.com,infradead.org,samsung.com,goodmis.org,huawei.com,vger.kernel.org,lists.infradead.org,lists.freedesktop.org,lists.linux.dev,kvack.org,googlegroups.com,surriel.com];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	R_DKIM_NA(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	RCPT_COUNT_GT_50(0.00)[75];
+	FROM_NEQ_ENVFROM(0.00)[ljs@kernel.org,etnaviv-bounces@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	TAGGED_RCPT(0.00)[etnaviv];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[pengutronix.de:from_mime,pengutronix.de:email,pengutronix.de:mid,lists.freedesktop.org:from_smtp,igalia.com:email]
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,lucifer:mid]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 5990973AE34
+X-Rspamd-Queue-Id: 76AFC73B532
 
-Am Freitag, dem 10.07.2026 um 14:03 +0200 schrieb Christian Gmeiner:
-> From: Christian Gmeiner <cgmeiner@igalia.com>
->=20
-> The OpenGL and Vulkan robustness extensions let an application detect a
-> GPU reset and check if its own context caused it, so the application can
-> drop the broken context and build a new one. The kernel knows both
-> facts, but etnaviv has no way to report them to userspace.
->=20
-> Add two counters and a RESET_QUERY ioctl that returns both in one call:
-> a per-GPU counter that counts every reset of that GPU, and a per-context
-> counter that only counts the resets this context was guilty of.
-> Userspace compares the counters with saved values: if the context
-> counter moved the context was guilty, if only the GPU counter moved the
-> context was an innocent victim.
->=20
-> The GPU counter is per GPU core and not per device, so a hang on one
-> pipe does not look like an innocent reset to contexts that only use
-> another pipe.
->=20
-> The timeout handler updates both counters and the ioctl reads both
-> under the GPU lock. Without the lock the query could run between the
-> two updates, see only the GPU counter move and report an innocent
-> reset to the guilty context.
->=20
-> Bump the driver minor version so userspace can detect the feature.
->=20
-> Signed-off-by: Christian Gmeiner <cgmeiner@igalia.com>
+On Tue, Jul 07, 2026 at 04:46:13PM +0200, David Hildenbrand (Arm) wrote:
+> On 6/29/26 14:23, Lorenzo Stoakes wrote:
+> > Describe what vma_start_pgoff() and vma_last_pgoff() actually provide in
+> > detail.
+> >
+> > This is in order that we can differentiate this between functions that will
+> > be added in a subsequent patch which provide a different page offset.
+> >
+> > No functional change intended.
+> >
+> > Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
+> > ---
+> >  include/linux/mm.h | 26 ++++++++++++++++++++++++++
+> >  1 file changed, 26 insertions(+)
+> >
+> > diff --git a/include/linux/mm.h b/include/linux/mm.h
+> > index 059144435729..2f00c75e66bd 100644
+> > --- a/include/linux/mm.h
+> > +++ b/include/linux/mm.h
+> > @@ -4278,11 +4278,37 @@ static inline unsigned long vma_pages(const struct vm_area_struct *vma)
+> >  	return (vma->vm_end - vma->vm_start) >> PAGE_SHIFT;
+> >  }
+> >
+> > +/**
+> > + * vma_start_pgoff() - Get the page offset of the start of @vma
+> > + * @vma: The VMA whose page offset is required.
+> > + *
+> > + * If the VMA is file-backed, this is the page offset into the file.
+> > + *
+> > + * If the VMA is anonymous, this is the virtual page offset of the start of the
+> > + * VMA - if unfaulted, then vma->vm_start >> PAGE_SHIFT, if faulted then the
+> > + * virtual page offset at the time of first fault.
+> > + *
+> > + * Note that if @vma is a MAP_PRIVATE file-backed mapping, then this returns the
+> > + * file offset.
+>
+> There is the ugly case of @vma being a MAP_PRIVATE PFNMAP mapping, where it
+> returns something different.
 
-Reviewed-by: Lucas Stach <l.stach@pengutronix.de>
+Yup, the pfn  I will update doc to mention this abomination too.
 
-> ---
->  drivers/gpu/drm/etnaviv/etnaviv_drv.c   | 29 +++++++++++++++++++++++++++=
-+-
->  drivers/gpu/drm/etnaviv/etnaviv_drv.h   |  1 +
->  drivers/gpu/drm/etnaviv/etnaviv_gpu.h   |  2 ++
->  drivers/gpu/drm/etnaviv/etnaviv_sched.c |  5 +++++
->  include/uapi/drm/etnaviv_drm.h          | 19 ++++++++++++++++++-
->  5 files changed, 54 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etna=
-viv/etnaviv_drv.c
-> index a27ed014fb4e..5c50e5a24408 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-> @@ -296,6 +296,32 @@ static int etnaviv_ioctl_get_param(struct drm_device=
- *dev, void *data,
->  	return etnaviv_gpu_get_param(gpu, args->param, &args->value);
->  }
-> =20
-> +static int etnaviv_ioctl_reset_query(struct drm_device *dev, void *data,
-> +		struct drm_file *file)
-> +{
-> +	struct etnaviv_drm_private *priv =3D dev->dev_private;
-> +	struct etnaviv_file_private *ctx =3D file->driver_priv;
-> +	struct drm_etnaviv_reset_query *args =3D data;
-> +	struct etnaviv_gpu *gpu;
-> +
-> +	if (args->flags)
-> +		return -EINVAL;
-> +
-> +	if (args->pipe >=3D ETNA_MAX_PIPES)
-> +		return -EINVAL;
-> +
-> +	gpu =3D priv->gpu[args->pipe];
-> +	if (!gpu)
-> +		return -ENXIO;
-> +
-> +	mutex_lock(&gpu->lock);
-> +	args->global_reset_counter =3D gpu->reset_counter;
-> +	args->context_reset_counter =3D ctx->reset_counter;
-> +	mutex_unlock(&gpu->lock);
-> +
-> +	return 0;
-> +}
-> +
->  static int etnaviv_ioctl_gem_new(struct drm_device *dev, void *data,
->  		struct drm_file *file)
->  {
-> @@ -502,6 +528,7 @@ static const struct drm_ioctl_desc etnaviv_ioctls[] =
-=3D {
->  	ETNA_IOCTL(GEM_WAIT,     gem_wait,     DRM_RENDER_ALLOW),
->  	ETNA_IOCTL(PM_QUERY_DOM, pm_query_dom, DRM_RENDER_ALLOW),
->  	ETNA_IOCTL(PM_QUERY_SIG, pm_query_sig, DRM_RENDER_ALLOW),
-> +	ETNA_IOCTL(RESET_QUERY,  reset_query,  DRM_RENDER_ALLOW),
->  };
-> =20
->  static void etnaviv_show_fdinfo(struct drm_printer *p, struct drm_file *=
-file)
-> @@ -530,7 +557,7 @@ static const struct drm_driver etnaviv_drm_driver =3D=
- {
->  	.name               =3D "etnaviv",
->  	.desc               =3D "etnaviv DRM",
->  	.major              =3D 1,
-> -	.minor              =3D 4,
-> +	.minor              =3D 5,
->  };
-> =20
->  /*
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.h b/drivers/gpu/drm/etna=
-viv/etnaviv_drv.h
-> index cba4323ae589..9c348aa7f8d3 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.h
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.h
-> @@ -34,6 +34,7 @@ struct etnaviv_file_private {
->  	int id;
->  	struct etnaviv_iommu_context	*mmu;
->  	struct drm_sched_entity		sched_entity[ETNA_MAX_PIPES];
-> +	u32 reset_counter;
->  };
-> =20
->  struct etnaviv_drm_private {
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h b/drivers/gpu/drm/etna=
-viv/etnaviv_gpu.h
-> index 5cb46c84e03a..a97780131426 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
-> @@ -148,6 +148,8 @@ struct etnaviv_gpu {
->  	u32 hangcheck_primid;
->  	u32 hangcheck_fence;
-> =20
-> +	u32 reset_counter;
-> +
->  	void __iomem *mmio;
->  	int irq;
-> =20
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sched.c b/drivers/gpu/drm/et=
-naviv/etnaviv_sched.c
-> index 139e6e38784b..6e9b677122e3 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-> @@ -79,6 +79,11 @@ static enum drm_gpu_sched_stat etnaviv_sched_timedout_=
-job(struct drm_sched_job
->  	if(sched_job)
->  		drm_sched_increase_karma(sched_job);
-> =20
-> +	mutex_lock(&gpu->lock);
-> +	gpu->reset_counter++;
-> +	submit->ctx->reset_counter++;
-> +	mutex_unlock(&gpu->lock);
-> +
->  	/* get the GPU back into the init state */
->  	etnaviv_core_dump(submit);
->  	etnaviv_gpu_recover_hang(submit);
-> diff --git a/include/uapi/drm/etnaviv_drm.h b/include/uapi/drm/etnaviv_dr=
-m.h
-> index af024d90453d..b50a3a0799e6 100644
-> --- a/include/uapi/drm/etnaviv_drm.h
-> +++ b/include/uapi/drm/etnaviv_drm.h
-> @@ -265,6 +265,21 @@ struct drm_etnaviv_pm_signal {
->  	char  name[64];   /* out, name of domain */
->  };
-> =20
-> +/*
-> + * Reset status query:
-> + *
-> + * Both counters start at zero and only ever increase. Userspace saves
-> + * both values and compares them on a later query: if the context
-> + * counter moved this context caused a reset, if only the global
-> + * counter moved the GPU was reset on behalf of another context.
-> + */
-> +struct drm_etnaviv_reset_query {
-> +	__u32 pipe;			/* in */
-> +	__u32 flags;			/* in, must be 0 */
-> +	__u32 global_reset_counter;	/* out, all resets of this GPU core */
-> +	__u32 context_reset_counter;	/* out, resets caused by this context */
-> +};
-> +
->  #define DRM_ETNAVIV_GET_PARAM          0x00
->  /* placeholder:
->  #define DRM_ETNAVIV_SET_PARAM          0x01
-> @@ -279,7 +294,8 @@ struct drm_etnaviv_pm_signal {
->  #define DRM_ETNAVIV_GEM_WAIT           0x09
->  #define DRM_ETNAVIV_PM_QUERY_DOM       0x0a
->  #define DRM_ETNAVIV_PM_QUERY_SIG       0x0b
-> -#define DRM_ETNAVIV_NUM_IOCTLS         0x0c
-> +#define DRM_ETNAVIV_RESET_QUERY        0x0c
-> +#define DRM_ETNAVIV_NUM_IOCTLS         0x0d
-> =20
->  #define DRM_IOCTL_ETNAVIV_GET_PARAM    DRM_IOWR(DRM_COMMAND_BASE + DRM_E=
-TNAVIV_GET_PARAM, struct drm_etnaviv_param)
->  #define DRM_IOCTL_ETNAVIV_GEM_NEW      DRM_IOWR(DRM_COMMAND_BASE + DRM_E=
-TNAVIV_GEM_NEW, struct drm_etnaviv_gem_new)
-> @@ -292,6 +308,7 @@ struct drm_etnaviv_pm_signal {
->  #define DRM_IOCTL_ETNAVIV_GEM_WAIT     DRM_IOW(DRM_COMMAND_BASE + DRM_ET=
-NAVIV_GEM_WAIT, struct drm_etnaviv_gem_wait)
->  #define DRM_IOCTL_ETNAVIV_PM_QUERY_DOM DRM_IOWR(DRM_COMMAND_BASE + DRM_E=
-TNAVIV_PM_QUERY_DOM, struct drm_etnaviv_pm_domain)
->  #define DRM_IOCTL_ETNAVIV_PM_QUERY_SIG DRM_IOWR(DRM_COMMAND_BASE + DRM_E=
-TNAVIV_PM_QUERY_SIG, struct drm_etnaviv_pm_signal)
-> +#define DRM_IOCTL_ETNAVIV_RESET_QUERY  DRM_IOWR(DRM_COMMAND_BASE + DRM_E=
-TNAVIV_RESET_QUERY, struct drm_etnaviv_reset_query)
-> =20
->  #if defined(__cplusplus)
->  }
+The virt pgoff stuff in the RFC fixes this also.
+
+>
+> (remap_pfn_range_prepare_vma() -> vma->vm_pgoff set to PFN)
+>
+> --
+> Cheers,
+>
+> David
+
+Cheers, Lorenzo
