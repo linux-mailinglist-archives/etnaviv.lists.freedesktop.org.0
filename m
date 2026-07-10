@@ -2,56 +2,93 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 7+J0HPyoUGoY3AIAu9opvQ
+	id C43+HMy0UGr73gIAu9opvQ
 	(envelope-from <etnaviv-bounces@lists.freedesktop.org>)
-	for <lists+etnaviv@lfdr.de>; Fri, 10 Jul 2026 10:10:36 +0200
+	for <lists+etnaviv@lfdr.de>; Fri, 10 Jul 2026 11:01:00 +0200
 X-Original-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0A5B7384CF
-	for <lists+etnaviv@lfdr.de>; Fri, 10 Jul 2026 10:10:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1133E738C18
+	for <lists+etnaviv@lfdr.de>; Fri, 10 Jul 2026 11:00:55 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=none;
-	dmarc=none;
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=g2VD1UWv;
+	dmarc=pass (policy=none) header.from=gmail.com;
 	spf=pass (mail.lfdr.de: domain of etnaviv-bounces@lists.freedesktop.org designates 131.252.210.177 as permitted sender) smtp.mailfrom=etnaviv-bounces@lists.freedesktop.org
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D3AC210E14D;
-	Fri, 10 Jul 2026 08:10:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE0DB10E160;
+	Fri, 10 Jul 2026 09:00:53 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D29FB10E14D
- for <etnaviv@lists.freedesktop.org>; Fri, 10 Jul 2026 08:10:33 +0000 (UTC)
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
- helo=[IPv6:::1])
- by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1wi6JR-0005QS-ED; Fri, 10 Jul 2026 10:10:21 +0200
-Message-ID: <26876decb5bcf4df8bb01abe47f9e70a4e5d63ef.camel@pengutronix.de>
-Subject: Re: [PATCH 2/2] drm/etnaviv: Add GPU reset counters
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Christian Gmeiner <christian.gmeiner@gmail.com>
-Cc: Russell King <linux+etnaviv@armlinux.org.uk>, David Airlie	
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst	
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, etnaviv@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, 	linux-kernel@vger.kernel.org,
- kernel-dev@igalia.com, Christian Gmeiner	 <cgmeiner@igalia.com>
-Date: Fri, 10 Jul 2026 10:10:20 +0200
-In-Reply-To: <CAH9NwWe9gDjg-6_e1KHdUQ8_Pi2sjhfDizZGzWavQAnnuymQ2g@mail.gmail.com>
-References: <20260709-etnaviv-reset-notification-v1-0-64c617496958@igalia.com>
- <20260709-etnaviv-reset-notification-v1-2-64c617496958@igalia.com>
- <bb5b8c8ff15f8d8b9ad9a61e4887c14b9f77f3d6.camel@pengutronix.de>
- <CAH9NwWe9gDjg-6_e1KHdUQ8_Pi2sjhfDizZGzWavQAnnuymQ2g@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.1 (3.60.1-1.fc44) 
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
+ [209.85.221.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B62610E15E
+ for <etnaviv@lists.freedesktop.org>; Fri, 10 Jul 2026 09:00:52 +0000 (UTC)
+Received: by mail-wr1-f48.google.com with SMTP id
+ ffacd0b85a97d-474560436c3so664852f8f.0
+ for <etnaviv@lists.freedesktop.org>; Fri, 10 Jul 2026 02:00:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20251104; t=1783674050; x=1784278850; darn=lists.freedesktop.org;
+ h=cc:to:content-transfer-encoding:content-type:mime-version
+ :message-id:date:subject:from:from:to:cc:subject:date:message-id
+ :reply-to:content-type;
+ bh=Qt+LaAqPvwUm1y0oFk6gJUAvHbxtXN/0WfCUetMYAYg=;
+ b=g2VD1UWvcRb57VaW8DWcRhBPji921dHMiPluDGy80h2N9PTR3LtY/dw2crSyM8FViH
+ 9K9cPIQjm8YXYk7p7qxXs0q+/iedUbyMMeygLM0VqHCiahSIFUl0qBxemkgFIQUWgeNM
+ 2sQ7nW8NFsfi3FDX1R/NGU3emH7Zk63AckXQIoyOZghWcto6yDyr9vhvnIk2PE0nybZp
+ SDAZmGM3yUTbZySsNB8tmMQ+lBblzMP7zyexh1pRBS/Zj31GOpp6rtMogIxc6Qh0YdRc
+ 4lcA4ecIQDlP2s6oPJX0rEm90K7YIgChER+GJufvNfyMESfdmx3tr2a0R7p4aJjz4Y1k
+ hSaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20251104; t=1783674050; x=1784278850;
+ h=cc:to:content-transfer-encoding:content-type:mime-version
+ :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to:content-type;
+ bh=Qt+LaAqPvwUm1y0oFk6gJUAvHbxtXN/0WfCUetMYAYg=;
+ b=YJT+OwMRa0hlGt4/2s3/6iNKXX1jnV53mKOJ8jsPVGEecVaIKJ53ipXHeWOfs3fL5V
+ ZIT+jrU/6oND6/wv4ss2OjqPozVVg3ROeFwFT4Gpt+tcPVIwyzHGJManjLf8hTs9jMcx
+ eCaHxqY+6/BGf7ai5BsWXXhJCM3UXghlgBEQETL9CitIJcUbghD7WhKPaWn1rjIkTPur
+ qeqwnhxvvT1P/JaqsPr2yw4vwrlY7miGJX2dgzPEylj3RNRUuvxcKIFegJUzB1ZzX6wt
+ shTx76vKlztaB8HVt4+Akx7bLfGxiSUHbLhyY+1uzrGAb/Jk3HmKzQygZwvt7iSN/UTd
+ /e1A==
+X-Gm-Message-State: AOJu0YzDDKBJEaDczQLdpCU20uakpXpqCvUVPE4NlYSK2ea5F4GtyLWD
+ COyLzUyOq2nRa3CiZCLe2KeCiAxS6N6Qtx7igQo9r7fg0MfsElGVJxbr5sagOJo6
+X-Gm-Gg: AfdE7cmQoCRSjmcqVYNzqmn5S05rxaW5qZPofy88R3QeKtax5HAntW+gY0SWVCa65rU
+ VCBGd3IWFLVsN6PrKiyPBzBqB7bkbBYg2Qd1/f++3KvUMGO5nA+NyzlOgZWZjPv6XJB00sRDk/8
+ sTjHjG2CuJ5SE9Nwe8bHn/DH+Xp5ZumXic6tuvTXGJVyPbEOQ7aIE13BF7zZiE2nV1Yh680MZaR
+ R7CE9jgJv1PxRMq8GIdBv3uzkKlADxGZsq/BOco9UUuKBNl3G1iYVxm8FUfMmUqr9ELWM0OHNie
+ kmRW7YSZlJIoKx0ajpmfgTPMInRZDBu5IXE8BuJ28x9mqgs2+5XnoW77tRft+sGlP4CWtke+qYk
+ yFt6rLF6QQXCmqRGoaGrlvZpoJpiPzBoqDjSajRFWXiTk4IAlJ8TpPdgpKCM3651CsEhqdH7Bzw
+ znRXb7p2GTCCby12NPqzl1sdv7ii0m1dxJLwMMNUbUGHuhqpgrcqdteaADKcttlvPeI8BXZHDQu
+ Tv5Zbl6kRY5bVfm8ukh7wq9QrfJ5btumQ==
+X-Received: by 2002:a5d:588a:0:b0:475:cd6f:721e with SMTP id
+ ffacd0b85a97d-47df07a2965mr11282514f8f.44.1783674049819; 
+ Fri, 10 Jul 2026 02:00:49 -0700 (PDT)
+Received: from localhost.localdomain (62-178-82-42.cable.dynamic.surfer.at.
+ [62.178.82.42]) by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-47aa039b0cesm59386076f8f.22.2026.07.10.02.00.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 10 Jul 2026 02:00:48 -0700 (PDT)
+From: Christian Gmeiner <christian.gmeiner@gmail.com>
+Subject: [PATCH v2 0/2] drm/etnaviv: Add GPU reset counters for robustness
+Date: Fri, 10 Jul 2026 11:00:45 +0200
+Message-Id: <20260710-etnaviv-reset-notification-v2-0-90cfebcf22a2@igalia.com>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: etnaviv@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/33NTQrCMBCG4auUrB1J+pO2rryHdDGN03ZAk5KEo
+ JTe3Vhw6/L9YJ7ZRCDPFMSl2ISnxIGdzVGeCmEWtDMB33OLUpZatrIDihYTJ/AUKIJ1kSc2GPM
+ ZjLJqVVOhQhxFBlZPE78O/DbkXjhE59/Hr6S+64/t/7FJgQRdG63autd90115xgfj2binGPZ9/
+ wBudgQ0xQAAAA==
+X-Change-ID: 20260708-etnaviv-reset-notification-b037153a1aab
+To: Lucas Stach <l.stach@pengutronix.de>, 
+ Russell King <linux+etnaviv@armlinux.org.uk>, 
+ Christian Gmeiner <christian.gmeiner@gmail.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, kernel-dev@igalia.com, 
+ Christian Gmeiner <cgmeiner@igalia.com>
+X-Mailer: b4 0.14.3
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,113 +103,103 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/etnaviv>,
 Errors-To: etnaviv-bounces@lists.freedesktop.org
 Sender: "etnaviv" <etnaviv-bounces@lists.freedesktop.org>
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [0.89 / 15.00];
+X-Spamd-Result: default: False [0.19 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	MIME_GOOD(-0.10)[text/plain];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:christian.gmeiner@gmail.com,m:linux+etnaviv@armlinux.org.uk,m:airlied@gmail.com,m:simona@ffwll.ch,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:dri-devel@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,m:kernel-dev@igalia.com,m:cgmeiner@igalia.com,m:christiangmeiner@gmail.com,m:linux@armlinux.org.uk,s:lists@lfdr.de];
-	DMARC_NA(0.00)[pengutronix.de];
-	RCVD_COUNT_THREE(0.00)[3];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FORGED_SENDER(0.00)[l.stach@pengutronix.de,etnaviv-bounces@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[12];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS(0.00)[m:l.stach@pengutronix.de,m:linux+etnaviv@armlinux.org.uk,m:christian.gmeiner@gmail.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:dri-devel@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,m:kernel-dev@igalia.com,m:cgmeiner@igalia.com,m:linux@armlinux.org.uk,m:christiangmeiner@gmail.com,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER(0.00)[christiangmeiner@gmail.com,etnaviv-bounces@lists.freedesktop.org];
 	ARC_NA(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FREEMAIL_TO(0.00)[pengutronix.de,armlinux.org.uk,gmail.com,ffwll.ch,linux.intel.com,kernel.org,suse.de];
+	RCPT_COUNT_TWELVE(0.00)[13];
 	FORWARDED(0.00)[etnaviv@lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[etnaviv@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[l.stach@pengutronix.de,etnaviv-bounces@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[christiangmeiner@gmail.com,etnaviv-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[armlinux.org.uk,gmail.com,ffwll.ch,linux.intel.com,kernel.org,suse.de,lists.freedesktop.org,vger.kernel.org,igalia.com];
+	TO_DN_SOME(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	R_DKIM_NA(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TAGGED_RCPT(0.00)[etnaviv];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.freedesktop.org:from_smtp,pengutronix.de:mid,pengutronix.de:from_mime,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+	RSPAMD_EMAILBL_FAIL(0.00)[etnaviv-bounces@lists.freedesktop.org:query timed out,christiangmeiner@gmail.com:query timed out];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gitlab.freedesktop.org:url,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,lists.freedesktop.org:from_smtp,igalia.com:mid,igalia.com:email]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: F0A5B7384CF
+X-Rspamd-Queue-Id: 1133E738C18
 
-Am Donnerstag, dem 09.07.2026 um 21:41 +0200 schrieb Christian Gmeiner:
-> Hi Lucas,
->=20
-> > > The OpenGL and Vulkan robustness extensions let an application detect=
- a
-> > > GPU reset and check if its own context caused it, so the application =
-can
-> > > drop the broken context and build a new one. The kernel knows both
-> > > facts, but etnaviv has no way to report them to userspace.
-> > >=20
-> > > Add two counters and expose them through GET_PARAM: a per-GPU counter
-> > > that counts every reset of that GPU, and a per-context counter that o=
-nly
-> > > counts the resets this context was guilty of. Userspace compares the
-> > > counters with saved values: if the context counter moved the context =
-was
-> > > guilty, if only the GPU counter moved the context was an innocent
-> > > victim.
-> >=20
-> > I don't really agree with the design of exposing this through
-> > GET_PARAM.
-> >=20
-> >=20
-> > First it assumes that each etnaviv_file_private can only have a single
-> > context, something that is true today but which I would very much like
-> > to change to rid of false dependencies when the application uses
-> > multiple GL contexts through the same screen. I have a rework to do
-> > this in the pipe, which I didn't get around to finish, yet. While I
-> > don't want to block any of your work on this rework, I also wouldn't
-> > like to see UAPI land which bakes in the single context per file
-> > private assumption.
-> >=20
->=20
-> Makes sense. I only picked it because msm and v3d expose their fault
-> counters that way.
->=20
-> For v2 I have replaced the two params with a dedicated ioctl:
->=20
-> struct drm_etnaviv_reset_query {
->     __u32 pipe;            /* in */
->     __u32 flags;            /* in, must be 0 */
->     __u64 global_reset_counter;    /* out */
->     __u64 context_reset_counter;    /* out */
-> };
->=20
-> flags must be zero for now and is rejected with EINVAL otherwise, so
-> your multi context rework can later add a flag plus a context field to
-> query a specific context.
->=20
-Looks good to me.
+The OpenGL robustness extensions (GL_KHR_robustness) and Vulkan
+(VK_ERROR_DEVICE_LOST) let an application detect a GPU reset and check
+whether its own context caused it, so it can throw away the broken
+context and build a new one. etnaviv already resets the GPU after a
+hang, but userspace has no way to learn about it.
 
-> >=20
-> > Second, with this design each userspace query incurs two roundtrips
-> > into the kernel, as userspace needs to know both counter values to tell
-> > innocent vs guilty resets apart.
-> >=20
-> > My vote would be on adding a new ioctl to query both reset counters at
-> > the same time, with a flags argument baked in, so it can be extended
-> > once I manage to finish the multi context rework.
-> >=20
->=20
-> One thing to note: the global counter is per GPU core, so a context
-> that uses more than one pipe still needs one query per pipe. I think
-> that is fine for the robustness use case, but tell me if you would
-> rather have a variant that returns all pipes at once.
+This series adds two counters and a RESET_QUERY ioctl that returns both
+in one call:
 
-I think the current design is fine. While there might be some
-configurations where a context uses multiple pipes (2D GPU texture
-upload or one of those chips with multiple 3D GPUs), I think that those
-are sufficiently rare that we might want to deal with the additional
-kernel transitions for those rather than complicating the ioctl for the
-common case of a context using a single pipe.
+- a global counter that counts every reset of a GPU core.
+- a context counter that only counts the resets the calling context was
+  guilty of.
 
-Regards,
-Lucas
+Userspace samples both values and compares them later: if the context
+counter moved the context was guilty, if only the global counter moved
+the context was an innocent victim. That is all that is needed to
+implement glGetGraphicsResetStatus() and Vulkan device loss.
+
+The global counter is kept per GPU core and not per device, so a hang
+on one pipe does not look like an innocent reset to contexts that only
+use another pipe.
+
+The first patch is preparation: the counters are updated from the
+scheduler timeout worker, which can race with the DRM file being
+closed, so struct etnaviv_file_private becomes reference counted and
+every submit holds a reference.
+
+Link to the Mesa MR implementing the userspace side:
+https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/42826
+
+Signed-off-by: Christian Gmeiner <cgmeiner@igalia.com>
+---
+Changes in v2:
+- Replace the two GET_PARAM values with a dedicated RESET_QUERY ioctl
+  that returns both counters in one call. The ioctl has a flags field
+  that must be zero for now, so the query can later be extended to name
+  a specific context once a DRM file can hold more than one context
+  (Lucas).
+- Make the reset counters plain u32 instead of atomics (Lucas).
+- Use __u32 for the ioctl counter fields to match the internal
+  counters, following i915 GET_RESET_STATS.
+- Link to v1: https://lore.kernel.org/r/20260709-etnaviv-reset-notification-v1-0-64c617496958@igalia.com
+
+---
+Christian Gmeiner (2):
+      drm/etnaviv: Reference count struct etnaviv_file_private
+      drm/etnaviv: Add GPU reset counters
+
+ drivers/gpu/drm/etnaviv/etnaviv_drv.c        | 44 ++++++++++++++++++++++++++--
+ drivers/gpu/drm/etnaviv/etnaviv_drv.h        | 12 ++++++++
+ drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c |  5 +++-
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.h        |  2 ++
+ drivers/gpu/drm/etnaviv/etnaviv_sched.c      |  3 ++
+ include/uapi/drm/etnaviv_drm.h               | 19 +++++++++++-
+ 6 files changed, 81 insertions(+), 4 deletions(-)
+---
+base-commit: 8cdeaa50eae8dad34885515f62559ee83e7e8dda
+change-id: 20260708-etnaviv-reset-notification-b037153a1aab
+
+Best regards,
+-- 
+Christian Gmeiner <cgmeiner@igalia.com>
+
