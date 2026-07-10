@@ -2,47 +2,48 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id mGVnAIAHVGpFhAMAu9opvQ
+	id eekfJoEHVGpbhAMAu9opvQ
 	(envelope-from <etnaviv-bounces@lists.freedesktop.org>)
-	for <lists+etnaviv@lfdr.de>; Sun, 12 Jul 2026 23:30:40 +0200
+	for <lists+etnaviv@lfdr.de>; Sun, 12 Jul 2026 23:30:41 +0200
 X-Original-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4645C745FA5
-	for <lists+etnaviv@lfdr.de>; Sun, 12 Jul 2026 23:30:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19A4A745FB5
+	for <lists+etnaviv@lfdr.de>; Sun, 12 Jul 2026 23:30:41 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=YNDixLET;
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=cmnlAT5w;
 	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	spf=pass (mail.lfdr.de: domain of etnaviv-bounces@lists.freedesktop.org designates 131.252.210.177 as permitted sender) smtp.mailfrom=etnaviv-bounces@lists.freedesktop.org
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05CF810E4DB;
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED10C10E4EA;
 	Sun, 12 Jul 2026 21:30:38 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D33A10E242;
- Fri, 10 Jul 2026 20:22:10 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 32BEE10E21D;
+ Fri, 10 Jul 2026 20:22:33 +0000 (UTC)
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
- by sea.source.kernel.org (Postfix) with ESMTP id E4F08401FD;
- Fri, 10 Jul 2026 20:22:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 161461F000E9;
- Fri, 10 Jul 2026 20:21:46 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 0CD014073C;
+ Fri, 10 Jul 2026 20:22:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41A311F00A3A;
+ Fri, 10 Jul 2026 20:22:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
- s=k20260515; t=1783714929;
- bh=mp2XcEzmrsUMsE6Z8vlg0yAD1+XKOgCHxsSBkhx0qCg=;
+ s=k20260515; t=1783714952;
+ bh=pXMh/gI7Ejl6sQaq6pNCmizKlHMxVh3sNzK86kWl2h4=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc;
- b=YNDixLETTihnC81MSj5vI2w82St/z2bpWmYfKR8ywUGWm3Jp3GYvqd7wjfiVfTRbg
- J4IfC7fCrwanGf6IJfkBZoOzbWd5REyZOciwm+c+SNLmMSkNXr9JC6qBv7H5tO6MlJ
- XLpER1fSQILJDtWnNEHpFgaEaCQjFjRgc57TuNj+cVvkEcW55HnugAjEYQRCVU4Sn8
- lrJn3V6v4WujodJw3PNzBE6sug/YLghVyz4gNrEl98e/IZkI9SyBn7OYmnBLAraswy
- RRmsSaDGg2eFi7Dr/+iUd6PPljAxeHSxrN/6w5OIhDkKLEDsrKLlceKXQkUDBzcxxx
- I2w5Kwx8etXxw==
+ b=cmnlAT5wzlYt3brmt40tysj0J5B1gKaWPdvxMOyfuvulZ+5sH8m2RssNtYd7kJ9hM
+ 3JEic/R7P0blm57mcQ0VabhZOtCOAB4dhCKn5vcEPWkjCnXEjOckc/MFsTHkCovBo4
+ dEg/4zgFADMecv/GyNsJqD96QSHp1WhhbtMbrSCjAIUGp0fIoob9V7aAjMbXb5Yjae
+ iBWFOm0BbeaaXFduRQLeC1gA41fycIKRojdC7cmdk7PU3JZWYDX4zaGQz3M2yYKf1w
+ SU3WfX6qJrW400SI9+5KSdVXY3Bp5Pl2jDAeKWzdIH9ZClW5J9NYnrxx0HvA7R6dwl
+ m3LRjk41KWVYQ==
 From: Lorenzo Stoakes <ljs@kernel.org>
-Date: Fri, 10 Jul 2026 21:16:53 +0100
-Subject: [PATCH v2 12/33] MAINTAINERS: Move mm/interval_tree.c to rmap section
+Date: Fri, 10 Jul 2026 21:16:54 +0100
+Subject: [PATCH v2 13/33] mm/vma: introduce and use vmg_pages(),
+ vmg_[start, end]_pgoff()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260710-b4-pre-scalable-cow-v2-12-2a5aa403d977@kernel.org>
+Message-Id: <20260710-b4-pre-scalable-cow-v2-13-2a5aa403d977@kernel.org>
 References: <20260710-b4-pre-scalable-cow-v2-0-2a5aa403d977@kernel.org>
 In-Reply-To: <20260710-b4-pre-scalable-cow-v2-0-2a5aa403d977@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>, 
@@ -123,12 +124,12 @@ Cc: Lorenzo Stoakes <ljs@kernel.org>, linux-mm@kvack.org,
  freedreno@lists.freedesktop.org, linux-tegra@vger.kernel.org, 
  kvm@vger.kernel.org, Russell King <linux+etnaviv@armlinux.org.uk>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=909; i=ljs@kernel.org;
- h=from:subject:message-id; bh=mLgNYeeooTfeSgODnN2j9KxYGDmFa4rlCkKK11Bijx0=;
- b=owGbwMvMwCV2fu7ZrsZH9SKMp9WSGLICg62b0rarxqkEWXU1vhHT+ft4/uldajUyJw9vXaP5a
- L3kyaT/HaUsDGJcDLJiiizPv4jvDxIJm9d5wd8NZg4rE8gQBi5OAZgIuxrD/0qvjxoNTUff7Xl0
- ND5tn1zYsuAJxRs7+ez43wsU8Sldfs7I8OLfR6m7kr8nLuTfXF7/67wLy+JVk03/vGQyPpKWZui
- gxg8A
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3014; i=ljs@kernel.org;
+ h=from:subject:message-id; bh=9w7HTwMbIR3XlC1PY7gTQx5p4l7ISN45M8ruExx6jwU=;
+ b=owGbwMvMwCV2fu7ZrsZH9SKMp9WSGLICg61/Za29l6e37xfjD8NZsUc+LmZ86SXA+JLr6YcvJ
+ poWjBckOkpZGMS4GGTFFFmefxHfHyQSNq/zgr8bzBxWJpAhDFycAjARbUmG/9VbDidYv8s915f2
+ n5N9N+szsfC93vKXTXQ3b1lYeO7JPxtGhmm3bFJOBQZ+EvJqXVpxqdBDXn1u0dxHp0v5fk/fOXu
+ jNCcA
 X-Developer-Key: i=ljs@kernel.org; a=openpgp;
  fpr=E7F417BF5214569E89D04F46CF9DCD8A81E27F14
 X-Mailman-Approved-At: Sun, 12 Jul 2026 21:30:36 +0000
@@ -150,62 +151,121 @@ X-Spamd-Result: default: False [1.19 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	DATE_IN_PAST(1.00)[49];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	MAILLIST(-0.20)[mailman];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_TO(0.00)[linux-foundation.org,kernel.org,infradead.org,google.com,suse.com,surriel.com,linux.dev,suse.de,armlinux.org.uk,siemens-energy.com,HansenPartnership.com,gmx.de,zeniv.linux.org.uk,suse.cz,redhat.com,arm.com,linux.intel.com,intel.com,linaro.org,nvidia.com,linux.alibaba.com,huawei.com,gmail.com,zte.com.cn,sk.com,gourry.net,samsung.com,goodmis.org,efficios.com,alien8.de,zytor.com,mev.co.uk,visionengravers.com,pengutronix.de,ffwll.ch,oss.qualcomm.com,poorly.run,somainline.org,ideasonboard.com,amd.com,ziepe.ca,shazbot.org];
-	MIME_TRACE(0.00)[0:+];
 	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_TO(0.00)[linux-foundation.org,kernel.org,infradead.org,google.com,suse.com,surriel.com,linux.dev,suse.de,armlinux.org.uk,siemens-energy.com,HansenPartnership.com,gmx.de,zeniv.linux.org.uk,suse.cz,redhat.com,arm.com,linux.intel.com,intel.com,linaro.org,nvidia.com,linux.alibaba.com,huawei.com,gmail.com,zte.com.cn,sk.com,gourry.net,samsung.com,goodmis.org,efficios.com,alien8.de,zytor.com,mev.co.uk,visionengravers.com,pengutronix.de,ffwll.ch,oss.qualcomm.com,poorly.run,somainline.org,ideasonboard.com,amd.com,ziepe.ca,shazbot.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
 	RCPT_COUNT_GT_50(0.00)[122];
 	FROM_NEQ_ENVFROM(0.00)[ljs@kernel.org,etnaviv-bounces@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[etnaviv];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[kvack.org:email,linux.dev:email]
+	FORGED_SENDER_MAILLIST(0.00)[]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 4645C745FA5
+X-Rspamd-Queue-Id: 19A4A745FB5
 
-This file implements code for the interval trees used by the file and anon
-rmap implementation, so belongs in the rmap section.
+In the VMA logic we often need to determine the number of pages in the
+specified merge range, as well as the start and end page offsets of that
+range.
 
-Acked-by: Pedro Falcato <pfalcato@suse.de>
+Introduce and use helpers for these purposes.
+
+No functional change intended.
+
+Reviewed-by: Pedro Falcato <pfalcato@suse.de>
+Reviewed-by: Gregory Price <gourry@gourry.net>
 Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
 ---
- MAINTAINERS | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ mm/vma.c | 11 ++++-------
+ mm/vma.h | 17 +++++++++++++++++
+ 2 files changed, 21 insertions(+), 7 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index c3e535ca4bef..ef168b583325 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -17208,6 +17208,7 @@ R:	Lance Yang <lance.yang@linux.dev>
- L:	linux-mm@kvack.org
- S:	Maintained
- F:	include/linux/rmap.h
-+F:	mm/interval_tree.c
- F:	mm/page_vma_mapped.c
- F:	mm/rmap.c
- F:	tools/testing/selftests/mm/rmap.c
-@@ -17313,7 +17314,6 @@ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm
- F:	include/trace/events/mmap.h
- F:	fs/proc/task_mmu.c
- F:	fs/proc/task_nommu.c
--F:	mm/interval_tree.c
- F:	mm/mincore.c
- F:	mm/mlock.c
- F:	mm/mmap.c
+diff --git a/mm/vma.c b/mm/vma.c
+index 35ba3475128f..995de8198fbb 100644
+--- a/mm/vma.c
++++ b/mm/vma.c
+@@ -197,11 +197,9 @@ static void init_multi_vma_prep(struct vma_prepare *vp,
+  */
+ static bool can_vma_merge_before(struct vma_merge_struct *vmg)
+ {
+-	pgoff_t pglen = PHYS_PFN(vmg->end - vmg->start);
+-
+ 	if (is_mergeable_vma(vmg, /* merge_next = */ true) &&
+ 	    is_mergeable_anon_vma(vmg, /* merge_next = */ true)) {
+-		if (vmg->next->vm_pgoff == vmg->pgoff + pglen)
++		if (vmg_end_pgoff(vmg) == vma_start_pgoff(vmg->next))
+ 			return true;
+ 	}
+ 
+@@ -221,7 +219,7 @@ static bool can_vma_merge_after(struct vma_merge_struct *vmg)
+ {
+ 	if (is_mergeable_vma(vmg, /* merge_next = */ false) &&
+ 	    is_mergeable_anon_vma(vmg, /* merge_next = */ false)) {
+-		if (vmg->prev->vm_pgoff + vma_pages(vmg->prev) == vmg->pgoff)
++		if (vma_end_pgoff(vmg->prev) == vmg_start_pgoff(vmg))
+ 			return true;
+ 	}
+ 	return false;
+@@ -759,7 +757,7 @@ static int commit_merge(struct vma_merge_struct *vmg)
+ 	 */
+ 	vma_adjust_trans_huge(vma, vmg->start, vmg->end,
+ 			      vmg->__adjust_middle_start ? vmg->middle : NULL);
+-	vma_set_range(vma, vmg->start, vmg->end, vmg->pgoff);
++	vma_set_range(vma, vmg->start, vmg->end, vmg_start_pgoff(vmg));
+ 	vmg_adjust_set_range(vmg);
+ 	vma_iter_store_overwrite(vmg->vmi, vmg->target);
+ 
+@@ -962,8 +960,7 @@ static __must_check struct vm_area_struct *vma_merge_existing_range(
+ 		 *    middle     next
+ 		 * shrink/delete extend
+ 		 */
+-
+-		pgoff_t pglen = PHYS_PFN(vmg->end - vmg->start);
++		const pgoff_t pglen = vmg_pages(vmg);
+ 
+ 		VM_WARN_ON_VMG(!merge_right, vmg);
+ 		/* If we are offset into a VMA, then prev must be middle. */
+diff --git a/mm/vma.h b/mm/vma.h
+index 8e4b61a7304c..527716c8739d 100644
+--- a/mm/vma.h
++++ b/mm/vma.h
+@@ -230,6 +230,23 @@ static inline bool vmg_nomem(struct vma_merge_struct *vmg)
+ 	return vmg->state == VMA_MERGE_ERROR_NOMEM;
+ }
+ 
++static inline pgoff_t vmg_start_pgoff(const struct vma_merge_struct *vmg)
++{
++	return vmg->pgoff;
++}
++
++static inline pgoff_t vmg_pages(const struct vma_merge_struct *vmg)
++{
++	const unsigned long size = vmg->end - vmg->start;
++
++	return size >> PAGE_SHIFT;
++}
++
++static inline pgoff_t vmg_end_pgoff(const struct vma_merge_struct *vmg)
++{
++	return vmg_start_pgoff(vmg) + vmg_pages(vmg);
++}
++
+ /* Assumes addr >= vma->vm_start. */
+ static inline pgoff_t vma_pgoff_offset(struct vm_area_struct *vma,
+ 				       unsigned long addr)
 
 -- 
 2.55.0
