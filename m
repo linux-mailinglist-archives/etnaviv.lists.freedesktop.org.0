@@ -2,47 +2,48 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id X0tfMoMHVGqVhAMAu9opvQ
+	id JukuDYIHVGprhAMAu9opvQ
 	(envelope-from <etnaviv-bounces@lists.freedesktop.org>)
-	for <lists+etnaviv@lfdr.de>; Sun, 12 Jul 2026 23:30:43 +0200
+	for <lists+etnaviv@lfdr.de>; Sun, 12 Jul 2026 23:30:42 +0200
 X-Original-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33F54745FDC
-	for <lists+etnaviv@lfdr.de>; Sun, 12 Jul 2026 23:30:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE375745FC3
+	for <lists+etnaviv@lfdr.de>; Sun, 12 Jul 2026 23:30:41 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=S1DwmzxW;
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=d3dTLtbw;
 	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	spf=pass (mail.lfdr.de: domain of etnaviv-bounces@lists.freedesktop.org designates 131.252.210.177 as permitted sender) smtp.mailfrom=etnaviv-bounces@lists.freedesktop.org
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 13AAB10E6A9;
-	Sun, 12 Jul 2026 21:30:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1DB6410E503;
+	Sun, 12 Jul 2026 21:30:39 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 86F1110E242;
- Fri, 10 Jul 2026 20:23:19 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2EE0510E44F;
+ Fri, 10 Jul 2026 20:23:43 +0000 (UTC)
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
- by sea.source.kernel.org (Postfix) with ESMTP id 491194148B;
+ by tor.source.kernel.org (Postfix) with ESMTP id 8D7A660EEF;
+ Fri, 10 Jul 2026 20:23:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A19E1F000E9;
  Fri, 10 Jul 2026 20:23:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 751431F00A3A;
- Fri, 10 Jul 2026 20:22:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
- s=k20260515; t=1783714999;
- bh=8inNSEODGbyh/+vAWll7hEmDowJfY2XIaIfPLAyfMv8=;
+ s=k20260515; t=1783715022;
+ bh=2aND6ZTrK5aCnF0vB/hvCQzWPNkI/PGqvLHzAGyQuss=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc;
- b=S1DwmzxWKK/EvOlvmXiaNgzfe9uDLXmTCD+WOfUbIAIznmeNow2bwHsqtQNnJDz6P
- rqHs9qpnmDqZ7AXsBeyQzhFBN9oQXnRABs+LJNq40HsMI5lnNl+DSPJGinGwGnULCx
- 78OgKDP4iyqp5wUZhtC+twh9ggQujW01mEbzw5nIUKY4aWS4GEh9yM5cAf3VYB8bQx
- mMyUoAKHPGwt0QsRpaNGnK2kAqbELgSA+bpm+oAZ4D8FAeyJdaN8Ea3X9Nm3YToX6X
- LgnaMPze03tseVbPBRg/fzdp8E+k83ZRinjxnRZ9sKzJ6gvhECaFRdAXhf2O5a1uOD
- zoICWtvDCZyZQ==
+ b=d3dTLtbwHpud6iwAczcr/G9qOssm4UAuvj4AITz+zWpoo3DzOVp4gv/8j/t3INWRl
+ h2iqumoE+G4TsrZXl0JhrXm1DZwp+Xg3/+wksbc2t0H/PLF/RGB/5vKhFzP677NytU
+ q6MV3RVJSQRNxvQnBeZzwMXbXmKkia3AIRewaLGVCnf5X62tPiyvXhyTzEoOmXSEGC
+ 7JJiwAJmtNQpNHVWkspiwndBidkwdss3Ra2oN97KJrOwhYLngF5H0St0YiV3hmYCXT
+ mfa+HnPzm/yNr4CqvgKrXrsT0Jsexbb8zALJKBx2Z3Z8c8MYQaM3JxOThN0dU2Lcc2
+ ZnfBU5TdzppUw==
 From: Lorenzo Stoakes <ljs@kernel.org>
-Date: Fri, 10 Jul 2026 21:16:56 +0100
-Subject: [PATCH v2 15/33] mm/vma: refactor vmg_adjust_set_range() for clarity
+Date: Fri, 10 Jul 2026 21:16:57 +0100
+Subject: [PATCH v2 16/33] mm/vma: minor cleanup of expand_[upwards,
+ downwards]()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260710-b4-pre-scalable-cow-v2-15-2a5aa403d977@kernel.org>
+Message-Id: <20260710-b4-pre-scalable-cow-v2-16-2a5aa403d977@kernel.org>
 References: <20260710-b4-pre-scalable-cow-v2-0-2a5aa403d977@kernel.org>
 In-Reply-To: <20260710-b4-pre-scalable-cow-v2-0-2a5aa403d977@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>, 
@@ -123,12 +124,12 @@ Cc: Lorenzo Stoakes <ljs@kernel.org>, linux-mm@kvack.org,
  freedreno@lists.freedesktop.org, linux-tegra@vger.kernel.org, 
  kvm@vger.kernel.org, Russell King <linux+etnaviv@armlinux.org.uk>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2561; i=ljs@kernel.org;
- h=from:subject:message-id; bh=/OET8/zUpzsJ/XNmWkLK0gsvh8paST29XGIok8Z8NBo=;
- b=owGbwMvMwCV2fu7ZrsZH9SKMp9WSGLICg21eWBnkBU3wWsq2iz/TO8ZQcE3VnwrbFNZv12IU1
- viv6S/tKGVhEONikBVTZHn+RXx/kEjYvM4L/m4wc1iZQIYwcHEKwEQeuDEyfLi5azmfhOuak/Y7
- /x39eSMlunV7+X2dpoxbEw5qHn3m0MXI8NngWsiVLEV5+0l6Sf1f61cyr3mWXucy4WDe1De3LqV
- uZQMA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2119; i=ljs@kernel.org;
+ h=from:subject:message-id; bh=fynty0cOXQIbsI8Im1dMU82VMgwlvpXxQo8CNb014Ng=;
+ b=kA0DAAoWz53NioHifxQByyZiAGpRUzzIuaLaCaR4CfWWXA/TVMCwmdk5sAWWI2+fuF7yBKZGo
+ 4h1BAAWCgAdFiEE5/QXv1IUVp6J0E9Gz53NioHifxQFAmpRUzwACgkQz53NioHifxSSHwEA7mlE
+ x52NRnGbJn2diesM85ALQpE3tCi1SqD0qgxp4fkBAMrSm0IQy3xvIXv/5PUxUHYQwVkEyzhhVNm
+ YRBxFnqAF
 X-Developer-Key: i=ljs@kernel.org; a=openpgp;
  fpr=E7F417BF5214569E89D04F46CF9DCD8A81E27F14
 X-Mailman-Approved-At: Sun, 12 Jul 2026 21:30:36 +0000
@@ -174,14 +175,16 @@ X-Spamd-Result: default: False [1.19 / 15.00];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	FORGED_SENDER_MAILLIST(0.00)[]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 33F54745FDC
+X-Rspamd-Queue-Id: CE375745FC3
 
-Add comments with ASCII diagrams to describe what we're doing, avoid
-dubious use of PHYS_PFN(), and use vma_start_pgoff().
+Adjust the stack expansion functions expand_upwards() and
+expand_downwards() such that they are expressed in terms of named constant
+values, and make use of vma_start_pgoff().
 
-The most complicated scenario represented here is vmg->__adjust_next_start
-- when this is set, vmg->[start, end] actually indicate the range to be
-retained, so take special care to describe this accurately.
+This clearly documents that we are referencing the page offset of the start
+of the VMA.
+
+Additionally this cleans up the overflow check in expand_upwards().
 
 No functional change intended.
 
@@ -189,72 +192,48 @@ Reviewed-by: Pedro Falcato <pfalcato@suse.de>
 Reviewed-by: Gregory Price <gourry@gourry.net>
 Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
 ---
- mm/vma.c | 51 +++++++++++++++++++++++++++++++++++++++++++++++----
- 1 file changed, 47 insertions(+), 4 deletions(-)
+ mm/vma.c | 17 +++++++----------
+ 1 file changed, 7 insertions(+), 10 deletions(-)
 
 diff --git a/mm/vma.c b/mm/vma.c
-index 084afdf37385..7265a054cfa3 100644
+index 7265a054cfa3..5d5e60ea8a25 100644
 --- a/mm/vma.c
 +++ b/mm/vma.c
-@@ -704,11 +704,54 @@ static void vmg_adjust_set_range(struct vma_merge_struct *vmg)
- 	pgoff_t pgoff;
+@@ -3216,13 +3216,12 @@ int expand_upwards(struct vm_area_struct *vma, unsigned long address)
  
- 	if (vmg->__adjust_middle_start) {
--		adjust = vmg->middle;
--		pgoff = adjust->vm_pgoff + PHYS_PFN(vmg->end - adjust->vm_start);
-+		/*
-+		 * vmg->start    vmg->end
-+		 * |             |
-+		 * v    merge    v
-+		 * <------------->
-+		 *         delta
-+		 *        <------>
-+		 * |------|----------------|
-+		 * | prev |    middle      |
-+		 * |------|----------------|
-+		 *        ^
-+		 *        |
-+		 *        middle->vm_start
-+		 */
-+		struct vm_area_struct *middle = vmg->middle;
-+		const unsigned long delta = vmg->end - middle->vm_start;
-+
-+		pgoff = vma_start_pgoff(middle) + (delta >> PAGE_SHIFT);
-+		adjust = middle;
- 	} else if (vmg->__adjust_next_start) {
--		adjust = vmg->next;
--		pgoff = adjust->vm_pgoff - PHYS_PFN(adjust->vm_start - vmg->end);
-+		/*
-+		 *                Originally:
-+		 *
-+		 *            vmg->start   vmg->end
-+		 *            |            |
-+		 *            v    merge   v
-+		 *            <------------>
-+		 *            .            .
-+		 * merge_existing_range() updates to:
-+		 *            .            .
-+		 * vmg->start vmg->end     .
-+		 * |          |            .
-+		 * v  retain  v            .
-+		 * <---------->            .
-+		 *             delta       .
-+		 *            <----->      .
-+		 * |----------------|------|
-+		 * |    middle      | next |
-+		 * |----------------|------|
-+		 *                  ^
-+		 *                  |
-+		 *                  next->vm_start
-+		 */
-+		struct vm_area_struct *next = vmg->next;
-+		const unsigned long delta = next->vm_start - vmg->end;
-+
-+		pgoff = vma_start_pgoff(next) - (delta >> PAGE_SHIFT);
-+		adjust = next;
- 	} else {
- 		return;
- 	}
+ 	/* Somebody else might have raced and expanded it already */
+ 	if (address > vma->vm_end) {
+-		unsigned long size, grow;
+-
+-		size = address - vma->vm_start;
+-		grow = (address - vma->vm_end) >> PAGE_SHIFT;
++		const unsigned long size = address - vma->vm_start;
++		const unsigned long grow = (address - vma->vm_end) >> PAGE_SHIFT;
++		const pgoff_t pgoff = vma_start_pgoff(vma);
+ 
+ 		error = -ENOMEM;
+-		if (vma->vm_pgoff + (size >> PAGE_SHIFT) >= vma->vm_pgoff) {
++		if (pgoff + (size >> PAGE_SHIFT) >= pgoff) {
+ 			error = acct_stack_growth(vma, size, grow);
+ 			if (!error) {
+ 				if (vma_test(vma, VMA_LOCKED_BIT))
+@@ -3295,13 +3294,11 @@ int expand_downwards(struct vm_area_struct *vma, unsigned long address)
+ 
+ 	/* Somebody else might have raced and expanded it already */
+ 	if (address < vma->vm_start) {
+-		unsigned long size, grow;
+-
+-		size = vma->vm_end - address;
+-		grow = (vma->vm_start - address) >> PAGE_SHIFT;
++		const unsigned long size = vma->vm_end - address;
++		const unsigned long grow = (vma->vm_start - address) >> PAGE_SHIFT;
+ 
+ 		error = -ENOMEM;
+-		if (grow <= vma->vm_pgoff) {
++		if (grow <= vma_start_pgoff(vma)) {
+ 			error = acct_stack_growth(vma, size, grow);
+ 			if (!error) {
+ 				if (vma_test(vma, VMA_LOCKED_BIT))
 
 -- 
 2.55.0
