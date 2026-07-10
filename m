@@ -2,43 +2,43 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id nY05OA32UGpg9AIAu9opvQ
+	id hQj5IOEGUWqZ+AIAu9opvQ
 	(envelope-from <etnaviv-bounces@lists.freedesktop.org>)
-	for <lists+etnaviv@lfdr.de>; Fri, 10 Jul 2026 15:39:25 +0200
+	for <lists+etnaviv@lfdr.de>; Fri, 10 Jul 2026 16:51:13 +0200
 X-Original-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76AFC73B532
-	for <lists+etnaviv@lfdr.de>; Fri, 10 Jul 2026 15:39:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7C2373BEA9
+	for <lists+etnaviv@lfdr.de>; Fri, 10 Jul 2026 16:51:12 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=fydQPaDx;
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=GV0G1PCd;
 	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	spf=pass (mail.lfdr.de: domain of etnaviv-bounces@lists.freedesktop.org designates 131.252.210.177 as permitted sender) smtp.mailfrom=etnaviv-bounces@lists.freedesktop.org
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 23F4110F8F6;
-	Fri, 10 Jul 2026 13:39:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E5F510E1C9;
+	Fri, 10 Jul 2026 14:51:11 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E045B10F8F0;
- Fri, 10 Jul 2026 13:39:22 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 67B7D10E1C9;
+ Fri, 10 Jul 2026 14:51:10 +0000 (UTC)
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
- by sea.source.kernel.org (Postfix) with ESMTP id 8B73443C2D;
- Fri, 10 Jul 2026 13:39:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82F051F000E9;
- Fri, 10 Jul 2026 13:39:07 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 67B6960051;
+ Fri, 10 Jul 2026 14:51:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A13DE1F00A3A;
+ Fri, 10 Jul 2026 14:50:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
- s=k20260515; t=1783690762;
- bh=hWe5y0XfVr4QQQGo0kaEF8UGbBWB4HZz8UbrXKM7Z28=;
+ s=k20260515; t=1783695069;
+ bh=/adl28F1RG11+xFCTzjhiMT3/quSA/55SrYHe5Xl+as=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To;
- b=fydQPaDxS/hHGLVdvf977qUXBNSF6t19lqQW/RqVTS+Xk5pgKo0deA+cWIFhyYRvv
- IeSezmg4COMZrohE1QJ6gnvclo/bOnA8j2IrdEmxinGMPa0Cv9pB6NQzVtyWt96x//
- 6dNWU5GX7waS+2jwE8BVZ3WNZw/wsfy0C0SSKxIKb3QlnIRCNzHVm3c5Ps0q8mrTgW
- zsWArKYrCmnfDcrebwcipzmYNQ0mhqZJQQZSGHykLDKtejNlCDmPcno/dc/3rjzGeu
- kuxVdLjqHCE3kyZgIMxt9Re36Qo0mzOOVMmO0ZdfPfAx62l26oANlEaaJo1XHJjjzR
- MdqLjT6QyxJDg==
-Date: Fri, 10 Jul 2026 14:38:58 +0100
+ b=GV0G1PCdVWL/17cPDVZfz86GmBO0VpAcpElRSgqzkFaZnFKsDK6rIw+lxzMvM7oyM
+ gOb7BmlLZV+r7XfvVToV0An5vS3DWoiRNZEtakP1kgKdd/pwAzK/AhJrUnpZlFH/ma
+ IDgVC6vlNuOfwFAEke1UlfCP3mMcmRNqv1rAQF1Ta5n8CDc7P/kP23VMlYUdFRkbMx
+ btXD63gJA5fhI4bndbOxrinkAQhHaNvBor7RN1UECzz5h5BotHDkxdGHR0ZdFn1Wle
+ sxRRlN3kLf8W7g8Lmmkim9s7ySe4W1NlivrC5VU8viOWzvoYYPKNt7/4lb6lTsMCz8
+ i1PWPp9WBYC/w==
+Date: Fri, 10 Jul 2026 15:50:44 +0100
 From: Lorenzo Stoakes <ljs@kernel.org>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
+To: Gregory Price <gourry@gourry.net>
 Cc: Andrew Morton <akpm@linux-foundation.org>, 
  Russell King <linux@armlinux.org.uk>, Dinh Nguyen <dinguyen@kernel.org>, 
  Simon Schuster <schuster.simon@siemens-energy.com>, 
@@ -63,14 +63,14 @@ Cc: Andrew Morton <akpm@linux-foundation.org>,
  Alex Williamson <alex@shazbot.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
  Christian Brauner <brauner@kernel.org>, Dan Williams <djbw@kernel.org>, 
  Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
- Suren Baghdasaryan <surenb@google.com>, "Liam R . Howlett" <liam@infradead.org>,
- Matthew Wilcox <willy@infradead.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>, 
- Peter Zijlstra <peterz@infradead.org>,
- Arnaldo Carvalho de Melo <acme@kernel.org>, 
- Namhyung Kim <namhyung@kernel.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
- Oleg Nesterov <oleg@redhat.com>, Steven Rostedt <rostedt@goodmis.org>, 
- SeongJae Park <sj@kernel.org>, Miaohe Lin <linmiaohe@huawei.com>, 
+ David Hildenbrand <david@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+ "Liam R . Howlett" <liam@infradead.org>, Matthew Wilcox <willy@infradead.org>, 
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Peter Zijlstra <peterz@infradead.org>, 
+ Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>,
+ Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
+ Steven Rostedt <rostedt@goodmis.org>, SeongJae Park <sj@kernel.org>,
+ Miaohe Lin <linmiaohe@huawei.com>, 
  Hugh Dickins <hughd@google.com>, Mike Rapoport <rppt@kernel.org>,
  Kees Cook <kees@kernel.org>, 
  Paolo Bonzini <pbonzini@redhat.com>, linux-kernel@vger.kernel.org, 
@@ -86,15 +86,15 @@ Cc: Andrew Morton <akpm@linux-foundation.org>,
  damon@lists.linux.dev, 
  Pedro Falcato <pfalcato@suse.de>, Rik van Riel <riel@surriel.com>,
  Harry Yoo <harry@kernel.org>, Jann Horn <jannh@google.com>
-Subject: Re: [PATCH 02/30] mm: add kdoc comments for vma_start/last_pgoff()
-Message-ID: <alD1h7kHZdX_0I-0@lucifer>
+Subject: Re: [PATCH 13/30] mm/vma: refactor vmg_adjust_set_range() for clarity
+Message-ID: <alEGqHY5GPhT30Ty@lucifer>
 References: <cover.1782735110.git.ljs@kernel.org>
- <8c618dfd7de419e3b797b8bd1cd921d4c5b8878b.1782735110.git.ljs@kernel.org>
- <03762de9-c695-4cdd-8c25-4fc31335ea15@kernel.org>
+ <ada7972f49ea7f1ff1df6d11e4651f270444f8fd.1782735110.git.ljs@kernel.org>
+ <ak-70CHGujkI5jJI@gourry-fedora-PF4VCD3F>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <03762de9-c695-4cdd-8c25-4fc31335ea15@kernel.org>
+In-Reply-To: <ak-70CHGujkI5jJI@gourry-fedora-PF4VCD3F>
 X-BeenThere: etnaviv@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,66 +129,82 @@ X-Spamd-Result: default: False [0.69 / 15.00];
 	DKIM_TRACE(0.00)[kernel.org:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[75];
+	RCPT_COUNT_GT_50(0.00)[76];
 	FROM_NEQ_ENVFROM(0.00)[ljs@kernel.org,etnaviv-bounces@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	TAGGED_RCPT(0.00)[etnaviv];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,lucifer:mid]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,lucifer:mid,gourry.net:email,lists.freedesktop.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 76AFC73B532
+X-Rspamd-Queue-Id: C7C2373BEA9
 
-On Tue, Jul 07, 2026 at 04:46:13PM +0200, David Hildenbrand (Arm) wrote:
-> On 6/29/26 14:23, Lorenzo Stoakes wrote:
-> > Describe what vma_start_pgoff() and vma_last_pgoff() actually provide in
-> > detail.
+On Thu, Jul 09, 2026 at 11:18:40AM -0400, Gregory Price wrote:
+> On Mon, Jun 29, 2026 at 01:23:24PM +0100, Lorenzo Stoakes wrote:
+> > Add comments with ASCII diagrams to describe what we're doing, avoid
+> > dubious use of PHYS_PFN(), and use vma_start_pgoff().
 > >
-> > This is in order that we can differentiate this between functions that will
-> > be added in a subsequent patch which provide a different page offset.
+> > The most complicated scenario represented here is vmg->__adjust_next_start
+> > - when this is set, vmg->[start, end] actually indicate the range to be
+> > retained, so take special care to describe this accurately.
 > >
 > > No functional change intended.
 > >
 > > Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
-> > ---
-> >  include/linux/mm.h | 26 ++++++++++++++++++++++++++
-> >  1 file changed, 26 insertions(+)
-> >
-> > diff --git a/include/linux/mm.h b/include/linux/mm.h
-> > index 059144435729..2f00c75e66bd 100644
-> > --- a/include/linux/mm.h
-> > +++ b/include/linux/mm.h
-> > @@ -4278,11 +4278,37 @@ static inline unsigned long vma_pages(const struct vm_area_struct *vma)
-> >  	return (vma->vm_end - vma->vm_start) >> PAGE_SHIFT;
-> >  }
-> >
-> > +/**
-> > + * vma_start_pgoff() - Get the page offset of the start of @vma
-> > + * @vma: The VMA whose page offset is required.
-> > + *
-> > + * If the VMA is file-backed, this is the page offset into the file.
-> > + *
-> > + * If the VMA is anonymous, this is the virtual page offset of the start of the
-> > + * VMA - if unfaulted, then vma->vm_start >> PAGE_SHIFT, if faulted then the
-> > + * virtual page offset at the time of first fault.
-> > + *
-> > + * Note that if @vma is a MAP_PRIVATE file-backed mapping, then this returns the
-> > + * file offset.
 >
-> There is the ugly case of @vma being a MAP_PRIVATE PFNMAP mapping, where it
-> returns something different.
+> Reviewed-by: Gregory Price <gourry@gourry.net>
+>
+> > +		/*
+> > +		 * vmg->start    vmg->end
+> > +		 * |             |
+> > +		 * v    merge    v
+> > +		 * <------------->
+> > +		 *         delta
+> > +		 *        <------>
+> > +		 * |------|----------------|
+> > +		 * | prev |    middle      |
+> > +		 * |------|----------------|
+> > +		 *        ^
+> > +		 *        |
+> > +		 *        middle->vm_start
+> > +		 */
+>
+> Even with these diagrams, it's a bit difficult to understand what the
+> actual intent/result of this chunk is (but that may be a limitation of
+> me not spending enough time reading the surrounding code, not a comment
+> of your work here).
 
-Yup, the pfn  I will update doc to mention this abomination too.
-
-The virt pgoff stuff in the RFC fixes this also.
+Yeah I know, I do hope to refactor all this at some point to make it simpler,
+but for the time being tried to make the confusing thing at least _slightly_
+less confusing :)
 
 >
-> (remap_pfn_range_prepare_vma() -> vma->vm_pgoff set to PFN)
->
-> --
-> Cheers,
->
-> David
+> ~Gregory
 
 Cheers, Lorenzo
+
+>
+> > +		/*
+> > +		 *                Originally:
+> > +		 *
+> > +		 *            vmg->start   vmg->end
+> > +		 *            |            |
+> > +		 *            v    merge   v
+> > +		 *            <------------>
+> > +		 *            .            .
+> > +		 * merge_existing_range() updates to:
+> > +		 *            .            .
+> > +		 * vmg->start vmg->end     .
+> > +		 * |          |            .
+> > +		 * v  retain  v            .
+> > +		 * <---------->            .
+> > +		 *             delta       .
+> > +		 *            <----->      .
+> > +		 * |----------------|------|
+> > +		 * |    middle      | next |
+> > +		 * |----------------|------|
+> > +		 *                  ^
+> > +		 *                  |
+> > +		 *                  next->vm_start
+> > +		 */
