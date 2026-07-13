@@ -2,46 +2,46 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id K963Hk36VWorxQAAu9opvQ
+	id C74/E0z6VWopxQAAu9opvQ
 	(envelope-from <etnaviv-bounces@lists.freedesktop.org>)
-	for <lists+etnaviv@lfdr.de>; Tue, 14 Jul 2026 10:58:53 +0200
+	for <lists+etnaviv@lfdr.de>; Tue, 14 Jul 2026 10:58:52 +0200
 X-Original-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22DAD752A16
-	for <lists+etnaviv@lfdr.de>; Tue, 14 Jul 2026 10:58:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1845752A0E
+	for <lists+etnaviv@lfdr.de>; Tue, 14 Jul 2026 10:58:51 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=X1O+yElX;
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=K7BuXF36;
 	spf=pass (mail.lfdr.de: domain of etnaviv-bounces@lists.freedesktop.org designates 131.252.210.177 as permitted sender) smtp.mailfrom=etnaviv-bounces@lists.freedesktop.org;
 	dmarc=pass (policy=quarantine) header.from=kernel.org
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 01FCD10EC9D;
-	Tue, 14 Jul 2026 08:58:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 081D510EC94;
+	Tue, 14 Jul 2026 08:58:49 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A5A510E3E1;
- Mon, 13 Jul 2026 17:57:18 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7536310E3E1;
+ Mon, 13 Jul 2026 17:59:45 +0000 (UTC)
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
- by tor.source.kernel.org (Postfix) with ESMTP id B5F6F60120;
- Mon, 13 Jul 2026 17:57:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5CC8F1F000E9;
- Mon, 13 Jul 2026 17:56:54 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 1E92640A1A;
+ Mon, 13 Jul 2026 17:59:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2BDDF1F00A3A;
+ Mon, 13 Jul 2026 17:59:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
- s=k20260515; t=1783965437;
- bh=pO9VCK4bbjDr/iFXBBe32IJs4DHT4WfrCqDsR2JO1ds=;
+ s=k20260515; t=1783965585;
+ bh=PYvgaKF+lNQasv/wb3uzhUgLVtPhLyGMvnl75+AOHGI=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To;
- b=X1O+yElX0zld1QItxjIAp/yc7z2vmaIPA/t09/JNbxUWZPTgMzSsQ21a1/R+/3SMp
- E9a1CA+/9+umIQL+HO90uHt+NaXZlLspEOXvJQ8wyiiCIJxIy4irZ9MyYK1uzCBoLb
- W4WuODTQwX7+Uozt9DisJMQLjV4tz8PgqBbeXTcrCbclLjRaOE02ZcLzHFiSbBhliA
- 31uPjovjwAbHbumZPx2qDvqNRI9rdc1ZuElMLd8H+2P9+WHvjV1sML74DbwQXnHJ+F
- 37C8dHi2/yVpLHr4TULJpSm+4QTnCovaX5pw/Sn5C8HjSZphkJCRDvwtRpi1SZp1Jj
- l02Cf2xcAprAQ==
-Message-ID: <e08fabfb-f3dc-442a-8491-fe4ab1f33b58@kernel.org>
-Date: Mon, 13 Jul 2026 19:56:52 +0200
+ b=K7BuXF36OkYrZckYedtoDXpC45usOaiMXXp48pArsJzL8ynFf9YVuQSRcLkffbf1v
+ k4BSU0QintjGc16WhtGfqpni4DMk9w87G241IxY3EOiJuKdiga19Rf+cARcHnJ3PNn
+ T4LYEPcgBncSjVZCoJmYQyjqGeo/bzWqdUTRrHnV1kB/+N30sV1AFh7RPSY1PwzVtd
+ sq0jE34LcALjEuYQqVbuJ0p4D4cKbyBwW5Z7V9K/tjpTptYIEebrNU/atmR32JclK2
+ WvJfSROMS6QJitAG1liEPWSC8pTk9MeWkCCKcLLOeo0X9UEiGZOHp8Ng6kePDfnVxG
+ Of6QbsC4EvY5g==
+Message-ID: <da145e1e-95e2-4eb5-be18-fdac20101987@kernel.org>
+Date: Mon, 13 Jul 2026 19:59:21 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 06/33] mm/rmap: parameterise vma_interval_tree_*() by
- address_space
+Subject: Re: [PATCH v2 07/33] mm/rmap: elide unnecessary static inline's in
+ interval_tree.c
 Content-Language: en-US
 To: Lorenzo Stoakes <ljs@kernel.org>,
  Andrew Morton <akpm@linux-foundation.org>,
@@ -118,7 +118,7 @@ Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
  freedreno@lists.freedesktop.org, linux-tegra@vger.kernel.org,
  kvm@vger.kernel.org, Russell King <linux+etnaviv@armlinux.org.uk>
 References: <20260710-b4-pre-scalable-cow-v2-0-2a5aa403d977@kernel.org>
- <20260710-b4-pre-scalable-cow-v2-6-2a5aa403d977@kernel.org>
+ <20260710-b4-pre-scalable-cow-v2-7-2a5aa403d977@kernel.org>
 From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
 Autocrypt: addr=vbabka@kernel.org; keydata=
  xsFNBFZdmxYBEADsw/SiUSjB0dM+vSh95UkgcHjzEVBlby/Fg+g42O7LAEkCYXi/vvq31JTB
@@ -159,7 +159,7 @@ Autocrypt: addr=vbabka@kernel.org; keydata=
  NcaZ+c6J4H+nEJGi2SkHAUJz5oBzuThvPudLvPA/SK8sKoM01IRxSihev/S/5WLazXB1PGem
  OCbvzC1IjWJJraxiDJ5IygokapUa2RP7+WBR22skQ3SSl6G107QgWKSyTOGWEaRmV53vxQLV
  jXuCmzSSasTL60zq5yGrT4/DYQVSNEUiUbG4pYekxJujNeEDkUlky0Y=
-In-Reply-To: <20260710-b4-pre-scalable-cow-v2-6-2a5aa403d977@kernel.org>
+In-Reply-To: <20260710-b4-pre-scalable-cow-v2-7-2a5aa403d977@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Mailman-Approved-At: Tue, 14 Jul 2026 08:58:48 +0000
@@ -204,28 +204,14 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	FORGED_SENDER_MAILLIST(0.00)[]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 22DAD752A16
+X-Rspamd-Queue-Id: E1845752A0E
 
 On 7/10/26 22:16, Lorenzo Stoakes wrote:
-> The file-backed mapping interval tree functions vma_interval_tree_*()
-> accept a raw rb_root_cached pointer to determine the tree in which they are
-> operating.
+> It's not necessary to declare these functions static inline as they are
+> contained within a single compilation unit.
 > 
-> However, in each case, this is always associated with an address_space data
-> type.
-> 
-> So simply pass a pointer to that instead to simplify the code, and more
-> clearly differentiate between these operations and those concerning
-> anonymous mappings.
-> 
-> While we're here, make the generated interval tree functions static as they
-> do not need to be used externally (any previously existing external users
-> have now been removed).
-> 
-> We also rename VMA parameters from 'node' to 'vma' as calling this a node
-> is simply confusing, update the input index types to pgoff_t since they
-> reference page offsets and rename the parameters to pgoff_start and
-> pgoff_last.
+> This makes the anonymous interval tree code consistent with the newly
+> updated file-backed interval tree code.
 > 
 > No functional change intended.
 > 
@@ -233,6 +219,5 @@ On 7/10/26 22:16, Lorenzo Stoakes wrote:
 > Reviewed-by: Gregory Price <gourry@gourry.net>
 > Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
 
-Nice.
 Reviewed-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
 
