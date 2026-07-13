@@ -2,46 +2,46 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id i/VZHU36VWoqxQAAu9opvQ
+	id ciiEEkz6VWooxQAAu9opvQ
 	(envelope-from <etnaviv-bounces@lists.freedesktop.org>)
-	for <lists+etnaviv@lfdr.de>; Tue, 14 Jul 2026 10:58:53 +0200
+	for <lists+etnaviv@lfdr.de>; Tue, 14 Jul 2026 10:58:52 +0200
 X-Original-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17251752A15
-	for <lists+etnaviv@lfdr.de>; Tue, 14 Jul 2026 10:58:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E169E752A0D
+	for <lists+etnaviv@lfdr.de>; Tue, 14 Jul 2026 10:58:51 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=Ufuflhr4;
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=WObRFMeZ;
 	spf=pass (mail.lfdr.de: domain of etnaviv-bounces@lists.freedesktop.org designates 131.252.210.177 as permitted sender) smtp.mailfrom=etnaviv-bounces@lists.freedesktop.org;
 	dmarc=pass (policy=quarantine) header.from=kernel.org
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E3E5B10EC99;
-	Tue, 14 Jul 2026 08:58:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F4B910EC96;
+	Tue, 14 Jul 2026 08:58:49 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 199DA10E3E1;
- Mon, 13 Jul 2026 18:03:27 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0865C10E4B5;
+ Mon, 13 Jul 2026 18:04:31 +0000 (UTC)
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
- by sea.source.kernel.org (Postfix) with ESMTP id 743F340014;
- Mon, 13 Jul 2026 18:03:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F8081F000E9;
- Mon, 13 Jul 2026 18:03:04 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id AFF6843244;
+ Mon, 13 Jul 2026 18:04:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA2E41F00AC4;
+ Mon, 13 Jul 2026 18:04:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
- s=k20260515; t=1783965806;
- bh=HnOQHMd1q2gBvrGcRAVJ7qgBmhQ295/ZKWHRuFjKzK8=;
+ s=k20260515; t=1783965870;
+ bh=IVzgcSLpk1lNY4vlJOoUApJQMGMtLRbw+pW7mx+iUt8=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To;
- b=Ufuflhr4mkff5rR70hwjRD3ujGc2B7bbJMEUQKk1nPLZrVVw/VZxsCVIBPEa1uqwa
- n4fXm1r7IwT1igW1zS91UJAEXWW1bEdN9xo9W2fRw2R/XpmmoesHRb7qaqKhL7g+NJ
- ERyHz61/ZqG9hnt7PuXg5swBg7oikC0PZsQVeMl1WYeaLdjAZrojY7I8+i3kJHCu3K
- /s1zFdEwfI39wpFqBY3Ppfyiy8OS6t5WUoTotJikCgimW2gCxYTT2+qfjmqOGuUHHT
- SnpaEwy0PULahojeEPKgv9wUrKLKsb2gm+rYzUwZyLMTkQkti1Yta7n0+DK+iR8j61
- MKq3vptKlBlrw==
-Message-ID: <b970d3fd-8528-4dfb-8428-1ecd9db5fcc2@kernel.org>
-Date: Mon, 13 Jul 2026 20:03:02 +0200
+ b=WObRFMeZt93YAr3gbRXGBQboaKO6A4Z9t80jsX5xCO67FAxrWa0mFSVDOb8Y59ww/
+ 6gma9HEG7FN7s6rwiObe6i5LS1ssmy92x4ZvTADdBh0pcYTa5JorqWlDhuusbpLMIp
+ fJRa4mK5FeXYrp7Wj3Cra08rYseTkjjz9MdOq4prdAagRuGNzvgdVn1QvpI1hVUC7R
+ 844Be/VIauKgmZtKz/5+mS3DZRu9b53ulZSJvTlTd7v8UmqDuhfmpCpLX52F449fPJ
+ hX2E6Hpr+zGwq1id6vNXzsLy4c21enQtBG6FPKsdEkkM75J/cIhocSXyScoIIVZTjM
+ 6WUUzno9Z6rHA==
+Message-ID: <d500b09c-5adf-40fe-be84-36297f449a34@kernel.org>
+Date: Mon, 13 Jul 2026 20:04:07 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 08/33] mm/rmap: rename vma_interval_tree_*() to
- mapping_rmap_tree_*()
+Subject: Re: [PATCH v2 09/33] mm/rmap: parameterise anon_vma_interval_tree_*()
+ by anon_vma
 Content-Language: en-US
 To: Lorenzo Stoakes <ljs@kernel.org>,
  Andrew Morton <akpm@linux-foundation.org>,
@@ -118,7 +118,7 @@ Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
  freedreno@lists.freedesktop.org, linux-tegra@vger.kernel.org,
  kvm@vger.kernel.org, Russell King <linux+etnaviv@armlinux.org.uk>
 References: <20260710-b4-pre-scalable-cow-v2-0-2a5aa403d977@kernel.org>
- <20260710-b4-pre-scalable-cow-v2-8-2a5aa403d977@kernel.org>
+ <20260710-b4-pre-scalable-cow-v2-9-2a5aa403d977@kernel.org>
 From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
 Autocrypt: addr=vbabka@kernel.org; keydata=
  xsFNBFZdmxYBEADsw/SiUSjB0dM+vSh95UkgcHjzEVBlby/Fg+g42O7LAEkCYXi/vvq31JTB
@@ -159,7 +159,7 @@ Autocrypt: addr=vbabka@kernel.org; keydata=
  NcaZ+c6J4H+nEJGi2SkHAUJz5oBzuThvPudLvPA/SK8sKoM01IRxSihev/S/5WLazXB1PGem
  OCbvzC1IjWJJraxiDJ5IygokapUa2RP7+WBR22skQ3SSl6G107QgWKSyTOGWEaRmV53vxQLV
  jXuCmzSSasTL60zq5yGrT4/DYQVSNEUiUbG4pYekxJujNeEDkUlky0Y=
-In-Reply-To: <20260710-b4-pre-scalable-cow-v2-8-2a5aa403d977@kernel.org>
+In-Reply-To: <20260710-b4-pre-scalable-cow-v2-9-2a5aa403d977@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Mailman-Approved-At: Tue, 14 Jul 2026 08:58:48 +0000
@@ -204,28 +204,20 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	FORGED_SENDER_MAILLIST(0.00)[]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 17251752A15
+X-Rspamd-Queue-Id: E169E752A0D
 
 On 7/10/26 22:16, Lorenzo Stoakes wrote:
-> The family of vma_interval_tree_() functions manipulate the
-> address_space (which, of course, is generally referred to as 'mapping')
-> reverse mapping, but are named the 'VMA' interval tree.
+> Similar to what we did with mapping_rmap_tree*(), let's declare
+> anon_vma_interval_tree*() in terms of anon_vma rather than rb_root_cached.
 > 
-> VMAs may be mapped by an anon_vma, an address_space, or both. Therefore
-> calling the mapping interval tree a 'VMA' interval tree is rather
-> confusing.
+> In each case the rb tree referenced is &anon_vma->rb_root, so just pass
+> anon_vma and the functions can figure this out themselves.
 > 
-> This is also inconsistent with the anon_vma_interval_tree_*() functions
-> which explicitly reference the rmap object to which they pertain.
-> 
-> Rename the vma_interval_tree_*() functions to mapping_rmap_tree_*() to
-> correct this.
-> 
-> We will rename the anon rmap functions similarly in a subsequent patch.
+> Also update the VMA userland tests to reflect the change.
 > 
 > No functional change intended.
 > 
-> Reviewed-by: Gregory Price <gourry@gourry.net>
+> Reviewed-by: Pedro Falcato <pfalcato@suse.de>
 > Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
 
 Reviewed-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
