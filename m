@@ -2,46 +2,46 @@ Return-Path: <etnaviv-bounces@lists.freedesktop.org>
 Delivered-To: lists+etnaviv@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id YwZ6F0v6VWomxQAAu9opvQ
+	id pNMnKUv6VWonxQAAu9opvQ
 	(envelope-from <etnaviv-bounces@lists.freedesktop.org>)
 	for <lists+etnaviv@lfdr.de>; Tue, 14 Jul 2026 10:58:51 +0200
 X-Original-To: lists+etnaviv@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06C33752A01
-	for <lists+etnaviv@lfdr.de>; Tue, 14 Jul 2026 10:58:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5038A752A06
+	for <lists+etnaviv@lfdr.de>; Tue, 14 Jul 2026 10:58:51 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=KwXEInQr;
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=h0Yb9LAX;
 	spf=pass (mail.lfdr.de: domain of etnaviv-bounces@lists.freedesktop.org designates 131.252.210.177 as permitted sender) smtp.mailfrom=etnaviv-bounces@lists.freedesktop.org;
 	dmarc=pass (policy=quarantine) header.from=kernel.org
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0243310EC90;
-	Tue, 14 Jul 2026 08:58:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F0EE610EC8C;
+	Tue, 14 Jul 2026 08:58:48 +0000 (UTC)
 X-Original-To: etnaviv@lists.freedesktop.org
 Delivered-To: etnaviv@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7110D10E0FF;
- Mon, 13 Jul 2026 18:05:43 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E8D0C10E0FF;
+ Mon, 13 Jul 2026 18:06:44 +0000 (UTC)
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
- by sea.source.kernel.org (Postfix) with ESMTP id 248B740BF4;
- Mon, 13 Jul 2026 18:05:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48A8A1F000E9;
- Mon, 13 Jul 2026 18:05:21 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id A8F0441183;
+ Mon, 13 Jul 2026 18:06:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 885671F000E9;
+ Mon, 13 Jul 2026 18:06:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
- s=k20260515; t=1783965943;
- bh=k2MgrObgM64l1ZjDbJO2cw/0a4Iyq+Iwo0UheA/Xr/I=;
+ s=k20260515; t=1783966004;
+ bh=3RLaMYvaEZ6QnNNOQ5RKz5D3WUNa/mhzvYyboPZe8p0=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To;
- b=KwXEInQrb7oMt+dwOL3BjH1h7Sqp4XhyEnBSS2sus451huRc3vnzlJFtCVbyUvHFv
- vWs5roWhQP9iuCUS7kyJrAu2FFkx19iRGOUfwcs3JrOl0rnEctVVRUUajPe2JbvEJU
- vHIPj+McM3SSvFM3jWccX/EZaNXIDsWShHJ8n96ulvuxGCMrbAPPNNbowOD+8ehvlo
- 8/vn7kQkHcnsEm/7FGn26hD4P4ZtebIJy8Y367DKte07gYnKIgM3+yDYQ1tHG9xFWs
- 6OXT08glYLK+/R2vFfHSbatu3KypcUWvsZqSLM/cNUwMzRSSUorAKmZw5iK3AwErV3
- MVthkpxh+wHuA==
-Message-ID: <95b0bee1-92c3-491a-8511-46f76b94a7ed@kernel.org>
-Date: Mon, 13 Jul 2026 20:05:19 +0200
+ b=h0Yb9LAXeOujn96l8cLyS9mH/iSvd0ZFm49X++VDgksIF19qL9j3vPomORDGY3lRZ
+ IBH8CX/gO5kDDLaz9qdQr91Lrb4crBu0R3rOnHG/JYHW7JqGKoNGLI0OCIQRUf5zq7
+ R+VYdDsBatBzzs4WE0Gwl0qbGzjJLnpE79+seQscQbgnPslB1IqVhEuavZMzRyu1f4
+ ZWb1CaCwSeWlxPvH2HsKrP2D1h4TIHsyUaF5mUxUHMMMChq03vgbmwukKr2m1ROH4R
+ 2nlqNXtoZtyqxON4ZV3HpHqtJq8VaRUdO916AYrbhFWXxvVRl7YtNTjIzQJJINRsc2
+ QCHY2kTZaeveQ==
+Message-ID: <c9c51ce7-b560-44f3-a50a-75b4538c2642@kernel.org>
+Date: Mon, 13 Jul 2026 20:06:19 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 10/33] mm/rmap: rename anon_vma_interval_tree_*()
- params and use pgoff_t
+Subject: Re: [PATCH v2 11/33] mm/rmap: rename anon_vma_interval_tree_*() to
+ anon_rmap_tree_*()
 Content-Language: en-US
 To: Lorenzo Stoakes <ljs@kernel.org>,
  Andrew Morton <akpm@linux-foundation.org>,
@@ -118,7 +118,7 @@ Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
  freedreno@lists.freedesktop.org, linux-tegra@vger.kernel.org,
  kvm@vger.kernel.org, Russell King <linux+etnaviv@armlinux.org.uk>
 References: <20260710-b4-pre-scalable-cow-v2-0-2a5aa403d977@kernel.org>
- <20260710-b4-pre-scalable-cow-v2-10-2a5aa403d977@kernel.org>
+ <20260710-b4-pre-scalable-cow-v2-11-2a5aa403d977@kernel.org>
 From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
 Autocrypt: addr=vbabka@kernel.org; keydata=
  xsFNBFZdmxYBEADsw/SiUSjB0dM+vSh95UkgcHjzEVBlby/Fg+g42O7LAEkCYXi/vvq31JTB
@@ -159,7 +159,7 @@ Autocrypt: addr=vbabka@kernel.org; keydata=
  NcaZ+c6J4H+nEJGi2SkHAUJz5oBzuThvPudLvPA/SK8sKoM01IRxSihev/S/5WLazXB1PGem
  OCbvzC1IjWJJraxiDJ5IygokapUa2RP7+WBR22skQ3SSl6G107QgWKSyTOGWEaRmV53vxQLV
  jXuCmzSSasTL60zq5yGrT4/DYQVSNEUiUbG4pYekxJujNeEDkUlky0Y=
-In-Reply-To: <20260710-b4-pre-scalable-cow-v2-10-2a5aa403d977@kernel.org>
+In-Reply-To: <20260710-b4-pre-scalable-cow-v2-11-2a5aa403d977@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Mailman-Approved-At: Tue, 14 Jul 2026 08:58:48 +0000
@@ -204,14 +204,11 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	FORGED_SENDER_MAILLIST(0.00)[]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 06C33752A01
+X-Rspamd-Queue-Id: 5038A752A06
 
 On 7/10/26 22:16, Lorenzo Stoakes wrote:
-> Rename parameters used by anon_vma_interval_tree_*() functions: 'node' to
-> 'avc', 'start/first' to 'pgoff_start', and 'last' to 'pgoff_last' to make
-> clear what is being passed.
-> 
-> Also, express page offsets in terms of pgoff_t to be consistent.
+> To be consistent with the newly renamed mapping_rmap_tree_*(), rename the
+> anon_vma_interval_tree_*() helpers to anon_rmap_tree_*().
 > 
 > No functional change intended.
 > 
